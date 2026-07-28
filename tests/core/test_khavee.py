@@ -6,6 +6,7 @@ import unittest
 
 from pythainlp.khavee import KhaveeVerifier
 
+# pylint: disable=protected-access
 kv = KhaveeVerifier()
 
 
@@ -17,7 +18,10 @@ class KhaveeTestCase(unittest.TestCase):
     """
 
     def test_check_sara(self):
-        """Test check_sara with basic, reduced, complex, embedded, and standalone character vowels."""
+        """
+        Test check_sara with basic, reduced, complex, embedded,
+        and standalone character vowels.
+        """
         # Basic Vowels
         self.assertEqual(kv.check_sara("ฉะ"), "อะ")
         self.assertEqual(kv.check_sara("ค่ะ"), "อะ")
@@ -509,6 +513,7 @@ class KhaveeTestCase(unittest.TestCase):
             kv.check_aek_too(["หนม", "หน่ม", "หน้ม"]), [False, "aek", "too"]
         )
 
+
 class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
 
     def setUp(self):
@@ -518,12 +523,12 @@ class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
     def test_karu_words(self):
         """Test that all specified heavy syllables (Karu) are correctly identified."""
         karu_words = [
-            "กด", "กา", "กาน", 
-            "ใน", "นา", "มี", "ปู", "ตา", "ดำ", "วัว", "ลาก", "ไถ", "พุทธ", 
-            "สันดาน", "มูล", "หมองมัว", "ยั่ว", "เอว", "เจ็บ", "โสภา", "ศาลา", 
-            "วัด", "แม่", "ข้าวสาร", "ดวงใจ", "ไฉไล", "เขลา", "เนื้อ", "เต้น", 
-            "ทั่ว", "ร่าง", "สั่น", "ไหว", "ช่อฟ้า", "หัว", "อีกา", "สาม", 
-            "ฤาษี", "คาวี", "วับวาบ", "ญาณ", "เรา", "ครอง", "แผ่นดิน", "โดย", 
+            "กด", "กา", "กาน",
+            "ใน", "นา", "มี", "ปู", "ตา", "ดำ", "วัว", "ลาก", "ไถ", "พุทธ",
+            "สันดาน", "มูล", "หมองมัว", "ยั่ว", "เอว", "เจ็บ", "โสภา", "ศาลา",
+            "วัด", "แม่", "ข้าวสาร", "ดวงใจ", "ไฉไล", "เขลา", "เนื้อ", "เต้น",
+            "ทั่ว", "ร่าง", "สั่น", "ไหว", "ช่อฟ้า", "หัว", "อีกา", "สาม",
+            "ฤาษี", "คาวี", "วับวาบ", "ญาณ", "เรา", "ครอง", "แผ่นดิน", "โดย",
             "ธรรม", "พรรณ", "เย้ยหยัน", "ดุก", "โดด", "โลด", "หยอย", "น้ำ", "พร่ำ"
         ]
 
@@ -536,8 +541,8 @@ class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
         lahu_words = [
             "บ", "บ่", "ณ", "ธ", "ก็", "ฤ", "ฦ",
             "ชะ", "กระ", "ยะ", "พะ", "ระ", "ละ", "ประ", "ฉะ",
-            "มติ", "กะปิ", "กะทิ", "กะทะ", "ฐิติ", "อุระ", "อมตะ", 
-            "มิ", "จะ", "เกะกะ", "ทะลุ", "รวิ", "วจนะ", "ศศิ", 
+            "มติ", "กะปิ", "กะทิ", "กะทะ", "ฐิติ", "อุระ", "อมตะ",
+            "มิ", "จะ", "เกะกะ", "ทะลุ", "รวิ", "วจนะ", "ศศิ",
             "และ", "สุ", "จิ", "ปุ", "ลิ", "สติ", "พระ",
             "ระยะ", "เยาะ", "ธุระ"
         ]
@@ -576,7 +581,10 @@ class KhaveeHandleKarunTestCase(unittest.TestCase):
         self.assertEqual(self.kv.handle_karun_sound_silence("รักษ์"), "รัก")
 
     def test_complex_karun_stripped(self):
-        """Test complex karun stripping with single, multi-consonant, and vowel-embedded patterns."""
+        """
+        Test complex karun stripping with single, multi-consonant,
+        and vowel-embedded patterns.
+        """
         # Explicit evaluation of single, multi-consonant, and vowel-embedded Karun rules
         self.assertEqual(self.kv.handle_karun_sound_silence("จันทร์"), "จัน")
         self.assertEqual(self.kv.handle_karun_sound_silence("สิทธิ์"), "สิท")
@@ -675,6 +683,7 @@ class KhaveeCheckAekTooEdgeCasesTestCase(unittest.TestCase):
 # Test KhaveeCheckKlonExtendedTestCase is moved to tests/extra/test_khavee_extra.py
 # because it use extra dependency "ssg" that is not part of the core test
 
+
 class KhaveeCheckSaraEdgeCasesTestCase(unittest.TestCase):
 
     """Edge-case tests for KhaveeVerifier.check_sara."""
@@ -687,40 +696,18 @@ class KhaveeCheckSaraEdgeCasesTestCase(unittest.TestCase):
         """Test that bo mai ek returns ออ vowel."""
         self.assertEqual(self.kv.check_sara("บ่"), "ออ")
 
-    def test_special_word_เออ(self):
-        """Test special word เออ vowel."""
+    def test_special_word(self):
+        """Test special vowel combinations."""
         self.assertEqual(self.kv.check_sara("เออ"), "เออ")
-
-    def test_special_word_เอ(self):
-        """Test special word เอ vowel."""
-        self.assertEqual(self.kv.check_sara("เอ"), "เอ")
-
-    def test_special_word_เอะ(self):
-        """Test special word เอะ vowel."""
         self.assertEqual(self.kv.check_sara("เอะ"), "เอะ")
-
-    def test_special_word_เอา(self):
-        """Test special word เอา vowel."""
         self.assertEqual(self.kv.check_sara("เอา"), "เอา")
-
-    def test_special_word_เอาะ(self):
-        """Test special word เอาะ vowel."""
         self.assertEqual(self.kv.check_sara("เอาะ"), "เอาะ")
-
-    def test_ru_sara(self):
-        """Test ฤ (ru) character vowel."""
         self.assertEqual(self.kv.check_sara("ฤ"), "อึ")
+        self.assertEqual(self.kv.check_sara("เรือ"), "เอือ")
+        self.assertIsInstance(self.kv.check_sara("เริง"), str)
 
     def test_ruea_sara(self):
         """Test ฤา and ฤๅ (ru with aa vowel) characters."""
         # ฤา (ฤ + sara า U+0E32) → อือ; note: ฤๅ uses lakkhangyao, not sara aa
         self.assertEqual(self.kv.check_sara("ฤา"), "อือ")
         self.assertEqual(self.kv.check_sara("ฤๅ"), "อือ")
-
-    def test_เอือ_sara(self):
-        """Test เอือ vowel combination."""
-        self.assertEqual(self.kv.check_sara("เรือ"), "เอือ")
-
-    def test_returns_string(self):
-        """Test that check_sara returns a string."""
-        self.assertIsInstance(self.kv.check_sara("เริง"), str)

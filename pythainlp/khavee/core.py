@@ -13,13 +13,61 @@ from pythainlp.util import remove_tonemark, sound_syllable
 
 
 class KhaveeVerifier:
+    """
+    Verifier for Thai poetry (ฉันทลักษณ์) principles.
+
+    Provides methods to analyze Thai words and validate poetic structures
+    according to traditional Thai prosody rules. This class checks vowel
+    sounds (สระ), spelling sections (มาตราตัวสะกด), rhymes (สัมผัส),
+    syllable weight (ครุ/ลหุ), and full Thai klon 4/8 poem structure (กลอน).
+
+    This class is designed to be deterministic according to the Royal Society of
+    Thailand's orthographic standards. The only exception is the use of "ssg" for
+    syllable segmentation in the :meth:`check_klon` method.
+
+    Key capabilities:
+    - :meth:`check_sara` -> Identify the phonetic vowel sound of a Thai word,
+    handling complex vowels (สระประสม), transformed vowels (สระเปลี่ยนรูป),
+    and reduced vowels (สระลดรูป).
+    - :meth:`check_marttra` -> Determine the orthographic spelling section
+    (relative to the final consonant) per Royal Society standards.
+    - :meth:`is_sumpus` -> Evaluate whether two words rhyme by comparing
+    both vowel sound and spelling section, with phonetic normalisation
+    for สระเกิน (e.g., อำ, ไอ).
+    - :meth:`check_karu_lahu` -> Classify a syllable as heavy (ครุ) or
+    light (ลหุ) for meter analysis.
+    - :meth:`check_klon` -> Validate an entire poem against traditional
+    กลอนสี่ (4-syllable) or กลอนแปด (8-syllable) rhyme rules.
+    - :meth:`check_aek_too` -> Identify tonal marks (เอก/โท) on Thai words.
+    - :meth:`handle_karun_sound_silence` -> Strip characters silenced by
+    the การันย์ marker (e.g., \"โอห์ม\" → \"โอ\").
+    - :meth:`_has_true_final_yl` and :meth:`_is_true_final` -> Determine
+    whether a word-ending \"ย\" or \"ล\" is a genuine final consonant
+    rather than part of an initial cluster or vowel digraph.
+
+    :Example:
+        Basic usage::
+
+            >>> from pythainlp.khavee import KhaveeVerifier
+            >>> kv = KhaveeVerifier()
+            >>> kv.check_sara("เริง")
+            'เออ'
+            >>> kv.is_sumpus("สรร", "อัน")
+            True
+            >>> kv.check_klon(
+            ...     'ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้ววิ่งตามไป ไล่หมาน้ำทอง',
+            ...     k_type=4
+            ... )
+            'The poem is correct according to the principle.'
+
+    :Note:
+        The method :meth:`check_klon` requires the external ``ssg`` library.
+    """
     # explicitly include ฤ and ฦ as they act as initial consonants but aren't in thai_consonants
     VALID_CONSONANTS = frozenset(thai_consonants + "ฤฦ")
 
     def __init__(self) -> None:
-        """
-        KhaveeVerifier: Thai Poetry verifier
-        """
+        """Initialize the KhaveeVerifier class."""
 
     # For backward compatibility, this method is kept as a private method.
     def _has_true_final_yl(self, word: str) -> bool:
@@ -74,27 +122,35 @@ class KhaveeVerifier:
         if last_char not in {"ล", "ร", "ว"} or len(consonants) != 2:
             return True
 
-        # Check for ล, ร, ว in initial clusters (คำควบกล้ำ / อักษรนำ) with pre-posed vowels เ-, แ-, โ-, ไ-, ใ- (เปล, เถล, แผล, โหล, ไกล, ใกล้, โปร, แตร, ไกว, เขว)
-        if not any(v in word for v in {"เ", "แ", "โ", "ไ", "ใ"}):
+        # Check for ล, ร, ว in initial clusters (คำควบกล้ำ / อักษรนำ)
+        # with pre-posed vowels เ-, แ-, โ-, ไ-, ใ-
+        # (เปล, เถล, แผล, โหล, ไกล, ใกล้, โปร, แตร, ไกว, เขว)
+        if not ("เ" in word or "แ" in word or "โ" in word or "ไ" in word or "ใ" in word):
             return True
 
         # Check for ล
-        if last_char == "ล" and cluster in {"กล", "ขล", "คล", "ปล", "ผล", "พล", "หล", "ถล", "ฉล", "สล", "ศล", "ตล"}:
+        if last_char == "ล" and cluster in {
+            "กล", "ขล", "คล", "ปล", "ผล", "พล",
+                "หล", "ถล", "ฉล", "สล", "ศล", "ตล"}:
             # Exception 'เพล' - แม่กน (monk food ฉันเพล) Returns True, otherwise False
             return word == "เพล"
 
         # Check for ร
-        if last_char == "ร" and cluster in {"กร", "ขร", "คร", "ตร", "ปร", "พร", "ฟร", "บร", "ศร", "สร", "หร"}:
+        if last_char == "ร" and cluster in {
+            "กร", "ขร", "คร", "ตร", "ปร", "พร",
+                "ฟร", "บร", "ศร", "สร", "หร"}:
             return False
 
         # Check for ว (ควบแท้ and อักษรนำ)
         if last_char == "ว":
             # With ไ/ใ, 'ว' is ALWAYS a cluster (ไกว, ไขว้)
-            if ("ไ" in word or "ใ" in word) and cluster in {"กว", "ขว", "คว", "สว", "หว", "ทว", "ชว", "ศว", "ถว"}:
+            if (cluster in {"กว", "ขว", "คว", "สว", "หว", "ทว", "ชว", "ศว", "ถว"}
+                    and ("ไ" in word or "ใ" in word)):
                 return False
 
-            # With เ/แ/โ, 'ว' is mostly is a true final (เลว, เหว, แก้ว, แห้ว). Whitelist อักษรนำ/คำควบกล้ำ as exceptions
-            elif any(v in word for v in {"เ", "แ", "โ"}):
+            # With เ/แ/โ, 'ว' is mostly is a true final (เลว, เหว, แก้ว, แห้ว).
+            # Whitelist อักษรนำ/คำควบกล้ำ as exceptions
+            elif ("เ" in word or "แ" in word or "โ" in word):
                 # USE ORIGINAL_WORD to safely catch open syllables แม่ ก กา
                 # เดินเขว, ว้าเหว่, แม่น้ำแคว, ตวาดแหว, โควตา, ช่องโหว่
                 if original_word in {"เขว", "เหว่", "แคว", "แหว", "โคว", "โหว", "โหว่"}:
@@ -107,7 +163,8 @@ class KhaveeVerifier:
         """
         Check the phonetic vowel sound (สระ) of a Thai word.
 
-        Extracts the core vowel representation used for rhyme matching, handling complex vowel combinations,
+        Extracts the core vowel representation used for rhyme matching,
+        handling complex vowel combinations,
         transformed vowels (สระเปลี่ยนรูป), and reductions (สระลดรูป).
 
         :param str word: Thai word
@@ -132,9 +189,11 @@ class KhaveeVerifier:
         # Remove tonemarks for checking endings safely
         word_req = remove_tonemark(word)
 
-        # Intercept Pali/Sanskrit words with silent terminal vowels (สระที่ไม่ออกเสียงท้ายคำ) Removing the final character -ิ or -ุ
-        silent_vowel_exceptions = {"เกียรติ", "ชาติ", "ญาติ", "มัติ", "วัติ", "บัติ", "ญัติ", "ยัติ",
-                                   "ภูมิ", "พฤติ", "พรรดิ", "วรรดิ", "พยาธิ", "โพธิ", "เกตุ", "เมรุ", "เหตุ", "ธาตุ", "วุฒิ"}
+        # Intercept Pali/Sanskrit words with silent terminal vowels (สระที่ไม่ออกเสียงท้ายคำ)
+        # Removing the final character -ิ or -ุ
+        silent_vowel_exceptions = {"เกียรติ", "ชาติ", "ญาติ", "มัติ", "วัติ", "บัติ",
+                                   "ญัติ", "ยัติ", "ภูมิ", "พฤติ", "พรรดิ", "วรรดิ",
+                                   "พยาธิ", "โพธิ", "เกตุ", "เมรุ", "เหตุ", "ธาตุ", "วุฒิ"}
         if any(word_req.endswith(ex) for ex in silent_vowel_exceptions):
             word = word[:-1]
             word_req = word_req[:-1]
@@ -299,7 +358,8 @@ class KhaveeVerifier:
                 sara.append("เออ")
             # for 'อิ' (กฤษณ์, กฤษณะ, ตฤณ, ตฤตีย, ทฤษฎี, ประกฤติ, วิกฤต, ฤทธิ์, อังกฤษ)
             # Use original_word here to ensure stripped Karun characters (like ธิ์) are evaluated
-            elif any(ex in original_word for ex in {"กฤช", "กฤต", "กฤษ", "ตฤต", "ตฤณ", "ทฤษ", "ปฤษ", "ศฤง", "สฤต", "ฤทธ"}):
+            elif any(ex in original_word for ex in
+                     ("กฤช", "กฤต", "กฤษ", "ตฤต", "ตฤณ", "ทฤษ", "ปฤษ", "ศฤง", "สฤต", "ฤทธ")):
                 sara.append("อิ")
             # Default 'อึ' (รึ) (ฤดู, ฤทัย, พฤษภาคมม)
             else:
@@ -370,14 +430,17 @@ class KhaveeVerifier:
 
         word = self.handle_karun_sound_silence(word)
 
-        # is_true_final process requires the original word to check for exceptions in อักษรนำ/คำควบกล้ำ
+        # is_true_final process requires the original word
+        # to check for exceptions in อักษรนำ/คำควบกล้ำ
         original_word = word
 
         word = remove_tonemark(word)
 
-        # Intercept Pali/Sanskrit words with silent terminal vowels (สระที่ไม่ออกเสียงท้ายคำ) Removing the final character -ิ or -ุ
-        silent_vowel_exceptions = {"เกียรติ", "ชาติ", "ญาติ", "มัติ", "วัติ", "บัติ", "ญัติ", "ยัติ", "ภูมิ",
-                                   "พฤติ", "พรรดิ", "วรรดิ", "พยาธิ", "โพธิ", "เกตุ", "เมรุ", "เหตุ", "ธาตุ", "วุฒิ", "สมมุติ"}
+        # Intercept Pali/Sanskrit words with silent terminal vowels (สระที่ไม่ออกเสียงท้ายคำ)
+        # Removing the final character -ิ or -ุ
+        silent_vowel_exceptions = {"เกียรติ", "ชาติ", "ญาติ", "มัติ", "วัติ", "บัติ", "ญัติ",
+                                   "ยัติ", "ภูมิ", "พฤติ", "พรรดิ", "วรรดิ", "พยาธิ", "โพธิ",
+                                   "เกตุ", "เมรุ", "เหตุ", "ธาตุ", "วุฒิ", "สมมุติ"}
         if any(word.endswith(ex) for ex in silent_vowel_exceptions):
             word = word[:-1]
 
@@ -399,7 +462,8 @@ class KhaveeVerifier:
         if word.endswith("ํ"):
             return "กง"
 
-        # Any word with exactly 1 consonant (and not ending in ำ/ํ) cannot have a final consonant and therefore must be "กา"
+        # Any word with exactly 1 consonant (and not ending in ำ/ํ)
+        # cannot have a final consonant and therefore must be "กา"
 
         consonants = [c for c in word if c in self.VALID_CONSONANTS]
         if len(consonants) == 1:
@@ -413,7 +477,7 @@ class KhaveeVerifier:
                 return "กา"
 
         # Check for เ, แ, โ + ย, ร, ล, ว (คำควบกล้ำ / อักษรนำ)
-        if word[-1] in {"ย", "ล", "ร", "ว"} and any(v in word for v in {"เ", "แ", "โ"}):
+        if word[-1] in "ยลรว" and ("เ" in word or "แ" in word or "โ" in word):
             # ไม่ใช่ตัวสะกดแท้ -> แม่ก กา
             if not self._is_true_final(original_word):
                 return "กา"
@@ -521,6 +585,22 @@ class KhaveeVerifier:
         return bool(marttra1 == marttra2 and sara1 == sara2)
 
     def check_karu_lahu(self, text: str) -> str:
+        """Classify a Thai syllable as heavy (ครุ karu) or light (ลหุ lahu).
+
+        Syllable weight is determined by Thai prosody rules for classical poetry:
+
+        - A syllable is heavy (ครุ) if it contains a long vowel, ends with any
+          final consonant (including sonorant finals / นมยวง), or contains one
+          of the special inherently bound vowels (อำ, ไอ, ใอ, เอา).
+        - A syllable is light (ลหุ) if it is an open syllable (แม่ ก กา)
+          containing a short vowel with no final consonant.
+
+        Args:
+            text (str): A single Thai syllable or word to classify.
+
+        Returns:
+            str: "karu" for heavy syllables or "lahu" for light syllables.
+        """
         if text in {"บ", "บ่", "ณ", "ธ", "ก็", "ฤ", "ฦ"}:
             return "lahu"
 
@@ -590,18 +670,19 @@ class KhaveeVerifier:
         """
 
         try:
-            import ssg  # type: ignore[import-unresolved]
-        except ImportError:
+            __import__("ssg")
+        except ImportError as exc:
             raise ImportError(
-            "The 'ssg' package is required for check_klon. "
-            "Please install it using: pip install pythainlp[extra] or pip install ssg"
-        )
+                "The 'ssg' library is required for comprehensive poem analysis (check_klon). "
+                "Please install it using: pip install ssg"
+            ) from exc
 
         if k_type not in {4, 8}:
             return "Something went wrong. Make sure you enter it in the correct form (k_type 4 or 8)."
 
         try:
-            # Normalize spacing with regex Splits by spaces, newlines, or transitions between phrases
+            # Normalize spacing with regex Splits by spaces,
+            # newlines, or transitions between phrases
             waks = [w for w in re.split(r'\s+|\n+|\t+', text.strip()) if w]
             # Ensure the poem has complete stanzas (4 waks per stanza)
             if len(waks) % 4 != 0 or len(waks) == 0:
@@ -609,7 +690,8 @@ class KhaveeVerifier:
 
             errors = []
             stanzas = []
-            wak_names = ["วรรคสดับ (Wak 1)", "วรรครับ (Wak 2)", "วรรครอง (Wak 3)", "วรรคส่ง (Wak 4)"]
+            # วรรคสดับ (Wak 1), วรรครับ (Wak 2), วรรครอง (Wak 3), วรรคส่ง (Wak 4)
+            wak_names = ["Wak 1", "Wak 2", "Wak 3", "Wak 4"]
 
             # 1. Tokenize and group sentences into stanzas (4 Waks per stanza)
             for i in range(0, len(waks), 4):
@@ -723,11 +805,11 @@ class KhaveeVerifier:
             ...     kv.check_aek_too("เอ้ง"),
             ... )
             >>> # -> False, aek, too
-            >>> print(kv.check_aek_too(["เอง", "เอ่ง", "เอ้ง"]))  # ใช้ List ได้เหมือนกัน  # doctest: +SKIP
-            >>> # -> [False, 'aek', 'too']
+            >>> print(kv.check_aek_too(["เอง", "เอ่ง", "เอ้ง"]))  # doctest: +SKIP
+            >>> # -> [False, 'aek', 'too']  ^^^^^^^^^^ # ใช้ List ได้เหมือนกัน
         """
         if isinstance(text, list):
-            return [self.check_aek_too(t, dead_syllable_as_aek) for t in text] # type: ignore[misc]
+            return [self.check_aek_too(t, dead_syllable_as_aek) for t in text]  # type: ignore[misc]
 
         if not isinstance(text, str):
             raise TypeError("text must be str or iterable list[str]")
@@ -752,7 +834,8 @@ class KhaveeVerifier:
         :return: Thai word with silent consonant stripped
         :rtype: str
         """
-        # Only process if the word ends with Karun (-์) [word like โอห์ม which has Karun in the middle will not be processed]
+        # Only process if the word ends with Karun (-์)
+        # [word like โอห์ม which has Karun in the middle will not be processed]
         if not word.endswith("์"):
             return word
 

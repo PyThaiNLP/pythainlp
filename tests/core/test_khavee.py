@@ -27,6 +27,8 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_sara("ค่ะ"), "อะ")
         self.assertEqual(kv.check_sara("กระ"), "อะ")
         self.assertEqual(kv.check_sara("อรรถ"), "อะ")
+        self.assertEqual(kv.check_sara("สัตว์"), "อะ")
+        self.assertEqual(kv.check_sara("พันธุ์"), "อะ")
         self.assertEqual(kv.check_sara("พาล"), "อา")
         self.assertEqual(kv.check_sara("พลา"), "อา")
         self.assertEqual(kv.check_sara("ฆาต"), "อา")
@@ -71,6 +73,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_sara("สูรย์"), "อู")
         self.assertEqual(kv.check_sara("เซะ"), "เอะ")
         self.assertEqual(kv.check_sara("เอ"), "เอ")
+        self.assertEqual(kv.check_sara("เพล"), "เอ")
         self.assertEqual(kv.check_sara("เพช"), "เอ")
         self.assertEqual(kv.check_sara("เขษม"), "เอ")
         self.assertEqual(kv.check_sara("แอะ"), "แอะ")
@@ -87,6 +90,18 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_sara("เสือ"), "เอือ")
         self.assertEqual(kv.check_sara("เขือ"), "เอือ")
         self.assertEqual(kv.check_sara("กลัว"), "อัว")
+        self.assertEqual(kv.check_sara("โอห์ม"), "โอ")
+        self.assertEqual(kv.check_sara("โต"), "โอ")
+        self.assertEqual(kv.check_sara("โดรน"), "โอ")
+        self.assertEqual(kv.check_sara("ไป"), "ไอ")
+        self.assertEqual(kv.check_sara("ไตร"), "ไอ")
+        self.assertEqual(kv.check_sara("ไดร์ฟ"), "ไอ")
+        self.assertEqual(kv.check_sara("ใบ"), "ไอ")
+        self.assertEqual(kv.check_sara("ใกล้"), "ไอ")
+        self.assertEqual(kv.check_sara("ใหญ่"), "ไอ")
+        self.assertEqual(kv.check_sara("เต้า"), "เอา")
+        self.assertEqual(kv.check_sara("เป๋า"), "เอา")
+        self.assertEqual(kv.check_sara("เชาว์"), "เอา")
 
         # Reduced and Transformed Vowels (สระลดรูป/เปลี่ยนรูป)
         self.assertEqual(kv.check_sara("อัน"), "อะ")
@@ -94,8 +109,10 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_sara("สัญ"), "อะ")
         self.assertEqual(kv.check_sara("พวก"), "อัว")
         self.assertEqual(kv.check_sara("จวก"), "อัว")
+        self.assertEqual(kv.check_sara("พรวด"), "อัว")
         self.assertEqual(kv.check_sara("คน"), "โอะ")
         self.assertEqual(kv.check_sara("คล"), "โอะ")
+        self.assertEqual(kv.check_sara("โอ๊ะ"), "โอะ")
         self.assertEqual(kv.check_sara("พร"), "ออ")
         self.assertEqual(kv.check_sara("วร"), "ออ")
         self.assertEqual(kv.check_sara("บวร"), "ออ")
@@ -105,6 +122,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_sara("แข็ง"), "แอะ")
         self.assertEqual(kv.check_sara("แจ็ค"), "แอะ")
         self.assertEqual(kv.check_sara("แกร็น"), "แอะ")
+        self.assertEqual(kv.check_sara("เผลอ"), "เออ")
         self.assertEqual(kv.check_sara("เลย"), "เออ")
         self.assertEqual(kv.check_sara("เริง"), "เออ")
         self.assertEqual(kv.check_sara("เดิน"), "เออ")
@@ -127,9 +145,14 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_sara("พรรดิ"), "อะ")  # จักรพรรดิ
         self.assertEqual(kv.check_sara("วรรดิ"), "อะ")  # จักรวรรดิ
         self.assertEqual(kv.check_sara("สมมุติ"), "อุ")
-        self.assertEqual(kv.check_sara("ชาติ"), "อา")
-        self.assertEqual(kv.check_sara("ชาติ"), "อา")
 
+        self.assertEqual(kv.check_sara("กอปร"), "ออ")  # กอปร อ่านว่า กอบ
+        self.assertEqual(kv.check_sara("บวร"), "ออ")
+        self.assertEqual(kv.check_sara("อมร"), "ออ")
+        self.assertEqual(kv.check_sara("นคร"), "ออ")
+        self.assertEqual(kv.check_sara("กร"), "ออ")
+        self.assertEqual(kv.check_sara("จร"), "ออ")
+        self.assertEqual(kv.check_sara("พร"), "ออ")
         self.assertEqual(kv.check_sara("ออ"), "ออ")
         self.assertEqual(kv.check_sara("ขอ"), "ออ")
         self.assertEqual(kv.check_sara("งอ"), "ออ")
@@ -217,6 +240,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("กรม"), "กม")
         self.assertEqual(kv.check_marttra("ธรรม"), "กม")
         self.assertEqual(kv.check_marttra("ฟิล์ม"), "กม")
+        self.assertEqual(kv.check_marttra("โอห์ม"), "กม")
 
         self.assertEqual(kv.check_marttra("สวย"), "เกย")
         self.assertEqual(kv.check_marttra("โปรย"), "เกย")
@@ -238,12 +262,14 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("ดาว"), "เกอว")
         self.assertEqual(kv.check_marttra("แก้ว"), "เกอว")
         self.assertEqual(kv.check_marttra("เกียว"), "เกอว")
+        self.assertEqual(kv.check_marttra("เหว"), "เกอว")
 
         self.assertEqual(kv.check_marttra("บก"), "กก")
         self.assertEqual(kv.check_marttra("โรค"), "กก")
         self.assertEqual(kv.check_marttra("ลาก"), "กก")
         self.assertEqual(kv.check_marttra("นัข"), "กก")
         self.assertEqual(kv.check_marttra("จักร"), "กก")
+        self.assertEqual(kv.check_marttra("สมัคร"), "กก")
         self.assertEqual(kv.check_marttra("ตรึก"), "กก")
         self.assertEqual(kv.check_marttra("เงือก"), "กก")
         self.assertEqual(kv.check_marttra("พวก"), "กก")
@@ -253,15 +279,17 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("อ็อก"), "กก")
         self.assertEqual(kv.check_marttra("อวก"), "กก")
         self.assertEqual(kv.check_marttra("ฤกษ์"), "กก")
+        self.assertEqual(kv.check_marttra("ศุกร์"), "กก")
         self.assertEqual(kv.check_marttra("ลักษมณ์"), "กก")
 
         self.assertEqual(kv.check_marttra("จด"), "กด")
         self.assertEqual(kv.check_marttra("ตรวจ"), "กด")
         self.assertEqual(kv.check_marttra("เสริฐ"), "กด")
+        self.assertEqual(kv.check_marttra("สมุทร"), "กด")
+        self.assertEqual(kv.check_marttra("ภัทร"), "กด")
         self.assertEqual(kv.check_marttra("บุตร"), "กด")
         self.assertEqual(kv.check_marttra("ตรุษ"), "กด")
         self.assertEqual(kv.check_marttra("มืด"), "กด")
-        self.assertEqual(kv.check_marttra("โยชน์"), "กด")
         self.assertEqual(kv.check_marttra("ชาติ"), "กด")
         self.assertEqual(kv.check_marttra("เกียรติ"), "กด")
         self.assertEqual(kv.check_marttra("วรรดิ"), "กด")
@@ -288,14 +316,27 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("เร็จ"), "กด")
         self.assertEqual(kv.check_marttra("เตลิด"), "กด")
         self.assertEqual(kv.check_marttra("เพนียด"), "กด")
+        self.assertEqual(kv.check_marttra("สัตว์"), "กด")
         self.assertEqual(kv.check_marttra("กษัตริย์"), "กด")
         self.assertEqual(kv.check_marttra("ศาสตร์"), "กด")
         self.assertEqual(kv.check_marttra("เฮิรตซ์"), "กด")
+        self.assertEqual(kv.check_marttra("โยชน์"), "กด")
+        self.assertEqual(kv.check_marttra("กฤษณ์"), "กด")
         self.assertEqual(kv.check_marttra("ฤทธิ์"), "กด")
         self.assertEqual(kv.check_marttra("กฤษ"), "กด")
-        self.assertEqual(kv.check_marttra("กฤษณ์"), "กด")
         self.assertEqual(kv.check_marttra("ทฤษ"), "กด")
 
+        self.assertEqual(kv.check_marttra("เพล"), "กน")
+        self.assertEqual(kv.check_marttra("สุนทร"), "กน")
+        self.assertEqual(kv.check_marttra("มังกร"), "กน")
+        self.assertEqual(kv.check_marttra("สาคร"), "กน")
+        self.assertEqual(kv.check_marttra("พล"), "กน")
+        self.assertEqual(kv.check_marttra("กร"), "กน")
+        self.assertEqual(kv.check_marttra("จร"), "กน")
+        self.assertEqual(kv.check_marttra("พร"), "กน")
+        self.assertEqual(kv.check_marttra("บวร"), "กน")
+        self.assertEqual(kv.check_marttra("อมร"), "กน")
+        self.assertEqual(kv.check_marttra("นคร"), "กน")
         self.assertEqual(kv.check_marttra("มึน"), "กน")
         self.assertEqual(kv.check_marttra("ร้าน"), "กน")
         self.assertEqual(kv.check_marttra("ขนุน"), "กน")
@@ -303,7 +344,6 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("ทมิฬ"), "กน")
         self.assertEqual(kv.check_marttra("ซีน"), "กน")
         self.assertEqual(kv.check_marttra("บรร"), "กน")
-        self.assertEqual(kv.check_marttra("กร"), "กน")
         self.assertEqual(kv.check_marttra("เณร"), "กน")
         self.assertEqual(kv.check_marttra("ยนต์"), "กน")
         self.assertEqual(kv.check_marttra("กรรณ"), "กน")
@@ -330,6 +370,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("อล"), "กน")
         self.assertEqual(kv.check_marttra("ควร"), "กน")
         self.assertEqual(kv.check_marttra("จันทร์"), "กน")
+        self.assertEqual(kv.check_marttra("พันธุ์"), "กน")
         self.assertEqual(kv.check_marttra("สินธุ์"), "กน")
 
         self.assertEqual(kv.check_marttra("ชอบ"), "กบ")
@@ -342,6 +383,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("อุ๊ป"), "กบ")
         self.assertEqual(kv.check_marttra("ธูป"), "กบ")
         self.assertEqual(kv.check_marttra("กอล์ฟ"), "กบ")
+        self.assertEqual(kv.check_marttra("กอปร"), "กบ")  # กอปร อ่านว่า กอบ
 
         self.assertEqual(kv.check_marttra("อะ"), "กา")
         self.assertEqual(kv.check_marttra("อา"), "กา")
@@ -371,6 +413,8 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("ไอ"), "กา")
         self.assertEqual(kv.check_marttra("ใอ"), "กา")
         self.assertEqual(kv.check_marttra("เอา"), "กา")
+        self.assertEqual(kv.check_marttra("จะ"), "กา")
+        self.assertEqual(kv.check_marttra("ผี"), "กา")
         self.assertEqual(kv.check_marttra("ปลา"), "กา")
         self.assertEqual(kv.check_marttra("งู"), "กา")
         self.assertEqual(kv.check_marttra("หมู"), "กา")
@@ -390,6 +434,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("ฎี"), "กา")
         self.assertEqual(kv.check_marttra("ตรี"), "กา")
         self.assertEqual(kv.check_marttra("พลี"), "กา")
+        self.assertEqual(kv.check_marttra("แคว"), "กา")  # แม่น้ำแคว (ควบกล้ำ คว)
         self.assertEqual(kv.check_marttra("ซื้อ"), "กา")
         self.assertEqual(kv.check_marttra("ปรือ"), "กา")
         self.assertEqual(kv.check_marttra("ธุ"), "กา")
@@ -413,13 +458,19 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("ขำ"), "กา")
         self.assertEqual(kv.check_marttra("จำ"), "กา")
         self.assertEqual(kv.check_marttra("โต๊ะ"), "กา")
+        self.assertEqual(kv.check_marttra("เผลอ"), "กา")
         self.assertEqual(kv.check_marttra("เหม่อ"), "กา")
         self.assertEqual(kv.check_marttra("เกลือ"), "กา")
+        self.assertEqual(kv.check_marttra("ไป"), "กา")
+        self.assertEqual(kv.check_marttra("น้ำ"), "กา")
+        self.assertEqual(kv.check_marttra("เรือ"), "กา")
         self.assertEqual(kv.check_marttra("ตัว"), "กา")
         self.assertEqual(kv.check_marttra("ครัว"), "กา")
         self.assertEqual(kv.check_marttra("ทรีย์"), "กา")
         self.assertEqual(kv.check_marttra("ปรีดิ์"), "กา")
         self.assertEqual(kv.check_marttra("นีย์"), "กา")
+        self.assertEqual(kv.check_marttra("อัชฌ"), "กา")
+        self.assertEqual(kv.check_marttra("มัจฉ"), "กา")
 
         # Fake Finals (คำควบกล้า, คำที่มีพยัญชนะ/สระไม่ออกเสียง) mapping to open syllables
         self.assertEqual(kv.check_marttra("ไทย"), "กา")
@@ -467,6 +518,11 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertFalse(kv.is_sumpus("ฤกษ์", "ลึก"))  # ฤกษ์ = เริก != ลึก
         self.assertFalse(kv.is_sumpus("โหว่", "โถ่ว"))  # แม่ก กา vs แม่เกอว
 
+        self.assertTrue(kv.is_sumpus("สมุทร", "สมุด"))
+        self.assertTrue(kv.is_sumpus("ภัทร", "พัด"))
+        self.assertTrue(kv.is_sumpus("สมัคร", "นัก"))
+        self.assertTrue(kv.is_sumpus("จักร", "พรรค"))
+        self.assertTrue(kv.is_sumpus("เพชร", "เพด"))
         self.assertTrue(kv.is_sumpus("เขว", "เอ"))
         self.assertTrue(kv.is_sumpus("เขว", "เหว่"))
         self.assertTrue(kv.is_sumpus("เหว", "เอว"))
@@ -481,6 +537,9 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertTrue(kv.is_sumpus("แหน", "แกน"))  # แม่ กน
 
         # Structural equivalence logic & Normalization
+        self.assertTrue(kv.is_sumpus("มอญ", "อมร"))
+        self.assertTrue(kv.is_sumpus("นอน", "บวร"))
+        self.assertTrue(kv.is_sumpus("นอน", "กร"))
         self.assertTrue(kv.is_sumpus("บ้าน", "พาล"))
         self.assertTrue(kv.is_sumpus("ทำ", "จำ"))
         self.assertTrue(kv.is_sumpus("ทำ", "กัม"))
@@ -495,6 +554,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertTrue(kv.is_sumpus("ไกว", "ใคร"))
         self.assertTrue(kv.is_sumpus("เลย", "เกย"))
         self.assertTrue(kv.is_sumpus("พวก", "จวก"))
+        self.assertTrue(kv.is_sumpus("พันธุ์", "จันทร์"))
         self.assertTrue(kv.is_sumpus("ฤทธิ์", "กิด"))
         self.assertTrue(kv.is_sumpus("ฤกษ์", "เริก"))
         self.assertTrue(kv.is_sumpus("พฤษ", "พรึด"))
@@ -551,6 +611,18 @@ class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
             with self.subTest(word=word):
                 self.assertEqual(self.kv.check_karu_lahu(word), "lahu")
 
+    def test_invalid_karu_lahu_words(self):
+        """
+            Test that invalid words are not identified as karu or lahu and should return False.
+            This includes empty strings.
+        """
+        invalid_karu_lahu_words = [
+            ""
+        ]
+        for word in invalid_karu_lahu_words:
+            with self.subTest(word=word):
+                self.assertEqual(self.kv.check_karu_lahu(word), False)
+
 
 class KhaveeHandleKarunTestCase(unittest.TestCase):
 
@@ -564,21 +636,21 @@ class KhaveeHandleKarunTestCase(unittest.TestCase):
         """Test that words without karun are unchanged."""
         self.assertEqual(self.kv.handle_karun_sound_silence("คน"), "คน")
         self.assertEqual(self.kv.handle_karun_sound_silence("กา"), "กา")
+        self.assertEqual(self.kv.handle_karun_sound_silence(""), "")  # empty string unchanged
         # internal karun unchanged
         self.assertEqual(self.kv.handle_karun_sound_silence("การ์ตูน"), "การ์ตูน")
+        self.assertEqual(self.kv.handle_karun_sound_silence("โอร์ม"), "โอร์ม")
         self.assertEqual(self.kv.handle_karun_sound_silence("กอล์ฟ"), "กอล์ฟ")
         self.assertEqual(self.kv.handle_karun_sound_silence("ฟิล์ม"), "ฟิล์ม")
         self.assertEqual(self.kv.handle_karun_sound_silence("สตาร์ตอัป"), "สตาร์ตอัป")
 
     def test_word_ending_with_karun_stripped(self):
         """Test that karun and preceding consonant are stripped from end of word."""
-        # เกมส์ → drop ์ and the consonant before it (ส) → เกม
+        # เกมส์ -> drop ์ and the consonant before it (ส) -> เกม
         self.assertEqual(self.kv.handle_karun_sound_silence("เกมส์"), "เกม")
-
-    def test_word_ending_with_karun_stripped_2(self):
-        """Test karun stripping with different consonant."""
-        # รักษ์ → drop ์ + ษ → รัก
+        # รักษ์ -> drop ์ + ษ -> รัก
         self.assertEqual(self.kv.handle_karun_sound_silence("รักษ์"), "รัก")
+        self.assertEqual(self.kv.handle_karun_sound_silence("สัตว์"), "สัต")
 
     def test_complex_karun_stripped(self):
         """
@@ -708,6 +780,6 @@ class KhaveeCheckSaraEdgeCasesTestCase(unittest.TestCase):
 
     def test_ruea_sara(self):
         """Test ฤา and ฤๅ (ru with aa vowel) characters."""
-        # ฤา (ฤ + sara า U+0E32) → อือ; note: ฤๅ uses lakkhangyao, not sara aa
+        # ฤา (ฤ + sara า U+0E32) -> อือ; note: ฤๅ uses lakkhangyao, not sara aa
         self.assertEqual(self.kv.check_sara("ฤา"), "อือ")
         self.assertEqual(self.kv.check_sara("ฤๅ"), "อือ")

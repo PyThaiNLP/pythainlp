@@ -66,6 +66,21 @@ class KhaveeVerifier:
     # explicitly include ฤ and ฦ as they act as initial consonants but aren't in thai_consonants
     VALID_CONSONANTS = frozenset(thai_consonants + "ฤฦ")
 
+    # Pali/Sanskrit loanwords where the final -ิ or -ุ is orthographically
+    # present but phonetically silent. Stripping it is harmless in check_sara
+    # (the leading vowel is detected first) and necessary in check_marttra
+    # (to expose the true final consonant for spelling-section classification).
+    _MASKING_TERMINAL_VOWELS: tuple[str, ...] = (
+        "เกียรติ", "ชาติ", "ญาติ", "มัติ", "วัติ", "บัติ", "ญัติ",
+        "ยัติ", "ภูมิ", "พฤติ", "พรรดิ", "วรรดิ", "พยาธิ", "โพธิ",
+        "เกตุ", "เมรุ", "เหตุ", "ธาตุ", "วุฒิ", "สมมุติ", "วิมุติ",
+    )
+
+    # Syllables that are always light (ลหุ) regardless of orthography.
+    _LAHU_SYLLABLE_OVERRIDES: frozenset[str] = frozenset({
+        "บ", "บ่", "ณ", "ธ", "ก็", "ฤ", "ฦ",
+    })
+
     def __init__(self) -> None:
         """Initialize the KhaveeVerifier class."""
 
@@ -189,12 +204,13 @@ class KhaveeVerifier:
         # Remove tonemarks for checking endings safely
         word_req = remove_tonemark(word)
 
+        # Empty string / weird input should return empty string (Catches "", "อ์", "้", etc.)
+        if not word_req:
+            return ""
+
         # Intercept Pali/Sanskrit words with silent terminal vowels (สระที่ไม่ออกเสียงท้ายคำ)
         # Removing the final character -ิ or -ุ
-        silent_vowel_exceptions = {"เกียรติ", "ชาติ", "ญาติ", "มัติ", "วัติ", "บัติ",
-                                   "ญัติ", "ยัติ", "ภูมิ", "พฤติ", "พรรดิ", "วรรดิ",
-                                   "พยาธิ", "โพธิ", "เกตุ", "เมรุ", "เหตุ", "ธาตุ", "วุฒิ"}
-        if any(word_req.endswith(ex) for ex in silent_vowel_exceptions):
+        if word_req.endswith(self._MASKING_TERMINAL_VOWELS):
             word = word[:-1]
             word_req = word_req[:-1]
 
@@ -246,7 +262,7 @@ class KhaveeVerifier:
             sara.remove("ออ")
 
         # In case of ออ (Clean redundant ออ from compound vowels like คือ, มือ)
-        if countoa == 1 and "อ" in word[-1] and "เ" not in word and "ออ" in sara and len(sara) > 1:
+        if countoa == 1 and "อ" == word[-1] and "เ" not in word and "ออ" in sara and len(sara) > 1:
             sara.remove("ออ")
 
         # In case of เอ เอ (merging two 'เอ' into 'แอ')
@@ -287,7 +303,7 @@ class KhaveeVerifier:
             sara.remove("เอ")
             sara.remove("อิ")
             sara.append("เออ")  # เกิด, เมิน
-        elif "เอ" in sara and "ออ" in sara and "อ" in word[-1]:
+        elif "อ" == word[-1] and "เอ" in sara and "ออ" in sara:
             sara.remove("เอ")
             sara.remove("ออ")
             sara.append("เออ")  # เหม่อ
@@ -391,7 +407,9 @@ class KhaveeVerifier:
             sara = ["อะ"]
 
         if not sara:
-            return "Can't find Sara in this word"
+            # Fallback: If no explicit vowel is found and it doesn't fit closed-syllable 
+            # reductions, assume the implied short 'a' (เสียงอะกึ่งมาตรา).
+            return "อะ"
 
         return sara[0]
 
@@ -418,31 +436,42 @@ class KhaveeVerifier:
             >>> print(kv.check_marttra("ทำ"))  # doctest: +SKIP
             'กา'
         """
-        # Handle consonant clusters ending with ร
-        # ตร, ทร → remove ร (treat as final ต/ท sound)
-        # กร, ขร, คร, ฆร in compound words → remove ร (treat as final ก/ข/ค sound)
-        # But single syllable words like "กร" should keep ร
-        if len(word) >= 3 and word[-1] == "ร":
-            if word[-2] in {"ต", "ท"}:
-                word = word[:-1]
-            elif word[-2] in {"ก", "ข", "ค", "ฆ"}:
-                word = word[:-1]
-
+        # Resolve Karun first to prevents "ศาสตร์" or "ศุกร์"
+        # from complicating the cluster logic.
         word = self.handle_karun_sound_silence(word)
 
         # is_true_final process requires the original word
         # to check for exceptions in อักษรนำ/คำควบกล้ำ
         original_word = word
-
         word = remove_tonemark(word)
+
+        # Empty string should be returned as empty string (Catches "", "อ์", "้", etc.)
+        if not word:
+            return ""
 
         # Intercept Pali/Sanskrit words with silent terminal vowels (สระที่ไม่ออกเสียงท้ายคำ)
         # Removing the final character -ิ or -ุ
-        silent_vowel_exceptions = {"เกียรติ", "ชาติ", "ญาติ", "มัติ", "วัติ", "บัติ", "ญัติ",
-                                   "ยัติ", "ภูมิ", "พฤติ", "พรรดิ", "วรรดิ", "พยาธิ", "โพธิ",
-                                   "เกตุ", "เมรุ", "เหตุ", "ธาตุ", "วุฒิ", "สมมุติ"}
-        if any(word.endswith(ex) for ex in silent_vowel_exceptions):
+        if word.endswith(self._MASKING_TERMINAL_VOWELS):
             word = word[:-1]
+
+        # Handle consonant clusters ending with ร
+        if len(word) >= 3 and word[-1] == "ร":
+            prev_char = word[-2]
+
+            # Safe to always strip
+            # (e.g., บุตร, เนตร, มิตร, เกษตร, บัตร, เพชร, กอปร (อ่านว่า กอบ))
+            if prev_char in {"ต", "ช", "ป"}:
+                word = word[:-1]
+
+            # Ambiguous (e.g., มังกร vs จักร, สุนทร vs สมุทร)
+            # Only strip 'ร' if the cluster is preceded by a specific short vowel.
+            elif prev_char in {"ก", "ข", "ค", "ฆ", "ท"}:
+                char_before_prev = word[-3]
+
+                # If preceded by -ั, -ิ, -ี, -ุ, -ู (e.g., จั-ก-ร, สมุ-ท-ร)
+                if char_before_prev in {"ั", "ิ", "ี", "ุ", "ู"}:
+                    word = word[:-1]
+                # (Words like นคร, มังกร, สุนทร will correctly BYPASS this and remain แม่กน)
 
         # Check for อักษรตัวเดียวแทนคำ Standalone words
         if word in {"บ", "ณ", "ธ", "พณ", "ฤ", "ฦ"}:
@@ -465,8 +494,8 @@ class KhaveeVerifier:
         # Any word with exactly 1 consonant (and not ending in ำ/ํ)
         # cannot have a final consonant and therefore must be "กา"
 
-        consonants = [c for c in word if c in self.VALID_CONSONANTS]
-        if len(consonants) == 1:
+        consonants = sum(1 for c in word if c in self.VALID_CONSONANTS)
+        if consonants == 1:
             return "กา"
 
         # Check for ไ/ใ
@@ -486,18 +515,18 @@ class KhaveeVerifier:
         # Add รากยาว "ๅ" (not สระอา) for word like ฤๅ(ษี)
         if (
             word[-1] in {"า", "ๅ", "ะ", "ิ", "ี", "ึ", "ุ", "ู", "อ"}
-            or ("ี" in word and "ย" in word[-1])  # Catch สระเอีย (เสีย, เมีย)
-            or ("ื" in word and "อ" in word[-1])  # Catch สระอือ (เรือ, เสือ)
-            or ("ั" in word and "ว" in word[-1])  # Catch สระอัว (ตัว, ชั่ว, กลัว, อัว)
+            or ("ี" in word and "ย" == word[-1])  # Catch สระเอีย (เสีย, เมีย)
+            or ("ื" in word and "อ" == word[-1])  # Catch สระอือ (เรือ, เสือ)
+            or ("ั" in word and "ว" == word[-1])  # Catch สระอัว (ตัว, ชั่ว, กลัว, อัว)
         ):
             return "กา"
-        elif word[-1] in {"ง"}:
+        elif word[-1] == "ง":
             return "กง"
-        elif word[-1] in {"ม"}:
+        elif word[-1] == "ม":
             return "กม"
-        elif word[-1] in {"ย"}:
+        elif word[-1] == "ย":
             return "เกย"
-        elif word[-1] in {"ว"}:
+        elif word[-1] == "ว":
             return "เกอว"
         elif word[-1] in {"ก", "ข", "ค", "ฆ"}:
             return "กก"
@@ -525,10 +554,7 @@ class KhaveeVerifier:
         elif word[-1] in {"บ", "ป", "พ", "ฟ", "ภ"}:
             return "กบ"
         else:
-            if "็" in word:
-                return "กา"
-            else:
-                return "Can't find Marttra in this word"
+            return "กา"
 
     def is_sumpus(self, word1: str, word2: str) -> bool:
         """
@@ -553,6 +579,10 @@ class KhaveeVerifier:
             >>> print(kv.is_sumpus("จำ", "กรรม"))  # doctest: +SKIP
             True
         """
+        # Empty string should be returned as False
+        if not word1 or not word2:
+            return False
+
         marttra1 = self.check_marttra(word1)
         marttra2 = self.check_marttra(word2)
         sara1 = self.check_sara(word1)
@@ -584,7 +614,7 @@ class KhaveeVerifier:
             marttra2 = "กา"
         return bool(marttra1 == marttra2 and sara1 == sara2)
 
-    def check_karu_lahu(self, text: str) -> str:
+    def check_karu_lahu(self, text: str) -> Union[str, bool]:
         """Classify a Thai syllable as heavy (ครุ karu) or light (ลหุ lahu).
 
         Syllable weight is determined by Thai prosody rules for classical poetry:
@@ -599,9 +629,14 @@ class KhaveeVerifier:
             text (str): A single Thai syllable or word to classify.
 
         Returns:
-            str: "karu" for heavy syllables or "lahu" for light syllables.
+            Union[str, bool]: "karu" for heavy syllables or "lahu" for light syllables.
+            or False if the input is an empty string.
         """
-        if text in {"บ", "บ่", "ณ", "ธ", "ก็", "ฤ", "ฦ"}:
+        # Empty string should be returned as False
+        if not text:
+            return False
+
+        if text in self._LAHU_SYLLABLE_OVERRIDES:
             return "lahu"
 
         marttra = self.check_marttra(text)
@@ -683,7 +718,7 @@ class KhaveeVerifier:
         try:
             # Normalize spacing with regex Splits by spaces,
             # newlines, or transitions between phrases
-            waks = [w for w in re.split(r'\s+|\n+|\t+', text.strip()) if w]
+            waks = [w for w in re.split(r'\s+', text.strip()) if w]
             # Ensure the poem has complete stanzas (4 waks per stanza)
             if len(waks) % 4 != 0 or len(waks) == 0:
                 return "The poem does not have complete stanzas (บท). A stanza must contain exactly 4 sentences (วรรค)."
@@ -695,12 +730,7 @@ class KhaveeVerifier:
 
             # 1. Tokenize and group sentences into stanzas (4 Waks per stanza)
             for i in range(0, len(waks), 4):
-                stanza = [
-                    subword_tokenize(waks[i], engine="ssg"),
-                    subword_tokenize(waks[i + 1], engine="ssg"),
-                    subword_tokenize(waks[i + 2], engine="ssg"),
-                    subword_tokenize(waks[i + 3], engine="ssg"),
-                ]
+                stanza = [subword_tokenize(waks[i + j], engine="ssg") for j in range(4)]
                 stanzas.append(stanza)
 
             # 2. Evaluate rules for each stanza
@@ -814,10 +844,9 @@ class KhaveeVerifier:
         if not isinstance(text, str):
             raise TypeError("text must be str or iterable list[str]")
 
-        word_characters = [*text]
-        if "่" in word_characters and "้" not in word_characters:
+        if "่" in text and "้" not in text:
             return "aek"
-        elif "้" in word_characters and "่" not in word_characters:
+        elif "้" in text and "่" not in text:
             return "too"
         if dead_syllable_as_aek and sound_syllable(text) == "dead":
             return "aek"

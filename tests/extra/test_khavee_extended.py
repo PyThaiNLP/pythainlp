@@ -211,7 +211,7 @@ class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
         )
         result = self.kv.check_klon(poem, k_type=4)
         self.assertIsInstance(result, str)
-        self.assertEqual("The poem is correct according to the principle.", result)
+        self.assertEqual(result, "The poem is correct according to the principle.")
 
         poem_invalid = (
             "ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้ววิ่งตามไล่ น้องหมาน้ำทอง "

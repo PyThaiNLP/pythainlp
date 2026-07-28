@@ -641,9 +641,11 @@ class KhaveeVerifier:
         marttra = self.check_marttra(text)
         sara = self.check_sara(text)
 
-        if (marttra != "กา"
-            or (marttra == "กา" and sara in self._LONG_VOWELS)
-            or sara in self._SPECIAL_VOWELS):
+        if (
+            marttra != "กา"
+            or sara in self._LONG_VOWELS
+            or sara in self._SPECIAL_VOWELS
+        ):
             return "karu"
         else:
             return "lahu"

@@ -169,3 +169,18 @@ class SoundexTestCase(unittest.TestCase):
             short_code, long_code
         )
         self.assertAlmostEqual(similarity_diff_len, 5 / 11, places=4)
+
+    def test_metasound_karan_truncation(self):
+        # B1: karan spaces should be filtered before truncation
+        # "สรรค์พล" has karan in middle — พ must not be lost
+        self.assertEqual(metasound("สรรค์พล", 4), "ส553")
+        self.assertEqual(metasound("รักษ์นา", 4), "ร150")
+        # No karan — should be unaffected
+        self.assertEqual(metasound("บูรณการ", 4), "บ551")
+
+    def test_metasound_consonant_classification(self):
+        # B2: ถ,ธ,ฏ,ฑ should be class 2 (same sound as ท,ด)
+        self.assertEqual(metasound("กถ", 2), "ก2")
+        self.assertEqual(metasound("กธ", 2), "ก2")
+        self.assertEqual(metasound("กฏ", 2), "ก2")
+        self.assertEqual(metasound("กฑ", 2), "ก2")

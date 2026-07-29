@@ -23,6 +23,15 @@ and this project adheres to
 
 - Improve guardrails in `check_sara()` and `nighit()`
 
+## [5.3.5] - 2026-07-30
+
+### Fixed
+
+- Change loop limit from 20 to dec_maxlen #1464
+- fix: remove duplicate .replace mid-tone in _clean_ipa #1409
+- Fix: CodeQL ReDoS vulnerability in ULMFiT replace_url #1400
+- fix: remove unconditional overwrite that disables teacher forcing in Seq2Seq #1380
+
 ## [5.3.4] - 2026-04-02
 
 ### Fixed
@@ -308,6 +317,7 @@ The minimum requirement is now Python 3.9.
 
 - See <https://github.com/PyThaiNLP/pythainlp/releases/tag/v5.0.0>
 
+[5.3.5]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.5...v5.3.5
 [5.3.4]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.3...v5.3.4
 [5.3.3]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.2...v5.3.3
 [5.3.2]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.1...v5.3.2

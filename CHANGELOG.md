@@ -17,6 +17,21 @@ and this project adheres to
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
 - Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.3...v5.3.4>
 
+## [Unreleased]
+
+## Changed
+
+- Improve guardrails in `check_sara()` and `nighit()`
+
+## [5.3.5] - 2026-07-30
+
+### Fixed
+
+- Change loop limit from 20 to dec_maxlen #1464
+- fix: remove duplicate .replace mid-tone in _clean_ipa #1409
+- Fix: CodeQL ReDoS vulnerability in ULMFiT replace_url #1400
+- fix: remove unconditional overwrite that disables teacher forcing in Seq2Seq #1380
+
 ## [5.3.4] - 2026-04-02
 
 ### Fixed
@@ -25,6 +40,18 @@ and this project adheres to
 - "1001" -> "หนึ่งพันเอ็ด" rule (#1386).
 - Build WSD Trie after populating dictionary (#1388).
 - Doctests across all modules (#1392).
+
+## [Unreleased]
+
+### Changed
+
+- `pythainlp.tokenize.deepcut`: migrated from the TensorFlow-based `deepcut`
+  package to a built-in ONNX inference engine, removing the TensorFlow
+  dependency. The `deepcut.onnx` model (ported from
+  [LEKCut](https://github.com/PyThaiNLP/LEKCut)) is now bundled with PyThaiNLP.
+  The `segment()` API is unchanged; the `custom_dict` parameter is kept for
+  backward compatibility but is no longer applied to the model inference.
+  Deepcut tests moved from `tests/noauto_tensorflow/` to `tests/noauto_onnx/`.
 
 ## [5.3.3] - 2026-03-26
 
@@ -290,6 +317,7 @@ The minimum requirement is now Python 3.9.
 
 - See <https://github.com/PyThaiNLP/pythainlp/releases/tag/v5.0.0>
 
+[5.3.5]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.5...v5.3.5
 [5.3.4]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.3...v5.3.4
 [5.3.3]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.2...v5.3.3
 [5.3.2]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.1...v5.3.2

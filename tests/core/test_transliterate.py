@@ -38,6 +38,13 @@ BASIC_TESTS = {
     "ชารินทร์": "charin",
 }
 
+# words containing ฤ (U+0E24 THAI CHARACTER RU), see issue #1444
+RU_TESTS = {
+    "ฤก": "rueok",
+    "ฤดู": "rueadu",
+    "ฤทธิ์": "rueot",
+}
+
 # these are set of two-syllable words,
 # to test if the transliteration/romanization is consistent, say
 # romanize(1+2) = romanize(1) + romanize(2)
@@ -58,6 +65,12 @@ class TransliterateTestCase(unittest.TestCase):
 
     def test_romanize_royin_basic(self):
         for word, expect in BASIC_TESTS.items():
+            self.assertEqual(romanize(word, engine="royin"), expect)  # type: ignore[arg-type]
+
+    def test_romanize_royin_ru(self):
+        # ฤ (U+0E24) is a key of _CONSONANTS but is not in thai_consonants,
+        # so it used to desynchronize the consonant list and raise IndexError.
+        for word, expect in RU_TESTS.items():
             self.assertEqual(romanize(word, engine="royin"), expect)  # type: ignore[arg-type]
 
     def test_romanize_royin_consistency(self):

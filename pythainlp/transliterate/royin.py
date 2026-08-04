@@ -274,7 +274,10 @@ def _romanize(word: str) -> str:
         return ""
 
     word = _replace_vowels(_normalize(word))
-    consonants = _RE_CONSONANT.findall(word)
+    # Use the same membership test as _replace_consonants(), which treats
+    # every key of _CONSONANTS as a consonant. _RE_CONSONANT only matches
+    # thai_consonants, so it misses ฤ and the two lists fall out of sync.
+    consonants = [c for c in word if c in _CONSONANTS]
 
     # 2-character word, all consonants
     if len(word) == 2 and len(consonants) == 2:

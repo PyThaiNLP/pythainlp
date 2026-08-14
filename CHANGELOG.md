@@ -22,6 +22,14 @@ and this project adheres to
 ## Changed
 
 - Improve guardrails in `check_sara()` and `nighit()`
+- `pythainlp.tokenize.deepcut`: migrated from the TensorFlow-based `deepcut`
+  package to a built-in ONNX inference engine, removing the TensorFlow
+  dependency. The `deepcut.onnx` model (ported from
+  [LEKCut](https://github.com/PyThaiNLP/LEKCut)) is now bundled with PyThaiNLP.
+  The `segment()` API is unchanged; the `custom_dict` parameter is kept for
+  backward compatibility but is no longer applied to the model inference.
+  Deepcut tests moved from `tests/noauto_tensorflow/` to `tests/noauto_onnx/`.
+
 
 ## [5.3.7] - 2026-08-14
 
@@ -53,18 +61,6 @@ It was fixed the release problem.
 - "1001" -> "หนึ่งพันเอ็ด" rule (#1386).
 - Build WSD Trie after populating dictionary (#1388).
 - Doctests across all modules (#1392).
-
-## [Unreleased]
-
-### Changed
-
-- `pythainlp.tokenize.deepcut`: migrated from the TensorFlow-based `deepcut`
-  package to a built-in ONNX inference engine, removing the TensorFlow
-  dependency. The `deepcut.onnx` model (ported from
-  [LEKCut](https://github.com/PyThaiNLP/LEKCut)) is now bundled with PyThaiNLP.
-  The `segment()` API is unchanged; the `custom_dict` parameter is kept for
-  backward compatibility but is no longer applied to the model inference.
-  Deepcut tests moved from `tests/noauto_tensorflow/` to `tests/noauto_onnx/`.
 
 ## [5.3.3] - 2026-03-26
 

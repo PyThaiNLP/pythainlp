@@ -17,6 +17,12 @@ and this project adheres to
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
 - Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.3...v5.3.4>
 
+## [5.3.7] - 2026-08-14
+
+Same 5.3.6
+
+It was fixed the release problem.
+
 ## [5.3.6] - 2026-08-14
 
 ### Fixed

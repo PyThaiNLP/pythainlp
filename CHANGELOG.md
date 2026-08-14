@@ -22,6 +22,7 @@ and this project adheres to
 ### Fixed
 
 - fix(transliterate): romanize royin words containing ฤ #1473
+- fix: เอ็ด rule in num_to_thaiword #1461
 
 ## [5.3.5] - 2026-07-30
 

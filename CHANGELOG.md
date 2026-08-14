@@ -23,6 +23,19 @@ and this project adheres to
 
 - Improve guardrails in `check_sara()` and `nighit()`
 
+## [5.3.7] - 2026-08-14
+
+Same 5.3.6
+
+It was fixed the release problem.
+
+## [5.3.6] - 2026-08-14
+
+### Fixed
+
+- fix(transliterate): romanize royin words containing ฤ #1473
+- fix: เอ็ด rule in num_to_thaiword #1461
+
 ## [5.3.5] - 2026-07-30
 
 ### Fixed
@@ -317,7 +330,9 @@ The minimum requirement is now Python 3.9.
 
 - See <https://github.com/PyThaiNLP/pythainlp/releases/tag/v5.0.0>
 
-[5.3.5]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.5...v5.3.5
+[5.3.7]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.6...v5.3.7
+[5.3.6]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.5...v5.3.6
+[5.3.5]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.4...v5.3.5
 [5.3.4]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.3...v5.3.4
 [5.3.3]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.2...v5.3.3
 [5.3.2]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.1...v5.3.2

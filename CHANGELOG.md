@@ -17,6 +17,13 @@ and this project adheres to
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
 - Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.3...v5.3.4>
 
+## [5.3.6] - 2026-08-14
+
+### Fixed
+
+- fix(transliterate): romanize royin words containing ฤ #1473
+- fix: เอ็ด rule in num_to_thaiword #1461
+
 ## [5.3.5] - 2026-07-30
 
 ### Fixed

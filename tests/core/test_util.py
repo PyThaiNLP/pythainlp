@@ -147,6 +147,31 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(num_to_thaiword(101), "หนึ่งร้อยเอ็ด")
         self.assertEqual(num_to_thaiword(1001), "หนึ่งพันเอ็ด")
         self.assertEqual(num_to_thaiword(1000001), "หนึ่งล้านเอ็ด")
+        # เอ็ด rule: millions block with leading digit
+        self.assertEqual(num_to_thaiword(11000000), "สิบเอ็ดล้าน")
+        self.assertEqual(num_to_thaiword(21000000), "ยี่สิบเอ็ดล้าน")
+        self.assertEqual(num_to_thaiword(11000001), "สิบเอ็ดล้านเอ็ด")
+        self.assertEqual(num_to_thaiword(501741221), "ห้าร้อยเอ็ดล้านเจ็ดแสนสี่หมื่นหนึ่งพันสองร้อยยี่สิบเอ็ด")
+        self.assertEqual(num_to_thaiword(6001461300), "หกพันเอ็ดล้านสี่แสนหกหมื่นหนึ่งพันสามร้อย")
+        # Edge cases: simple powers
+        self.assertEqual(num_to_thaiword(10), "สิบ")
+        self.assertEqual(num_to_thaiword(20), "ยี่สิบ")
+        self.assertEqual(num_to_thaiword(100), "หนึ่งร้อย")
+        self.assertEqual(num_to_thaiword(1000), "หนึ่งพัน")
+        self.assertEqual(num_to_thaiword(10000), "หนึ่งหมื่น")
+        self.assertEqual(num_to_thaiword(100000), "หนึ่งแสน")
+        # Edge cases: full block (all 6 digits)
+        self.assertEqual(num_to_thaiword(111111), "หนึ่งแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบเอ็ด")
+        # Edge cases: large numbers with multiple ล้าน blocks
+        self.assertEqual(num_to_thaiword(1000000000), "หนึ่งพันล้าน")
+        self.assertEqual(num_to_thaiword(1000000000000), "หนึ่งล้านล้าน")
+        self.assertEqual(num_to_thaiword(10000000), "สิบล้าน")
+        self.assertEqual(num_to_thaiword(101000000), "หนึ่งร้อยเอ็ดล้าน")
+        # Edge cases: negative large numbers
+        self.assertEqual(num_to_thaiword(-1000001), "ลบหนึ่งล้านเอ็ด")
+        self.assertEqual(num_to_thaiword(-11000000), "ลบสิบเอ็ดล้าน")
+        # Edge cases: zero-like
+        self.assertEqual(num_to_thaiword(-0), "ศูนย์")
 
         self.assertEqual(thaiword_to_num("ศูนย์"), 0)
         self.assertEqual(thaiword_to_num("แปด"), 8)

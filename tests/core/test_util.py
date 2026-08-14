@@ -39,6 +39,7 @@ from pythainlp.util import (
     normalize,
     now_reign_year,
     num_to_thaiword,
+    num_to_thaiword_float,
     rank,
     reign_year_to_ad,
     remove_dangling,
@@ -137,6 +138,47 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(bahttext(0.99), "ศูนย์บาทเก้าสิบเก้าสตางค์")
         self.assertEqual(bahttext(1.00), "หนึ่งบาทถ้วน")
 
+        # num_to_thaiword_float
+        self.assertEqual(num_to_thaiword_float(123.45), "หนึ่งร้อยยี่สิบสามจุดสี่ห้า")
+        self.assertEqual(num_to_thaiword_float(0.5), "ศูนย์จุดห้า")
+        self.assertEqual(num_to_thaiword_float(123.12345), "หนึ่งร้อยยี่สิบสามจุดหนึ่งสองสามสี่ห้า")
+        self.assertEqual(num_to_thaiword_float(3.14159), "สามจุดหนึ่งสี่หนึ่งห้าเก้า")
+        self.assertEqual(num_to_thaiword_float(10.01), "สิบจุดศูนย์หนึ่ง")
+        self.assertEqual(num_to_thaiword_float(1001.001), "หนึ่งพันเอ็ดจุดศูนย์ศูนย์หนึ่ง")
+        self.assertEqual(num_to_thaiword_float(0.1), "ศูนย์จุดหนึ่ง")
+        self.assertEqual(num_to_thaiword_float(11.11), "สิบเอ็ดจุดหนึ่งหนึ่ง")
+        # Whole numbers return integer form
+        self.assertEqual(num_to_thaiword_float(1.0), "หนึ่ง")
+        self.assertEqual(num_to_thaiword_float(0.0), "ศูนย์")
+        self.assertEqual(num_to_thaiword_float(5000000.0), "ห้าล้าน")
+        # Negative float
+        self.assertEqual(num_to_thaiword_float(-3.14), "ลบสามจุดหนึ่งสี่")
+        self.assertEqual(num_to_thaiword_float(-0.5), "ลบศูนย์จุดห้า")
+        # Very small float (scientific notation)
+        self.assertEqual(num_to_thaiword_float(1e-5), "ศูนย์จุดศูนย์ศูนย์ศูนย์ศูนย์หนึ่ง")
+        self.assertEqual(
+             num_to_thaiword_float(1.23e-10),
+             "ศูนย์จุดศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์หนึ่งสองสาม",
+         )
+        self.assertEqual(num_to_thaiword_float(0.001), "ศูนย์จุดศูนย์ศูนย์หนึ่ง")
+        self.assertEqual(num_to_thaiword_float(100.0001), "หนึ่งร้อยจุดศูนย์ศูนย์ศูนย์หนึ่ง")
+        # Many decimal digits
+        self.assertEqual(num_to_thaiword_float(1.23456789), "หนึ่งจุดสองสามสี่ห้าหกเจ็ดแปดเก้า")
+        # Large integer with decimal
+        self.assertEqual(num_to_thaiword_float(1000000000.5), "หนึ่งพันล้านจุดห้า")
+        # Integer type passed
+        self.assertEqual(num_to_thaiword_float(42), "สี่สิบสอง")
+        self.assertEqual(num_to_thaiword_float(-99), "ลบเก้าสิบเก้า")
+        # Edge case: negative zero (float)
+        self.assertEqual(num_to_thaiword_float(-0.0), "ศูนย์")
+        # Edge case: large whole float
+        self.assertEqual(num_to_thaiword_float(1e9), "หนึ่งพันล้าน")
+        # Type error
+        with self.assertRaises(TypeError):
+            num_to_thaiword_float(None)  # type: ignore[arg-type]
+        with self.assertRaises(TypeError):
+            num_to_thaiword_float("not a number")  # type: ignore[arg-type]
+
         self.assertEqual(num_to_thaiword(None), "")
         self.assertEqual(num_to_thaiword(0), "ศูนย์")
         self.assertEqual(num_to_thaiword(112), "หนึ่งร้อยสิบสอง")
@@ -147,6 +189,31 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(num_to_thaiword(101), "หนึ่งร้อยเอ็ด")
         self.assertEqual(num_to_thaiword(1001), "หนึ่งพันเอ็ด")
         self.assertEqual(num_to_thaiword(1000001), "หนึ่งล้านเอ็ด")
+        # เอ็ด rule: millions block with leading digit
+        self.assertEqual(num_to_thaiword(11000000), "สิบเอ็ดล้าน")
+        self.assertEqual(num_to_thaiword(21000000), "ยี่สิบเอ็ดล้าน")
+        self.assertEqual(num_to_thaiword(11000001), "สิบเอ็ดล้านเอ็ด")
+        self.assertEqual(num_to_thaiword(501741221), "ห้าร้อยเอ็ดล้านเจ็ดแสนสี่หมื่นหนึ่งพันสองร้อยยี่สิบเอ็ด")
+        self.assertEqual(num_to_thaiword(6001461300), "หกพันเอ็ดล้านสี่แสนหกหมื่นหนึ่งพันสามร้อย")
+        # Edge cases: simple powers
+        self.assertEqual(num_to_thaiword(10), "สิบ")
+        self.assertEqual(num_to_thaiword(20), "ยี่สิบ")
+        self.assertEqual(num_to_thaiword(100), "หนึ่งร้อย")
+        self.assertEqual(num_to_thaiword(1000), "หนึ่งพัน")
+        self.assertEqual(num_to_thaiword(10000), "หนึ่งหมื่น")
+        self.assertEqual(num_to_thaiword(100000), "หนึ่งแสน")
+        # Edge cases: full block (all 6 digits)
+        self.assertEqual(num_to_thaiword(111111), "หนึ่งแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบเอ็ด")
+        # Edge cases: large numbers with multiple ล้าน blocks
+        self.assertEqual(num_to_thaiword(1000000000), "หนึ่งพันล้าน")
+        self.assertEqual(num_to_thaiword(1000000000000), "หนึ่งล้านล้าน")
+        self.assertEqual(num_to_thaiword(10000000), "สิบล้าน")
+        self.assertEqual(num_to_thaiword(101000000), "หนึ่งร้อยเอ็ดล้าน")
+        # Edge cases: negative large numbers
+        self.assertEqual(num_to_thaiword(-1000001), "ลบหนึ่งล้านเอ็ด")
+        self.assertEqual(num_to_thaiword(-11000000), "ลบสิบเอ็ดล้าน")
+        # Edge cases: zero-like
+        self.assertEqual(num_to_thaiword(-0), "ศูนย์")
 
         self.assertEqual(thaiword_to_num("ศูนย์"), 0)
         self.assertEqual(thaiword_to_num("แปด"), 8)

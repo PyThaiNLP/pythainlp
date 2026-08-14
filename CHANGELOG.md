@@ -22,6 +22,27 @@ and this project adheres to
 ## Changed
 
 - Improve guardrails in `check_sara()` and `nighit()`
+- `pythainlp.tokenize.deepcut`: migrated from the TensorFlow-based `deepcut`
+  package to a built-in ONNX inference engine, removing the TensorFlow
+  dependency. The `deepcut.onnx` model (ported from
+  [LEKCut](https://github.com/PyThaiNLP/LEKCut)) is now bundled with PyThaiNLP.
+  The `segment()` API is unchanged; the `custom_dict` parameter is kept for
+  backward compatibility but is no longer applied to the model inference.
+  Deepcut tests moved from `tests/noauto_tensorflow/` to `tests/noauto_onnx/`.
+
+
+## [5.3.7] - 2026-08-14
+
+Same 5.3.6
+
+It was fixed the release problem.
+
+## [5.3.6] - 2026-08-14
+
+### Fixed
+
+- fix(transliterate): romanize royin words containing ฤ #1473
+- fix: เอ็ด rule in num_to_thaiword #1461
 
 ## [5.3.5] - 2026-07-30
 
@@ -40,18 +61,6 @@ and this project adheres to
 - "1001" -> "หนึ่งพันเอ็ด" rule (#1386).
 - Build WSD Trie after populating dictionary (#1388).
 - Doctests across all modules (#1392).
-
-## [Unreleased]
-
-### Changed
-
-- `pythainlp.tokenize.deepcut`: migrated from the TensorFlow-based `deepcut`
-  package to a built-in ONNX inference engine, removing the TensorFlow
-  dependency. The `deepcut.onnx` model (ported from
-  [LEKCut](https://github.com/PyThaiNLP/LEKCut)) is now bundled with PyThaiNLP.
-  The `segment()` API is unchanged; the `custom_dict` parameter is kept for
-  backward compatibility but is no longer applied to the model inference.
-  Deepcut tests moved from `tests/noauto_tensorflow/` to `tests/noauto_onnx/`.
 
 ## [5.3.3] - 2026-03-26
 
@@ -317,7 +326,9 @@ The minimum requirement is now Python 3.9.
 
 - See <https://github.com/PyThaiNLP/pythainlp/releases/tag/v5.0.0>
 
-[5.3.5]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.5...v5.3.5
+[5.3.7]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.6...v5.3.7
+[5.3.6]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.5...v5.3.6
+[5.3.5]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.4...v5.3.5
 [5.3.4]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.3...v5.3.4
 [5.3.3]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.2...v5.3.3
 [5.3.2]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.1...v5.3.2

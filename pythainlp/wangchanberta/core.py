@@ -28,7 +28,7 @@ def _get_tokenizer() -> CamembertTokenizer:
         from transformers import CamembertTokenizer
 
         _tokenizer = CamembertTokenizer.from_pretrained(
-            f"airesearch/{_model_name}", revision="main"
+            f"airesearch/{_model_name}", revision="main"  # nosec B615
         )
         if _model_name == "wangchanberta-base-att-spm-uncased":
             _tokenizer.additional_special_tokens = [
@@ -164,21 +164,27 @@ class NamedEntityRecognition:
     model: PreTrainedModel
 
     def __init__(
-        self, model: str = "pythainlp/thainer-corpus-v2-base-model"
+        self,
+        model: str = "pythainlp/thainer-corpus-v2-base-model",
+        revision: Optional[str] = None,
     ) -> None:
         """This function tags named entities in text in IOB format.
 
         Powered by wangchanberta from VISTEC-depa\
              AI Research Institute of Thailand
         :param str model: The model that use wangchanberta pretrained.
+        :param Optional[str] revision: a git revision id (branch, tag, or
+            commit hash). Pin to a full commit hash for secure downloads.
         """
         from transformers import AutoModelForTokenClassification, AutoTokenizer
 
         self.tokenizer: PreTrainedTokenizerBase = (
-            AutoTokenizer.from_pretrained(model)
+            AutoTokenizer.from_pretrained(model, revision=revision)
         )
         self.model: PreTrainedModel = (
-            AutoModelForTokenClassification.from_pretrained(model)
+            AutoModelForTokenClassification.from_pretrained(
+                model, revision=revision
+            )
         )
 
     def _fix_span_error(

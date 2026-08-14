@@ -97,7 +97,7 @@ config: dict[str, Any] = {
     "emb_sz": 400,
     "n_hid": 1550,
     "n_layers": 4,
-    "pad_token": 1,
+    "pad_token": 1,  # nosec B105
     "qrnn": False,
     "tie_weights": True,
     "out_bias": True,
@@ -150,7 +150,7 @@ def gen_sentence(
     """
     if not start_seq:
         # Non-cryptographic use, pseudo-random generator is acceptable here
-        start_seq = random.choice(list(thwiki_itos))  # noqa: S311
+        start_seq = random.choice(list(thwiki_itos))  # noqa: S311  # nosec B311  # NOSONAR
     predicted_text: str = learn.predict(
         start_seq, N, temperature=0.8, min_p=prob, sep="-*-"
     )

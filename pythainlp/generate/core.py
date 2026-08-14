@@ -82,7 +82,7 @@ class Unigram:
         """
         if not start_seq:
             # Non-cryptographic use, pseudo-random generator is acceptable here
-            start_seq = random.choice(self.word)  # noqa: S311
+            start_seq = random.choice(self.word)  # noqa: S311  # nosec B311  # NOSONAR
         rand_text = start_seq.lower()
         self._word_prob = {
             i: self.counts[i] / self.n
@@ -108,10 +108,10 @@ class Unigram:
             N = len(word_list)
         for _ in range(N):
             # Non-cryptographic use, pseudo-random generator is acceptable here
-            w = random.choice(word_list)  # noqa: S311
+            w = random.choice(word_list)  # noqa: S311  # nosec B311  # NOSONAR
             if duplicate is False:
                 while w in words:
-                    w = random.choice(word_list)  # noqa: S311
+                    w = random.choice(word_list)  # noqa: S311  # nosec B311  # NOSONAR
             words.append(w)
 
         if output_str:
@@ -185,7 +185,7 @@ class Bigram:
         """
         if not start_seq:
             # Non-cryptographic use, pseudo-random generator is acceptable here
-            start_seq = random.choice(self.words)  # noqa: S311
+            start_seq = random.choice(self.words)  # noqa: S311  # nosec B311  # NOSONAR
         late_word = start_seq
         list_word = []
         list_word.append(start_seq)
@@ -204,7 +204,7 @@ class Bigram:
             if len(p2) == 0:
                 break
             # Non-cryptographic use, pseudo-random generator is acceptable here
-            items = temp[probs.index(random.choice(p2))]  # noqa: S311
+            items = temp[probs.index(random.choice(p2))]  # noqa: S311  # nosec B311  # NOSONAR
             late_word = items[-1]
             list_word.append(late_word)
 
@@ -288,7 +288,7 @@ class Trigram:
         late_word: Union[str, tuple[str, str]]
         if not start_seq:
             # Non-cryptographic use, pseudo-random generator is acceptable here
-            start_seq = random.choice(self.bi_keys)  # noqa: S311
+            start_seq = random.choice(self.bi_keys)  # noqa: S311  # nosec B311  # NOSONAR
         late_word = start_seq
         list_word: list[Union[str, tuple[str, str]]] = []
         list_word.append(start_seq)
@@ -307,7 +307,7 @@ class Trigram:
             if len(p2) == 0:
                 break
             # Non-cryptographic use, pseudo-random generator is acceptable here
-            items = temp[probs.index(random.choice(p2))]  # noqa: S311
+            items = temp[probs.index(random.choice(p2))]  # noqa: S311  # nosec B311  # NOSONAR
             late_word = items[1:]
             list_word.append(late_word)
 

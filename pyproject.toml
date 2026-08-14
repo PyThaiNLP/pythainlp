@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
+# SPDX-FileCopyrightText: 2016-present PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
@@ -71,6 +71,7 @@ dependencies = [
 ## 1) Development ########################################
 
 dev = [
+    "bandit>=1.9.4",
     "black>=25.11.0",
     "build>=1.0.0",
     "bump-my-version>=1.2.6",
@@ -218,7 +219,6 @@ noauto-torch = [
 
 # TensorFlow-based dependencies - for tests.noauto_tensorflow
 noauto-tensorflow = [
-    "deepcut>=0.7.0",
     "numpy>=1.26.0",
 ]
 
@@ -247,8 +247,6 @@ full = [
     "attaparse==1.0.0",
     "bpemb>=0.3.6,<0.4",
     "budoux==0.7.0",
-    "deepcut==0.7.0.0",
-    "emoji>=0.6.0,<1",
     "epitran==1.26.0",
     "esupar>=1.3.9,<2",
     'fairseq>=0.10.0,<0.13;python_version<"3.11"',
@@ -271,16 +269,16 @@ full = [
     "PyYAML>=5.4.1,<6.0.2",
     "sacremoses==0.1.1",
     "sentence-transformers>=2.7.0,<3",
-    "sentencepiece==0.2.1",
+    "sentencepiece==0.2.2",
     "spacy==3.8.7,<4",
     "spacy_thai==0.7.8",
     "ssg==0.0.8",
     "sefr_cut>=1.1",
-    "symspellpy==6.9.0",
+    "symspellpy==6.10.0",
     "thai-nner==0.3",
     "tltk>=1.10,<2",
     "torch>=1.13.1,<3",
-    "transformers==4.57.6",
+    "transformers==5.14.1",
     "ufal.chu-liu-edmonds==1.0.3",
     "word2word>=1.0.0,<2",
     "wtpsplit==1.3.0",
@@ -310,6 +308,11 @@ include = [
     "LICENSE",
     "README.md",
 ]
+
+[tool.bandit]
+# Skip tests that produce known false positives or are accepted risks.
+# B110: Try/Except/Pass. Accepted pattern in optional-dependency loading.
+skips = ["B110"]
 
 [tool.bumpversion]
 current_version = "5.3.6"
@@ -449,7 +452,6 @@ module = [
     "attaparse.*",
     "bpemb.*",
     "budoux.*",
-    "deepcut.*",
     "emoji.*",
     "epitran.*",
     "esupar.*",

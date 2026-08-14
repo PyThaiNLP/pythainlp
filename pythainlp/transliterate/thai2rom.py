@@ -49,7 +49,7 @@ class ThaiTransliterator:
                 f"    CLI:    thainlp data get {_MODEL_NAME}"
             )
 
-        loader = torch.load(self.__model_filename, map_location=device)
+        loader = torch.load(self.__model_filename, map_location=device)  # nosec B614
 
         INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT = loader["encoder_params"]
         OUTPUT_DIM, D_EMB_DIM, D_HID_DIM, D_DROPOUT = loader["decoder_params"]
@@ -419,7 +419,7 @@ class Seq2Seq(nn.Module):  # type: ignore[misc]
             outputs[di] = decoder_output.to(device)
 
             # Non-cryptographic use, pseudo-random generator is acceptable here
-            teacher_force = random.random() < teacher_forcing_ratio  # noqa: S311
+            teacher_force = random.random() < teacher_forcing_ratio  # noqa: S311  # nosec B311  # NOSONAR
 
             if teacher_force and target_seq is not None:
                 decoder_input = target_seq[:, di].reshape(batch_size, 1)

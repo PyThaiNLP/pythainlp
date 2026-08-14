@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from typing import Optional
 
-__all__: list[str] = ["bahttext", "num_to_thaiword"]
+__all__: list[str] = ["bahttext", "num_to_thaiword", "num_to_thaiword_float"]
 
 _VALUES: list[str] = [
     "",
@@ -27,6 +27,18 @@ _VALUES: list[str] = [
     "เก้า",
 ]
 _PLACES: list[str] = ["", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน"]
+_DIGITS: list[str] = [
+    "ศูนย์",
+    "หนึ่ง",
+    "สอง",
+    "สาม",
+    "สี่",
+    "ห้า",
+    "หก",
+    "เจ็ด",
+    "แปด",
+    "เก้า",
+]
 _EXCEPTIONS: dict[str, str] = {"หนึ่งสิบ": "สิบ", "สองสิบ": "ยี่สิบ", "สิบหนึ่ง": "สิบเอ็ด"}
 
 
@@ -151,3 +163,81 @@ def num_to_thaiword(number: Optional[int]) -> str:
         output = "ลบ" + output
 
     return output
+
+
+def num_to_thaiword_float(number: float) -> str:
+    """Converts a floating-point number to Thai text.
+
+    The integer part is converted using :func:`num_to_thaiword`.
+    The decimal point is read as "จุด".
+    Each digit after the decimal is read individually without place descriptions.
+
+    :param float number: a floating-point number to be converted to Thai text
+    :return: text representing the number in Thai
+    :rtype: str
+    :raises TypeError: if *number* is not a numeric type
+
+    :Example:
+
+        >>> from pythainlp.util import num_to_thaiword_float
+        >>> num_to_thaiword_float(123.45)
+        'หนึ่งร้อยยี่สิบสามจุดสี่ห้า'
+        >>> num_to_thaiword_float(3.14159)
+        'สามจุดหนึ่งสี่หนึ่งห้าเก้า'
+    """
+    if not isinstance(number, (int, float)):
+        raise TypeError(
+            f"number must be a numeric type, not {type(number).__name__!r}"
+        )
+
+    # Reject non-finite floats early (nan/inf), since they cannot be rendered.
+    if isinstance(number, float):
+        import math
+
+        if not math.isfinite(number):
+            raise ValueError("number must be a finite float")
+
+    # Handle whole numbers (including integer types)
+    if isinstance(number, int) or (isinstance(number, float) and number.is_integer()):
+        return num_to_thaiword(int(number))
+
+    # Capture sign for negative floats
+    is_negative: bool = number < 0
+    num_abs: float = abs(number)
+    num_str: str = str(num_abs)
+
+    # Handle scientific notation (e.g., "1e-05", "1.23e-10")
+    if "e" in num_str or "E" in num_str:
+        mantissa, exp_str = num_str.lower().split("e", 1)
+        exponent: int = int(exp_str)
+
+        if "." in mantissa:
+            mant_int, mant_frac = mantissa.split(".", 1)
+            digits = mant_int + mant_frac
+            decimal_places = len(mant_frac)
+        else:
+            digits = mantissa
+            decimal_places = 0
+
+        shift = exponent - decimal_places
+        if shift >= 0:
+            num_str = digits + ("0" * shift)
+        else:
+            pos = len(digits) + shift
+            if pos > 0:
+                num_str = digits[:pos] + "." + digits[pos:]
+            else:
+                num_str = "0." + ("0" * (-pos)) + digits
+    if "." not in num_str:
+        result = num_to_thaiword(int(num_str))
+    else:
+        int_part, dec_part = num_str.split(".")
+        result = num_to_thaiword(int(int_part))
+        result += "จุด"
+        for digit in dec_part:
+            result += _DIGITS[int(digit)]
+
+    if is_negative:
+        result = "ลบ" + result
+
+    return result

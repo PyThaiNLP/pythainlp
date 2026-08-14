@@ -29,7 +29,7 @@ class Thai2transformersAug:
         self.target_tokenizer: type[CamembertTokenizer] = CamembertTokenizer
         self.tokenizer: CamembertTokenizer = (
             CamembertTokenizer.from_pretrained(
-                self.model_name, revision="main"
+                self.model_name, revision="main"  # nosec B615
             )
         )
         self.tokenizer.additional_special_tokens = [

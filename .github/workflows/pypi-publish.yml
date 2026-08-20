@@ -30,13 +30,12 @@ concurrency:
     }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-
 jobs:
   echo_github_env:
     name: Echo env variables
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
     - run: |
         echo "github.event.action   : ${{ github.event.action }}"
@@ -51,6 +50,8 @@ jobs:
     runs-on: ubuntu-latest
     # Not for forks
     if: github.repository == 'pythainlp/pythainlp'
+    permissions:
+      contents: read
     outputs:
       build: ${{ steps.check_build_trigger.outputs.build }}
     steps:
@@ -71,6 +72,8 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.13"]
+    permissions:
+      contents: read
     outputs:
       sbom-path: ${{ steps.pitloom.outputs.sbom-path }}
 
@@ -162,6 +165,8 @@ jobs:
     # Only runs if "build" (including all SBOM checks) succeeded, so a
     # missing, misplaced, or invalid SBOM stops publishing entirely.
     if: needs.build.result == 'success' && github.event_name == 'release' && github.event.action == 'published'
+    permissions:
+      contents: read
     steps:
     - name: Retrieve distributions
       uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1

@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import Optional
+
 
 def pos_tag(
     words: list[str], engine: str = "perceptron", corpus: str = "orchid"
@@ -168,6 +170,7 @@ def pos_tag_transformers(
     sentence: str,
     engine: str = "bert",
     corpus: str = "blackboard",
+    revision: Optional[str] = None,
 ) -> list[list[tuple[str, str]]]:
     """Marks sentences with part-of-speech (POS) tags.
 
@@ -189,6 +192,8 @@ def pos_tag_transformers(
             <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ \
             treebanks, natively use Universal POS tags \
             (support wangchanberta and mdeberta engine)
+    :param Optional[str] revision: a git revision id (branch, tag, or commit
+        hash) for the model. Pin to a full commit hash for secure downloads.
     :return: a list of lists of tuples (word, POS tag)
     :rtype: list[list[tuple[str, str]]]
 
@@ -228,12 +233,16 @@ def pos_tag_transformers(
 
     if corpus == "blackboard" and engine in _blackboard_support_engine.keys():
         base_model = _blackboard_support_engine.get(engine)
-        model = AutoModelForTokenClassification.from_pretrained(base_model)
-        tokenizer = AutoTokenizer.from_pretrained(base_model)
+        model = AutoModelForTokenClassification.from_pretrained(
+            base_model, revision=revision
+        )
+        tokenizer = AutoTokenizer.from_pretrained(base_model, revision=revision)
     elif corpus == "pud" and engine in _pud_support_engine.keys():
         base_model = _pud_support_engine.get(engine)
-        model = AutoModelForTokenClassification.from_pretrained(base_model)
-        tokenizer = AutoTokenizer.from_pretrained(base_model)
+        model = AutoModelForTokenClassification.from_pretrained(
+            base_model, revision=revision
+        )
+        tokenizer = AutoTokenizer.from_pretrained(base_model, revision=revision)
     else:
         raise ValueError(
             f"pos_tag_transformers not support {engine} engine or {corpus} corpus."

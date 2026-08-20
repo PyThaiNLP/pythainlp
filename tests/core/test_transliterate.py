@@ -4,7 +4,7 @@
 
 import unittest
 
-from pythainlp.transliterate import romanize, transliterate
+from pythainlp.transliterate import pronunciate_pali, romanize, transliterate
 
 BASIC_TESTS = {
     None: "",
@@ -38,6 +38,13 @@ BASIC_TESTS = {
     "ชารินทร์": "charin",
 }
 
+# words containing ฤ (U+0E24 THAI CHARACTER RU), see issue #1444
+RU_TESTS = {
+    "ฤก": "rueok",
+    "ฤดู": "rueadu",
+    "ฤทธิ์": "rueot",
+}
+
 # these are set of two-syllable words,
 # to test if the transliteration/romanization is consistent, say
 # romanize(1+2) = romanize(1) + romanize(2)
@@ -58,6 +65,12 @@ class TransliterateTestCase(unittest.TestCase):
 
     def test_romanize_royin_basic(self):
         for word, expect in BASIC_TESTS.items():
+            self.assertEqual(romanize(word, engine="royin"), expect)  # type: ignore[arg-type]
+
+    def test_romanize_royin_ru(self):
+        # ฤ (U+0E24) is a key of _CONSONANTS but is not in thai_consonants,
+        # so it used to desynchronize the consonant list and raise IndexError.
+        for word, expect in RU_TESTS.items():
             self.assertEqual(romanize(word, engine="royin"), expect)  # type: ignore[arg-type]
 
     def test_romanize_royin_consistency(self):
@@ -101,4 +114,79 @@ class TransliterateTestCase(unittest.TestCase):
         )
         self.assertEqual(
             transliterate("ภาษาไทย", engine="iso_11940"), "p̣hās̛̄āịthy"
+        )
+
+    def test_pronunciate_pali(self):
+        # rule 1
+        self.assertEqual(
+            pronunciate_pali("ติสรเณนสห"), "ติสะระเณนะสะหะ"
+        )
+        self.assertEqual(
+            pronunciate_pali("สีลานิ ยาจาม"), "สีลานิ ยาจามะ"
+        )
+        self.assertEqual(
+            pronunciate_pali("ภควา"), "ภะคะวา"
+        )
+        self.assertEqual(
+            pronunciate_pali("อรหโต"), "อะระหะโต"
+        )
+        self.assertEqual(
+            pronunciate_pali("โลกวิทู"), "โลกะวิทู"
+        )
+        self.assertEqual(
+            pronunciate_pali("นมามิ"), "นะมามิ"
+        )
+        # rule 2
+        self.assertEqual(
+            pronunciate_pali("สมฺมา"), "สัมมา"
+        )
+        self.assertEqual(
+            pronunciate_pali("สงฺโฆ"), "สังโฆ"
+        )
+        self.assertEqual(
+            pronunciate_pali("พุทฺโธ"), "พุทโธ"
+        )
+        self.assertEqual(
+            pronunciate_pali("พุทฺธสฺส"), "พุทธัสสะ"
+        )
+        self.assertEqual(
+            pronunciate_pali("สนฺทิฏฺฐิโก"), "สันทิฏฐิโก"
+        )
+        self.assertEqual(
+            pronunciate_pali("ปาหุเนยฺโย"), "ปาหุเนยโย"
+        )
+        # rule 3
+        self.assertEqual(
+            pronunciate_pali("มยํ"), "มะยัง"
+        )
+        self.assertEqual(
+            pronunciate_pali("วิสุ ํ"), "วิสุง"
+        )
+        self.assertEqual(
+            pronunciate_pali("อรหํ"), "อะระหัง"
+        )
+        self.assertEqual(
+            pronunciate_pali("สงฺฆํ"), "สังฆัง"
+        )
+        self.assertEqual(
+            pronunciate_pali("ธมฺมํ"), "ธัมมัง"
+        )
+        self.assertEqual(
+            pronunciate_pali("สรณํ"), "สะระณัง"
+        )
+        self.assertEqual(
+            pronunciate_pali("สีล ํ"), "สีลัง"
+        )
+        self.assertEqual(
+            pronunciate_pali("พาหุ ํ"), "พาหุง"
+        )
+        # rule 4,5
+        self.assertEqual(
+            pronunciate_pali("สฺวากฺขาโต"), "สวากขาโต"
+        )
+        self.assertEqual(
+            pronunciate_pali("พฺยาธิ"), "พยาธิ"
+        )
+        self.assertEqual(
+            pronunciate_pali("พฺราหฺมณ"), "พราหมะณะ"
         )

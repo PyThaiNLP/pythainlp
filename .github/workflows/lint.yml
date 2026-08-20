@@ -43,9 +43,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7.0.1
     - name: Ruff
-      uses: astral-sh/ruff-action@v3
+      uses: astral-sh/ruff-action@v4.1.0
       with:
         src: "./pythainlp ./tests ./examples"
         args: check --verbose --config pyproject.toml

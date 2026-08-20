@@ -294,7 +294,7 @@ class Thai_W2P:
         h = last_hidden
 
         preds: list[int] = []
-        for _ in range(20):
+        for _ in range(hp.dec_maxlen):
             h = self._grucell(
                 dec,
                 h,

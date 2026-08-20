@@ -364,6 +364,11 @@ values = ["dev", "beta", "prod"]
 [tool.coverage.run]
 source = ["pythainlp"]
 
+[[tool.pitloom.creator]]
+name = "Wannaphong Phatthiyaphaibun"
+email = "wannaphong@pythainlp.org"
+type = "person"
+
 [tool.ruff]
 indent-width = 4
 line-length = 79

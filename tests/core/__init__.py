@@ -26,6 +26,7 @@ test_packages: list[str] = [
     "tests.core.test_transliterate",
     "tests.core.test_transliterate_wiktionary",
     "tests.core.test_util",
+    "tests.core.test_util_cython",
 ]
 
 

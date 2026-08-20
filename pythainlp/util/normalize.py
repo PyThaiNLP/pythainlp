@@ -145,8 +145,7 @@ def remove_tonemark(text: str) -> str:
         'สองพันหนึงรอยสีสิบเจ็ดลานสีแสนแปดหมืนสามพันหกรอยสีสิบเจ็ด'
     """
     for ch in tonemarks:
-        while ch in text:
-            text = text.replace(ch, "")
+        text = text.replace(ch, "")
     return text
 
 
@@ -386,3 +385,14 @@ def maiyamok(sent: Union[str, list[str]]) -> list[str]:
         "5.2",
     )
     return expand_maiyamok(sent)
+
+
+# Keep references to the pure-Python implementations before the Cython
+# override below so they remain importable for benchmarking and testing.
+_py_remove_tonemark = remove_tonemark
+_py_remove_dup_spaces = remove_dup_spaces
+
+# Note: Cython overrides for remove_tonemark and remove_dup_spaces are NOT
+# loaded here — Python's str.replace() bulk C operations outperform the
+# Cython encode→byte-filter→decode approach.  The Cython implementations
+# remain in pythainlp._ext._normalize_fast for reference and testing.

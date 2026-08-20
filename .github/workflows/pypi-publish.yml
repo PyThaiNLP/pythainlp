@@ -30,7 +30,8 @@ concurrency:
     }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   echo_github_env:
@@ -69,7 +70,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.12"]
+        python-version: ["3.13"]
     outputs:
       sbom-path: ${{ steps.pitloom.outputs.sbom-path }}
 
@@ -86,8 +87,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install --upgrade pip
-        pip install build spdx3-validate twine
+        pip install --only-binary :all: "pip==26.2.1"
+        pip install --only-binary :all: "build==1.5.0" "spdx3-validate==0.0.7" "twine==7.0.0"
 
     - name: Build source distribution and wheels
       run: python -m build

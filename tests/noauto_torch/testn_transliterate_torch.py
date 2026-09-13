@@ -68,6 +68,24 @@ class TransliterateTestCaseN(unittest.TestCase):
         self.assertIn("<start>", g2p._target_char_to_ix)
         self.assertIn("<end>", g2p._target_char_to_ix)
 
+    def test_thaig2p_no_repetition_runaway(self):
+        # Regression test for https://github.com/PyThaiNLP/pythainlp/issues/1403
+        # thaig2p.py shares the same greedy-decoding Seq2Seq loop as
+        # thai2rom.py and could get stuck in a repetition loop, running
+        # to the hard _maxlength=100 cap for these inputs.
+        from pythainlp.transliterate.thaig2p import transliterate
+
+        for word in (
+            "กรุงเทพฯ",
+            "ฯลฯ",
+            "ราษฎรบำรุง",
+            "สตรีเศรษฐบุตรบำเพ็ญ",
+            "เอ็มเอฟซีบัญชีเพื่อการชำระค่ารับซื้อคืน",
+            "บัญชีเพื่อการชำระค่าขายคืนหน่วยลงทุน",
+        ):
+            result = transliterate(word)
+            self.assertLess(len(result), 100)
+
     def test_thaig2p_v2_returns_string(self):
         from pythainlp.transliterate.thaig2p_v2 import transliterate
 

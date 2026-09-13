@@ -19,6 +19,15 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Fixed
+
+- `pythainlp.transliterate.romanize` with the `thai2rom` and `thai2rom_onnx`
+  engines: greedy decoding could get stuck in a cycle and run to the hard
+  100-character length cap, returning strings like
+  `krungtheppaaaa...aaaa` for inputs such as `กรุงเทพฯ`, `ฯลฯ`, or long
+  Pali/Sanskrit-derived compounds. Decoding now stops as soon as a short
+  output cycle repeats 3 times in a row. (issue #1403)
+
 ## Changed
 
 - Improve guardrails in `check_sara()` and `nighit()`

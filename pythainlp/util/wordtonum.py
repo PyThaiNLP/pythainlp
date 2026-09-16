@@ -57,7 +57,23 @@ def _tokenizer() -> Tokenizer:
     return Tokenizer(custom_dict=_valid_tokens)
 
 
-def _check_is_thainum(word: str) -> tuple[bool, Optional[str]]:
+def _check_is_thainum(
+    word: str,
+    tokens: Optional[list[str]] = None,
+    i: Optional[int] = None,
+    thainum: Optional[list[str]] = None,
+) -> tuple[bool, Optional[str]]:
+    if (
+        word == "ศูนย์"
+        and tokens is not None
+        and i is not None
+        and thainum is not None
+    ):
+        if "จุด" in thainum or (
+            i + 1 < len(tokens) and tokens[i + 1] == "จุด"
+        ):
+            return (True, "num")
+        return (False, None)
     for j in _digits:
         if j in word:
             return (True, "num")

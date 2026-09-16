@@ -183,6 +183,16 @@ def words_to_num(words: list[str]) -> float:
     return num
 
 
+def _flush(thainum: list[str], result: list[str]) -> None:
+    has_digit = any(
+        w == "ศูนย์" or _check_is_thainum(w)[1] == "num" for w in thainum
+    )
+    if has_digit:
+        result.append(str(words_to_num(thainum)))
+    else:
+        result.extend(thainum)
+
+
 def text_to_num(text: str) -> list[str]:
     """Thai text to list of Thai words with floating point numbers
 
@@ -211,7 +221,7 @@ def text_to_num(text: str) -> list[str]:
             and i + 1 == len(_temp)
         ):
             thainum.append(word)
-            list_word_new.append(str(words_to_num(thainum)))
+            _flush(thainum, list_word_new)
         elif isthainum and last_index + 1 == i:
             thainum.append(word)
             last_index = i
@@ -223,7 +233,7 @@ def text_to_num(text: str) -> list[str]:
             and last_index + 1 == i
             and last_index != -1
         ):
-            list_word_new.append(str(words_to_num(thainum)))
+            _flush(thainum, list_word_new)
             thainum = []
             list_word_new.append(word)
         else:

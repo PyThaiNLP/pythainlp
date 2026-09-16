@@ -59,19 +59,11 @@ def _tokenizer() -> Tokenizer:
 
 def _check_is_thainum(
     word: str,
-    tokens: Optional[list[str]] = None,
-    i: Optional[int] = None,
+    next_word: str = "",
     thainum: Optional[list[str]] = None,
 ) -> tuple[bool, Optional[str]]:
-    if (
-        word == "ศูนย์"
-        and tokens is not None
-        and i is not None
-        and thainum is not None
-    ):
-        if "จุด" in thainum or (
-            i + 1 < len(tokens) and tokens[i + 1] == "จุด"
-        ):
+    if word == "ศูนย์" and thainum is not None:
+        if "จุด" in thainum or next_word == "จุด":
             return (True, "num")
         return (False, None)
     for j in _digits:
@@ -214,7 +206,8 @@ def text_to_num(text: str) -> list[str]:
     last_index = -1
     list_word_new = []
     for i, word in enumerate(_temp):
-        isthainum = _check_is_thainum(word, _temp, i, thainum)[0]
+        next_word = _temp[i + 1] if i + 1 < len(_temp) else ""
+        isthainum = _check_is_thainum(word, next_word, thainum)[0]
         if isthainum and last_index + 1 == i and i + 1 == len(_temp):
             thainum.append(word)
             _flush(thainum, list_word_new)

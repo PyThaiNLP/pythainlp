@@ -91,7 +91,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install --only-binary :all: "pip==26.2.1"
-        pip install --only-binary :all: "build==1.5.0" "spdx3-validate==0.0.7" "twine==7.0.0"
+        pip install --only-binary :all: "build==1.6.1" "spdx3-validate==0.0.7" "twine==7.0.0"
 
     - name: Build source distribution and wheels
       run: python -m build
@@ -101,7 +101,7 @@ jobs:
 
     - name: Generate SBOM and embed into the wheel
       id: pitloom
-      uses: bact/pitloom@4842922f65fb7ed1c5e51507c0fb253c62d97960 # v0.16.2
+      uses: bact/pitloom@f5d6cf5e4ce669e2131d34422304576b5d31f218 # v0.18.0
       with:
         embed-wheel: "dist/*.whl"
         project-path: "."

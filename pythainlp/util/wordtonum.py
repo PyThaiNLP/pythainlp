@@ -188,21 +188,22 @@ def text_to_num(text: str) -> list[str]:
     last_index = -1
     list_word_new = []
     for i, word in enumerate(_temp):
+        isthainum = _check_is_thainum(word, _temp, i, thainum)[0]
         if (
-            _check_is_thainum(word)[0]
+            isthainum
             and last_index + 1 == i
             and i + 1 == len(_temp)
         ):
             thainum.append(word)
             list_word_new.append(str(words_to_num(thainum)))
-        elif _check_is_thainum(word)[0] and last_index + 1 == i:
+        elif isthainum and last_index + 1 == i:
             thainum.append(word)
             last_index = i
-        elif _check_is_thainum(word)[0]:
+        elif isthainum:
             thainum.append(word)
             last_index = i
         elif (
-            not _check_is_thainum(word)[0]
+            not isthainum
             and last_index + 1 == i
             and last_index != -1
         ):

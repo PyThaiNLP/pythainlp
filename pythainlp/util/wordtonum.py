@@ -57,7 +57,15 @@ def _tokenizer() -> Tokenizer:
     return Tokenizer(custom_dict=_valid_tokens)
 
 
-def _check_is_thainum(word: str) -> tuple[bool, Optional[str]]:
+def _check_is_thainum(
+    word: str,
+    next_word: str = "",
+    thainum: Optional[list[str]] = None,
+) -> tuple[bool, Optional[str]]:
+    if word == "ศูนย์" and thainum is not None:
+        if "จุด" in thainum or next_word == "จุด":
+            return (True, "num")
+        return (False, None)
     for j in _digits:
         if j in word:
             return (True, "num")
@@ -167,6 +175,16 @@ def words_to_num(words: list[str]) -> float:
     return num
 
 
+def _flush(thainum: list[str], result: list[str]) -> None:
+    has_digit = any(
+        w == "ศูนย์" or _check_is_thainum(w)[1] == "num" for w in thainum
+    )
+    if has_digit:
+        result.append(str(words_to_num(thainum)))
+    else:
+        result.extend(thainum)
+
+
 def text_to_num(text: str) -> list[str]:
     """Thai text to list of Thai words with floating point numbers
 
@@ -188,25 +206,19 @@ def text_to_num(text: str) -> list[str]:
     last_index = -1
     list_word_new = []
     for i, word in enumerate(_temp):
-        if (
-            _check_is_thainum(word)[0]
-            and last_index + 1 == i
-            and i + 1 == len(_temp)
-        ):
+        next_word = _temp[i + 1] if i + 1 < len(_temp) else ""
+        isthainum = _check_is_thainum(word, next_word, thainum)[0]
+        if isthainum and last_index + 1 == i and i + 1 == len(_temp):
             thainum.append(word)
-            list_word_new.append(str(words_to_num(thainum)))
-        elif _check_is_thainum(word)[0] and last_index + 1 == i:
+            _flush(thainum, list_word_new)
+        elif isthainum and last_index + 1 == i:
             thainum.append(word)
             last_index = i
-        elif _check_is_thainum(word)[0]:
+        elif isthainum:
             thainum.append(word)
             last_index = i
-        elif (
-            not _check_is_thainum(word)[0]
-            and last_index + 1 == i
-            and last_index != -1
-        ):
-            list_word_new.append(str(words_to_num(thainum)))
+        elif not isthainum and last_index + 1 == i and last_index != -1:
+            _flush(thainum, list_word_new)
             thainum = []
             list_word_new.append(word)
         else:

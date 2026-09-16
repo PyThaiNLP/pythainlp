@@ -287,6 +287,39 @@ class UtilTestCase(unittest.TestCase):
         with self.assertRaises(TypeError):
             text_to_thai_digit(None)  # type: ignore[arg-type]
 
+    def test_text_to_num_zero(self):
+        # "ศูนย์" (zero) is excluded from the digit table as a special
+        # case, which used to corrupt or crash on any floating-point
+        self.assertEqual(
+            text_to_num("หนึ่งร้อยยี่สิบสี่จุดศูนย์สี่"), ["124.04"]
+        )
+        self.assertEqual(
+            text_to_num("หนึ่งร้อยยี่สิบเอ็ดจุดศูนย์สี่ห้า"), ["121.045"]
+        )
+        self.assertEqual(text_to_num("ศูนย์จุดศูนย์เก้า"), ["0.09"])
+        self.assertEqual(text_to_num("ห้าจุดศูนย์ศูนย์เก้า"), ["5.009"])
+        self.assertEqual(text_to_num("สามจุดสี่ศูนย์เก้าศูนย์"), ["3.409"])
+
+        # "ศูนย์" as part of an ordinary word (e.g. "center") must stay
+        self.assertEqual(
+            text_to_num("ศูนย์ประชุมอยู่ที่กรุงเทพ"),
+            ["ศูนย์", "ประชุม", "อยู่", "ที่", "กรุงเทพ"],
+        )
+        self.assertEqual(
+            text_to_num("ค่าเช่าศูนย์ประชุมคือหนึ่งร้อยบาท"),
+            ["ค่าเช่า", "ศูนย์", "ประชุม", "คือ", "100", "บาท"],
+        )
+
+        # "จุด" as an ordinary word (e.g. "point/spot") must not crash
+        self.assertEqual(
+            text_to_num("จุดศูนย์กลางของเมืองอยู่ที่นี่"),
+            ["จุด", "ศูนย์กลาง", "ของ", "เมือง", "อยู่", "ที่นี่"],
+        )
+        self.assertEqual(
+            text_to_num("จุดศูนย์รวมของทุกคนคือที่นี่"),
+            ["จุด", "ศูนย์รวม", "ของ", "ทุกคน", "คือ", "ที่นี่"],
+        )
+
     # ### pythainlp.util.keyboard
 
     def test_keyboard(self):

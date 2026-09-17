@@ -207,7 +207,7 @@ class RepetitionCycleTestCase(unittest.TestCase):
     def test_single_char_cycle(self):
         # e.g. the "aaaa..." tail seen for "กรุงเทพฯ"
         self.assertEqual(find_trailing_repeat_period([9, 1, 1, 1]), 1)
-        self.assertEqual(find_trailing_repeat_period([1, 1]), None)
+        self.assertIsNone(find_trailing_repeat_period([1, 1]))
 
     def test_multi_char_cycle(self):
         # e.g. the "botbotbot..." tail seen for "ราษฎรบำรุง"

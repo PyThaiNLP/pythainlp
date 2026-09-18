@@ -267,7 +267,7 @@ full = [
     "pyicu>=2.15.2,<3",
     "python-crfsuite==0.9.12",
     "PyYAML>=5.4.1,<6.0.2",
-    "sacremoses==0.1.1",
+    "sacremoses==0.2.0",
     "sentence-transformers>=2.7.0,<3",
     "sentencepiece==0.2.2",
     "spacy==3.8.7,<4",

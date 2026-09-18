@@ -5,6 +5,7 @@
 import unittest
 
 from pythainlp.transliterate import pronunciate_pali, romanize, transliterate
+from pythainlp.transliterate._repetition import find_trailing_repeat_period
 
 BASIC_TESTS = {
     None: "",
@@ -190,3 +191,36 @@ class TransliterateTestCase(unittest.TestCase):
         self.assertEqual(
             pronunciate_pali("พฺราหฺมณ"), "พราหมะณะ"
         )
+
+
+class RepetitionCycleTestCase(unittest.TestCase):
+    """Tests for the greedy-decoding cycle detector.
+
+    See: https://github.com/PyThaiNLP/pythainlp/issues/1403
+    """
+
+    def test_no_cycle(self):
+        self.assertIsNone(find_trailing_repeat_period([]))
+        self.assertIsNone(find_trailing_repeat_period([1, 2, 3, 4, 5]))
+        self.assertIsNone(find_trailing_repeat_period([1, 1, 2, 2]))
+
+    def test_single_char_cycle(self):
+        # e.g. the "aaaa..." tail seen for "กรุงเทพฯ"
+        self.assertEqual(find_trailing_repeat_period([9, 1, 1, 1]), 1)
+        self.assertIsNone(find_trailing_repeat_period([1, 1]))
+
+    def test_multi_char_cycle(self):
+        # e.g. the "botbotbot..." tail seen for "ราษฎรบำรุง"
+        tokens = [9, 8, 7, 1, 2, 3, 1, 2, 3, 1, 2, 3]
+        self.assertEqual(find_trailing_repeat_period(tokens), 3)
+
+    def test_longer_period_requires_larger_max_period(self):
+        period = list(range(8))
+        tokens = period * 3
+        self.assertIsNone(find_trailing_repeat_period(tokens, max_period=5))
+        self.assertEqual(find_trailing_repeat_period(tokens, max_period=8), 8)
+
+    def test_min_repeats_threshold(self):
+        tokens = [1, 2, 1, 2]  # only repeats twice
+        self.assertIsNone(find_trailing_repeat_period(tokens, min_repeats=3))
+        self.assertEqual(find_trailing_repeat_period(tokens, min_repeats=2), 2)

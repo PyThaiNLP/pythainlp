@@ -36,6 +36,21 @@ class TransliterateTestCaseN(unittest.TestCase):
         result = romanize("")
         self.assertIsInstance(result, str)
 
+    def test_thai2rom_no_repetition_runaway(self):
+        # Regression test for https://github.com/PyThaiNLP/pythainlp/issues/1403
+        # Greedy decoding used to get stuck in a repetition loop and run
+        # to the hard _maxlength=100 cap for these inputs.
+        from pythainlp.transliterate.thai2rom import romanize
+
+        for word in (
+            "กรุงเทพฯ",
+            "ฯลฯ",
+            "ราษฎรบำรุง",
+            "สตรีเศรษฐบุตรบำเพ็ญ",
+        ):
+            result = romanize(word)
+            self.assertLess(len(result), 100)
+
     def test_thaig2p_returns_string(self):
         from pythainlp.transliterate.thaig2p import transliterate
 

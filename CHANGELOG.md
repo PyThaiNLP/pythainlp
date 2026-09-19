@@ -19,6 +19,14 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- `pythainlp.transliterate.fastthaig2p`: Native FastThaiG2P grapheme-to-phoneme
+  conversion engine without external package dependencies. Supports text
+  normalization (numbers, dates, times, phone numbers, symbols, abbreviations,
+  maiyamok), 62k IPA dictionary lookup, and rule-based fallback. Accessible via
+  `transliterate(text, engine="fastthaig2p")` or `FastThaiG2P` class.
+
 ## Changed
 
 - Improve guardrails in `check_sara()` and `nighit()`

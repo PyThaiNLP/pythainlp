@@ -14,6 +14,7 @@ test_packages: list[str] = [
     "tests.core.test_braille",
     "tests.core.test_cli",
     "tests.core.test_corpus",
+    "tests.core.test_fastthaig2p",
     "tests.core.test_generate",
     "tests.core.test_khavee",
     "tests.core.test_morpheme",

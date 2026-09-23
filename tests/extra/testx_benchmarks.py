@@ -12,10 +12,14 @@ from pythainlp.benchmarks import (
     CharLevelStat,
     GlobalStat,
     RougeScore,
+    TokenizationScore,
     TokenizationStat,
     WordLevelStat,
     bleu_score,
+    char_eval_function,
+    evaluate_word_tokenization,
     rouge_score,
+    word_eval_function,
     word_tokenization,
 )
 
@@ -365,7 +369,9 @@ class BenchmarksTestCaseX(unittest.TestCase):
         self.assertGreaterEqual(wer_newmm, 0.0)
 
         # Test with longest
-        wer_longest = word_error_rate(reference, hypothesis, tokenize="longest")
+        wer_longest = word_error_rate(
+            reference, hypothesis, tokenize="longest"
+        )
         self.assertIsNotNone(wer_longest)
         self.assertGreaterEqual(wer_longest, 0.0)
 
@@ -379,7 +385,7 @@ class BenchmarksTestCaseX(unittest.TestCase):
         wer = word_error_rate(reference, hypothesis)
 
         # Empty reference with non-empty hypothesis should return inf or 0
-        self.assertTrue(wer == 0.0 or wer == float('inf'))
+        self.assertTrue(wer == 0.0 or wer == float("inf"))
 
     def test_word_error_rate_insertions(self):
         """Test WER with insertions (hypothesis longer than reference)."""
@@ -439,7 +445,7 @@ class BenchmarksTestCaseX(unittest.TestCase):
         cer = character_error_rate(reference, hypothesis)
 
         # Empty reference with non-empty hypothesis should return inf or 0
-        self.assertTrue(cer == 0.0 or cer == float('inf'))
+        self.assertTrue(cer == 0.0 or cer == float("inf"))
 
     def test_character_error_rate_insertions(self):
         """Test CER with insertions (hypothesis longer than reference)."""
@@ -467,3 +473,123 @@ class BenchmarksTestCaseX(unittest.TestCase):
         # CER should be > 0 due to deletion
         self.assertGreater(cer, 0.0)
         self.assertLess(cer, 1.0)
+
+    def test_evaluation_string(self):
+        """Test evaluate_word_tokenization with string inputs."""
+        answer = "สวัสดี|ประเทศไทย"
+        pred = "สวัสดี|ประเทศ|ไทย"
+
+        score = evaluate_word_tokenization(answer, pred)
+
+        self.assertAlmostEqual(score.char_score, 0.8)
+        self.assertAlmostEqual(score.word_score, 0.4)
+
+    def test_evaluation_return_type(self):
+        """Test that evaluate_word_tokenization returns a TokenizationScore NamedTuple."""
+        answer = "สวัสดี|ประเทศไทย"
+        pred = "สวัสดี|ประเทศ|ไทย"
+
+        score: TokenizationScore = evaluate_word_tokenization(answer, pred)
+
+        self.assertIsInstance(score, tuple)
+        self.assertIsInstance(score, TokenizationScore)
+        self.assertIsInstance(score.char_score, float)
+        self.assertIsInstance(score.word_score, float)
+
+        # Test tuple unpacking
+        char_score, word_score = evaluate_word_tokenization(answer, pred)
+        self.assertAlmostEqual(char_score, 0.8)
+        self.assertAlmostEqual(word_score, 0.4)
+
+    def test_evaluation_list_of_strings(self):
+        """Test evaluate_word_tokenization with list of string input."""
+        answer = ["สวัสดี|ประเทศไทย"]
+        pred = ["สวัสดี|ประเทศ|ไทย"]
+
+        score = evaluate_word_tokenization(answer, pred)
+
+        self.assertAlmostEqual(score.char_score, 0.8)
+        self.assertAlmostEqual(score.word_score, 0.4)
+
+    def test_evaluation_2d_list(self):
+        """Test evaluate_word_tokenization with 2D lists of strings."""
+        answer = [["สวัสดี|"], ["ประเทศไทย"]]
+        pred = [["สวัสดี|"], ["ประเทศ|ไทย"]]
+
+        score = evaluate_word_tokenization(answer, pred)
+        self.assertAlmostEqual(score.char_score, 0.8)
+        self.assertAlmostEqual(score.word_score, 0.4)
+
+        # With explicit separator
+        answer_sep = [["สวัสดี"], ["ประเทศไทย"]]
+        pred_sep = [["สวัสดี"], ["ประเทศ|ไทย"]]
+
+        score_sep = evaluate_word_tokenization(answer_sep, pred_sep, sep="|")
+        self.assertAlmostEqual(score_sep.char_score, 0.8)
+        self.assertAlmostEqual(score_sep.word_score, 0.4)
+
+    def test_evaluation_token_list(self):
+        """Test evaluate_word_tokenization with list of word tokens and sep='|'."""
+        answer = ["สวัสดี", "ประเทศไทย"]
+        pred = ["สวัสดี", "ประเทศ", "ไทย"]
+
+        score = evaluate_word_tokenization(answer, pred, sep="|")
+        self.assertAlmostEqual(score.char_score, 0.8)
+        self.assertAlmostEqual(score.word_score, 0.4)
+
+    def test_evaluation_identical(self):
+        """Test evaluate_word_tokenization when ground truth and prediction are identical."""
+        text = "สวัสดี|ประเทศไทย"
+        score = evaluate_word_tokenization(text, text)
+
+        self.assertAlmostEqual(score.char_score, 1.0)
+        self.assertAlmostEqual(score.word_score, 1.0)
+
+    def test_evaluation_empty_and_invalid(self):
+        """Test evaluate_word_tokenization with empty inputs and invalid types."""
+        score = evaluate_word_tokenization("", "")
+        self.assertEqual(score.char_score, 0.0)
+        self.assertEqual(score.word_score, 0.0)
+
+        with self.assertRaises(TypeError):
+            evaluate_word_tokenization(123, "test")  # type: ignore[arg-type]
+
+    def test_char_eval_function_basic(self):
+        """Test char_eval_function with boundary indicators."""
+        y_true = [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+        y_pred = [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0]
+
+        score = char_eval_function(y_true, y_pred)
+        self.assertAlmostEqual(score, 0.8)
+
+    def test_char_eval_function_edge_cases(self):
+        """Test char_eval_function edge cases."""
+        # Perfect match
+        self.assertAlmostEqual(char_eval_function([1, 0, 1], [1, 0, 1]), 1.0)
+        # No true positives
+        self.assertEqual(char_eval_function([1, 0, 0], [0, 1, 0]), 0.0)
+        # Empty sequences
+        self.assertEqual(char_eval_function([], []), 0.0)
+        # Unequal lengths
+        self.assertIsInstance(char_eval_function([1, 0], [1, 0, 1]), float)
+
+    def test_word_eval_function_basic(self):
+        """Test word_eval_function with token lists."""
+        train = ["สวัสดี", "ประเทศไทย"]
+        test = ["สวัสดี", "ประเทศ", "ไทย"]
+
+        score = word_eval_function(train, test)
+        self.assertAlmostEqual(score, 0.4)
+
+    def test_word_eval_function_edge_cases(self):
+        """Test word_eval_function edge cases."""
+        # Perfect match
+        self.assertAlmostEqual(
+            word_eval_function(["สวัสดี", "ครับ"], ["สวัสดี", "ครับ"]), 1.0
+        )
+        # Zero boundary overlap
+        self.assertEqual(word_eval_function(["สวัสดี", "ครับ"], ["สวัสดีครับ"]), 0.0)
+        # Empty lists
+        self.assertEqual(word_eval_function([], ["สวัสดี"]), 0.0)
+        self.assertEqual(word_eval_function(["สวัสดี"], []), 0.0)
+        self.assertEqual(word_eval_function([], []), 0.0)

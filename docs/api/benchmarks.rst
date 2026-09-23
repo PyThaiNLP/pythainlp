@@ -38,6 +38,29 @@ Tokenization Functions
 
     Preprocessing is a crucial step in NLP tasks. The `preprocessing` function assists in preparing text data for tokenization, which is essential for accurate and consistent benchmarking.
 
+.. autofunction:: pythainlp.benchmarks.evaluate_word_tokenization
+
+.. autofunction:: pythainlp.benchmarks.word_eval_function
+
+.. autofunction:: pythainlp.benchmarks.char_eval_function
+
+**Example for Word Tokenization Evaluation:**
+
+.. code-block:: python
+
+    from pythainlp.benchmarks import evaluate_word_tokenization
+
+    answer = "สวัสดี|ประเทศไทย"
+    pred = "สวัสดี|ประเทศ|ไทย"
+    char_score, word_score = evaluate_word_tokenization(answer, pred)
+    print(f"Char Score: {char_score:.4f}, Word Score: {word_score:.4f}")
+    # Char Score: 0.8000, Word Score: 0.4000
+
+    # Also supports word tokens with sep='|'
+    char_score, word_score = evaluate_word_tokenization(
+        ["สวัสดี", "ประเทศไทย"], ["สวัสดี", "ประเทศ", "ไทย"], sep="|"
+    )
+
 Evaluation Metrics
 ------------------
 

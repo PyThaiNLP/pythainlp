@@ -19,6 +19,13 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- Add word tokenization evaluation metrics (`evaluate_word_tokenization`,
+  `word_eval_function`, `char_eval_function`,
+  `TokenizationScore`) from SEFR CUT (`sefr_cut.evaluation`)
+  to `pythainlp.benchmarks`.
+
 ## Changed
 
 - Improve guardrails in `check_sara()` and `nighit()`
@@ -29,7 +36,6 @@ and this project adheres to
   The `segment()` API is unchanged; the `custom_dict` parameter is kept for
   backward compatibility but is no longer applied to the model inference.
   Deepcut tests moved from `tests/noauto_tensorflow/` to `tests/noauto_onnx/`.
-
 
 ## [5.3.7] - 2026-08-14
 

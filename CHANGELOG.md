@@ -19,7 +19,11 @@ and this project adheres to
 
 ## [Unreleased]
 
-## Changed
+### Added
+
+- Thai G2P v4 model via Hugging Face Hub using ONNX Runtime (`thaig2p_v4`), available in `pythainlp.transliterate`.
+
+### Changed
 
 - Improve guardrails in `check_sara()` and `nighit()`
 - `pythainlp.tokenize.deepcut`: migrated from the TensorFlow-based `deepcut`

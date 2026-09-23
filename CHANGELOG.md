@@ -29,6 +29,12 @@ and this project adheres to
   The `segment()` API is unchanged; the `custom_dict` parameter is kept for
   backward compatibility but is no longer applied to the model inference.
   Deepcut tests moved from `tests/noauto_tensorflow/` to `tests/noauto_onnx/`.
+- `pythainlp.tokenize.attacut`, `pythainlp.tokenize.oskut`, and
+  `pythainlp.tokenize.sefr_cut`: migrated to use
+  [LEKCut](https://github.com/PyThaiNLP/LEKCut) (ONNX), removing legacy
+  `attacut` (PyTorch), `oskut` (TensorFlow), and `sefr_cut` (TensorFlow)
+  package dependencies. The `segment()` APIs remain fully backward compatible.
+  Attacut tests moved from `tests/noauto_torch/` to `tests/noauto_onnx/`.
 
 
 ## [5.3.7] - 2026-08-14

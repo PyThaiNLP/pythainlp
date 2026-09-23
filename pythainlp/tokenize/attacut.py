@@ -3,8 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 """Wrapper for AttaCut - Fast and Reasonably Accurate Word Tokenizer for Thai
 
+AttaCut is ported to ONNX model using LEKCut.
+
 :See Also:
     * `GitHub repository <https://github.com/PyThaiNLP/attacut>`_
+    * `LEKCut GitHub <https://github.com/PyThaiNLP/LEKCut>`_
 """
 
 from __future__ import annotations
@@ -12,12 +15,11 @@ from __future__ import annotations
 import threading
 from typing import cast
 
-from attacut import Tokenizer
+from lekcut.attacut import tokenize as lekcut_tokenize
 
 
 class AttacutTokenizer:
     _MODEL_NAME: str
-    _tokenizer: Tokenizer
 
     def __init__(self, model: str = "attacut-sc") -> None:
         self._MODEL_NAME: str = "attacut-sc"
@@ -25,10 +27,10 @@ class AttacutTokenizer:
         if model == "attacut-c":
             self._MODEL_NAME = "attacut-c"
 
-        self._tokenizer: Tokenizer = Tokenizer(model=self._MODEL_NAME)
-
     def tokenize(self, text: str) -> list[str]:
-        return cast("list[str]", self._tokenizer.tokenize(text))
+        if not text or not isinstance(text, str):
+            return []
+        return cast("list[str]", lekcut_tokenize(text, model=self._MODEL_NAME))
 
 
 _tokenizers: dict[str, AttacutTokenizer] = {}
@@ -39,9 +41,7 @@ def segment(text: str, model: str = "attacut-sc") -> list[str]:
     """Wrapper for AttaCut - Fast and Reasonably Accurate Word Tokenizer for Thai
 
     The wrapper uses a lock to protect access to the internal tokenizer cache.
-    However, thread-safety of the underlying AttaCut library itself is not
-    guaranteed. Please refer to the AttaCut library documentation for its
-    thread-safety guarantees.
+    The model runs on ONNX runtime via LEKCut.
 
     :param str text: text to be tokenized to words
     :param str model: model of word tokenizer model

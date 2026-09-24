@@ -15,6 +15,7 @@ import torch.nn.functional as F
 from torch import nn
 
 from pythainlp.corpus import get_corpus_path
+from pythainlp.transliterate._repetition import find_trailing_repeat_period
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
@@ -24,6 +25,11 @@ device: torch.device = torch.device(
 )
 
 _MODEL_NAME: str = "thai-g2p"
+
+# Minimum consecutive copies of a repeating cycle that marks the greedy
+# decoder as stuck in a loop. See: find_trailing_repeat_period() and
+# https://github.com/PyThaiNLP/pythainlp/issues/1403
+_REPEAT_MIN_CYCLES: int = 3
 
 
 class ThaiG2P:
@@ -429,6 +435,7 @@ class Seq2Seq(nn.Module):  # type: ignore[misc]
         max_source_len = encoder_outputs.size(1)
         mask = self.create_mask(source_seq[:, 0:max_source_len])
 
+        generated_tokens: list[int] = []
         for di in range(max_len):
             decoder_output, decoder_hidden, _ = self.decoder(
                 decoder_input, decoder_hidden, encoder_outputs, mask
@@ -446,8 +453,23 @@ class Seq2Seq(nn.Module):  # type: ignore[misc]
                 else topi.detach()
             )
 
-            if inference and decoder_input == end_token:
-                return outputs[:di]
+            if inference:
+                if decoder_input == end_token:
+                    return outputs[:di]
+
+                # Greedy decoding has no repetition penalty, so a trapped
+                # attention pattern can loop forever instead of emitting
+                # <end>. Stop as soon as a short cycle repeats, keeping
+                # one copy of it, rather than running to max_len.
+                generated_tokens.append(int(decoder_input.item()))
+                period = find_trailing_repeat_period(
+                    generated_tokens, min_repeats=_REPEAT_MIN_CYCLES
+                )
+                if period is not None:
+                    cutoff = len(generated_tokens) - period * (
+                        _REPEAT_MIN_CYCLES - 1
+                    )
+                    return outputs[:cutoff]
 
         return outputs
 

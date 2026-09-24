@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, cast
 from onnxruntime import InferenceSession
 
 from pythainlp.corpus import get_corpus_path
+from pythainlp.transliterate._repetition import find_trailing_repeat_period
 
 if TYPE_CHECKING:
     from typing import Dict, List
@@ -21,6 +22,11 @@ if TYPE_CHECKING:
 _MODEL_ENCODER_NAME: str = "thai2rom_encoder_onnx"
 _MODEL_DECODER_NAME: str = "thai2rom_decoder_onnx"
 _MODEL_CONFIG_NAME: str = "thai2rom_config_onnx"
+
+# Minimum consecutive copies of a repeating cycle that marks the greedy
+# decoder as stuck in a loop. See: find_trailing_repeat_period() and
+# https://github.com/PyThaiNLP/pythainlp/issues/1403
+_REPEAT_MIN_CYCLES: int = 3
 
 
 class ThaiTransliterator_ONNX:
@@ -231,6 +237,7 @@ class Seq2Seq_ONNX:
         max_source_len = encoder_outputs.shape[1]
         mask = self.create_mask(source_seq[:, 0:max_source_len])
 
+        generated_tokens: List[int] = []
         for di in range(max_len):
             decoder_output_raw, decoder_hidden = self.decoder.run(
                 input_feed={
@@ -253,6 +260,20 @@ class Seq2Seq_ONNX:
 
             if decoder_input.item() == end_token:
                 return outputs[:di]
+
+            # Greedy decoding has no repetition penalty, so a trapped
+            # attention pattern can loop forever instead of emitting
+            # <end>. Stop as soon as a short cycle repeats, keeping one
+            # copy of it, rather than running to max_len.
+            generated_tokens.append(int(decoder_input.item()))
+            period = find_trailing_repeat_period(
+                generated_tokens, min_repeats=_REPEAT_MIN_CYCLES
+            )
+            if period is not None:
+                cutoff = len(generated_tokens) - period * (
+                    _REPEAT_MIN_CYCLES - 1
+                )
+                return outputs[:cutoff]
 
         return outputs
 

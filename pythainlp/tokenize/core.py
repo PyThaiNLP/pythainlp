@@ -78,7 +78,9 @@ def word_detokenize(
                     list_sents.append(" ")
                     add_index.append(j)
                 # if previous word is number or other language and is not space
-                elif p_w and p_w[0] not in thai_characters and not p_w.isspace():
+                elif (
+                    p_w and p_w[0] not in thai_characters and not p_w.isspace()
+                ):
                     list_sents.append(" ")
                     add_index.append(j)
                 # if word is Thai iteration mark
@@ -129,7 +131,8 @@ def word_tokenize(
 
     **Options for engine**
         * *attacut* - wrapper for
-          `AttaCut <https://github.com/PyThaiNLP/attacut>`_.,
+          `AttaCut <https://github.com/PyThaiNLP/attacut>`_
+          using ONNX model via `LEKCut <https://github.com/PyThaiNLP/LEKCut>`_.,
           learning-based approach
         * *deepcut* - wrapper for
           `DeepCut <https://github.com/rkcosmos/deepcut>`_,
@@ -154,10 +157,12 @@ def word_tokenize(
           `nlpO3 <https://github.com/PyThaiNLP/nlpo3>`_.,
           adaptation of newmm in Rust (2.5x faster)
         * *oskut* - wrapper for
-          `OSKut <https://github.com/mrpeerat/OSKut>`_.,
+          `OSKut <https://github.com/mrpeerat/OSKut>`_
+          using ONNX model via `LEKCut <https://github.com/PyThaiNLP/LEKCut>`_.,
           Out-of-domain StacKed cut for Word Segmentation
         * *sefr_cut* - wrapper for
-          `SEFR CUT <https://github.com/mrpeerat/SEFR_CUT>`_.,
+          `SEFR CUT <https://github.com/mrpeerat/SEFR_CUT>`_
+          using ONNX model via `LEKCut <https://github.com/PyThaiNLP/LEKCut>`_.,
           Stacked Ensemble Filter and Refine for Word Segmentation
         * *tltk* - wrapper for
           `TLTK <https://pypi.org/project/tltk/>`_.,
@@ -814,18 +819,22 @@ class Tokenizer:
         >>> from pythainlp.corpus.common import thai_words  # doctest: +SKIP
         >>> from pythainlp.util import dict_trie  # doctest: +SKIP
         >>> custom_words_list = set(thai_words())  # doctest: +SKIP
-        >>> custom_words_list.add('อะเฟเซีย')  # doctest: +SKIP
-        >>> custom_words_list.add('Aphasia')  # doctest: +SKIP
+        >>> custom_words_list.add("อะเฟเซีย")  # doctest: +SKIP
+        >>> custom_words_list.add("Aphasia")  # doctest: +SKIP
         >>> trie = dict_trie(dict_source=custom_words_list)  # doctest: +SKIP
         >>> text = "อะเฟเซีย (Aphasia*) เป็นอาการผิดปกติของการพูด"  # doctest: +SKIP
-        >>> _tokenizer = Tokenizer(custom_dict=trie, engine='newmm')  # doctest: +SKIP
+        >>> _tokenizer = Tokenizer(
+        ...     custom_dict=trie, engine="newmm"
+        ... )  # doctest: +SKIP
         >>> _tokenizer.word_tokenize(text)  # doctest: +SKIP
         ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ', 'ผิดปกติ', 'ของ', 'การ', 'พูด']
 
     Tokenizer object instantiated with a list of words:
 
         >>> text = "อะเฟเซีย (Aphasia) เป็นอาการผิดปกติของการพูด"  # doctest: +SKIP
-        >>> _tokenizer = Tokenizer(custom_dict=list(thai_words()), engine='newmm')  # doctest: +SKIP
+        >>> _tokenizer = Tokenizer(
+        ...     custom_dict=list(thai_words()), engine="newmm"
+        ... )  # doctest: +SKIP
         >>> _tokenizer.word_tokenize(text)  # doctest: +SKIP
         ['อะ', 'เฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ', 'ผิดปกติ', 'ของ', 'การ', 'พูด']
 
@@ -833,15 +842,20 @@ class Tokenizer:
     words separated with *newline* and explicitly setting a new tokenizer
     after initiation:
 
-        >>> PATH_TO_CUSTOM_DICTIONARY = './custom_dictionary.txt'  # doctest: +SKIP
-        >>> with open(PATH_TO_CUSTOM_DICTIONARY, 'w', encoding='utf-8') as f:  # doctest: +SKIP
-        ...     f.write('อะเฟเซีย\\nAphasia\\nผิด\\nปกติ')
+        >>> PATH_TO_CUSTOM_DICTIONARY = (
+        ...     "./custom_dictionary.txt"  # doctest: +SKIP
+        ... )
+        >>> with open(
+        ...     PATH_TO_CUSTOM_DICTIONARY, "w", encoding="utf-8"
+        ... ) as f:  # doctest: +SKIP
+        ...     f.write("อะเฟเซีย\\nAphasia\\nผิด\\nปกติ")
         >>> text = "อะเฟเซีย (Aphasia) เป็นอาการผิดปกติของการพูด"  # doctest: +SKIP
         >>> _tokenizer = Tokenizer(  # doctest: +SKIP
-        ...     custom_dict=PATH_TO_CUSTOM_DICTIONARY, engine='attacut')
+        ...     custom_dict=PATH_TO_CUSTOM_DICTIONARY, engine="attacut"
+        ... )
         >>> _tokenizer.word_tokenize(text)  # doctest: +SKIP
         ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ', 'ผิด', 'ปกติ', 'ของ', 'การ', 'พูด']
-        >>> _tokenizer.set_tokenizer_engine(engine='newmm')  # doctest: +SKIP
+        >>> _tokenizer.set_tokenizer_engine(engine="newmm")  # doctest: +SKIP
         >>> _tokenizer.word_tokenize(text)  # doctest: +SKIP
         ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็นอาการ', 'ผิด', 'ปกติ', 'ของการพูด']
     """

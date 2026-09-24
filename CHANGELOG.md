@@ -24,8 +24,19 @@ and this project adheres to
 - Add warn deprecation `pythainlp.generate.thai2fit`,
   `pythainlp.generate.wangchanglm`, and `pythainlp.chat`. #1519
 
-## Changed
+### Added
+- Add word tokenization evaluation metrics (`evaluate_word_tokenization`,
+  `word_eval_function`, `char_eval_function`,
+  `TokenizationScore`) from SEFR CUT (`sefr_cut.evaluation`)
+  to `pythainlp.benchmarks`.
+- Thai G2P v4 model via Hugging Face Hub using ONNX Runtime (`thaig2p_v4`), available in `pythainlp.transliterate`.
 
+## Changed
+- `pythainlp.transliterate.fastthaig2p`: Native FastThaiG2P grapheme-to-phoneme
+  conversion engine without external package dependencies. Supports text
+  normalization (numbers, dates, times, phone numbers, symbols, abbreviations,
+  maiyamok), 62k IPA dictionary lookup, and rule-based fallback. Accessible via
+  `transliterate(text, engine="fastthaig2p")` or `FastThaiG2P` class.
 - Improve guardrails in `check_sara()` and `nighit()`
 - `pythainlp.tokenize.deepcut`: migrated from the TensorFlow-based `deepcut`
   package to a built-in ONNX inference engine, removing the TensorFlow
@@ -34,6 +45,12 @@ and this project adheres to
   The `segment()` API is unchanged; the `custom_dict` parameter is kept for
   backward compatibility but is no longer applied to the model inference.
   Deepcut tests moved from `tests/noauto_tensorflow/` to `tests/noauto_onnx/`.
+- `pythainlp.tokenize.attacut`, `pythainlp.tokenize.oskut`, and
+  `pythainlp.tokenize.sefr_cut`: migrated to use
+  [LEKCut](https://github.com/PyThaiNLP/LEKCut) (ONNX), removing legacy
+  `attacut` (PyTorch), `oskut` (TensorFlow), and `sefr_cut` (TensorFlow)
+  package dependencies. The `segment()` APIs remain fully backward compatible.
+  Attacut tests moved from `tests/noauto_torch/` to `tests/noauto_onnx/`.
 
 ## [5.3.8] - 2026-09-25
 

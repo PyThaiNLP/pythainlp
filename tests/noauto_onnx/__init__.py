@@ -4,6 +4,9 @@
 """Unit test suite for ONNX Runtime-based functionalities.
 
 Test functions that require ONNX Runtime and its ecosystem dependencies:
+- attacut
+- deepcut
+- lekcut
 - onnxruntime
 - oskut
 - sefr_cut

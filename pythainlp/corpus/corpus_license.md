@@ -150,3 +150,14 @@ Original data:
 
 Preparation code:
 <https://github.com/konbraphat51/Thai_Dictionary_Cleaner/>
+
+## FastThaiG2P IPA Dictionary
+
+FastThaiG2P IPA dictionary (fastthaig2p_ipa.json),
+from the FastThaiG2P project by Charin Polpanumas and AWS Labs,
+and released under **Apache License 2.0**
+<https://www.apache.org/licenses/LICENSE-2.0>
+
+Original data:
+<https://github.com/awslabs/FastThaiG2P>
+

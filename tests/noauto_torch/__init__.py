@@ -6,7 +6,6 @@
 Test functions that require PyTorch and its ecosystem dependencies:
 - torch
 - transformers (when using PyTorch backend)
-- attacut
 - thai-nner
 - wtpsplit
 

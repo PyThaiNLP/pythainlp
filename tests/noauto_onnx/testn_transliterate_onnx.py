@@ -54,3 +54,32 @@ class TransliterateONNXTestCaseN(unittest.TestCase):
         ):
             result = romanize(word)
             self.assertLess(len(result), 100)
+    def test_thaig2p_v4_returns_string(self):
+        from pythainlp.transliterate.thaig2p_v4 import transliterate
+
+        result = transliterate("สวัสดี")
+        self.assertIsInstance(result, str)
+        self.assertGreater(len(result), 0)
+
+    def test_thaig2p_v4_empty_string(self):
+        from pythainlp.transliterate.thaig2p_v4 import transliterate
+
+        result = transliterate("")
+        self.assertIsInstance(result, str)
+        self.assertEqual(result, "")
+
+    def test_thaig2p_v4_model_loaded(self):
+        from pythainlp.transliterate.thaig2p_v4 import ThaiG2P
+
+        g2p = ThaiG2P()
+        self.assertIsNotNone(g2p._encoder_session)
+        self.assertIsNotNone(g2p._decoder_session)
+        self.assertIsNotNone(g2p._input_char2idx)
+        self.assertIsNotNone(g2p._target_idx2char)
+
+    def test_transliterate_thaig2p_v4(self):
+        from pythainlp.transliterate import transliterate
+
+        result = transliterate("คน", engine="thaig2p_v4")
+        self.assertIsInstance(result, str)
+        self.assertEqual(result, "/kʰon˧/")

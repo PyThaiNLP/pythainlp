@@ -27,12 +27,14 @@ Thread safety implementation
 **External library wrappers (wrapper code is thread-safe):**
 
 - ``attacut``: uses lock-protected check-then-act for
-  the management of global cache; underlying library thread-safety not guaranteed
+  the management of global cache (via LEKCut ONNX)
 - ``budoux``: uses lock-protected lazy initialization of parser;
   underlying library thread-safety not guaranteed
 - ``deepcut``, ``nercut``, ``nlpo3``, ``tltk``: Stateless wrapper,
   underlying library thread-safety not guaranteed
-- ``oskut``, ``sefr_cut``, ``wtsplit``: use lock-protected model
+- ``oskut``, ``sefr_cut``: use lock-protected lazy initialization of
+  tokenizer cache per engine (via LEKCut ONNX)
+- ``wtsplit``: uses lock-protected model
   loading when switching models/engines; underlying library thread-safety not guaranteed
 
 Usage in multi-threaded applications

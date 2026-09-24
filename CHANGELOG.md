@@ -20,9 +20,13 @@ and this project adheres to
 ## [Unreleased]
 
 ### Added
+- Add word tokenization evaluation metrics (`evaluate_word_tokenization`,
+  `word_eval_function`, `char_eval_function`,
+  `TokenizationScore`) from SEFR CUT (`sefr_cut.evaluation`)
+  to `pythainlp.benchmarks`.
 - Thai G2P v4 model via Hugging Face Hub using ONNX Runtime (`thaig2p_v4`), available in `pythainlp.transliterate`.
 
-### Changed
+## Changed
 - `pythainlp.transliterate.fastthaig2p`: Native FastThaiG2P grapheme-to-phoneme
   conversion engine without external package dependencies. Supports text
   normalization (numbers, dates, times, phone numbers, symbols, abbreviations,
@@ -42,7 +46,6 @@ and this project adheres to
   `attacut` (PyTorch), `oskut` (TensorFlow), and `sefr_cut` (TensorFlow)
   package dependencies. The `segment()` APIs remain fully backward compatible.
   Attacut tests moved from `tests/noauto_torch/` to `tests/noauto_onnx/`.
-
 
 ## [5.3.7] - 2026-08-14
 

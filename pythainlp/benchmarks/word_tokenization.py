@@ -3,15 +3,32 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+import operator
 import re
 import sys
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypedDict, Union, overload
+from itertools import accumulate
+from typing import TYPE_CHECKING, Any, NamedTuple, TypedDict, Union, overload
 
 if TYPE_CHECKING:
     import numpy as np
     import pandas as pd
     from numpy.typing import NDArray
+
+__all__: list[str] = [
+    "CharLevelStat",
+    "GlobalStat",
+    "TokenizationScore",
+    "TokenizationStat",
+    "WordLevelStat",
+    "benchmark",
+    "char_eval_function",
+    "compute_stats",
+    "evaluate_word_tokenization",
+    "evaluation",
+    "preprocessing",
+    "word_eval_function",
+]
 
 SEPARATOR: str = "|"
 
@@ -59,6 +76,13 @@ class TokenizationStat(TypedDict):
     char_level: CharLevelStat
     word_level: WordLevelStat
     global_: GlobalStat
+
+
+class TokenizationScore(NamedTuple):
+    """Tokenization evaluation score containing character and word scores."""
+
+    char_score: float
+    word_score: float
 
 
 def _f1(precision: float, recall: float) -> float:
@@ -184,9 +208,7 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
     return txt
 
 
-def compute_stats(
-    ref_sample: str, raw_sample: str
-) -> TokenizationStat:
+def compute_stats(ref_sample: str, raw_sample: str) -> TokenizationStat:
     """Compute statistics for tokenization quality.
 
     These statistics include:
@@ -336,3 +358,201 @@ def _find_words_correctly_tokenized(
 
     labels = tuple(ref_b.get(x, 0) for x in predicted_boundaries)
     return labels
+
+
+def char_eval_function(
+    y_true: Union[list[int], tuple[int, ...]],
+    y_pred: Union[list[int], tuple[int, ...]],
+) -> float:
+    """Compute character-level F1 score for boundary indicators.
+
+    Calculates precision, recall, and binary F1 score for boundary (1)
+    labels between true and predicted character boundary sequences.
+    Ported from SEFR CUT (``sefr_cut.evaluation``).
+
+    :param y_true: ground truth binary boundary sequence
+    :type y_true: Union[list[int], tuple[int, ...]]
+    :param y_pred: predicted binary boundary sequence
+    :type y_pred: Union[list[int], tuple[int, ...]]
+
+    :return: character-level F1 score
+    :rtype: float
+    """
+    min_len: int = min(len(y_true), len(y_pred))
+    tp: int = sum(y_true[i] == 1 and y_pred[i] == 1 for i in range(min_len))
+    fp: int = sum(y_true[i] == 0 and y_pred[i] == 1 for i in range(min_len))
+    fn: int = sum(y_true[i] == 1 and y_pred[i] == 0 for i in range(min_len))
+
+    if len(y_pred) > min_len:
+        fp += sum(y_pred[i] == 1 for i in range(min_len, len(y_pred)))
+    if len(y_true) > min_len:
+        fn += sum(y_true[i] == 1 for i in range(min_len, len(y_true)))
+
+    if tp == 0:
+        return 0.0
+
+    precision: float = tp / (tp + fp)
+    recall: float = tp / (tp + fn)
+    return _f1(precision, recall)
+
+
+def word_eval_function(
+    train: list[str],
+    test: list[str],
+) -> float:
+    """Compute word-level F1 score for tokenized word lists.
+
+    Calculates the F1 score based on word boundary span overlap between
+    the ground truth word tokens and predicted word tokens.
+    Ported from SEFR CUT (``sefr_cut.evaluation``).
+
+    :param list[str] train: ground truth word tokens
+    :param list[str] test: predicted word tokens
+
+    :return: word-level F1 score
+    :rtype: float
+    """
+    if not train or not test:
+        return 0.0
+
+    train_acc = list(accumulate(map(len, train), func=operator.add))
+    test_acc = list(accumulate(map(len, test), func=operator.add))
+    train_set = set(zip([0, *train_acc], train_acc))
+    test_set = set(zip([0, *test_acc], test_acc))
+    correct: int = len(train_set & test_set)
+
+    if correct == 0:
+        return 0.0
+
+    precision: float = correct / len(test)
+    recall: float = correct / len(train)
+    return _f1(precision, recall)
+
+
+def _preprocess_attacut(
+    sentence_lines: list[str],
+) -> tuple[list[str], list[list[int]]]:
+    """Convert segmented sentences to raw text and binary boundary indicators.
+
+    Adapted from SEFR CUT preprocessing.
+
+    :param list[str] sentence_lines: list of segmented sentences
+        containing separators (``"|"``)
+
+    :return: a tuple of (raw_text_list, binary_labels_list)
+    :rtype: tuple[list[str], list[list[int]]]
+    """
+    x: list[str] = []
+    y: list[list[int]] = []
+    for sentence in sentence_lines:
+        x.append(sentence.replace(SEPARATOR, ""))
+        sentence = SEPARATOR + sentence
+        y_char: list[int] = []
+        for idx in range(1, len(sentence)):
+            current_char = sentence[idx]
+            before_char = sentence[idx - 1]
+
+            if current_char == SEPARATOR:
+                continue
+
+            target = 1 if before_char == SEPARATOR else 0
+            y_char.append(target)
+        y.append(y_char)
+
+    return x, y
+
+
+def _normalize_evaluation_input(
+    x: Union[str, list[str], list[list[str]]],
+    sep: str = "",
+) -> list[str]:
+    """Normalize evaluation input into a 1D list containing a single string.
+
+    Handles string, list of strings, or list of list of strings.
+
+    :param x: input text or tokens
+    :type x: Union[str, list[str], list[list[str]]]
+    :param str sep: separator to join tokens or sentences (default: ``""``)
+
+    :return: list containing a single concatenated string
+    :rtype: list[str]
+    """
+    if isinstance(x, str):
+        return [x]
+
+    if not isinstance(x, list):
+        raise TypeError(
+            f"Input must be a string, list of strings, or list of list of "
+            f"strings, got {type(x).__name__}"
+        )
+
+    if len(x) == 0:
+        return [""]
+
+    if len(x) == 1 and isinstance(x[0], str):
+        return x
+
+    if isinstance(x[0], list):
+        flat: list[str] = [j for sub in x for j in sub]
+        return [f"{sep}".join(flat)]
+
+    if sep:
+        return [f"{sep}".join(x)]
+
+    return ["".join(x)]
+
+
+def evaluate_word_tokenization(
+    x_true: Union[str, list[str], list[list[str]]],
+    x_pred: Union[str, list[str], list[list[str]]],
+    sep: str = "",
+) -> TokenizationScore:
+    """Evaluate word tokenization performance at character and word levels.
+
+    Computes character-level F1 score and word-level F1 score between
+    the ground truth (``x_true``) and predicted segmentation (``x_pred``).
+    Ported from SEFR CUT (``sefr_cut.evaluation``).
+
+    Supports multiple input representations:
+
+    - Strings delimited by ``"|"`` (e.g., ``"สวัสดี|ประเทศไทย"``)
+    - Single-element lists of delimited strings (e.g., ``["สวัสดี|ประเทศไทย"]``)
+    - 2D lists of strings (e.g., ``[["สวัสดี|"], ["ประเทศไทย"]]``)
+    - 1D lists of token strings with ``sep="|"`` (e.g., ``["สวัสดี", "ประเทศไทย"]``)
+
+    :param x_true: ground truth text or tokens
+    :type x_true: Union[str, list[str], list[list[str]]]
+    :param x_pred: predicted text or tokens
+    :type x_pred: Union[str, list[str], list[list[str]]]
+    :param str sep: separator to join sub-elements when input is a list of
+        tokens without boundaries (default: ``""``)
+
+    :return: tokenization score containing character score and word score
+    :rtype: TokenizationScore
+
+    :Example:
+    ::
+
+        from pythainlp.benchmarks import evaluate_word_tokenization
+
+        answer = "สวัสดี|ประเทศไทย"
+        pred = "สวัสดี|ประเทศ|ไทย"
+        char_score, word_score = evaluate_word_tokenization(answer, pred)
+        print(f"Char Score: {char_score}, Word Score: {word_score}")
+        # Char Score: 0.8, Word Score: 0.4
+    """
+    x_true_1d: list[str] = _normalize_evaluation_input(x_true, sep=sep)
+    x_pred_1d: list[str] = _normalize_evaluation_input(x_pred, sep=sep)
+
+    _, y_true_boolean = _preprocess_attacut(x_true_1d)
+    _, y_pred_boolean = _preprocess_attacut(x_pred_1d)
+
+    char_score: float = 0.0
+    if y_true_boolean and y_pred_boolean:
+        char_score = char_eval_function(y_true_boolean[0], y_pred_boolean[0])
+
+    true_words: list[str] = [w for w in x_true_1d[0].split(SEPARATOR) if w]
+    pred_words: list[str] = [w for w in x_pred_1d[0].split(SEPARATOR) if w]
+    word_score: float = word_eval_function(true_words, pred_words)
+
+    return TokenizationScore(char_score=char_score, word_score=word_score)

@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import unittest
+from unittest.mock import patch
 
 from pythainlp.transliterate import pronunciate_pali, romanize, transliterate
 
@@ -105,8 +106,15 @@ class TransliterateTestCase(unittest.TestCase):
 
     def test_transliterate(self):
         self.assertEqual(transliterate(""), "")
+        self.assertEqual(transliterate("", engine="thaig2p_v4"), "")
         self.assertIsNotNone(transliterate("คน", engine="iso_11940"))
         self.assertIsNotNone(transliterate("แมว", engine="iso_11940"))
+
+    @patch("pythainlp.transliterate.thaig2p_v4.transliterate")
+    def test_transliterate_thaig2p_v4_dispatch(self, mock_g2p):
+        mock_g2p.return_value = "/kʰon˧/"
+        self.assertEqual(transliterate("คน", engine="thaig2p_v4"), "/kʰon˧/")
+        mock_g2p.assert_called_once_with("คน")
 
     def test_transliterate_iso11940(self):
         self.assertEqual(

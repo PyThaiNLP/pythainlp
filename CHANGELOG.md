@@ -37,7 +37,7 @@ and this project adheres to
 
 ## [5.3.8] - 2026-09-25
 
-## Deprecated
+### Deprecated
 
 - Add warn deprecation `pythainlp.generate.thai2fit`,
   `pythainlp.generate.wangchanglm`, and `pythainlp.chat`. (PR #1519)

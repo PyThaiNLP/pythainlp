@@ -18,20 +18,11 @@ and this project adheres to
 - Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.3...v5.3.4>
 
 ## [Unreleased]
-### Fixed
 
-- `pythainlp.transliterate.romanize` with the `thai2rom` and `thai2rom_onnx`
-  engines: greedy decoding could get stuck in a cycle and run to the hard
-  100-character length cap, returning strings like
-  `krungtheppaaaa...aaaa` for inputs such as `กรุงเทพฯ`, `ฯลฯ`, or long
-  Pali/Sanskrit-derived compounds. Decoding now stops as soon as a short
-  output cycle repeats 3 times in a row. (issue #1403)
-- `pythainlp.transliterate.thaig2p.transliterate`: found while fixing
-  issue #1403, the same greedy-decoding `Seq2Seq` loop as `thai2rom`
-  could get stuck in a repetition cycle and run to the hard 100-character
-  cap for the same class of inputs (e.g. `สตรีเศรษฐบุตรบำเพ็ญ`, and long
-  unsegmented multi-word phrases). Fixed with the same cycle-detection
-  guard used for `thai2rom`.
+## Deprecated
+
+- Add warn deprecation `pythainlp.generate.thai2fit`,
+  `pythainlp.generate.wangchanglm`, and `pythainlp.chat`. #1519
 
 ### Added
 - Add word tokenization evaluation metrics (`evaluate_word_tokenization`,
@@ -60,6 +51,30 @@ and this project adheres to
   `attacut` (PyTorch), `oskut` (TensorFlow), and `sefr_cut` (TensorFlow)
   package dependencies. The `segment()` APIs remain fully backward compatible.
   Attacut tests moved from `tests/noauto_torch/` to `tests/noauto_onnx/`.
+
+## [5.3.8] - 2026-09-25
+
+### Deprecated
+
+- Add warn deprecation `pythainlp.generate.thai2fit`,
+  `pythainlp.generate.wangchanglm`, and `pythainlp.chat`. (PR #1519)
+
+### Fixed
+
+- `pythainlp.transliterate.romanize` with the `thai2rom` and `thai2rom_onnx`
+  engines: greedy decoding could get stuck in a cycle and run to the hard
+  100-character length cap, returning strings like
+  `krungtheppaaaa...aaaa` for inputs such as `กรุงเทพฯ`, `ฯลฯ`, or long
+  Pali/Sanskrit-derived compounds. Decoding now stops as soon as a short
+  output cycle repeats 3 times in a row. (issue #1403, PR #1500)
+- `pythainlp.transliterate.thaig2p.transliterate`: found while fixing
+  issue #1403, the same greedy-decoding `Seq2Seq` loop as `thai2rom`
+  could get stuck in a repetition cycle and run to the hard 100-character
+  cap for the same class of inputs (e.g. `สตรีเศรษฐบุตรบำเพ็ญ`, and long
+  unsegmented multi-word phrases). Fixed with the same cycle-detection
+  guard used for `thai2rom`. (PR #1501)
+- `pythainlp.util.text_to_num`: handle Thai zero ("ศูนย์") in floating-point
+  (PR #1503)
 
 ## [5.3.7] - 2026-08-14
 
@@ -356,6 +371,7 @@ The minimum requirement is now Python 3.9.
 
 - See <https://github.com/PyThaiNLP/pythainlp/releases/tag/v5.0.0>
 
+[5.3.8]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.7...v5.3.8
 [5.3.7]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.6...v5.3.7
 [5.3.6]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.5...v5.3.6
 [5.3.5]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.4...v5.3.5

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Optional
+from pythainlp.tools import warn_deprecation
 
 if TYPE_CHECKING:
     import torch
@@ -43,6 +44,11 @@ class ChatBotModel:
         :param str offload_folder: offload folder
         :param bool low_cpu_mem_usage: low cpu mem usage
         """
+        warn_deprecation(
+            "pythainlp.chat.ChatBotModel",
+            deprecated_version="5.3.8",
+            removal_version="6.0.0"
+        )
         import torch
 
         if torch_dtype is None:

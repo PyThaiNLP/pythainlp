@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import re
 from typing import TYPE_CHECKING, Optional, cast
+from pythainlp.tools import warn_deprecation
 
 if TYPE_CHECKING:
     import pandas as pd
@@ -25,6 +26,11 @@ class WangChanGLM:
     exclude_ids: list[int]
 
     def __init__(self) -> None:
+        warn_deprecation(
+            "pythainlp.generate.wangchanglm.WangChanGLM",
+            deprecated_version="5.3.8",
+            removal_version="6.0.0"
+        )
         self.exclude_pattern: "re.Pattern[str]" = re.compile(r"[^ก-๙]+")
         self.stop_token: str = "\n"  # noqa: S105
         self.PROMPT_DICT: dict[str, str] = {

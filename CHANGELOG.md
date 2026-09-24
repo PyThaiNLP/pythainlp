@@ -19,6 +19,29 @@ and this project adheres to
 
 ## [Unreleased]
 
+## Deprecated
+
+- Add warn deprecation `pythainlp.generate.thai2fit`,
+  `pythainlp.generate.wangchanglm`, and `pythainlp.chat`. #1519
+
+## Changed
+
+- Improve guardrails in `check_sara()` and `nighit()`
+- `pythainlp.tokenize.deepcut`: migrated from the TensorFlow-based `deepcut`
+  package to a built-in ONNX inference engine, removing the TensorFlow
+  dependency. The `deepcut.onnx` model (ported from
+  [LEKCut](https://github.com/PyThaiNLP/LEKCut)) is now bundled with PyThaiNLP.
+  The `segment()` API is unchanged; the `custom_dict` parameter is kept for
+  backward compatibility but is no longer applied to the model inference.
+  Deepcut tests moved from `tests/noauto_tensorflow/` to `tests/noauto_onnx/`.
+
+## [5.3.8] - 2026-09-25
+
+## Deprecated
+
+- Add warn deprecation `pythainlp.generate.thai2fit`,
+  `pythainlp.generate.wangchanglm`, and `pythainlp.chat`. (PR #1519)
+
 ### Fixed
 
 - `pythainlp.transliterate.romanize` with the `thai2rom` and `thai2rom_onnx`
@@ -34,19 +57,7 @@ and this project adheres to
   unsegmented multi-word phrases). Fixed with the same cycle-detection
   guard used for `thai2rom`. (PR #1501)
 - `pythainlp.util.text_to_num`: handle Thai zero ("ศูนย์") in floating-point
-  parsing. (PR #1503)
-
-## Changed
-
-- Improve guardrails in `check_sara()` and `nighit()`
-- `pythainlp.tokenize.deepcut`: migrated from the TensorFlow-based `deepcut`
-  package to a built-in ONNX inference engine, removing the TensorFlow
-  dependency. The `deepcut.onnx` model (ported from
-  [LEKCut](https://github.com/PyThaiNLP/LEKCut)) is now bundled with PyThaiNLP.
-  The `segment()` API is unchanged; the `custom_dict` parameter is kept for
-  backward compatibility but is no longer applied to the model inference.
-  Deepcut tests moved from `tests/noauto_tensorflow/` to `tests/noauto_onnx/`.
-
+  (PR #1503)
 
 ## [5.3.7] - 2026-08-14
 
@@ -343,6 +354,7 @@ The minimum requirement is now Python 3.9.
 
 - See <https://github.com/PyThaiNLP/pythainlp/releases/tag/v5.0.0>
 
+[5.3.8]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.7...v5.3.8
 [5.3.7]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.6...v5.3.7
 [5.3.6]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.5...v5.3.6
 [5.3.5]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.4...v5.3.5

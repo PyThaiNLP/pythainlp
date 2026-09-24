@@ -14,8 +14,6 @@ if TYPE_CHECKING:
     from collections.abc import Callable, Collection
 
     import numpy as np
-    from fastai.basic_data import DataBunch
-    from fastai.basic_train import Learner
     from numpy.typing import NDArray
 
 from pythainlp.corpus import get_corpus_path
@@ -201,7 +199,7 @@ def process_thai(
 
 
 def document_vector(
-    text: str, learn: "Learner", data: "DataBunch", agg: str = "mean"
+    text: str, learn, data, agg: str = "mean"
 ) -> "NDArray[np.float32]":
     """Vectorize a Thai sentence into a 400-dimension vector.
 

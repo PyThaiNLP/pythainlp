@@ -14,6 +14,7 @@ __all__: list[str] = ["gen_sentence"]
 import json
 import random
 from typing import TYPE_CHECKING, Any, Union
+from pythainlp.tools import warn_deprecation
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -148,6 +149,11 @@ def gen_sentence(
       gen_sentence("แมว")
       # output: 'แมว คุณหลวง '
     """
+    warn_deprecation(
+        "pythainlp.generate.thai2fit.gen_sentence",
+        deprecated_version="5.3.8",
+        removal_version="6.0.0"
+    )
     if not start_seq:
         # Non-cryptographic use, pseudo-random generator is acceptable here
         start_seq = random.choice(list(thwiki_itos))  # noqa: S311  # nosec B311  # NOSONAR

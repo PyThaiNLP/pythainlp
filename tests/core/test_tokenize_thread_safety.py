@@ -37,7 +37,9 @@ class TestThreadSafety(unittest.TestCase):
         """Worker function for thread testing."""
         try:
             for _ in range(iterations):
-                tokens = word_tokenize(text, engine=engine, custom_dict=custom_dict)
+                tokens = word_tokenize(
+                    text, engine=engine, custom_dict=custom_dict
+                )
                 # Store result for later verification
                 if results[index] is None:
                     results[index] = tokens
@@ -185,8 +187,12 @@ class TestThreadSafety(unittest.TestCase):
         # All threads should succeed (but may have different results due to different dicts)
         for i, result in enumerate(results):
             self.assertIsNotNone(result, f"Thread {i} returned None")
-            self.assertNotEqual(result, "INCONSISTENT", f"Thread {i} inconsistent")
-            self.assertNotIn("ERROR:", str(result), f"Thread {i} error: {result}")
+            self.assertNotEqual(
+                result, "INCONSISTENT", f"Thread {i} inconsistent"
+            )
+            self.assertNotIn(
+                "ERROR:", str(result), f"Thread {i} error: {result}"
+            )
 
     def test_multi_text_concurrent_tokenization(self):
         """Test concurrent tokenization of different texts."""
@@ -209,8 +215,12 @@ class TestThreadSafety(unittest.TestCase):
         # All threads should succeed
         for i, result in enumerate(results):
             self.assertIsNotNone(result, f"Thread {i} returned None")
-            self.assertNotEqual(result, "INCONSISTENT", f"Thread {i} inconsistent")
-            self.assertNotIn("ERROR:", str(result), f"Thread {i} error: {result}")
+            self.assertNotEqual(
+                result, "INCONSISTENT", f"Thread {i} inconsistent"
+            )
+            self.assertNotIn(
+                "ERROR:", str(result), f"Thread {i} error: {result}"
+            )
             self.assertIsInstance(result, list, f"Thread {i} wrong type")
 
     def test_mm_thread_safety(self):
@@ -272,9 +282,9 @@ class TestThreadSafety(unittest.TestCase):
     def test_attacut_thread_safety(self):
         """Test thread safety of attacut engine (if available)."""
         try:
-            from attacut import Tokenizer  # noqa: F401
+            import lekcut  # noqa: F401
         except ImportError:
-            self.skipTest("attacut not installed")
+            self.skipTest("lekcut not installed")
 
         num_threads = 10
         results = [None] * num_threads
@@ -285,6 +295,68 @@ class TestThreadSafety(unittest.TestCase):
             thread = threading.Thread(
                 target=self._tokenize_worker,
                 args=(text, "attacut", results, i),
+            )
+            threads.append(thread)
+            thread.start()
+
+        for thread in threads:
+            thread.join()
+
+        # All threads should produce the same result
+        first_result = results[0]
+        self.assertIsNotNone(first_result)
+        self.assertNotEqual(first_result, "INCONSISTENT")
+        self.assertNotIn("ERROR:", str(first_result))
+        for result in results:
+            self.assertEqual(result, first_result)
+
+    def test_oskut_thread_safety(self):
+        """Test thread safety of oskut engine (if available)."""
+        try:
+            import lekcut  # noqa: F401
+        except ImportError:
+            self.skipTest("lekcut not installed")
+
+        num_threads = 10
+        results = [None] * num_threads
+        threads = []
+
+        text = self.test_texts[0]
+        for i in range(num_threads):
+            thread = threading.Thread(
+                target=self._tokenize_worker,
+                args=(text, "oskut", results, i),
+            )
+            threads.append(thread)
+            thread.start()
+
+        for thread in threads:
+            thread.join()
+
+        # All threads should produce the same result
+        first_result = results[0]
+        self.assertIsNotNone(first_result)
+        self.assertNotEqual(first_result, "INCONSISTENT")
+        self.assertNotIn("ERROR:", str(first_result))
+        for result in results:
+            self.assertEqual(result, first_result)
+
+    def test_sefr_cut_thread_safety(self):
+        """Test thread safety of sefr_cut engine (if available)."""
+        try:
+            import lekcut  # noqa: F401
+        except ImportError:
+            self.skipTest("lekcut not installed")
+
+        num_threads = 10
+        results = [None] * num_threads
+        threads = []
+
+        text = self.test_texts[0]
+        for i in range(num_threads):
+            thread = threading.Thread(
+                target=self._tokenize_worker,
+                args=(text, "sefr_cut", results, i),
             )
             threads.append(thread)
             thread.start()

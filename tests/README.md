@@ -119,9 +119,9 @@ By separating tests by dependency group, we can:
   - Need dependencies from `pip install "pythainlp[noauto-torch]"`
 - Tests requiring PyTorch and its ecosystem:
   - torch, transformers (PyTorch backend)
-  - attacut, thai-nner, wtpsplit, tltk
+  - thai-nner, wtpsplit, tltk
 - Tests: spell correction (wanchanberta), NER/POS tagging (transformers-based),
-  tokenization (attacut), subword tokenization (phayathai, wangchanberta),
+  subword tokenization (phayathai, wangchanberta),
   sentence tokenization (wtp)
 - Dependencies: ~2-3 GB
 - Test case class suffix: `TestCaseN`
@@ -141,7 +141,7 @@ By separating tests by dependency group, we can:
 - Run `python -m unittest tests.noauto_onnx`
   - Need dependencies from `pip install "pythainlp[noauto-onnx]"`
 - Tests requiring ONNX Runtime:
-  - oskut, sefr_cut tokenizers
+  - attacut, deepcut, oskut, sefr_cut tokenizers (via LEKCut / ONNX)
 - Dependencies: ~200-500 MB
 - Test case class suffix: `TestCaseN`
 

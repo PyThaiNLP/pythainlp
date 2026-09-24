@@ -17,7 +17,7 @@ The extras can include:
   - ``compact`` — install a stable and small subset of dependencies (recommended)
   - ``full`` — install all optional dependencies (may introduce large dependencies and conflicts)
   - ``abbreviation`` — abbreviation expansion utilities
-  - ``attacut`` — support for AttaCut (a fast and accurate tokenizer)
+  - ``attacut`` — support for AttaCut (a fast and accurate tokenizer, via LEKCut ONNX)
   - ``budoux`` — support for BudouX text segmentation
   - ``benchmarks`` — support for running benchmarks
   - ``coreference_resolution`` — coreference resolution support
@@ -27,12 +27,13 @@ The extras can include:
   - ``generate`` — support for text generation
   - ``icu`` — support for ICU (International Components for Unicode) used in transliteration and tokenization
   - ``ipa`` — support for IPA (International Phonetic Alphabet) in transliteration
+  - ``lekcut`` — LEKCut ONNX tokenizer support
   - ``ml`` — support for ULMFiT models used in classification
   - ``mt5`` — mT5 models for Thai text summarization
   - ``nlpo3`` — nlpo3 Thai word tokenization support
   - ``onnx`` - ONNX model support
-  - ``oskut`` — OSKUT support
-  - ``sefr_cut`` — SEFR CUT Thai word tokenization support
+  - ``oskut`` — OSKUT support (via LEKCut ONNX)
+  - ``sefr_cut`` — SEFR CUT Thai word tokenization support (via LEKCut ONNX)
   - ``spacy_thai`` — spaCy Thai language support
   - ``spell`` — support for more spell-checkers (phunspell & symspellpy)
   - ``ssg`` — support for SSG syllable tokenizer

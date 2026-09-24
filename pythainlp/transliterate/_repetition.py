@@ -55,4 +55,3 @@ def find_trailing_repeat_period(
         ):
             return period
     return None
-

@@ -30,12 +30,15 @@ class Small100Translator:
         self,
         use_gpu: bool = False,
         pretrained: str = "alirezamsh/small100",
+        revision: Optional[str] = None,
     ) -> None:
         from transformers import M2M100ForConditionalGeneration
 
         self.pretrained: str = pretrained
         self.model: "M2M100ForConditionalGeneration" = (
-            M2M100ForConditionalGeneration.from_pretrained(self.pretrained)
+            M2M100ForConditionalGeneration.from_pretrained(
+                self.pretrained, revision=revision
+            )
         )
         self.tgt_lang: Optional[str] = None
         if use_gpu:

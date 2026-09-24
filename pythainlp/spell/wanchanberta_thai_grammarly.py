@@ -27,7 +27,7 @@ if TYPE_CHECKING:
 use_cuda: bool = torch.cuda.is_available()
 device: torch.device = torch.device("cuda" if use_cuda else "cpu")
 tokenizer: "PreTrainedTokenizer" = AutoTokenizer.from_pretrained(
-    "airesearch/wangchanberta-base-att-spm-uncased"
+    "airesearch/wangchanberta-base-att-spm-uncased"  # nosec B615
 )
 
 
@@ -36,7 +36,7 @@ class BertModel(torch.nn.Module):  # type: ignore[misc]
         super().__init__()
         self.bert: BertForTokenClassification = (
             BertForTokenClassification.from_pretrained(
-                "bookpanda/wangchanberta-base-att-spm-uncased-tagging"
+                "bookpanda/wangchanberta-base-att-spm-uncased-tagging"  # nosec B615
             )
         )
 
@@ -97,7 +97,7 @@ def evaluate_one_text(model: BertModel, sentence: str) -> list[str]:
 
 
 mlm_model: "AutoModelForMaskedLM" = AutoModelForMaskedLM.from_pretrained(
-    "bookpanda/wangchanberta-base-att-spm-uncased-masking"
+    "bookpanda/wangchanberta-base-att-spm-uncased-masking"  # nosec B615
 )
 if use_cuda:
     mlm_model = mlm_model.to(device=device)

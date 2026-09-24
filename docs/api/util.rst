@@ -137,6 +137,12 @@ Modules
 
     The `num_to_thaiword` function is a numeral conversion tool for translating Arabic numerals into Thai word form. It is crucial for rendering numbers in a natural Thai textual format.
 
+.. autofunction:: num_to_thaiword_float
+    :noindex:
+
+    The `num_to_thaiword_float` function converts a floating-point number to Thai text. The integer part uses :func:`num_to_thaiword`, the decimal point is read as "จุด",
+    and each digit after the decimal is read individually.
+
 .. autofunction:: rank
     :noindex:
 

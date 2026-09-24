@@ -1,12 +1,16 @@
-# SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
+# SPDX-FileCopyrightText: 2026-present PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 
-name: Type check
+# Bandit is a tool designed to find common security issues in Python code.
+# https://github.com/pycqa/bandit
+
+name: Bandit
 
 on:
   push:
     branches:
       - dev
+      - main
     paths-ignore:
       - '**.cff'
       - '**.json'
@@ -17,6 +21,7 @@ on:
   pull_request:
     branches:
       - dev
+      - main
     paths-ignore:
       - '**.cff'
       - '**.json'
@@ -40,7 +45,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  mypy:
+  bandit:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -51,13 +56,11 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6.2.0
         with:
-          python-version: "3.9"
+          python-version: "3.x"
           cache: "pip"
 
-      - name: Install mypy
-        run: |
-          pip install .
-          pip install mypy
+      - name: Install bandit
+        run: pip install "bandit>=1.9.4"
 
-      - name: Run mypy
-        run: mypy pythainlp tests
+      - name: Run bandit
+        run: bandit -r pythainlp -c pyproject.toml

@@ -33,14 +33,15 @@ class ThZhTranslator:
         self,
         use_gpu: bool = False,
         pretrained: str = "Lalita/marianmt-th-zh_cn",
+        revision: Optional[str] = None,
     ) -> None:
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
         self.tokenizer_thzh: AutoTokenizer = AutoTokenizer.from_pretrained(
-            pretrained
+            pretrained, revision=revision
         )
         self.model_thzh: AutoModelForSeq2SeqLM = (
-            AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+            AutoModelForSeq2SeqLM.from_pretrained(pretrained, revision=revision)
         )
         if use_gpu:
             self.model_thzh = self.model_thzh.cuda()
@@ -108,14 +109,15 @@ class ZhThTranslator:
         self,
         use_gpu: bool = False,
         pretrained: str = "Lalita/marianmt-zh_cn-th",
+        revision: Optional[str] = None,
     ) -> None:
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
         self.tokenizer_zhth: AutoTokenizer = AutoTokenizer.from_pretrained(
-            pretrained
+            pretrained, revision=revision
         )
         self.model_zhth: AutoModelForSeq2SeqLM = (
-            AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+            AutoModelForSeq2SeqLM.from_pretrained(pretrained, revision=revision)
         )
         if use_gpu:
             self.model_zhth = self.model_zhth.cuda()

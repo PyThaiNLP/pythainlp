@@ -43,14 +43,15 @@ class ThFrTranslator:
         self,
         use_gpu: bool = False,
         pretrained: str = "Helsinki-NLP/opus-mt-th-fr",
+        revision: Optional[str] = None,
     ) -> None:
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
         self.tokenizer_thfr: AutoTokenizer = AutoTokenizer.from_pretrained(
-            pretrained
+            pretrained, revision=revision
         )
         self.model_thfr: AutoModelForSeq2SeqLM = (
-            AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+            AutoModelForSeq2SeqLM.from_pretrained(pretrained, revision=revision)
         )
         if use_gpu:
             self.model_thfr = self.model_thfr.cuda()

@@ -31,6 +31,7 @@ class Qwen3:
         device: str = "cuda",
         torch_dtype: Optional["torch.dtype"] = None,
         low_cpu_mem_usage: bool = True,
+        revision: Optional[str] = None,
     ) -> None:
         """Load Qwen3 model.
 
@@ -38,6 +39,8 @@ class Qwen3:
         :param str device: device (cpu, cuda or other)
         :param Optional[torch.dtype] torch_dtype: torch data type (e.g., torch.float16, torch.bfloat16)
         :param bool low_cpu_mem_usage: low cpu mem usage
+        :param Optional[str] revision: a git revision id (branch, tag, or
+            commit hash). Pin to a full commit hash for secure downloads.
 
         :Example:
 
@@ -74,7 +77,9 @@ class Qwen3:
         self.model_path = model_path
 
         try:
-            self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
+            self.tokenizer = AutoTokenizer.from_pretrained(
+                self.model_path, revision=revision
+            )
         except OSError as exc:
             raise RuntimeError(
                 f"Failed to load tokenizer from '{self.model_path}'. "
@@ -87,6 +92,7 @@ class Qwen3:
                 device_map=device,
                 torch_dtype=torch_dtype,
                 low_cpu_mem_usage=low_cpu_mem_usage,
+                revision=revision,
             )
         except OSError as exc:
             # Clean up tokenizer on failure

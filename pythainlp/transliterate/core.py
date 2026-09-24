@@ -120,6 +120,8 @@ def transliterate(
         * *umt5_thaig2p* - Thai Grapheme-to-Phoneme,
           output is IPA, powered by UMT5.\
           https://huggingface.co/B-K/umt5-thai-g2p-v2-0.5k
+        * *fastthaig2p* - FastThaiG2P, output is IPA (pure Python dictionary
+          lookup with text normalization and fallback)
 
     :Example:
 
@@ -130,6 +132,8 @@ def transliterate(
         'saːmaːrot'
         >>> transliterate("สามารถ", engine="thaig2p")  # doctest: +SKIP
         's aː ˩˩˦ . m aː t̚ ˥˩'
+        >>> transliterate("สามารถ", engine="fastthaig2p")
+        '/saː˩˩˦.maːt̚˥˩/'
         >>> transliterate("สามารถ", engine="tltk_ipa")  # doctest: +SKIP
         'saː5.maːt3'
         >>> transliterate("สามารถ", engine="tltk_g2p")  # doctest: +SKIP
@@ -164,6 +168,8 @@ def transliterate(
         from pythainlp.transliterate.thaig2p_v4 import transliterate  # noqa: I001
     elif engine == "umt5_thaig2p":
         from pythainlp.transliterate.umt5_thaig2p import transliterate  # noqa: I001
+    elif engine == "fastthaig2p":
+        from pythainlp.transliterate.fastthaig2p import transliterate  # noqa: I001
     else:  # use default engine: "thaig2p"
         from pythainlp.transliterate.thaig2p import transliterate  # noqa: I001
 

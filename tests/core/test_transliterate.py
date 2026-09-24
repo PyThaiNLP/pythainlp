@@ -192,7 +192,6 @@ class TransliterateTestCase(unittest.TestCase):
             pronunciate_pali("พฺราหฺมณ"), "พราหมะณะ"
         )
 
-
 class RepetitionCycleTestCase(unittest.TestCase):
     """Tests for the greedy-decoding cycle detector.
 

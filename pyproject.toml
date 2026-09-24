@@ -226,6 +226,7 @@ noauto-tensorflow = [
 # ONNX Runtime-based dependencies - for tests.noauto_onnx
 noauto-onnx = [
     "lekcut>=1.0.0",
+    "huggingface-hub>=0.16.0",
     "numpy>=1.26.0",
     "onnxruntime>=1.10.0",
 ]

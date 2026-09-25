@@ -52,6 +52,16 @@ and this project adheres to
   package dependencies. The `segment()` APIs remain fully backward compatible.
   Attacut tests moved from `tests/noauto_torch/` to `tests/noauto_onnx/`.
 
+### Fixed
+
+- `pythainlp.tokenize.tcc_p` (used by the `newmm` word tokenizer):
+  Sara Am typed as Nikhahit + Sara Aa (ํา) and Sara Ae typed as
+  Sara E + Sara E (เเ) now form one character cluster, like their
+  single-character forms. Before, the Nikhahit or the first Sara E
+  became a separate cluster, and `newmm` could split it off as its own
+  token (e.g., `word_tokenize("เเข็ง")` returned `["เ", "เข็ง"]`).
+  The input text is not modified.
+
 ## [5.3.8] - 2026-09-25
 
 ### Deprecated

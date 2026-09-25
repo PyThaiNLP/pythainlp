@@ -709,6 +709,26 @@ class TokenizeTestCase(unittest.TestCase):
         self.assertEqual(len(arr), len("ประเทศ") + 1)
         self.assertEqual(arr[0], 0)  # position 0 is never a boundary
 
+    def test_tcc_p_alternative_spellings(self):
+        # Nikhahit + Sara Aa (ํา) clusters like Sara Am (ำ)
+        self.assertEqual(tcc_p.segment("ทำนา"), ["ทำ", "นา"])
+        self.assertEqual(tcc_p.segment("ทํานา"), ["ทํา", "นา"])
+        self.assertEqual(tcc_p.segment("น้ำ"), ["น้ำ"])
+        self.assertEqual(tcc_p.segment("น้ํา"), ["น้ํา"])  # tone first
+        self.assertEqual(tcc_p.segment("นํ้า"), ["นํ้า"])  # nikhahit first
+        self.assertEqual(tcc_p.tcc_pos("ทํานา"), {3, 5})
+        # Sara E + Sara E (เเ) clusters like Sara Ae (แ)
+        self.assertEqual(tcc_p.segment("แปลก"), ["แป", "ล", "ก"])
+        self.assertEqual(tcc_p.segment("เเปลก"), ["เเป", "ล", "ก"])
+        self.assertEqual(tcc_p.segment("เเม่"), ["เเม่"])
+        self.assertEqual(
+            list(tcc_p.tcc_pos_array("เเปลก")), [0, 0, 0, 1, 1, 1]
+        )
+        # newmm must not split the first Sara E off as its own token
+        self.assertEqual(word_tokenize("เเข็ง", engine="newmm"), ["เเข็ง"])
+        for text in ("ทํานา", "นํ้า", "เเปลก", "สําคัญ"):
+            self.assertEqual("".join(word_tokenize(text)), text)
+
     def test_display_cell_tokenize(self):
         self.assertEqual(display_cell_tokenize(""), [])
         self.assertEqual(

@@ -4,7 +4,12 @@
 """The implementation of tokenizer according to Thai Character Clusters (TCCs)
 rules proposed by `Theeramunkong et al. 2000. \
     <https://doi.org/10.1145/355214.355225>`_
-and improved rules that are used in newmm
+and improved rules that are used in newmm.
+
+Common alternative spellings of a single vowel, Sara Am typed as
+Nikhahit + Sara Aa (ํา) and Sara Ae typed as Sara E + Sara E (เเ),
+are clustered the same way as their single-character forms.
+The input text is not modified.
 
 Credits:
     * TCC: Jakkrit TeCho
@@ -40,7 +45,7 @@ c[ิุู]์
 c[ะ-ู]tk
 cรรc์
 c็
-ct[ะาำ]?k
+ctA?k
 ck
 แc็c
 แcc์
@@ -48,7 +53,7 @@ ck
 แcc็c
 แccc์
 โctะ
-[เ-ไ]ct
+(?:เเ|[เ-ไ])ct
 ก็
 อึ
 หึ
@@ -56,6 +61,10 @@ ck
     .replace("c", "[ก-ฮ]")
     .replace("t", "[่-๋]?")
     .replace("d", "อูอุ".replace("อ", ""))  # DSara: lower vowel
+    # Nikhahit + Sara Aa (ํา) is a common spelling of Sara Am (ำ)
+    .replace("A", "(?:[ะาำ]|ํ[่-๋]?า)")
+    # Sara E + Sara E (เเ) is a common spelling of Sara Ae (แ)
+    .replace("แ", "(?:แ|เเ)")
     .split()
 )
 

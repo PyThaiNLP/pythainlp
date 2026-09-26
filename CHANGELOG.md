@@ -52,6 +52,25 @@ and this project adheres to
   package dependencies. The `segment()` APIs remain fully backward compatible.
   Attacut tests moved from `tests/noauto_torch/` to `tests/noauto_onnx/`.
 
+### Fixed
+
+- `pythainlp.tokenize.newmm`: fixed a quadratic-time blowup in
+  `word_tokenize()` (`engine="newmm"`, the default). The `_MAX_GRAPH_SIZE`
+  cutoff added for #893 only limits how many edges are added from a single
+  position in one pass; it does not bound how large the ambiguity graph
+  grows across a long, persistently ambiguous stretch of text. The BFS that
+  resolves that graph also copied the whole path-so-far on every step, so
+  one resolution over a large accumulated graph cost O(V x path length)
+  instead of O(V + E). Together, text with many overlapping dictionary
+  matches over a long stretch (e.g., `"กรรมกร" * 8000`, 48,000 characters)
+  made tokenization time grow quadratically with length: 48,000 characters
+  of this pattern took over 3 seconds. The BFS now rebuilds the path once,
+  from a predecessor map, instead of copying it at every step; tokenizing
+  is 6-13x faster on this kind of input and scales close to linearly again.
+  Checked against the unmodified tokenizer on the full bundled word list
+  (60k+ words), 20k pairwise concatenations, and known edge cases: token
+  output is unchanged.
+
 ## [5.3.8] - 2026-09-25
 
 ### Deprecated

@@ -17,7 +17,7 @@ with heuristic graph size limit added to avoid exponential waiting time.
 from __future__ import annotations
 
 import re
-from collections import defaultdict
+from collections import defaultdict, deque
 from heapq import heappop, heappush
 from typing import TYPE_CHECKING, Optional
 
@@ -60,21 +60,33 @@ del _TEXT_SCAN_LEFT
 del _TEXT_SCAN_RIGHT
 
 
-def _bfs_paths_graph(
+def _bfs_shortest_path(
     graph: defaultdict[int, list[int]], start: int, goal: int
-) -> Generator[list[int], None, None]:
+) -> list[int]:
     # visited set prevents re-exploring nodes already reached via a shorter
     # path, converting worst-case BFS from exponential to O(V + E).
+    # The path itself is rebuilt once, from a predecessor map, instead of
+    # being copied (path + [pos]) at every step: that copy made a single
+    # BFS call cost O(V x path length) instead of O(V + E), which is what
+    # let long, persistently ambiguous input make word_tokenize() quadratic.
     visited: set[int] = {start}
-    queue = [(start, [start])]
+    predecessor: dict[int, int] = {}
+    queue: deque[int] = deque([start])
     while queue:
-        (vertex, path) = queue.pop(0)
+        vertex = queue.popleft()
         for pos in graph[vertex]:
             if pos == goal:
-                yield path + [pos]
-            elif pos not in visited:
+                predecessor[pos] = vertex
+                path = [goal]
+                while path[-1] != start:
+                    path.append(predecessor[path[-1]])
+                path.reverse()
+                return path
+            if pos not in visited:
                 visited.add(pos)
-                queue.append((pos, path + [pos]))
+                predecessor[pos] = vertex
+                queue.append(pos)
+    raise ValueError(f"no path from {start} to {goal} in the ambiguity graph")
 
 
 def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
@@ -90,25 +102,28 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
     len_text = len(text)
     pos_list = [0]  # priority queue of possible breaking positions
+    pos_set = {0}  # mirrors pos_list, for an O(1) membership check
     end_pos = 0
     while pos_list[0] < len_text:
         begin_pos = heappop(pos_list)
+        pos_set.discard(begin_pos)
         for word in custom_dict.prefixes(text, begin_pos):
             end_pos_candidate = begin_pos + len(word)
             if valid_poss[end_pos_candidate]:
                 graph[begin_pos].append(end_pos_candidate)
                 graph_size = graph_size + 1
 
-                if end_pos_candidate not in pos_list:
+                if end_pos_candidate not in pos_set:
                     heappush(pos_list, end_pos_candidate)
+                    pos_set.add(end_pos_candidate)
 
                 if graph_size > _MAX_GRAPH_SIZE:
                     break
 
         len_pos_list = len(pos_list)
         if len_pos_list == 1:  # one candidate, no longer ambiguous
-            end_pos_candidates = next(
-                _bfs_paths_graph(graph, end_pos, pos_list[0])
+            end_pos_candidates = _bfs_shortest_path(
+                graph, end_pos, pos_list[0]
             )
             graph_size = 0
             graph.clear()
@@ -145,6 +160,7 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
             graph.clear()
             yield text[begin_pos:end_pos]
             heappush(pos_list, end_pos)
+            pos_set.add(end_pos)
 
 
 def segment(

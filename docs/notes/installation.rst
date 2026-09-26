@@ -24,7 +24,6 @@ The extras can include:
   - ``dependency_parsing`` — dependency parsing support
   - ``el`` — entity linking support
   - ``esupar`` — ESuPAR parser support
-  - ``generate`` — support for text generation
   - ``icu`` — support for ICU (International Components for Unicode) used in transliteration and tokenization
   - ``ipa`` — support for IPA (International Phonetic Alphabet) in transliteration
   - ``lekcut`` — LEKCut ONNX tokenizer support
@@ -44,7 +43,6 @@ The extras can include:
   - ``transformers_ud`` — transformers_ud engine support
   - ``translate`` — machine translation support
   - ``wangchanberta`` — WangchanBERTa models
-  - ``wangchanglm`` — WangchangLM model support
   - ``word_approximation`` — word approximation support
   - ``wordnet`` — WordNet support
   - ``wsd`` — word-sense disambiguation support (pythainlp.wsd)

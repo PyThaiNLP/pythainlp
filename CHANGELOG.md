@@ -19,10 +19,9 @@ and this project adheres to
 
 ## [Unreleased]
 
-## Deprecated
-
-- Add warn deprecation `pythainlp.generate.thai2fit`,
-  `pythainlp.generate.wangchanglm`, and `pythainlp.chat`. #1519
+### Removed
+- Remove `pythainlp.generate.thai2fit`, `pythainlp.generate.wangchanglm`, and
+  `pythainlp.chat`.
 
 ### Added
 - Add word tokenization evaluation metrics (`evaluate_word_tokenization`,
@@ -31,7 +30,7 @@ and this project adheres to
   to `pythainlp.benchmarks`.
 - Thai G2P v4 model via Hugging Face Hub using ONNX Runtime (`thaig2p_v4`), available in `pythainlp.transliterate`.
 
-## Changed
+### Changed
 - `pythainlp.transliterate.fastthaig2p`: Native FastThaiG2P grapheme-to-phoneme
   conversion engine without external package dependencies. Supports text
   normalization (numbers, dates, times, phone numbers, symbols, abbreviations,

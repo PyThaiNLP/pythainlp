@@ -23,11 +23,9 @@ and are primarily used by developers to:
 These notebooks test specific module functionality:
 
 - `test_aksonhan.ipynb` - Testing ancient Thai script conversion
-- `test_chat.ipynb` - Testing chatbot functionality with WangChanGLM
 - `test_el.ipynb` - Testing entity linking
 - `test_gzip_classify.ipynb` - Testing GZIP-based classification
 - `test_tcc.ipynb` - Testing Thai Character Cluster tokenization
-- `test_wangchanglm.ipynb` - Testing WangChanGLM text generation
 - `test_wsd.ipynb` - Testing word sense disambiguation
 
 ### Development tools

@@ -24,6 +24,7 @@ from unittest import TestLoader, TestSuite
 
 # Names of module to be tested
 test_packages: list[str] = [
+    "tests.noauto_onnx.testn_classify_onnx",
     "tests.noauto_onnx.testn_spell_onnx",
     "tests.noauto_onnx.testn_tag_onnx",
     "tests.noauto_onnx.testn_tokenize_onnx",

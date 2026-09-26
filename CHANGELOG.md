@@ -19,6 +19,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Deprecated
+- Deprecate `pythainlp.phayathaibert`, `pythainlp.wangchanberta`, and
+  `pythainlp.ulmfit` in favor of `pythainlp.lm.phayathaibert`,
+  `pythainlp.lm.wangchanberta`, and `pythainlp.lm.ulmfit`.
+
 ### Removed
 - Remove `pythainlp.generate.thai2fit`, `pythainlp.generate.wangchanglm`, and
   `pythainlp.chat`.
@@ -31,6 +36,9 @@ and this project adheres to
 - Thai G2P v4 model via Hugging Face Hub using ONNX Runtime (`thaig2p_v4`), available in `pythainlp.transliterate`.
 
 ### Changed
+- Move `pythainlp.phayathaibert`, `pythainlp.wangchanberta`, and
+  `pythainlp.ulmfit` to `pythainlp.lm` (`pythainlp.lm.phayathaibert`,
+  `pythainlp.lm.wangchanberta`, `pythainlp.lm.ulmfit`) to organize a better API.
 - `pythainlp.transliterate.fastthaig2p`: Native FastThaiG2P grapheme-to-phoneme
   conversion engine without external package dependencies. Supports text
   normalization (numbers, dates, times, phone numbers, symbols, abbreviations,

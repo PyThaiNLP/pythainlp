@@ -31,3 +31,35 @@ class LMTestCase(unittest.TestCase):
             remove_repeated_ngrams(texts, n=2),
             ['เอา', 'เอา', 'แบบ', 'แบบ', 'ไหน']
         )
+
+    def test_lm_phayathaibert_segment_empty(self):
+        from pythainlp.lm.phayathaibert import segment
+        self.assertEqual(segment(""), [])
+        self.assertEqual(segment(None), [])  # type: ignore[arg-type]
+
+    def test_lm_wangchanberta_segment_empty(self):
+        from pythainlp.lm.wangchanberta import segment
+        self.assertEqual(segment(""), [])
+        self.assertEqual(segment(None), [])  # type: ignore[arg-type]
+
+    def test_deprecated_phayathaibert(self):
+        import importlib
+        import warnings
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            import pythainlp.phayathaibert
+            importlib.reload(pythainlp.phayathaibert)
+        self.assertTrue(
+            any(issubclass(warning.category, DeprecationWarning) for warning in w)
+        )
+
+    def test_deprecated_wangchanberta(self):
+        import importlib
+        import warnings
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            import pythainlp.wangchanberta
+            importlib.reload(pythainlp.wangchanberta)
+        self.assertTrue(
+            any(issubclass(warning.category, DeprecationWarning) for warning in w)
+        )

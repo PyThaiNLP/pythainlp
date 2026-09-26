@@ -10,15 +10,15 @@ from typing import TYPE_CHECKING, TypedDict, Union
 if TYPE_CHECKING:
     from types import ModuleType
 
-    from pythainlp.phayathaibert.core import NamedEntityTagger
-    from pythainlp.tag.thai_nner import ThaiNNER
-    from pythainlp.tag.thainer import ThaiNameTagger
-    from pythainlp.wangchanberta.core import (
+    from pythainlp.lm.phayathaibert.core import NamedEntityTagger
+    from pythainlp.lm.wangchanberta.core import (
         NamedEntityRecognition,
     )
-    from pythainlp.wangchanberta.core import (
+    from pythainlp.lm.wangchanberta.core import (
         ThaiNameTagger as WangchanbertaThaiNameTagger,
     )
+    from pythainlp.tag.thai_nner import ThaiNNER
+    from pythainlp.tag.thainer import ThaiNameTagger
 
 
 class EntitySpan(TypedDict):
@@ -91,20 +91,20 @@ class NER:
 
                 self.engine = ThaiNameTagger()
             elif engine == "thainer-v2":
-                from pythainlp.wangchanberta import NamedEntityRecognition
+                from pythainlp.lm.wangchanberta import NamedEntityRecognition
 
                 self.engine = NamedEntityRecognition(
                     model="pythainlp/thainer-corpus-v2-base-model"
                 )
             elif engine == "wangchanberta":
-                from pythainlp.wangchanberta import (
+                from pythainlp.lm.wangchanberta import (
                     ThaiNameTagger as WangchanbertaThaiNameTagger,
                 )  # noqa: I001,E501
 
                 self.engine = WangchanbertaThaiNameTagger(dataset_name=corpus)
         elif corpus == "thainer-v2":
             if engine == "phayathaibert":
-                from pythainlp.phayathaibert.core import NamedEntityTagger
+                from pythainlp.lm.phayathaibert.core import NamedEntityTagger
 
                 self.engine = NamedEntityTagger()
 

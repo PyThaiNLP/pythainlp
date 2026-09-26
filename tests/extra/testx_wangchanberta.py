@@ -3,8 +3,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import unittest
+import warnings
 
-from pythainlp.wangchanberta import ThaiNameTagger, segment
+from pythainlp.lm.wangchanberta import ThaiNameTagger, segment
 
 
 class WangchanbertaTestCaseX(unittest.TestCase):
@@ -35,4 +36,14 @@ class WangchanbertaTestCaseX(unittest.TestCase):
         )
         self.assertIsNotNone(
             segment([])  # type: ignore[arg-type]
+        )
+
+    def test_deprecated_wangchanberta(self):
+        import importlib
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            import pythainlp.wangchanberta
+            importlib.reload(pythainlp.wangchanberta)
+        self.assertTrue(
+            any(issubclass(warning.category, DeprecationWarning) for warning in w)
         )

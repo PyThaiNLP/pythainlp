@@ -20,8 +20,7 @@ from fastai.text import (
     untar_data,
 )
 
-from pythainlp.tokenize import thai2fit_tokenizer
-from pythainlp.ulmfit import (
+from pythainlp.lm.ulmfit import (
     THWIKI_LSTM,
     ThaiTokenizer,
     document_vector,
@@ -32,7 +31,7 @@ from pythainlp.ulmfit import (
     pre_rules_th_sparse,
     process_thai,
 )
-from pythainlp.ulmfit.preprocess import (
+from pythainlp.lm.ulmfit.preprocess import (
     fix_html,
     lowercase_all,
     remove_space,
@@ -47,7 +46,8 @@ from pythainlp.ulmfit.preprocess import (
     spec_add_spaces,
     ungroup_emoji,
 )
-from pythainlp.ulmfit.tokenizer import BaseTokenizer as base_tokenizer
+from pythainlp.lm.ulmfit.tokenizer import BaseTokenizer as base_tokenizer
+from pythainlp.tokenize import thai2fit_tokenizer
 
 
 class UlmfitTestCaseX(unittest.TestCase):
@@ -284,3 +284,14 @@ class UlmfitTestCaseX(unittest.TestCase):
         itos_new = ["ปลา", "เต่า", "นก"]
         em_sz = 3
         self.assertIsNotNone(merge_wgts(em_sz, wgts, itos_pre, itos_new))
+
+    def test_deprecated_ulmfit(self):
+        import importlib
+        import warnings
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            import pythainlp.ulmfit
+            importlib.reload(pythainlp.ulmfit)
+        self.assertTrue(
+            any(issubclass(warning.category, DeprecationWarning) for warning in w)
+        )

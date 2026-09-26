@@ -684,7 +684,7 @@ def subword_tokenize(
 
         segments = etcc_segment(text)
     elif engine == "wangchanberta":
-        from pythainlp.wangchanberta import segment as wangchanberta_segment
+        from pythainlp.lm.wangchanberta import segment as wangchanberta_segment
 
         segments = wangchanberta_segment(text)
     elif engine == "dict":  # use syllable dictionary
@@ -706,7 +706,7 @@ def subword_tokenize(
 
         segments = han_solo_segment(text)
     elif engine == "phayathai":
-        from pythainlp.phayathaibert import segment as phayathai_segment
+        from pythainlp.lm.phayathaibert import segment as phayathai_segment
 
         segments = phayathai_segment(text)
     else:

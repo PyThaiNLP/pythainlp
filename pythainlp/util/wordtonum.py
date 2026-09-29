@@ -202,9 +202,9 @@ def text_to_num(text: str) -> list[str]:
 
     """
     _temp = _tokenizer_thaiwords().word_tokenize(text)
-    thainum = []
+    thainum: list[str] = []
     last_index = -1
-    list_word_new = []
+    list_word_new: list[str] = []
     for i, word in enumerate(_temp):
         next_word = _temp[i + 1] if i + 1 < len(_temp) else ""
         isthainum = _check_is_thainum(word, next_word, thainum)[0]

@@ -709,6 +709,26 @@ class TokenizeTestCase(unittest.TestCase):
         self.assertEqual(len(arr), len("ประเทศ") + 1)
         self.assertEqual(arr[0], 0)  # position 0 is never a boundary
 
+    def test_tcc_p_long_text_scaling(self):
+        # tcc_p must scale linearly: matching in place, not on text[p:] copies
+        unit = "สวัสดีครับประเทศไทย"
+
+        def best_time(reps: int) -> float:
+            text = unit * reps
+            best = float("inf")
+            for _ in range(3):
+                start = time.perf_counter()
+                arr = tcc_p.tcc_pos_array(text)
+                best = min(best, time.perf_counter() - start)
+            self.assertEqual(len(arr), len(text) + 1)
+            self.assertEqual("".join(tcc_p.tcc(text)), text)
+            return best
+
+        small = best_time(10000)
+        large = best_time(40000)
+        # 4x the text: about 4x the time if linear, about 16x if quadratic
+        self.assertLess(large, max(small, 0.01) * 10)
+
     def test_display_cell_tokenize(self):
         self.assertEqual(display_cell_tokenize(""), [])
         self.assertEqual(

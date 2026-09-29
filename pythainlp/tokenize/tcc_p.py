@@ -75,11 +75,8 @@ def tcc(text: str) -> Iterator[str]:
     len_text = len(text)
     p = 0
     while p < len_text:
-        m = _PAT_TCC.match(text[p:])
-        if m:
-            n = m.span()[1]
-        else:
-            n = 1
+        m = _PAT_TCC.match(text, p)
+        n = m.end() - p if m else 1
         yield text[p : p + n]
         p += n
 

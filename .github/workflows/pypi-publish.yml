@@ -101,7 +101,7 @@ jobs:
 
     - name: Generate SBOM and embed into the wheel
       id: pitloom
-      uses: bact/pitloom@6a5473c42efcd3727d2a1ff94745ba93ab46722f # v0.18.1
+      uses: bact/pitloom@3c555bf08e8c7f24ff9b4eb5659a5f9d999739f9 # v0.19.0
       with:
         pitloom-version: "0.18.1"
         python-version: ${{ matrix.python-version }}

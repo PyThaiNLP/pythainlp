@@ -103,7 +103,6 @@ jobs:
       id: pitloom
       uses: bact/pitloom@3c555bf08e8c7f24ff9b4eb5659a5f9d999739f9 # v0.19.0
       with:
-        pitloom-version: "0.18.1"
         python-version: ${{ matrix.python-version }}
         embed-wheel: "dist/*.whl"
         project-path: "."

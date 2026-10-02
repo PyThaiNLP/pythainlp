@@ -615,6 +615,26 @@ class TokenizeTestCase(unittest.TestCase):
         # Should complete in well under 1 second after the BFS fix.
         self.assertLess(elapsed, 5.0)
 
+    def test_newmm_persistent_ambiguity_performance(self):
+        # Regression test: the _MAX_GRAPH_SIZE cutoff only limits how many
+        # edges are added from a single position in one pass, not the total
+        # size the ambiguity graph accumulates across many positions. Text
+        # that stays ambiguous for a long stretch (many overlapping
+        # dictionary prefixes, e.g. "กรรมกร" repeated) let that graph grow
+        # to the size of the whole stretch before the first resolution, and
+        # _bfs_shortest_path used to copy the whole path-so-far on every BFS
+        # step, making that one resolution O(V x path length). Together this
+        # made word_tokenize() quadratic in text length: 48,000 characters
+        # of this pattern took over 3 seconds before the fix.
+        text = "กรรมกร" * 16000
+        t = time.perf_counter()
+        result = word_tokenize(text, engine="newmm")
+        elapsed = time.perf_counter() - t
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+        self.assertEqual("".join(result), text)
+        self.assertLess(elapsed, 5.0)
+
     def test_tcc(self):
         assert_segment_handles_none_and_empty(self, tcc.segment)
         self.assertEqual(

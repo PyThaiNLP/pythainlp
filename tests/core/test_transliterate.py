@@ -2,6 +2,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
+import importlib
 import unittest
 from unittest.mock import patch
 
@@ -73,7 +74,7 @@ class TransliterateTestCase(unittest.TestCase):
         # ฤ (U+0E24) is a key of _CONSONANTS but is not in thai_consonants,
         # so it used to desynchronize the consonant list and raise IndexError.
         for word, expect in RU_TESTS.items():
-            self.assertEqual(romanize(word, engine="royin"), expect)  # type: ignore[arg-type]
+            self.assertEqual(romanize(word, engine="royin"), expect)
 
     def test_romanize_royin_consistency(self):
         for word, part1, part2 in CONSISTENCY_TESTS:
@@ -111,11 +112,17 @@ class TransliterateTestCase(unittest.TestCase):
         self.assertIsNotNone(transliterate("คน", engine="iso_11940"))
         self.assertIsNotNone(transliterate("แมว", engine="iso_11940"))
 
-    @patch("pythainlp.transliterate.thaig2p_v4.transliterate")
-    def test_transliterate_thaig2p_v4_dispatch(self, mock_g2p):
-        mock_g2p.return_value = "/kʰon˧/"
-        self.assertEqual(transliterate("คน", engine="thaig2p_v4"), "/kʰon˧/")
-        mock_g2p.assert_called_once_with("คน")
+    def test_transliterate_thaig2p_v4_dispatch(self):
+        # Patch through the module object: on Python < 3.11, patch() resolves
+        # "pythainlp.transliterate" by attribute, which is the function
+        # `pythainlp.transliterate.transliterate` re-exported in `pythainlp`.
+        module = importlib.import_module("pythainlp.transliterate.thaig2p_v4")
+        with patch.object(module, "transliterate") as mock_g2p:
+            mock_g2p.return_value = "/kʰon˧/"
+            self.assertEqual(
+                transliterate("คน", engine="thaig2p_v4"), "/kʰon˧/"
+            )
+            mock_g2p.assert_called_once_with("คน")
 
     def test_transliterate_iso11940(self):
         self.assertEqual(

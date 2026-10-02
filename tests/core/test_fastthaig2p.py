@@ -10,6 +10,8 @@ from pythainlp.transliterate import FastThaiG2P, transliterate
 from pythainlp.transliterate.fastthaig2p import (
     fallback_g2p,
     normalize,
+)
+from pythainlp.transliterate.fastthaig2p import (
     transliterate as fastthaig2p_transliterate,
 )
 

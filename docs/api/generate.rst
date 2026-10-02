@@ -3,7 +3,7 @@
 pythainlp.generate
 ==================
 
-The :mod:`pythainlp.generate` module provides classes and functions for generating Thai text using n-gram and neural language models.
+The :mod:`pythainlp.generate` module provides classes and functions for generating Thai text using n-gram language models.
 
 N-gram generators
 -----------------
@@ -15,18 +15,6 @@ N-gram generators
    :members:
 
 .. autoclass:: pythainlp.generate.Trigram
-   :members:
-
-Thai2fit helper
----------------
-
-.. autofunction:: pythainlp.generate.thai2fit.gen_sentence
-   :noindex:
-
-WangChanLM
-----------
-
-.. autoclass:: pythainlp.generate.wangchanglm.WangChanGLM
    :members:
 
 Usage

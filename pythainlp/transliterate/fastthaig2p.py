@@ -470,17 +470,17 @@ def _email_token_to_thai(token: str) -> str:
 
 def _email_to_thai(match: re.Match[str]) -> str:
     out: List[str] = []
-    token = ""
+    chunk = ""
     for char in match.group(0):
         if char in _EMAIL_SEPARATORS:
-            if token:
-                out.append(_email_token_to_thai(token))
-                token = ""
+            if chunk:
+                out.append(_email_token_to_thai(chunk))
+                chunk = ""
             out.append(_EMAIL_SEPARATORS[char])
         else:
-            token += char
-    if token:
-        out.append(_email_token_to_thai(token))
+            chunk += char
+    if chunk:
+        out.append(_email_token_to_thai(chunk))
     return "".join(out)
 
 

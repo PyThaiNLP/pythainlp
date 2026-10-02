@@ -72,7 +72,6 @@ pip install "pythainlp[extra1,extra2,...]"
 - `dependency_parsing` — รองรับการวิเคราะห์โครงสร้างประโยค
 - `el` — รองรับการเชื่อมโยงเอนทิตี
 - `esupar` — รองรับ ESuPAR parser
-- `generate` — รองรับการสร้างข้อความ
 - `icu` — รองรับ ICU (International Components for Unicode) ใช้ในการถอดอักษรและการตัดคำ
 - `ipa` — รองรับ IPA (International Phonetic Alphabet) ในการถอดอักษร
 - `ml` — รองรับโมเดล ULMFiT ที่ใช้ในการจำแนกประเภท
@@ -91,7 +90,6 @@ pip install "pythainlp[extra1,extra2,...]"
 - `transformers_ud` — รองรับ Universal Dependencies ด้วย transformers
 - `translate` — รองรับการแปลภาษาด้วยแมชชีน
 - `wangchanberta` — โมเดล WangchanBERTa
-- `wangchanglm` — รองรับโมเดล WangchanGLM
 - `word_approximation` — รองรับการประมาณคำ
 - `wordnet` — รองรับ WordNet
 - `wsd` — รองรับการแก้ความกำกวมของความหมายคำ (pythainlp.wsd)

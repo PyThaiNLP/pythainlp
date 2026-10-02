@@ -8,7 +8,15 @@ import re
 import sys
 from collections.abc import Mapping
 from itertools import accumulate
-from typing import TYPE_CHECKING, Any, NamedTuple, TypedDict, Union, overload
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    NamedTuple,
+    TypedDict,
+    Union,
+    cast,
+    overload,
+)
 
 if TYPE_CHECKING:
     import numpy as np
@@ -25,7 +33,6 @@ __all__: list[str] = [
     "char_eval_function",
     "compute_stats",
     "evaluate_word_tokenization",
-    "evaluation",
     "preprocessing",
     "word_eval_function",
 ]
@@ -489,17 +496,20 @@ def _normalize_evaluation_input(
     if len(x) == 0:
         return [""]
 
-    if len(x) == 1 and isinstance(x[0], str):
-        return x
-
     if isinstance(x[0], list):
-        flat: list[str] = [j for sub in x for j in sub]
+        nested = cast("list[list[str]]", x)
+        flat: list[str] = [j for sub in nested for j in sub]
         return [f"{sep}".join(flat)]
 
-    if sep:
-        return [f"{sep}".join(x)]
+    tokens = cast("list[str]", x)
 
-    return ["".join(x)]
+    if len(tokens) == 1 and isinstance(tokens[0], str):
+        return tokens
+
+    if sep:
+        return [f"{sep}".join(tokens)]
+
+    return ["".join(tokens)]
 
 
 def evaluate_word_tokenization(

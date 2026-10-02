@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import collections
-from typing import TYPE_CHECKING, Optional, cast
+from typing import TYPE_CHECKING, Any, Optional, cast
 
 import torch
 
@@ -199,7 +199,7 @@ def process_thai(
 
 
 def document_vector(
-    text: str, learn, data, agg: str = "mean"
+    text: str, learn: Any, data: Any, agg: str = "mean"
 ) -> "NDArray[np.float32]":
     """Vectorize a Thai sentence into a 400-dimension vector.
 

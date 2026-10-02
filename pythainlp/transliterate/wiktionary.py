@@ -389,11 +389,11 @@ def transliterate_wiktionary(text: str, mode: str = "ipa") -> str:
             if mode == "paiboon":
                 v = re.sub(
                     r"^([^aiʉueɛoɔə]*)([aiʉueɛoɔə])",
-                    f"\\g<1>\\g<2>{_TONE_ROM_MARKS.get(tone, '')}",
+                    f"\\g<1>\\g<2>{_TONE_ROM_MARKS.get(tone, '') if tone else ''}",
                     v,
                 )
             elif mode == "ipa":
-                c2 = c2 + _TONE_LEVELS.get(tone, "")
+                c2 = c2 + (_TONE_LEVELS.get(tone, "") if tone else "")
 
             return ini + g + v + c2
 

@@ -58,9 +58,6 @@ class KhaveeVerifier:
             ...     k_type=4
             ... )
             'The poem is correct according to the principle.'
-
-    :Note:
-        The method :meth:`check_klon` requires the external ``ssg`` library.
     """
     # explicitly include ฤ and ฦ as they act as initial consonants but aren't in thai_consonants
     VALID_CONSONANTS = frozenset(thai_consonants + "ฤฦ")
@@ -702,14 +699,6 @@ class KhaveeVerifier:
             ... ))
             The poem is correct according to the principle.
         """
-
-        try:
-            __import__("ssg")
-        except ImportError as exc:
-            raise ImportError(
-                "The 'ssg' library is required for comprehensive poem analysis (check_klon). "
-                "Please install it using: pip install ssg"
-            ) from exc
 
         if k_type not in {4, 8}:
             return "Something went wrong. Make sure you enter it in the correct form (k_type 4 or 8)."

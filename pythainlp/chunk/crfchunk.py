@@ -6,17 +6,14 @@
 from __future__ import annotations
 
 from importlib.resources import as_file, files
-from typing import TYPE_CHECKING, Any, Optional, Union, cast
+from typing import TYPE_CHECKING, Any, Optional, Union
 
 if TYPE_CHECKING:
     import types
     from contextlib import AbstractContextManager
 
-    from pycrfsuite import (
-        Tagger as CRFTagger,  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-module-attribute]
-    )
-
 from pythainlp.corpus import thai_stopwords
+from pythainlp.tag.crf import CRFTagger
 
 
 def _is_stopword(word: str) -> bool:
@@ -110,14 +107,10 @@ class CRFChunkParser:
 
         :param str corpus: corpus name.
         """
-        from pycrfsuite import (
-            Tagger as CRFTagger,  # noqa: PLC0415  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-module-attribute]
-        )
-
         self.tagger = CRFTagger()
         if corpus == "orchidpp":
             corpus_files = files("pythainlp.corpus")
-            model_file = corpus_files.joinpath("crfchunk_orchidpp.model")
+            model_file = corpus_files.joinpath("crfchunk_orchidpp.json.gz")
             self._model_file_ctx = as_file(model_file)
             model_path = self._model_file_ctx.__enter__()
             self.tagger.open(str(model_path))
@@ -131,7 +124,7 @@ class CRFChunkParser:
         :rtype: list[str]
         """
         self.xseq = _extract_features(token_pos)
-        return cast(list[str], self.tagger.tag(self.xseq))
+        return self.tagger.tag(self.xseq)
 
     def __enter__(self) -> CRFChunkParser:
         """Context manager entry."""

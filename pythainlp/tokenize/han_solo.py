@@ -12,21 +12,16 @@ import threading
 from importlib.resources import as_file, files
 from typing import Any, Optional
 
-try:
-    import pycrfsuite
-except ImportError as ex:
-    raise ImportError(
-        "ImportError; Install pycrfsuite by pip install python-crfsuite"
-    ) from ex
+from pythainlp.tag.crf import CRFTagger
 
-_tagger: Optional[pycrfsuite.Tagger] = None
+_tagger: Optional[CRFTagger] = None
 _model_file_ctx: Optional[Any] = (
     None  # File context manager kept alive for program lifetime
 )
 _load_lock: threading.Lock = threading.Lock()  # Thread safety for lazy loading
 
 
-def _get_tagger() -> pycrfsuite.Tagger:
+def _get_tagger() -> CRFTagger:
     """Lazy load the tagger model.
 
     This function uses a lock to ensure thread-safe initialization.
@@ -38,9 +33,9 @@ def _get_tagger() -> pycrfsuite.Tagger:
         with _load_lock:
             # Double-check pattern to avoid race conditions
             if _tagger is None:
-                _tagger = pycrfsuite.Tagger()
+                _tagger = CRFTagger()
                 corpus_files = files("pythainlp.corpus")
-                model_file = corpus_files.joinpath("han_solo.crfsuite")
+                model_file = corpus_files.joinpath("han_solo.json.gz")
                 _model_file_ctx = as_file(model_file)
                 model_path = _model_file_ctx.__enter__()
                 _tagger.open(str(model_path))

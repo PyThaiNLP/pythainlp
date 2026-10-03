@@ -15,8 +15,8 @@ https://ph01.tci-thaijo.org/index.php/IT_Journal/article/view/241562/164358
 
 Note:
     This soundex algorithm handles both single and multi-syllable Thai words.
-    Multi-syllable words are automatically tokenized internally when the
-    syllable_tokenize dependency is available (python-crfsuite).
+    Multi-syllable words are automatically tokenized internally via
+    syllable_tokenize (han_solo engine).
 
     Example:
         from pythainlp.soundex import complete_soundex

@@ -35,7 +35,6 @@ The extras can include:
   - ``sefr_cut`` — SEFR CUT Thai word tokenization support (via LEKCut ONNX)
   - ``spacy_thai`` — spaCy Thai language support
   - ``spell`` — support for more spell-checkers (phunspell & symspellpy)
-  - ``ssg`` — support for SSG syllable tokenizer
   - ``textaugment`` — text augmentation utilities
   - ``thai_nner`` — Thai named entity recognition support
   - ``thai2fit`` — Thai word vectors (thai2fit)

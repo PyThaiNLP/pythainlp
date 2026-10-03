@@ -149,6 +149,8 @@ def main() -> None:
         ("crfchunk_orchidpp.model", "crfchunk_orchidpp.json.gz"),
         ("thainer_crf_1_5_1.model", "thainer_crf_1_5_1.json.gz"),
         ("sentenceseg_crfcut.model", "sentenceseg_crfcut.json.gz"),
+        ("crf3_mix.crfsuite2", "ssg.json.gz"),
+        ("ssg.crfsuite", "ssg.json.gz"),
     ]
 
     for src_name, dst_name in models_to_convert:

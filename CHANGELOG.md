@@ -26,6 +26,9 @@ and this project adheres to
 
 ### Added
 
+- Add pure-Python Linear-Chain CRF inference engine (`CRFTagger` in
+  `pythainlp.tag.crf`).
+- Add model weight conversion script `build_tools/convert_crf_to_weights.py`.
 - Add word tokenization evaluation metrics (`evaluate_word_tokenization`,
   `word_eval_function`, `char_eval_function`,
   `TokenizationScore`) from SEFR CUT (`sefr_cut.evaluation`)
@@ -34,6 +37,10 @@ and this project adheres to
   available in `pythainlp.transliterate`.
 
 ### Changed
+
+- Migrate CRF models (`han_solo`, `crfchunk_orchidpp`, `thainer`,
+  `sentenceseg_crfcut`) to pure weights (`.json.gz`), removing the runtime
+  `python-crfsuite` dependency from `compact`.
 
 - `pythainlp.transliterate.fastthaig2p`: Native FastThaiG2P grapheme-to-phoneme
   conversion engine without external package dependencies. Supports text

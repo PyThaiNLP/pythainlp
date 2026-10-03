@@ -71,7 +71,7 @@ class CorpusDownloadTestCaseC(unittest.TestCase):
 class ReadOnlyModeExplicitSaveTestCaseC(unittest.TestCase):
     """Test that user-initiated saves are allowed in read-only mode.
 
-    Uses numpy and python-crfsuite (both in the compact dependency set).
+    Uses numpy (in the compact dependency set).
     """
 
     def test_explicit_save_allowed_in_read_only(self):

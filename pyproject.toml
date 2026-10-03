@@ -184,7 +184,6 @@ compact = [
     "nlpo3>=1.4.0",
     "numpy>=1.26.0",
     "pyicu>=2.3",
-    "python-crfsuite>=0.9.7",
     "PyYAML>=5.4.1",
 ]
 

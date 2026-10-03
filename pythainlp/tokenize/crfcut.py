@@ -17,9 +17,8 @@ POS features are not used due to unreliable POS tagging available
 
 from __future__ import annotations
 
-import pycrfsuite
-
 from pythainlp.corpus import corpus_path
+from pythainlp.tag.crf import CRFTagger
 from pythainlp.tokenize import word_tokenize
 from pythainlp.tools.path import safe_path_join
 
@@ -173,8 +172,8 @@ def _extract_features(
     return doc_features
 
 
-_CRFCUT_DATA_FILENAME: str = "sentenceseg_crfcut.model"
-_tagger: pycrfsuite.Tagger = pycrfsuite.Tagger()  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-attribute]
+_CRFCUT_DATA_FILENAME: str = "sentenceseg_crfcut.json.gz"
+_tagger: CRFTagger = CRFTagger()
 _tagger.open(safe_path_join(corpus_path(), _CRFCUT_DATA_FILENAME))
 
 

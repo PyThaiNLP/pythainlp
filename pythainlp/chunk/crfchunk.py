@@ -12,11 +12,8 @@ if TYPE_CHECKING:
     import types
     from contextlib import AbstractContextManager
 
-    from pycrfsuite import (
-        Tagger as CRFTagger,  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-module-attribute]
-    )
-
 from pythainlp.corpus import thai_stopwords
+from pythainlp.tag.crf import CRFTagger
 
 
 def _is_stopword(word: str) -> bool:
@@ -110,14 +107,10 @@ class CRFChunkParser:
 
         :param str corpus: corpus name.
         """
-        from pycrfsuite import (
-            Tagger as CRFTagger,  # noqa: PLC0415  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-module-attribute]
-        )
-
         self.tagger = CRFTagger()
         if corpus == "orchidpp":
             corpus_files = files("pythainlp.corpus")
-            model_file = corpus_files.joinpath("crfchunk_orchidpp.model")
+            model_file = corpus_files.joinpath("crfchunk_orchidpp.json.gz")
             self._model_file_ctx = as_file(model_file)
             model_path = self._model_file_ctx.__enter__()
             self.tagger.open(str(model_path))

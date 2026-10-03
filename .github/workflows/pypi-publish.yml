@@ -8,9 +8,11 @@ on:
   push:                 # Use together with "[cd build]" commit message
     branches:
       - dev
+      - main
   pull_request:         # Use together with "[cd build]" commit message
     branches:
       - dev
+      - main
   release:
     types: [published]  # "Publish release" button
   workflow_dispatch:    # Manual trigger to test wheel build

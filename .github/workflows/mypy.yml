@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - dev
+      - main
     paths-ignore:
       - '**.cff'
       - '**.json'
@@ -17,6 +18,7 @@ on:
   pull_request:
     branches:
       - dev
+      - main
     paths-ignore:
       - '**.cff'
       - '**.json'

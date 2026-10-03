@@ -23,6 +23,7 @@ from typing import (
     Sequence,
     Tuple,
     Union,
+    cast,
 )
 
 if TYPE_CHECKING:
@@ -127,7 +128,7 @@ class CRFTagger:
 
         if magic.startswith(b"\x1f\x8b"):
             with gzip.open(file_path, "rt", encoding="utf-8") as file_handle:
-                return json.load(file_handle)
+                return cast(Dict[str, Any], json.load(file_handle))
 
         if magic == b"lCRF":
             candidates = [
@@ -137,7 +138,7 @@ class CRFTagger:
             for cand in candidates:
                 if os.path.exists(cand):
                     with gzip.open(cand, "rt", encoding="utf-8") as file_handle:
-                        return json.load(file_handle)
+                        return cast(Dict[str, Any], json.load(file_handle))
 
             from pythainlp.corpus import corpus_path
             from pythainlp.tools.path import safe_path_join
@@ -150,7 +151,7 @@ class CRFTagger:
                     with gzip.open(
                         bundled_thainer, "rt", encoding="utf-8"
                     ) as file_handle:
-                        return json.load(file_handle)
+                        return cast(Dict[str, Any], json.load(file_handle))
 
             raise ValueError(
                 f"Model file '{file_path}' is in binary CRFsuite format. "
@@ -158,7 +159,7 @@ class CRFTagger:
             )
 
         with open(file_path, "r", encoding="utf-8") as file_handle:
-            return json.load(file_handle)
+            return cast(Dict[str, Any], json.load(file_handle))
 
     def _load_data(self, data: Dict[str, Any]) -> None:
         """Initialize internal structures from weights data.

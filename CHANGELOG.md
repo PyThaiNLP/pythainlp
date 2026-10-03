@@ -55,6 +55,15 @@ and this project adheres to
   package dependencies. The `segment()` APIs remain fully backward compatible.
   Attacut tests moved from `tests/noauto_torch/` to `tests/noauto_onnx/`.
 
+### Fixed
+
+- `pythainlp.tokenize.tcc_p.tcc`: matching copied the rest of the text
+  (`text[p:]`) for every character cluster, so cost grew quadratically with
+  text length. This made `newmm` and other users of `tcc_p` slow on long
+  input: about 5.5 s of a 5.9 s `word_tokenize()` call on 608,000
+  characters. It now matches in place (`pattern.match(text, p)`), which is
+  about 15x faster at that size and gives identical output.
+
 ## [5.3.8] - 2026-09-25
 
 ### Deprecated

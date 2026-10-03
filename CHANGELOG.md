@@ -30,6 +30,8 @@ and this project adheres to
   `word_eval_function`, `char_eval_function`,
   `TokenizationScore`) from SEFR CUT (`sefr_cut.evaluation`)
   to `pythainlp.benchmarks`.
+- Thai G2P v4 model via Hugging Face Hub using ONNX Runtime (`thaig2p_v4`), available in `pythainlp.transliterate`.
+- Add Laya Multilingual ONNX model (`LayaModel`, `Laya`) to `pythainlp.classify` for zero-shot text classification and decision-making using prompts and candidate choices without task-specific training (downloaded from `pythainlp/laya-multilingual-onnx` on Hugging Face Hub using `huggingface_hub` and run with `onnxruntime`).
 - Thai G2P v4 model via Hugging Face Hub using ONNX Runtime (`thaig2p_v4`),
   available in `pythainlp.transliterate`.
 

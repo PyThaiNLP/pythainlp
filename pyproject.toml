@@ -121,6 +121,13 @@ ipa = ["epitran>=1.1"]
 
 lekcut = ["lekcut>=1.0.0"]
 
+laya = [
+    "huggingface-hub>=0.16.0",
+    "numpy>=1.22",
+    "onnxruntime>=1.10.0",
+    "tokenizers>=0.13.0",
+]
+
 ml = ["numpy>=1.22", "torch>=1.0.0"]
 
 mt5 = ["sentencepiece>=0.1.91", "transformers>=4.22.1"]
@@ -221,10 +228,11 @@ noauto-tensorflow = [
 
 # ONNX Runtime-based dependencies - for tests.noauto_onnx
 noauto-onnx = [
-    "lekcut>=1.0.0",
     "huggingface-hub>=0.16.0",
+    "lekcut>=1.0.0",
     "numpy>=1.26.0",
     "onnxruntime>=1.10.0",
+    "tokenizers>=0.13.0",
 ]
 
 # Cython-based dependencies - for tests.noauto_cython
@@ -272,6 +280,7 @@ full = [
     "symspellpy==6.10.0",
     "thai-nner==0.3",
     "tltk>=1.10,<2",
+    "tokenizers>=0.13.0",
     "torch>=1.13.1,<3",
     "transformers==5.17.0",
     "ufal.chu-liu-edmonds==1.0.3",
@@ -488,6 +497,7 @@ module = [
     "symspellpy.*",
     "thai_nner.*",
     "tltk.*",
+    "tokenizers.*",
     "torch.*",
     "tqdm.*",
     "transformers.*",

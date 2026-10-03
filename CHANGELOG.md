@@ -20,18 +20,23 @@ and this project adheres to
 ## [Unreleased]
 
 ### Removed
+
 - Remove `pythainlp.generate.thai2fit`, `pythainlp.generate.wangchanglm`, and
   `pythainlp.chat`.
 
 ### Added
+
 - Add word tokenization evaluation metrics (`evaluate_word_tokenization`,
   `word_eval_function`, `char_eval_function`,
   `TokenizationScore`) from SEFR CUT (`sefr_cut.evaluation`)
   to `pythainlp.benchmarks`.
 - Thai G2P v4 model via Hugging Face Hub using ONNX Runtime (`thaig2p_v4`), available in `pythainlp.transliterate`.
 - Add Laya Multilingual ONNX model (`LayaModel`, `Laya`) to `pythainlp.classify` for zero-shot text classification and decision-making using prompts and candidate choices without task-specific training (downloaded from `pythainlp/laya-multilingual-onnx` on Hugging Face Hub using `huggingface_hub` and run with `onnxruntime`).
+- Thai G2P v4 model via Hugging Face Hub using ONNX Runtime (`thaig2p_v4`),
+  available in `pythainlp.transliterate`.
 
 ### Changed
+
 - `pythainlp.transliterate.fastthaig2p`: Native FastThaiG2P grapheme-to-phoneme
   conversion engine without external package dependencies. Supports text
   normalization (numbers, dates, times, phone numbers, symbols, abbreviations,
@@ -51,6 +56,15 @@ and this project adheres to
   `attacut` (PyTorch), `oskut` (TensorFlow), and `sefr_cut` (TensorFlow)
   package dependencies. The `segment()` APIs remain fully backward compatible.
   Attacut tests moved from `tests/noauto_torch/` to `tests/noauto_onnx/`.
+
+### Fixed
+
+- `pythainlp.tokenize.tcc_p.tcc`: matching copied the rest of the text
+  (`text[p:]`) for every character cluster, so cost grew quadratically with
+  text length. This made `newmm` and other users of `tcc_p` slow on long
+  input: about 5.5 s of a 5.9 s `word_tokenize()` call on 608,000
+  characters. It now matches in place (`pattern.match(text, p)`), which is
+  about 15x faster at that size and gives identical output.
 
 ## [5.3.8] - 2026-09-25
 

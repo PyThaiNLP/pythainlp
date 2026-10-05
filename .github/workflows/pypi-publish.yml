@@ -95,10 +95,10 @@ jobs:
         pip install --only-binary :all: "pip==26.2.1"
         pip install --only-binary :all: "build==1.6.1" "twine==7.0.0"
 
-    # Pins every timestamp in the build and the SBOM to the commit time, so
-    # a rebuild of the same commit gives byte-identical files. A full re-run
-    # of a release then attaches and signs the same wheel PyPI already has
-    # ("skip-existing" below skips the upload).
+    # Pins every timestamp in the build and the SBOM to the commit time, so a
+    # rebuild of the same commit gives the same files, as long as Pitloom's
+    # PyPI lookups give the same answers. To recover a failed release, prefer
+    # "Re-run failed jobs", which reuses this run's artifacts.
     - name: Set SOURCE_DATE_EPOCH to the commit time
       run: echo "SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)" >> "${GITHUB_ENV}"
 

@@ -9,7 +9,7 @@ from pythainlp.khavee import KhaveeVerifier
 kv = KhaveeVerifier()
 
 
-class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
+class KhaveeCheckKlonTestCaseX(unittest.TestCase):
 
     """Tests for check_klon k_type=8 and invalid k_type."""
 

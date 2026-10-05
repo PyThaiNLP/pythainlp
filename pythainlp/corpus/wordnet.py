@@ -12,6 +12,7 @@ https://www.nltk.org/howto/wordnet.html
 
 from __future__ import annotations
 
+import re
 from typing import IO, TYPE_CHECKING, Optional, Union, cast
 
 if TYPE_CHECKING:
@@ -19,15 +20,43 @@ if TYPE_CHECKING:
 
 import nltk
 
-try:
-    nltk.data.find("corpora/omw")
-except LookupError:
-    nltk.download("omw")
 
-try:
-    nltk.data.find("corpora/wordnet")
-except LookupError:
-    nltk.download("wordnet")
+def _omw_package(nltk_version: str) -> str:
+    """Return the Open Multilingual Wordnet (OMW) package an NLTK version reads.
+
+    :param str nltk_version: NLTK version, such as ``"3.10.3"`` or
+        ``"3.9.0rc1"``
+    :return: ``"omw-2.0"`` for NLTK 3.10 or later, ``"omw-1.4"`` for
+        NLTK 3.6.6 to 3.9, ``"omw"`` for older versions
+    :rtype: str
+    """
+    match = re.match(r"(\d+)\.(\d+)(?:\.(\d+))?", nltk_version)
+    if match is None:
+        return "omw-2.0"
+    version = tuple(int(x or 0) for x in match.groups())
+    if version >= (3, 10):
+        return "omw-2.0"
+    if version >= (3, 6, 6):
+        return "omw-1.4"
+    return "omw"
+
+
+def _ensure_corpus(package: str) -> None:
+    """Download an NLTK corpus package unless it is already installed.
+
+    NLTK keeps a package either unzipped or as ``<package>.zip``.
+    """
+    for resource in (f"corpora/{package}", f"corpora/{package}.zip"):
+        try:
+            nltk.data.find(resource)
+            return
+        except LookupError:
+            pass
+    nltk.download(package)
+
+
+_ensure_corpus(_omw_package(nltk.__version__))
+_ensure_corpus("wordnet")
 
 from nltk.corpus import wordnet
 from nltk.corpus.reader.wordnet import Lemma, Synset
@@ -175,7 +204,7 @@ def all_synsets(pos: Optional[str] = None) -> Iterable[Synset]:
         >>> next(generator)
         Synset('unable.a.01')
     """
-    return cast(Iterable[Synset], wordnet.all_synsets(pos=pos))
+    return cast("Iterable[Synset]", wordnet.all_synsets(pos=pos))
 
 
 def langs() -> list[str]:
@@ -187,12 +216,15 @@ def langs() -> list[str]:
     :Example:
         >>> from pythainlp.corpus.wordnet import langs
         >>> langs()
-        ['eng', 'als', 'arb', 'bul', 'cat', 'cmn', 'dan',
-         'ell', 'eus', 'fas', 'fin', 'fra', 'glg', 'heb',
-         'hrv', 'ind', 'ita', 'jpn', 'nld', 'nno', 'nob',
-         'pol', 'por', 'qcn', 'slv', 'spa', 'swe', 'tha',
-         'zsm']
+        ['eng', 'als', 'arb', 'bul', 'cmn', 'dan', 'ell', 'fin',
+         'fra', 'heb', 'hrv', 'isl', 'ita', 'ita_iwn', 'jpn', 'cat',
+         'eus', 'glg', 'spa', 'ind', 'zsm', 'nld', 'nno', 'nob',
+         'pol', 'por', 'ron', 'lit', 'slk', 'slv', 'swe', 'tha']
     """
+    # NLTK 3.8+ loads OMW languages on first use; load them now so they
+    # are listed.
+    if hasattr(wordnet, "add_omw") and not getattr(wordnet, "omw_langs", True):
+        wordnet.add_omw()
     return cast(list[str], wordnet.langs())
 
 

@@ -369,6 +369,28 @@ name = "Wannaphong Phatthiyaphaibun"
 email = "wannaphong@pythainlp.org"
 type = "person"
 
+# Read by the Pitloom GitHub Action in .github/workflows/pypi-publish.yml.
+# "magika" fails the SBOM generation if magika is not installed, instead of
+# falling back to guessing from the file extension.
+[tool.pitloom.content-type]
+enabled = true
+method = "magika"
+
+# CRFsuite models: magika has no label for them and guesses STL or NumPy.
+# CRFsuite has no registered media type.
+[[tool.pitloom.content-type.override]]
+pattern = "pythainlp/corpus/*.crfsuite"
+content-type = "application/octet-stream"
+
+[[tool.pitloom.content-type.override]]
+pattern = "pythainlp/corpus/*.model"
+content-type = "application/octet-stream"
+
+# magika detects SQLite, but Pitloom gives application/octet-stream.
+[[tool.pitloom.content-type.override]]
+pattern = "pythainlp/corpus/*.db"
+content-type = "application/vnd.sqlite3"
+
 [tool.ruff]
 indent-width = 4
 line-length = 79

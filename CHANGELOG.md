@@ -42,12 +42,15 @@ and this project adheres to
   Wordnet (OMW) package that the installed NLTK reads: `omw-2.0` for
   NLTK 3.10+, `omw-1.4` for NLTK 3.6.6 to 3.9. It also no longer calls
   `nltk.download()` on every import when the packages are already installed
-  as zip files.
+  as zip files. #1541
 - `pythainlp.corpus.wordnet.all_synsets()` always raised
-  `NameError: name 'Iterable' is not defined`.
+  `NameError: name 'Iterable' is not defined`. #1541
 - `pythainlp.corpus.wordnet.langs()` listed only `eng` with NLTK 3.8 or later,
   until another call loaded OMW. It now lists all OMW languages, including
-  `tha`.
+  `tha`. #1541
+- `tests.extra` did not run the `check_klon` tests: the module name had a
+  `.py` suffix. The module is renamed to `tests/extra/testx_khavee.py`, as
+  `tests/README.md` names extra tests. #1541
 
 ## [5.3.8] - 2026-09-25
 

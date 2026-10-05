@@ -12,6 +12,7 @@ https://www.nltk.org/howto/wordnet.html
 
 from __future__ import annotations
 
+import re
 from typing import IO, TYPE_CHECKING, Optional, Union, cast
 
 if TYPE_CHECKING:
@@ -20,12 +21,19 @@ if TYPE_CHECKING:
 import nltk
 
 
-def _omw_package() -> str:
-    """Return the Open Multilingual Wordnet (OMW) package this NLTK reads."""
-    try:
-        version = tuple(int(x) for x in nltk.__version__.split(".")[:3])
-    except ValueError:
+def _omw_package(nltk_version: str) -> str:
+    """Return the Open Multilingual Wordnet (OMW) package an NLTK version reads.
+
+    :param str nltk_version: NLTK version, such as ``"3.10.3"`` or
+        ``"3.9.0rc1"``
+    :return: ``"omw-2.0"`` for NLTK 3.10 or later, ``"omw-1.4"`` for
+        NLTK 3.6.6 to 3.9, ``"omw"`` for older versions
+    :rtype: str
+    """
+    match = re.match(r"(\d+)\.(\d+)(?:\.(\d+))?", nltk_version)
+    if match is None:
         return "omw-2.0"
+    version = tuple(int(x or 0) for x in match.groups())
     if version >= (3, 10):
         return "omw-2.0"
     if version >= (3, 6, 6):
@@ -47,7 +55,7 @@ def _ensure_corpus(package: str) -> None:
     nltk.download(package)
 
 
-_ensure_corpus(_omw_package())
+_ensure_corpus(_omw_package(nltk.__version__))
 _ensure_corpus("wordnet")
 
 from nltk.corpus import wordnet
@@ -208,11 +216,10 @@ def langs() -> list[str]:
     :Example:
         >>> from pythainlp.corpus.wordnet import langs
         >>> langs()
-        ['eng', 'als', 'arb', 'bul', 'cat', 'cmn', 'dan',
-         'ell', 'eus', 'fas', 'fin', 'fra', 'glg', 'heb',
-         'hrv', 'ind', 'ita', 'jpn', 'nld', 'nno', 'nob',
-         'pol', 'por', 'qcn', 'slv', 'spa', 'swe', 'tha',
-         'zsm']
+        ['eng', 'als', 'arb', 'bul', 'cmn', 'dan', 'ell', 'fin',
+         'fra', 'heb', 'hrv', 'isl', 'ita', 'ita_iwn', 'jpn', 'cat',
+         'eus', 'glg', 'spa', 'ind', 'zsm', 'nld', 'nno', 'nob',
+         'pol', 'por', 'ron', 'lit', 'slk', 'slv', 'swe', 'tha']
     """
     # NLTK 3.8+ loads OMW languages on first use; load them now so they
     # are listed.

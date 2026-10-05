@@ -14,7 +14,7 @@ class KhaveeTestCase(unittest.TestCase):
 
     """
     Tests for KhaveeVerifier.check_sara, check_marttra, is_sumpus, and check_aek_too methods.
-    check_klon method is tested in KhaveeCheckKlonExtendedTestCase class in test_khavee_extended.py.
+    check_klon method is tested in KhaveeCheckKlonTestCaseX class in tests/extra/testx_khavee.py.
     """
 
     def test_check_sara(self):
@@ -752,7 +752,7 @@ class KhaveeCheckAekTooEdgeCasesTestCase(unittest.TestCase):
         # word with both ่ and ้ should return False
         self.assertFalse(self.kv.check_aek_too("ก่้"))
 
-# Test KhaveeCheckKlonExtendedTestCase is moved to tests/extra/test_khavee_extra.py
+# KhaveeCheckKlonTestCaseX is in tests/extra/testx_khavee.py
 # because it use extra dependency "ssg" that is not part of the core test
 
 

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import re
 from typing import TYPE_CHECKING, Optional, cast
+
 from pythainlp.tools import warn_deprecation
 
 if TYPE_CHECKING:

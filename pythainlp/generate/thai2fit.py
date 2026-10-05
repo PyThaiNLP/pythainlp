@@ -14,6 +14,7 @@ __all__: list[str] = ["gen_sentence"]
 import json
 import random
 from typing import TYPE_CHECKING, Any, Union
+
 from pythainlp.tools import warn_deprecation
 
 if TYPE_CHECKING:

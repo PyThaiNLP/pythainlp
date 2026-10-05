@@ -72,7 +72,7 @@ class TransliterateTestCase(unittest.TestCase):
         # ฤ (U+0E24) is a key of _CONSONANTS but is not in thai_consonants,
         # so it used to desynchronize the consonant list and raise IndexError.
         for word, expect in RU_TESTS.items():
-            self.assertEqual(romanize(word, engine="royin"), expect)  # type: ignore[arg-type]
+            self.assertEqual(romanize(word, engine="royin"), expect)
 
     def test_romanize_royin_consistency(self):
         for word, part1, part2 in CONSISTENCY_TESTS:

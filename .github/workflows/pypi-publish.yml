@@ -95,6 +95,13 @@ jobs:
         pip install --only-binary :all: "pip==26.2.1"
         pip install --only-binary :all: "build==1.6.1" "twine==7.0.0"
 
+    # Pins every timestamp in the build and the SBOM to the commit time, so
+    # a rebuild of the same commit gives byte-identical files. A full re-run
+    # of a release then attaches and signs the same wheel PyPI already has
+    # ("skip-existing" below skips the upload).
+    - name: Set SOURCE_DATE_EPOCH to the commit time
+      run: echo "SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)" >> "${GITHUB_ENV}"
+
     - name: Build source distribution and wheels
       run: python -m build
 
@@ -124,6 +131,18 @@ jobs:
         args: "--verify --validate"
         upload-artifact: "true"
         artifact-name: "sbom"
+
+    # The Pitloom Action sets no sbom-path, without failing, when
+    # "dist/*.whl" matches more than one wheel. Fail here instead, so a
+    # release never goes out without its SBOM and signatures.
+    - name: Check the SBOM was embedded
+      env:
+        SBOM_NAME: ${{ steps.pitloom.outputs.sbom-path }}
+      run: |
+        if [ -z "${SBOM_NAME}" ]; then
+          echo "::error::Pitloom reported no embedded SBOM"
+          exit 1
+        fi
 
     - name: Store distributions
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

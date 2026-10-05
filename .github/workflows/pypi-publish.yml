@@ -177,8 +177,10 @@ jobs:
 
   attach_release_sbom:
     name: Attach SBOM to GitHub Release
-    needs: [build]
-    if: needs.build.result == 'success' && needs.build.outputs.sbom-name != '' && github.event_name == 'release' && github.event.action == 'published'
+    needs: [build, publish_pypi]
+    # Only after PyPI publishing succeeded, so a release never carries an
+    # SBOM for a package that was not published.
+    if: needs.build.result == 'success' && needs.publish_pypi.result == 'success' && needs.build.outputs.sbom-name != ''
     runs-on: ubuntu-latest
     permissions:
       contents: write # gh release upload, for the standalone SBOM asset

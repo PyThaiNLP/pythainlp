@@ -35,6 +35,20 @@ and this project adheres to
   backward compatibility but is no longer applied to the model inference.
   Deepcut tests moved from `tests/noauto_tensorflow/` to `tests/noauto_onnx/`.
 
+## Fixed
+
+- `pythainlp.corpus.wordnet`: with NLTK 3.10 or later, Thai WordNet failed
+  with `Resource 'omw-2.0' not found`. It now downloads the Open Multilingual
+  Wordnet (OMW) package that the installed NLTK reads: `omw-2.0` for
+  NLTK 3.10+, `omw-1.4` for NLTK 3.6.6 to 3.9. It also no longer calls
+  `nltk.download()` on every import when the packages are already installed
+  as zip files.
+- `pythainlp.corpus.wordnet.all_synsets()` always raised
+  `NameError: name 'Iterable' is not defined`.
+- `pythainlp.corpus.wordnet.langs()` listed only `eng` with NLTK 3.8 or later,
+  until another call loaded OMW. It now lists all OMW languages, including
+  `tha`.
+
 ## [5.3.8] - 2026-09-25
 
 ### Deprecated

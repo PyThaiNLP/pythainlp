@@ -4,7 +4,6 @@
 
 import unittest
 
-import nltk
 from nltk.corpus import wordnet as wn
 
 from pythainlp.corpus import wordnet
@@ -12,7 +11,6 @@ from pythainlp.corpus import wordnet
 
 class CorpusTestCaseX(unittest.TestCase):
     def test_wordnet(self):
-        nltk.download("omw-1.4", force=True)  # load wordnet
         self.assertIsNotNone(wordnet.langs())
         self.assertIn("tha", wordnet.langs())
 

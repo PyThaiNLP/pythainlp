@@ -19,15 +19,36 @@ if TYPE_CHECKING:
 
 import nltk
 
-try:
-    nltk.data.find("corpora/omw")
-except LookupError:
-    nltk.download("omw")
 
-try:
-    nltk.data.find("corpora/wordnet")
-except LookupError:
-    nltk.download("wordnet")
+def _omw_package() -> str:
+    """Return the Open Multilingual Wordnet (OMW) package this NLTK reads."""
+    try:
+        version = tuple(int(x) for x in nltk.__version__.split(".")[:3])
+    except ValueError:
+        return "omw-2.0"
+    if version >= (3, 10):
+        return "omw-2.0"
+    if version >= (3, 6, 6):
+        return "omw-1.4"
+    return "omw"
+
+
+def _ensure_corpus(package: str) -> None:
+    """Download an NLTK corpus package unless it is already installed.
+
+    NLTK keeps a package either unzipped or as ``<package>.zip``.
+    """
+    for resource in (f"corpora/{package}", f"corpora/{package}.zip"):
+        try:
+            nltk.data.find(resource)
+            return
+        except LookupError:
+            pass
+    nltk.download(package)
+
+
+_ensure_corpus(_omw_package())
+_ensure_corpus("wordnet")
 
 from nltk.corpus import wordnet
 from nltk.corpus.reader.wordnet import Lemma, Synset
@@ -175,7 +196,7 @@ def all_synsets(pos: Optional[str] = None) -> Iterable[Synset]:
         >>> next(generator)
         Synset('unable.a.01')
     """
-    return cast(Iterable[Synset], wordnet.all_synsets(pos=pos))
+    return cast("Iterable[Synset]", wordnet.all_synsets(pos=pos))
 
 
 def langs() -> list[str]:
@@ -193,6 +214,10 @@ def langs() -> list[str]:
          'pol', 'por', 'qcn', 'slv', 'spa', 'swe', 'tha',
          'zsm']
     """
+    # NLTK 3.8+ loads OMW languages on first use; load them now so they
+    # are listed.
+    if hasattr(wordnet, "add_omw") and not getattr(wordnet, "omw_langs", True):
+        wordnet.add_omw()
     return cast(list[str], wordnet.langs())
 
 

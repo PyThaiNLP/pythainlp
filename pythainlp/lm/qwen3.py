@@ -66,13 +66,12 @@ class Qwen3:
             torch_dtype = torch.float16
 
         # Check CUDA availability early before loading model
-        if device.startswith("cuda"):
-            if not torch.cuda.is_available():
-                raise RuntimeError(
-                    "CUDA device requested but CUDA is not available. "
-                    "Check your PyTorch installation and GPU drivers, or use "
-                    "device='cpu' instead."
-                )
+        if device.startswith("cuda") and not torch.cuda.is_available():
+            raise RuntimeError(
+                "CUDA device requested but CUDA is not available. "
+                "Check your PyTorch installation and GPU drivers, or use "
+                "device='cpu' instead."
+            )
 
         self.device = device
         self.torch_dtype = torch_dtype

@@ -283,10 +283,7 @@ class CompleteSoundex:
         if leading_vowel:
             if leading_vowel == "โ":
                 vowel_code = "7N"
-            elif leading_vowel == "ไ":
-                vowel_code = "1A"
-                final_code = "ย"
-            elif leading_vowel == "ใ":
+            elif leading_vowel == "ไ" or leading_vowel == "ใ":
                 vowel_code = "1A"
                 final_code = "ย"
             elif leading_vowel == "แ":
@@ -395,13 +392,11 @@ class CompleteSoundex:
             return True
         if final_candidates and any(c in ["ญ", "ณ"] for c in final_candidates):
             return True
-        if (
+        return bool(
             final_candidates
             and any(c == "น" for c in final_candidates)
             and vowel_code == "1A"
-        ):
-            return True
-        return False
+        )
 
     def _apply_implicit_vowel(
         self, vowel_code: str, implicit_rule: Optional[str]
@@ -424,15 +419,19 @@ class CompleteSoundex:
         implicit_rule: Optional[str],
     ) -> str:
         """Special adjustments for ส (so sua) mapping."""
-        if init_char == "ส" and init_code == "ซศ":
-            # Not for implicit splits
-            if implicit_rule is None and len(syl) >= 2:
-                # Simple syllable: ส + vowel, no other consonants except ร ล ว
-                consonants_after_init = [c for c in syl[1:] if "ก" <= c <= "ฮ"]
-                if not consonants_after_init or all(
-                    c in "รลว" for c in consonants_after_init
-                ):
-                    init_code = "ซซ"
+        # Not for implicit splits
+        if (
+            init_char == "ส"
+            and init_code == "ซศ"
+            and implicit_rule is None
+            and len(syl) >= 2
+        ):
+            # Simple syllable: ส + vowel, no other consonants except ร ล ว
+            consonants_after_init = [c for c in syl[1:] if "ก" <= c <= "ฮ"]
+            if not consonants_after_init or all(
+                c in "รลว" for c in consonants_after_init
+            ):
+                init_code = "ซซ"
         return init_code
 
     def _format_output(

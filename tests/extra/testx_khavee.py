@@ -70,8 +70,10 @@ class KhaveeCheckKlonTestCaseX(unittest.TestCase):
         self.assertEqual(
             result,
             [
-                "Rhyme error in Stanza (บทที่) 1: 'สวด' (Wak 1) "
-                "does not rhyme with ['ระ', 'รวย'] (Wak 2)"
+                (
+                    "Rhyme error in Stanza (บทที่) 1: 'สวด' (Wak 1) "
+                    "does not rhyme with ['ระ', 'รวย'] (Wak 2)"
+                )
             ],
         )
 
@@ -86,10 +88,14 @@ class KhaveeCheckKlonTestCaseX(unittest.TestCase):
         self.assertEqual(
             result,
             [
-                "Rhyme error in Stanza (บทที่) 1: "
-                "'สวด' (Wak 1) does not rhyme with ['ระ', 'รวย'] (Wak 2)",
-                "Inter-stanza rhyme error (ผิดสัมผัสระหว่างบท) between Stanza 1 and 2: "
-                "'นะ' (Wak 4) does not rhyme with 'มา' (Wak 2)",
+                (
+                    "Rhyme error in Stanza (บทที่) 1: "
+                    "'สวด' (Wak 1) does not rhyme with ['ระ', 'รวย'] (Wak 2)"
+                ),
+                (
+                    "Inter-stanza rhyme error (ผิดสัมผัสระหว่างบท) between Stanza 1 and 2: "
+                    "'นะ' (Wak 4) does not rhyme with 'มา' (Wak 2)"
+                ),
             ],
         )
 
@@ -157,10 +163,14 @@ class KhaveeCheckKlonTestCaseX(unittest.TestCase):
         self.assertEqual(
             result,
             [
-                "Stanza (บทที่) 1 Wak 1: Word count exceeds 10: "
-                "['แม่', 'รัก', 'ลูก', 'ลูก', 'ก็', 'รู้', 'อยู่', 'ว่า', 'รัก', 'มาก', 'มาก']",
-                "Rhyme error in Stanza (บทที่) 1: 'มาก' (Wak 1) does not rhyme with "
-                "['คน', 'อื่น', 'สัก', 'หมื่น', 'แสน'] (Wak 2)",
+                (
+                    "Stanza (บทที่) 1 Wak 1: Word count exceeds 10: "
+                    "['แม่', 'รัก', 'ลูก', 'ลูก', 'ก็', 'รู้', 'อยู่', 'ว่า', 'รัก', 'มาก', 'มาก']"
+                ),
+                (
+                    "Rhyme error in Stanza (บทที่) 1: 'มาก' (Wak 1) does not rhyme with "
+                    "['คน', 'อื่น', 'สัก', 'หมื่น', 'แสน'] (Wak 2)"
+                ),
             ],
         )
 
@@ -177,10 +187,14 @@ class KhaveeCheckKlonTestCaseX(unittest.TestCase):
         self.assertEqual(
             result,
             [
-                "Rhyme error in Stanza (บทที่) 1: 'มาก' (Wak 1) "
-                "does not rhyme with ['คน', 'อื่น', 'สัก', 'หมื่น', 'แสน'] (Wak 2)",
-                "Rhyme error in Stanza (บทที่) 1: 'เตือน' (Wak 3) does not rhyme with "
-                "['จะ', 'จาก', 'เรือ', 'ร้าง', 'แม่'] (Wak 4)",
+                (
+                    "Rhyme error in Stanza (บทที่) 1: 'มาก' (Wak 1) "
+                    "does not rhyme with ['คน', 'อื่น', 'สัก', 'หมื่น', 'แสน'] (Wak 2)"
+                ),
+                (
+                    "Rhyme error in Stanza (บทที่) 1: 'เตือน' (Wak 3) does not rhyme with "
+                    "['จะ', 'จาก', 'เรือ', 'ร้าง', 'แม่'] (Wak 4)"
+                ),
             ],
         )
 
@@ -197,10 +211,14 @@ class KhaveeCheckKlonTestCaseX(unittest.TestCase):
         self.assertEqual(
             result,
             [
-                "Rhyme error in Stanza (บทที่) 1: 'เหมือน' (Wak 2) "
-                "does not rhyme with 'เตือด' (Wak 3)",
-                "Rhyme error in Stanza (บทที่) 1: 'เตือด' (Wak 3) "
-                "does not rhyme with ['จะ', 'จาก', 'เรือน', 'ร้าง', 'แม่'] (Wak 4)",
+                (
+                    "Rhyme error in Stanza (บทที่) 1: 'เหมือน' (Wak 2) "
+                    "does not rhyme with 'เตือด' (Wak 3)"
+                ),
+                (
+                    "Rhyme error in Stanza (บทที่) 1: 'เตือด' (Wak 3) "
+                    "does not rhyme with ['จะ', 'จาก', 'เรือน', 'ร้าง', 'แม่'] (Wak 4)"
+                ),
             ],
         )
 
@@ -217,9 +235,11 @@ class KhaveeCheckKlonTestCaseX(unittest.TestCase):
         self.assertEqual(
             result,
             [
-                "Inter-stanza rhyme error (ผิดสัมผัสระหว่างบท) "
-                "between Stanza 1 and 2: 'ตัง' (Wak 4) "
-                "does not rhyme with 'หัว' (Wak 2)"
+                (
+                    "Inter-stanza rhyme error (ผิดสัมผัสระหว่างบท) "
+                    "between Stanza 1 and 2: 'ตัง' (Wak 4) "
+                    "does not rhyme with 'หัว' (Wak 2)"
+                )
             ],
         )
 
@@ -244,9 +264,13 @@ class KhaveeCheckKlonTestCaseX(unittest.TestCase):
         self.assertEqual(
             result_invalid,
             [
-                "Rhyme error in Stanza (บทที่) 1: 'ไล่' (Wak 3) "
-                "does not rhyme with ['น้อง', 'หมา'] (Wak 4)",
-                "Rhyme error in Stanza (บทที่) 2: 'โหด' (Wak 1) "
-                "does not rhyme with ['เอ๋ง', 'เอ๋ง'] (Wak 2)",
+                (
+                    "Rhyme error in Stanza (บทที่) 1: 'ไล่' (Wak 3) "
+                    "does not rhyme with ['น้อง', 'หมา'] (Wak 4)"
+                ),
+                (
+                    "Rhyme error in Stanza (บทที่) 2: 'โหด' (Wak 1) "
+                    "does not rhyme with ['เอ๋ง', 'เอ๋ง'] (Wak 2)"
+                ),
             ],
         )

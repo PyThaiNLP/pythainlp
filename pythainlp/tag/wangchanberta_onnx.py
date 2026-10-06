@@ -162,5 +162,4 @@ class WngchanBerta_ONNX:
                     sent += "</" + temp + ">"
 
             return sent
-        else:
-            return _tag
+        return _tag

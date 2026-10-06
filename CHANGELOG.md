@@ -35,6 +35,8 @@ and this project adheres to
   download keeps the installed corpus; handle empty `db.json` keys ([#1546])
 - `db.json` is written atomically and keeps its mode and symlink ([#1546])
 - `remove()` no longer downloads a missing corpus before deleting it ([#1546])
+- `ThaiTextProcessor.preprocess()` no longer raises `TypeError` when
+  `pre_rules` is not given ([#1547])
 
 ### Security
 
@@ -48,6 +50,7 @@ and this project adheres to
 [#1541]: https://github.com/PyThaiNLP/pythainlp/pull/1541
 [#1542]: https://github.com/PyThaiNLP/pythainlp/pull/1542
 [#1546]: https://github.com/PyThaiNLP/pythainlp/pull/1546
+[#1547]: https://github.com/PyThaiNLP/pythainlp/pull/1547
 
 ## [5.3.8] - 2026-09-25
 

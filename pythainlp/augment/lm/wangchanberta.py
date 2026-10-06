@@ -57,7 +57,7 @@ class Thai2transformersAug:
         if len(sent) < num_replace_tokens:
             num_replace_tokens = len(sent)
         masked_text = self.input_text
-        for i in range(num_replace_tokens):
+        for _ in range(num_replace_tokens):
             masked_text = masked_text + self.MASK_TOKEN
             sent2 += [
                 str(j["sequence"]).replace("<s> ", "").replace("</s>", "")

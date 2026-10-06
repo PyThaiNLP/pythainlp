@@ -130,7 +130,7 @@ class Unigram:
         words = []
         words.append(text)
         word_list = list(self._word_prob.keys())
-        if N > len(word_list):
+        if len(word_list) < N:
             N = len(word_list)
         for _ in range(N):
             # Non-cryptographic use, pseudo-random generator is acceptable here

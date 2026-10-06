@@ -196,16 +196,19 @@ def list_to_string(list: list[str]) -> str:
 def _remove_digit_spaces(sentence: str) -> str:
     """Remove a space before or after a digit."""
     sentence_len = len(sentence)
-    for k in range(0, sentence_len):
+    for k in range(sentence_len):
         if k == 0 or k + 1 >= sentence_len:
             continue
         if sentence[k].isdigit() and sentence[k - 1] == " ":
             sentence = sentence[: k - 1] + sentence[k:]
             sentence_len = len(sentence)
-        if k + 2 <= sentence_len:
-            if sentence[k].isdigit() and sentence[k + 1] == " ":
-                sentence = sentence[: k + 1] + sentence[k + 2 :]
-                sentence_len = len(sentence)
+        if (
+            k + 2 <= sentence_len
+            and sentence[k].isdigit()
+            and sentence[k + 1] == " "
+        ):
+            sentence = sentence[: k + 1] + sentence[k + 2 :]
+            sentence_len = len(sentence)
     return sentence
 
 
@@ -213,7 +216,7 @@ def _mark_middle_cuts(sentence: str, sentence_size: int) -> str:
     """Replace the spaces nearest to the partition points with "<stop>"."""
     partition = math.floor(sentence_size / _MIDDLE_CUT_WORDS)
     tokens = word_tokenize(sentence, keep_whitespace=True)
-    for i in range(0, partition):
+    for i in range(partition):
         middle_space = sentence_size / (partition + 1) * (i + 1)
         spaces = [j for j, tok in enumerate(tokens) if tok == " "]
         if spaces:

@@ -19,8 +19,11 @@ _TZ = {"d": _BANGKOK, "utc": _UTC, None: None}
 
 
 class _AnyMessage:
-    """Matches any message. For text that comes from the standard library
-    and differs between Python versions."""
+    """Match any message.
+
+    For text that comes from the standard library
+    and differs between Python versions.
+    """
 
     def __eq__(self, other: object) -> bool:
         return True

@@ -105,11 +105,7 @@ class LongestMatchTokenizer:
         if match:
             return True
 
-        for pos in range(len(text) + 1):
-            if text[0:pos] in self.__trie:
-                return True
-
-        return False
+        return any(text[0:pos] in self.__trie for pos in range(len(text) + 1))
 
     def __longest_matching(self, text: str, begin_pos: int) -> str:
         text = text[begin_pos:]

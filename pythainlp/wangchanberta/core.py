@@ -131,11 +131,13 @@ class ThaiNameTagger:
         if self.sent_ner[0][0] == "" and len(self.sent_ner) > 1:
             self.sent_ner = self.sent_ner[1:]
         for idx, (word, ner) in enumerate(self.sent_ner):
-            if idx > 0 and ner.startswith("B-"):
-                if self._clear_tag(ner) == self._clear_tag(
-                    self.sent_ner[idx - 1][1]
-                ):
-                    self.sent_ner[idx] = (word, ner.replace("B-", "I-"))
+            if (
+                idx > 0
+                and ner.startswith("B-")
+                and self._clear_tag(ner)
+                == self._clear_tag(self.sent_ner[idx - 1][1])
+            ):
+                self.sent_ner[idx] = (word, ner.replace("B-", "I-"))
         if tag:
             temp = ""
             sent = ""
@@ -156,8 +158,7 @@ class ThaiNameTagger:
                     sent += "</" + temp + ">"
 
             return sent
-        else:
-            return self.sent_ner
+        return self.sent_ner
 
 
 class NamedEntityRecognition:

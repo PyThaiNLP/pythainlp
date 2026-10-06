@@ -36,7 +36,7 @@ def _tokenize(
     # Thread-safe model loading
     global _MODEL, _MODEL_NAME
     with _model_lock:
-        if _MODEL_NAME != model:
+        if model != _MODEL_NAME:
             _MODEL = WtP(model_name_or_model=model)
             _MODEL_NAME = model
         model_instance = _MODEL
@@ -49,33 +49,32 @@ def _tokenize(
         return cast(
             "list[str]", model_instance.split(text, lang_code=lang_code)
         )
-    else:  # Paragraph
-        if style == "newline":
-            return cast(
-                "list[str]",
-                model_instance.split(
-                    text,
-                    lang_code=lang_code,
-                    do_paragraph_segmentation=True,
-                    paragraph_threshold=paragraph_threshold,
-                ),
-            )
-        elif style == "opus100":
-            return cast(
-                "list[str]",
-                model_instance.split(
-                    text,
-                    lang_code=lang_code,
-                    do_paragraph_segmentation=True,
-                    threshold=paragraph_threshold,
-                    style=style,
-                ),
-            )
-        else:
-            raise ValueError(
-                f"""Segmentation style \"{style}\" not found.
+    # Paragraph
+    if style == "newline":
+        return cast(
+            "list[str]",
+            model_instance.split(
+                text,
+                lang_code=lang_code,
+                do_paragraph_segmentation=True,
+                paragraph_threshold=paragraph_threshold,
+            ),
+        )
+    if style == "opus100":
+        return cast(
+            "list[str]",
+            model_instance.split(
+                text,
+                lang_code=lang_code,
+                do_paragraph_segmentation=True,
+                threshold=paragraph_threshold,
+                style=style,
+            ),
+        )
+    raise ValueError(
+        f"""Segmentation style \"{style}\" not found.
               It might be a typo; if not, please consult our document."""
-            )
+    )
 
 
 def tokenize(

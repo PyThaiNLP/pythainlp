@@ -1,8 +1,9 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for the edit-distance and LCS helpers in
-pythainlp.benchmarks.metrics.
+"""Characterization tests for the edit-distance and LCS helpers.
+
+The helpers are in pythainlp.benchmarks.metrics.
 
 Golden cases were recorded from the code before the shared-helper refactor.
 Word tokenization is replaced with a whitespace split.

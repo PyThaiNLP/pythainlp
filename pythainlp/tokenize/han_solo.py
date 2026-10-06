@@ -69,8 +69,7 @@ class Featurizer:
     def _skip_delimiter(
         self, sentence: str, abs_index: int, step: int
     ) -> tuple[int, str]:
-        """Move ``abs_index`` by ``step`` until the character is not
-        the delimiter.
+        """Skip the delimiter, moving ``abs_index`` by ``step``.
 
         :return: the new index and the character at that index
         """
@@ -113,7 +112,7 @@ class Featurizer:
                 features.append("|".join([str(counter), char_right]))
 
         chars = chars_left + chars_right
-        for i in range(0, len(chars) - self.N + 1):
+        for i in range(len(chars) - self.N + 1):
             ngram = chars[i : i + self.N]
             features.append("|".join([str(i - self.radius), ngram]))
         return features
@@ -150,14 +149,13 @@ class Featurizer:
                 "X": all_features_list,
                 "Y": [str(label) for label in all_labels_int],
             }
-        else:
-            return {
-                "X": [
-                    {key: 1 for key in feature_list}
-                    for feature_list in all_features_list
-                ],
-                "Y": all_labels_int,
-            }
+        return {
+            "X": [
+                dict.fromkeys(feature_list, 1)
+                for feature_list in all_features_list
+            ],
+            "Y": all_labels_int,
+        }
 
 
 _to_feature: Featurizer = Featurizer()

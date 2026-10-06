@@ -840,8 +840,7 @@ class KhaveeVerifier:
             or sara in self._SPECIAL_VOWELS
         ):
             return "karu"
-        else:
-            return "lahu"
+        return "lahu"
 
     def check_klon(self, text: str, k_type: int = 8) -> Union[list[str], str]:
         """
@@ -1055,12 +1054,11 @@ class KhaveeVerifier:
 
         if "่" in text and "้" not in text:
             return "aek"
-        elif "้" in text and "่" not in text:
+        if "้" in text and "่" not in text:
             return "too"
         if dead_syllable_as_aek and sound_syllable(text) == "dead":
             return "aek"
-        else:
-            return False
+        return False
 
     def handle_karun_sound_silence(self, word: str) -> str:
         """
@@ -1102,5 +1100,4 @@ class KhaveeVerifier:
         # สัตว์ (ว์), แพทย์ (ย์), พันธุ์ (ธุ์), สิทธิ์ (ธิ์)
         if len(word) >= 3 and word[-2] in {"ิ", "ี", "ึ", "ื", "ุ", "ู", "ั"}:
             return word[:-3]
-        else:
-            return word[:-2]
+        return word[:-2]

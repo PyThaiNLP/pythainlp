@@ -116,11 +116,11 @@ def tone_to_spelling(t: str) -> str:
     """
     if t == "่":
         return "ไม้เอก"
-    elif t == "้":
+    if t == "้":
         return "ไม้โท"
-    elif t == "๊":
+    if t == "๊":
         return "ไม้ตรี"
-    elif t == "๋":
+    if t == "๋":
         return "ไม้จัตวา"
     return t
 
@@ -141,7 +141,7 @@ def _spelling_impl(word: str) -> list[str]:
     tone = [tone_to_spelling(i) for i in word if i in thai_tonemarks]
     word_output = word_pre
     for i, j in thai_vowel_all:
-        if len(re.findall(i, word_pre, re.U)) > 0:
+        if len(re.findall(i, word_pre, re.UNICODE)) > 0:
             if "็" in word and i == "เ([ก-ฮ])":
                 word_output = re.sub(i, "\\1เอะ", word_pre)
             else:
@@ -155,12 +155,11 @@ def _spelling_impl(word: str) -> list[str]:
     ]
     if word_pre == word:
         return output + [word]
-    elif tone != []:
+    if tone != []:
         return output + [word_pre, tone[0], word]
-    elif "็" in word:
+    if "็" in word:
         return output + [word]
-    else:
-        return output + [word_pre, word]
+    return output + [word_pre, word]
 
 
 def spelling(word: str) -> list[str]:

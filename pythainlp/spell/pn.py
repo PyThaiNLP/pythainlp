@@ -78,7 +78,7 @@ def _edits1(word: str) -> set[str]:
 
 def _edits2(word: str) -> set[str]:
     """Returns a set of words with an edit distance of 2 from the input word"""
-    return set(e2 for e1 in _edits1(word) for e2 in _edits1(e1))
+    return {e2 for e1 in _edits1(word) for e2 in _edits1(e1)}
 
 
 def _convert_custom_dict(
@@ -243,7 +243,7 @@ class NorvigSpellChecker:
             >>> checker.known([])  # doctest: +SKIP
             []
         """
-        return list(w for w in words if w in self.__WORDS)
+        return [w for w in words if w in self.__WORDS]
 
     def prob(self, word: str) -> float:
         """Returns the probability of an input word,

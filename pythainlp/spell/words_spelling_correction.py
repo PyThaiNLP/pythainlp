@@ -94,7 +94,7 @@ class FastTextEncoder:
         words = []
         vocab_path = safe_path_join(self.model_dir, "vocabulary.txt")
         with open(vocab_path, encoding="utf-8") as f:
-            for line in f.readlines():
+            for line in f:
                 words.append(line.rstrip())
         return words, input_matrix
 
@@ -154,7 +154,7 @@ class FastTextEncoder:
                 return _subwords, np.array(_subword_ids)
 
         # 2. Extract n-grams (subwords) and get their hash indices
-        for ngram_start in range(0, len(_word)):
+        for ngram_start in range(len(_word)):
             for ngram_length in range(self.minn, self.maxn + 1):
                 if ngram_start + ngram_length <= len(_word):
                     _candidate_subword = _word[

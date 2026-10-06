@@ -212,7 +212,7 @@ def _find_cut_pos(text: str, custom_dict: Trie) -> int:
 
     # choose the position that covers longest token
     cut_pos = _TEXT_SCAN_BEGIN
-    for i in range(0, token_max_idx):
+    for i in range(token_max_idx):
         cut_pos = cut_pos + len(tokens[i])
     return cut_pos
 

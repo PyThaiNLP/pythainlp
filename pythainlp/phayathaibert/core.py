@@ -41,7 +41,7 @@ class ThaiTextProcessor:
             self._TK_WREP,
             self._TK_URL,
             self._TK_END,
-        ) = "<unk> <rep> <wrep> <url> </s>".split()
+        ) = ["<unk>", "<rep>", "<wrep>", "<url>", "</s>"]
         self.SPACE_SPECIAL_TOKEN: str = "<_>"  # noqa: S105
 
     def replace_url(self, text: str) -> str:
@@ -201,15 +201,27 @@ class ThaiTextProcessor:
     def preprocess(
         self,
         text: str,
-        pre_rules: list[Callable[..., str]] = [
-            rm_brackets,
-            replace_newlines,
-            rm_useless_spaces,
-            replace_spaces,
-            replace_rep_after,
-        ],
+        pre_rules: Optional[list[Callable[..., str]]] = None,
         tok_func: Callable[..., list[str]] = word_tokenize,
     ) -> str:
+        """Preprocess text: apply the rules, then tokenize and join.
+
+        :param str text: text to preprocess
+        :param list[Callable[..., str]] pre_rules: rules applied in order
+            after lowercasing; the default is the text cleaning methods
+            of this class
+        :param Callable[..., list[str]] tok_func: tokenizer function
+        :return: preprocessed text
+        :rtype: str
+        """
+        if pre_rules is None:
+            pre_rules = [
+                self.rm_brackets,
+                self.replace_newlines,
+                self.rm_useless_spaces,
+                self.replace_spaces,
+                self.replace_rep_after,
+            ]
         text = text.lower()
         for rule in pre_rules:
             text = rule(text)

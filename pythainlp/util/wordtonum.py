@@ -211,9 +211,6 @@ def text_to_num(text: str) -> list[str]:
         if isthainum and last_index + 1 == i and i + 1 == len(_temp):
             thainum.append(word)
             _flush(thainum, list_word_new)
-        elif isthainum and last_index + 1 == i:
-            thainum.append(word)
-            last_index = i
         elif isthainum:
             thainum.append(word)
             last_index = i

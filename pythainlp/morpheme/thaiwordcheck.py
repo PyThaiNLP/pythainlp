@@ -64,7 +64,7 @@ _TH_PREFIX_DIPHTHONG: set[str] = {"กะ", "กระ", "ปะ", "ประ"}
 
 # Thai consonant filter
 # O ANG (U+0E2D) is omitted, as it can be considered as vowel
-_TH_CONSONANTS_PATTERN: re.Pattern[str] = re.compile(r"[ก-ฬฮ]", re.U)
+_TH_CONSONANTS_PATTERN: re.Pattern[str] = re.compile(r"[ก-ฬฮ]", re.UNICODE)
 
 
 def is_native_thai(word: str) -> bool:
@@ -118,7 +118,4 @@ def is_native_thai(word: str) -> bool:
 
     # Note: This will not work, as it check the whole word, not the prefix.
     # Prefix-sensitive tokenization is required in order to be able to check this.
-    if word in _TH_PREFIX_DIPHTHONG:
-        return True
-
-    return False
+    return word in _TH_PREFIX_DIPHTHONG

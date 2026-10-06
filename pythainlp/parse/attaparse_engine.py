@@ -35,12 +35,12 @@ class Parse:
                 row = [
                     str(word.id),
                     word.text,
-                    word.lemma if word.lemma else "_",
-                    word.upos if word.upos else "_",
-                    word.xpos if word.xpos else "_",
-                    word.feats if word.feats else "_",
+                    word.lemma or "_",
+                    word.upos or "_",
+                    word.xpos or "_",
+                    word.feats or "_",
                     str(word.head),
-                    word.deprel if word.deprel else "_",
+                    word.deprel or "_",
                     "_",  # DEPS (enhanced dependencies, not provided)
                     "SpaceAfter=No",  # MISC: Thai text has no inter-word spaces
                 ]

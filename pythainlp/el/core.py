@@ -25,11 +25,11 @@ class EntityLinker:
         self.model_name: str = model_name
         self.device: str = device
         self.tag: str = tag
-        if self.model_name not in ["bela"]:
+        if self.model_name != "bela":
             raise NotImplementedError(
                 f"EntityLinker doesn't support {model_name} model."
             )
-        if self.tag not in ["wikidata"]:
+        if self.tag != "wikidata":
             raise NotImplementedError(
                 f"EntityLinker doesn't support {tag} tag."
             )

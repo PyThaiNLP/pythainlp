@@ -33,9 +33,11 @@ not_spelling_class: list[str] = [
 # vowel's short sound
 short: str = "ะัิึุ"
 re_short: Pattern[str] = re.compile(
-    "เ(.*)ะ|แ(.*)ะ|เ(.*)อะ|โ(.*)ะ|เ(.*)าะ", re.U
+    "เ(.*)ะ|แ(.*)ะ|เ(.*)อะ|โ(.*)ะ|เ(.*)าะ", re.UNICODE
 )
-pattern: Pattern[str] = re.compile("เ(.*)า", re.U)  # เ-า is live syllable
+pattern: Pattern[str] = re.compile(
+    "เ(.*)า", re.UNICODE
+)  # เ-า is live syllable
 
 _check_1: list[str] = []
 # These spelling consonants are live syllables.
@@ -240,10 +242,7 @@ def _check_sonorant_syllable(syllable: str) -> bool:
     if _sonorant[-1] == consonants[-2]:
         return True
 
-    if _sonorant[-1] == consonants[-1]:
-        return True
-
-    return False
+    return _sonorant[-1] == consonants[-1]
 
 
 def _tone_ah_sonorant(initial: str, sound: str, tone_mark: str) -> str:

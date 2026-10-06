@@ -39,11 +39,9 @@ class CorpusTestCase(unittest.TestCase):
     def test_get_corpus_db_errors(self):
         # Network errors are reported and return None
         for error in (TimeoutError("timed out"), OSError("unreachable")):
-            with (
-                patch("urllib.request.urlopen", side_effect=error),
-                patch("builtins.print"),
-            ):
-                self.assertIsNone(get_corpus_db("https://example.com/db"))
+            with patch("urllib.request.urlopen", side_effect=error):
+                with patch("builtins.print"):
+                    self.assertIsNone(get_corpus_db("https://example.com/db"))
         # Unexpected errors are not swallowed
         with patch("urllib.request.urlopen", side_effect=RuntimeError("bug")):
             with self.assertRaises(RuntimeError):

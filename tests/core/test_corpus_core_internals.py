@@ -102,7 +102,7 @@ def _zip_bytes(members: list[tuple[str, bytes, bool]]) -> bytes:
 
 
 def _md5(data: bytes) -> str:
-    return hashlib.md5(data).hexdigest()  # noqa: S324
+    return hashlib.md5(data, usedforsecurity=False).hexdigest()  # noqa: S324
 
 
 def _snapshot(root: Path) -> dict[str, bytes]:
@@ -697,18 +697,15 @@ class SafeExtractTarManualTestCase(
             ) -> None:
                 original(path=path, members=members, **kwargs)
 
-            with (
-                patch.object(
-                    tar, "extractall", side_effect=legacy_extractall
-                ) as extractall,
-                warnings.catch_warnings(),
-            ):
-                # Python 3.12 to 3.14 warn about no filter
-                warnings.simplefilter("ignore", DeprecationWarning)
-                try:
-                    core._safe_extract_tar(tar, str(self.dest))
-                finally:
-                    self.extractall_calls = extractall.call_args_list
+            with patch.object(
+                tar, "extractall", side_effect=legacy_extractall
+            ) as extractall:
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore", DeprecationWarning)
+                    try:
+                        core._safe_extract_tar(tar, str(self.dest))
+                    finally:
+                        self.extractall_calls = extractall.call_args_list
 
     def check_error(
         self, error: ValueError, message: str, error_type: str
@@ -812,26 +809,24 @@ class SafeExtractTarManualTestCase(
             tar.addfile(info, io.BytesIO(b""))
             tar.addfile(_dir_info("d", 4321))
         members = [("a.txt",), ("d",)]
-        with (
-            patch("os.geteuid", return_value=0, create=True),
-            patch("os.chown") as chown,
-        ):
-            buf.seek(0)
-            with tarfile.open(fileobj=buf) as tar:
-                original = tar.extractall
-                kwargs: dict[str, Any] = (
-                    {"filter": "fully_trusted"}
-                    if hasattr(tarfile, "fully_trusted_filter")
-                    else {}
-                )
-                with patch.object(
-                    tar,
-                    "extractall",
-                    side_effect=lambda path, members=None: original(
-                        path=path, members=members, **kwargs
-                    ),
-                ):
-                    core._safe_extract_tar(tar, str(self.dest))
+        with patch("os.geteuid", return_value=0, create=True):
+            with patch("os.chown") as chown:
+                buf.seek(0)
+                with tarfile.open(fileobj=buf) as tar:
+                    original = tar.extractall
+                    kwargs: dict[str, Any] = (
+                        {"filter": "fully_trusted"}
+                        if hasattr(tarfile, "fully_trusted_filter")
+                        else {}
+                    )
+                    with patch.object(
+                        tar,
+                        "extractall",
+                        side_effect=lambda path, members=None: original(
+                            path=path, members=members, **kwargs
+                        ),
+                    ):
+                        core._safe_extract_tar(tar, str(self.dest))
         self.assertEqual(len(chown.call_args_list), len(members))
         for call in chown.call_args_list:
             self.assertEqual(call.args[1:], (-1, -1))
@@ -916,8 +911,10 @@ class SafeExtractZipTestCase(unittest.TestCase):
             # Absolute targets are rejected, as in tar
             (
                 [("link", b"/etc/passwd", True)],
-                "Symlink link points outside extraction directory: "
-                "/etc/passwd",
+                (
+                    "Symlink link points outside extraction directory: "
+                    "/etc/passwd"
+                ),
             ),
             (
                 [("link", b"/../../x", True)],
@@ -1646,14 +1643,14 @@ class DownloadTestCase(_DownloadTestBase):
             self.assertEqual(Path(dst).read_bytes(), b"old")
             real_replace(src, dst)
 
-        with (
-            patch(
-                "urllib.request.urlopen", return_value=_FakeResponse(b"new")
-            ),
-            patch.object(core, "_replace_file", replace_file),
-            redirect_stdout(io.StringIO()),
+        with patch(
+            "urllib.request.urlopen", return_value=_FakeResponse(b"new")
         ):
-            size = core._download(_FILE_URL + "c.txt", "c.txt", _md5(b"new"))
+            with patch.object(core, "_replace_file", replace_file):
+                with redirect_stdout(io.StringIO()):
+                    size = core._download(
+                        _FILE_URL + "c.txt", "c.txt", _md5(b"new")
+                    )
         self.assertEqual(size, 3)
         ((src, dst),) = moves
         self.assertEqual(Path(src).parent.resolve(), self.data_dir.resolve())
@@ -1681,26 +1678,26 @@ class DownloadTestCase(_DownloadTestBase):
                         if error is None
                         else _BrokenResponse(b"x" * 70000, error)
                     )
-                    with (
-                        patch("urllib.request.urlopen", return_value=response),
-                        redirect_stdout(io.StringIO()),
+                    with patch(
+                        "urllib.request.urlopen", return_value=response
                     ):
-                        with self.assertRaises(
-                            ValueError if error is None else type(error)
-                        ):
-                            core._download(_FILE_URL + "c.txt", "c.txt", md5)
+                        with redirect_stdout(io.StringIO()):
+                            with self.assertRaises(
+                                ValueError if error is None else type(error)
+                            ):
+                                core._download(
+                                    _FILE_URL + "c.txt", "c.txt", md5
+                                )
                     self.assertEqual(_snapshot(self.data_dir), existing)
                     self.assertEqual(_tree(self.data_dir), list(existing))
 
     def test_failed_replace_keeps_existing_path(self) -> None:
         # A directory in the way cannot be replaced; it is not removed
         (self.data_dir / "c.txt").mkdir()
-        with (
-            patch("urllib.request.urlopen", return_value=_FakeResponse(b"x")),
-            redirect_stdout(io.StringIO()),
-            self.assertRaises(OSError),
-        ):
-            core._download(_FILE_URL + "c.txt", "c.txt")
+        with patch("urllib.request.urlopen", return_value=_FakeResponse(b"x")):
+            with redirect_stdout(io.StringIO()):
+                with self.assertRaises(OSError):
+                    core._download(_FILE_URL + "c.txt", "c.txt")
         self.assertEqual(_tree(self.data_dir), ["c.txt"])
 
     def test_empty_key_in_local_db(self) -> None:
@@ -1951,12 +1948,10 @@ class LocalDbWriteTestCase(_DownloadTestBase):
                 raise errors.pop()
             real_replace(src, dst)
 
-        with (
-            patch.object(core, "_REPLACE_RETRIES", 5),
-            patch("os.replace", side_effect=replace) as replace_mock,
-            patch("time.sleep") as sleep,
-        ):
-            core._write_local_db(new_db)
+        with patch.object(core, "_REPLACE_RETRIES", 5):
+            with patch("os.replace", side_effect=replace) as replace_mock:
+                with patch("time.sleep") as sleep:
+                    core._write_local_db(new_db)
         self.assertEqual(replace_mock.call_count, 3)
         self.assertEqual(sleep.call_count, 2)
         sleep.assert_called_with(0.05)
@@ -1966,15 +1961,13 @@ class LocalDbWriteTestCase(_DownloadTestBase):
     def test_replace_gives_up_after_retries(self) -> None:
         for retries in (0, 5):
             with self.subTest(retries=retries):
-                with (
-                    patch.object(core, "_REPLACE_RETRIES", retries),
-                    patch(
+                with patch.object(core, "_REPLACE_RETRIES", retries):
+                    with patch(
                         "os.replace", side_effect=PermissionError("in use")
-                    ) as replace_mock,
-                    patch("time.sleep") as sleep,
-                ):
-                    with self.assertRaises(PermissionError):
-                        core._write_local_db({"_default": {}})
+                    ) as replace_mock:
+                        with patch("time.sleep") as sleep:
+                            with self.assertRaises(PermissionError):
+                                core._write_local_db({"_default": {}})
                 self.assertEqual(replace_mock.call_count, retries + 1)
                 self.assertEqual(sleep.call_count, retries)
                 self.assertEqual(self.read_db(), self.old_db)

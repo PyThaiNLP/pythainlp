@@ -104,26 +104,23 @@ class Parse:
                     ]
                 )
             return _tag_data
-        else:
-            for i, (s, e) in enumerate(v, 1):
-                q = self.model.config.id2label[p[i, h[i]]].split("|")
-                u += (
-                    "\t".join(
-                        [
-                            str(i),
-                            text[s:e],
-                            "_",
-                            q[0],
-                            "_",
-                            "|".join(q[1:-1]),
-                            str(h[i]),
-                            q[-1],
-                            "_",
-                            "_"
-                            if i < len(v) and e < v[i][0]
-                            else "SpaceAfter=No",
-                        ]
-                    )
-                    + "\n"
+        for i, (s, e) in enumerate(v, 1):
+            q = self.model.config.id2label[p[i, h[i]]].split("|")
+            u += (
+                "\t".join(
+                    [
+                        str(i),
+                        text[s:e],
+                        "_",
+                        q[0],
+                        "_",
+                        "|".join(q[1:-1]),
+                        str(h[i]),
+                        q[-1],
+                        "_",
+                        "_" if i < len(v) and e < v[i][0] else "SpaceAfter=No",
+                    ]
                 )
-            return u + "\n"
+                + "\n"
+            )
+        return u + "\n"

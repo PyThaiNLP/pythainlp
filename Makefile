@@ -49,14 +49,17 @@ clean-test: ## remove test and coverage artifacts
 lint: ## check style, formatting, cognitive complexity, and types (as in CI)
 	tox -e ruff,flake8,mypy
 
-test: ## run tests quickly with the default Python
-	python -m unittest discover
+test: ## run the core tests quickly with the default Python
+	python -m unittest tests.core
+
+lint-md: ## check Markdown files (as in CI; needs Node.js)
+	npx markdownlint-cli2 "**/*.md" "#License.md" "#LICENSE.md" "#node_modules"
 
 test-all: ## run tests on every Python version with tox
 	tox
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source pythainlp -m unittest discover
+	coverage run -m unittest tests.core
 	coverage report -m
 	coverage html
 	$(BROWSER) htmlcov/index.html

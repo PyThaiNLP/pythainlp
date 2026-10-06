@@ -20,8 +20,7 @@ if TYPE_CHECKING:
 
 def _read_file(path: str) -> list[str]:
     with open(path, encoding="utf-8") as f:
-        lines = (r.strip() for r in f)
-    return list(lines)
+        return [r.strip() for r in f]
 
 
 class App:

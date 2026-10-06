@@ -11,10 +11,9 @@ kv = KhaveeVerifier()
 
 
 class KhaveeTestCase(unittest.TestCase):
-
     """
     Tests for KhaveeVerifier.check_sara, check_marttra, is_sumpus, and check_aek_too methods.
-    check_klon method is tested in KhaveeCheckKlonExtendedTestCase class in test_khavee_extended.py.
+    check_klon method is tested in KhaveeCheckKlonTestCaseX class in tests/extra/testx_khavee.py.
     """
 
     def test_check_sara(self):
@@ -575,7 +574,6 @@ class KhaveeTestCase(unittest.TestCase):
 
 
 class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
-
     def setUp(self):
         """Set up test fixtures."""
         self.kv = KhaveeVerifier()
@@ -583,13 +581,60 @@ class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
     def test_karu_words(self):
         """Test that all specified heavy syllables (Karu) are correctly identified."""
         karu_words = [
-            "กด", "กา", "กาน",
-            "ใน", "นา", "มี", "ปู", "ตา", "ดำ", "วัว", "ลาก", "ไถ", "พุทธ",
-            "สันดาน", "มูล", "หมองมัว", "ยั่ว", "เอว", "เจ็บ", "โสภา", "ศาลา",
-            "วัด", "แม่", "ข้าวสาร", "ดวงใจ", "ไฉไล", "เขลา", "เนื้อ", "เต้น",
-            "ทั่ว", "ร่าง", "สั่น", "ไหว", "ช่อฟ้า", "หัว", "อีกา", "สาม",
-            "ฤาษี", "คาวี", "วับวาบ", "ญาณ", "เรา", "ครอง", "แผ่นดิน", "โดย",
-            "ธรรม", "พรรณ", "เย้ยหยัน", "ดุก", "โดด", "โลด", "หยอย", "น้ำ", "พร่ำ"
+            "กด",
+            "กา",
+            "กาน",
+            "ใน",
+            "นา",
+            "มี",
+            "ปู",
+            "ตา",
+            "ดำ",
+            "วัว",
+            "ลาก",
+            "ไถ",
+            "พุทธ",
+            "สันดาน",
+            "มูล",
+            "หมองมัว",
+            "ยั่ว",
+            "เอว",
+            "เจ็บ",
+            "โสภา",
+            "ศาลา",
+            "วัด",
+            "แม่",
+            "ข้าวสาร",
+            "ดวงใจ",
+            "ไฉไล",
+            "เขลา",
+            "เนื้อ",
+            "เต้น",
+            "ทั่ว",
+            "ร่าง",
+            "สั่น",
+            "ไหว",
+            "ช่อฟ้า",
+            "หัว",
+            "อีกา",
+            "สาม",
+            "ฤาษี",
+            "คาวี",
+            "วับวาบ",
+            "ญาณ",
+            "เรา",
+            "ครอง",
+            "แผ่นดิน",
+            "โดย",
+            "ธรรม",
+            "พรรณ",
+            "เย้ยหยัน",
+            "ดุก",
+            "โดด",
+            "โลด",
+            "หยอย",
+            "น้ำ",
+            "พร่ำ",
         ]
 
         for word in karu_words:
@@ -599,12 +644,45 @@ class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
     def test_lahu_words(self):
         """Test that all specified light syllables (Lahu) are correctly identified."""
         lahu_words = [
-            "บ", "บ่", "ณ", "ธ", "ก็", "ฤ", "ฦ",
-            "ชะ", "กระ", "ยะ", "พะ", "ระ", "ละ", "ประ", "ฉะ",
-            "มติ", "กะปิ", "กะทิ", "กะทะ", "ฐิติ", "อุระ", "อมตะ",
-            "มิ", "จะ", "เกะกะ", "ทะลุ", "รวิ", "วจนะ", "ศศิ",
-            "และ", "สุ", "จิ", "ปุ", "ลิ", "สติ", "พระ",
-            "ระยะ", "เยาะ", "ธุระ"
+            "บ",
+            "บ่",
+            "ณ",
+            "ธ",
+            "ก็",
+            "ฤ",
+            "ฦ",
+            "ชะ",
+            "กระ",
+            "ยะ",
+            "พะ",
+            "ระ",
+            "ละ",
+            "ประ",
+            "ฉะ",
+            "มติ",
+            "กะปิ",
+            "กะทิ",
+            "กะทะ",
+            "ฐิติ",
+            "อุระ",
+            "อมตะ",
+            "มิ",
+            "จะ",
+            "เกะกะ",
+            "ทะลุ",
+            "รวิ",
+            "วจนะ",
+            "ศศิ",
+            "และ",
+            "สุ",
+            "จิ",
+            "ปุ",
+            "ลิ",
+            "สติ",
+            "พระ",
+            "ระยะ",
+            "เยาะ",
+            "ธุระ",
         ]
 
         for word in lahu_words:
@@ -613,19 +691,16 @@ class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
 
     def test_invalid_karu_lahu_words(self):
         """
-            Test that invalid words are not identified as karu or lahu and should return False.
-            This includes empty strings.
+        Test that invalid words are not identified as karu or lahu and should return False.
+        This includes empty strings.
         """
-        invalid_karu_lahu_words = [
-            ""
-        ]
+        invalid_karu_lahu_words = [""]
         for word in invalid_karu_lahu_words:
             with self.subTest(word=word):
                 self.assertEqual(self.kv.check_karu_lahu(word), False)
 
 
 class KhaveeHandleKarunTestCase(unittest.TestCase):
-
     """Tests for KhaveeVerifier.handle_karun_sound_silence."""
 
     def setUp(self):
@@ -636,13 +711,17 @@ class KhaveeHandleKarunTestCase(unittest.TestCase):
         """Test that words without karun are unchanged."""
         self.assertEqual(self.kv.handle_karun_sound_silence("คน"), "คน")
         self.assertEqual(self.kv.handle_karun_sound_silence("กา"), "กา")
-        self.assertEqual(self.kv.handle_karun_sound_silence(""), "")  # empty string unchanged
+        self.assertEqual(
+            self.kv.handle_karun_sound_silence(""), ""
+        )  # empty string unchanged
         # internal karun unchanged
         self.assertEqual(self.kv.handle_karun_sound_silence("การ์ตูน"), "การ์ตูน")
         self.assertEqual(self.kv.handle_karun_sound_silence("โอร์ม"), "โอร์ม")
         self.assertEqual(self.kv.handle_karun_sound_silence("กอล์ฟ"), "กอล์ฟ")
         self.assertEqual(self.kv.handle_karun_sound_silence("ฟิล์ม"), "ฟิล์ม")
-        self.assertEqual(self.kv.handle_karun_sound_silence("สตาร์ตอัป"), "สตาร์ตอัป")
+        self.assertEqual(
+            self.kv.handle_karun_sound_silence("สตาร์ตอัป"), "สตาร์ตอัป"
+        )
 
     def test_word_ending_with_karun_stripped(self):
         """Test that karun and preceding consonant are stripped from end of word."""
@@ -661,26 +740,42 @@ class KhaveeHandleKarunTestCase(unittest.TestCase):
         self.assertEqual(self.kv.handle_karun_sound_silence("จันทร์"), "จัน")
         self.assertEqual(self.kv.handle_karun_sound_silence("สิทธิ์"), "สิท")
         self.assertEqual(self.kv.handle_karun_sound_silence("กษัตริย์"), "กษัต")
-        self.assertEqual(self.kv.handle_karun_sound_silence("พระลักษมณ์"), "พระลัก")
+        self.assertEqual(
+            self.kv.handle_karun_sound_silence("พระลักษมณ์"), "พระลัก"
+        )
         self.assertEqual(self.kv.handle_karun_sound_silence("อินทรีย์"), "อินทรี")
-        self.assertEqual(self.kv.handle_karun_sound_silence("ภาพยนตร์"), "ภาพยน")
-        self.assertEqual(self.kv.handle_karun_sound_silence("กาสาวพัสตร์"), "กาสาวพัส")
+        self.assertEqual(
+            self.kv.handle_karun_sound_silence("ภาพยนตร์"), "ภาพยน"
+        )
+        self.assertEqual(
+            self.kv.handle_karun_sound_silence("กาสาวพัสตร์"), "กาสาวพัส"
+        )
         self.assertEqual(self.kv.handle_karun_sound_silence("ไปรษณีย์"), "ไปรษณี")
         self.assertEqual(self.kv.handle_karun_sound_silence("สัปดาห์"), "สัปดา")
         self.assertEqual(self.kv.handle_karun_sound_silence("เฮิรตซ์"), "เฮิรต")
-        self.assertEqual(self.kv.handle_karun_sound_silence("วิศวกรรมศาสตร์"), "วิศวกรรมศาส")
+        self.assertEqual(
+            self.kv.handle_karun_sound_silence("วิศวกรรมศาสตร์"), "วิศวกรรมศาส"
+        )
         self.assertEqual(self.kv.handle_karun_sound_silence("กบินทร์"), "กบิน")
-        self.assertEqual(self.kv.handle_karun_sound_silence("นราธิเบนทร์"), "นราธิเบน")
-        self.assertEqual(self.kv.handle_karun_sound_silence("พรหมจรรย์"), "พรหมจรร")
+        self.assertEqual(
+            self.kv.handle_karun_sound_silence("นราธิเบนทร์"), "นราธิเบน"
+        )
+        self.assertEqual(
+            self.kv.handle_karun_sound_silence("พรหมจรรย์"), "พรหมจรร"
+        )
         self.assertEqual(self.kv.handle_karun_sound_silence("กรณีย์"), "กรณี")
         self.assertEqual(self.kv.handle_karun_sound_silence("รังสิมันตุ์"), "รังสิมัน")
-        self.assertEqual(self.kv.handle_karun_sound_silence("รามเกียรติ์"), "รามเกียร")
+        self.assertEqual(
+            self.kv.handle_karun_sound_silence("รามเกียรติ์"), "รามเกียร"
+        )
         self.assertEqual(self.kv.handle_karun_sound_silence("ทรลักษณ์"), "ทรลัก")
         self.assertEqual(self.kv.handle_karun_sound_silence("ธำมรงค์"), "ธำมรง")
         self.assertEqual(self.kv.handle_karun_sound_silence("ศัพท์"), "ศัพ")
         self.assertEqual(self.kv.handle_karun_sound_silence("ฉันท์"), "ฉัน")
         self.assertEqual(self.kv.handle_karun_sound_silence("เจ้าเล่ห์"), "เจ้าเล่")
-        self.assertEqual(self.kv.handle_karun_sound_silence("สงเคราะห์"), "สงเคราะ")
+        self.assertEqual(
+            self.kv.handle_karun_sound_silence("สงเคราะห์"), "สงเคราะ"
+        )
         self.assertEqual(self.kv.handle_karun_sound_silence("ราชทัณฑ์"), "ราชทัณ")
         self.assertEqual(self.kv.handle_karun_sound_silence("สวาสดิ์"), "สวาส")
         self.assertEqual(self.kv.handle_karun_sound_silence("สุปรีดิ์"), "สุปรี")
@@ -691,7 +786,6 @@ class KhaveeHandleKarunTestCase(unittest.TestCase):
 
 
 class KhaveeIsTrueFinalTestCase(unittest.TestCase):
-
     """Tests for internal method KhaveeVerifier._is_true_final."""
 
     def setUp(self):
@@ -722,7 +816,6 @@ class KhaveeIsTrueFinalTestCase(unittest.TestCase):
 
 
 class KhaveeCheckAekTooEdgeCasesTestCase(unittest.TestCase):
-
     """Edge-case tests for KhaveeVerifier.check_aek_too."""
 
     def setUp(self):
@@ -736,11 +829,15 @@ class KhaveeCheckAekTooEdgeCasesTestCase(unittest.TestCase):
 
     def test_dead_syllable_as_aek_flag(self):
         """Test dead_syllable_as_aek flag behavior."""
-        self.assertEqual(self.kv.check_aek_too("บท", dead_syllable_as_aek=True), "aek")
+        self.assertEqual(
+            self.kv.check_aek_too("บท", dead_syllable_as_aek=True), "aek"
+        )
 
     def test_dead_syllable_without_flag_returns_false(self):
         """Test that dead syllables return False when flag is not set."""
-        self.assertFalse(self.kv.check_aek_too("บท", dead_syllable_as_aek=False))
+        self.assertFalse(
+            self.kv.check_aek_too("บท", dead_syllable_as_aek=False)
+        )
 
     def test_list_with_non_string_element_raises(self):
         """Test that list with non-string element raises TypeError."""
@@ -752,12 +849,12 @@ class KhaveeCheckAekTooEdgeCasesTestCase(unittest.TestCase):
         # word with both ่ and ้ should return False
         self.assertFalse(self.kv.check_aek_too("ก่้"))
 
-# Test KhaveeCheckKlonExtendedTestCase is moved to tests/extra/test_khavee_extra.py
+
+# KhaveeCheckKlonTestCaseX is in tests/extra/testx_khavee.py
 # because it use extra dependency "ssg" that is not part of the core test
 
 
 class KhaveeCheckSaraEdgeCasesTestCase(unittest.TestCase):
-
     """Edge-case tests for KhaveeVerifier.check_sara."""
 
     def setUp(self):

@@ -126,13 +126,13 @@ TIS_820_2531_MOD_SHIFT: list[list[str]] = [
 
 
 def eng_to_thai(text: str) -> str:
-    """Corrects the given text that was incorrectly typed using English-US
-    Qwerty keyboard layout to the originally intended keyboard layout
-    that is the Thai Kedmanee keyboard.
+    """
+    Correct text typed with the English-US Qwerty keyboard layout
+    to the intended Thai Kedmanee keyboard layout.
 
-    :param str text: incorrect text input (Thai typed using English keyboard)
-    :return: Thai text with typing using
-             incorrect keyboard layout is corrected
+    :param str text: text typed with the wrong layout
+        (Thai typed using an English keyboard)
+    :return: Thai text, corrected from the wrong keyboard layout
     :rtype: str
 
     :Example:
@@ -147,13 +147,13 @@ def eng_to_thai(text: str) -> str:
 
 
 def thai_to_eng(text: str) -> str:
-    """Corrects the given text that was incorrectly typed using Thai Kedmanee
-    keyboard layout to the originally intended keyboard layout
-    that is the English-US Qwerty keyboard.
+    """
+    Correct text typed with the Thai Kedmanee keyboard layout
+    to the intended English-US Qwerty keyboard layout.
 
-    :param str text: incorrect text input (English typed using Thai keyboard)
-    :return: English text with typing with
-             incorrect keyboard layout is corrected
+    :param str text: text typed with the wrong layout
+        (English typed using a Thai keyboard)
+    :return: English text, corrected from the wrong keyboard layout
     :rtype: str
 
     :Example:
@@ -168,27 +168,31 @@ def thai_to_eng(text: str) -> str:
 
 
 def thai_keyboard_dist(c1: str, c2: str, shift_dist: float = 0.0) -> float:
-    """Calculate Euclidean distance between two Thai characters
-    according to their location on a Thai keyboard layout.
+    """
+    Calculate the Euclidean distance between two Thai characters.
 
-    A modified TIS 820-2531 standard keyboard layout, which is developed
-    from Kedmanee layout and is the most commonly used Thai keyboard layout,
-    is used in distance calculation.
+    The distance follows the location of the characters on a Thai
+    keyboard layout. The calculation uses a modified TIS 820-2531
+    standard layout, which is developed from the Kedmanee layout and is
+    the most commonly used Thai keyboard layout.
 
-    The modified TIS 820-2531 is TIS 820-2531 with few key extensions
-    proposed in TIS 820-2536 draft. See Figure 4, notice grey keys, in
+    The modified TIS 820-2531 is TIS 820-2531 with a few key extensions
+    proposed in the TIS 820-2536 draft. See Figure 4, notice the grey
+    keys, in
     https://www.nectec.or.th/it-standards/keyboard_layout/thai-key.html
 
-    Noted that the latest TIS 820-2538 has slight changes in layout from
-    TIS 820-2531. See Figure 2, notice the Thai Baht sign and ฅ-ฃ pair, in
+    Note that the latest TIS 820-2538 has slight changes in layout from
+    TIS 820-2531. See Figure 2, notice the Thai Baht sign and the ฅ-ฃ
+    pair, in
     https://www.nectec.or.th/it-standards/std820/std820.html
-    Since TIS 820-2538 is not widely adopted by keyboard manufacturer,
-    this function uses the de facto standard modified TIS 820-2531 instead.
+    Since keyboard manufacturers have not widely adopted TIS 820-2538,
+    this function uses the de facto standard modified TIS 820-2531.
 
     :param str c1: first character
     :param str c2: second character
-    :param float shift_dist: return value if they are on shifted keys
-    :return: Euclidean distance between two characters
+    :param float shift_dist: distance to return if the characters are
+        on shifted keys
+    :return: Euclidean distance between the two characters
     :rtype: float
 
     :Example:

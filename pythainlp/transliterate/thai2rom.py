@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Romanization of Thai words based on machine-learnt engine ("thai2rom")"""
+"""Romanization of Thai words using the machine-learned engine "thai2rom"."""
 
 from __future__ import annotations
 
@@ -31,6 +31,8 @@ _REPEAT_MIN_CYCLES: int = 3
 
 
 class ThaiTransliterator:
+    """Romanize Thai words with a PyTorch model."""
+
     __model_filename: str
     _maxlength: int
     _char_to_ix: Dict[str, int]
@@ -42,9 +44,10 @@ class ThaiTransliterator:
     _network: "Seq2Seq"
 
     def __init__(self) -> None:
-        """Transliteration of Thai words.
+        """
+        Initialize the transliterator of Thai words.
 
-        Now supports Thai to Latin (romanization)
+        It supports Thai to Latin (romanization).
         """
         self.__model_filename = get_corpus_path(_MODEL_NAME)  # type: ignore[assignment]
         if not self.__model_filename:
@@ -87,7 +90,7 @@ class ThaiTransliterator:
         self._network.eval()
 
     def _prepare_sequence_in(self, text: str) -> torch.Tensor:
-        """Prepare input sequence for PyTorch"""
+        """Prepare the input sequence for PyTorch."""
         idxs = []
         for ch in text:
             if ch in self._char_to_ix:
@@ -99,11 +102,11 @@ class ThaiTransliterator:
         return tensor.to(device)
 
     def romanize(self, text: str) -> str:
-        """Romanize Thai text to Latin alphabet.
+        """
+        Romanize Thai text to Latin alphabet.
 
         :param str text: Thai text to be romanized
-        :return: English (more or less) text that spells out how the Thai text
-                 should be pronounced.
+        :return: Latin text that spells out how the Thai text is pronounced
         :rtype: str
         """
         input_tensor = self._prepare_sequence_in(text).view(1, -1)
@@ -129,6 +132,8 @@ class ThaiTransliterator:
 
 
 class Encoder(nn.Module):  # type: ignore[misc]
+    """Encode a sequence of characters with a bidirectional LSTM."""
+
     hidden_size: int
     character_embedding: nn.Embedding
     rnn: nn.LSTM
@@ -141,7 +146,7 @@ class Encoder(nn.Module):  # type: ignore[misc]
         hidden_size: int,
         dropout: float = 0.5,
     ) -> None:
-        """Constructor"""
+        """Initialize the layers."""
         super().__init__()
         self.hidden_size = hidden_size
         self.character_embedding = nn.Embedding(
@@ -159,6 +164,14 @@ class Encoder(nn.Module):  # type: ignore[misc]
     def forward(
         self, sequences: torch.Tensor, sequences_lengths: torch.Tensor
     ) -> Tuple[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]:
+        """
+        Compute the forward pass of the encoder.
+
+        :param torch.Tensor sequences: batch of encoded character sequences
+        :param torch.Tensor sequences_lengths: length of each sequence
+        :return: encoder outputs and the final hidden state
+        :rtype: tuple[torch.Tensor, tuple[torch.Tensor, torch.Tensor]]
+        """
         # sequences: (batch_size, sequence_length=MAX_LENGTH)
         # sequences_lengths: (batch_size)
 
@@ -195,6 +208,13 @@ class Encoder(nn.Module):  # type: ignore[misc]
     def init_hidden(
         self, batch_size: int
     ) -> Tuple[torch.Tensor, torch.Tensor]:
+        """
+        Return a zero-filled initial hidden state.
+
+        :param int batch_size: number of sequences in the batch
+        :return: initial hidden state and cell state
+        :rtype: tuple[torch.Tensor, torch.Tensor]
+        """
         h_0 = torch.zeros(
             [2, batch_size, self.hidden_size // 2], requires_grad=True
         ).to(device)
@@ -206,12 +226,20 @@ class Encoder(nn.Module):  # type: ignore[misc]
 
 
 class Attn(nn.Module):  # type: ignore[misc]
+    """Compute attention weights over the encoder outputs."""
+
     method: str
     hidden_size: int
     attn: nn.Linear
     other: nn.Parameter
 
     def __init__(self, method: str, hidden_size: int) -> None:
+        """
+        Initialize the attention layers.
+
+        :param str method: scoring method, one of "dot", "general", or "concat"
+        :param int hidden_size: size of the hidden state
+        """
         super().__init__()
 
         self.method = method
@@ -230,6 +258,16 @@ class Attn(nn.Module):  # type: ignore[misc]
         encoder_outputs: torch.Tensor,
         mask: torch.Tensor,
     ) -> torch.Tensor:
+        """
+        Compute the forward pass of the attention layer.
+
+        :param torch.Tensor hidden: decoder hidden state
+        :param torch.Tensor encoder_outputs: encoder outputs
+        :param torch.Tensor mask: mask of non-padding positions
+        :return: attention weights, normalized to the range 0 to 1
+        :rtype: torch.Tensor
+        :raises ValueError: if the attention method is not supported
+        """
         # Calculate energies for each encoder output
         if self.method == "dot":
             attn_energies = torch.bmm(
@@ -255,9 +293,7 @@ class Attn(nn.Module):  # type: ignore[misc]
                 self.other.unsqueeze(0).expand(*hidden.size()).transpose(1, 2),
             ).squeeze(2)
         else:
-            raise ValueError(
-                f"Unsupported attention method: {self.method!r}"
-            )
+            raise ValueError(f"Unsupported attention method: {self.method!r}")
 
         attn_energies = attn_energies.masked_fill(mask == 0, -1e10)
 
@@ -266,6 +302,8 @@ class Attn(nn.Module):  # type: ignore[misc]
 
 
 class AttentionDecoder(nn.Module):  # type: ignore[misc]
+    """Decode a sequence of characters with an attention LSTM."""
+
     vocabulary_size: int
     hidden_size: int
     character_embedding: nn.Embedding
@@ -281,7 +319,7 @@ class AttentionDecoder(nn.Module):  # type: ignore[misc]
         hidden_size: int,
         dropout: float = 0.5,
     ) -> None:
-        """Constructor"""
+        """Initialize the layers."""
         super().__init__()
         self.vocabulary_size = vocabulary_size
         self.hidden_size = hidden_size
@@ -307,7 +345,7 @@ class AttentionDecoder(nn.Module):  # type: ignore[misc]
         encoder_outputs: torch.Tensor,
         mask: torch.Tensor,
     ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-        """Defines the forward computation of the decoder"""
+        """Compute the forward pass of the decoder."""
         # input_character: (batch_size, 1)
         # last_hidden: (batch_size, hidden_dim)
         # encoder_outputs: (batch_size, sequence_len, hidden_dim)
@@ -334,6 +372,8 @@ class AttentionDecoder(nn.Module):  # type: ignore[misc]
 
 
 class Seq2Seq(nn.Module):  # type: ignore[misc]
+    """Sequence-to-sequence model of an encoder and an attention decoder."""
+
     encoder: Encoder
     decoder: AttentionDecoder
     pad_idx: int
@@ -349,6 +389,17 @@ class Seq2Seq(nn.Module):  # type: ignore[misc]
         target_end_token: int,
         max_length: int,
     ) -> None:
+        """
+        Initialize the sequence-to-sequence model.
+
+        :param Encoder encoder: encoder
+        :param AttentionDecoder decoder: attention decoder
+        :param int target_start_token: index of the target start token
+        :param int target_end_token: index of the target end token
+        :param int max_length: maximum sequence length
+        :raises ValueError: if the hidden sizes of the encoder and the
+            decoder differ
+        """
         super().__init__()
 
         self.encoder: Encoder = encoder
@@ -365,16 +416,35 @@ class Seq2Seq(nn.Module):  # type: ignore[misc]
             )
 
     def create_mask(self, source_seq: torch.Tensor) -> torch.Tensor:
+        """
+        Create a boolean mask for non-padding positions.
+
+        :param torch.Tensor source_seq: encoded source sequence
+        :return: boolean mask where True marks non-padding positions
+        :rtype: torch.Tensor
+        """
         mask = source_seq != self.pad_idx
         return mask
 
-    def forward(
+    def forward(  # noqa: CCR001  # phase2-todo
         self,
         source_seq: torch.Tensor,
         source_seq_len: torch.Tensor,
         target_seq: Optional[torch.Tensor],
         teacher_forcing_ratio: float = 0.5,
     ) -> torch.Tensor:
+        """
+        Compute the forward pass of the sequence-to-sequence model.
+
+        :param torch.Tensor source_seq: encoded source sequence
+        :param torch.Tensor source_seq_len: length of each source sequence
+        :param Optional[torch.Tensor] target_seq: encoded target sequence,
+            or None
+        :param float teacher_forcing_ratio: probability of feeding the target
+            token to the decoder
+        :return: output logits
+        :rtype: torch.Tensor
+        """
         # source_seq: (batch_size, MAX_LENGTH)
         # source_seq_len: (batch_size, 1)
         # target_seq: (batch_size, MAX_LENGTH)
@@ -458,11 +528,11 @@ _THAI_TO_ROM: ThaiTransliterator = ThaiTransliterator()
 
 
 def romanize(text: str) -> str:
-    """Romanize Thai text
+    """
+    Romanize Thai text.
 
-    :param text: Thai text to be romanized
-    :type text: str
-    :return: Roman characters representing the pronunciation of the Thai text
+    :param str text: Thai text to be romanized
+    :return: Latin text that spells out how the Thai text is pronounced
     :rtype: str
     """
     return _THAI_TO_ROM.romanize(text)

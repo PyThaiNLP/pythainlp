@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai braille conversion core functionality."""
+"""Core functions for converting Thai text to braille."""
 
 from __future__ import annotations
 
@@ -151,19 +151,18 @@ _vowel_patterns: list[str] = [
     + "\\2"
     for i in _v1
 ]
-_vowel_patterns += [
-    i.replace("-", "([ก-ฮ])") + ",\\1" + i for i in _dict_2.keys()
-]
+_vowel_patterns += [i.replace("-", "([ก-ฮ])") + ",\\1" + i for i in _dict_2]
 _VOWELS: list[tuple[str, str]] = [
     (x.split(",")[0], x.split(",")[1]) for x in _vowel_patterns
 ]
 
 
 def replace_number(word: str) -> str:
-    """Add number prefix if word starts with a digit.
+    """
+    Add a number prefix if a word starts with a digit.
 
-    :param str word: Word to check
-    :return: Word with number prefix if applicable
+    :param str word: word to check
+    :return: word with a number prefix if it starts with a digit
     :rtype: str
     """
     if word and word[0] in "1234567890๐๑๒๓๔๕๖๗๘๙":
@@ -172,10 +171,11 @@ def replace_number(word: str) -> str:
 
 
 def _replace_vowels(word: str) -> str:
-    """Replace complex Thai vowel patterns for braille conversion.
+    """
+    Replace complex Thai vowel patterns for braille conversion.
 
-    :param str word: Word containing Thai vowels
-    :return: Word with vowels replaced for braille processing
+    :param str word: word containing Thai vowels
+    :return: word with vowels replaced for braille processing
     :rtype: str
     """
     for pattern, replacement in _VOWELS:
@@ -184,10 +184,11 @@ def _replace_vowels(word: str) -> str:
 
 
 def thai_word_braille(word: str) -> str:
-    """Convert a Thai word to braille representation.
+    """
+    Convert a Thai word to braille representation.
 
     :param str word: Thai word to convert
-    :return: Braille representation of the word
+    :return: braille representation of the word
     :rtype: str
 
     :Example:
@@ -218,10 +219,11 @@ def thai_word_braille(word: str) -> str:
 
 
 def thai_text_braille(text: str) -> list[str]:
-    """Convert Thai text to braille representation by word.
+    """
+    Convert Thai text to braille representation, word by word.
 
     :param str text: Thai text to convert
-    :return: List of braille representations for each word
+    :return: list of braille representations, one per word
     :rtype: list[str]
 
     :Example:
@@ -237,15 +239,18 @@ def thai_text_braille(text: str) -> list[str]:
 
 
 class Braille:
-    """Braille pattern converter.
+    """
+    Convert braille dot patterns to Unicode braille characters.
 
-    Converts dot number patterns to Unicode braille characters.
+    :param data: braille dot patterns as a list or a string
+    :type data: Union[list[list[str]], list[str], str]
     """
 
     def __init__(self, data: Union[list[list[str]], list[str], str]) -> None:
-        """Initialize Braille converter.
+        """
+        Initialize the braille converter.
 
-        :param data: Braille dot patterns as list or string
+        :param data: braille dot patterns as a list or a string
         :type data: Union[list[list[str]], list[str], str]
         """
         self.inputdata: Union[list[list[str]], list[str], str] = data
@@ -256,11 +261,11 @@ class Braille:
                     nested_data[i] = sorted(item)
                 self.data: Union[list[list[str]], list[str]] = nested_data
             elif len(data) == 1:
-                self.data = sorted(list(data[0]))
+                self.data = sorted(data[0])
             else:
                 self.data = []
         else:
-            self.data = sorted(list(data)) if data else []
+            self.data = sorted(data) if data else []
 
         # International standard Braille mapping
         # Dots 1,2,3 = left column (top, middle, bottom)
@@ -527,7 +532,8 @@ class Braille:
         }
 
     def tobraille(self) -> str:
-        """Convert dot patterns to braille Unicode characters.
+        """
+        Convert dot patterns to braille Unicode characters.
 
         :return: Unicode braille representation
         :rtype: str
@@ -541,16 +547,16 @@ class Braille:
                 if pattern_str in self.db:
                     result += self.db[pattern_str]
             return result
-        else:
-            pattern_str = "".join(cast("list[str]", self.data))
-            return self.db.get(pattern_str, "")
+        pattern_str = "".join(cast("list[str]", self.data))
+        return self.db.get(pattern_str, "")
 
     def printbraille(self) -> str:
-        """Mirror dot patterns for physical braille printing.
+        """
+        Mirror dot patterns for physical braille printing.
 
-        International standard: swap 1↔4, 2↔5, 3↔6, 7↔8
+        Follow the international standard: swap dots 1↔4, 2↔5, 3↔6, 7↔8.
 
-        :return: Mirrored braille for printing
+        :return: mirrored braille for printing
         :rtype: str
         """
         mirror_map: dict[str, str] = {
@@ -572,9 +578,8 @@ class Braille:
                 mirrored_patterns.append(self.db[mirrored_sorted])
             mirrored_patterns.reverse()
             return "".join(mirrored_patterns)
-        else:
-            mirrored = "".join(
-                mirror_map[dot] for dot in cast("list[str]", self.data)
-            )
-            mirrored_sorted = "".join(sorted(mirrored))
-            return self.db[mirrored_sorted]
+        mirrored = "".join(
+            mirror_map[dot] for dot in cast("list[str]", self.data)
+        )
+        mirrored_sorted = "".join(sorted(mirrored))
+        return self.db[mirrored_sorted]

@@ -140,7 +140,9 @@ class ThaiG2P:
             trg_padded = trg_indices + [_PAD_TOKEN] * (
                 self._max_len - len(trg_indices)
             )
-            trg_tensor = np.array([trg_padded[: self._max_len]], dtype=np.int64)
+            trg_tensor = np.array(
+                [trg_padded[: self._max_len]], dtype=np.int64
+            )
             dec_outputs = self._decoder_session.run(
                 output_names=["output", "cross_attention"],
                 input_feed={
@@ -160,8 +162,7 @@ class ThaiG2P:
                 break
 
         result_chars = [
-            self._target_idx2char.get(idx, "<UNK>")
-            for idx in trg_indices[1:]
+            self._target_idx2char.get(idx, "<UNK>") for idx in trg_indices[1:]
         ]
         return "".join(result_chars)
 
@@ -197,4 +198,3 @@ __all__: list[str] = [
     "ThaiG2PV4",
     "transliterate",
 ]
-

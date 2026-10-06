@@ -1,15 +1,16 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Check if a word is a "native Thai word"
+"""
+Check if a word is a "native Thai word".
 
 Adapted from
 https://github.com/wannaphong/open-thai-nlp-document/blob/master/check_thai_word.md
 
 References
 ----------
-- ทีมงานทรูปลูกปัญญา 2015. ลักษณะของคำไทยแท้ \
-    https://www.trueplookpanya.com/learning/detail/30589-043067
+- ทีมงานทรูปลูกปัญญา 2015. ลักษณะของคำไทยแท้
+  https://www.trueplookpanya.com/learning/detail/30589-043067
 - วารุณี บำรุงรส 2010. คำไทยแท้ https://www.gotoknow.org/posts/377619
 
 """
@@ -64,16 +65,18 @@ _TH_PREFIX_DIPHTHONG: set[str] = {"กะ", "กระ", "ปะ", "ประ"}
 
 # Thai consonant filter
 # O ANG (U+0E2D) is omitted, as it can be considered as vowel
-_TH_CONSONANTS_PATTERN: re.Pattern[str] = re.compile(r"[ก-ฬฮ]", re.U)
+_TH_CONSONANTS_PATTERN: re.Pattern[str] = re.compile(r"[ก-ฬฮ]", re.UNICODE)
 
 
 def is_native_thai(word: str) -> bool:
-    """Check if a word is an "native Thai word" (Thai: "คำไทยแท้")
+    """
+    Check if a word is a "native Thai word" (Thai: "คำไทยแท้").
+
     This function is based on a simple heuristic algorithm
     and cannot be entirely reliable.
 
-    :param str word: word
-    :return: True or False
+    :param str word: word to be checked
+    :return: ``True`` if the word is a native Thai word, otherwise ``False``
     :rtype: bool
 
     :Example:
@@ -118,7 +121,4 @@ def is_native_thai(word: str) -> bool:
 
     # Note: This will not work, as it check the whole word, not the prefix.
     # Prefix-sensitive tokenization is required in order to be able to check this.
-    if word in _TH_PREFIX_DIPHTHONG:
-        return True
-
-    return False
+    return word in _TH_PREFIX_DIPHTHONG

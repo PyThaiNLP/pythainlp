@@ -1,12 +1,13 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Syllable tools"""
+"""Syllable tools."""
 
 from __future__ import annotations
 
+import itertools
 import re
-from typing import Pattern
+from typing import Optional, Pattern
 
 from pythainlp import thai_consonants, thai_tonemarks
 
@@ -32,9 +33,11 @@ not_spelling_class: list[str] = [
 # vowel's short sound
 short: str = "ะัิึุ"
 re_short: Pattern[str] = re.compile(
-    "เ(.*)ะ|แ(.*)ะ|เ(.*)อะ|โ(.*)ะ|เ(.*)าะ", re.U
+    "เ(.*)ะ|แ(.*)ะ|เ(.*)อะ|โ(.*)ะ|เ(.*)าะ", re.UNICODE
 )
-pattern: Pattern[str] = re.compile("เ(.*)า", re.U)  # เ-า is live syllable
+pattern: Pattern[str] = re.compile(
+    "เ(.*)า", re.UNICODE
+)  # เ-า is live syllable
 
 _check_1: list[str] = []
 # These spelling consonants are live syllables.
@@ -68,14 +71,61 @@ for k, v in thai_initial_consonant_type.items():
         thai_initial_consonant_to_type[i] = k
 
 
-def sound_syllable(syllable: str) -> str:
-    """Sound syllable classification
+_SHORT_SET: frozenset[str] = frozenset(short)
+_VOWELS_ANY_1: frozenset[str] = frozenset("าีืแูเโไใำ")
+_VOWELS_ANY_2: frozenset[str] = frozenset("าีืแูาเโ")
+_VOWELS_ANY_3: frozenset[str] = frozenset("าีืแูาโ")
+_VOWELS_ANY_4: frozenset[str] = frozenset("ำใไ")
 
-    This function is sound syllable classification.
-    The syllable is a live syllable or dead syllable.
+
+def _has_any(syllable: str, chars: frozenset[str]) -> bool:
+    """Check whether the syllable has any of the given characters."""
+    return not chars.isdisjoint(syllable)
+
+
+def _has_short_sound(syllable: str) -> bool:
+    """Check whether the syllable has a short vowel sound."""
+    return bool(re_short.search(syllable)) or _has_any(syllable, _SHORT_SET)
+
+
+def _sound_vowel_only(syllable: str) -> str:
+    """Classify a syllable with อ but no other consonant."""
+    if _has_any(syllable, _VOWELS_ANY_1):
+        return "live"
+    if _has_any(syllable, _SHORT_SET):
+        return "dead"
+    return "live"
+
+
+def _sound_with_long_vowel(syllable: str, spelling_consonant: str) -> str:
+    """Classify a syllable with า, ี, ื, แ, ู, or โ."""
+    has_re_short = bool(re_short.search(syllable))
+    if not has_re_short and (
+        spelling_consonant in _check_1 or spelling_consonant != syllable[-1]
+    ):
+        return "live"
+    if spelling_consonant in _check_2:
+        return "dead"
+    if _has_short_sound(syllable):
+        return "dead"
+    return "live"
+
+
+def _sound_live_final(syllable: str, consonant_count: int) -> str:
+    """Classify a syllable whose final consonant is a live final."""
+    if _has_short_sound(syllable) and consonant_count < 2:
+        return "dead"
+    if syllable[-1] in _SHORT_SET:
+        return "dead"
+    return "live"
+
+
+def sound_syllable(syllable: str) -> str:
+    """
+    Classify the sound of a Thai syllable as live or dead.
 
     :param str syllable: Thai syllable
-    :return: syllable's type ("live" or "dead")
+    :return: type of the syllable ("live" or "dead")
     :rtype: str
 
     :Example:
@@ -85,99 +135,47 @@ def sound_syllable(syllable: str) -> str:
         'live'
         >>> sound_syllable("เลข")
         'dead'
+        >>> sound_syllable("ฤๅ")
+        'live'
     """
-    # if len of syllable < 2
     if len(syllable) < 2:
         return "dead"
 
-    # get consonants
     consonants = [i for i in syllable if i in thai_consonants_all]
-    if (
-        (len(consonants) == 0)
-        and ("อ" in syllable)
-        and any((c in set("เ")) for c in syllable)
-        and (len(syllable) == 2)
-    ):
-        return "live"
-
-    # Handle syllables with only อ (no other consonants from thai_consonants_all)
     if len(consonants) == 0 and "อ" in syllable:
-        # Syllables with only อ and long vowels are live
-        if any((c in set("าีืแูเโไใำ")) for c in syllable):
-            return "live"
-        # Short vowels or special cases
-        if any((c in set(short)) for c in syllable):
-            return "dead"
-        # Default to live for vowel-only syllables
-        return "live"
+        return _sound_vowel_only(syllable)
 
-    # get spelling consonants
+    if not consonants:
+        return "dead" if _has_short_sound(syllable) else "live"
+
     spelling_consonant = consonants[-1]
-    if (spelling_consonant in _check_2) and (
-        any((c in set("าีืแูาเโ")) for c in syllable) is False
-        and any((c in set("ำใไ")) for c in syllable) is False
-        and bool(pattern.search(syllable)) is not True
+    if (
+        spelling_consonant in _check_2
+        and not _has_any(syllable, _VOWELS_ANY_2)
+        and not _has_any(syllable, _VOWELS_ANY_4)
+        and not pattern.search(syllable)
     ):
         return "dead"
 
-    if any((c in set("าีืแูาโ")) for c in syllable):  # in syllable:
-        if (
-            spelling_consonant in _check_1
-            and bool(re_short.search(syllable)) is not True
-        ):
-            return "live"
+    if _has_any(syllable, _VOWELS_ANY_3):
+        return _sound_with_long_vowel(syllable, spelling_consonant)
 
-        if (
-            spelling_consonant != syllable[-1]
-            and bool(re_short.search(syllable)) is not True
-        ):
-            return "live"
-
-        if spelling_consonant in _check_2:
-            return "dead"
-
-        if bool(re_short.search(syllable)) or any(
-            (c in set(short)) for c in syllable
-        ):
-            return "dead"
-
-        return "live"
-
-    if any((c in set("ำใไ")) for c in syllable):
-        return "live"  # if these vowel's long sounds are live syllables
-
-    if bool(pattern.search(syllable)):  # if it is เ-า
+    # ำ, ใ, ไ and เ-า are live
+    if _has_any(syllable, _VOWELS_ANY_4) or pattern.search(syllable):
         return "live"
 
     if spelling_consonant in _check_1:
-        if (
-            bool(re_short.search(syllable))
-            or any((c in set(short)) for c in syllable)
-        ) and len(consonants) < 2:
-            return "dead"
-
-        if syllable[-1] in set(short):
-            return "dead"
-
-        return "live"
-
-    if bool(
-        re_short.search(syllable)
-    ) or any(  # if vowel's short sound is found
-        (c in set(short)) for c in syllable
-    ):  # consonant in short
-        return "dead"
+        return _sound_live_final(syllable, len(consonants))
 
     return "dead"
 
 
 def syllable_open_close_detector(syllable: str) -> str:
-    """Open/close Thai syllables detector
-
-    This function is used for finding Thai syllables that are open or closed sound.
+    """
+    Detect whether a Thai syllable is open or closed.
 
     :param str syllable: Thai syllable
-    :return: open / close
+    :return: "open" or "close"
     :rtype: str
 
     :Example:
@@ -200,12 +198,11 @@ def syllable_open_close_detector(syllable: str) -> str:
 
 
 def syllable_length(syllable: str) -> str:
-    """Thai syllable length
-
-    This function is used for finding syllable's length. (long or short)
+    """
+    Detect the vowel length of a Thai syllable.
 
     :param str syllable: Thai syllable
-    :return: syllable's length (long or short)
+    :return: length of the syllable ("long" or "short")
     :rtype: str
 
     :Example:
@@ -217,7 +214,7 @@ def syllable_length(syllable: str) -> str:
         'short'
     """
     consonants = [i for i in syllable if i in thai_consonants]
-    if len(consonants) <= 3 and any((c in set(short)) for c in syllable):
+    if len(consonants) <= 3 and _has_any(syllable, _SHORT_SET):
         return "short"
 
     if bool(re_short.search(syllable)):
@@ -245,16 +242,83 @@ def _check_sonorant_syllable(syllable: str) -> bool:
     if _sonorant[-1] == consonants[-2]:
         return True
 
-    if _sonorant[-1] == consonants[-1]:
-        return True
+    return _sonorant[-1] == consonants[-1]
 
-    return False
+
+def _tone_ah_sonorant(initial: str, sound: str, tone_mark: str) -> str:
+    """Tone rules for อ or ห followed by a sonorant ending."""
+    if sound == "live":
+        if tone_mark == "่":
+            return "l" if initial in ("อ", "ห") else ""
+        if initial == "ห":
+            return "f" if tone_mark == "้" else "r"
+        return ""
+    return "l"
+
+
+# Ordered rules: (initial type, tone mark, sound, length, open/close, tone).
+# None matches any value. The first matching rule wins.
+_TONE_RULES: tuple[
+    tuple[
+        Optional[str],
+        Optional[str],
+        Optional[str],
+        Optional[str],
+        Optional[str],
+        str,
+    ],
+    ...,
+] = (
+    ("high", "่", "live", None, None, "l"),
+    ("mid", "่", "live", None, None, "l"),
+    ("low", "้", None, None, None, "h"),
+    ("mid", "๋", None, None, None, "r"),
+    ("mid", "๊", None, None, None, "h"),
+    ("low", "่", None, None, None, "f"),
+    ("mid", "้", None, None, None, "f"),
+    ("high", "้", None, None, None, "f"),
+    ("low", None, "dead", "short", "close", "h"),
+    ("low", None, "dead", "long", "close", "f"),
+    ("low", None, None, "short", "open", "h"),
+    ("low", None, "dead", "long", "open", "f"),
+    ("mid", None, "dead", None, None, "l"),
+    ("high", None, "dead", None, None, "l"),
+    ("low", None, "live", None, None, "m"),
+    ("mid", None, "live", None, None, "m"),
+    ("high", None, "live", None, None, "r"),
+)
+
+
+def _match_tone_rule(actual: tuple[str, ...]) -> str:
+    """Return the tone of the first rule that matches; "" if none does."""
+    for rule in _TONE_RULES:
+        if all(c is None or c == a for c, a in zip(rule, actual)):
+            return rule[-1]
+    return ""
+
+
+def _build_tone_table() -> dict[tuple[str, ...], str]:
+    """Expand ``_TONE_RULES`` into a table for every possible input."""
+    table: dict[tuple[str, ...], str] = {}
+    for key in itertools.product(
+        thai_initial_consonant_type,
+        ("", *thai_tonemarks),
+        ("live", "dead"),
+        ("short", "long"),
+        ("open", "close"),
+    ):
+        table[key] = _match_tone_rule(key)
+    return table
+
+
+_TONE_TABLE: dict[tuple[str, ...], str] = _build_tone_table()
 
 
 def tone_detector(syllable: str) -> str:
-    """Thai tone detector for syllables
+    """
+    Detect the tone of a Thai syllable.
 
-    Return tone of a syllable.
+    The tone is one of:
 
     - l: low
     - m: mid
@@ -264,7 +328,8 @@ def tone_detector(syllable: str) -> str:
     - empty string: cannot be detected
 
     :param str syllable: Thai syllable
-    :return: syllable's tone (l, m, h, r, f) or empty if it cannot be detected
+    :return: tone of the syllable (l, m, h, r, f),
+        or an empty string if it cannot be detected
     :rtype: str
 
     :Example:
@@ -275,105 +340,28 @@ def tone_detector(syllable: str) -> str:
         >>> tone_detector("ไม้")
         'h'
     """
-    s = sound_syllable(syllable)
-    # get consonants
+    sound = sound_syllable(syllable)
     consonants = [i for i in syllable if i in thai_consonants]
 
-    # Handle syllables with no consonants (e.g., ฤ, ฦ)
+    # Syllables with no consonants (e.g., ฤ, ฦ)
     if len(consonants) == 0:
         return ""
 
     initial_consonant = consonants[0]
     tone_mark = _tone_mark_detector(syllable)
-    syllable_check = syllable_open_close_detector(syllable)
-    syllable_check_length = syllable_length(syllable)
-    initial_consonant_type = thai_initial_consonant_to_type[initial_consonant]
-    # r for store value
-    r = ""
-    # Special handling for อ and ห with sonorants
-    if len(consonants) > 1 and (initial_consonant in ("อ", "ห")):
-        consonant_ending = _check_sonorant_syllable(syllable)
-        if consonant_ending:
-            # Only apply special rules if there are sonorants
-            if initial_consonant == "อ" and s == "live" and tone_mark == "่":
-                r = "l"
-            elif initial_consonant == "ห" and s == "live" and tone_mark == "่":
-                r = "l"
-            elif initial_consonant == "อ" and s == "dead":
-                r = "l"
-            elif initial_consonant == "ห" and s == "live" and tone_mark == "้":
-                r = "f"
-            elif initial_consonant == "ห" and s == "dead":
-                r = "l"
-            elif initial_consonant == "ห" and s == "live":
-                r = "r"
-    # If r is still empty, apply general tone rules
-    if (
-        r == ""
-        and initial_consonant_type == "high"
-        and s == "live"
-        and tone_mark == "่"
-    ):
-        r = "l"
-    if (
-        r == ""
-        and initial_consonant_type == "mid"
-        and s == "live"
-        and tone_mark == "่"
-    ):
-        r = "l"
-    if r == "" and initial_consonant_type == "low" and tone_mark == "้":
-        r = "h"
-    if r == "" and initial_consonant_type == "mid" and tone_mark == "๋":
-        r = "r"
-    if r == "" and initial_consonant_type == "mid" and tone_mark == "๊":
-        r = "h"
-    if r == "" and initial_consonant_type == "low" and tone_mark == "่":
-        r = "f"
-    if r == "" and initial_consonant_type == "mid" and tone_mark == "้":
-        r = "f"
-    if r == "" and initial_consonant_type == "high" and tone_mark == "้":
-        r = "f"
-    if (
-        r == ""
-        and initial_consonant_type == "low"
-        and syllable_check_length == "short"
-        and syllable_check == "close"
-        and s == "dead"
-    ):
-        r = "h"
-    if (
-        r == ""
-        and initial_consonant_type == "low"
-        and syllable_check_length == "long"
-        and syllable_check == "close"
-        and s == "dead"
-    ):
-        r = "f"
-    if (
-        r == ""
-        and initial_consonant_type == "low"
-        and syllable_check_length == "short"
-        and syllable_check == "open"
-    ):
-        r = "h"
-    if (
-        r == ""
-        and initial_consonant_type == "low"
-        and syllable_check_length == "long"
-        and syllable_check == "open"
-        and s == "dead"
-    ):
-        r = "f"
-    if r == "" and initial_consonant_type == "mid" and s == "dead":
-        r = "l"
-    if r == "" and initial_consonant_type == "high" and s == "dead":
-        r = "l"
-    if r == "" and initial_consonant_type == "low" and s == "live":
-        r = "m"
-    if r == "" and initial_consonant_type == "mid" and s == "live":
-        r = "m"
-    if r == "" and initial_consonant_type == "high" and s == "live":
-        r = "r"
 
-    return r
+    # Special handling for อ and ห with sonorants
+    if (
+        len(consonants) > 1
+        and initial_consonant in ("อ", "ห")
+        and _check_sonorant_syllable(syllable)
+    ):
+        result = _tone_ah_sonorant(initial_consonant, sound, tone_mark)
+        if result:
+            return result
+
+    initial_type = thai_initial_consonant_to_type[initial_consonant]
+    length = syllable_length(syllable)
+    open_close = syllable_open_close_detector(syllable)
+    actual = (initial_type, tone_mark, sound, length, open_close)
+    return _TONE_TABLE.get(actual, "")

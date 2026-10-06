@@ -1,10 +1,11 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Corpus related functions.
+"""
+Corpus related functions.
 
-Access to dictionaries, word lists, and language models.
-Including download manager.
+Access to dictionaries, word lists, and language models,
+including the download manager.
 """
 
 from __future__ import annotations
@@ -61,17 +62,17 @@ _CORPUS_DB_PATH: str = get_full_data_path(_CORPUS_DB_FILENAME)
 
 
 def corpus_path() -> str:
-    """Get path where corpus files are kept locally."""
+    """Get the path where corpus files are kept locally."""
     return _CORPUS_PATH
 
 
 def corpus_db_url() -> str:
-    """Get remote URL of corpus catalog."""
+    """Get the remote URL of the corpus catalog."""
     return _CORPUS_DB_URL
 
 
 def corpus_db_path() -> str:
-    """Get local path of corpus catalog."""
+    """Get the local path of the corpus catalog."""
     return _CORPUS_DB_PATH
 
 

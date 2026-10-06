@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Fuzzing harness for pythainlp.util.normalize()
+"""
+Fuzzing harness for pythainlp.util.normalize()
 
 This fuzzer tests the normalize function with random Unicode input
 to discover edge cases, crashes, and potential security issues.
@@ -16,7 +17,8 @@ with atheris.instrument_imports():
 
 
 def test_one_input(data: bytes) -> None:
-    """Fuzz target for normalize.
+    """
+    Fuzz target for normalize.
 
     :param bytes data: Random input bytes from the fuzzer
     :rtype: None
@@ -40,7 +42,8 @@ def test_one_input(data: bytes) -> None:
 
 
 def main() -> None:
-    """Entry point for the fuzzer.
+    """
+    Entry point for the fuzzer.
 
     :rtype: None
     """

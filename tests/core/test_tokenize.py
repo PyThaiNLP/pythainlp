@@ -173,9 +173,7 @@ LONG_TEXT = (
 )
 
 DANGER_TEXT_1 = (
-    "ชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิ"
-    "ชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิ"
-    "ชิชิชิชิชิชิชิชิชิ"
+    "ชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิ"
 )
 
 DANGER_TEXT_2 = (
@@ -197,9 +195,9 @@ SENT_2 = "วันนี้ฉันกินข้าว และโดดเ
 SENT_2_TOKS = ["วันนี้ฉันกินข้าว และโดดเรียน"]
 SENT_3 = (
     "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมา"
-    + "จากผลงานวิจัยที่เคยทำมาในอดีต"
-    + " มิได้ทำการศึกษาค้นคว้าใหม่อย่างกว้างขวางแต่อย่างใด"
-    + " จึงใคร่ขออภัยในความบกพร่องทั้งปวงมา ณ ที่นี้"
+    "จากผลงานวิจัยที่เคยทำมาในอดีต"
+    " มิได้ทำการศึกษาค้นคว้าใหม่อย่างกว้างขวางแต่อย่างใด"
+    " จึงใคร่ขออภัยในความบกพร่องทั้งปวงมา ณ ที่นี้"
 )
 SENT_3_TOKS = [
     "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมา" + "จากผลงานวิจัยที่เคยทำมาในอดีต ",
@@ -420,7 +418,7 @@ class TokenizeTestCase(unittest.TestCase):
         self.assertIsNotNone(
             etcc.segment(
                 "หมูแมวเหล่านี้ด้วยเหตุผลเชื่อมโยงทางกรรมพันธุ์"
-                + "สัตว์มีแขนขาหน้าหัวเราะเพราะแข็งขืน"
+                "สัตว์มีแขนขาหน้าหัวเราะเพราะแข็งขืน"
             )
         )
 
@@ -463,12 +461,18 @@ class TokenizeTestCase(unittest.TestCase):
         )
         self.assertEqual(
             word_tokenize(
-                "ปวดเฉียบพลัน", engine="longest", custom_dict=dict_trie(["ปวดเฉียบพลัน"])
+                "ปวดเฉียบพลัน",
+                engine="longest",
+                custom_dict=dict_trie(["ปวดเฉียบพลัน"]),
             ),
             ["ปวดเฉียบพลัน"],
         )
         self.assertEqual(
-            word_tokenize("ทดสอบทดสอบ", engine="longest", custom_dict=dict_trie(["ทดสอบท"])),
+            word_tokenize(
+                "ทดสอบทดสอบ",
+                engine="longest",
+                custom_dict=dict_trie(["ทดสอบท"]),
+            ),
             ["ทดสอบท", "ดสอบ"],
         )
         self.assertEqual(
@@ -703,7 +707,7 @@ class TokenizeTestCase(unittest.TestCase):
         # tcc_pos_array: edge cases
         self.assertIsInstance(tcc_p.tcc_pos_array(""), bytearray)
         self.assertIsInstance(tcc_p.tcc_pos_array(None), bytearray)  # type: ignore[arg-type]
-        self.assertIsInstance(tcc_p.tcc_pos_array(42), bytearray)    # type: ignore[arg-type]
+        self.assertIsInstance(tcc_p.tcc_pos_array(42), bytearray)  # type: ignore[arg-type]
         # valid text: array length must equal len(text)+1 and mark boundaries
         arr = tcc_p.tcc_pos_array("ประเทศ")
         self.assertEqual(len(arr), len("ประเทศ") + 1)
@@ -733,17 +737,19 @@ class TokenizeTestCase(unittest.TestCase):
         self.assertEqual(display_cell_tokenize(""), [])
         self.assertEqual(
             display_cell_tokenize("แม่น้ำอยู่ที่ไหน"),
-            ["แ", "ม่", "น้ํ", "า", "อ", "ยู่", "ที่", "ไ", "ห", "น"]
+            ["แ", "ม่", "น้ํ", "า", "อ", "ยู่", "ที่", "ไ", "ห", "น"],
         )
-        self.assertEqual(display_cell_tokenize("สวัสดี"), ['ส', 'วั', 'ส', 'ดี'])
-        self.assertEqual(display_cell_tokenize("ทดสอบ"), ["ท", "ด", "ส", "อ", "บ"])
-        self.assertEqual(display_cell_tokenize("ภาษาไทย"), ["ภ", "า", "ษ", "า", "ไ", "ท", "ย"])
+        self.assertEqual(display_cell_tokenize("สวัสดี"), ["ส", "วั", "ส", "ดี"])
+        self.assertEqual(
+            display_cell_tokenize("ทดสอบ"), ["ท", "ด", "ส", "อ", "บ"]
+        )
+        self.assertEqual(
+            display_cell_tokenize("ภาษาไทย"),
+            ["ภ", "า", "ษ", "า", "ไ", "ท", "ย"],
+        )
 
     def test_paragraph_tokenize(self):
         # Test error handling for invalid engine
-        text = (
-            "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมา"
-            "จากผลงานวิจัยที่เคยทำมาในอดีต"
-        )
+        text = "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมาจากผลงานวิจัยที่เคยทำมาในอดีต"
         with self.assertRaises(ValueError):
             paragraph_tokenize(text, engine="non-existent-engine")

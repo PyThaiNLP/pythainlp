@@ -2,13 +2,14 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-"""Unit tests for pythainlp.util module.
-"""
+"""Unit tests for pythainlp.util module."""
 
+import hashlib
 import os
 import unittest
 from collections import Counter
 from datetime import date, datetime, time, timedelta, timezone
+from typing import Any
 from unittest.mock import patch
 
 from pythainlp.corpus import corpus_path, thai_words
@@ -141,10 +142,14 @@ class UtilTestCase(unittest.TestCase):
         # num_to_thaiword_float
         self.assertEqual(num_to_thaiword_float(123.45), "หนึ่งร้อยยี่สิบสามจุดสี่ห้า")
         self.assertEqual(num_to_thaiword_float(0.5), "ศูนย์จุดห้า")
-        self.assertEqual(num_to_thaiword_float(123.12345), "หนึ่งร้อยยี่สิบสามจุดหนึ่งสองสามสี่ห้า")
+        self.assertEqual(
+            num_to_thaiword_float(123.12345), "หนึ่งร้อยยี่สิบสามจุดหนึ่งสองสามสี่ห้า"
+        )
         self.assertEqual(num_to_thaiword_float(3.14159), "สามจุดหนึ่งสี่หนึ่งห้าเก้า")
         self.assertEqual(num_to_thaiword_float(10.01), "สิบจุดศูนย์หนึ่ง")
-        self.assertEqual(num_to_thaiword_float(1001.001), "หนึ่งพันเอ็ดจุดศูนย์ศูนย์หนึ่ง")
+        self.assertEqual(
+            num_to_thaiword_float(1001.001), "หนึ่งพันเอ็ดจุดศูนย์ศูนย์หนึ่ง"
+        )
         self.assertEqual(num_to_thaiword_float(0.1), "ศูนย์จุดหนึ่ง")
         self.assertEqual(num_to_thaiword_float(11.11), "สิบเอ็ดจุดหนึ่งหนึ่ง")
         # Whole numbers return integer form
@@ -157,13 +162,17 @@ class UtilTestCase(unittest.TestCase):
         # Very small float (scientific notation)
         self.assertEqual(num_to_thaiword_float(1e-5), "ศูนย์จุดศูนย์ศูนย์ศูนย์ศูนย์หนึ่ง")
         self.assertEqual(
-             num_to_thaiword_float(1.23e-10),
-             "ศูนย์จุดศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์หนึ่งสองสาม",
-         )
+            num_to_thaiword_float(1.23e-10),
+            "ศูนย์จุดศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์หนึ่งสองสาม",
+        )
         self.assertEqual(num_to_thaiword_float(0.001), "ศูนย์จุดศูนย์ศูนย์หนึ่ง")
-        self.assertEqual(num_to_thaiword_float(100.0001), "หนึ่งร้อยจุดศูนย์ศูนย์ศูนย์หนึ่ง")
+        self.assertEqual(
+            num_to_thaiword_float(100.0001), "หนึ่งร้อยจุดศูนย์ศูนย์ศูนย์หนึ่ง"
+        )
         # Many decimal digits
-        self.assertEqual(num_to_thaiword_float(1.23456789), "หนึ่งจุดสองสามสี่ห้าหกเจ็ดแปดเก้า")
+        self.assertEqual(
+            num_to_thaiword_float(1.23456789), "หนึ่งจุดสองสามสี่ห้าหกเจ็ดแปดเก้า"
+        )
         # Large integer with decimal
         self.assertEqual(num_to_thaiword_float(1000000000.5), "หนึ่งพันล้านจุดห้า")
         # Integer type passed
@@ -193,8 +202,13 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(num_to_thaiword(11000000), "สิบเอ็ดล้าน")
         self.assertEqual(num_to_thaiword(21000000), "ยี่สิบเอ็ดล้าน")
         self.assertEqual(num_to_thaiword(11000001), "สิบเอ็ดล้านเอ็ด")
-        self.assertEqual(num_to_thaiword(501741221), "ห้าร้อยเอ็ดล้านเจ็ดแสนสี่หมื่นหนึ่งพันสองร้อยยี่สิบเอ็ด")
-        self.assertEqual(num_to_thaiword(6001461300), "หกพันเอ็ดล้านสี่แสนหกหมื่นหนึ่งพันสามร้อย")
+        self.assertEqual(
+            num_to_thaiword(501741221),
+            "ห้าร้อยเอ็ดล้านเจ็ดแสนสี่หมื่นหนึ่งพันสองร้อยยี่สิบเอ็ด",
+        )
+        self.assertEqual(
+            num_to_thaiword(6001461300), "หกพันเอ็ดล้านสี่แสนหกหมื่นหนึ่งพันสามร้อย"
+        )
         # Edge cases: simple powers
         self.assertEqual(num_to_thaiword(10), "สิบ")
         self.assertEqual(num_to_thaiword(20), "ยี่สิบ")
@@ -203,7 +217,9 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(num_to_thaiword(10000), "หนึ่งหมื่น")
         self.assertEqual(num_to_thaiword(100000), "หนึ่งแสน")
         # Edge cases: full block (all 6 digits)
-        self.assertEqual(num_to_thaiword(111111), "หนึ่งแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบเอ็ด")
+        self.assertEqual(
+            num_to_thaiword(111111), "หนึ่งแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบเอ็ด"
+        )
         # Edge cases: large numbers with multiple ล้าน blocks
         self.assertEqual(num_to_thaiword(1000000000), "หนึ่งพันล้าน")
         self.assertEqual(num_to_thaiword(1000000000000), "หนึ่งล้านล้าน")
@@ -290,12 +306,8 @@ class UtilTestCase(unittest.TestCase):
     def test_text_to_num_zero(self):
         # "ศูนย์" (zero) is excluded from the digit table as a special
         # case, which used to corrupt or crash on any floating-point
-        self.assertEqual(
-            text_to_num("หนึ่งร้อยยี่สิบสี่จุดศูนย์สี่"), ["124.04"]
-        )
-        self.assertEqual(
-            text_to_num("หนึ่งร้อยยี่สิบเอ็ดจุดศูนย์สี่ห้า"), ["121.045"]
-        )
+        self.assertEqual(text_to_num("หนึ่งร้อยยี่สิบสี่จุดศูนย์สี่"), ["124.04"])
+        self.assertEqual(text_to_num("หนึ่งร้อยยี่สิบเอ็ดจุดศูนย์สี่ห้า"), ["121.045"])
         self.assertEqual(text_to_num("ศูนย์จุดศูนย์เก้า"), ["0.09"])
         self.assertEqual(text_to_num("ห้าจุดศูนย์ศูนย์เก้า"), ["5.009"])
         self.assertEqual(text_to_num("สามจุดสี่ศูนย์เก้าศูนย์"), ["3.409"])
@@ -340,11 +352,11 @@ class UtilTestCase(unittest.TestCase):
         # Edge cases: different min_len values (min_len filters by frequency >= min_len)
         self.assertEqual(
             find_keyword(word_list, min_len=0),
-            {"แมว": 3, "กิน": 1, "ปลา": 1, "อร่อย": 1}
+            {"แมว": 3, "กิน": 1, "ปลา": 1, "อร่อย": 1},
         )
         self.assertEqual(
             find_keyword(word_list, min_len=1),
-            {"แมว": 3, "กิน": 1, "ปลา": 1, "อร่อย": 1}
+            {"แมว": 3, "กิน": 1, "ปลา": 1, "อร่อย": 1},
         )
         self.assertEqual(find_keyword(word_list, min_len=2), {"แมว": 3})
         self.assertEqual(find_keyword(word_list, min_len=10), {})
@@ -366,9 +378,13 @@ class UtilTestCase(unittest.TestCase):
         # Edge cases: single item list
         self.assertEqual(rank(["แมว"]), Counter({"แมว": 1}))
         # Edge cases: all stopwords with exclude_stopwords=True
-        self.assertEqual(rank(["ใน", "การ", "ที่"], exclude_stopwords=True), Counter())
+        self.assertEqual(
+            rank(["ใน", "การ", "ที่"], exclude_stopwords=True), Counter()
+        )
         # Edge cases: exclude_stopwords=False (explicitly test both values)
-        self.assertIsNotNone(rank(["แมว", "ใน", "การ"], exclude_stopwords=False))
+        self.assertIsNotNone(
+            rank(["แมว", "ใน", "การ"], exclude_stopwords=False)
+        )
         # Edge cases: duplicate handling
         self.assertEqual(rank(["แมว", "แมว", "แมว"]), Counter({"แมว": 3}))
 
@@ -534,7 +550,7 @@ class UtilTestCase(unittest.TestCase):
                 "8:17", fmt="xx"
             )  # format string is not supported
         with self.assertRaises(TypeError):
-            time_to_thaiword(42)   # type: ignore[arg-type]  # input is not datetime/time/str
+            time_to_thaiword(42)  # type: ignore[arg-type]  # input is not datetime/time/str
         with self.assertRaises(ValueError):
             time_to_thaiword("")  # input is empty
         with self.assertRaises(ValueError):
@@ -901,7 +917,7 @@ class UtilTestCase(unittest.TestCase):
             self.assertEqual(
                 sound_syllable(i),
                 j,
-                f"{i} should be determined to be a '{j}' syllable."
+                f"{i} should be determined to be a '{j}' syllable.",
             )
 
     def test_tone_detector(self):
@@ -988,7 +1004,7 @@ class UtilTestCase(unittest.TestCase):
             self.assertEqual(
                 tone_detector(j),
                 i,
-                f"{j} should be determined to be a '{i}' tone."
+                f"{j} should be determined to be a '{i}' tone.",
             )
 
     def test_syllable_length(self):
@@ -1003,7 +1019,9 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(to_idna("คนละครึ่ง.com"), "xn--42caj4e6bk1f5b1j.com")
         # Additional test cases for IDNA encoding
         self.assertEqual(to_idna("ไทย.com"), "xn--o3cw4h.com")
-        self.assertEqual(to_idna("example.com"), "example.com")  # ASCII unchanged
+        self.assertEqual(
+            to_idna("example.com"), "example.com"
+        )  # ASCII unchanged
         self.assertEqual(to_idna("ภาษาไทย.th"), "xn--o3crh0a8bb0k.th")
 
     def test_thai_strptime(self):
@@ -1035,20 +1053,142 @@ class UtilTestCase(unittest.TestCase):
         )
 
     def test_convert_years(self):
-        self.assertEqual(convert_years("2566", src="be", target="ad"), "2023")
-        self.assertEqual(convert_years("2566", src="be", target="re"), "242")
-        self.assertEqual(convert_years("2566", src="be", target="ah"), "1444")
-        self.assertEqual(convert_years("2023", src="ad", target="be"), "2566")
-        self.assertEqual(convert_years("2023", src="ad", target="ah"), "1444")
-        self.assertEqual(convert_years("2023", src="ad", target="re"), "242")
-        self.assertEqual(convert_years("1444", src="ah", target="be"), "2566")
-        self.assertEqual(convert_years("1444", src="ah", target="ad"), "2023")
-        self.assertEqual(convert_years("1444", src="ah", target="re"), "242")
-        self.assertEqual(convert_years("242", src="re", target="be"), "2566")
-        self.assertEqual(convert_years("242", src="re", target="ad"), "2023")
-        self.assertEqual(convert_years("242", src="re", target="ah"), "1444")
+        # Same moment in every era: BE 2566 = AD 2023 = RE 242 = AH 1444
+        years = {"be": "2566", "ad": "2023", "re": "242", "ah": "1444"}
+        for src, src_year in years.items():
+            for target, target_year in years.items():
+                with self.subTest(src=src, target=target):
+                    self.assertEqual(
+                        convert_years(src_year, src=src, target=target),
+                        target_year,
+                    )
+
+    def test_convert_years_defaults_and_inputs(self):
+        self.assertEqual(convert_years("2566"), "2023")
+        self.assertEqual(convert_years(2566), "2023")  # type: ignore[arg-type]
+        self.assertEqual(convert_years(" 2566 "), "2023")
+        self.assertEqual(convert_years("0", src="ad", target="be"), "543")
+        self.assertEqual(convert_years("-1", src="ad", target="be"), "542")
+
+    def test_convert_years_same_era(self):
+        # Same era: the year is unchanged (offset cancels), written as
+        # a plain integer string.
+        cases = (
+            ("2566", "2566"),
+            (" 2566 ", "2566"),
+            ("0007", "7"),
+            ("0", "0"),
+            ("-1", "-1"),
+            ("12345", "12345"),
+            ("๒๕๖๖", "2566"),
+            (2566, "2566"),
+        )
+        for era in ("be", "ad", "re", "ah"):
+            for year, expected in cases:
+                with self.subTest(era=era, year=year):
+                    self.assertEqual(
+                        convert_years(year, src=era, target=era),  # type: ignore[arg-type]
+                        expected,
+                    )
+            for year in ("abc", "", "2566\u200b"):
+                with self.subTest(era=era, year=year):
+                    with self.assertRaises(ValueError):
+                        convert_years(year, src=era, target=era)
+
+    def test_convert_years_adversarial(self):
+        # BE = AD + 543, so BE 0 = AD -543. Current behavior for
+        # None/[] (TypeError) is not a promise.
+        cases = (
+            ("0", "be", "ad", "-543"),
+            ("-1", "be", "ad", "-544"),
+            ("12345", "be", "ad", "11802"),
+            ("๒๕๖๖", "be", "ad", "2023"),
+            ("0007", "be", "ad", "-536"),
+        )
+        for year, src, target, expected in cases:
+            with self.subTest(year=year):
+                self.assertEqual(convert_years(year, src, target), expected)
+        bad_years: list[Any] = [None, []]
+        for year in bad_years:
+            with self.subTest(year=year):
+                with self.assertRaises(TypeError):
+                    convert_years(year, "be", "ad")
+        for year in ("abc", "", "2566\u200b"):
+            with self.subTest(year=year):
+                with self.assertRaises(ValueError):
+                    convert_years(year, "be", "ad")
+        # Current behavior, not a promise: era names are case-sensitive.
+        for era in ("BE", "Be", "cat", ""):
+            with self.subTest(era=era):
+                with self.assertRaises(NotImplementedError):
+                    convert_years("2566", era, era)
+
+    def test_convert_years_unchanged_pairs(self):
+        # Outcomes recorded before the same-era change; rows with the
+        # same known era on both sides are excluded.
+        eras: list[Any] = ["be", "ad", "re", "ah", "BE", "cat", "", None, []]
+        years: list[Any] = [
+            "2566",
+            " 2566 ",
+            "0",
+            "-1",
+            "abc",
+            "",
+            2566,
+            "12345",
+            "๒๕๖๖",
+            "0007",
+            "2566\u200b",
+        ]
+        digest = hashlib.sha256()
+        count = 0
+        for year in years:
+            for src in eras:
+                for target in eras:
+                    if (
+                        isinstance(src, str)
+                        and src == target
+                        and src in ("be", "ad", "re", "ah")
+                    ):
+                        continue
+                    try:
+                        out = convert_years(year, src, target)
+                    except Exception as err:  # noqa: BLE001
+                        out = "!" + type(err).__name__
+                    digest.update(repr((year, src, target, out)).encode())
+                    count += 1
+        self.assertEqual(count, 847)
+        self.assertEqual(
+            digest.hexdigest(),
+            "273c414e87e846fe9c32527f6644600df7c477414ff4d4f7103bf1858872b737",
+        )
+
+    def test_convert_years_unsupported(self):
+        for src, target in (
+            ("cat", "dog"),
+            ("be", "dog"),
+            ("cat", "ad"),
+            ("BE", "ad"),
+            ("", ""),
+        ):
+            with self.subTest(src=src, target=target):
+                with self.assertRaises(NotImplementedError):
+                    convert_years("2023", src=src, target=target)
+        # Unhashable eras are unsupported, not a TypeError
+        unhashable_eras: list[Any] = [[], ["be"], {}]
+        for era in unhashable_eras:
+            with self.subTest(era=era):
+                with self.assertRaises(NotImplementedError):
+                    convert_years("2023", src=era, target="ad")
+                with self.assertRaises(NotImplementedError):
+                    convert_years("2023", src="be", target=era)
+        # The era pair is checked before the year is parsed
         with self.assertRaises(NotImplementedError):
-            convert_years("2023", src="cat", target="dog")
+            convert_years("abc", src="cat", target="dog")
+        with self.assertRaises(ValueError):
+            convert_years("abc", src="be", target="ad")
+        with self.assertRaises(ValueError):
+            convert_years("", src="be", target="ad")
 
     def test_nectec_to_ipa(self):
         self.assertEqual(nectec_to_ipa("kl-uua-j^-2"), "kl uua j ˥˩")
@@ -1118,7 +1258,9 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(to_lunar_date(date(2020, 10, 31)), "ขึ้น 15 ค่ำ เดือน 12")
         with self.assertRaises(NotImplementedError):
             to_lunar_date(date(1885, 9, 7))  # back to the future
-        with patch.object(thai_lunar_date, "last_day_in_year", return_value=353):
+        with patch.object(
+            thai_lunar_date, "last_day_in_year", return_value=353
+        ):
             with self.assertRaisesRegex(
                 ValueError, "Unexpected last_day value: 353"
             ):
@@ -1134,29 +1276,45 @@ class UtilTestCase(unittest.TestCase):
 
     def test_spelling(self):
         self.assertEqual(spelling([]), [])  # type: ignore[arg-type]
-        self.assertEqual(spelling("เรียน"), ['รอ', 'เอีย', 'นอ', 'เรียน'])
+        self.assertEqual(spelling("เรียน"), ["รอ", "เอีย", "นอ", "เรียน"])
+        self.assertEqual(spelling("เฝ้า"), ["ฝอ", "เอา", "เฝา", "ไม้โท", "เฝ้า"])
+        self.assertEqual(spelling("คน"), ["คอ", "นอ", "คน"])
+        self.assertEqual(spelling("กัน"), ["กอ", "อะ", "นอ", "กัน"])
         self.assertEqual(
-            spelling("เฝ้า"), ['ฝอ', 'เอา', 'เฝา', 'ไม้โท', 'เฝ้า']
-        )
-        self.assertEqual(spelling("คน"), ['คอ', 'นอ', 'คน'])
-        self.assertEqual(spelling("กัน"), ['กอ', 'อะ', 'นอ', 'กัน'])
-        self.assertEqual(
-            spelling("กั้น"), ['กอ', 'อะ', 'นอ', 'กัน', 'ไม้โท', 'กั้น']
+            spelling("กั้น"), ["กอ", "อะ", "นอ", "กัน", "ไม้โท", "กั้น"]
         )
 
     def test_longest_common_subsequence(self):
-        self.assertEqual(longest_common_subsequence("ABCBDAB", "BDCAB"), "BDAB")
-        self.assertEqual(longest_common_subsequence("AGGTAB", "GXTXAYB"), "GTAB")
+        self.assertEqual(
+            longest_common_subsequence("ABCBDAB", "BDCAB"), "BDAB"
+        )
+        self.assertEqual(
+            longest_common_subsequence("AGGTAB", "GXTXAYB"), "GTAB"
+        )
         self.assertEqual(longest_common_subsequence("ABCDGH", "AEDFHR"), "ADH")
 
         # Edge cases
-        self.assertEqual(longest_common_subsequence("", ""), "")  # empty strings
-        self.assertEqual(longest_common_subsequence("ABC", ""), "")  # one empty
-        self.assertEqual(longest_common_subsequence("", "ABC"), "")  # other empty
-        self.assertEqual(longest_common_subsequence("A", "A"), "A")  # single char match
-        self.assertEqual(longest_common_subsequence("A", "B"), "")  # single char no match
-        self.assertEqual(longest_common_subsequence("ABC", "ABC"), "ABC")  # identical
-        self.assertEqual(longest_common_subsequence("ABC", "XYZ"), "")  # no common chars
+        self.assertEqual(
+            longest_common_subsequence("", ""), ""
+        )  # empty strings
+        self.assertEqual(
+            longest_common_subsequence("ABC", ""), ""
+        )  # one empty
+        self.assertEqual(
+            longest_common_subsequence("", "ABC"), ""
+        )  # other empty
+        self.assertEqual(
+            longest_common_subsequence("A", "A"), "A"
+        )  # single char match
+        self.assertEqual(
+            longest_common_subsequence("A", "B"), ""
+        )  # single char no match
+        self.assertEqual(
+            longest_common_subsequence("ABC", "ABC"), "ABC"
+        )  # identical
+        self.assertEqual(
+            longest_common_subsequence("ABC", "XYZ"), ""
+        )  # no common chars
         self.assertEqual(longest_common_subsequence("ABC", "AC"), "AC")
 
         # Thai text
@@ -1165,12 +1323,10 @@ class UtilTestCase(unittest.TestCase):
 
     def test_analyze_thai_text(self):
         self.assertEqual(
-            analyze_thai_text("คนดี"),
-            {"ค": 1, "น": 1, "ด": 1, "สระ อี": 1}
+            analyze_thai_text("คนดี"), {"ค": 1, "น": 1, "ด": 1, "สระ อี": 1}
         )
         self.assertEqual(
-            analyze_thai_text("เล่น"),
-            {'สระ เอ': 1, 'ล': 1, 'ไม้เอก': 1, 'น': 1}
+            analyze_thai_text("เล่น"), {"สระ เอ": 1, "ล": 1, "ไม้เอก": 1, "น": 1}
         )
 
     # ### pythainlp.util.pronounce

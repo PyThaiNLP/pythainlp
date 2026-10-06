@@ -1,13 +1,13 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Phunspell
+"""
+Phunspell spell checker.
 
-A pure Python spell checker utilizing spylls, a port of Hunspell.
+Phunspell is a pure Python spell checker using spylls, a port of Hunspell.
 
 :See Also:
-    * \
-        https://github.com/dvwright/phunspell
+    * https://github.com/dvwright/phunspell
 """
 
 from __future__ import annotations
@@ -28,8 +28,23 @@ pspell: "phunspell.Phunspell" = phunspell.Phunspell("th_TH")
 
 
 def spell(text: str) -> list[str]:
+    """
+    Return possible correct spellings of a word.
+
+    :param str text: word to be checked
+    :return: list of suggested spellings
+    :rtype: list[str]
+    """
     return list(pspell.suggest(text))
 
 
 def correct(text: str) -> str:
-    return cast(str, list(pspell.suggest(text))[0])
+    """
+    Correct the spelling of a word.
+
+    :param str text: word to be corrected
+    :return: first suggested spelling
+    :rtype: str
+    :raises IndexError: if there is no suggested spelling
+    """
+    return cast("str", list(pspell.suggest(text))[0])

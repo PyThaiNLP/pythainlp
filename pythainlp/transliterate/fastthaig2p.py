@@ -627,9 +627,12 @@ def _tltk_syllable_to_ipa(syl: str) -> str:
     for old, new in _VOWEL_MAP:
         result = result.replace(old, new)
 
-    if result and result[-1] in "ktp":
-        if any(c in _VOWEL_CHARS for c in result[:-1]):
-            result = result[:-1] + result[-1] + "̚"
+    if (
+        result
+        and result[-1] in "ktp"
+        and any(c in _VOWEL_CHARS for c in result[:-1])
+    ):
+        result = result[:-1] + result[-1] + "̚"
 
     return result + tone
 

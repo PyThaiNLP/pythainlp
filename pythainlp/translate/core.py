@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Translation."""
+"""Translate text between languages."""
 
 from __future__ import annotations
 
@@ -18,19 +18,21 @@ if TYPE_CHECKING:
 def _prepare_text_with_exclusions(
     text: str, exclude_words: Optional[list[str]]
 ) -> tuple[str, dict[str, str]]:
-    """Replace excluded words with placeholders.
+    """
+    Replace excluded words with placeholders.
 
-    :param str text: input text
-    :param list[str] exclude_words: words to exclude from translation
-    :return: tuple of (modified text, placeholder mapping)
-    :rtype: tuple[str, dict[str, str]]
-
-    Note: For text that contains spaces (for example, English sentences),
+    For text that contains spaces (for example, English sentences),
     this function attempts to match whole tokens delimited by whitespace
     and common punctuation characters. If the text contains no spaces at
     all (as in many sentences in languages without explicit word
     boundaries, such as Thai), it will match the exact exclude string
     anywhere it appears using simple substring replacement.
+
+    :param str text: text to translate
+    :param Optional[list[str]] exclude_words: words to exclude from
+        translation
+    :return: modified text and placeholder mapping
+    :rtype: tuple[str, dict[str, str]]
     """
     if not exclude_words:
         return text, {}
@@ -90,11 +92,12 @@ def _prepare_text_with_exclusions(
 def _restore_excluded_words(
     translated_text: str, placeholder_map: dict[str, str]
 ) -> str:
-    """Restore excluded words from placeholders.
+    """
+    Restore excluded words from placeholders.
 
     :param str translated_text: translated text with placeholders
     :param dict[str, str] placeholder_map: mapping of placeholders to
-                                           original words
+        original words
     :return: text with original words restored
     :rtype: str
     """
@@ -112,7 +115,7 @@ def _restore_excluded_words(
 
 
 class Translate:
-    """Machine Translation"""
+    """Translate text using a machine translation engine."""
 
     def __init__(
         self,
@@ -121,23 +124,29 @@ class Translate:
         engine: str = "default",
         use_gpu: bool = False,
     ) -> None:
-        """:param str src_lang: source language
-        :param str target_lang: target language
+        """
+        Initialize the translator.
+
+        Supported pairs of source and target language:
+
+        * *th* - *en* - Thai to English
+        * *en* - *th* - English to Thai
+        * *th* - *zh* - Thai to Chinese
+        * *zh* - *th* - Chinese to Thai
+        * *th* - *fr* - Thai to French
+        * *th* - *xx* - Thai to xx (xx is a language code),
+          using the small100 engine
+        * *xx* - *th* - xx to Thai (xx is a language code),
+          using the small100 engine
+
+        :param str src_lang: source language code
+        :param str target_lang: target language code
         :param str engine: machine translation engine
-        :param bool use_gpu: load model using GPU (Default is False)
 
-        **Options for engine**
-            * *default* - The default engine for each language.
-            * *small100* - A multilingual machine translation model (covering 100 languages)
+            * *default* - default engine for each language pair (default)
+            * *small100* - multilingual model covering 100 languages
 
-        **Options for source & target language**
-            * *th* - *en* - Thai to English
-            * *en* - *th* - English to Thai
-            * *th* - *zh* - Thai to Chinese
-            * *zh* - *th* - Chinese to Thai
-            * *th* - *fr* - Thai to French
-            * *th* - *xx* - Thai to xx (xx is language code). It uses small100 model.
-            * *xx* - *th* - xx to Thai (xx is language code). It uses small100 model.
+        :param bool use_gpu: load the model on a GPU (default: False)
 
         :Example:
 
@@ -152,7 +161,9 @@ class Translate:
 
         Translate text with excluded words:
 
-            >>> th2en.translate("ฉันรักแมว", exclude_words=["แมว"])  # doctest: +SKIP
+            >>> th2en.translate(
+            ...     "ฉันรักแมว", exclude_words=["แมว"]
+            ... )  # doctest: +SKIP
             I love แมว.
         """
         self.model: Union[
@@ -170,6 +181,7 @@ class Translate:
         self.load_model()
 
     def load_model(self) -> None:
+        """Load the translation model for the language pair and engine."""
         src_lang = self.src_lang
         target_lang = self.target_lang
         use_gpu = self.use_gpu
@@ -203,12 +215,13 @@ class Translate:
     def translate(
         self, text: str, exclude_words: Optional[list[str]] = None
     ) -> str:
-        """Translate text
+        """
+        Translate text from the source to the target language.
 
-        :param str text: input text in source language
-        :param list[str] exclude_words: words to exclude from translation
-                                        (optional)
-        :return: translated text in target language
+        :param str text: text to translate
+        :param Optional[list[str]] exclude_words: words to exclude from
+            translation
+        :return: translated text
         :rtype: str
         """
         if self.engine == "small100":
@@ -221,14 +234,18 @@ class Translate:
 def word_translate(
     word: str, src: str, target: str, engine: str = "word2word"
 ) -> Optional[list[str]]:
-    """Translate word from source language to target language.
+    """
+    Translate word from source language to target language.
 
-    :param str word: text
-    :param str src: src language
-    :param str target: target language
-    :param str engine: Word translate engine (the default engine is word2word)
-    :return: list of translated words or None
-    :rtype: list[str] or None
+    :param str word: word to translate
+    :param str src: source language code
+    :param str target: target language code
+    :param str engine: word translation engine
+
+        * *word2word* - word2word library (default)
+
+    :return: list of translated words, or None
+    :rtype: Optional[list[str]]
 
     :Example:
 
@@ -251,7 +268,6 @@ def word_translate(
         from .word2word_translate import translate
 
         return translate(word=word, src=src, target=target)
-    else:
-        raise NotImplementedError(
-            f"pythainlp.translate.word_translate isn't support {engine}."
-        )
+    raise NotImplementedError(
+        f"pythainlp.translate.word_translate isn't support {engine}."
+    )

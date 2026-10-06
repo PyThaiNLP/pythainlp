@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Phonemes util"""
+"""Phoneme conversion utilities."""
 
 from __future__ import annotations
 
@@ -89,10 +89,11 @@ dict_nectec_to_ipa.update(
 
 
 def nectec_to_ipa(pronunciation: str) -> str:
-    """Convert NECTEC system to IPA system
+    """
+    Convert NECTEC phonemes to International Phonetic Alphabet (IPA).
 
-    :param str pronunciation: NECTEC phoneme
-    :return: IPA that is converted
+    :param str pronunciation: NECTEC phonemes
+    :return: converted IPA phonemes
     :rtype: str
 
     :Example:
@@ -112,7 +113,7 @@ def nectec_to_ipa(pronunciation: str) -> str:
     parts = pronunciation.split("-")
     ipa = []
     for part in parts:
-        if part in dict_nectec_to_ipa.keys():
+        if part in dict_nectec_to_ipa:
             ipa.append(dict_nectec_to_ipa[part])
         else:
             ipa.append(part)
@@ -194,18 +195,20 @@ dict_ipa_rtgs_final: dict[str, str] = {"w": "o"}
 
 @lru_cache
 def _ipa_cut() -> Tokenizer:
-    """Lazy load IPA tokenizer with cache"""
+    """Load the IPA tokenizer lazily, with cache."""
     trie = Trie(list(dict_ipa_rtgs.keys()) + list(dict_ipa_rtgs_final.keys()))
     return Tokenizer(custom_dict=trie, engine="newmm")
 
 
 def ipa_to_rtgs(ipa: str) -> str:
-    """Convert IPA system to The Royal Thai General System of Transcription (RTGS)
+    """
+    Convert IPA phonemes to Royal Thai General System of Transcription (RTGS).
 
-    Docs: https://en.wikipedia.org/wiki/Help:IPA/Thai
+    The conversion follows the rules listed in
+    https://en.wikipedia.org/wiki/Help:IPA/Thai
 
-    :param str ipa: IPA phoneme
-    :return: The RTGS that is converted, according to rules listed in the Wikipedia page
+    :param str ipa: IPA phonemes
+    :return: converted RTGS text
     :rtype: str
 
     :Example:
@@ -239,10 +242,11 @@ def ipa_to_rtgs(ipa: str) -> str:
 
 
 def remove_tone_ipa(ipa: str) -> str:
-    """Remove Thai Tones from IPA system
+    """
+    Remove Thai tones from IPA phonemes.
 
-    :param str ipa: IPA phoneme
-    :return: IPA phoneme with tones removed
+    :param str ipa: IPA phonemes
+    :return: IPA phonemes with tones removed
     :rtype: str
 
     :Example:

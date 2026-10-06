@@ -24,7 +24,8 @@ Please refer to our
 
 ## Code guidelines
 
-- Follow [PEP8][pep8], use [black][black] with `--line-length` = 79;
+- Follow [PEP8][pep8], use [Ruff][ruff] for linting and formatting
+  (line length 79);
 - Name identifiers (variables, classes, functions, module names)
   with meaningful and pronounceable names (`x` is always wrong);
   - Please follow this [naming convention][naming].
@@ -45,7 +46,7 @@ Please refer to our
   [to keep up with POSIX standard][posix].
 
 [pep8]: https://peps.python.org/pep-0008/
-[black]: https://github.com/ambv/black
+[ruff]: https://docs.astral.sh/ruff/
 [naming]: https://namingconvention.org/python/
 [pep0498]: https://www.python.org/dev/peps/pep-0498/
 [dead-codes]: https://blog.codinghorror.com/coding-without-comments/
@@ -224,6 +225,9 @@ Always supply `category` explicitly for clarity and greppability.
 
 We use standard Python `unittest`.
 The test suite is in `tests/` directory.
+
+Coverage targets: 95% overall; at least 75% for new and changed code
+(checked in CI). See [AGENTS.md](AGENTS.md).
 
 To run unit tests locally together with code coverage test:
 

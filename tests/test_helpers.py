@@ -15,7 +15,8 @@ from typing import Callable
 def assert_segment_handles_none_and_empty(
     test_case: unittest.TestCase, segment_func: Callable[..., list[str]]
 ) -> None:
-    """Test that a segment function properly handles None and empty string inputs.
+    """
+    Test that a segment function properly handles None and empty string inputs.
 
     :param unittest.TestCase test_case: The unittest.TestCase instance (typically 'self')
     :param callable segment_func: The segment function to test (e.g., attacut.segment)
@@ -32,7 +33,8 @@ def assert_segment_handles_none_and_empty(
 def assert_subword_tokenize_handles_none_and_empty(
     test_case: unittest.TestCase, engine: str
 ) -> None:
-    """Test that subword_tokenize properly handles None and empty string inputs.
+    """
+    Test that subword_tokenize properly handles None and empty string inputs.
 
     :param unittest.TestCase test_case: The unittest.TestCase instance (typically 'self')
     :param str engine: The engine name to test (e.g., "phayathai")
@@ -48,8 +50,11 @@ def assert_subword_tokenize_handles_none_and_empty(
     test_case.assertEqual(subword_tokenize("", engine=engine), [])
 
 
-def assert_subword_tokenize_basic(test_case: unittest.TestCase, engine: str) -> None:
-    """Run basic subword tokenize tests with common test cases.
+def assert_subword_tokenize_basic(
+    test_case: unittest.TestCase, engine: str
+) -> None:
+    """
+    Run basic subword tokenize tests with common test cases.
 
     This helper function runs a standard set of tests for subword tokenization:
 
@@ -77,9 +82,7 @@ def assert_subword_tokenize_basic(test_case: unittest.TestCase, engine: str) -> 
     )
 
     # Should not produce standalone vowels
-    test_case.assertNotIn(
-        "า", subword_tokenize("สวัสดีดาวอังคาร", engine=engine)
-    )
+    test_case.assertNotIn("า", subword_tokenize("สวัสดีดาวอังคาร", engine=engine))
 
     # Test with mixed Thai-numeric
     test_case.assertIsInstance(subword_tokenize("โควิด19", engine=engine), list)

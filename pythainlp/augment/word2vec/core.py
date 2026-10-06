@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Augment text using word2vec word vectors."""
+
 from __future__ import annotations
 
 import itertools
@@ -19,6 +21,8 @@ class _DuplicateWordFilter(logging.Filter):
 
 
 class Word2VecAug:
+    """Augment text using word2vec word vectors."""
+
     tokenizer: Callable[[str], list[str]]
     model: "KeyedVectors"
     dict_wv: list[str]
@@ -29,9 +33,18 @@ class Word2VecAug:
         tokenize: Callable[[str], list[str]],
         type: str = "file",
     ) -> None:
-        """:param Union[str, KeyedVectors] model: path of model or KeyedVectors instance
-        :param Callable[[str], list[str]] tokenize: tokenize function
-        :param str type: model type (file, binary, model)
+        """
+        Initialize the word2vec augmenter.
+
+        :param model: path to the model file, or a KeyedVectors instance
+        :type model: Union[str, gensim.models.keyedvectors.KeyedVectors]
+        :param Callable[[str], list[str]] tokenize: function to tokenize
+            text into a list of words
+        :param str type: model type
+
+            * *file* - word2vec text format file (default)
+            * *binary* - word2vec binary format file
+            * *model* - KeyedVectors instance
         """
         import gensim.models.keyedvectors as word2vec
 
@@ -56,8 +69,13 @@ class Word2VecAug:
         self.dict_wv: list[str] = list(self.model.key_to_index.keys())
 
     def modify_sent(self, sent: list[str], p: float = 0.7) -> list[list[str]]:
-        """:param list[str] sent: list of tokens
-        :param float p: probability
+        """
+        Find replacement words for each word in a sentence.
+
+        :param list[str] sent: list of words
+        :param float p: minimum similarity score of a replacement word
+        :return: list of replacement words for each word, which is the
+            word itself if there is no replacement
         :rtype: list[list[str]]
         """
         list_sent_new = []
@@ -75,11 +93,14 @@ class Word2VecAug:
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7
     ) -> list[tuple[str, ...]]:
-        """:param str sentence: text of sentence
-        :param int n_sent: maximum number of synonymous sentences
-        :param int p: probability
+        """
+        Augment text by replacing words with similar words.
 
-        :return: list of synonyms
+        :param str sentence: text to augment
+        :param int n_sent: maximum number of augmented sentences
+        :param float p: minimum similarity score of a replacement word
+
+        :return: list of augmented sentences, each a tuple of words
         :rtype: list[tuple[str, ...]]
         """
         _sentence = self.tokenizer(sentence)

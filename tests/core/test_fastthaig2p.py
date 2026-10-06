@@ -123,7 +123,7 @@ class FastThaiG2PTestCase(unittest.TestCase):
         with tempfile.NamedTemporaryFile(
             mode="w", suffix=".json", delete=False, encoding="utf-8"
         ) as f:
-            f.write("{\"ทดสอบ\": \"/tʰot̚˦˥.sɔːp̚˨˩/\"}")
+            f.write('{"ทดสอบ": "/tʰot̚˦˥.sɔːp̚˨˩/"}')
             tmp_path = f.name
 
         try:

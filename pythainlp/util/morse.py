@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Thai Morse code conversion functions."""
+
 from __future__ import annotations
 
 THAI_MORSE_CODE: dict[str, str] = {
@@ -136,12 +138,14 @@ for key, val in THAI_MORSE_CODE.items():
 
 
 def morse_encode(text: str, lang: str = "th") -> str:
-    """Convert text to Morse code (support Thai and English)
+    """
+    Convert text to Morse code (Thai and English are supported).
 
-    :param str text: Text
-    :param str lang: Language Code (*th* is Thai and *en* is English)
+    :param str text: text to be converted
+    :param str lang: language code (``'th'`` for Thai, ``'en'`` for English)
     :return: Morse code
     :rtype: str
+    :raises NotImplementedError: if ``lang`` is not supported
 
     :Example:
 
@@ -155,24 +159,25 @@ def morse_encode(text: str, lang: str = "th") -> str:
         return " ".join(
             THAI_MORSE_CODE.get(char, " ") for char in text.upper()
         )
-    elif lang == "en":  # English
+    if lang == "en":  # English
         return " ".join(
             ENGLISH_MORSE_CODE.get(char, " ") for char in text.upper()
         )
-    else:
-        raise NotImplementedError(f"This function doesn't support {lang}.")
+    raise NotImplementedError(f"This function doesn't support {lang}.")
 
 
 def morse_decode(morse_text: str, lang: str = "th") -> str:
-    """Convert Morse code to text.
+    """
+    Convert Morse code to text.
 
     Thai decoding may produce incorrect characters
     that can be fixed with a spell corrector.
 
-    :param str morse_text: Morse code
+    :param str morse_text: Morse code to be converted
     :param str lang: language code (``'th'`` for Thai, ``'en'`` for English)
     :return: decoded text
     :rtype: str
+    :raises NotImplementedError: if ``lang`` is not supported
 
     :Example:
 
@@ -187,10 +192,9 @@ def morse_decode(morse_text: str, lang: str = "th") -> str:
             decodingthai.get(code, "") for code in morse_text.split(" ")
         )
         return "".join(ans.split())
-    elif lang == "en":
+    if lang == "en":
         ans = "".join(
             decodingeng.get(code, " ") for code in morse_text.split(" ")
         )
         return " ".join(ans.split())
-    else:
-        raise NotImplementedError(f"This function doesn't support {lang}.")
+    raise NotImplementedError(f"This function doesn't support {lang}.")

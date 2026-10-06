@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Recognizes locations in text"""
+"""Location tagger."""
 
 from __future__ import annotations
 
@@ -9,12 +9,14 @@ from pythainlp.corpus import provinces
 
 
 def tag_provinces(tokens: list[str]) -> list[tuple[str, str]]:
-    """This function recognizes Thailand provinces in text.
+    """
+    Tag Thailand provinces in text.
 
-    Note that it uses exact match and considers no context.
+    This function uses exact match and considers no context.
 
-    :param list[str] tokens: a list of words
-    :return: a list of tuples indicating NER for `LOCATION` in IOB format
+    :param list[str] tokens: list of words to be tagged
+    :return: list of tuples (word, IOB tag), where the tag is
+        ``B-LOCATION`` for a province and ``O`` otherwise
     :rtype: list[tuple[str, str]]
 
     :Example:

@@ -12,7 +12,7 @@ import os
 from typing import TYPE_CHECKING
 
 from pythainlp import cli
-from pythainlp.tools import safe_print
+from pythainlp.tools import safe_path_join, safe_print
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -20,12 +20,18 @@ if TYPE_CHECKING:
 
 def _read_file(path: str) -> list[str]:
     with open(path, encoding="utf-8") as f:
-        lines = (r.strip() for r in f.readlines())
-    return list(lines)
+        return [r.strip() for r in f]
 
 
 class App:
+    """Parse and run the ``benchmark`` command."""
+
     def __init__(self, argv: Sequence[str]) -> None:
+        """
+        Initialize the command.
+
+        :param Sequence[str] argv: command line arguments
+        """
         parser = argparse.ArgumentParser(
             prog="benchmark",
             description=(
@@ -52,7 +58,15 @@ class App:
 
 
 class WordTokenizationBenchmark:
+    """Parse and run the word tokenization benchmark."""
+
     def __init__(self, name: str, argv: Sequence[str]) -> None:
+        """
+        Initialize the benchmark.
+
+        :param str name: task name
+        :param Sequence[str] argv: task options
+        """
         parser = argparse.ArgumentParser(**cli.make_usage("benchmark " + name))  # type: ignore[arg-type]
 
         parser.add_argument(
@@ -157,15 +171,17 @@ class WordTokenizationBenchmark:
 
         if args.save_details:
             dir_name = os.path.dirname(args.input_file)
-            file_name = args.input_file.split("/")[-1].split(".")[0]
+            file_name = os.path.basename(args.input_file).split(".")[0]
 
-            res_path = "%s/eval-%s.yml" % (dir_name, file_name)
+            res_path = safe_path_join(dir_name, f"eval-{file_name}.yml")
             safe_print("Evaluation result is saved to %s" % res_path)
 
             with open(res_path, "w", encoding="utf-8") as outfile:
                 yaml.dump(statistics, outfile, default_flow_style=False)
 
-            res_path = "%s/eval-details-%s.json" % (dir_name, file_name)
+            res_path = safe_path_join(
+                dir_name, f"eval-details-{file_name}.json"
+            )
             safe_print("Details of comparisons is saved to %s" % res_path)
 
             with open(res_path, "w", encoding="utf-8") as f:

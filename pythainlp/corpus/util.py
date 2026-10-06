@@ -1,14 +1,16 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Tool for creating word lists
-codes are from Korakot Chaovavanich.
+"""
+Tools for creating word lists.
+
+The code is from Korakot Chaovavanich.
 
 :See also:
-    * `Facebook post \
-        <https://www.facebook.com/groups/colab.thailand/permalink/1667821073393244>`_
-    * `Google Colab \
-        <https://colab.research.google.com/drive/19kY2jCHONuxmTJM0U8PIE_I5OK1rO-x_>`_
+    * `Facebook post
+      <https://www.facebook.com/groups/colab.thailand/permalink/1667821073393244>`_
+    * `Google Colab
+      <https://colab.research.google.com/drive/19kY2jCHONuxmTJM0U8PIE_I5OK1rO-x_>`_
 """
 
 from __future__ import annotations
@@ -25,7 +27,13 @@ from pythainlp.util import Trie
 
 
 def index_pairs(words: list[str]) -> Iterator[tuple[int, int]]:
-    """Return beginning and ending indexes of word pairs"""
+    """
+    Return beginning and ending indexes of word pairs.
+
+    :param list[str] words: list of words
+    :return: iterator of tuples of beginning and ending index of each word
+    :rtype: Iterator[tuple[int, int]]
+    """
     i = 0
     for w in words:
         yield i, i + len(w)
@@ -36,13 +44,13 @@ def find_badwords(
     tokenize: Callable[[str], list[str]],
     training_data: Iterable[Iterable[str]],
 ) -> set[str]:
-    """Find words that do not work well with the `tokenize` function
-    for the provided `training_data`.
+    """
+    Find words that do not work well with a tokenize function.
 
-    :param Callable[[str], list[str]] tokenize: a tokenize function
-    :param Iterable[Iterable[str]] training_data: tokenized text, to be used\
-        as a training set
-    :return: words that do not work well with the `tokenize` function
+    :param Callable[[str], list[str]] tokenize: tokenize function
+    :param Iterable[Iterable[str]] training_data: tokenized text, to be
+        used as a training set
+    :return: words that do not work well with the tokenize function
     :rtype: set[str]
     """
     right: Counter[str] = Counter()
@@ -73,19 +81,19 @@ def revise_wordset(
     orig_words: Iterable[str],
     training_data: Iterable[Iterable[str]],
 ) -> set[str]:
-    """Revise a set of words that could improve tokenization performance of
-    a dictionary-based `tokenize` function.
+    """
+    Revise a set of words to improve a dictionary-based tokenize function.
 
-    `orig_words` will be used as a base set for the dictionary.
-    Words that do not perform well with `training_data` will be removed.
-    The remaining words will be returned.
+    The function uses *orig_words* as a base set for the dictionary.
+    It removes words that do not perform well with *training_data* and
+    returns the remaining words.
 
-    :param Callable[[str], list[str]] tokenize: a tokenize function, can be\
-        any function that takes a string as input and returns a list[str]
-    :param Iterable[str] orig_words: words used by the tokenize function,\
-        will be used as a base for revision
-    :param Iterable[Iterable[str]] training_data: tokenized text, to be used\
-        as a training set
+    :param Callable[[str], list[str]] tokenize: tokenize function, which
+        can be any function that takes text and returns a list of words
+    :param Iterable[str] orig_words: words used by the tokenize function,
+        used as a base for the revision
+    :param Iterable[Iterable[str]] training_data: tokenized text, to be
+        used as a training set
     :return: revised set of words with underperforming words removed
     :rtype: set[str]
 
@@ -96,14 +104,21 @@ def revise_wordset(
         >>> from pythainlp.tokenize.longest import segment  # doctest: +SKIP
         >>> base_words = thai_words()  # doctest: +SKIP
         >>> more_words = {  # doctest: +SKIP
-        ...     "ถวิล อุดล", "ทองอินทร์ ภูริพัฒน์",
-        ...     "เตียง ศิริขันธ์", "จำลอง ดาวเรือง",
+        ...     "ถวิล อุดล",
+        ...     "ทองอินทร์ ภูริพัฒน์",
+        ...     "เตียง ศิริขันธ์",
+        ...     "จำลอง ดาวเรือง",
         ... }
         >>> base_words = base_words.union(more_words)  # doctest: +SKIP
         >>> dict_trie = Trie(base_words)  # doctest: +SKIP
         >>> tokenize = lambda text: segment(text, dict_trie)  # doctest: +SKIP
-        >>> training_data = [["word1", "word2"], ["word3", "word4"]]  # doctest: +SKIP
-        >>> revised_words = revise_wordset(tokenize, base_words, training_data)  # doctest: +SKIP
+        >>> training_data = [
+        ...     ["word1", "word2"],
+        ...     ["word3", "word4"],
+        ... ]  # doctest: +SKIP
+        >>> revised_words = revise_wordset(
+        ...     tokenize, base_words, training_data
+        ... )  # doctest: +SKIP
     """
     bad_words = find_badwords(tokenize, training_data)
     return set(orig_words) - bad_words
@@ -112,16 +127,18 @@ def revise_wordset(
 def revise_newmm_default_wordset(
     training_data: Iterable[Iterable[str]],
 ) -> set[str]:
-    """Revise a set of word that could improve tokenization performance of
-    `pythainlp.tokenize.newmm`, a dictionary-based tokenizer and a default
-    tokenizer for PyThaiNLP.
+    """
+    Revise the default word set to improve newmm tokenization.
 
-    Words from `pythainlp.corpus.thai_words()` will be used as a base set
-    for the dictionary. Words that do not perform well with `training_data`
-    will be removed. The remaining words will be returned.
+    newmm (:func:`pythainlp.tokenize.newmm.segment`) is a dictionary-based
+    tokenizer and the default tokenizer of PyThaiNLP.
 
-    :param Iterable[Iterable[str]] training_data: tokenized text, to be used\
-        as a training set
+    The function uses words from :func:`pythainlp.corpus.thai_words` as a
+    base set for the dictionary. It removes words that do not perform well
+    with *training_data* and returns the remaining words.
+
+    :param Iterable[Iterable[str]] training_data: tokenized text, to be
+        used as a training set
     :return: revised set of words with underperforming words removed
     :rtype: set[str]
     """

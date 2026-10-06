@@ -17,11 +17,19 @@ if TYPE_CHECKING:
 
 
 class SubAppBase:
+    """Base class of tagging commands."""
+
     separator: str
     run: Callable[[list[str]], list[tuple[str, str]]]
     args: argparse.Namespace
 
     def __init__(self, name: str, argv: Sequence[str]) -> None:
+        """
+        Initialize the tagging command.
+
+        :param str name: tagging type name
+        :param Sequence[str] argv: command line arguments
+        """
         parser = argparse.ArgumentParser(**cli.make_usage("tag " + name))  # type: ignore[arg-type]
         parser.add_argument(
             "text",
@@ -48,10 +56,13 @@ class SubAppBase:
 
 
 class POSTaggingApp(SubAppBase):
+    """Parse and run the part-of-speech tagging command."""
+
     separator: str
     run: Callable[[list[str]], list[tuple[str, str]]]
 
     def __init__(self, *args: str, **kwargs: str) -> None:
+        """Initialize the command."""
         self.separator: str = "|"
         self.run: Callable[[list[str]], list[tuple[str, str]]] = pos_tag
 
@@ -59,7 +70,14 @@ class POSTaggingApp(SubAppBase):
 
 
 class App:
+    """Parse and run the ``tag`` command."""
+
     def __init__(self, argv: Sequence[str]) -> None:
+        """
+        Initialize the command.
+
+        :param Sequence[str] argv: command line arguments
+        """
         parser = argparse.ArgumentParser(
             prog="tag",
             description="Annotate a text with linguistic information",

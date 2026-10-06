@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Functions for spelling Thai words."""
+
 from __future__ import annotations
 
 import re
@@ -58,7 +60,7 @@ for i in thai_below_vowels:
 
 @lru_cache
 def _cut() -> Tokenizer:
-    """Lazy load vowel tokenizer with cache"""
+    """Load the vowel tokenizer lazily, with cache."""
     return Tokenizer(
         list(dict_vowel.keys()) + list(thai_consonants), engine="mm"
     )
@@ -91,9 +93,10 @@ def _clean(w: str) -> str:
 
 
 def spell_syllable(text: str) -> list[str]:
-    """Spell out syllables in Thai word distribution form.
+    """
+    Spell out a syllable in Thai word distribution form.
 
-    :param str text: Thai syllables only
+    :param str text: Thai syllable
     :return: list of spelled-out syllable components
     :rtype: list[str]
 
@@ -113,10 +116,12 @@ def spell_syllable(text: str) -> list[str]:
 
 
 def spell_word(text: Optional[str]) -> list[str]:
-    """Spell out words in Thai word distribution form.
+    """
+    Spell out a word in Thai word distribution form.
 
-    :param Optional[str] text: Thai words only, or None
-    :return: List of spelled out words, empty list if text is None or empty
+    :param Optional[str] text: Thai word, or None
+    :return: list of spelled-out word components,
+        empty list if text is None or empty
     :rtype: list[str]
 
     :Example:

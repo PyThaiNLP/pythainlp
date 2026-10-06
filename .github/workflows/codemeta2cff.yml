@@ -25,10 +25,10 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Generate CITATION.cff from codemeta.json
-        uses: caltechlibrary/codemeta2cff@99ce10831c3037a067c3d9551d455638e0b438ac  #v0.3.3
+        uses: caltechlibrary/codemeta2cff@99ce10831c3037a067c3d9551d455638e0b438ac # v0.3.3
 
       - name: Show generated CITATION.cff
         run: |
@@ -37,10 +37,10 @@ jobs:
           printf '\n```' >> $GITHUB_STEP_SUMMARY
 
       - name: Validate CITATION.cff
-        uses: dieghernan/cff-validator@d8f85828214016ce6976e740b6e0504c0fdc4dbb  #v5.1.1
+        uses: dieghernan/cff-validator@d8f85828214016ce6976e740b6e0504c0fdc4dbb # v5.1.1
 
       - name: Commit and push updated CITATION.cff
-        uses: EndBug/add-and-commit@cc9c08ba6c8df3b93a8f2db63e89b98368ae2ae8  #v11.1.1
+        uses: EndBug/add-and-commit@cc9c08ba6c8df3b93a8f2db63e89b98368ae2ae8 # v11.1.1
         with:
           message: "Update CITATION.cff from codemeta.json"
           add: "CITATION.cff"

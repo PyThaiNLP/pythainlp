@@ -54,6 +54,7 @@ class TransliterateONNXTestCaseN(unittest.TestCase):
         ):
             result = romanize(word)
             self.assertLess(len(result), 100)
+
     def test_thaig2p_v4_returns_string(self):
         from pythainlp.transliterate.thaig2p_v4 import transliterate
 

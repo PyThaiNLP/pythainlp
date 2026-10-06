@@ -36,6 +36,17 @@ from pythainlp.corpus.util import revise_newmm_default_wordset
 
 
 class CorpusTestCase(unittest.TestCase):
+    def test_get_corpus_db_errors(self):
+        # Network errors are reported and return None
+        for error in (TimeoutError("timed out"), OSError("unreachable")):
+            with patch("urllib.request.urlopen", side_effect=error):
+                with patch("builtins.print"):
+                    self.assertIsNone(get_corpus_db("https://example.com/db"))
+        # Unexpected errors are not swallowed
+        with patch("urllib.request.urlopen", side_effect=RuntimeError("bug")):
+            with self.assertRaises(RuntimeError):
+                get_corpus_db("https://example.com/db")
+
     def test_corpus(self):
         self.assertIsInstance(thai_negations(), frozenset)
         self.assertGreater(len(thai_negations()), 0)
@@ -280,7 +291,8 @@ class CorpusTestCase(unittest.TestCase):
                     self.assertNotEqual(result, "")
 
     def test_download_read_only_mode(self):
-        """Test that download() returns False when read-only mode is active.
+        """
+        Test that download() returns False when read-only mode is active.
 
         When the data directory is read-only (e.g. a read-only mounted volume),
         download() must not attempt any network or file-system operations and
@@ -361,7 +373,9 @@ class DefensiveLoadingTestCase(unittest.TestCase):
             with patch.object(m, "_THAI_THAILAND_PROVINCES_DETAILS", []):
                 with patch(
                     "pythainlp.corpus.common.get_corpus_as_is",
-                    return_value=["กรุงเทพ,   ,Bangkok,BKK"],  # whitespace-only abbr_th
+                    return_value=[
+                        "กรุงเทพ,   ,Bangkok,BKK"
+                    ],  # whitespace-only abbr_th
                 ):
                     with self.assertWarns(UserWarning):
                         result = m.provinces()
@@ -476,7 +490,9 @@ class DefensiveLoadingTestCase(unittest.TestCase):
         # None meaning causes TypeError in ast.literal_eval
         mock_source = {"word": ["แมว"], "meaning": [None]}
         with patch.object(m, "_THAI_WSD_DICT", {}):
-            with patch("pythainlp.corpus.common.thai_dict", return_value=mock_source):
+            with patch(
+                "pythainlp.corpus.common.thai_dict", return_value=mock_source
+            ):
                 with self.assertWarns(UserWarning) as cm:
                     result = m.thai_wsd_dict()
                 self.assertEqual(result["word"], [])
@@ -485,9 +501,14 @@ class DefensiveLoadingTestCase(unittest.TestCase):
     def test_thai_wsd_dict_skips_unparseable_meaning_with_warning(self):
         import pythainlp.corpus.common as m
 
-        mock_source = {"word": ["แมว"], "meaning": ["not valid python literal!!!"]}
+        mock_source = {
+            "word": ["แมว"],
+            "meaning": ["not valid python literal!!!"],
+        }
         with patch.object(m, "_THAI_WSD_DICT", {}):
-            with patch("pythainlp.corpus.common.thai_dict", return_value=mock_source):
+            with patch(
+                "pythainlp.corpus.common.thai_dict", return_value=mock_source
+            ):
                 with self.assertWarns(UserWarning) as cm:
                     result = m.thai_wsd_dict()
                 self.assertEqual(result["word"], [])
@@ -499,7 +520,9 @@ class DefensiveLoadingTestCase(unittest.TestCase):
         # Parses OK but yields a list, not a dict
         mock_source = {"word": ["แมว"], "meaning": ["['cat', 'kitty']"]}
         with patch.object(m, "_THAI_WSD_DICT", {}):
-            with patch("pythainlp.corpus.common.thai_dict", return_value=mock_source):
+            with patch(
+                "pythainlp.corpus.common.thai_dict", return_value=mock_source
+            ):
                 with self.assertWarns(UserWarning) as cm:
                     result = m.thai_wsd_dict()
                 self.assertEqual(result["word"], [])
@@ -587,9 +610,9 @@ class DefensiveLoadingTestCase(unittest.TestCase):
 
         mock_rows = [
             {"word": "แมว", "pos": "n", "synonym": "cat|kitty"},
-            {"word": "  ", "pos": "n", "synonym": "dog"},   # whitespace word
-            {"word": "หมา", "pos": "  ", "synonym": "dog"}, # whitespace pos
-            {"word": "ปลา", "pos": "n", "synonym": "  "},   # whitespace synonym
+            {"word": "  ", "pos": "n", "synonym": "dog"},  # whitespace word
+            {"word": "หมา", "pos": "  ", "synonym": "dog"},  # whitespace pos
+            {"word": "ปลา", "pos": "n", "synonym": "  "},  # whitespace synonym
         ]
         with patch.object(m, "_THAI_SYNONYMS", {}):
             with patch(

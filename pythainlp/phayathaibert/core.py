@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""PhayaThaiBERT text processing, augmentation, and tagging."""
+
 from __future__ import annotations
 
 import random
@@ -34,21 +36,29 @@ _tokenizer: "CamembertTokenizer" = CamembertTokenizer.from_pretrained(
 
 
 class ThaiTextProcessor:
+    """Preprocess Thai text for PhayaThaiBERT."""
+
     def __init__(self) -> None:
+        """Initialize the text processor."""
         (
             self._TK_UNK,
             self._TK_REP,
             self._TK_WREP,
             self._TK_URL,
             self._TK_END,
-        ) = "<unk> <rep> <wrep> <url> </s>".split()
+        ) = ["<unk>", "<rep>", "<wrep>", "<url>", "</s>"]
         self.SPACE_SPECIAL_TOKEN: str = "<_>"  # noqa: S105
 
     def replace_url(self, text: str) -> str:
-        """Replace url in `text` with TK_URL (https://stackoverflow.com/a/6041965)
-        :param str text: text to replace url
-        :return: text where urls are replaced
+        """
+        Replace URLs in text with the URL token.
+
+        See https://stackoverflow.com/a/6041965
+
+        :param str text: text to be processed
+        :return: text with URLs replaced
         :rtype: str
+
         :Example:
 
             >>> replace_url("go to https://github.com")
@@ -57,10 +67,13 @@ class ThaiTextProcessor:
         return re.sub(_PAT_URL, self._TK_URL, text)
 
     def rm_brackets(self, text: str) -> str:
-        """Remove all empty brackets and artifacts within brackets from `text`.
-        :param str text: text to remove useless brackets
-        :return: text where all useless brackets are removed
+        """
+        Remove empty brackets and artifacts within brackets from text.
+
+        :param str text: text to be processed
+        :return: text with useless brackets removed
         :rtype: str
+
         :Example:
 
             >>> rm_brackets("hey() whats[;] up{*&} man(hey)")
@@ -97,10 +110,13 @@ class ThaiTextProcessor:
         return new_line
 
     def replace_newlines(self, text: str) -> str:
-        """Replace newlines in `text` with spaces.
-        :param str text: text to replace all newlines with spaces
-        :return: text where all newlines are replaced with spaces
+        """
+        Replace newlines in text with spaces.
+
+        :param str text: text to be processed
+        :return: text with newlines replaced with spaces
         :rtype: str
+
         :Example:
 
             >>> rm_useless_spaces("hey whats\n\nup")
@@ -109,10 +125,13 @@ class ThaiTextProcessor:
         return re.sub(r"[\n]", " ", text.strip())
 
     def rm_useless_spaces(self, text: str) -> str:
-        """Remove multiple spaces in `text`. (code from `fastai`)
-        :param str text: text to replace useless spaces
-        :return: text where all spaces are reduced to one
+        """
+        Collapse repeated spaces in text (code from `fastai`).
+
+        :param str text: text to be processed
+        :return: text with repeated spaces reduced to one
         :rtype: str
+
         :Example:
 
             >>> rm_useless_spaces("oh         no")
@@ -121,10 +140,14 @@ class ThaiTextProcessor:
         return re.sub(" {2,}", " ", text)
 
     def replace_spaces(self, text: str, space_token: str = "<_>") -> str:  # noqa: S107  # nosec B107
-        """Replace spaces with _
-        :param str text: text to replace spaces
-        :return: text where all spaces replaced with _
+        """
+        Replace spaces in text with a space token.
+
+        :param str text: text to be processed
+        :param str space_token: token to replace spaces with
+        :return: text with spaces replaced with the space token
         :rtype: str
+
         :Example:
 
             >>> replace_spaces("oh no")
@@ -133,10 +156,13 @@ class ThaiTextProcessor:
         return re.sub(" ", space_token, text)
 
     def replace_rep_after(self, text: str) -> str:
-        """Replace repetitions at the character level in `text`
-        :param str text: input text to replace character repetition
-        :return: text with repetitive tokens removed.
+        """
+        Remove character repetitions in text.
+
+        :param str text: text to be processed
+        :return: text with repeated characters removed
         :rtype: str
+
         :Example:
 
             >>> text = "กาาาาาาา"
@@ -152,11 +178,16 @@ class ThaiTextProcessor:
         return re_rep.sub(_replace_rep, text)
 
     def replace_wrep_post(self, toks: list[str]) -> list[str]:
-        """Replace repetitive words post tokenization;
-        fastai `replace_wrep` does not work well with Thai.
-        :param list[str] toks: list of tokens
-        :return: list of tokens where repetitive words are removed.
+        """
+        Remove repeated words after tokenization.
+
+        The `replace_wrep` function of `fastai` does not work well
+        with Thai.
+
+        :param list[str] toks: list of words
+        :return: list of words with repeated words removed
         :rtype: list[str]
+
         :Example:
 
             >>> toks = ["กา", "น้ำ", "น้ำ", "น้ำ", "น้ำ"]
@@ -179,10 +210,13 @@ class ThaiTextProcessor:
         return res[1:]
 
     def remove_space(self, toks: list[str]) -> list[str]:
-        """Do not include space for bag-of-word models.
-        :param list[str] toks: list of tokens
-        :return: List of tokens where space tokens (" ") are filtered out
+        """
+        Remove spaces from a list of words, for bag-of-words models.
+
+        :param list[str] toks: list of words
+        :return: list of words with space tokens (" ") filtered out
         :rtype: list[str]
+
         :Example:
 
             >>> toks = ["ฉัน", "เดิน", " ", "กลับ", "บ้าน"]
@@ -201,15 +235,29 @@ class ThaiTextProcessor:
     def preprocess(
         self,
         text: str,
-        pre_rules: list[Callable[..., str]] = [
-            rm_brackets,
-            replace_newlines,
-            rm_useless_spaces,
-            replace_spaces,
-            replace_rep_after,
-        ],
+        pre_rules: Optional[list[Callable[..., str]]] = None,
         tok_func: Callable[..., list[str]] = word_tokenize,
     ) -> str:
+        """
+        Preprocess text: apply the rules, then tokenize and join.
+
+        :param str text: text to be preprocessed
+        :param Optional[list[Callable[..., str]]] pre_rules: rules to
+            apply in order after lowercasing. If None, use the text
+            cleaning methods of this class.
+        :param Callable[..., list[str]] tok_func: function to tokenize
+            text
+        :return: preprocessed text
+        :rtype: str
+        """
+        if pre_rules is None:
+            pre_rules = [
+                self.rm_brackets,
+                self.replace_newlines,
+                self.rm_useless_spaces,
+                self.replace_spaces,
+                self.replace_rep_after,
+            ]
         text = text.lower()
         for rule in pre_rules:
             text = rule(text)
@@ -219,7 +267,10 @@ class ThaiTextProcessor:
 
 
 class ThaiTextAugmenter:
+    """Augment Thai text using PhayaThaiBERT masked language model."""
+
     def __init__(self) -> None:
+        """Initialize the text augmenter."""
         from transformers import (
             AutoModelForMaskedLM,
             AutoTokenizer,
@@ -246,7 +297,17 @@ class ThaiTextAugmenter:
         max_length: int = 3,
         sample: bool = False,
     ) -> str:
-        """Generate text from PhayaThaiBERT"""
+        """
+        Generate text from PhayaThaiBERT.
+
+        :param str sample_text: text to continue from
+        :param int word_rank: rank of the predicted word to select
+        :param int max_length: number of words to generate
+        :param bool sample: whether to select a random word among the
+            top five predictions
+        :return: generated text
+        :rtype: str
+        """
         sample_txt = sample_text
         final_text = ""
         for _ in range(max_length):
@@ -270,19 +331,22 @@ class ThaiTextAugmenter:
         num_augs: int = 3,
         sample: bool = False,
     ) -> list[str]:
-        """Text augmentation from PhayaThaiBERT
+        """
+        Augment text with PhayaThaiBERT.
 
-        :param str text: Thai text
-        :param int num_augs: an amount of augmentation text needed as an output
-        :param bool sample: whether to sample the text as an output or not,\
-              true if more word diversity is needed
-
-        :return: list of text augment
+        :param str text: Thai text to be augmented
+        :param int num_augs: number of augmented texts to return
+        :param bool sample: whether to sample words randomly, for more
+            word diversity
+        :return: list of augmented texts
         :rtype: list[str]
+        :raises ValueError: if **num_augs** exceeds the limit of five
 
         :Example:
 
-            >>> from pythainlp.augment.lm import ThaiTextAugmenter  # doctest: +SKIP
+            >>> from pythainlp.augment.lm import (
+            ...     ThaiTextAugmenter,
+            ... )  # doctest: +SKIP
 
             >>> aug = ThaiTextAugmenter()  # doctest: +SKIP
             >>> aug.augment("ช้างมีทั้งหมด 50 ตัว บน", num_args=5)  # doctest: +SKIP
@@ -317,11 +381,20 @@ class ThaiTextAugmenter:
 
 
 class PartOfSpeechTagger:
+    """Tag part-of-speech (POS) in Thai text using PhayaThaiBERT."""
+
     def __init__(
         self,
         model: str = "lunarlist/pos_thai_phayathai",
         revision: Optional[str] = None,
     ) -> None:
+        """
+        Initialize the POS tagger.
+
+        :param str model: name of the model to load
+        :param Optional[str] revision: git revision id (branch, tag, or
+            commit hash)
+        """
         # Load model directly
         from transformers import (
             AutoModelForTokenClassification,
@@ -340,17 +413,22 @@ class PartOfSpeechTagger:
     def get_tag(
         self, sentence: str, strategy: str = "simple"
     ) -> list[list[tuple[str, str]]]:
-        """Marks sentences with part-of-speech (POS) tags.
+        """
+        Tag text with part-of-speech (POS) tags.
 
-        :param str sentence: a list of lists of tokenized words
-        :return: a list of lists of tuples (word, POS tag)
+        :param str sentence: text to be tagged
+        :param str strategy: aggregation strategy of the token
+            classification pipeline
+        :return: list of lists of tuples (word, POS tag)
         :rtype: list[list[tuple[str, str]]]
 
         :Example:
 
-        Labels POS for given sentence:
+        Label POS for the given text:
 
-            >>> from pythainlp.phayathaibert.core import PartOfSpeechTagger  # doctest: +SKIP
+            >>> from pythainlp.phayathaibert.core import (
+            ...     PartOfSpeechTagger,
+            ... )  # doctest: +SKIP
 
             >>> tagger = PartOfSpeechTagger()  # doctest: +SKIP
             >>> tagger.get_tag("แมวทำอะไรตอนห้าโมงเช้า")  # doctest: +SKIP
@@ -370,11 +448,20 @@ class PartOfSpeechTagger:
 
 
 class NamedEntityTagger:
+    """Tag named entities in Thai text using PhayaThaiBERT."""
+
     def __init__(
         self,
         model: str = "Pavarissy/phayathaibert-thainer",
         revision: Optional[str] = None,
     ) -> None:
+        """
+        Initialize the named entity tagger.
+
+        :param str model: name of the model to load
+        :param Optional[str] revision: git revision id (branch, tag, or
+            commit hash)
+        """
         from transformers import (
             AutoModelForTokenClassification,
             AutoTokenizer,
@@ -396,18 +483,21 @@ class NamedEntityTagger:
         pos: bool = False,
         strategy: str = "simple",
     ) -> Union[list[tuple[str, str]], list[tuple[str, str, str]], str]:
-        """This function tags named entities in text in IOB format.
+        """
+        Tag named entities in text.
 
-        :param str text: text in Thai to be tagged
-        :param bool pos: output with part-of-speech tags.\
-            (PhayaThaiBERT is supported in PartOfSpeechTagger)
-        :return: a list of tuples associated with tokenized words, NER tags,
-                 POS tags (if the parameter `pos` is specified as `True`),
-                 and output HTML-like tags (if the parameter `tag` is
-                 specified as `True`).
-                 Otherwise, return a list of tuples associated with tokenized
-                 words and NER tags
+        :param str text: Thai text to be tagged
+        :param bool tag: return HTML-like tags in a string instead of a
+            list of tuples
+        :param bool pos: output part-of-speech tags. This model does not
+            support them (use :class:`PartOfSpeechTagger` instead), so
+            a warning is raised.
+        :param str strategy: aggregation strategy of the token
+            classification pipeline
+        :return: list of tuples (word, named entity tag), or a string with
+            HTML-like tags if **tag** is True
         :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]], str]
+
         :Example:
 
             >>> from pythainlp.phayathaibert.core import NamedEntityTagger
@@ -418,8 +508,7 @@ class NamedEntityTagger:
             ('จาก', 'LOCATION'),
             ('ประเทศไทย', 'LOCATION')]
             >>> ner.tag("ทดสอบนายปวริศ เรืองจุติโพธิ์พานจากประเทศไทย", tag=True)
-            'ทดสอบ<PERSON>นายปวริศ เรืองจุติโพธิ์พาน</PERSON>\
-                <LOCATION>จาก</LOCATION><LOCATION>ประเทศไทย</LOCATION>'
+            'ทดสอบ<PERSON>นายปวริศ เรืองจุติโพธิ์พาน</PERSON><LOCATION>จาก</LOCATION><LOCATION>ประเทศไทย</LOCATION>'
         """
         from transformers import TokenClassificationPipeline
 
@@ -468,8 +557,11 @@ class NamedEntityTagger:
 
 
 def segment(sentence: str) -> list[str]:
-    """Subword tokenize of PhayaThaiBERT, \
-    sentencepiece from WangchanBERTa model with vocabulary expansion.
+    """
+    Tokenize text into subwords with the PhayaThaiBERT tokenizer.
+
+    The tokenizer is the sentencepiece model of WangchanBERTa, with
+    vocabulary expansion.
 
     :param str sentence: text to be tokenized
     :return: list of subwords
@@ -478,4 +570,4 @@ def segment(sentence: str) -> list[str]:
     if not sentence or not isinstance(sentence, str):
         return []
 
-    return cast(list[str], _tokenizer.tokenize(sentence))
+    return cast("list[str]", _tokenizer.tokenize(sentence))

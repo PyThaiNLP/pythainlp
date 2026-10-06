@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Translate text with the small100 model."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Optional
@@ -13,11 +15,12 @@ from .tokenization_small100 import SMALL100Tokenizer
 
 
 class Small100Translator:
-    """Machine Translation using small100 model
+    """
+    Translate text using the small100 model.
 
-    - Huggingface https://huggingface.co/alirezamsh/small100
+    - Hugging Face: https://huggingface.co/alirezamsh/small100
 
-    :param bool use_gpu : load model using GPU (Default is False)
+    :param bool use_gpu: load the model on a GPU (default: False)
     """
 
     pretrained: str
@@ -32,6 +35,13 @@ class Small100Translator:
         pretrained: str = "alirezamsh/small100",
         revision: Optional[str] = None,
     ) -> None:
+        """
+        Initialize the small100 translator.
+
+        :param bool use_gpu: load the model on a GPU
+        :param str pretrained: name of the pretrained model
+        :param Optional[str] revision: revision of the pretrained model
+        """
         from transformers import M2M100ForConditionalGeneration
 
         self.pretrained: str = pretrained
@@ -50,18 +60,21 @@ class Small100Translator:
         tgt_lang: str = "en",
         exclude_words: Optional[list[str]] = None,
     ) -> str:
-        """Translate text from X to X
+        """
+        Translate text to the target language.
 
-        :param str text: input text in source language
-        :param str tgt_lang: target language
-        :param list[str] exclude_words: words to exclude from translation
-                                        (optional)
-        :return: translated text in target language
+        :param str text: text to translate
+        :param str tgt_lang: target language code
+        :param Optional[list[str]] exclude_words: words to exclude from
+            translation
+        :return: translated text
         :rtype: str
 
         :Example:
 
-            >>> from pythainlp.translate.small100 import Small100Translator  # doctest: +SKIP
+            >>> from pythainlp.translate.small100 import (
+            ...     Small100Translator,
+            ... )  # doctest: +SKIP
 
             >>> mt = Small100Translator()  # doctest: +SKIP
 
@@ -78,7 +91,9 @@ class Small100Translator:
             'Test du système'
 
             >>> # Translate text from Thai to English with excluded words
-            >>> mt.translate("ทดสอบระบบ", tgt_lang="en", exclude_words=["ระบบ"])  # doctest: +SKIP
+            >>> mt.translate(
+            ...     "ทดสอบระบบ", tgt_lang="en", exclude_words=["ระบบ"]
+            ... )  # doctest: +SKIP
             'Testing ระบบ'
 
         """

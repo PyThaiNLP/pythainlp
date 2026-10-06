@@ -8,9 +8,11 @@ on:
   push:                 # Use together with "[cd build]" commit message
     branches:
       - dev
+      - main
   pull_request:         # Use together with "[cd build]" commit message
     branches:
       - dev
+      - main
   release:
     types: [published]  # "Publish release" button
   workflow_dispatch:    # Manual trigger to test wheel build
@@ -30,6 +32,11 @@ concurrency:
     }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
+# If attach_release or sign_and_attest fails after the PyPI publish, use
+# "Re-run failed jobs": it signs and attaches the same files that were
+# published. This works while the artifacts exist: "dist" is kept 60 days,
+# "sbom" for the repository's default retention. "Re-run all jobs" rebuilds a
+# different wheel, which PyPI rejects as a duplicate.
 jobs:
   echo_github_env:
     name: Echo env variables
@@ -71,11 +78,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.13"]
+        python-version: ["3.14"]
     permissions:
       contents: read
     outputs:
-      sbom-path: ${{ steps.pitloom.outputs.sbom-path }}
+      sbom-name: ${{ steps.pitloom.outputs.sbom-path }}
 
     steps:
     - name: Checkout
@@ -91,7 +98,14 @@ jobs:
     - name: Install dependencies
       run: |
         pip install --only-binary :all: "pip==26.2.1"
-        pip install --only-binary :all: "build==1.6.1" "spdx3-validate==0.0.7" "twine==7.0.0"
+        pip install --only-binary :all: "build==1.6.1" "twine==7.0.0"
+
+    # Pins every timestamp in the build and the SBOM to the commit time, so a
+    # rebuild of the same commit gives the same files, as long as Pitloom's
+    # PyPI lookups give the same answers. To recover a failed release, prefer
+    # "Re-run failed jobs", which reuses this run's artifacts.
+    - name: Set SOURCE_DATE_EPOCH to the commit time
+      run: echo "SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)" >> "${GITHUB_ENV}"
 
     - name: Build source distribution and wheels
       run: python -m build
@@ -99,66 +113,48 @@ jobs:
     - name: Check distributions
       run: twine check dist/*
 
-    - name: Generate SBOM and embed into the wheel
+    # Embeds after the build, not with Pitloom's Hatchling build hook:
+    # Pitloom needs Python 3.10+, but PyThaiNLP still builds from source on
+    # Python 3.9, where an unknown build hook fails the build.
+    # Pitloom 0.20.0+ lists only the wheel's payload, so the files the
+    # embedding rewrites (RECORD and the SBOM itself) are not in the SBOM
+    # with stale hashes, as they were with 0.19.0.
+    # --verify checks the SBOM is at the PEP 770 location.
+    # --validate checks the SBOM against the SPDX 3 schema and SHACL shapes.
+    # Either failing fails this step, which stops publishing.
+    # The uploaded "sbom" artifact is the SBOM read back from the wheel.
+    - name: Generate SBOM, embed into the wheel, and check it
       id: pitloom
-      uses: bact/pitloom@6a5473c42efcd3727d2a1ff94745ba93ab46722f # v0.18.1
+      uses: bact/pitloom@3785ee7babe07661b8f0ea92fdb41321b7a88b6b # v0.20.0
       with:
-        pitloom-version: "0.18.1"
-        python-version: ${{ matrix.python-version }}
         embed-wheel: "dist/*.whl"
         project-path: "."
+        # content-type: magika, set in [tool.pitloom.content-type]
+        # onnx: read metadata of the ONNX models in pythainlp/corpus
+        # validate: spdx3-validate, for --validate
+        extras: "content-type,onnx,validate"
+        args: "--verify --validate"
         upload-artifact: "true"
         artifact-name: "sbom"
 
-    - name: Check SBOM is at the PEP 770 location
-      id: locate-sbom
+    # The Pitloom Action sets no sbom-path, without failing, when
+    # "dist/*.whl" matches more than one wheel. Fail here instead, so a
+    # release never goes out without its SBOM and signatures.
+    - name: Check the SBOM was embedded
       env:
-        SBOM_PATH: ${{ steps.pitloom.outputs.sbom-path }}
+        SBOM_NAME: ${{ steps.pitloom.outputs.sbom-path }}
       run: |
-        set -euo pipefail
-        shopt -s nullglob
-        wheels=(dist/*.whl)
-        if [ "${#wheels[@]}" -ne 1 ]; then
-          echo "::error::expected exactly one wheel in dist/, found" \
-            "${#wheels[@]}: ${wheels[*]}"
+        if [ -z "${SBOM_NAME}" ]; then
+          echo "::error::Pitloom reported no embedded SBOM"
           exit 1
         fi
-        whl="${wheels[0]}"
-        sbom_basename=$(basename "${SBOM_PATH}")
-
-        matched=""
-        while IFS= read -r entry; do
-          case "${entry}" in
-            *.dist-info/sboms/"${sbom_basename}")
-              matched="${entry}"
-              break
-              ;;
-          esac
-        done < <(unzip -Z1 "${whl}")
-
-        if [ -z "${matched}" ]; then
-          echo "::error::${sbom_basename} not found under" \
-            "*.dist-info/sboms/ in ${whl}"
-          exit 1
-        fi
-        echo "Found: ${matched}"
-        echo "wheel=${whl}" >> "${GITHUB_OUTPUT}"
-        echo "entry=${matched}" >> "${GITHUB_OUTPUT}"
-
-    - name: Validate SBOM extracted from the wheel
-      env:
-        WHEEL: ${{ steps.locate-sbom.outputs.wheel }}
-        ENTRY: ${{ steps.locate-sbom.outputs.entry }}
-      run: |
-        set -euo pipefail
-        extracted="$(mktemp -d)/temp-sbom.json"
-        unzip -p "${WHEEL}" "${ENTRY}" > "${extracted}"
-        spdx3-validate --json "${extracted}"
 
     - name: Store distributions
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
+        name: dist
         path: dist
+        retention-days: 60
 
   publish_pypi:
     name: Publish to PyPI
@@ -173,7 +169,7 @@ jobs:
     - name: Retrieve distributions
       uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
-        name: artifact
+        name: dist
         path: dist
     - name: Publish to PyPI
       uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
@@ -182,49 +178,80 @@ jobs:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
 
-  attach_release_sbom:
-    name: Attach SBOM to GitHub Release
-    needs: [build]
-    if: needs.build.result == 'success' && needs.build.outputs.sbom-path != '' && github.event_name == 'release' && github.event.action == 'published'
+  # The jobs below run only after a successful PyPI publish, so the release
+  # page never carries files that were not published.
+  attach_release:
+    name: Attach files to GitHub Release
+    needs: [build, publish_pypi]
+    if: needs.build.result == 'success' && needs.publish_pypi.result == 'success' && needs.build.outputs.sbom-name != ''
     runs-on: ubuntu-latest
     permissions:
-      contents: write # gh release upload, for the standalone SBOM asset
+      contents: write # gh release upload, for the sdist, wheel, and SBOM assets
     steps:
+    - name: Download distribution artifacts
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: dist
+        path: dist
     - name: Download SBOM artifact
       uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         name: sbom
         path: sbom
-    - name: Attach SBOM to GitHub Release
+    - name: Attach sdist, wheel, and SBOM to GitHub Release
       env:
         GH_TOKEN: ${{ github.token }}
         RELEASE_TAG: ${{ github.event.release.tag_name }}
-        SBOM_BASENAME: ${{ needs.build.outputs.sbom-path }}
         REPO: ${{ github.repository }}
+        SBOM_NAME: ${{ needs.build.outputs.sbom-name }}
       run: |
         set -euo pipefail
-        gh release upload "${RELEASE_TAG}" "sbom/${SBOM_BASENAME}" \
-          --clobber --repo "${REPO}"
+        gh release upload "${RELEASE_TAG}" dist/*.whl dist/*.tar.gz \
+          "sbom/${SBOM_NAME}" --clobber --repo "${REPO}"
 
-  attach_release_dist:
-    name: Attach distribution to GitHub Release
+  sign_and_attest:
+    name: Sign distributions and SBOM, and attach provenance
     needs: [build, publish_pypi]
-    if: needs.build.result == 'success' && needs.publish_pypi.result == 'success'
+    if: needs.build.result == 'success' && needs.publish_pypi.result == 'success' && needs.build.outputs.sbom-name != ''
     runs-on: ubuntu-latest
     permissions:
-      contents: write # gh release upload, for the sdist/wheel assets
+      contents: write # gh release upload, for the signature assets
+      id-token: write # Sigstore keyless signing and attestation signing
+      attestations: write # actions/attest-build-provenance
     steps:
     - name: Download distribution artifacts
       uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
-        name: artifact
+        name: dist
         path: dist
-    - name: Attach sdist and wheel to GitHub Release
+    - name: Download SBOM artifact
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: sbom
+        path: sbom
+    - name: Sign distributions and SBOM with Sigstore
+      uses: sigstore/gh-action-sigstore-python@790bc6befb9d733738f18d8f895854b453640ec9 # v3.5.0
+      with:
+        inputs: >-
+          dist/*.whl dist/*.tar.gz
+          sbom/${{ needs.build.outputs.sbom-name }}
+        # "true" (default) also downloads and signs GitHub's generated
+        # source archives on a release run, and fails if that download fails.
+        release-signing-artifacts: "false"
+    - name: Generate build provenance attestation
+      uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+      with:
+        subject-path: |
+          dist/*.whl
+          dist/*.tar.gz
+          sbom/${{ needs.build.outputs.sbom-name }}
+    - name: Attach Sigstore bundles to GitHub Release
       env:
         GH_TOKEN: ${{ github.token }}
         RELEASE_TAG: ${{ github.event.release.tag_name }}
         REPO: ${{ github.repository }}
+        SBOM_NAME: ${{ needs.build.outputs.sbom-name }}
       run: |
         set -euo pipefail
-        gh release upload "${RELEASE_TAG}" dist/*.whl dist/*.tar.gz \
-          --clobber --repo "${REPO}"
+        gh release upload "${RELEASE_TAG}" dist/*.sigstore.json \
+          "sbom/${SBOM_NAME}.sigstore.json" --clobber --repo "${REPO}"

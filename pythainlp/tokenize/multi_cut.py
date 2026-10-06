@@ -1,14 +1,16 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Multi cut -- Thai word segmentation with maximum matching.
-Original codes from Korakot Chaovavanich.
+"""
+Tokenize Thai text into words with multi-cut, a maximum matching approach.
+
+The original code is by Korakot Chaovavanich.
 
 :See Also:
-    * `Facebook post \
-        <https://www.facebook.com/groups/408004796247683/permalink/431283740586455/>`_
-    * `GitHub Gist \
-        <https://gist.github.com/korakot/fe26c65dc9eed467f4497f784a805716>`_
+    * Facebook post:
+      https://www.facebook.com/groups/408004796247683/permalink/431283740586455/
+    * GitHub Gist:
+      https://gist.github.com/korakot/fe26c65dc9eed467f4497f784a805716
 """
 
 from __future__ import annotations
@@ -26,7 +28,7 @@ from pythainlp.tokenize import word_dict_trie
 
 
 class LatticeString(str):
-    """String that keeps possible tokenizations"""
+    """Keep the possible tokenizations of a string."""
 
     unique: bool
     multi: list[str]
@@ -38,6 +40,7 @@ class LatticeString(str):
         multi: Optional[list[str]] = None,
         in_dict: bool = True,
     ) -> "LatticeString":
+        """Create a new lattice string from a value."""
         return str.__new__(cls, value)
 
     def __init__(
@@ -46,6 +49,13 @@ class LatticeString(str):
         multi: Optional[list[str]] = None,
         in_dict: bool = True,
     ) -> None:
+        """
+        Initialize the lattice string.
+
+        :param str value: string value
+        :param Optional[list[str]] multi: possible tokenizations of the value
+        :param bool in_dict: whether the value is in the dictionary
+        """
         self.unique: bool = True
         if multi:
             self.multi: list[str] = list(multi)
@@ -65,31 +75,49 @@ _RE_NONTHAI: str = r"""(?x)
 _PAT_NONTHAI: re.Pattern[str] = re.compile(_RE_NONTHAI)
 
 
+def _serialize(
+    words_at: defaultdict[int, list[str]], p: int, p2: int
+) -> Iterator[str]:
+    """Yield word paths from position ``p`` to position ``p2``."""
+    for w in words_at[p]:
+        p_ = p + len(w)
+        if p_ == p2:
+            yield w
+        elif p_ < p2:
+            for path in _serialize(words_at, p_, p2):
+                yield w + "/" + path
+
+
+def _find_skip_end(text: str, p: int, custom_dict: Trie) -> int:
+    """Find the end of an out-of-dictionary word starting at ``p``."""
+    len_text = len(text)
+    m = _PAT_NONTHAI.match(text[p:])
+    if m:  # non-Thai token
+        return p + m.span()[1]
+
+    # Thai token, find minimum skip
+    for i in range(p, len_text):
+        ww = custom_dict.prefixes(text[i:])
+        m = _PAT_NONTHAI.match(text[i:])
+        if ww or m:
+            return i
+    return len_text
+
+
 def _multicut(
     text: str, custom_dict: Optional[Trie] = None
 ) -> Iterator[LatticeString]:
-    """Return LatticeString"""
+    """Yield a :class:`LatticeString` for each part of the text."""
     if not custom_dict:
         custom_dict = word_dict_trie()
     len_text = len(text)
-    words_at: defaultdict[int, list[str]] = defaultdict(
-        list
-    )  # main data structure
-
-    def serialize(p: int, p2: int) -> Iterator[str]:  # helper function
-        for w in words_at[p]:
-            p_ = p + len(w)
-            if p_ == p2:
-                yield w
-            elif p_ < p2:
-                for path in serialize(p_, p2):
-                    yield w + "/" + path
+    words_at: defaultdict[int, list[str]] = defaultdict(list)
 
     q = {0}
     last_p = 0  # last position for yield
     while min(q) < len_text:
         p = min(q)
-        q -= {p}  # q.pop, but for set
+        q -= {p}
 
         for w in custom_dict.prefixes(text[p:]):
             words_at[p].append(w)
@@ -99,20 +127,12 @@ def _multicut(
 
         if len_q == 1:
             q0 = min(q)
-            yield LatticeString(text[last_p:q0], list(serialize(last_p, q0)))
+            yield LatticeString(
+                text[last_p:q0], list(_serialize(words_at, last_p, q0))
+            )
             last_p = q0
-        elif len_q == 0:  # len(q) == 0  means not found in dictionary
-            m = _PAT_NONTHAI.match(text[p:])
-            if m:  # non-Thai token
-                i = p + m.span()[1]
-            else:  # non-Thai token, find minimum skip
-                for i in range(p, len_text):
-                    ww = custom_dict.prefixes(text[i:])
-                    m = _PAT_NONTHAI.match(text[i:])
-                    if ww or m:
-                        break
-                else:
-                    i = len_text
+        elif len_q == 0:  # no dictionary word
+            i = _find_skip_end(text, p, custom_dict)
             w = text[p:i]
             words_at[p].append(w)
             yield LatticeString(w, in_dict=False)
@@ -121,6 +141,13 @@ def _multicut(
 
 
 def mmcut(text: str) -> list[str]:
+    """
+    Tokenize text into words with the minimum-cut selection.
+
+    :param str text: text to be tokenized
+    :return: list of words
+    :rtype: list[str]
+    """
     res = []
     for w in _multicut(text):
         mm = min(w.multi, key=lambda x: x.count("/"))
@@ -142,14 +169,13 @@ def _combine(ww: list[LatticeString]) -> Iterator[str]:
 
 
 def segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
-    """Dictionary-based maximum matching word segmentation.
+    """
+    Tokenize text into words with dictionary-based maximum matching.
 
-    :param text: text to be tokenized
-    :type text: str
-    :param custom_dict: tokenization dictionary,\
-        defaults to a Trie generated from pythainlp.corpus.thai_words
-    :type custom_dict: Trie, optional
-    :return: list of segmented tokens
+    :param str text: text to be tokenized
+    :param pythainlp.util.Trie custom_dict: dictionary trie
+        (default: a trie of :func:`pythainlp.corpus.thai_words`)
+    :return: list of words
     :rtype: list[str]
     """
     if not text or not isinstance(text, str):
@@ -164,14 +190,13 @@ def segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
 def find_all_segment(
     text: str, custom_dict: Optional[Trie] = None
 ) -> list[str]:
-    """Get all possible segment variations.
+    """
+    Get all possible tokenizations of text.
 
-    :param text: input string to be tokenized
-    :type text: str
-    :param custom_dict: tokenization dictionary,\
-        defaults to word_dict_trie()
-    :type custom_dict: Trie, optional
-    :return: list of segment variations
+    :param str text: text to be tokenized
+    :param pythainlp.util.Trie custom_dict: dictionary trie
+        (default: a trie of :func:`pythainlp.corpus.thai_words`)
+    :return: list of tokenizations, each with words separated by ``|``
     :rtype: list[str]
     """
     if not text or not isinstance(text, str):

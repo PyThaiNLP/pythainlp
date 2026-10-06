@@ -1,8 +1,10 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai Grapheme-to-Phoneme (Thai G2P)
-GitHub : https://github.com/wannaphong/thai-g2p
+"""
+Thai Grapheme-to-Phoneme (Thai G2P).
+
+GitHub: https://github.com/wannaphong/thai-g2p
 """
 
 from __future__ import annotations
@@ -55,6 +57,7 @@ class ThaiG2P:
     _network: "Seq2Seq"
 
     def __init__(self) -> None:
+        """Initialize the Thai G2P model."""
         self.__model_filename: str = get_corpus_path(_MODEL_NAME)  # type: ignore[assignment]
         if not self.__model_filename:
             raise FileNotFoundError(
@@ -110,9 +113,13 @@ class ThaiG2P:
         return tensor.to(device)
 
     def g2p(self, text: str) -> str:
-        """:param str text: Thai text to be romanized
-        :return: English (more or less) text that spells out how the Thai text
-                 should be pronounced.
+        """
+        Convert Thai text to its pronunciation.
+
+        :param str text: Thai text to be converted
+        :return: text in a phonetic alphabet, indicating how the Thai text
+            is pronounced
+        :rtype: str
         """
         input_tensor = self._prepare_sequence_in(text).view(1, -1)
         input_length = [len(text) + 1]
@@ -138,6 +145,8 @@ class ThaiG2P:
 
 
 class Encoder(nn.Module):  # type: ignore[misc]
+    """Encode a sequence of characters with a bidirectional LSTM."""
+
     hidden_size: int
     character_embedding: nn.Embedding
     rnn: nn.LSTM
@@ -151,7 +160,7 @@ class Encoder(nn.Module):  # type: ignore[misc]
         hidden_size: int,
         dropout: float = 0.5,
     ) -> None:
-        """Constructor"""
+        """Initialize the layers."""
         super().__init__()
         self.hidden_size: int = hidden_size
         self.character_embedding: nn.Embedding = nn.Embedding(
@@ -171,6 +180,14 @@ class Encoder(nn.Module):  # type: ignore[misc]
         sequences: torch.Tensor,
         sequences_lengths: Union[NDArray[Any], list[int]],
     ) -> tuple[torch.Tensor, tuple[torch.Tensor, torch.Tensor]]:
+        """
+        Compute the forward pass of the encoder.
+
+        :param torch.Tensor sequences: batch of encoded character sequences
+        :param torch.Tensor sequences_lengths: length of each sequence
+        :return: encoder outputs and the final hidden state
+        :rtype: tuple[torch.Tensor, tuple[torch.Tensor, torch.Tensor]]
+        """
         # sequences: (batch_size, sequence_length=MAX_LENGTH)
         # sequences_lengths: (batch_size)
         import numpy as np
@@ -212,6 +229,13 @@ class Encoder(nn.Module):  # type: ignore[misc]
     def init_hidden(
         self, batch_size: int
     ) -> tuple[torch.Tensor, torch.Tensor]:
+        """
+        Return a zero-filled initial hidden state.
+
+        :param int batch_size: number of sequences in the batch
+        :return: initial hidden state and cell state
+        :rtype: tuple[torch.Tensor, torch.Tensor]
+        """
         h_0 = torch.zeros(
             [2, batch_size, self.hidden_size // 2], requires_grad=True
         ).to(device)
@@ -223,12 +247,20 @@ class Encoder(nn.Module):  # type: ignore[misc]
 
 
 class Attn(nn.Module):  # type: ignore[misc]
+    """Compute attention weights over the encoder outputs."""
+
     method: str
     hidden_size: int
     attn: nn.Linear
     other: nn.Parameter
 
     def __init__(self, method: str, hidden_size: int) -> None:
+        """
+        Initialize the attention layers.
+
+        :param str method: scoring method, one of "dot", "general", or "concat"
+        :param int hidden_size: size of the hidden state
+        """
         super().__init__()
 
         self.method: str = method
@@ -249,6 +281,16 @@ class Attn(nn.Module):  # type: ignore[misc]
         encoder_outputs: torch.Tensor,
         mask: torch.Tensor,
     ) -> torch.Tensor:
+        """
+        Compute the forward pass of the attention layer.
+
+        :param torch.Tensor hidden: decoder hidden state
+        :param torch.Tensor encoder_outputs: encoder outputs
+        :param torch.Tensor mask: mask of non-padding positions
+        :return: attention weights, normalized to the range 0 to 1
+        :rtype: torch.Tensor
+        :raises ValueError: if the attention method is not supported
+        """
         # Calculate energies for each encoder output
         if self.method == "dot":
             attn_energies = torch.bmm(
@@ -274,9 +316,7 @@ class Attn(nn.Module):  # type: ignore[misc]
                 self.other.unsqueeze(0).expand(*hidden.size()).transpose(1, 2),
             ).squeeze(2)
         else:
-            raise ValueError(
-                f"Unsupported attention method: {self.method!r}"
-            )
+            raise ValueError(f"Unsupported attention method: {self.method!r}")
 
         attn_energies = attn_energies.masked_fill(mask == 0, -1e10)
 
@@ -285,6 +325,8 @@ class Attn(nn.Module):  # type: ignore[misc]
 
 
 class AttentionDecoder(nn.Module):  # type: ignore[misc]
+    """Decode a sequence of characters with an attention LSTM."""
+
     vocabulary_size: int
     hidden_size: int
     character_embedding: nn.Embedding
@@ -300,7 +342,7 @@ class AttentionDecoder(nn.Module):  # type: ignore[misc]
         hidden_size: int,
         dropout: float = 0.5,
     ) -> None:
-        """Constructor"""
+        """Initialize the layers."""
         super().__init__()
         self.vocabulary_size: int = vocabulary_size
         self.hidden_size: int = hidden_size
@@ -326,7 +368,7 @@ class AttentionDecoder(nn.Module):  # type: ignore[misc]
         encoder_outputs: torch.Tensor,
         mask: torch.Tensor,
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-        """ "Defines the forward computation of the decoder"""
+        """Compute the forward pass of the decoder."""
         # input_character: (batch_size, 1)
         # last_hidden: (batch_size, hidden_dim)
         # encoder_outputs: (batch_size, sequence_len, hidden_dim)
@@ -353,6 +395,8 @@ class AttentionDecoder(nn.Module):  # type: ignore[misc]
 
 
 class Seq2Seq(nn.Module):  # type: ignore[misc]
+    """Sequence-to-sequence model of an encoder and an attention decoder."""
+
     encoder: Encoder
     decoder: AttentionDecoder
     pad_idx: int
@@ -368,6 +412,17 @@ class Seq2Seq(nn.Module):  # type: ignore[misc]
         target_end_token: int,
         max_length: int,
     ) -> None:
+        """
+        Initialize the sequence-to-sequence model.
+
+        :param Encoder encoder: encoder
+        :param AttentionDecoder decoder: attention decoder
+        :param int target_start_token: index of the target start token
+        :param int target_end_token: index of the target end token
+        :param int max_length: maximum sequence length
+        :raises ValueError: if the hidden sizes of the encoder and the
+            decoder differ
+        """
         super().__init__()
 
         self.encoder: Encoder = encoder
@@ -384,16 +439,35 @@ class Seq2Seq(nn.Module):  # type: ignore[misc]
             )
 
     def create_mask(self, source_seq: torch.Tensor) -> torch.Tensor:
+        """
+        Create a boolean mask for non-padding positions.
+
+        :param torch.Tensor source_seq: encoded source sequence
+        :return: boolean mask where True marks non-padding positions
+        :rtype: torch.Tensor
+        """
         mask = source_seq != self.pad_idx
         return mask
 
-    def forward(
+    def forward(  # noqa: CCR001  # phase2-todo
         self,
         source_seq: torch.Tensor,
         source_seq_len: Union[NDArray[Any], list[int]],
         target_seq: Optional[torch.Tensor],
         teacher_forcing_ratio: float = 0.5,
     ) -> torch.Tensor:
+        """
+        Compute the forward pass of the sequence-to-sequence model.
+
+        :param torch.Tensor source_seq: encoded source sequence
+        :param torch.Tensor source_seq_len: length of each source sequence
+        :param Optional[torch.Tensor] target_seq: encoded target sequence,
+            or None
+        :param float teacher_forcing_ratio: probability of feeding the target
+            token to the decoder
+        :return: output logits
+        :rtype: torch.Tensor
+        """
         # source_seq: (batch_size, MAX_LENGTH)
         # source_seq_len: (batch_size, 1)
         # target_seq: (batch_size, MAX_LENGTH)
@@ -478,4 +552,11 @@ _THAI_G2P: ThaiG2P = ThaiG2P()
 
 
 def transliterate(text: str) -> str:
+    """
+    Convert Thai text to phonemes with the Thai G2P model.
+
+    :param str text: Thai text to be converted
+    :return: phonemes of the text
+    :rtype: str
+    """
     return _THAI_G2P.g2p(text)

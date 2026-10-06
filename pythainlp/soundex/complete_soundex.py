@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
-Complete Soundex for Thai Words Similarity Analysis
+Complete Soundex for Thai word similarity analysis.
 
 Original paper:
 Chalermpol Tapsai, Phayung Meesad, and Choochart Haruechaiyasak. 2020.
@@ -34,22 +33,31 @@ from __future__ import annotations
 import re
 from typing import Optional
 
+# Vowel codes shortened by 'ะ'
+_SHORT_VOWEL: dict[str, str] = {
+    "5J": "5I",
+    "6L": "6K",
+    "7N": "7M",
+    "1B": "1A",
+}
+
 
 class CompleteSoundex:
     """
     Complete Soundex implementation for Thai words similarity analysis.
 
-    This class implements the Complete Soundex algorithm as described in the paper
-    by Chalermpol  Tapsai, Phayung  Meesad, and Choochart  Haruechaiyasak (2020).
+    This class implements the Complete Soundex algorithm as described in
+    the paper by Chalermpol Tapsai, Phayung Meesad, and
+    Choochart Haruechaiyasak (2020).
     """
 
     def __init__(self) -> None:
-        # Thai consonants for pattern matching
+        """Initialize the Complete Soundex lookup tables."""
         self.thai_consonants: str = (
             "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬฮอ"
         )
 
-        # 1. Maps (Tables 5.1 - 5.4)
+        # Tables 5.1 - 5.4 of the paper
         self.initial_map: dict[str, str] = {
             "ก": "กก",
             "ข": "คข",
@@ -182,27 +190,26 @@ class CompleteSoundex:
         """
         Apply heuristic rules to split syllables.
 
-        Returns a list of tuples (syllable, implicit_rule) where implicit_rule
-        can be 'a', 'o', or None.
+        Return a list of tuples (syllable, implicit_rule) where
+        implicit_rule can be 'a', 'o', or None.
         """
-        # 0. Handle อัต pattern (split as อัต-รา but keep ต with second syllable)
+        # อัต pattern: split as อัต-ตX..., ต stays with the second syllable
         if text.startswith("อัต") and len(text) > 3:
-            # Split as อัต and ตX... (keep ต with the rest)
             return [("อัต", None), ("ต" + text[3:], None)]
 
-        # 1. Aksorn Nam with Ro Han (e.g. สวรรค์ -> ส-วรรค์)
+        # Aksorn Nam with Ro Han (e.g. สวรรค์ -> ส-วรรค์)
         if re.match(r"[ขฃฉฐถผฝศษสฮกจดตฎฏบปอ]วรร.*", text):
             return [(text[0], "a"), (text[1:], None)]
 
-        # 2. Two consonants without vowel (e.g. กม -> ก-a ม-a)
+        # Two consonants without vowel (e.g. กม -> ก-a ม-a)
         if re.fullmatch(r"[ก-ฮ]{2}", text):
             return [(text[0], "a"), (text[1], "a")]
 
-        # 3. 3 Consonants -> C1-a C2C3-o (e.g. กมล)
+        # 3 consonants -> C1-a C2C3-o (e.g. กมล)
         if re.fullmatch(r"[ก-ฮ]{3}", text):
             return [(text[0], "a"), (text[1:], "o")]
 
-        # 4. 3 Consonants + Vowel -> C1-a C2-a C3-V (e.g. กมลา)
+        # 3 consonants + vowel -> C1-a C2-a C3-V (e.g. กมลา)
         if re.fullmatch(r"[ก-ฮ]{3}[า-ู]", text):
             return [(text[0], "a"), (text[1], "a"), (text[2:], None)]
 
@@ -231,16 +238,15 @@ class CompleteSoundex:
 
         init_char = chars[idx]
 
-        # Special case: ทร- pattern should map to ซ initial
+        # ทร- maps to the ซ initial
         if init_char == "ท" and idx + 1 < len(chars) and chars[idx + 1] == "ร":
             init_code = "ซซ"
             idx += 2
-            cluster_char = "-"  # Don't output cluster for ทร pattern
+            cluster_char = "-"  # no cluster output for ทร
         else:
             init_code = self.initial_map.get(init_char, "xx")
             idx += 1
 
-            # C. Cluster (Heuristic)
             if idx < len(chars) and chars[idx] in ["ร", "ล", "ว"]:
                 is_cluster = self._detect_cluster(chars, idx, leading_vowel)
                 if is_cluster:
@@ -255,10 +261,10 @@ class CompleteSoundex:
         """Detect if ร/ล/ว is a cluster."""
         if idx + 1 < len(chars):
             nc = chars[idx + 1]
-            # Only treat as cluster if followed by combining vowel marks or tones
+            # Cluster only if followed by a vowel mark or tone
             if nc in "ะัิีึืุู" or nc in self.tone_map:
                 return True
-            # Special for Kruang with leading vowel
+            # With a leading vowel, a following non-consonant also counts
             if (
                 leading_vowel
                 and nc not in ["ร", "ล", "ว"]
@@ -266,7 +272,7 @@ class CompleteSoundex:
                 and nc != "า"
             ):
                 return True
-        # If end of word but has leading vowel (e.g. เกล)
+        # End of word with a leading vowel (e.g. เกล)
         elif leading_vowel:
             return True
         return False
@@ -279,10 +285,7 @@ class CompleteSoundex:
         if leading_vowel:
             if leading_vowel == "โ":
                 vowel_code = "7N"
-            elif leading_vowel == "ไ":
-                vowel_code = "1A"
-                final_code = "ย"
-            elif leading_vowel == "ใ":
+            elif leading_vowel == "ไ" or leading_vowel == "ใ":
                 vowel_code = "1A"
                 final_code = "ย"
             elif leading_vowel == "แ":
@@ -321,7 +324,6 @@ class CompleteSoundex:
         self, c: str, leading_vowel: str, vowel_code: str, final_code: str
     ) -> tuple[str, str]:
         """Process a single vowel character."""
-        # Complex Vowel Checks
         if leading_vowel == "เ" and c == "ื":
             vowel_code = "BV"  # Part of uea
         elif leading_vowel == "เ" and c == "อ":
@@ -333,21 +335,11 @@ class CompleteSoundex:
         elif c == "อ" and not leading_vowel and vowel_code == "":
             vowel_code = "8P"  # 'อ' as vowel 8P (Saw)
         else:
-            # Map standard marker
-            v = self.vowel_map.get(c)
-            if v:
-                vowel_code = v
+            vowel_code = self.vowel_map.get(c) or vowel_code
 
-        # Handling 'ะ' shortening
+        # 'ะ' shortens the vowel
         if c == "ะ":
-            if vowel_code == "5J":
-                vowel_code = "5I"
-            elif vowel_code == "6L":
-                vowel_code = "6K"
-            elif vowel_code == "7N":
-                vowel_code = "7M"
-            elif vowel_code == "1B":
-                vowel_code = "1A"
+            vowel_code = _SHORT_VOWEL.get(vowel_code, vowel_code)
 
         return vowel_code, final_code
 
@@ -396,21 +388,17 @@ class CompleteSoundex:
         vowel_code: str,
     ) -> bool:
         """Check if special format (tone before final) should be used."""
-        # Special format (tone before final) is used when:
-        # 1. Initial consonant is ญ, ย, or น
-        # 2. Final consonant is ญ or ณ
-        # 3. Final consonant is น AND vowel is short (1A vowel code)
+        # Tone goes before the final when the initial is ญ, ย, or น;
+        # or a final is ญ or ณ; or a final is น with the short vowel 1A.
         if init_char in ["ญ", "ย", "น"]:
             return True
         if final_candidates and any(c in ["ญ", "ณ"] for c in final_candidates):
             return True
-        if (
+        return bool(
             final_candidates
             and any(c == "น" for c in final_candidates)
             and vowel_code == "1A"
-        ):
-            return True
-        return False
+        )
 
     def _apply_implicit_vowel(
         self, vowel_code: str, implicit_rule: Optional[str]
@@ -433,15 +421,19 @@ class CompleteSoundex:
         implicit_rule: Optional[str],
     ) -> str:
         """Special adjustments for ส (so sua) mapping."""
-        if init_char == "ส" and init_code == "ซศ":
-            # Only change to ซซ if this is NOT an implicit split
-            if implicit_rule is None and len(syl) >= 2:
-                # Check if this is a simple syllable (just ส + vowel, no other consonants)
-                consonants_after_init = [c for c in syl[1:] if "ก" <= c <= "ฮ"]
-                if not consonants_after_init or all(
-                    c in "รลว" for c in consonants_after_init
-                ):
-                    init_code = "ซซ"
+        # Not for implicit splits
+        if (
+            init_char == "ส"
+            and init_code == "ซศ"
+            and implicit_rule is None
+            and len(syl) >= 2
+        ):
+            # Simple syllable: ส + vowel, no other consonants except ร ล ว
+            consonants_after_init = [c for c in syl[1:] if "ก" <= c <= "ฮ"]
+            if not consonants_after_init or all(
+                c in "รลว" for c in consonants_after_init
+            ):
+                init_code = "ซซ"
         return init_code
 
     def _format_output(
@@ -456,13 +448,13 @@ class CompleteSoundex:
     ) -> str:
         """Format the final output."""
         if special_format:
-            # Special format: InitVowelToneFinalCluster
+            # Init Vowel Tone Final Cluster
             result = (
                 f"{init_code}{vowel_code}{tone_code}{final_code}{cluster_char}"
             )
         else:
-            # Standard format: InitVowelFinalToneCluster
-            # Add dash after vowel if ร was dropped AND (final is ก OR no final)
+            # Init Vowel Final Tone Cluster; a dropped ร adds a dash
+            # after the vowel when the final is ก or absent
             if dropped_r and (final_code == "ก" or final_code == "-"):
                 result = f"{init_code}{vowel_code}-{final_code}{tone_code}{cluster_char}"
             else:
@@ -475,57 +467,49 @@ class CompleteSoundex:
         """
         Process a single syllable and return its soundex code.
 
-        :param str syl: The syllable to process
-        :param str implicit_rule: Optional implicit vowel rule ('a' or 'o')
-        :return: Soundex code for the syllable
+        :param str syl: syllable to be processed
+        :param str implicit_rule: implicit vowel rule, 'a' or 'o'
+            (optional)
+        :return: soundex code of the syllable
         :rtype: str
         """
         chars = list(syl)
         idx = 0
 
-        # A. Leading Vowel
         leading_vowel, idx = self._process_leading_vowel(chars, idx)
 
-        # B. Initial Consonant and Cluster
         init_char, init_code, cluster_char, idx = (
             self._process_initial_consonant(chars, idx, leading_vowel)
         )
 
-        # D. Map Leading Vowel to Code
         vowel_code, final_code = self._map_leading_vowel_code(leading_vowel)
 
-        # E. Scan remaining for Vowels, Tones, Finals
         vowel_code, final_code, tone_code, final_candidates = (
             self._scan_vowels_tones_finals(
                 chars, idx, leading_vowel, vowel_code, final_code
             )
         )
 
-        # F. Final Consonant Processing
         vowel_code, final_code, dropped_r = self._process_final_consonant(
             syl, final_code, vowel_code, final_candidates
         )
 
-        # Check if special format needed
         special_format = self._check_special_format(
             init_char, final_candidates, vowel_code
         )
 
-        # G. Implicit Vowel / Defaults
         vowel_code = self._apply_implicit_vowel(vowel_code, implicit_rule)
 
-        # Specific Fixes
+        # Leading โ and แ override the vowel code
         if leading_vowel == "โ":
             vowel_code = "7N"
         if leading_vowel == "แ":
             vowel_code = "6L"
 
-        # H. Special adjustments for ส (so sua) mapping
         init_code = self._adjust_so_sua_mapping(
             init_char, init_code, syl, implicit_rule
         )
 
-        # I. Format output
         result = self._format_output(
             init_code,
             vowel_code,
@@ -538,14 +522,44 @@ class CompleteSoundex:
 
         return result
 
+    @staticmethod
+    def _needs_asterisk(text: str, syllables: list[str]) -> bool:
+        """
+        Check if the code needs a trailing asterisk.
+
+        The asterisk marks these patterns:
+
+        1. Contains ญญ (double ญ)
+        2. Contains ญ and ย together
+        3. Contains ณ and ย together
+        4. Starts with ญ (ญ as initial)
+        """
+        return (
+            "ญญ" in text
+            or ("ญ" in text and "ย" in text)
+            or ("ณ" in text and "ย" in text)
+            or any(s.startswith("ญ") for s in syllables)
+        )
+
+    def _encode_syllables(self, text: str, syllables: list[str]) -> str:
+        """Encode syllables with heuristic splits and add the asterisk."""
+        parts = []
+        for syl in syllables:
+            for sub_syl, rule in self.heuristic_split(syl):
+                parts.append(self.process_syllable(sub_syl, rule))
+        result = "".join(parts)
+        if self._needs_asterisk(text, syllables):
+            result += "*"
+        return result
+
     def encode(self, text: str) -> str:
         """
         Encode a Thai word into Complete Soundex code.
 
-        This method handles both single and multi-syllable words by internally
-        tokenizing multi-syllable words using syllable_tokenize.
+        This method handles both single and multi-syllable words by
+        internally tokenizing multi-syllable words using syllable_tokenize.
 
-        :param str text: Thai word to encode
+        :param str text: Thai word to be encoded
         :return: Complete Soundex code
         :rtype: str
 
@@ -562,77 +576,32 @@ class CompleteSoundex:
         if not text:
             return ""
 
-        # Try to tokenize into syllables for multi-syllable words
         try:
             from pythainlp.tokenize import syllable_tokenize
 
             syllables = syllable_tokenize(text)
-            # If tokenization gives us multiple syllables, process each
             if len(syllables) > 1:
-                result_parts = []
-                for syl in syllables:
-                    # Apply heuristic splits if needed
-                    refined = self.heuristic_split(syl)
-                    for sub_syl, rule in refined:
-                        result_parts.append(
-                            self.process_syllable(sub_syl, rule)
-                        )
-
-                result = "".join(result_parts)
-
-                # Add asterisk at the end for specific patterns:
-                # 1. Contains ญญ (double ญ)
-                # 2. Contains ญ and ย together
-                # 3. Contains ณ and ย together
-                # 4. Starts with ญ (ญ as initial)
-                if (
-                    "ญญ" in text
-                    or ("ญ" in text and "ย" in text)
-                    or ("ณ" in text and "ย" in text)
-                    or any(s.startswith("ญ") for s in syllables)
-                ):
-                    result += "*"
-
-                return result
+                return self._encode_syllables(text, syllables)
         except (ImportError, ModuleNotFoundError):
-            # If syllable_tokenize is not available, fall back to heuristic
+            # Without syllable_tokenize, encode as one syllable
             pass
 
-        # Single syllable or fallback - apply heuristic splits
-        refined = self.heuristic_split(text)
-
-        # Encode each part
-        res = []
-        for syl, rule in refined:
-            res.append(self.process_syllable(syl, rule))
-
-        result = "".join(res)
-
-        # Add asterisk at the end for specific patterns
-        if (
-            "ญญ" in text
-            or ("ญ" in text and "ย" in text)
-            or ("ณ" in text and "ย" in text)
-            or text.startswith("ญ")
-        ):
-            result += "*"
-
-        return result
+        return self._encode_syllables(text, [text])
 
 
-# Singleton instance for module-level function
+# Shared instance for the module-level function
 _complete_soundex_instance: "Optional[CompleteSoundex]" = None
 
 
 def complete_soundex(text: str) -> str:
     """
-    Convert a Thai word into phonetic code using the Complete Soundex algorithm.
+    Convert a Thai word into phonetic code using Complete Soundex.
 
-    This function handles both single and multi-syllable words by internally
-    tokenizing multi-syllable words when the syllable_tokenize dependency is available.
+    This function handles both single and multi-syllable words by
+    internally tokenizing multi-syllable words when the syllable_tokenize
+    dependency is available.
 
-    :param str text: Thai word
-
+    :param str text: Thai word to be encoded
     :return: Complete Soundex code
     :rtype: str
 
@@ -670,21 +639,21 @@ def complete_soundex(text: str) -> str:
 
 def complete_soundex_similarity(code1: str, code2: str) -> float:
     """
-    Calculate similarity between two Complete Soundex codes based on the
-    character-wise comparison formula defined in Tapsai et al. (2020).
+    Calculate the similarity between two Complete Soundex codes.
 
-    The similarity is calculated character-by-character using the formula:
+    The calculation follows the character-wise comparison formula
+    defined in Tapsai et al. (2020), character by character:
     S(X,Y) = Sum(sim(c_xi, c_yi)) / max(len(X), len(Y))
 
     Where sim(c_xi, c_yi) = 1 if characters match, else 0.
 
     This implements Equation (1) from the paper (Section 3.3, page 55),
-    which compares codes position-by-position rather than by syllable blocks.
+    which compares codes position by position rather than by syllable
+    blocks.
 
-    :param str code1: The full concatenated soundex code for word 1
-    :param str code2: The full concatenated soundex code for word 2
-
-    :return: Similarity score between 0.0 and 1.0
+    :param str code1: full concatenated soundex code of the first word
+    :param str code2: full concatenated soundex code of the second word
+    :return: similarity score between 0.0 and 1.0
     :rtype: float
 
     :Example:
@@ -695,11 +664,17 @@ def complete_soundex_similarity(code1: str, code2: str) -> float:
         ... )
 
         >>> # Encode two words
-        >>> code1 = complete_soundex("ข้มขืน")  # Bitter/Forced (with tone)  # doctest: +SKIP
-        >>> code2 = complete_soundex("ขมขืน")  # Bitter (no tone)  # doctest: +SKIP
+        >>> code1 = complete_soundex(
+        ...     "ข้มขืน"
+        ... )  # Bitter/Forced (with tone)  # doctest: +SKIP
+        >>> code2 = complete_soundex(
+        ...     "ขมขืน"
+        ... )  # Bitter (no tone)  # doctest: +SKIP
 
         >>> # Calculate similarity
-        >>> similarity = complete_soundex_similarity(code1, code2)  # doctest: +SKIP
+        >>> similarity = complete_soundex_similarity(
+        ...     code1, code2
+        ... )  # doctest: +SKIP
         ~0.93 (13 matches out of 14 characters)
 
         >>> # Perfect match
@@ -719,19 +694,15 @@ def complete_soundex_similarity(code1: str, code2: str) -> float:
     if not code1 or not code2:
         return 0.0
 
-    # Denominator is max(len(X), len(Y)) as per paper equation
     max_len = max(len(code1), len(code2))
 
-    # Count character-wise matches
     match_count = 0
     min_len = min(len(code1), len(code2))
 
     for i in range(min_len):
-        # Binary matching: 1 if match, 0 otherwise
         if code1[i] == code2[i]:
             match_count += 1
 
-    # Calculate normalized similarity
     similarity = match_count / max_len
 
     return similarity

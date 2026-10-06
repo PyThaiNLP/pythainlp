@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Functions for finding rhymes of Thai words."""
+
 from __future__ import annotations
 
 import re
@@ -23,11 +25,12 @@ def _single_syllable_thai_words() -> list[str]:
 
 @lru_cache(maxsize=1024)
 def rhyme(word: str) -> list[str]:
-    """Find Thai rhyme
+    """
+    Find Thai words that rhyme with a word.
 
-    :param str word: A Thai word
-    :return: All list Thai rhyme words
-    :rtype: List[str]
+    :param str word: Thai word
+    :return: list of rhyming Thai words
+    :rtype: list[str]
 
     :Example:
 
@@ -84,9 +87,10 @@ thai_vowel_all.sort(key=lambda t: len(t[0]), reverse=True)
 
 
 def thai_consonant_to_spelling(c: str) -> str:
-    """Thai consonants to spelling
+    """
+    Convert a Thai consonant to its spelling.
 
-    :param str c: A Thai consonant
+    :param str c: Thai consonant
     :return: spelling
     :rtype: str
 
@@ -102,9 +106,10 @@ def thai_consonant_to_spelling(c: str) -> str:
 
 
 def tone_to_spelling(t: str) -> str:
-    """Thai tonemarks to spelling
+    """
+    Convert a Thai tone mark to its spelling.
 
-    :param str t: A Thai tonemarks
+    :param str t: Thai tone mark
     :return: spelling
     :rtype: str
 
@@ -116,18 +121,18 @@ def tone_to_spelling(t: str) -> str:
     """
     if t == "่":
         return "ไม้เอก"
-    elif t == "้":
+    if t == "้":
         return "ไม้โท"
-    elif t == "๊":
+    if t == "๊":
         return "ไม้ตรี"
-    elif t == "๋":
+    if t == "๋":
         return "ไม้จัตวา"
     return t
 
 
 @lru_cache(maxsize=None)
 def _spelling_tokenizer() -> Tokenizer:
-    """Lazy-load and cache the vowel/consonant tokenizer used by spelling()."""
+    """Load and cache the vowel and consonant tokenizer for spelling."""
     return Tokenizer(
         custom_dict=thai_vowel + list(thai_consonants), engine="longest"
     )
@@ -135,13 +140,13 @@ def _spelling_tokenizer() -> Tokenizer:
 
 @lru_cache(maxsize=1024)
 def _spelling_impl(word: str) -> list[str]:
-    """Cached implementation of spelling() for valid string inputs."""
+    """Cached implementation of :func:`spelling` for valid text."""
     thai_vowel_tokenizer = _spelling_tokenizer()
     word_pre = remove_tonemark(word).replace("็", "")
     tone = [tone_to_spelling(i) for i in word if i in thai_tonemarks]
     word_output = word_pre
     for i, j in thai_vowel_all:
-        if len(re.findall(i, word_pre, re.U)) > 0:
+        if len(re.findall(i, word_pre, re.UNICODE)) > 0:
             if "็" in word and i == "เ([ก-ฮ])":
                 word_output = re.sub(i, "\\1เอะ", word_pre)
             else:
@@ -155,22 +160,22 @@ def _spelling_impl(word: str) -> list[str]:
     ]
     if word_pre == word:
         return output + [word]
-    elif tone != []:
+    if tone != []:
         return output + [word_pre, tone[0], word]
-    elif "็" in word:
+    if "็" in word:
         return output + [word]
-    else:
-        return output + [word_pre, word]
+    return output + [word_pre, word]
 
 
 def spelling(word: str) -> list[str]:
-    """Thai word to spelling
+    """
+    Convert a Thai word to its spelling.
 
     This function supports Thai root words only.
 
-    :param str word: A Thai word
+    :param str word: Thai word
     :return: spelling
-    :rtype: List[str]
+    :rtype: list[str]
 
     :Example:
 

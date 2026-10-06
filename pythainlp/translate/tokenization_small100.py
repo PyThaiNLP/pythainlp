@@ -66,43 +66,49 @@ FAIRSEQ_LANGUAGE_CODES: dict[str, list[str]] = {
 
 
 class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
-    """Construct an SMALL100 tokenizer. Based on [SentencePiece](https://github.com/google/sentencepiece).
-    This tokenizer inherits from [`PreTrainedTokenizer`] which contains most of the main methods. Users should refer to
-    this superclass for more information regarding those methods.
+    """
+    Tokenize text for the SMALL100 model.
 
-    Args:
-        vocab_file (`str`):
-            Path to the vocabulary file.
-        spm_file (`str`):
-            Path to [SentencePiece](https://github.com/google/sentencepiece) file (generally has a .spm extension) that
-            contains the vocabulary.
-        tgt_lang (`str`, *optional*):
-            A string representing the target language.
-        eos_token (`str`, *optional*, defaults to `"</s>"`):
-            The end of sequence token.
-        sep_token (`str`, *optional*, defaults to `"</s>"`):
-            The separator token, which is used when building a sequence from multiple sequences, e.g. two sequences for
-            sequence classification or for a text and a question for question answering. It is also used as the last
-            token of a sequence built with special tokens.
-        unk_token (`str`, *optional*, defaults to `"<unk>"`):
-            The unknown token. A token that is not in the vocabulary cannot be converted to an ID and is set to be this
-            token instead.
-        pad_token (`str`, *optional*, defaults to `"<pad>"`):
-            The token used for padding, for example when batching sequences of different lengths.
-        language_codes (`str`, *optional*):
-            What language codes to use. Should be `"m2m100"`.
-        sp_model_kwargs (`dict`, *optional*):
-            Will be passed to the `SentencePieceProcessor.__init__()` method. The [Python wrapper for
-            SentencePiece](https://github.com/google/sentencepiece/tree/master/python) can be used, among other things,
-            to set:
-            - `enable_sampling`: Enable subword regularization.
-            - `nbest_size`: Sampling parameters for unigram. Invalid for BPE-Dropout.
-              - `nbest_size = {0,1}`: No sampling is performed.
-              - `nbest_size > 1`: samples from the nbest_size results.
-              - `nbest_size < 0`: assuming that nbest_size is infinite and samples from the all hypothesis (lattice)
-                using forward-filtering-and-backward-sampling algorithm.
-            - `alpha`: Smoothing parameter for unigram sampling, and dropout probability of merge operations for
-              BPE-dropout.
+    It is based on SentencePiece (https://github.com/google/sentencepiece).
+    This tokenizer inherits from ``PreTrainedTokenizer``, which contains
+    most of the main methods. See that superclass for more information
+    about those methods.
+
+    :param str vocab_file: path to the vocabulary file
+    :param str spm_file: path to the SentencePiece file (generally has a
+        .spm extension) that contains the vocabulary
+    :param Optional[str] tgt_lang: target language
+    :param str eos_token: end of sequence token (default is ``"</s>"``)
+    :param str sep_token: separator token (default is ``"</s>"``). It is
+        used when building a sequence from multiple sequences, for example
+        two sequences for sequence classification, or a text and a question
+        for question answering. It is also used as the last token of a
+        sequence built with special tokens.
+    :param str unk_token: unknown token (default is ``"<unk>"``). A token
+        that is not in the vocabulary cannot be converted to an ID. It is
+        set to this token instead.
+    :param str pad_token: token used for padding (default is ``"<pad>"``),
+        for example when batching sequences of different lengths
+    :param Optional[str] language_codes: language codes to use. It must be
+        ``"m2m100"``.
+    :param Optional[dict] sp_model_kwargs: keyword arguments passed to
+        ``SentencePieceProcessor.__init__()``. The Python wrapper for
+        SentencePiece
+        (https://github.com/google/sentencepiece/tree/master/python)
+        can be used, among other things, to set:
+
+        * *enable_sampling* - enable subword regularization
+        * *nbest_size* - sampling parameter for unigram. Invalid for
+          BPE-Dropout.
+
+          * ``nbest_size = {0,1}`` - no sampling is performed
+          * ``nbest_size > 1`` - sample from the nbest_size results
+          * ``nbest_size < 0`` - assume that nbest_size is infinite and
+            sample from all hypotheses (lattice) using the
+            forward-filtering-and-backward-sampling algorithm
+
+        * *alpha* - smoothing parameter for unigram sampling, and dropout
+          probability of merge operations for BPE-dropout
 
     Examples:
     ```python
@@ -159,6 +165,17 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         num_madeup_words: int = 8,
         **kwargs: Any,
     ) -> None:
+        """
+        Initialize the tokenizer.
+
+        :param str vocab_file: path to the vocabulary file
+        :param str spm_file: path to the SentencePiece model file
+        :param Optional[str] tgt_lang: target language code
+        :param str language_codes: language code set (m2m100)
+        :param Optional[dict[str, str]] sp_model_kwargs: keyword arguments for
+            the SentencePiece processor
+        :param int num_madeup_words: number of made-up words
+        """
         self.sp_model_kwargs: dict[str, str] = (
             {} if sp_model_kwargs is None else sp_model_kwargs
         )
@@ -226,6 +243,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
 
     @property
     def vocab_size(self) -> int:
+        """Return the vocabulary size."""
         # Type ignore for external library dict operations
         return (
             len(self.encoder)
@@ -235,6 +253,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
 
     @property
     def tgt_lang(self) -> str:
+        """Return the target language code."""
         return self._tgt_lang
 
     @tgt_lang.setter
@@ -243,7 +262,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         self.set_lang_special_tokens(self._tgt_lang)
 
     def _tokenize(self, text: str) -> list[str]:
-        return cast(list[str], self.sp_model.encode(text, out_type=str))
+        return cast("list[str]", self.sp_model.encode(text, out_type=str))
 
     def _convert_token_to_id(self, token: str) -> int:
         if token in self.lang_token_to_id:
@@ -251,17 +270,17 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         return self.encoder.get(token, self.encoder[self.unk_token])
 
     def _convert_id_to_token(self, index: int) -> str:
-        """Converts an index (integer) in a token (str) using the decoder."""
+        """Convert an index (integer) to a token (str) using the decoder."""
         if index in self.id_to_lang_token:
             return self.id_to_lang_token[index]
         token = self.decoder.get(index, self.unk_token)
         if token is None:
-            return cast(str, self.unk_token)
+            return cast("str", self.unk_token)
         return token
 
     def convert_tokens_to_string(self, tokens: list[str]) -> str:
-        """Converts a sequence of tokens (strings for sub-words) in a single string."""
-        return cast(str, self.sp_model.decode(tokens))
+        """Convert a sequence of tokens (sub-word strings) to a string."""
+        return cast("str", self.sp_model.decode(tokens))
 
     def get_special_tokens_mask(
         self,
@@ -269,28 +288,25 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         token_ids_1: Optional[list[int]] = None,
         already_has_special_tokens: bool = False,
     ) -> list[int]:
-        """Retrieve sequence IDs from a token list that has no special tokens
-        added. This method is called when adding special tokens using the
-        tokenizer `prepare_for_model` method.
+        """
+        Retrieve sequence IDs from a token list that has no special tokens.
 
-        Args:
-            token_ids_0 (`List[int]`):
-                List of IDs.
-            token_ids_1 (`List[int]`, *optional*):
-                Optional second list of IDs for sequence pairs.
-            already_has_special_tokens (`bool`, *optional*, defaults to `False`):
-                Whether or not the token list is already formatted with
-                special tokens for the model.
+        This method is called when adding special tokens using the
+        tokenizer ``prepare_for_model`` method.
 
-        Returns:
-            `List[int]`: A list of integers in the range [0, 1]:
-                1 for a special token, 0 for a sequence token.
-
+        :param list[int] token_ids_0: list of IDs
+        :param Optional[list[int]] token_ids_1: second list of IDs for
+            sequence pairs
+        :param bool already_has_special_tokens: whether the token list is
+            already formatted with special tokens for the model
+        :return: list of integers in the range [0, 1], 1 for a special
+            token and 0 for a sequence token
+        :rtype: list[int]
         """
         if already_has_special_tokens:
             # External library method
             return cast(
-                list[int],
+                "list[int]",
                 super().get_special_tokens_mask(
                     token_ids_0=token_ids_0,
                     token_ids_1=token_ids_1,
@@ -314,45 +330,38 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
     def build_inputs_with_special_tokens(
         self, token_ids_0: list[int], token_ids_1: Optional[list[int]] = None
     ) -> list[int]:
-        """Build model inputs from a sequence or a pair of sequence for
-        sequence classification tasks by concatenating and
-        adding special tokens. An MBART sequence has the following format,
-        where `X` represents the sequence:
-        - `input_ids` (for encoder) `X [eos, src_lang_code]`
-        - `decoder_input_ids`: (for decoder) `X [eos, tgt_lang_code]`
+        """
+        Build model inputs by adding special tokens to one or two sequences.
+
+        This is for sequence classification tasks. An MBART sequence has
+        the following format, where ``X`` represents the sequence:
+
+        * ``input_ids`` (for encoder): ``X [eos, src_lang_code]``
+        * ``decoder_input_ids`` (for decoder): ``X [eos, tgt_lang_code]``
 
         BOS is never used. Pairs of sequences are not the expected use case,
-        but they will be handled without aseparator.
+        but they will be handled without a separator.
 
-        Args:
-            token_ids_0 (`List[int]`):
-                List of IDs to which the special tokens will be added.
-            token_ids_1 (`List[int]`, *optional*):
-                Optional second list of IDs for sequence pairs.
-
-        Returns:
-            `List[int]`: List of [input IDs](../glossary#input-ids) with the
-            appropriate special tokens.
-
+        :param list[int] token_ids_0: list of IDs to add special tokens to
+        :param Optional[list[int]] token_ids_1: second list of IDs for
+            sequence pairs
+        :return: list of input IDs with the appropriate special tokens
+        :rtype: list[int]
         """
         if token_ids_1 is None:
             if self.prefix_tokens is None:
                 return token_ids_0 + self.suffix_tokens
-            else:
-                return self.prefix_tokens + token_ids_0 + self.suffix_tokens
+            return self.prefix_tokens + token_ids_0 + self.suffix_tokens
         # We don't expect to process pairs,
         # but leave the pair logic for API consistency
         if self.prefix_tokens is None:
             return token_ids_0 + token_ids_1 + self.suffix_tokens
-        else:
-            return (
-                self.prefix_tokens
-                + token_ids_0
-                + token_ids_1
-                + self.suffix_tokens
-            )
+        return (
+            self.prefix_tokens + token_ids_0 + token_ids_1 + self.suffix_tokens
+        )
 
     def get_vocab(self) -> dict[str, int]:
+        """Return the vocabulary as a token-to-id mapping."""
         vocab = {
             self.convert_ids_to_tokens(i): i for i in range(self.vocab_size)
         }
@@ -360,11 +369,13 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         return vocab
 
     def __getstate__(self) -> dict[str, Any]:
+        """Return the state for pickling, without the SentencePiece model."""
         state = self.__dict__.copy()
         state["sp_model"] = None
         return state
 
     def __setstate__(self, d: dict[str, Any]) -> None:
+        """Restore the state and reload the SentencePiece model."""
         self.__dict__: dict[str, Any] = d
 
         # for backward compatibility
@@ -378,6 +389,15 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
     def save_vocabulary(
         self, save_directory: str, filename_prefix: Optional[str] = None
     ) -> tuple[str, str]:
+        """
+        Save the vocabulary and the SentencePiece model files.
+
+        :param str save_directory: directory to save the files to
+        :param Optional[str] filename_prefix: prefix of the file names
+        :return: paths of the vocabulary file and the SentencePiece model file
+        :rtype: tuple[str, str]
+        :raises OSError: if save_directory is not a directory
+        """
         save_dir = Path(save_directory)
         if not save_dir.is_dir():
             raise OSError(f"{save_directory} should be a directory")
@@ -410,6 +430,15 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         tgt_lang: str = "ro",
         **kwargs: Any,
     ) -> BatchEncoding:
+        """
+        Prepare a batch of source and target texts for a seq2seq model.
+
+        :param list[str] src_texts: list of source texts
+        :param Optional[list[str]] tgt_texts: list of target texts
+        :param str tgt_lang: target language code
+        :return: encoded batch
+        :rtype: transformers.BatchEncoding
+        """
         self.tgt_lang: str = tgt_lang
         self.set_lang_special_tokens(self.tgt_lang)
         return super().prepare_seq2seq_batch(src_texts, tgt_texts, **kwargs)
@@ -420,15 +449,18 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         tgt_lang: Optional[str],
         **extra_kwargs: str,
     ) -> dict[str, Any]:
-        """Used by translation pipeline, to prepare inputs for the generate
-        function"""
+        """
+        Prepare inputs for the generate function.
+
+        The translation pipeline uses this method.
+        """
         if tgt_lang is None:
             raise ValueError(
                 "Translation requires a `tgt_lang` for this model"
             )
         self.tgt_lang: str = tgt_lang
         inputs = self(raw_inputs, add_special_tokens=True, **extra_kwargs)
-        return cast(dict[str, Any], inputs)
+        return cast("dict[str, Any]", inputs)
 
     def _switch_to_input_mode(self) -> None:
         self.set_lang_special_tokens(self.tgt_lang)
@@ -438,17 +470,34 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         self.suffix_tokens: list[int] = [self.eos_token_id]
 
     def set_lang_special_tokens(self, src_lang: str) -> None:
-        """Reset the special tokens to the tgt lang setting.
-        No prefix and suffix=[eos, tgt_lang_code]."""
+        """
+        Reset the special tokens to the target language setting.
+
+        There is no prefix, and the suffix is ``[eos, tgt_lang_code]``.
+        """
         lang_token = self.get_lang_token(src_lang)
         self.cur_lang_id: int = self.lang_token_to_id[lang_token]
         self.prefix_tokens: list[int] = [self.cur_lang_id]
         self.suffix_tokens: list[int] = [self.eos_token_id]
 
     def get_lang_token(self, lang: str) -> str:
+        """
+        Return the special token of a language.
+
+        :param str lang: language code
+        :return: language token
+        :rtype: str
+        """
         return self.lang_code_to_token[lang]
 
     def get_lang_id(self, lang: str) -> int:
+        """
+        Return the token id of a language.
+
+        :param str lang: language code
+        :return: language token id
+        :rtype: int
+        """
         lang_token = self.get_lang_token(lang)
         return self.lang_token_to_id[lang_token]
 
@@ -456,6 +505,15 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
 def load_spm(
     path: str, sp_model_kwargs: dict[str, str]
 ) -> SentencePieceProcessor:
+    """
+    Load a SentencePiece model from a file.
+
+    :param str path: path to the model file
+    :param dict[str, str] sp_model_kwargs: keyword arguments for the
+        SentencePiece processor
+    :return: SentencePiece processor
+    :rtype: sentencepiece.SentencePieceProcessor
+    """
     import sentencepiece
 
     spm = sentencepiece.SentencePieceProcessor(**sp_model_kwargs)
@@ -464,12 +522,26 @@ def load_spm(
 
 
 def load_json(path: str) -> Union[dict[str, str], list[str]]:
+    """
+    Load JSON data from a file.
+
+    :param str path: path to the JSON file
+    :return: loaded data
+    :rtype: Union[dict[str, str], list[str]]
+    """
     with open(path) as f:
-        return cast(Union[dict[str, str], list[str]], json.load(f))
+        return cast("Union[dict[str, str], list[str]]", json.load(f))
 
 
 def save_json(
     data: Union[Mapping[str, Union[str, int]], list[str]], path: str
 ) -> None:
+    """
+    Save data to a JSON file.
+
+    :param data: data to save
+    :type data: Union[Mapping[str, Union[str, int]], list[str]]
+    :param str path: path to the JSON file
+    """
     with open(path, "w") as f:
         json.dump(data, f, indent=2)

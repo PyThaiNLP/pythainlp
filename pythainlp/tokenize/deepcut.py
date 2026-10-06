@@ -1,11 +1,12 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""DeepCut Thai word segmentation using ONNX runtime.
+"""
+Tokenize Thai text into words with DeepCut, using ONNX Runtime.
 
-DeepCut is a Thai word segmentation library using 1D Convolution Neural
-Network. This module provides ONNX-based inference, removing the need for
-TensorFlow.
+DeepCut is a Thai word tokenization library that uses a 1D convolutional
+neural network. This module provides ONNX-based inference, which removes the
+need for TensorFlow.
 
 The ONNX model is ported from the original DeepCut TensorFlow model,
 available from the LEKCut project.
@@ -62,25 +63,200 @@ for _ks, _ct in _CHAR_TYPE.items():
         _CHAR_TYPE_FLAT[_k] = _ct
 
 _CHARS: list[str] = [
-    "\n", " ", "!", '"', "#", "$", "%", "&", "'", "(", ")", "*", "+",
-    ",", "-", ".", "/", "0", "1", "2", "3", "4", "5", "6", "7", "8",
-    "9", ":", ";", "<", "=", ">", "?", "@", "A", "B", "C", "D", "E",
-    "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
-    "S", "T", "U", "V", "W", "X", "Y", "Z", "[", "\\", "]", "^", "_",
-    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-    "n", "o", "other", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y",
-    "z", "}", "~", "ก", "ข", "ฃ", "ค", "ฅ", "ฆ", "ง", "จ", "ฉ", "ช",
-    "ซ", "ฌ", "ญ", "ฎ", "ฏ", "ฐ", "ฑ", "ฒ", "ณ", "ด", "ต", "ถ", "ท",
-    "ธ", "น", "บ", "ป", "ผ", "ฝ", "พ", "ฟ", "ภ", "ม", "ย", "ร", "ฤ",
-    "ล", "ว", "ศ", "ษ", "ส", "ห", "ฬ", "อ", "ฮ", "ฯ", "ะ", "ั", "า",
-    "ำ", "ิ", "ี", "ึ", "ื", "ุ", "ู", "ฺ", "เ", "แ", "โ", "ใ", "ไ",
-    "ๅ", "ๆ", "็", "่", "้", "๊", "๋", "์", "ํ", "๐", "๑", "๒", "๓",
-    "๔", "๕", "๖", "๗", "๘", "๙", "\u2018", "\u2019", "\ufeff",
+    "\n",
+    " ",
+    "!",
+    '"',
+    "#",
+    "$",
+    "%",
+    "&",
+    "'",
+    "(",
+    ")",
+    "*",
+    "+",
+    ",",
+    "-",
+    ".",
+    "/",
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    ":",
+    ";",
+    "<",
+    "=",
+    ">",
+    "?",
+    "@",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "[",
+    "\\",
+    "]",
+    "^",
+    "_",
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n",
+    "o",
+    "other",
+    "p",
+    "q",
+    "r",
+    "s",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z",
+    "}",
+    "~",
+    "ก",
+    "ข",
+    "ฃ",
+    "ค",
+    "ฅ",
+    "ฆ",
+    "ง",
+    "จ",
+    "ฉ",
+    "ช",
+    "ซ",
+    "ฌ",
+    "ญ",
+    "ฎ",
+    "ฏ",
+    "ฐ",
+    "ฑ",
+    "ฒ",
+    "ณ",
+    "ด",
+    "ต",
+    "ถ",
+    "ท",
+    "ธ",
+    "น",
+    "บ",
+    "ป",
+    "ผ",
+    "ฝ",
+    "พ",
+    "ฟ",
+    "ภ",
+    "ม",
+    "ย",
+    "ร",
+    "ฤ",
+    "ล",
+    "ว",
+    "ศ",
+    "ษ",
+    "ส",
+    "ห",
+    "ฬ",
+    "อ",
+    "ฮ",
+    "ฯ",
+    "ะ",
+    "ั",
+    "า",
+    "ำ",
+    "ิ",
+    "ี",
+    "ึ",
+    "ื",
+    "ุ",
+    "ู",
+    "ฺ",
+    "เ",
+    "แ",
+    "โ",
+    "ใ",
+    "ไ",
+    "ๅ",
+    "ๆ",
+    "็",
+    "่",
+    "้",
+    "๊",
+    "๋",
+    "์",
+    "ํ",
+    "๐",
+    "๑",
+    "๒",
+    "๓",
+    "๔",
+    "๕",
+    "๖",
+    "๗",
+    "๘",
+    "๙",
+    "\u2018",
+    "\u2019",
+    "\ufeff",
 ]
 _CHARS_MAP: dict[str, int] = {v: k for k, v in enumerate(_CHARS)}
 
 _CHAR_TYPES: list[str] = [
-    "b_e", "c", "d", "n", "o", "p", "q", "s", "s_e", "t", "v", "w",
+    "b_e",
+    "c",
+    "d",
+    "n",
+    "o",
+    "p",
+    "q",
+    "s",
+    "s_e",
+    "t",
+    "v",
+    "w",
 ]
 _CHAR_TYPES_MAP: dict[str, int] = {v: k for k, v in enumerate(_CHAR_TYPES)}
 
@@ -110,9 +286,10 @@ def _get_session() -> InferenceSession:
 def _create_feature_array(
     text: str, n_pad: int = _N_PAD
 ) -> tuple["NDArray[np.float32]", "NDArray[np.float32]"]:
-    """Create character and type feature arrays for ONNX model input.
+    """
+    Create character and type feature arrays for ONNX model input.
 
-    :param str text: input text
+    :param str text: text to extract features from
     :param int n_pad: window size for padding (default: 21)
     :return: character and type feature arrays of shape (n, n_pad)
     :rtype: tuple[numpy.ndarray, numpy.ndarray]
@@ -128,10 +305,14 @@ def _create_feature_array(
             + list(reversed(text_pad[i - n_pad_2 : i]))
             + [text_pad[i]]
         )
-        x_char.append([_CHARS_MAP.get(c, _OTHER_CHAR_INDEX) for c in char_list])
+        x_char.append(
+            [_CHARS_MAP.get(c, _OTHER_CHAR_INDEX) for c in char_list]
+        )
         x_type.append(
             [
-                _CHAR_TYPES_MAP.get(_CHAR_TYPE_FLAT.get(c, "o"), _OTHER_TYPE_INDEX)
+                _CHAR_TYPES_MAP.get(
+                    _CHAR_TYPE_FLAT.get(c, "o"), _OTHER_TYPE_INDEX
+                )
                 for c in char_list
             ]
         )
@@ -144,10 +325,11 @@ def _create_feature_array(
 def segment(
     text: str,
 ) -> list[str]:
-    """Segment Thai text using the DeepCut ONNX model.
+    """
+    Tokenize text into words with the DeepCut ONNX model.
 
-    :param str text: text to segment
-    :return: list of word tokens
+    :param str text: text to be tokenized
+    :return: list of words
     :rtype: list[str]
 
     :Example:

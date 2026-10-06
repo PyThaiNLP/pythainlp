@@ -1,8 +1,9 @@
-"""TransformersUD
+"""
+TransformersUD: dependency parser using transformer models.
 
 Author: Prof. Koichi Yasuoka
 
-This tagger is provided under the terms of the apache-2.0 License.
+This tagger is provided under the terms of the Apache-2.0 License.
 
 The source: https://huggingface.co/KoichiYasuoka/deberta-base-thai-ud-head
 
@@ -25,11 +26,21 @@ from pythainlp.tools.path import safe_path_join
 
 
 class Parse:
+    """Dependency parser using TransformersUD."""
+
     def __init__(
         self,
         model: Optional[str] = "KoichiYasuoka/deberta-base-thai-ud-head",
         revision: Optional[str] = None,
     ) -> None:
+        """
+        Initialize the TransformersUD models.
+
+        :param Optional[str] model: model name or path; the default model
+            is used if ``None``
+        :param Optional[str] revision: git revision id (branch, tag, or
+            commit hash)
+        """
         from transformers import (
             AutoConfig,
             AutoModelForQuestionAnswering,
@@ -59,11 +70,21 @@ class Parse:
             c = AutoConfig.from_pretrained(  # nosec B615
                 cached_file(model, "deprel/config.json", revision=revision),
             )
-            d = x(cached_file(model, "deprel/pytorch_model.bin", revision=revision), config=c)
+            d = x(
+                cached_file(
+                    model, "deprel/pytorch_model.bin", revision=revision
+                ),
+                config=c,
+            )
             s = AutoConfig.from_pretrained(  # nosec B615
                 cached_file(model, "tagger/config.json", revision=revision),
             )
-            t = x(cached_file(model, "tagger/pytorch_model.bin", revision=revision), config=s)
+            t = x(
+                cached_file(
+                    model, "tagger/pytorch_model.bin", revision=revision
+                ),
+                config=s,
+            )
         self.deprel: TokenClassificationPipeline = TokenClassificationPipeline(
             model=d, tokenizer=self.tokenizer, aggregation_strategy="simple"
         )
@@ -71,9 +92,19 @@ class Parse:
             model=t, tokenizer=self.tokenizer
         )
 
-    def __call__(
+    def __call__(  # noqa: CCR001  # phase2-todo
         self, text: str, tag: str = "str"
     ) -> Union[list[list[str]], str]:
+        """
+        Parse the dependency structure of a text.
+
+        :param str text: text to be parsed
+        :param str tag: output type, ``"str"`` (CoNLL-U text, default)
+            or ``"list"``
+        :return: CoNLL-U text if ``tag`` is ``"str"``, otherwise a list of
+            lists of fields
+        :rtype: Union[list[list[str]], str]
+        """
         import numpy
         import torch
         import ufal.chu_liu_edmonds

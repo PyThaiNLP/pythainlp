@@ -16,7 +16,14 @@ if TYPE_CHECKING:
 
 
 class App:
+    """Parse and run the ``data`` command."""
+
     def __init__(self, argv: Sequence[str]) -> None:
+        """
+        Initialize the command.
+
+        :param Sequence[str] argv: command line arguments
+        """
         parser = argparse.ArgumentParser(
             prog="data",
             description="Manage dataset/corpus.",
@@ -50,6 +57,7 @@ class App:
         getattr(self, args.subcommand)(argv)
 
     def get(self, argv: Sequence[str]) -> None:
+        """Download a dataset."""
         parser = argparse.ArgumentParser(
             description="Download a dataset",
             usage="thainlp data get <dataset_name>",
@@ -66,6 +74,7 @@ class App:
             print("Not found.")
 
     def rm(self, argv: Sequence[str]) -> None:
+        """Remove a dataset."""
         parser = argparse.ArgumentParser(
             description="Remove a dataset",
             usage="thainlp data rm <dataset_name>",
@@ -82,6 +91,7 @@ class App:
             print("Not found.")
 
     def info(self, argv: Sequence[str]) -> None:
+        """Print information about a dataset."""
         parser = argparse.ArgumentParser(
             description="Print information about a dataset",
             usage="thainlp data info <dataset_name>",
@@ -99,7 +109,7 @@ class App:
             print("Not found.")
 
     def catalog(self, argv: Sequence[str]) -> None:
-        """Print dataset/corpus available for download."""
+        """Print the datasets and corpora available for download."""
         corpus_db_response = corpus.get_corpus_db(corpus.corpus_db_url())
         corpus_db_dict: dict[str, dict[str, str]] = corpus_db_response.json()  # type: ignore[union-attr]
         corpus_names = sorted(corpus_db_dict.keys())
@@ -118,5 +128,5 @@ class App:
         )
 
     def path(self, argv: Sequence[str]) -> None:
-        """Print path of local dataset."""
+        """Print the path of a local dataset."""
         print(get_pythainlp_data_path())

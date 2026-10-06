@@ -30,7 +30,9 @@ from pythainlp.tools.core import safe_print, warn_deprecation
 class ToolsTestCase(unittest.TestCase):
     def test_path(self):
         data_filename = "ttc_freq.txt"
-        self.assertTrue(get_full_data_path(data_filename).endswith(data_filename))
+        self.assertTrue(
+            get_full_data_path(data_filename).endswith(data_filename)
+        )
         self.assertIsInstance(get_pythainlp_data_path(), str)
         self.assertIsInstance(get_pythainlp_path(), str)
 
@@ -49,7 +51,8 @@ class ToolsTestCase(unittest.TestCase):
                 self.assertTrue(os.path.isdir(path))
 
     def test_custom_data_dir(self):
-        """Test that PYTHAINLP_DATA_DIR is accepted but emits a deprecation warning.
+        """
+        Test that PYTHAINLP_DATA_DIR is accepted but emits a deprecation warning.
 
         This test verifies the functionality needed for distributed
         environments like PySpark, where setting PYTHAINLP_DATA_DIR
@@ -198,7 +201,17 @@ class ToolsTestCase(unittest.TestCase):
                     f"Expected read-only for PYTHAINLP_READ_ONLY={truthy!r}",
                 )
         # Falsy values
-        for falsy in ("", "0", "false", "False", "FALSE", "no", "NO", "off", "OFF"):
+        for falsy in (
+            "",
+            "0",
+            "false",
+            "False",
+            "FALSE",
+            "no",
+            "NO",
+            "off",
+            "OFF",
+        ):
             with patch.dict(
                 os.environ,
                 {"PYTHAINLP_READ_ONLY": falsy},
@@ -252,7 +265,8 @@ class ToolsTestCase(unittest.TestCase):
             self.assertIn("PYTHAINLP_READ_MODE", str(ctx.exception))
 
     def test_get_pythainlp_data_path_no_makedirs_in_read_only(self):
-        """Test that get_pythainlp_data_path skips makedirs in read-only mode.
+        """
+        Test that get_pythainlp_data_path skips makedirs in read-only mode.
 
         Directory creation is an implicit side-effect the user may not be
         aware of.  Read-only mode must suppress it.
@@ -278,14 +292,28 @@ class ToolsTestCase(unittest.TestCase):
         """Test is_unsafe_pickle_allowed() reflects PYTHAINLP_ALLOW_UNSAFE_PICKLE env var."""
         # Truthy values
         for truthy in ("1", "true", "True", "TRUE", "yes", "YES", "on", "ON"):
-            with patch.dict(os.environ, {"PYTHAINLP_ALLOW_UNSAFE_PICKLE": truthy}):
+            with patch.dict(
+                os.environ, {"PYTHAINLP_ALLOW_UNSAFE_PICKLE": truthy}
+            ):
                 self.assertTrue(
                     is_unsafe_pickle_allowed(),
                     f"Expected True for PYTHAINLP_ALLOW_UNSAFE_PICKLE={truthy!r}",
                 )
         # Falsy values
-        for falsy in ("", "0", "false", "False", "FALSE", "no", "NO", "off", "OFF"):
-            with patch.dict(os.environ, {"PYTHAINLP_ALLOW_UNSAFE_PICKLE": falsy}):
+        for falsy in (
+            "",
+            "0",
+            "false",
+            "False",
+            "FALSE",
+            "no",
+            "NO",
+            "off",
+            "OFF",
+        ):
+            with patch.dict(
+                os.environ, {"PYTHAINLP_ALLOW_UNSAFE_PICKLE": falsy}
+            ):
                 self.assertFalse(
                     is_unsafe_pickle_allowed(),
                     f"Expected False for PYTHAINLP_ALLOW_UNSAFE_PICKLE={falsy!r}",

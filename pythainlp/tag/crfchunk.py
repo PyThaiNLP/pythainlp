@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Deprecated. Use :mod:`pythainlp.chunk` instead.
+"""
+Deprecated. Use :mod:`pythainlp.chunk` instead.
 
 .. deprecated:: 5.3.2
     This module has been superseded by :mod:`pythainlp.chunk`.
@@ -16,13 +17,19 @@ from pythainlp.tools import warn_deprecation
 
 # Backward-compatible alias. Deprecated since 5.3.2; removed in 6.0.
 class CRFchunk(CRFChunkParser):
-    """Deprecated. Use :class:`pythainlp.chunk.CRFChunkParser` instead.
+    """
+    Deprecated. Use :class:`pythainlp.chunk.CRFChunkParser` instead.
 
     .. deprecated:: 5.3.2
         Use :class:`pythainlp.chunk.CRFChunkParser` instead.
     """
 
     def __init__(self, corpus: str = "orchidpp") -> None:
+        """
+        Initialize the chunk parser.
+
+        :param str corpus: corpus used to train the chunk parser model
+        """
         warn_deprecation(
             "pythainlp.tag.crfchunk.CRFchunk",
             "pythainlp.chunk.CRFChunkParser",

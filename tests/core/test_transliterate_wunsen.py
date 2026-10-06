@@ -146,14 +146,79 @@ class WunsenTestCase(unittest.TestCase):
         self.assertEqual(wt.lang, "vi")
         self.assertEqual(len(FakeThapSap.created), 1)
 
-    # BUG-LEDGER: wunsen-none-lang-uninitialized
-    def test_none_language_not_initialized(self) -> None:
-        # lang=None equals the initial state, so no model is created;
-        # it should raise NotImplementedError instead of RuntimeError.
+    def test_none_language_not_implemented(self) -> None:
+        FakeThapSap.created = []
         wt = self.wunsen.WunsenTransliterate()
-        with self.assertRaises(RuntimeError) as ctx:
+        with self.assertRaises(NotImplementedError) as ctx:
             wt.transliterate("a", lang=None)
-        self.assertEqual(str(ctx.exception), "ThapSap model not initialized")
+        self.assertEqual(
+            str(ctx.exception), "The None language is not implemented."
+        )
+        self.assertIsNone(wt.lang)
+        self.assertIsNone(wt.thap_value)
+        self.assertEqual(FakeThapSap.created, [])
+
+    def test_none_language_after_use(self) -> None:
+        wt = self.wunsen.WunsenTransliterate()
+        wt.transliterate("a", lang="zh", zh_sandhi=True, system="RI49")
+        with self.assertRaises(NotImplementedError) as ctx:
+            wt.transliterate("a", lang=None)
+        self.assertEqual(
+            str(ctx.exception), "The None language is not implemented."
+        )
+        self.assertEqual(
+            (wt.lang, wt.zh_sandhi, wt.system), ("zh", True, "RI49")
+        )
+        self.assertEqual(len(FakeThapSap.created), 1)
+
+    def test_invalid_language_values(self) -> None:
+        # (value, message); matching is case-sensitive and exact.
+        values: tuple[tuple[Any, str], ...] = (
+            (None, "None"),
+            ("", ""),
+            ("xx", "xx"),
+            ("JP", "JP"),
+            (" jp", " jp"),
+            ("ja", "ja"),
+            (123, "123"),
+            (["jp"], "['jp']"),
+        )
+        for value, text in values:
+            for used in (False, True):
+                with self.subTest(value=value, used=used):
+                    FakeThapSap.created = []
+                    wt = self.wunsen.WunsenTransliterate()
+                    if used:
+                        wt.transliterate("a", lang="ko")
+                    before = len(FakeThapSap.created)
+                    with self.assertRaises(NotImplementedError) as ctx:
+                        wt.transliterate("a", lang=value)
+                    self.assertEqual(
+                        str(ctx.exception),
+                        f"The {text} language is not implemented.",
+                    )
+                    self.assertEqual(wt.lang, "ko" if used else None)
+                    self.assertEqual(len(FakeThapSap.created), before)
+                    # The object recovers with a valid language.
+                    self.assertEqual(wt.transliterate("b", lang="vi"), "vi:b")
+
+    def test_recover_with_options_after_error(self) -> None:
+        wt = self.wunsen.WunsenTransliterate()
+        with self.assertRaises(NotImplementedError):
+            wt.transliterate("a", lang="xx", zh_sandhi=True, system="s")
+        self.assertEqual(wt.transliterate("a", lang="vi"), "vi:a")
+        wt.transliterate("a", lang="zh", zh_sandhi=False)
+        wt.transliterate("a", lang="zh", system="RI49")
+        wt.transliterate("a", lang="zh", zh_sandhi=False, system="RI49")
+        self.assertEqual(
+            FakeThapSap.created,
+            [
+                ("vi", {}),
+                ("zh", {"option": {"sandhi": False}}),
+                ("zh", {"system": "RI49"}),
+                ("zh", {"option": {"sandhi": False}, "system": "RI49"}),
+            ],
+        )
 
 
 if __name__ == "__main__":

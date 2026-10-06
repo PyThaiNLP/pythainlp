@@ -137,6 +137,8 @@ def sound_syllable(syllable: str) -> str:
         'live'
         >>> sound_syllable("เลข")
         'dead'
+        >>> sound_syllable("ฤๅ")
+        'live'
     """
     if len(syllable) < 2:
         return "dead"
@@ -145,7 +147,9 @@ def sound_syllable(syllable: str) -> str:
     if len(consonants) == 0 and "อ" in syllable:
         return _sound_vowel_only(syllable)
 
-    # Raises IndexError if there is no consonant (known bug)
+    if not consonants:
+        return "dead" if _has_short_sound(syllable) else "live"
+
     spelling_consonant = consonants[-1]
     if (
         spelling_consonant in _check_2

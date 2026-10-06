@@ -150,8 +150,11 @@ def convert_years(year: str, src: str = "be", target: str = "ad") -> str:
         >>> # Convert BE to Rattanakosin Era (RE)
         >>> convert_years("2566", src="be", target="re")
         '242'
+        >>> # The same era returns the year as a normalized integer string
+        >>> convert_years("2566", src="be", target="be")
+        '2566'
     """
-    if src == target or not _is_known_era(src) or not _is_known_era(target):
+    if not _is_known_era(src) or not _is_known_era(target):
         raise NotImplementedError(
             f"This function doesn't support {src} to {target}"
         )

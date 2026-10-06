@@ -10,10 +10,12 @@ Known bugs are pinned on purpose (see working-docs/ROADMAP.md).
 from __future__ import annotations
 
 import hashlib
+import itertools
+import random
 import unittest
 from typing import TYPE_CHECKING, Callable
 
-from pythainlp import thai_consonants
+from pythainlp import thai_consonants, thai_tonemarks, thai_vowels
 from pythainlp.util.syllable import (
     sound_syllable,
     syllable_length,
@@ -32,16 +34,16 @@ GOLDEN: list[tuple[str, str, str]] = [
     ("ก", "dead", "l"),
     ("อ", "dead", "l"),
     ("ฤ", "dead", ""),
-    ("ฤๅ", "!IndexError", "!IndexError"),
+    ("ฤๅ", "live", ""),
     ("เอะ", "live", "m"),
     ("เอ", "live", "m"),
     ("เอา", "live", "m"),
     ("อา", "live", "m"),
     ("ฦ", "dead", ""),
-    ("ฦๅ", "!IndexError", "!IndexError"),
+    ("ฦๅ", "live", ""),
     ("เ", "dead", ""),
     ("ะ", "dead", ""),
-    ("เะ", "!IndexError", "!IndexError"),
+    ("เะ", "dead", ""),
     ("กก", "dead", "l"),
     ("a", "dead", ""),
     ("มา ", "live", "m"),
@@ -633,6 +635,76 @@ class SyllableCharacterizationTestCase(unittest.TestCase):
                 with self.assertRaises(TypeError):
                     tone_detector(value)  # type: ignore[arg-type]
 
+    def test_no_consonant(self) -> None:
+        # No consonant, so no tone and no IndexError. Not valid Thai
+        # syllables; a short vowel (เ-ะ, ะ) is dead, anything else live.
+        cases = [
+            ("ฤๅ", "live"),
+            ("ฦๅ", "live"),
+            ("เะ", "dead"),
+            ("าา", "live"),
+            ("ะะ", "dead"),
+            ("ฤะ", "dead"),
+            ("เา", "live"),
+            ("ab", "live"),
+            ("  ", "live"),
+            ("ab12", "live"),
+            ("๑๒", "live"),
+            ("\u200b\u200b", "live"),
+            ("\u0e48\u0e48", "live"),
+        ]
+        for text, sound in cases:
+            with self.subTest(text=text):
+                self.assertEqual(sound_syllable(text), sound)
+                self.assertEqual(tone_detector(text), "")
+
+    def test_adversarial_unchanged(self) -> None:
+        # Current behavior, not a promise; same before the fix.
+        cases = [
+            ("ก\u200b", "dead", "l"),
+            ("มา\u200b", "live", "m"),
+            ("\u0e48", "dead", ""),
+            ("ก\u0e48", "dead", "l"),
+            ("ก๑", "dead", "l"),
+            ("มา1", "live", "m"),
+            ("ก\u0e48า", "live", "l"),
+            ("ก\u200bา", "live", "m"),
+            ("มา" * 5000, "live", "m"),
+        ]
+        for text, sound, tone in cases:
+            with self.subTest(text=text[:6]):
+                self.assertEqual(sound_syllable(text), sound)
+                self.assertEqual(tone_detector(text), tone)
+
+    def test_unchanged_pairs(self) -> None:
+        # Outcomes recorded before the no-consonant fix, for syllables
+        # that have a consonant. Texts with "อ" are excluded: they touch
+        # the unfixed bugs sound-syllable-e-a and syllable-consonant-sets.
+        chars = thai_consonants + thai_vowels + thai_tonemarks + "a1\u200b "
+        rng = random.Random(0)  # noqa: S311  # seeded, not crypto
+        texts = ["".join(p) for p in itertools.product(chars, repeat=2)]
+        texts += [
+            "".join(rng.choice(chars) for _ in range(3)) for _ in range(3000)
+        ]
+        digest = hashlib.sha256()
+        count = 0
+        for text in texts:
+            if "อ" in text or not any(c in thai_consonants_all for c in text):
+                continue
+            record = (
+                text,
+                _outcome(sound_syllable, text),
+                _outcome(tone_detector, text),
+            )
+            digest.update(repr(record).encode())
+            count += 1
+        self.assertEqual(len(texts), 8184)
+        self.assertEqual(count, 6947)
+        self.assertEqual(
+            digest.hexdigest(),
+            "e0442742166179d72d52fb766eb5d2e509c06a99b69a87928289ae05e3772320",
+        )
+
     def test_empty_and_short(self) -> None:
         self.assertEqual(sound_syllable(""), "dead")
         self.assertEqual(sound_syllable("ก"), "dead")
@@ -641,18 +713,6 @@ class SyllableCharacterizationTestCase(unittest.TestCase):
 
 
 class SyllableKnownBugTestCase(unittest.TestCase):
-    def test_tone_detector_ru_lue(self) -> None:
-        # BUG-LEDGER: tone-detector-ru-lue
-        # Expected: return a tone. Current: IndexError.
-        with self.assertRaises(IndexError):
-            tone_detector("ฤๅ")
-
-    def test_sound_syllable_ru_lue(self) -> None:
-        # BUG-LEDGER: sound-syllable-ru-lue
-        # Expected: return "live" or "dead". Current: IndexError.
-        with self.assertRaises(IndexError):
-            sound_syllable("ฤๅ")
-
     def test_sound_syllable_e_a(self) -> None:
         # BUG-LEDGER: sound-syllable-e-a
         # Expected: "dead" (short vowel เ-อะ). Current: "live".

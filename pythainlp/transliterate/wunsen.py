@@ -152,15 +152,13 @@ class WunsenTransliterate:
             'หนี ห่าว'
         """
         if (
-            self.lang != lang
+            self.thap_value is None
+            or self.lang != lang
             or self.jp_input != jp_input
             or self.zh_sandhi != zh_sandhi
             or self.system != system
         ):
             self._set_options(lang, jp_input, zh_sandhi, system)
             self.thap_value = self._create_thap_sap()
-
-        if self.thap_value is None:
-            raise RuntimeError("ThapSap model not initialized")
 
         return cast("str", self.thap_value.thap(text))

@@ -37,6 +37,21 @@ and this project adheres to
 - `remove()` no longer downloads a missing corpus before deleting it ([#1546])
 - `ThaiTextProcessor.preprocess()` no longer raises `TypeError` when
   `pre_rules` is not given ([#1547])
+- `sound_syllable()` and `tone_detector()` no longer raise `IndexError` for a
+  syllable without a consonant, such as "ฤๅ" ([#NNNN])
+- `thaiword_to_time()`: accept "ตีหก"; unknown hour words raise `ValueError`,
+  not `KeyError` ([#NNNN])
+- `convert_years()` accepts the same source and target era ([#NNNN])
+- `bleu_score()`: empty hypotheses give 0.0; unequal numbers of references
+  and hypotheses raise `ValueError` ([#NNNN])
+- `puan()` keeps syllables that have no initial consonant, and no longer
+  raises `IndexError` ([#NNNN])
+- `WunsenTransliterate.transliterate()` raises `NotImplementedError` for
+  `lang=None` ([#NNNN])
+- `check_klon()` no longer raises `IndexError` after a stanza with an empty
+  Wak 4 ([#NNNN])
+- `nighit()`: map ช to ญ; add ฆ, ญ, ฏ, ฒ, ต, ม; `w1` must
+  end with "ํ" ([#NNNN])
 
 ### Security
 
@@ -51,6 +66,7 @@ and this project adheres to
 [#1542]: https://github.com/PyThaiNLP/pythainlp/pull/1542
 [#1546]: https://github.com/PyThaiNLP/pythainlp/pull/1546
 [#1547]: https://github.com/PyThaiNLP/pythainlp/pull/1547
+[#NNNN]: https://github.com/PyThaiNLP/pythainlp/pull/NNNN
 
 ## [5.3.8] - 2026-09-25
 

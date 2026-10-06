@@ -8,14 +8,16 @@ from typing import Optional
 from pythainlp import thai_consonants
 
 # Consonant that follows nighit, by the first consonant of the next word.
-# The first matching row is used.
+# Each consonant appears in at most one row, sorted in Thai alphabetical
+# order. ฎ and ด are kept for compatibility.
+# Unsupported: ฃ ฅ ซ บ ฝ ฟ อ ฮ
 _NIGHIT_ENDINGS: tuple[tuple[tuple[str, ...], str], ...] = (
-    (("ก", "ช", "ค", "ข", "ง"), "ง"),
-    (("จ", "ฉ", "ช", "ฌ"), "ญ"),
-    (("ฎ", "ฐ", "ฑ", "ณ"), "ณ"),
-    (("ด", "ถ", "ท", "ธ", "น"), "น"),
-    (("ป", "ผ", "พ", "ภ"), "ม"),
-    (("ย", "ร", "ล", "ฬ", "ว", "ศ", "ษ", "ส", "ห"), "ง"),
+    (("ก", "ข", "ค", "ฆ", "ง"), "ง"),
+    (("จ", "ฉ", "ช", "ฌ", "ญ"), "ญ"),
+    (("ฎ", "ฏ", "ฐ", "ฑ", "ฒ", "ณ"), "ณ"),
+    (("ด", "ต", "ถ", "ท", "ธ", "น"), "น"),
+    (("ป", "ผ", "พ", "ภ", "ม"), "ม"),
+    (("ย", "ร", "ล", "ว", "ศ", "ษ", "ส", "ห", "ฬ"), "ง"),
 )
 
 
@@ -47,6 +49,10 @@ def nighit(w1: str, w2: str) -> str:
         'สังคีต'
         >>> nighit("สํ", "จร")
         'สัญจร'
+        >>> nighit("สํ", "ญา")
+        'สัญญา'
+        >>> nighit("สํ", "มา")
+        'สัมมา'
         >>> nighit("สํ", "ฐาน")
         'สัณฐาน'
         >>> nighit("สํ", "นิษฐาน")
@@ -64,7 +70,7 @@ def nighit(w1: str, w2: str) -> str:
         return w2
     if not w2:
         return w1
-    if not str(w1).endswith("ํ") and len(w1) != 2:
+    if not w1.endswith("ํ"):
         raise NotImplementedError(f"The function doesn't support {w1}.")
     list_w1 = list(w1)
     list_w2 = list(w2)

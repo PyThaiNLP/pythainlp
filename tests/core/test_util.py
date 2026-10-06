@@ -4,6 +4,7 @@
 
 """Unit tests for pythainlp.util module."""
 
+import hashlib
 import os
 import unittest
 from collections import Counter
@@ -1056,8 +1057,6 @@ class UtilTestCase(unittest.TestCase):
         years = {"be": "2566", "ad": "2023", "re": "242", "ah": "1444"}
         for src, src_year in years.items():
             for target, target_year in years.items():
-                if src == target:
-                    continue
                 with self.subTest(src=src, target=target):
                     self.assertEqual(
                         convert_years(src_year, src=src, target=target),
@@ -1071,11 +1070,101 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(convert_years("0", src="ad", target="be"), "543")
         self.assertEqual(convert_years("-1", src="ad", target="be"), "542")
 
+    def test_convert_years_same_era(self):
+        # Same era: the year is unchanged (offset cancels), written as
+        # a plain integer string.
+        cases = (
+            ("2566", "2566"),
+            (" 2566 ", "2566"),
+            ("0007", "7"),
+            ("0", "0"),
+            ("-1", "-1"),
+            ("12345", "12345"),
+            ("๒๕๖๖", "2566"),
+            (2566, "2566"),
+        )
+        for era in ("be", "ad", "re", "ah"):
+            for year, expected in cases:
+                with self.subTest(era=era, year=year):
+                    self.assertEqual(
+                        convert_years(year, src=era, target=era),  # type: ignore[arg-type]
+                        expected,
+                    )
+            for year in ("abc", "", "2566\u200b"):
+                with self.subTest(era=era, year=year):
+                    with self.assertRaises(ValueError):
+                        convert_years(year, src=era, target=era)
+
+    def test_convert_years_adversarial(self):
+        # BE = AD + 543, so BE 0 = AD -543. Current behavior for
+        # None/[] (TypeError) is not a promise.
+        cases = (
+            ("0", "be", "ad", "-543"),
+            ("-1", "be", "ad", "-544"),
+            ("12345", "be", "ad", "11802"),
+            ("๒๕๖๖", "be", "ad", "2023"),
+            ("0007", "be", "ad", "-536"),
+        )
+        for year, src, target, expected in cases:
+            with self.subTest(year=year):
+                self.assertEqual(convert_years(year, src, target), expected)
+        bad_years: list[Any] = [None, []]
+        for year in bad_years:
+            with self.subTest(year=year):
+                with self.assertRaises(TypeError):
+                    convert_years(year, "be", "ad")
+        for year in ("abc", "", "2566\u200b"):
+            with self.subTest(year=year):
+                with self.assertRaises(ValueError):
+                    convert_years(year, "be", "ad")
+        # Current behavior, not a promise: era names are case-sensitive.
+        for era in ("BE", "Be", "cat", ""):
+            with self.subTest(era=era):
+                with self.assertRaises(NotImplementedError):
+                    convert_years("2566", era, era)
+
+    def test_convert_years_unchanged_pairs(self):
+        # Outcomes recorded before the same-era change; rows with the
+        # same known era on both sides are excluded.
+        eras: list[Any] = ["be", "ad", "re", "ah", "BE", "cat", "", None, []]
+        years: list[Any] = [
+            "2566",
+            " 2566 ",
+            "0",
+            "-1",
+            "abc",
+            "",
+            2566,
+            "12345",
+            "๒๕๖๖",
+            "0007",
+            "2566\u200b",
+        ]
+        digest = hashlib.sha256()
+        count = 0
+        for year in years:
+            for src in eras:
+                for target in eras:
+                    if (
+                        isinstance(src, str)
+                        and src == target
+                        and src in ("be", "ad", "re", "ah")
+                    ):
+                        continue
+                    try:
+                        out = convert_years(year, src, target)
+                    except Exception as err:
+                        out = "!" + type(err).__name__
+                    digest.update(repr((year, src, target, out)).encode())
+                    count += 1
+        self.assertEqual(count, 847)
+        self.assertEqual(
+            digest.hexdigest(),
+            "273c414e87e846fe9c32527f6644600df7c477414ff4d4f7103bf1858872b737",
+        )
+
     def test_convert_years_unsupported(self):
-        # BUG-LEDGER: convert-years-same-era
         for src, target in (
-            ("be", "be"),
-            ("ad", "ad"),
             ("cat", "dog"),
             ("be", "dog"),
             ("cat", "ad"),

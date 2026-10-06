@@ -247,6 +247,7 @@ _TI_HOURS: tuple[str, ...] = (
     "ตีสาม",
     "ตีสี่",
     "ตีห้า",
+    "ตีหก",
 )
 
 
@@ -278,9 +279,12 @@ def _hour_from_morning_six(hour: list[str]) -> str:
     return str(value + 6 if value < 6 else value)
 
 
-def _hour_from_thum(hour: list[str]) -> str:
+def _hour_from_thum(hour: list[str]) -> Optional[str]:
+    """Convert hours ending in ทุ่ม; None if the first token is unknown."""
     if len(hour) == 1:
         return "19"
+    if hour[0] not in _DICT_THAI_TIME:
+        return None
     return str(_DICT_THAI_TIME[hour[0]] + 18)
 
 
@@ -293,6 +297,8 @@ def _hour_from_unit(hour: list[str]) -> Optional[str]:
     if hour[-1] == "โมงเช้า" and hour[0] in _DICT_THAI_TIME:
         return _hour_from_morning_six(hour)
     if _is_evening(hour[-1]) and hour[0] == "บ่าย":
+        if hour[1] not in _DICT_THAI_TIME:
+            return None
         return str(_DICT_THAI_TIME[hour[1]] + 12)
     if _is_evening(hour[-1]) and hour[0] in _DICT_THAI_TIME:
         return str(_DICT_THAI_TIME[hour[0]] + 12)

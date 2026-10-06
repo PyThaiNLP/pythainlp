@@ -11,6 +11,9 @@ only on the scoring code.
 from __future__ import annotations
 
 import builtins
+import hashlib
+import random
+import re
 import unittest
 from typing import Any
 from unittest import mock
@@ -267,15 +270,9 @@ GOLDEN: list[list[Any]] = [
         [],
         {},
         [
-            "ok",
-            {
-                "bleu": 0.0,
-                "precisions": [0.0, 0.0, 0.0, 0.0],
-                "bp": 1.0,
-                "length_ratio": 0.0,
-                "hyp_length": 0,
-                "ref_length": 0,
-            },
+            "exc",
+            "ValueError",
+            "The number of references (1) and hypotheses (0) must be equal.",
         ],
     ],
     [
@@ -283,18 +280,27 @@ GOLDEN: list[list[Any]] = [
         ["a b"],
         {},
         [
+            "exc",
+            "ValueError",
+            "The number of references (0) and hypotheses (1) must be equal.",
+        ],
+    ],
+    [
+        ["a b"],
+        [""],
+        {},
+        [
             "ok",
             {
                 "bleu": 0.0,
                 "precisions": [0.0, 0.0, 0.0, 0.0],
-                "bp": 1.0,
+                "bp": 0.0,
                 "length_ratio": 0.0,
                 "hyp_length": 0,
-                "ref_length": 0,
+                "ref_length": 2,
             },
         ],
     ],
-    [["a b"], [""], {}, ["exc", "ZeroDivisionError", "division by zero"]],
     [
         [""],
         ["a b"],
@@ -332,15 +338,9 @@ GOLDEN: list[list[Any]] = [
         ["a b c"],
         {},
         [
-            "ok",
-            {
-                "bleu": 0.0,
-                "precisions": [1.0, 1.0, 1.0, 0.0],
-                "bp": 1.0,
-                "length_ratio": 1.0,
-                "hyp_length": 3,
-                "ref_length": 3,
-            },
+            "exc",
+            "ValueError",
+            "The number of references (2) and hypotheses (1) must be equal.",
         ],
     ],
     [
@@ -348,15 +348,9 @@ GOLDEN: list[list[Any]] = [
         ["a b c", "d e f"],
         {},
         [
-            "ok",
-            {
-                "bleu": 0.0,
-                "precisions": [1.0, 1.0, 1.0, 0.0],
-                "bp": 1.0,
-                "length_ratio": 1.0,
-                "hyp_length": 3,
-                "ref_length": 3,
-            },
+            "exc",
+            "ValueError",
+            "The number of references (1) and hypotheses (2) must be equal.",
         ],
     ],
     [
@@ -652,6 +646,60 @@ GOLDEN: list[list[Any]] = [
 ]
 
 
+GRID_COUNT = 1276
+GRID_DIGEST = (
+    "a0be25bcb1e349e0f030a071ca99fd71e9ded0785f99323858efb6751ce04199"
+)
+
+
+def _grid_digest(fn: Any) -> tuple[int, str]:
+    """Hash the outcomes of ``fn`` over a seeded grid of equal-length inputs.
+
+    Skips cases where every hypothesis has fewer than 4 tokens: the
+    old empty-hypothesis crash was fixed there, and a score of 0.0 for
+    short hypotheses is current behavior, not a promise.
+    """
+    rng = random.Random(0)  # noqa: S311  # seeded test grid, not crypto
+    words = ["a", "b", "c", "d", "e"]
+
+    def text() -> str:
+        size = rng.choice([0, 0, 1, 2, 3, 5, 8, 12])
+        return " ".join(rng.choice(words) for _ in range(size))
+
+    digest = hashlib.sha256()
+    count = 0
+    with mock.patch("pythainlp.tokenize.word_tokenize", _split):
+        for _ in range(2000):
+            n = rng.randint(1, 4)
+            hyps = [text() for _ in range(n)]
+            if rng.random() < 0.4:
+                refs: Any = [
+                    [text() for _ in range(rng.randint(1, 2))]
+                    for _ in range(n)
+                ]
+            else:
+                refs = [text() for _ in range(n)]
+            smooth = rng.random() < 0.5
+            if all(len(h.split()) < 4 for h in hyps):
+                continue
+            try:
+                got = fn(refs, hyps, smooth=smooth)
+                # Round: the last digit of a float differs across Python versions.
+                outcome = repr(
+                    [
+                        (k, [round(x, 9) for x in v])
+                        if isinstance(v, list)
+                        else (k, round(v, 9))
+                        for k, v in sorted(got.items())
+                    ]
+                )
+            except (ValueError, ZeroDivisionError) as err:
+                outcome = f"{type(err).__name__}: {err}"
+            digest.update(outcome.encode("utf-8"))
+            count += 1
+    return count, digest.hexdigest()
+
+
 class BleuScoreCharacterizationTestCase(unittest.TestCase):
     def _run(self, references: Any, hypotheses: Any, **kwargs: Any) -> Any:
         with mock.patch("pythainlp.tokenize.word_tokenize", _split):
@@ -691,21 +739,140 @@ class BleuScoreCharacterizationTestCase(unittest.TestCase):
         score = self._run([["a b", "a b c d e"]], ["a b c"])
         self.assertEqual(score["ref_length"], 2)
 
-    # BUG-LEDGER: bleu-score-edge
-    def test_bug_empty_hypothesis_raises_zero_division(self) -> None:
-        """Non-empty reference with an empty hypothesis crashes."""
-        with self.assertRaises(ZeroDivisionError):
-            self._run(["a b"], [""])
+    def test_changed_behavior(self) -> None:
+        """Pin the behavior of empty hypotheses and length mismatch."""
+        mismatch = "The number of references ({}) and hypotheses ({}) must be"
+        cases = [
+            # (references, hypotheses, old behavior, new behavior)
+            # old: ZeroDivisionError; new: bp 0.0 and bleu 0.0
+            (["a b"], [""], None),
+            (["a b", "c"], ["", ""], None),
+            # old: silently truncated; new: ValueError
+            (["a b c", "d e f"], ["a b c"], mismatch.format(2, 1)),
+            (["a b c"], ["a b c", "d e f"], mismatch.format(1, 2)),
+            (["a b"], [], mismatch.format(1, 0)),
+        ]
+        for refs, hyps, err in cases:
+            with self.subTest(refs=refs, hyps=hyps):
+                if err:
+                    with self.assertRaisesRegex(ValueError, re.escape(err)):
+                        self._run(refs, hyps)
+                    continue
+                score = self._run(refs, hyps)
+                self.assertEqual(score["bp"], 0.0)
+                self.assertEqual(score["bleu"], 0.0)
+                self.assertEqual(score["hyp_length"], 0)
 
-    # BUG-LEDGER: bleu-score-edge
-    def test_bug_unequal_inputs_are_truncated_silently(self) -> None:
-        """``zip`` drops extra items; expected: raise ValueError."""
-        longer_refs = self._run(["a b c", "d e f"], ["a b c"])
-        longer_hyps = self._run(["a b c"], ["a b c", "d e f"])
-        self.assertEqual(longer_refs["hyp_length"], 3)
-        self.assertEqual(longer_hyps["hyp_length"], 3)
-        self.assertEqual(longer_hyps["ref_length"], 3)
-        self.assertEqual(self._run(["a b"], [])["hyp_length"], 0)
+    def test_unchanged_behavior_grid(self) -> None:
+        """Outcomes for equal-length inputs match the pre-change code."""
+        count, digest = _grid_digest(bleu_score)
+        self.assertEqual(count, GRID_COUNT)
+        self.assertEqual(digest, GRID_DIGEST)
+
+    def test_regression_all_empty_hypotheses(self) -> None:
+        """Every hypothesis tokenizes to nothing; this used to crash."""
+        for hyps in ([""], ["", ""], ["   "], [" ", ""]):
+            with self.subTest(hyps=hyps):
+                refs = ["a b"] * len(hyps)
+                score = self._run(refs, hyps)
+                self.assertEqual(score["bleu"], 0.0)
+                self.assertEqual(score["bp"], 0.0)
+                self.assertEqual(score["length_ratio"], 0.0)
+                self.assertEqual(score["hyp_length"], 0)
+                self.assertEqual(score["ref_length"], 2 * len(hyps))
+
+    def test_mismatched_lengths_message(self) -> None:
+        cases: list[tuple[Any, Any, str]] = [
+            (["a b c", "d e f"], ["a b c"], "(2) and hypotheses (1)"),
+            (["a b c"], ["a b c", "d e f"], "(1) and hypotheses (2)"),
+            (["a b"], [], "(1) and hypotheses (0)"),
+            ([["a"], ["b"]], ["a"], "(2) and hypotheses (1)"),
+            # A bare string is a sequence of characters.
+            ("a b", ["a b"], "(3) and hypotheses (1)"),
+            (["a b"], "a b", "(1) and hypotheses (3)"),
+        ]
+        for refs, hyps, text in cases:
+            with self.subTest(refs=refs, hyps=hyps):
+                with self.assertRaisesRegex(ValueError, re.escape(text)):
+                    self._run(refs, hyps)
+
+    def test_adversarial_inputs(self) -> None:
+        big = " ".join(["a", "b", "c"] * 1700)
+        # (references, hypotheses, kwargs, expected); an expected string is
+        # an exception name, a tuple is (bleu, bp, hyp_length, ref_length).
+        # Exception rows are current behavior, not a promise.
+        # Values are hand-derived: identical text gives 100; one mismatch
+        # gives the geometric mean of the smoothed precisions
+        # (0.8, 0.5, 1/3, 0.25) = 42.73; max_ngram 1 gives 80 (4/5);
+        # max_ngram 2 gives sqrt(0.8 * 0.5) = 63.25; a hypothesis 100
+        # times shorter has bp = exp(1 - 5100/50), with all precisions 1.
+        cases: list[tuple[Any, Any, dict[str, Any], Any]] = [
+            (["  "], ["  "], {}, (0.0, 1.0, 0, 0)),
+            ([" "], ["a b"], {}, (0.0, 1.0, 2, 0)),
+            (None, ["a"], {}, "TypeError"),
+            (["a"], None, {}, "TypeError"),
+            (5, ["a"], {}, "TypeError"),
+            ([None], ["a"], {}, "TypeError"),
+            (["a"], [None], {}, "AttributeError"),
+            ([1], ["a"], {}, "TypeError"),
+            (["a"], [1], {}, "AttributeError"),
+            ([["a"], None], ["a", "b"], {}, "TypeError"),
+            (
+                [["a b"], ["a b", "c d e"]],
+                ["a b", "c d"],
+                {},
+                (0.0, 1.0, 4, 4),
+            ),
+            ([big], [big], {}, (100.0, 1.0, 5100, 5100)),
+            ([big], [big[:100]], {}, (0.0, 1.368539471173853e-44, 50, 5100)),
+            (["a a a a a a"], ["a a a a a a"], {}, (100.0, 1.0, 6, 6)),
+            (["ก\u200bข ค ง จ"], ["ก\u200bข ค ง จ"], {}, (100.0, 1.0, 4, 4)),
+            (
+                ["A b c d e"],
+                ["a B c d e"],
+                {"lowercase": True},
+                (100.0, 1.0, 5, 5),
+            ),
+            (["สวัสดี ครับ ผม วันนี้"], ["สวัสดี ครับ ผม วันนี้"], {}, (100.0, 1.0, 4, 4)),
+            (["a b c d e"], ["a b c x e"], {}, (42.728701, 1.0, 5, 5)),
+            (
+                ["a b c d e"],
+                ["a b c x e"],
+                {"smooth": False},
+                (0.0, 1.0, 5, 5),
+            ),
+            (
+                ["a b c d e"],
+                ["a b c x e"],
+                {"max_ngram": 1},
+                (80.0, 1.0, 5, 5),
+            ),
+            (
+                ["a b c d e"],
+                ["a b c x e"],
+                {"max_ngram": 2},
+                (63.245553, 1.0, 5, 5),
+            ),
+            (["a b"], ["a b"], {"max_ngram": 2}, (100.0, 1.0, 2, 2)),
+            (["a b"], ["a b"], {"max_ngram": 1}, (100.0, 1.0, 2, 2)),
+        ]
+        for refs, hyps, kwargs, want in cases:
+            with self.subTest(
+                refs=str(refs)[:20], hyps=str(hyps)[:20], kw=kwargs
+            ):
+                if isinstance(want, str):
+                    with self.assertRaises(getattr(builtins, want)):
+                        self._run(refs, hyps, **kwargs)
+                    continue
+                score = self._run(refs, hyps, **kwargs)
+                got = (
+                    score["bleu"],
+                    score["bp"],
+                    score["hyp_length"],
+                    score["ref_length"],
+                )
+                for g, w in zip(got, want):
+                    self.assertAlmostEqual(g, w, places=5)
 
     def test_empty_reference_group_raises_value_error(self) -> None:
         with self.assertRaises(ValueError):

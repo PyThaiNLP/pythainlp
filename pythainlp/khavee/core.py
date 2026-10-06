@@ -1006,7 +1006,8 @@ class KhaveeVerifier:
             )
 
         # Rule 4: สัมผัสระหว่างบท (Inter-stanza)
-        if stanza_index > 0:
+        # Skipped when the previous Wak 4 is empty (already reported).
+        if stanza_index > 0 and stanzas[stanza_index - 1][3]:
             prev_wak4_last = stanzas[stanza_index - 1][3][-1]
             if not self.is_sumpus(prev_wak4_last, wak2_last):
                 errors.append(

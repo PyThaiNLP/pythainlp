@@ -11,10 +11,11 @@ syllables, random Thai strings, and dictionary words.
 from __future__ import annotations
 
 import hashlib
+import random
 import sys
 import types
 import unittest
-from typing import Union
+from typing import Any, Union
 from unittest import mock
 
 from pythainlp.khavee import KhaveeVerifier
@@ -1294,6 +1295,48 @@ class KhaveeWordCharacterizationTestCase(unittest.TestCase):
         self.assertEqual(self.kv.check_karu_lahu("้"), "karu")
 
 
+_EMPTY = "Stanza (บทที่) {} contains empty sentences."
+_INCOMPLETE = (
+    "The poem does not have complete stanzas (บท). "
+    "A stanza must contain exactly 4 sentences (วรรค)."
+)
+_WRONG_K = (
+    "Something went wrong. Make sure you enter it in the correct form "
+    "(k_type 4 or 8)."
+)
+_CORRECT = "The poem is correct according to the principle."
+_SYLLABLES = ("มา", "กา", "ขำ", "ใจ", "ตา", "เกย", "ดี", "น้อง", "จอง", "ทอง")
+_SEED_TEXTS = 1500
+_SEED_COUNT = 1373
+_SEED_DIGEST = (
+    "76141e4293c9a1434239a7403c4f3c48be1b9c8b024a0a458cf1d7506b81cbca"
+)
+
+
+def _stanza(*empty: int) -> list[str]:
+    """Return a stanza of four waks, with "-" (empty) at given positions."""
+    return ["-" if i in empty else "มา" for i in range(4)]
+
+
+def _poem(*stanzas: list[str]) -> str:
+    return " ".join(" ".join(stanza) for stanza in stanzas)
+
+
+def _random_wak(rng: random.Random) -> str:
+    size = (
+        rng.choice((0, 1, 2, 6)) if rng.random() < 0.3 else rng.randint(3, 5)
+    )
+    return "-".join(rng.choice(_SYLLABLES) for _ in range(size)) or "-"
+
+
+def _formerly_crashed(stanzas: list[list[str]]) -> bool:
+    """Tell if an empty Wak 4 is followed by a stanza without empty waks."""
+    return any(
+        previous[3] == "-" and "-" not in current
+        for previous, current in zip(stanzas, stanzas[1:])
+    )
+
+
 class KhaveeCheckKlonCharacterizationTestCase(unittest.TestCase):
     """Golden cases for check_klon, with the ssg tokenizer mocked."""
 
@@ -1326,12 +1369,152 @@ class KhaveeCheckKlonCharacterizationTestCase(unittest.TestCase):
             with self.assertRaisesRegex(ImportError, "pip install ssg"):
                 self.kv.check_klon("ก ข ค ง")
 
-    def test_empty_previous_wak4_raises(self) -> None:
-        # BUG-LEDGER: khavee-klon-empty-prev-wak4
-        # An empty Wak 4 is reported for its stanza, but the next stanza then
-        # reads its last word for the inter-stanza rhyme and fails.
-        with self.assertRaises(IndexError):
-            self.kv.check_klon("ก ข ค - มา มา มา มา", 4)
+    def test_empty_previous_wak4(self) -> None:
+        """Regression: the inter-stanza check is skipped, not crashed."""
+        self.assertEqual(
+            self.kv.check_klon("ก ข ค - มา มา มา มา", 4),
+            ["Stanza (บทที่) 1 contains empty sentences."],
+        )
+
+    def test_inter_stanza_rhyme_with_previous_wak4(self) -> None:
+        # Both branches of the inter-stanza check: it runs when the previous
+        # Wak 4 has words (rhyme mismatch is reported), and is skipped when
+        # it is empty.
+        text = "มา มา มา มา กา ขำ กา กา"
+        errors = self.kv.check_klon(text, 4)
+        self.assertEqual(len(errors), 3)
+        self.assertTrue(errors[-1].startswith("Inter-stanza rhyme error"))
+        errors = self.kv.check_klon("มา มา มา - กา ขำ กา กา", 4)
+        self.assertEqual(len(errors), 3)
+        self.assertEqual(errors[0], _EMPTY.format(1))
+        self.assertFalse(any("Inter-stanza" in e for e in errors))
+
+    def test_empty_wak4_in_any_stanza(self) -> None:
+        # A stanza with an empty Wak reports only that stanza; the next
+        # stanza has no previous Wak 4 to rhyme with, so no inter-stanza
+        # message appears. (Regression: the old code raised IndexError.)
+        g = ["มา"] * 4
+        cases = (
+            (_poem(_stanza(3), g, g), [_EMPTY.format(1)]),
+            (_poem(g, _stanza(3), g), [_EMPTY.format(2)]),
+            (_poem(g, g, _stanza(3)), [_EMPTY.format(3)]),
+            (
+                _poem(_stanza(3), _stanza(3), g),
+                [_EMPTY.format(1), _EMPTY.format(2)],
+            ),
+            (
+                _poem(_stanza(3), g, _stanza(3)),
+                [_EMPTY.format(1), _EMPTY.format(3)],
+            ),
+            (_poem(_stanza(3), g), [_EMPTY.format(1)]),
+            (_poem(_stanza(0), g), [_EMPTY.format(1)]),
+        )
+        for text, expected in cases:
+            with self.subTest(text=text):
+                self.assertEqual(self.kv.check_klon(text, 4), expected)
+
+    def test_adversarial_inputs(self) -> None:
+        # Outcomes are current behavior, not a promise.
+        ok = "มา มา มา มา กา กา กา กา"
+        cases: tuple[tuple[str, Any, Union[list[str], str]], ...] = (
+            ("", 4, _INCOMPLETE),
+            ("   ", 4, _INCOMPLETE),
+            ("\n\t", 8, _INCOMPLETE),
+            (ok, 0, _WRONG_K),
+            (ok, -1, _WRONG_K),
+            (ok, 5, _WRONG_K),
+            (ok, "4", _WRONG_K),
+            (ok, None, _WRONG_K),
+            (ok, True, _WRONG_K),
+            (ok, 8, _CORRECT),
+            ("มา", 4, _INCOMPLETE),
+            ("มา มา", 4, _INCOMPLETE),
+            ("มา มา มา", 4, _INCOMPLETE),
+            ("มา มา มา มา กา", 4, _INCOMPLETE),
+            (ok + " กา กา กา", 4, _INCOMPLETE),
+            (ok + " " + " ".join(["กา"] * 5), 4, _INCOMPLETE),
+            (" ".join(["มา"] * 8), 4, _CORRECT),
+            (_poem(*[["มา"] * 4] * 200), 4, _CORRECT),
+            (_poem(*[["มา"] * 4] * 2), 4, _CORRECT),
+            ("1 2 3 4", 4, _CORRECT),
+            ("๑ ๒ ๓ ๔", 4, _CORRECT),
+            ("abc def ghi jkl", 4, _CORRECT),
+            ("ａ ｂ ｃ ｄ", 4, _CORRECT),
+            ("มา\u200b มา มา มา", 4, _CORRECT),
+            ("- - - -", 4, [_EMPTY.format(1)]),
+            ("- - - - - - - -", 4, [_EMPTY.format(1), _EMPTY.format(2)]),
+            ("ก ข ค ง - ข ค ง", 4, [_EMPTY.format(2)]),
+            (
+                "ก\u200bข ค ง จ",
+                4,
+                [
+                    (
+                        "Rhyme error in Stanza (บทที่) 1: 'ก\u200bข' (Wak 1) "
+                        "does not rhyme with ['ค'] (Wak 2)"
+                    )
+                ],
+            ),
+            (
+                "มา-มา-มา-มา-มา-มา มา มา มา",
+                4,
+                [
+                    (
+                        "Stanza (บทที่) 1 Wak 1: Word count exceeds 5: "
+                        "['มา', 'มา', 'มา', 'มา', 'มา', 'มา']"
+                    )
+                ],
+            ),
+        )
+        for text, k_type, expected in cases:
+            with self.subTest(text=text[:30], k_type=k_type):
+                self.assertEqual(self.kv.check_klon(text, k_type), expected)
+
+    def test_empty_wak_in_every_position(self) -> None:
+        # Two stanzas (8 waks) and three stanzas (12 waks), one empty wak at
+        # each position: the stanza that holds it is reported.
+        for count in (8, 12):
+            for position in range(count):
+                waks = ["มา"] * count
+                waks[position] = "-"
+                with self.subTest(count=count, position=position):
+                    self.assertEqual(
+                        self.kv.check_klon(" ".join(waks), 4),
+                        [_EMPTY.format(position // 4 + 1)],
+                    )
+
+    def test_wrong_text_types(self) -> None:
+        for bad in (None, 1, ["ก"]):
+            with self.subTest(bad=bad):
+                with self.assertRaises(AttributeError):
+                    self.kv.check_klon(bad, 4)  # type: ignore[arg-type]
+
+    def test_seeded_texts_unchanged(self) -> None:
+        # Outcomes recorded from the code before the empty-Wak 4 fix, over
+        # seeded random poems. Poems that formerly raised IndexError (an
+        # empty Wak 4 followed by a complete stanza) are excluded.
+        rng = random.Random(0)  # noqa: S311  # seeded, not crypto
+        digest = hashlib.sha256()
+        count = 0
+        for _ in range(_SEED_TEXTS):
+            stanzas = [
+                [_random_wak(rng) for _ in range(4)]
+                for _ in range(rng.randint(1, 4))
+            ]
+            k_type = rng.choice((4, 8))
+            if _formerly_crashed(stanzas):
+                continue
+            text = _poem(*stanzas)
+            try:
+                outcome: tuple[object, ...] = (
+                    "ok",
+                    self.kv.check_klon(text, k_type),
+                )
+            except Exception as exc:  # noqa: BLE001
+                outcome = ("exc", type(exc).__name__, str(exc))
+            digest.update(repr((text, k_type, outcome)).encode())
+            count += 1
+        self.assertEqual(count, _SEED_COUNT)
+        self.assertEqual(digest.hexdigest(), _SEED_DIGEST)
 
     def test_non_string_text_raises(self) -> None:
         with self.assertRaises(AttributeError):

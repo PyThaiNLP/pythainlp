@@ -64,10 +64,6 @@ Entry format:
 
 #### Util
 
-- **`tone-detector-ru-lue`** `pythainlp/util/syllable.py`: `tone_detector`.
-  Input "ฤๅ" raises `IndexError`. Expected: return a tone.
-- **`sound-syllable-ru-lue`** `pythainlp/util/syllable.py`: `sound_syllable`.
-  Input "ฤๅ" raises `IndexError`.
 - **`sound-syllable-e-a`** `pythainlp/util/syllable.py`: `sound_syllable`.
   Input "เอะ" returns "live". Expected: "dead".
 - **`syllable-consonant-sets`** `pythainlp/util/syllable.py`.
@@ -76,24 +72,15 @@ Entry format:
   Input with "ตี" has no break after it.
 - **`thai-strptime-m-y`** `pythainlp/util/date.py`: `thai_strptime`.
   Directives `%m` and `%y` are handled incorrectly.
-- **`convert-years-same-era`** `pythainlp/util/date.py`: `convert_years`.
-  Converting "be" to "be" raises `NotImplementedError`.
 - **`count-thai-chars-double`** `pythainlp/util/thai.py`: `count_thai_chars`.
   Some characters are counted twice.
 - **`numtoword-ed-duplicate`** `pythainlp/util/numtoword.py`.
   The "เอ็ด" rule is applied in both `_num_to_thaiword_block` and
   `num_to_thaiword`. Results are correct; the code is redundant.
-- **`thaiword-to-time-ti-six`** `pythainlp/util/time.py`: `thaiword_to_time`.
-  Input "ตีหก" or "ตีสิบห้า" raises `ValueError`, because the "ตี" hour
-  list ends at "ตีห้า". Expected: "06:00" for "ตีหก".
 - **`thaiword-to-time-range`** `pythainlp/util/time.py`: `thaiword_to_time`.
   Input "บ่ายโมงครึ่งตีสองสิบเอ็ด" with `padding=False` returns "13:321".
   A minute above 59 or an hour above 23 is not checked. Expected:
   `ValueError`.
-- **`thaiword-to-time-unknown-token`** `pythainlp/util/time.py`:
-  `thaiword_to_time`. Input "กนาทีทุ่ม" raises `KeyError`; other unknown
-  input raises `ValueError` from `thaiword_to_num`. Expected: one
-  consistent `ValueError`.
 
 #### Tokenize
 
@@ -135,13 +122,6 @@ Entry format:
 - **`wiktionary-ho-rule-unreachable`** `pythainlp/transliterate/wiktionary.py`:
   `_apply_ho_rule`. The `^ห.$` check never matches, so the re-splitting of
   "ห" plus a sonorant is dead code.
-- **`puan-missing-initial`** `pythainlp/transliterate/spoonerism.py`: `puan`.
-  A syllable without a consonant, such as "ะ", is dropped and the swap
-  misaligns: `puan("ก-ะ-ข-ะ")` returns "ะ-ข". With no initial at all it
-  raises `IndexError`. Expected: keep every syllable.
-- **`wunsen-none-lang-uninitialized`** `pythainlp/transliterate/wunsen.py`:
-  `transliterate`. `lang=None` on a fresh object raises `RuntimeError`.
-  Expected: `NotImplementedError`.
 
 #### Khavee
 
@@ -153,10 +133,6 @@ Entry format:
   `is_sumpus`, `check_karu_lahu`. A word that is empty after stripping tone
   marks or การันต์ gets sara and marttra "". `is_sumpus("้", "์")` returns
   True and `check_karu_lahu("้")` returns "karu". Expected: False.
-- **`khavee-klon-empty-prev-wak4`** `pythainlp/khavee/core.py`: `check_klon`.
-  A stanza whose Wak 4 has no tokens, followed by another stanza, raises
-  `IndexError` in the inter-stanza rhyme check. Expected: report errors
-  without raising.
 
 #### Soundex
 
@@ -177,8 +153,6 @@ Entry format:
 
 #### Benchmarks, generate, lm, augment, morpheme
 
-- **`bleu-score-edge`** `pythainlp/benchmarks`: `bleu_score`.
-  Raises `ZeroDivisionError`; `zip` truncates unequal inputs silently.
 - **`wordnetaug-pos-ignored`** `pythainlp/augment`: `WordNetAug`.
   The part-of-speech filter is ignored.
 - **`remove-repeated-ngrams-zero`** `pythainlp/lm/text_util.py`:
@@ -194,12 +168,11 @@ Entry format:
 - **`ngram-gen-flatten-dedup`** `pythainlp/generate/core.py`:
   `Trigram.gen_sentence`. Flattening the output drops repeated words, so
   `duplicate=True` has no effect. Expected: keep repeated words.
-- **`nighit-consonant-table`** `pythainlp/morpheme/word_formation.py`:
-  `nighit`. "ช" is in both the ก-group and the จ-group, so "ญ" is never
-  used. "ต" and several other consonants raise `NotImplementedError`.
-- **`nighit-w1-check`** `pythainlp/morpheme/word_formation.py`: `nighit`.
-  Any two-character `w1` passes the check, such as `nighit("ab", "คา")`.
-  Expected: require `w1` to end with "ํ".
+- **`nighit-w1-prefix`** `pythainlp/morpheme/word_formation.py`: `nighit`.
+  Only the first character of `w1` is used. `nighit("สงฆํ", "คา")` returns
+  "สังคา", the same as `nighit("สํ", "คา")`; the characters between the
+  first one and "ํ" are dropped. Expected: keep the stem or reject it.
+  Pinning test: `test_w1_prefix_dropped`.
 
 ### Security notes (not yet bugs)
 

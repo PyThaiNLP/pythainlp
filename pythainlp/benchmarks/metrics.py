@@ -169,6 +169,8 @@ def _clipped_ngram_counts(
 
 def _brevity_penalty(hyp_length: int, ref_length: int) -> float:
     """Calculate the BLEU brevity penalty."""
+    if hyp_length == 0 and ref_length > 0:
+        return 0.0
     if hyp_length < ref_length:
         return math.exp(1 - ref_length / hyp_length)
     return 1.0
@@ -226,6 +228,8 @@ def bleu_score(
         ``'hyp_length'`` and ``'ref_length'`` are ``int``; all other
         values are ``float``.
     :rtype: BleuScore
+    :raises ValueError: if the number of references and the number of
+        hypotheses differ
 
     :Example:
 
@@ -246,6 +250,11 @@ def bleu_score(
         >>> score = bleu_score(references, hypotheses)
     """
     refs_normalized = _normalize_references(references)
+    if len(refs_normalized) != len(hypotheses):
+        raise ValueError(
+            f"The number of references ({len(refs_normalized)}) and "
+            f"hypotheses ({len(hypotheses)}) must be equal."
+        )
 
     hyp_tokens_list = [
         _tokenize_text(hyp, tokenize, lowercase) for hyp in hypotheses

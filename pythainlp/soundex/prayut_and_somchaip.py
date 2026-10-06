@@ -30,6 +30,44 @@ _C9: str = "Yยญ"
 _C52: str = "ง"
 
 
+_VALID_CHARS: str = thai_characters + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+
+def _build_table(
+    groups: tuple[tuple[str, str], ...],
+) -> dict[str, str]:
+    """Map each character to a code; the first matching group wins."""
+    table: dict[str, str] = {}
+    for chars, code in groups:
+        for ch in chars:
+            table.setdefault(ch, code)
+    return table
+
+
+_FIRST_GROUPS: tuple[tuple[str, str], ...] = (
+    (_C0, "0"),
+    (_C1, "1"),
+    (_C2, "2"),
+    (_C3, "3"),
+    (_C4, "4"),
+    (_C5, "5"),
+    (_C6, "6"),
+    (_C52, "52"),
+)
+# Codes for the first character
+_FIRST_CODES: dict[str, str] = _build_table(_FIRST_GROUPS)
+# Codes for the other characters
+_REST_CODES: dict[str, str] = _build_table(
+    _FIRST_GROUPS[1:]
+    + (
+        (_C7, "7"),
+        (_C8, "8"),
+        (_C1_1, "1"),
+        (_C9, "9"),
+    )
+)
+
+
 def prayut_and_somchaip(text: str, length: int = 4) -> str:
     """Converts English-Thai Cross-Language Transliterated Words into
     phonetic code with the matching technique called **Soundex** [#prayut_and_somchaip]_.
@@ -54,39 +92,9 @@ def prayut_and_somchaip(text: str, length: int = 4) -> str:
         return ""
     text = text.upper()
     # keep only consonants (English-Thai)
-    chars = []
-    for ch in text:
-        if ch in thai_characters + "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
-            chars.append(ch)
+    chars = [ch for ch in text if ch in _VALID_CHARS]
 
-    i = 0
-    while i < len(chars):
-        if i == 0 and chars[i] in _C0:
-            chars[i] = "0"
-        elif chars[i] in _C1:
-            chars[i] = "1"
-        elif chars[i] in _C2:
-            chars[i] = "2"
-        elif chars[i] in _C3:
-            chars[i] = "3"
-        elif chars[i] in _C4:
-            chars[i] = "4"
-        elif chars[i] in _C5:
-            chars[i] = "5"
-        elif chars[i] in _C6:
-            chars[i] = "6"
-        elif chars[i] in _C52:
-            chars[i] = "52"
-        elif chars[i] in _C7 and i != 0:
-            chars[i] = "7"
-        elif chars[i] in _C8 and i != 0:
-            chars[i] = "8"
-        elif chars[i] in _C1_1 and i != 0:
-            chars[i] = "1"
-        elif chars[i] in _C9 and i != 0:
-            chars[i] = "9"
-        else:
-            chars[i] = None  # type: ignore[call-overload]
-        i += 1
-    chars = list("".join(filter(None, chars)))
-    return "".join(chars[-length:])
+    codes = [_FIRST_CODES.get(chars[0], "")] if chars else []
+    codes.extend(_REST_CODES.get(ch, "") for ch in chars[1:])
+    # BUG-LEDGER: prayut-last-length (keeps the last `length` characters)
+    return "".join(codes)[-length:]

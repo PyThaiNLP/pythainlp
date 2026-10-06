@@ -25,7 +25,13 @@
       Maintain near-100% type annotation coverage.
 - [ ] Add tests for new functionality or behavior.
       New PR must not drop the test coverage more than 0.1%.
-- [ ] Keep the test coverage high. Aim at least 70% test coverage.
+- [ ] Keep the test coverage high.
+  - [ ] The overall test coverage target is 95%.
+  - [ ] New and changed code must have at least 75% test coverage.
+        CI checks this for each pull request (`diff-cover`).
+  - [ ] AI agents should aim higher: near 100% test coverage
+        (line and branch) of the code they add or change,
+        when possible or practical.
 - [ ] Add test cases to cover all code branches and capture edge cases.
 - [ ] `# type: ignore[arg-type]` comment can be used in the test code,
       only if that specific code want to explicitly test type handling
@@ -53,6 +59,36 @@
       regarding singular vs. plural forms. Use singular names for
       classes representing a single entity and reserve plural
       names only for collections, utility modules, or clear aggregates.
+- [ ] Known issues and planned work are in
+      <https://github.com/PyThaiNLP/pythainlp/blob/dev/working-docs/ROADMAP.md>.
+      Other working notes are in `working-docs/` too.
+  - [ ] Record each bug found while working on something else there,
+        with a test that pins the current behavior.
+  - [ ] Do not fix such a bug inside an unrelated or
+        behavior-preserving change; fix it in its own pull request.
+
+## Code quality and the boy scout rule
+
+Leave every file you touch better than you found it:
+maintain the code quality and improve it.
+
+- [ ] Keep code complexity within the limits (McCabe 10, cognitive 15).
+      Refactor a touched function that exceeds them,
+      or at least do not make it more complex.
+- [ ] Keep code maintainable: small functions, lookup tables instead of
+      long `if` chains, shared helpers instead of copy-pasted blocks.
+- [ ] Keep test coverage high: see the coverage targets above.
+      Cover every function you add or touch, branches included.
+- [ ] Write compact tests.
+  - [ ] Use parameterized tests (`subTest` or table-driven cases)
+        instead of many near-identical test methods.
+- [ ] Add characterization tests before refactoring,
+      to record the current behavior.
+- [ ] Add a regression test for every bug fix.
+- [ ] Add adversarial tests: empty input, `None`, wrong types,
+      Unicode edge cases, very long input, and boundary values.
+- [ ] Prefer the smallest change. Keep refactoring changes
+      behavior-preserving.
 
 ## Project contribution guidelines
 
@@ -173,10 +209,58 @@
   - [ ] Default SPDX-License-Identifier for documentation is "CC0-1.0"
   - [ ] Sort SPDX metadata.
 
+## Cross-platform support
+
+PyThaiNLP targets Windows, Linux, and macOS. CI tests all three.
+
+- [ ] Paths: use `pathlib` or `pythainlp.tools.safe_path_join()`.
+      Do not hardcode `/` or `\`, `/tmp`, a drive letter, or the home
+      directory layout. Windows paths have a length limit, reserved
+      names (`NUL`), 8.3 short names (`RUNNER~1`), and are
+      case-insensitive. Compare paths after `os.path.realpath()`.
+- [ ] Files: pass `encoding=` to `open()` (use UTF-8). Close a file
+      before replacing or deleting it; Windows raises `PermissionError`.
+      Symbolic links and permission bits are limited on Windows.
+- [ ] Encoding: the default differs by platform (Windows uses a
+      legacy code page, such as cp874 or cp1252, until Python 3.15).
+  - [ ] Use UTF-8 for Thai text, source files, and data files.
+        Use `utf-8-sig` to read a file that may start with a BOM.
+  - [ ] Do not assume `print()` can write Thai: a Windows console or a
+        redirected stream may raise `UnicodeEncodeError`.
+        Do not depend on `sys.stdout.encoding` or `locale`.
+  - [ ] Do not compare Thai strings as bytes. Count and slice
+        `str` code points, not bytes, and not user-perceived characters
+        (a combining mark is its own code point).
+  - [ ] macOS can normalize non-ASCII file names (NFD); do not rely
+        on an exact round trip. Keep file names in ASCII.
+- [ ] Signals: catch `KeyboardInterrupt`, not a signal number.
+      Windows lacks `SIGKILL`, `SIGHUP`, and `SIGALRM`.
+- [ ] Processes: `multiprocessing` uses `spawn` on Windows and macOS.
+      Guard the entry point; keep arguments picklable.
+- [ ] Environment variables are case-insensitive on Windows only.
+      Do not rely on `HOME`; use `pathlib.Path.home()`.
+- [ ] Prefer a feature check (`hasattr`, `try`/`except`) over a
+      platform check. Otherwise use `sys.platform` or `os.name`.
+- [ ] Keep optional native dependencies (ICU, PyTorch) out of the
+      core install; they are not available everywhere.
+- [ ] Tests:
+  - [ ] Do not record expected values on one platform only.
+        For example, Windows rejects `time.strftime()` directives
+        such as `%-d`.
+  - [ ] Use `tempfile`; do not write to the working directory.
+  - [ ] Use `unittest.skipIf` with a reason for a platform-specific test.
+
 ## Shell scripts and command line
 
 - [ ] Mind the differences between GNU, BSD, macOS,
       and other implementations of common Unix tools.
+      For example, `sed -i` needs an argument on BSD but not on GNU;
+      `date`, `readlink -f`, `xargs`, and `grep -P` also differ.
+      Prefer POSIX options, or write the step in Python.
+- [ ] Mind the differences between shells (bash, zsh, PowerShell,
+      `cmd`): quoting, escaping, unmatched globs (zsh fails),
+      and variable syntax (`$VAR`, `%VAR%`, `$env:VAR`).
+      In GitHub Actions, set `shell:` when it matters.
 - [ ] Be defensive on variable expansion.
 - [ ] Use quotes or other constructs to encapsulate paths, make it compatible
       with different kinds of shells.
@@ -319,9 +403,10 @@
       to optimize performance and memory usage.
 - [ ] Recheck formatting with `ruff format`. CI enforces it.
 - [ ] Cognitive complexity is checked in CI with flake8 and
-      flake8-cognitive-complexity (`.flake8`). The limit is lowered
-      gradually toward 15.
-- [ ] Whem do packaging, the package metadata should follow
+      flake8-cognitive-complexity (`.flake8`). The limit is 15.
+      Functions not yet refactored carry `# noqa: CCR001` (or
+      `# noqa: C901` for McCabe) and a `# phase2-todo` tag.
+- [ ] When packaging, the package metadata should follow
       the Core metadata specifications
       <https://packaging.python.org/en/latest/specifications/core-metadata/>.
 

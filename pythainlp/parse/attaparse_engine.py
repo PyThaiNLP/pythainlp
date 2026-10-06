@@ -25,7 +25,7 @@ class Parse:
     def __init__(self) -> None:
         self.nlp: Pipeline = load_model()
 
-    def __call__(
+    def __call__(  # noqa: CCR001  # phase2-todo
         self, text: str, tag: str = "str"
     ) -> Union[List[List[str]], str]:
         doc = depparse(text, self.nlp)

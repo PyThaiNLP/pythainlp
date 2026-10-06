@@ -81,7 +81,7 @@ class Parse:
             model=t, tokenizer=self.tokenizer
         )
 
-    def __call__(
+    def __call__(  # noqa: CCR001  # phase2-todo
         self, text: str, tag: str = "str"
     ) -> Union[list[list[str]], str]:
         import numpy

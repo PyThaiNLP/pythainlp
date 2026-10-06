@@ -6,9 +6,9 @@
 from __future__ import annotations
 
 import string
-from collections import defaultdict
+from collections import Counter, defaultdict
 from types import MappingProxyType
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from pythainlp import (
     thai_above_vowels,
@@ -23,6 +23,9 @@ from pythainlp import (
     thai_vowels,
 )
 from pythainlp.tools import warn_deprecation
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 _DEFAULT_IGNORE_CHARS: str = (
     string.whitespace + string.digits + string.punctuation
@@ -308,6 +311,59 @@ def thai_word_tone_detector(word: Optional[str]) -> list[tuple[str, str]]:
     return [(i, tone_detector(i.replace("หฺ", "ห"))) for i in _pronunciate]
 
 
+# Character types for count_thai_chars(), checked in this order.
+_CHAR_TYPES: tuple[tuple[str, str], ...] = (
+    ("lead_vowels", thai_lead_vowels),
+    ("follow_vowels", thai_follow_vowels),
+    ("above_vowels", thai_above_vowels),
+    ("below_vowels", thai_below_vowels),
+    ("consonants", thai_consonants),
+    ("tonemarks", thai_tonemarks),
+    ("signs", thai_signs),
+    ("thai_digits", thai_digits),
+    ("punctuations", thai_punctuations),
+)
+_COUNT_KEYS: tuple[str, ...] = (
+    "vowels",
+    *(name for name, _ in _CHAR_TYPES),
+    "non_thai",
+)
+
+
+def _build_char_type_table() -> dict[str, str]:
+    """Map each character to its type; the first matching type wins."""
+    table: dict[str, str] = {}
+    for name, chars in _CHAR_TYPES:
+        for char in chars:
+            table.setdefault(char, name)
+    return table
+
+
+_CHAR_TYPE_TABLE: dict[str, str] = _build_char_type_table()
+_VOWEL_SET: frozenset[str] = frozenset(thai_vowels)
+# Below this length, a direct loop is faster than counting with Counter.
+_COUNTER_MIN_LEN: int = 64
+
+
+def _char_type(char: str) -> str:
+    """Return the name of the first character type that contains ``char``."""
+    for name, chars in _CHAR_TYPES:
+        if char in chars:
+            return name
+    return "non_thai"
+
+
+def _count_iterable(
+    text: Iterable[str], counts: dict[str, int]
+) -> dict[str, int]:
+    """Count the items of a non-string iterable, as ``str`` containment."""
+    for c in text:
+        if c in thai_vowels:
+            counts["vowels"] += 1
+        counts[_char_type(c)] += 1
+    return counts
+
+
 def count_thai_chars(text: str) -> dict[str, int]:
     """Count Thai characters by type.
 
@@ -323,57 +379,27 @@ def count_thai_chars(text: str) -> dict[str, int]:
 
         >>> from pythainlp.util import count_thai_chars
         >>> count_thai_chars("ทดสอบภาษาไทย")  # doctest: +NORMALIZE_WHITESPACE
-        {
-        'vowels': 3,
-        'lead_vowels': 1,
-        'follow_vowels': 2,
-        'above_vowels': 0,
-        'below_vowels': 0,
-        'consonants': 9,
-        'tonemarks': 0,
-        'signs': 0,
-        'thai_digits': 0,
-        'punctuations': 0,
-        'non_thai': 0
-        }
+        {'vowels': 3, 'lead_vowels': 1, 'follow_vowels': 2,
+        'above_vowels': 0, 'below_vowels': 0, 'consonants': 9,
+        'tonemarks': 0, 'signs': 0, 'thai_digits': 0,
+        'punctuations': 0, 'non_thai': 0}
     """
-    _dict = {
-        "vowels": 0,
-        "lead_vowels": 0,
-        "follow_vowels": 0,
-        "above_vowels": 0,
-        "below_vowels": 0,
-        "consonants": 0,
-        "tonemarks": 0,
-        "signs": 0,
-        "thai_digits": 0,
-        "punctuations": 0,
-        "non_thai": 0,
-    }
-    for c in text:
-        if c in thai_vowels:
-            _dict["vowels"] += 1
-        if c in thai_lead_vowels:
-            _dict["lead_vowels"] += 1
-        elif c in thai_follow_vowels:
-            _dict["follow_vowels"] += 1
-        elif c in thai_above_vowels:
-            _dict["above_vowels"] += 1
-        elif c in thai_below_vowels:
-            _dict["below_vowels"] += 1
-        elif c in thai_consonants:
-            _dict["consonants"] += 1
-        elif c in thai_tonemarks:
-            _dict["tonemarks"] += 1
-        elif c in thai_signs:
-            _dict["signs"] += 1
-        elif c in thai_digits:
-            _dict["thai_digits"] += 1
-        elif c in thai_punctuations:
-            _dict["punctuations"] += 1
-        else:
-            _dict["non_thai"] += 1
-    return _dict
+    counts = dict.fromkeys(_COUNT_KEYS, 0)
+    if not isinstance(text, str):
+        # Tolerate non-str iterables.
+        return _count_iterable(text, counts)  # type: ignore[unreachable]
+    if len(text) < _COUNTER_MIN_LEN:
+        type_of = _CHAR_TYPE_TABLE.get
+        for char in text:
+            counts[type_of(char, "non_thai")] += 1
+            if char in _VOWEL_SET:
+                counts["vowels"] += 1
+        return counts
+    for char, num in Counter(text).items():
+        if char in _VOWEL_SET:
+            counts["vowels"] += num
+        counts[_CHAR_TYPE_TABLE.get(char, "non_thai")] += num
+    return counts
 
 
 def analyze_thai_text(text: str) -> dict[str, int]:
@@ -397,14 +423,8 @@ def analyze_thai_text(text: str) -> dict[str, int]:
     """
     results: dict[str, int] = defaultdict(int)
 
-    # Iterate over each character in the input string
     for char in text:
-        # Check if the character is in our mapping
-        if char in _THAI_CHAR_NAMES:
-            name = _THAI_CHAR_NAMES[char]
-            results[name] += 1
-        else:
-            # If the character is not a known Thai character, classify it as character
-            results[char] += 1
+        # Unknown characters are counted as themselves.
+        results[_THAI_CHAR_NAMES.get(char, char)] += 1
 
     return dict(results)

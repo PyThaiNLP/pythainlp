@@ -33,7 +33,7 @@ class Parse:
             )
         )
 
-    def __call__(
+    def __call__(  # noqa: CCR001  # phase2-todo
         self, text: str, tag: str = "str"
     ) -> Union[List[List[str]], str]:
         import numpy as np

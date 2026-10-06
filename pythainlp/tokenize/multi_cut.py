@@ -65,6 +65,35 @@ _RE_NONTHAI: str = r"""(?x)
 _PAT_NONTHAI: re.Pattern[str] = re.compile(_RE_NONTHAI)
 
 
+def _serialize(
+    words_at: defaultdict[int, list[str]], p: int, p2: int
+) -> Iterator[str]:
+    """Yield word paths from position ``p`` to position ``p2``."""
+    for w in words_at[p]:
+        p_ = p + len(w)
+        if p_ == p2:
+            yield w
+        elif p_ < p2:
+            for path in _serialize(words_at, p_, p2):
+                yield w + "/" + path
+
+
+def _find_skip_end(text: str, p: int, custom_dict: Trie) -> int:
+    """Find the end of an out-of-dictionary token starting at ``p``."""
+    len_text = len(text)
+    m = _PAT_NONTHAI.match(text[p:])
+    if m:  # non-Thai token
+        return p + m.span()[1]
+
+    # Thai token, find minimum skip
+    for i in range(p, len_text):
+        ww = custom_dict.prefixes(text[i:])
+        m = _PAT_NONTHAI.match(text[i:])
+        if ww or m:
+            return i
+    return len_text
+
+
 def _multicut(
     text: str, custom_dict: Optional[Trie] = None
 ) -> Iterator[LatticeString]:
@@ -72,24 +101,13 @@ def _multicut(
     if not custom_dict:
         custom_dict = word_dict_trie()
     len_text = len(text)
-    words_at: defaultdict[int, list[str]] = defaultdict(
-        list
-    )  # main data structure
-
-    def serialize(p: int, p2: int) -> Iterator[str]:  # helper function
-        for w in words_at[p]:
-            p_ = p + len(w)
-            if p_ == p2:
-                yield w
-            elif p_ < p2:
-                for path in serialize(p_, p2):
-                    yield w + "/" + path
+    words_at: defaultdict[int, list[str]] = defaultdict(list)
 
     q = {0}
     last_p = 0  # last position for yield
     while min(q) < len_text:
         p = min(q)
-        q -= {p}  # q.pop, but for set
+        q -= {p}
 
         for w in custom_dict.prefixes(text[p:]):
             words_at[p].append(w)
@@ -99,20 +117,12 @@ def _multicut(
 
         if len_q == 1:
             q0 = min(q)
-            yield LatticeString(text[last_p:q0], list(serialize(last_p, q0)))
+            yield LatticeString(
+                text[last_p:q0], list(_serialize(words_at, last_p, q0))
+            )
             last_p = q0
-        elif len_q == 0:  # len(q) == 0  means not found in dictionary
-            m = _PAT_NONTHAI.match(text[p:])
-            if m:  # non-Thai token
-                i = p + m.span()[1]
-            else:  # non-Thai token, find minimum skip
-                for i in range(p, len_text):
-                    ww = custom_dict.prefixes(text[i:])
-                    m = _PAT_NONTHAI.match(text[i:])
-                    if ww or m:
-                        break
-                else:
-                    i = len_text
+        elif len_q == 0:  # no dictionary word
+            i = _find_skip_end(text, p, custom_dict)
             w = text[p:i]
             words_at[p].append(w)
             yield LatticeString(w, in_dict=False)

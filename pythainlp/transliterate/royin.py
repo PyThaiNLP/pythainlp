@@ -12,13 +12,13 @@ It was published by the Royal Institute of Thailand.
 from __future__ import annotations
 
 import re
+from typing import Optional
 
 from pythainlp import thai_consonants, word_tokenize
 
-# Romanized vowels for checking
 _ROMANIZED_VOWELS: str = "aeiou"
 
-# vowel
+# Vowel patterns: Thai pattern, replacement
 _vowel_patterns: str = """เ*ียว,\\1iao
 แ*็ว,\\1aeo
 เ*ือย,\\1ueai
@@ -151,125 +151,107 @@ def _replace_vowels(word: str) -> str:
     return word
 
 
+_HO_HIP: str = "\u0e2b"  # ห
+_RO_RUA: str = "\u0e23"  # ร
+_LO_LING: str = "\u0e25"  # ล
+_WO_WAEN: str = "\u0e27"  # ว
+_DOUBLE_RO_RUA: str = _RO_RUA + _RO_RUA
+
+# Consonants that can be second in a cluster
+_CLUSTER_SECOND: frozenset[str] = frozenset({_RO_RUA, _LO_LING, _WO_WAEN})
+
+
+def _double_ro_rua(word: str, i: int) -> Optional[list[str]]:
+    """Return romanized chars for double RO RUA (รร) at i, or None."""
+    if word[i:] == _DOUBLE_RO_RUA:  # at the end of the word
+        return ["a", "n"]
+    if word[i : i + 2] == _DOUBLE_RO_RUA:
+        return ["a"]
+    return None
+
+
+def _initial_consonant(
+    word: str, i: int, consonants: str, j: int, mod_chars: list[str]
+) -> tuple[list[str], bool]:
+    """Romanize a consonant of an initial cluster.
+
+    :return: romanized chars to append, and the new vowel-seen flag
+    """
+    # mod_chars contains romanized output: look for non-vowel characters
+    if not any(c and c not in _ROMANIZED_VOWELS for c in mod_chars):
+        # First consonant in the cluster; an empty initial (e.g. อ) is skipped
+        initial = _CONSONANTS[consonants[j]][0]
+        return ([initial] if initial else []), False
+
+    is_cluster_consonant = word[i] in _CLUSTER_SECOND
+    is_last_char = i + 1 >= len(word)
+
+    if is_cluster_consonant and not is_last_char:
+        # ร/r, ล/l, or ว/w after the first consonant is part of the initial
+        # cluster (e.g. กรม/krom: ก/k+ร/r are cluster, ม/m is final)
+        return [_CONSONANTS[consonants[j]][0]], False
+    if not is_cluster_consonant and not is_last_char:
+        # Start of a new syllable: close the previous one with implicit "a"
+        initial = _CONSONANTS[consonants[j]][0]
+        return (["a", initial] if initial else ["a"]), False
+    # Last character without a vowel: final consonant with implicit "o"
+    return ["o", _CONSONANTS[consonants[j]][1]], True
+
+
+def _consonant_after_vowel(
+    word: str, i: int, consonants: str, j: int
+) -> tuple[str, bool]:
+    """Romanize a consonant after a vowel: final or start of a new syllable.
+
+    :return: romanized string to append, and the new vowel-seen flag
+    """
+    if i + 1 < len(word) and word[i + 1] not in _CONSONANTS:
+        return _CONSONANTS[consonants[j]][0], False  # new syllable
+    return _CONSONANTS[consonants[j]][1], True
+
+
 def _replace_consonants(word: str, consonants: str) -> str:
-    _HO_HIP = "\u0e2b"  # ห
-    _RO_RUA = "\u0e23"  # ร
-    _LO_LING = "\u0e25"  # ล
-    _WO_WAEN = "\u0e27"  # ว
-    _DOUBLE_RO_RUA = _RO_RUA + _RO_RUA
-
-    # Consonants that can be second in a cluster
-    _CLUSTER_SECOND = {_RO_RUA, _LO_LING, _WO_WAEN}
-
     if not consonants:
         return word
 
+    mod_chars: list[str] = []
     skip = False
-    mod_chars = []
-    j = 0  # j is the index of consonants
-    vowel_seen = False  # Track if we've seen a vowel (non-consonant character)
+    j = 0  # index of the consonants string
+    vowel_seen = False  # True once a non-consonant character is seen
 
     for i in range(len(word)):
+        char = word[i]
         if skip:
             skip = False
             j += 1
-        elif word[i] not in _CONSONANTS:  # word[i] is not a Thai consonant.
+        elif char not in _CONSONANTS:  # not a Thai consonant
             vowel_seen = True
-            mod_chars.append(word[i])
-        elif (
-            len(mod_chars) == 0 and word[i] == _HO_HIP and len(consonants) != 1
-        ):  # Skip HO HIP except that HO HIP is the only one consonant
+            mod_chars.append(char)
+        elif not mod_chars and char == _HO_HIP and len(consonants) != 1:
+            # Skip HO HIP unless it is the only consonant
             j += 1
-        elif word[i:] == _DOUBLE_RO_RUA:  # Double RO RUA is in end of word
-            skip = True
-            mod_chars.append("a")
-            mod_chars.append("n")
-            vowel_seen = True  # 'a' acts as a vowel
-            j += 1
-        elif word[i : i + 2] == _DOUBLE_RO_RUA:
-            skip = True
-            mod_chars.append("a")
-            vowel_seen = True  # 'a' acts as a vowel
-            j += 1
-        elif not vowel_seen:  # Building initial consonant cluster
-            # Check if we've added any actual initial consonants (non-empty romanized characters)
-            # We check for non-vowel characters since mod_chars contains romanized output
-            has_initial = any(
-                c and c not in _ROMANIZED_VOWELS for c in mod_chars
-            )
-
-            if not has_initial:
-                # First consonant in the cluster
-                initial = _CONSONANTS[consonants[j]][0]
-                if (
-                    initial
-                ):  # Only append if not empty (e.g., อ has empty initial)
-                    mod_chars.append(initial)
-                j += 1
-            else:
-                # Check if this consonant can be part of a cluster
-                is_cluster_consonant = word[i] in _CLUSTER_SECOND
-                is_last_char = i + 1 >= len(word)
-                has_vowel_next = (
-                    not is_last_char and word[i + 1] not in _CONSONANTS
+        else:
+            double_ro_rua = _double_ro_rua(word, i)
+            if double_ro_rua is not None:
+                mod_chars.extend(double_ro_rua)
+                skip = True
+                vowel_seen = True  # "a" acts as a vowel
+            elif not vowel_seen:
+                chars, vowel_seen = _initial_consonant(
+                    word, i, consonants, j, mod_chars
                 )
-
-                # Cluster consonants (ร/r, ล/l, ว/w) are part of initial cluster if:
-                # - followed by a vowel, OR
-                # - not the last character (e.g., กรม/krom: ก/k+ร/r are cluster, ม/m is final)
-                if is_cluster_consonant and (
-                    has_vowel_next or not is_last_char
-                ):
-                    # This is part of initial cluster (ร/r, ล/l, or ว/w after first consonant)
-                    mod_chars.append(_CONSONANTS[consonants[j]][0])
-                    j += 1
-                elif not is_cluster_consonant and not is_last_char:
-                    # Not a cluster consonant, and there are more characters
-                    # This likely starts a new syllable, so add implicit 'a' to previous syllable
-                    mod_chars.append("a")
-                    vowel_seen = True
-                    # Now process this consonant as start of new syllable
-                    initial = _CONSONANTS[consonants[j]][0]
-                    if initial:  # Only append if not empty
-                        mod_chars.append(initial)
-                    vowel_seen = False  # Reset for new syllable
-                    j += 1
-                elif has_vowel_next:
-                    # Not a cluster consonant, but vowel follows - still initial
-                    mod_chars.append(_CONSONANTS[consonants[j]][0])
-                    j += 1
-                elif is_last_char:
-                    # This is a final consonant with no vowel, need to add 'o'
-                    mod_chars.append("o")
-                    mod_chars.append(_CONSONANTS[consonants[j]][1])
-                    vowel_seen = True
-                    j += 1
-                else:
-                    # There's another consonant after this one
-                    # Add implicit 'o' and treat this as final
-                    mod_chars.append("o")
-                    mod_chars.append(_CONSONANTS[consonants[j]][1])
-                    vowel_seen = True
-                    j += 1
-        else:  # After vowel - could be final consonant or start of new syllable
-            has_vowel_next = (
-                i + 1 < len(word) and word[i + 1] not in _CONSONANTS
-            )
-            if has_vowel_next:
-                # Consonant followed by vowel - start of new syllable
-                mod_chars.append(_CONSONANTS[consonants[j]][0])
-                vowel_seen = False  # Reset for new syllable
-                j += 1
+                mod_chars.extend(chars)
             else:
-                # No vowel follows - this is a final consonant
-                mod_chars.append(_CONSONANTS[consonants[j]][1])
-                j += 1
+                final, vowel_seen = _consonant_after_vowel(
+                    word, i, consonants, j
+                )
+                mod_chars.append(final)
+            j += 1
     return "".join(mod_chars)
 
 
-# support function for romanize()
 def _romanize(word: str) -> str:
-    # Special case: single ห character should be empty (silent)
+    # A lone ห is silent
     if word == "ห":
         return ""
 
@@ -306,17 +288,14 @@ def _should_add_syllable_separator(
     if not prev_romanized or len(curr_word) < 2:
         return False
 
-    # Check if previous word has explicit vowel
     prev_normalized = _normalize(prev_word)
     prev_after_vowels = _replace_vowels(prev_normalized)
     prev_consonants = _RE_CONSONANT.findall(prev_word)
     has_explicit_vowel_prev = len(prev_after_vowels) > len(prev_consonants)
 
-    # Check if current word is 2 Thai consonants with no vowel
     consonants_in_word = _RE_CONSONANT.findall(curr_word)
     vowels_in_word = len(curr_word) - len(consonants_in_word)
 
-    # Add 'a' if conditions are met
     return (
         has_explicit_vowel_prev
         and len(consonants_in_word) == 2
@@ -342,7 +321,6 @@ def romanize(text: str) -> str:
     for i, word in enumerate(words):
         romanized = _romanize(word)
 
-        # Check if we need to add syllable separator 'a'
         if i > 0 and romanized:
             prev_word = words[i - 1]
             prev_romanized = romanized_words[-1] if romanized_words else ""

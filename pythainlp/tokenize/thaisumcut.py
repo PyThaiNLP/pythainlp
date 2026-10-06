@@ -201,13 +201,11 @@ def _remove_digit_spaces(sentence: str) -> str:
             continue
         if sentence[k].isdigit() and sentence[k - 1] == " ":
             sentence = sentence[: k - 1] + sentence[k:]
-            sentence_len = len(sentence)  # Update length after modification
+            sentence_len = len(sentence)
         if k + 2 <= sentence_len:
             if sentence[k].isdigit() and sentence[k + 1] == " ":
                 sentence = sentence[: k + 1] + sentence[k + 2 :]
-                sentence_len = len(
-                    sentence
-                )  # Update length after modification
+                sentence_len = len(sentence)
     return sentence
 
 
@@ -234,7 +232,6 @@ def middle_cut(sentences: list[str]) -> list[str]:
         else:
             result_parts.append(sentence)
 
-    # Split all result parts by <stop> and filter
     all_sentences = (
         s.strip() for part in result_parts for s in part.split("<stop>")
     )

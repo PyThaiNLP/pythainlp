@@ -3,10 +3,45 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import Optional
+
 from pythainlp import thai_consonants
 from pythainlp.transliterate import pronunciate
 
 _list_consonants: list[str] = list(thai_consonants.replace("ห", ""))
+
+
+def _initial_char(syllable: str) -> Optional[str]:
+    """Return the first consonant of a syllable, or None if not found."""
+    for char in syllable:
+        if char in _list_consonants:
+            return char
+        if char == "ห" and "หฺ" not in syllable and len(syllable) == 2:
+            return char
+    return None
+
+
+def _swap_two(pairs: list[tuple[str, str]]) -> list[str]:
+    """Swap the initials of two syllables."""
+    (syl_a, init_a), (syl_b, init_b) = pairs
+    return [syl_b.replace(init_b, init_a, 1), syl_a.replace(init_a, init_b, 1)]
+
+
+def _swap_three(pron: list[str], pairs: list[tuple[str, str]]) -> list[str]:
+    """Swap the initials of the last two of three syllables."""
+    _, (syl_b, init_b), (syl_c, init_c) = pairs
+    return [
+        pron[0],
+        syl_c.replace(init_c, init_b, 1),
+        syl_b.replace(init_b, init_c, 1),
+    ]
+
+
+def _swap_ends(pron: list[str], pairs: list[tuple[str, str]]) -> list[str]:
+    """Swap the initials of the first and last syllables (4 or more)."""
+    first = pron[0].replace(pairs[0][1], pairs[-1][1], 1)
+    last = pron[-1].replace(pairs[-1][1], pairs[0][1], 1)
+    return [first, *pron[1 : len(pairs) - 1], last]
 
 
 def puan(word: str, show_pronunciation: bool = True) -> str:
@@ -29,48 +64,19 @@ def puan(word: str, show_pronunciation: bool = True) -> str:
         'นินรา'
     """
     word = pronunciate(word, engine="w2p")
-    _list_char = []
-    _list_pron = word.split("-")
-    _mix_list = ""
-    if len(_list_pron) == 1:
+    pron = word.split("-")
+    if len(pron) == 1:
         return word
-    if show_pronunciation:
-        _mix_list = "-"
-    for i in _list_pron:
-        for j in i:
-            if j in _list_consonants:
-                _list_char.append(j)
-                break
-            elif "ห" == j and "หฺ" not in i and len(i) == 2:
-                _list_char.append(j)
-                break
 
-    list_w_char = list(zip(_list_pron, _list_char))
-    _list_w = []
-    if len(list_w_char) == 2:
-        _list_w.append(
-            list_w_char[1][0].replace(list_w_char[1][1], list_w_char[0][1], 1)
-        )
-        _list_w.append(
-            list_w_char[0][0].replace(list_w_char[0][1], list_w_char[1][1], 1)
-        )
-    elif len(list_w_char) == 3:
-        _list_w.append(_list_pron[0])
-        _list_w.append(
-            list_w_char[2][0].replace(list_w_char[2][1], list_w_char[1][1], 1)
-        )
-        _list_w.append(
-            list_w_char[1][0].replace(list_w_char[1][1], list_w_char[2][1], 1)
-        )
+    initials = [c for c in map(_initial_char, pron) if c is not None]
+    pairs = list(zip(pron, initials))
+    if len(pairs) == 2:
+        swapped = _swap_two(pairs)
+    elif len(pairs) == 3:
+        swapped = _swap_three(pron, pairs)
     else:  # > 3 syllables
-        _list_w.append(
-            _list_pron[0].replace(list_w_char[0][1], list_w_char[-1][1], 1)
-        )
-        for idx in range(1, len(list_w_char) - 1):
-            _list_w.append(_list_pron[idx])
-        _list_w.append(
-            _list_pron[-1].replace(list_w_char[-1][1], list_w_char[0][1], 1)
-        )
+        swapped = _swap_ends(pron, pairs)
+
     if not show_pronunciation:
-        _list_w = [i.replace("หฺ", "").replace("ฺ", "") for i in _list_w]
-    return _mix_list.join(_list_w)
+        swapped = [i.replace("หฺ", "").replace("ฺ", "") for i in swapped]
+    return ("-" if show_pronunciation else "").join(swapped)

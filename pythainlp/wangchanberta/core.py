@@ -81,7 +81,7 @@ class ThaiNameTagger:
     def _clear_tag(self, tag: str) -> str:
         return tag.replace("B-", "").replace("I-", "")
 
-    def get_ner(
+    def get_ner(  # noqa: C901, CCR001  # phase2-todo
         self, text: str, pos: bool = False, tag: bool = False
     ) -> Union[list[tuple[str, str]], str]:
         """This function tags named entities in text in IOB format.
@@ -205,7 +205,7 @@ class NamedEntityRecognition:
             _new_tag.append((i_decoded, j))
         return _new_tag
 
-    def get_ner(
+    def get_ner(  # noqa: CCR001  # phase2-todo
         self, text: str, pos: bool = False, tag: bool = False
     ) -> Union[list[tuple[str, str]], str]:
         """This function tags named entities in text in IOB format.

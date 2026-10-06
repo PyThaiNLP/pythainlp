@@ -11,6 +11,7 @@ __all__: list[str] = ["ThaiNameTagger"]
 from typing import TYPE_CHECKING, Union
 
 from pythainlp.corpus import get_corpus_path, thai_stopwords
+from pythainlp.tag._utils import _iob_to_markup
 from pythainlp.tag.pos_tag import pos_tag
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import is_thai
@@ -200,25 +201,7 @@ class ThaiNameTagger:
         sent_ner = [(pos_tags[i][0], data) for i, data in enumerate(y)]
 
         if tag:
-            temp = ""
-            sent = ""
-            for idx, (word, ner) in enumerate(sent_ner):
-                if ner.startswith("B-") and temp != "":
-                    sent += "</" + temp + ">"
-                    temp = ner[2:]
-                    sent += "<" + temp + ">"
-                elif ner.startswith("B-"):
-                    temp = ner[2:]
-                    sent += "<" + temp + ">"
-                elif ner == "O" and temp != "":
-                    sent += "</" + temp + ">"
-                    temp = ""
-                sent += word
-
-                if idx == len(sent_ner) - 1 and temp != "":
-                    sent += "</" + temp + ">"
-
-            return sent
+            return _iob_to_markup(sent_ner)
 
         if pos:
             return [

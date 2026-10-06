@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import re
 from collections import deque
+from collections.abc import Callable  # noqa: TC003  # for get_type_hints()
 from typing import TYPE_CHECKING, Optional, Union, cast
 
 if TYPE_CHECKING:
@@ -17,8 +18,19 @@ from pythainlp.tokenize import (
     DEFAULT_SUBWORD_TOKENIZE_ENGINE,
     DEFAULT_SYLLABLE_TOKENIZE_ENGINE,
     DEFAULT_WORD_TOKENIZE_ENGINE,
-    syllable_dict_trie,
     word_dict_trie,
+)
+from pythainlp.tokenize._registry import (
+    SUBWORD_ENGINES,
+    SYLLABLE_ENGINES,
+    WORD_ENGINES,
+    WORD_ENGINES_WITHOUT_CUSTOM_DICT,
+    EngineTable,
+    engine_not_found,
+    find_engine,
+    get_engine,
+    segment_sentences,
+    wtp_size,
 )
 from pythainlp.tokenize._utils import (
     apply_postprocessors,
@@ -38,7 +50,9 @@ def word_detokenize(
 
     Detokenizes the list of words in each sentence into text.
 
-    :param str segments: List of sentences, each with a list of words.
+    :param segments: list of words, or list of sentences each
+        with a list of words
+    :type segments: Union[list[list[str]], list[str]]
     :param str output: the output type (str or list)
     :return: the Thai text
     :rtype: Union[list[list[str]], str]
@@ -48,8 +62,6 @@ def word_detokenize(
         >>> word_detokenize(["เรา", "เล่น"])
         'เราเล่น'
     """
-    list_all: list[list[str]] = []
-
     if not segments:
         return "" if output == "str" else []
 
@@ -58,50 +70,72 @@ def word_detokenize(
 
     from pythainlp import thai_characters
 
-    for i, s in enumerate(segments):
-        list_sents: list[str] = []
-        add_index: list[int] = []
-        space_index: list[int] = []
-        mark_index: list[int] = []
-        for j, w in enumerate(s):
-            if not w:
-                continue
-            if j > 0:
-                # previous word
-                p_w = s[j - 1]
-                # if w is number or other language and is not space
-                if (
-                    w[0] not in thai_characters
-                    and not w.isspace()
-                    and not p_w.isspace()
-                ):
-                    list_sents.append(" ")
-                    add_index.append(j)
-                # if previous word is number or other language and is not space
-                elif (
-                    p_w and p_w[0] not in thai_characters and not p_w.isspace()
-                ):
-                    list_sents.append(" ")
-                    add_index.append(j)
-                # if word is Thai iteration mark
-                elif w == "ๆ":
-                    if not p_w.isspace():
-                        list_sents.append(" ")
-                    mark_index.append(j)
-                elif w.isspace() and j - 1 not in space_index:
-                    space_index.append(j)
-                elif j - 1 in mark_index:
-                    list_sents.append(" ")
-            list_sents.append(w)
-        list_all.append(list_sents)
+    list_all: list[list[str]] = [
+        _detokenize_words(words, thai_characters)
+        for words in cast("list[list[str]]", segments)
+    ]
 
     if output == "list":
         return list_all
 
-    text: list[str] = []
-    for sent_tokens in list_all:
-        text.append("".join(sent_tokens))
-    return " ".join(text)
+    return " ".join("".join(sent_tokens) for sent_tokens in list_all)
+
+
+# Role of a word in word_detokenize, used by the next word.
+_PLAIN = 0
+_SPACE = 1  # whitespace word that follows a non-whitespace word
+_MARK = 2  # Thai iteration mark "ๆ"
+
+
+def _detokenize_words(words: list[str], thai_characters: str) -> list[str]:
+    """Insert spaces between the words of one sentence.
+
+    :param list[str] words: words of one sentence
+    :param str thai_characters: characters that count as Thai
+    :return: the words with spaces inserted
+    :rtype: list[str]
+    """
+    tokens: list[str] = []
+    prev_role = _PLAIN
+    for j, w in enumerate(words):
+        if not w:
+            prev_role = _PLAIN
+            continue
+        role = _PLAIN
+        if j > 0:
+            add_space, role = _space_before(
+                w, words[j - 1], prev_role, thai_characters
+            )
+            if add_space:
+                tokens.append(" ")
+        tokens.append(w)
+        prev_role = role
+    return tokens
+
+
+def _space_before(
+    w: str, p_w: str, prev_role: int, thai_characters: str
+) -> tuple[bool, int]:
+    """Decide whether a space goes before a word, and find its role.
+
+    :param str w: the word
+    :param str p_w: the previous word
+    :param int prev_role: role of the previous word
+    :param str thai_characters: characters that count as Thai
+    :return: whether to add a space, and the role of the word
+    :rtype: tuple[bool, int]
+    """
+    # w is a number or another language, and neither word is whitespace
+    if w[0] not in thai_characters and not w.isspace() and not p_w.isspace():
+        return True, _PLAIN
+    # p_w is a number or another language and is not whitespace
+    if p_w and p_w[0] not in thai_characters and not p_w.isspace():
+        return True, _PLAIN
+    if w == "ๆ":
+        return not p_w.isspace(), _MARK
+    if w.isspace() and prev_role != _SPACE:
+        return False, _SPACE
+    return prev_role == _MARK, _PLAIN
 
 
 def word_tokenize(
@@ -141,11 +175,11 @@ def word_tokenize(
           from ICU (International Components for Unicode),
           dictionary-based
         * *longest* - dictionary-based, longest matching
-        * *mm* - "multi-cut", dictionary-based, maximum matching
-        * *nercut* - dictionary-based, maximal matching,
-          constrained by Thai Character Cluster (TCC) boundaries,
-          combining tokens that are parts of the same named-entity
-        * *newmm* (default) - "new multi-cut",
+        * *mm* (alias *multi_cut*) - "multi-cut",
+          dictionary-based, maximum matching
+        * *nercut* - named entity tagger-based, combining tokens that
+          are parts of the same named entity
+        * *newmm* (default, alias *onecut*) - "new multi-cut",
           dictionary-based, maximum matching,
           constrained by Thai Character Cluster (TCC) boundaries
           with improved TCC rules.
@@ -168,7 +202,7 @@ def word_tokenize(
           `budoux <https://github.com/google/budoux>`_.
     :Note:
         - The **custom_dict** parameter only works for \
-          *longest*, *newmm*, and *newmm-safe* engines.
+          *longest*, *mm*, *newmm*, and *newmm-safe* engines.
         - Built-in tokenizers (*longest*, *mm*, *newmm*, and *newmm-safe*) \
           are thread-safe.
         - Wrappers of external tokenizer are designed to be thread-safe \
@@ -222,94 +256,15 @@ def word_tokenize(
     if not text or not isinstance(text, str):
         return []
 
-    segments = []
-
     if custom_dict is None:
         custom_dict = Trie([])
 
-    if custom_dict and engine in (
-        "attacut",
-        "icu",
-        "nercut",
-        "sefr_cut",
-        "tltk",
-        "oskut",
-        "budoux",
-    ):
+    if custom_dict and engine in WORD_ENGINES_WITHOUT_CUSTOM_DICT:
         raise NotImplementedError(
             f"The {engine} engine does not support custom dictionaries."
         )
 
-    if engine in ("newmm", "onecut"):
-        from pythainlp.tokenize.newmm import segment
-
-        segments = segment(text, custom_dict)
-    elif engine == "newmm-safe":
-        from pythainlp.tokenize.newmm import segment
-
-        segments = segment(text, custom_dict, safe_mode=True)
-    elif engine == "attacut":
-        from pythainlp.tokenize.attacut import segment as attacut_segment  # noqa: I001
-
-        segments = attacut_segment(text)
-    elif engine == "longest":
-        from pythainlp.tokenize.longest import segment as longest_segment  # noqa: I001
-
-        segments = longest_segment(text, custom_dict)
-    elif engine in ("mm", "multi_cut"):
-        from pythainlp.tokenize.multi_cut import segment as multi_cut_segment  # noqa: I001
-
-        segments = multi_cut_segment(text, custom_dict)
-    elif engine == "deepcut":  # deepcut can optionally use dictionary
-        from pythainlp.tokenize.deepcut import segment as deepcut_segment  # noqa: I001
-
-        segments = deepcut_segment(text)
-    elif engine == "icu":
-        from pythainlp.tokenize.pyicu import segment as pyicu_segment  # noqa: I001
-
-        segments = pyicu_segment(text)
-    elif engine == "budoux":
-        from pythainlp.tokenize.budoux import segment as budoux_segment  # noqa: I001
-
-        segments = budoux_segment(text)
-    elif engine == "nercut":
-        from pythainlp.tokenize.nercut import segment as nercut_segment  # noqa: I001
-
-        segments = nercut_segment(text)
-    elif engine == "sefr_cut":
-        from pythainlp.tokenize.sefr_cut import segment as sefrcut_segment  # noqa: I001
-
-        segments = sefrcut_segment(text)
-    elif engine == "tltk":
-        from pythainlp.tokenize.tltk import segment as tltk_segment  # noqa: I001
-
-        segments = tltk_segment(text)
-    elif engine == "oskut":
-        from pythainlp.tokenize.oskut import segment as oskut_segment  # noqa: I001
-
-        segments = oskut_segment(text)
-    elif engine == "nlpo3":
-        from pythainlp.tokenize.nlpo3 import segment as nlpo3_segment  # noqa: I001
-
-        # Currently cannot handle custom_dict from inside word_tokenize(),
-        # due to difference in type.
-        # if isinstance(custom_dict, str):
-        #    segments = nlpo3_segment(text, custom_dict=custom_dict)
-        # elif not isinstance(custom_dict, str) and not custom_dict:
-        #    raise ValueError(
-        #        f"""Tokenizer \"{engine}\":
-        #        custom_dict must be a str.
-        #        It is a dictionary name as assigned with load_dict().
-        #        See pythainlp.tokenize.nlpo3.load_dict()"""
-        #    )
-        # else:
-        #    segments = nlpo3_segment(text)
-        segments = nlpo3_segment(text)
-    else:
-        raise ValueError(
-            f"""Tokenizer \"{engine}\" not found.
-            It might be a typo; if not, please consult our document."""
-        )
+    segments = get_engine(WORD_ENGINES, engine)(text, custom_dict)
 
     postprocessors = []
     if join_broken_num:
@@ -318,9 +273,7 @@ def word_tokenize(
     if not keep_whitespace:
         postprocessors.append(strip_whitespace)
 
-    segments = apply_postprocessors(segments, postprocessors)
-
-    return segments
+    return apply_postprocessors(segments, postprocessors)
 
 
 def indices_words(words: list[str]) -> list[tuple[int, int]]:
@@ -404,8 +357,8 @@ def sent_tokenize(
 
     :param text: text string or list of word tokens to be tokenized
     :type text: Union[str, list[str]]
-    :param str engine: choose among *'crfcut'*, *'whitespace'*,
-        *'whitespace+newline'*
+    :param str engine: name of the sentence tokenizer
+    :param bool keep_whitespace: keep whitespace
     :return: list of sentences
     :rtype: Union[list[str], list[list[str]]]
 
@@ -448,90 +401,86 @@ def sent_tokenize(
         return []
 
     if isinstance(text, list):
-        try:
-            original_text = "".join(text)
-        except TypeError:
-            return []
-    else:
-        original_text = str(text)
+        return _sent_tokenize_words(text, engine, keep_whitespace)
 
-    segments = []
-
-    if engine == "crfcut":
-        from pythainlp.tokenize.crfcut import segment
-
-        segments = segment(original_text)
-
-        if isinstance(text, list):
-            word_indices = indices_words(text)
-            result = map_indices_to_words(word_indices, [original_text])
-            return result
-    elif engine == "whitespace":
-        segments = re.split(r" +", original_text, flags=re.U)
-        if isinstance(text, list):
-            result = []
-            _temp: list[str] = []
-            for i, w in enumerate(text):
-                if " " in w and not _RE_WORD_CHAR.search(w):
-                    if not _temp:
-                        continue
-                    result.append(_temp)
-                    _temp = []
-                else:
-                    _temp.append(w)
-                if i + 1 == len(text):
-                    result.append(_temp)
-            return result
-    elif engine == "whitespace+newline":
-        segments = original_text.split()
-        if isinstance(text, list):
-            result = []
-            _temp = []
-            for i, w in enumerate(text):
-                if _RE_WHITESPACE.search(w) and not _RE_WORD_CHAR.search(w):
-                    if not _temp:
-                        continue
-                    result.append(_temp)
-                    _temp = []
-                else:
-                    _temp.append(w)
-                if i + 1 == len(text):
-                    result.append(_temp)
-            return result
-    elif engine == "tltk":
-        from pythainlp.tokenize.tltk import sent_tokenize as tltk_sent_tokenize
-
-        segments = tltk_sent_tokenize(original_text)
-    elif engine == "thaisum":
-        from pythainlp.tokenize.thaisumcut import ThaiSentenceSegmentor
-
-        segmentor = ThaiSentenceSegmentor()
-        segments = segmentor.split_into_sentences(original_text)
-    elif engine.startswith("wtp"):
-        if "-" not in engine:
-            _size = "mini"
-        else:
-            _size = engine.split("-")[-1]
-        from pythainlp.tokenize.wtsplit import tokenize
-
-        segments = tokenize(
-            text=original_text, size=_size, tokenize="sentence"
-        )
-    else:
-        raise ValueError(
-            f"""Tokenizer \"{engine}\" not found.
-            It might be a typo; if not, please consult our document."""
-        )
-
+    segments = segment_sentences(str(text), engine)
     if not keep_whitespace:
         segments = strip_whitespace(segments)
+    return segments
 
-    if isinstance(text, list) and engine not in ["crfcut"]:
-        word_indices = indices_words(text)
-        result = map_indices_to_words(word_indices, segments)
-        return result
-    else:
-        return segments
+
+def _sent_tokenize_words(
+    words: list[str], engine: str, keep_whitespace: bool
+) -> list[list[str]]:
+    """Group a list of words into sentences.
+
+    :param list[str] words: list of words
+    :param str engine: name of the sentence tokenizer
+    :param bool keep_whitespace: keep whitespace
+    :return: list of sentences, each a list of words
+    :rtype: list[list[str]]
+    """
+    try:
+        original_text = "".join(words)
+    except TypeError:
+        return []
+
+    is_separator = find_engine(_SENT_SEPARATORS, engine)
+    if is_separator is not None:
+        return _split_at_separators(words, is_separator)
+
+    segments = segment_sentences(original_text, engine)
+    if engine == "crfcut":
+        # BUG-LEDGER: sent-tokenize-crfcut-segments
+        # The crfcut result is not used; all words go in one sentence.
+        segments = [original_text]
+    elif not keep_whitespace:
+        segments = strip_whitespace(segments)
+
+    return map_indices_to_words(indices_words(words), segments)
+
+
+def _is_space_separator(word: str) -> bool:
+    return " " in word and not _RE_WORD_CHAR.search(word)
+
+
+def _is_whitespace_separator(word: str) -> bool:
+    return bool(_RE_WHITESPACE.search(word)) and not _RE_WORD_CHAR.search(word)
+
+
+# Sentence tokenizers that split a list of words at separator words.
+# Keep the names in step with the whitespace engines in SENT_ENGINES.
+_SENT_SEPARATORS: EngineTable[Callable[[str], bool]] = (
+    (("whitespace",), _is_space_separator),
+    (("whitespace+newline",), _is_whitespace_separator),
+)
+
+
+def _split_at_separators(
+    words: list[str], is_separator: Callable[[str], bool]
+) -> list[list[str]]:
+    """Split a list of words into sentences at separator words.
+
+    :param list[str] words: list of words
+    :param is_separator: function that tells if a word is a separator
+    :return: list of sentences, each a list of words
+    :rtype: list[list[str]]
+    """
+    result: list[list[str]] = []
+    sentence: list[str] = []
+    for i, w in enumerate(words):
+        if is_separator(w):
+            if not sentence:
+                continue
+            result.append(sentence)
+            sentence = []
+        else:
+            sentence.append(w)
+        if i + 1 == len(words):
+            # BUG-LEDGER: whitespace-trailing-append
+            # A trailing separator also appends an empty sentence.
+            result.append(sentence)
+    return result
 
 
 def paragraph_tokenize(
@@ -572,27 +521,19 @@ def paragraph_tokenize(
         >>> paragraph_tokenize(sent)  # doctest: +SKIP
         [['(1) '], ['บทความนี้ผู้เขียนสังเคราะห์ขึ้นมาจากผลงานวิจัยที่เคยทำมาในอดีต  ', 'มิได้ทำการศึกษาค้นคว้าใหม่อย่างกว้างขวางแต่อย่างใด ', 'จึงใคร่ขออภัยในความบกพร่องทั้งปวงมา ', 'ณ ที่นี้']]
     """
-    if engine.startswith("wtp"):
-        if "-" not in engine:
-            size = "mini"
-        else:
-            size = engine.split("-")[-1]
+    if not engine.startswith("wtp"):
+        engine_not_found(engine)
 
-        from pythainlp.tokenize.wtsplit import tokenize as segment
+    size = wtp_size(engine)
+    from pythainlp.tokenize.wtsplit import tokenize as segment
 
-        segments = segment(
-            text,
-            size=size,
-            tokenize="paragraph",
-            paragraph_threshold=paragraph_threshold,
-            style=style,
-        )
-    else:
-        raise ValueError(
-            f"""Tokenizer \"{engine}\" not found.
-            It might be a typo; if not, please consult our document."""
-        )
-
+    segments = segment(
+        text,
+        size=size,
+        tokenize="paragraph",
+        paragraph_threshold=paragraph_threshold,
+        style=style,
+    )
     return cast("list[list[str]]", segments)
 
 
@@ -666,51 +607,7 @@ def subword_tokenize(
     if not text or not isinstance(text, str):
         return []
 
-    segments = []
-
-    if engine == "tcc":
-        from pythainlp.tokenize.tcc import segment as tcc_segment
-
-        segments = tcc_segment(text)
-    elif engine == "tcc_p":
-        from pythainlp.tokenize.tcc_p import segment as tcc_p_segment
-
-        segments = tcc_p_segment(text)
-    elif engine == "etcc":
-        from pythainlp.tokenize.etcc import segment as etcc_segment
-
-        segments = etcc_segment(text)
-    elif engine == "wangchanberta":
-        from pythainlp.wangchanberta import segment as wangchanberta_segment
-
-        segments = wangchanberta_segment(text)
-    elif engine == "dict":  # use syllable dictionary
-        words = word_tokenize(text)
-        for word in words:
-            segments.extend(
-                word_tokenize(text=word, custom_dict=syllable_dict_trie())
-            )
-    elif engine == "ssg":
-        from pythainlp.tokenize.ssg import segment as ssg_segment
-
-        segments = ssg_segment(text)
-    elif engine == "tltk":
-        from pythainlp.tokenize.tltk import syllable_tokenize as tltk_segment
-
-        segments = tltk_segment(text)
-    elif engine == "han_solo":
-        from pythainlp.tokenize.han_solo import segment as han_solo_segment
-
-        segments = han_solo_segment(text)
-    elif engine == "phayathai":
-        from pythainlp.phayathaibert import segment as phayathai_segment
-
-        segments = phayathai_segment(text)
-    else:
-        raise ValueError(
-            f"""Tokenizer \"{engine}\" not found.
-            It might be a typo; if not, please consult our document."""
-        )
+    segments = get_engine(SUBWORD_ENGINES, engine)(text)
 
     if not keep_whitespace:
         segments = strip_whitespace(segments)
@@ -752,11 +649,8 @@ def syllable_tokenize(
         >>> syllable_tokenize("ประเทศไทย", engine="dict")
         ['ประ', 'เทศ', 'ไทย']
     """
-    if engine not in ["dict", "han_solo", "ssg", "tltk"]:
-        raise ValueError(
-            f"""Tokenizer \"{engine}\" not found.
-            It might be a typo; if not, please consult our document."""
-        )
+    if engine not in SYLLABLE_ENGINES:
+        engine_not_found(engine)
     return subword_tokenize(
         text=text, engine=engine, keep_whitespace=keep_whitespace
     )
@@ -852,7 +746,7 @@ class Tokenizer:
         ... )
         >>> _tokenizer.word_tokenize(text)  # doctest: +SKIP
         ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ', 'ผิด', 'ปกติ', 'ของ', 'การ', 'พูด']
-        >>> _tokenizer.set_tokenizer_engine(engine="newmm")  # doctest: +SKIP
+        >>> _tokenizer.set_tokenize_engine(engine="newmm")  # doctest: +SKIP
         >>> _tokenizer.word_tokenize(text)  # doctest: +SKIP
         ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็นอาการ', 'ผิด', 'ปกติ', 'ของการพูด']
     """
@@ -874,6 +768,8 @@ class Tokenizer:
             (i.e. *newmm*, *mm*, *longest*, *deepcut*)
         :param bool keep_whitespace: True to keep whitespace, a common
             marker for end of phrase in Thai
+        :param bool join_broken_num: True to rejoin formatted numerics
+            that could be wrongly separated
         """
         self.__trie_dict: Trie = Trie([])
         if custom_dict:

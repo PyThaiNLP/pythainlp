@@ -8,6 +8,7 @@ import os
 import unittest
 from collections import Counter
 from datetime import date, datetime, time, timedelta, timezone
+from typing import Any
 from unittest.mock import patch
 
 from pythainlp.corpus import corpus_path, thai_words
@@ -1051,20 +1052,54 @@ class UtilTestCase(unittest.TestCase):
         )
 
     def test_convert_years(self):
-        self.assertEqual(convert_years("2566", src="be", target="ad"), "2023")
-        self.assertEqual(convert_years("2566", src="be", target="re"), "242")
-        self.assertEqual(convert_years("2566", src="be", target="ah"), "1444")
-        self.assertEqual(convert_years("2023", src="ad", target="be"), "2566")
-        self.assertEqual(convert_years("2023", src="ad", target="ah"), "1444")
-        self.assertEqual(convert_years("2023", src="ad", target="re"), "242")
-        self.assertEqual(convert_years("1444", src="ah", target="be"), "2566")
-        self.assertEqual(convert_years("1444", src="ah", target="ad"), "2023")
-        self.assertEqual(convert_years("1444", src="ah", target="re"), "242")
-        self.assertEqual(convert_years("242", src="re", target="be"), "2566")
-        self.assertEqual(convert_years("242", src="re", target="ad"), "2023")
-        self.assertEqual(convert_years("242", src="re", target="ah"), "1444")
+        # Same moment in every era: BE 2566 = AD 2023 = RE 242 = AH 1444
+        years = {"be": "2566", "ad": "2023", "re": "242", "ah": "1444"}
+        for src, src_year in years.items():
+            for target, target_year in years.items():
+                if src == target:
+                    continue
+                with self.subTest(src=src, target=target):
+                    self.assertEqual(
+                        convert_years(src_year, src=src, target=target),
+                        target_year,
+                    )
+
+    def test_convert_years_defaults_and_inputs(self):
+        self.assertEqual(convert_years("2566"), "2023")
+        self.assertEqual(convert_years(2566), "2023")  # type: ignore[arg-type]
+        self.assertEqual(convert_years(" 2566 "), "2023")
+        self.assertEqual(convert_years("0", src="ad", target="be"), "543")
+        self.assertEqual(convert_years("-1", src="ad", target="be"), "542")
+
+    def test_convert_years_unsupported(self):
+        # BUG-LEDGER: convert-years-same-era
+        for src, target in (
+            ("be", "be"),
+            ("ad", "ad"),
+            ("cat", "dog"),
+            ("be", "dog"),
+            ("cat", "ad"),
+            ("BE", "ad"),
+            ("", ""),
+        ):
+            with self.subTest(src=src, target=target):
+                with self.assertRaises(NotImplementedError):
+                    convert_years("2023", src=src, target=target)
+        # Unhashable eras are unsupported, not a TypeError
+        unhashable_eras: list[Any] = [[], ["be"], {}]
+        for era in unhashable_eras:
+            with self.subTest(era=era):
+                with self.assertRaises(NotImplementedError):
+                    convert_years("2023", src=era, target="ad")
+                with self.assertRaises(NotImplementedError):
+                    convert_years("2023", src="be", target=era)
+        # The era pair is checked before the year is parsed
         with self.assertRaises(NotImplementedError):
-            convert_years("2023", src="cat", target="dog")
+            convert_years("abc", src="cat", target="dog")
+        with self.assertRaises(ValueError):
+            convert_years("abc", src="be", target="ad")
+        with self.assertRaises(ValueError):
+            convert_years("", src="be", target="ad")
 
     def test_nectec_to_ipa(self):
         self.assertEqual(nectec_to_ipa("kl-uua-j^-2"), "kl uua j ˥˩")

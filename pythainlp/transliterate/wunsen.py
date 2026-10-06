@@ -40,6 +40,44 @@ class WunsenTransliterate:
         self.zh_sandhi: Optional[bool] = None
         self.system: Optional[str] = None
 
+    def _set_options(
+        self,
+        lang: str,
+        jp_input: Optional[str],
+        zh_sandhi: Optional[bool],
+        system: Optional[str],
+    ) -> None:
+        """Store the options that apply to the language."""
+        if lang == "jp":
+            self.jp_input = jp_input
+            self.zh_sandhi = None
+            self.system = system
+        elif lang == "zh":
+            self.jp_input = None
+            self.zh_sandhi = zh_sandhi
+            self.system = system
+        elif lang in ("ko", "vi"):
+            self.jp_input = None
+            self.zh_sandhi = None
+            self.system = None
+        else:
+            raise NotImplementedError(
+                "The %s language is not implemented." % lang
+            )
+        self.lang = lang
+
+    def _create_thap_sap(self) -> ThapSap:
+        """Create a ThapSap object from the stored options."""
+        input_lang = "ja" if self.lang == "jp" else self.lang
+        setting: dict[str, Union[str, dict[str, bool]]] = {}
+        if self.jp_input is not None:
+            setting.update({"input": self.jp_input})
+        if self.zh_sandhi is not None:
+            setting.update({"option": {"sandhi": self.zh_sandhi}})
+        if self.system is not None:
+            setting.update({"system": self.system})
+        return ThapSap(input_lang, **setting)
+
     def transliterate(
         self,
         text: str,
@@ -119,34 +157,8 @@ class WunsenTransliterate:
             or self.zh_sandhi != zh_sandhi
             or self.system != system
         ):
-            if lang == "jp":
-                self.jp_input = jp_input
-                self.zh_sandhi = None
-                self.system = system
-            elif lang == "zh":
-                self.jp_input = None
-                self.zh_sandhi = zh_sandhi
-                self.system = system
-            elif lang in ("ko", "vi"):
-                self.jp_input = None
-                self.zh_sandhi = None
-                self.system = None
-            else:
-                raise NotImplementedError(
-                    "The %s language is not implemented." % lang
-                )
-            self.lang = lang
-            input_lang = lang
-            if input_lang == "jp":
-                input_lang = "ja"
-            setting: dict[str, Union[str, dict[str, bool]]] = {}
-            if self.jp_input is not None:
-                setting.update({"input": self.jp_input})
-            if self.zh_sandhi is not None:
-                setting.update({"option": {"sandhi": self.zh_sandhi}})
-            if self.system is not None:
-                setting.update({"system": self.system})
-            self.thap_value = ThapSap(input_lang, **setting)
+            self._set_options(lang, jp_input, zh_sandhi, system)
+            self.thap_value = self._create_thap_sap()
 
         if self.thap_value is None:
             raise RuntimeError("ThapSap model not initialized")

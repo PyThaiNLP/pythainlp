@@ -3,9 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 """nercut 0.2
 
-Dictionary-based maximal matching word segmentation, constrained by
-Thai Character Cluster (TCC) boundaries, and combining tokens that are
-parts of the same named entity.
+Word segmentation from a named entity tagger,
+combining tokens that are parts of the same named entity.
 
 Code by Wannaphong Phatthiyaphaibun
 """
@@ -22,6 +21,27 @@ from pythainlp.tag.named_entity import NER
 _thainer: NER = NER(engine="thainer")
 
 
+def _combine_step(
+    curr_word: str,
+    curr_tag: str,
+    combining_word: str,
+    taglist: Iterable[str],
+) -> tuple[str, list[str]]:
+    """Process one tagged token.
+
+    :return: the updated combining word, and the words to emit
+    """
+    tag = curr_tag[2:] if curr_tag != "O" else "O"
+
+    if curr_tag.startswith("B-") and tag in taglist:
+        return curr_word, []
+    if curr_tag.startswith("I-") and combining_word != "" and tag in taglist:
+        return combining_word + curr_word, []
+    if curr_tag == "O" and combining_word != "":
+        return "", [combining_word, curr_word]
+    return "", [curr_word]
+
+
 def segment(
     text: str,
     taglist: Iterable[str] = [
@@ -34,13 +54,11 @@ def segment(
     ],
     tagger: NER = _thainer,
 ) -> list[str]:
-    """Dictionary-based maximal matching word segmentation, constrained by
-    Thai Character Cluster (TCC) boundaries, and combining tokens that are
-    parts of the same named-entity.
+    """Word segmentation that merges tokens of the same named entity.
 
     :param str text: text to be tokenized into words
-    :param list taglist: a list of named entity tags to be used
-    :param class tagger: NER tagger engine
+    :param Iterable[str] taglist: named entity tags to merge
+    :param pythainlp.tag.NER tagger: named entity tagger
     :return: list of words, tokenized from the text
     """
     if not text:
@@ -48,33 +66,19 @@ def segment(
 
     tagged_words = tagger.tag(text, pos=False)
 
-    words = []
+    words: list[str] = []
     combining_word = ""
     for idx, (curr_word, curr_tag) in enumerate(tagged_words):
-        if curr_tag != "O":
-            tag = curr_tag[2:]
-        else:
-            tag = "O"
-
-        if curr_tag.startswith("B-") and tag in taglist:
-            combining_word = curr_word
-        elif (
-            curr_tag.startswith("I-")
+        combining_word, emitted = _combine_step(
+            curr_word, curr_tag, combining_word, taglist
+        )
+        words.extend(emitted)
+        # flush the pending entity at the end of the text
+        if (
+            idx + 1 == len(tagged_words)
+            and curr_tag.startswith(("B-", "I-"))
             and combining_word != ""
-            and tag in taglist
         ):
-            combining_word += curr_word
-        elif curr_tag == "O" and combining_word != "":
             words.append(combining_word)
-            combining_word = ""
-            words.append(curr_word)
-        else:  # if tag is O
-            combining_word = ""
-            words.append(curr_word)
-        if idx + 1 == len(tagged_words):
-            if curr_tag.startswith("B-") and combining_word != "":
-                words.append(combining_word)
-            elif curr_tag.startswith("I-") and combining_word != "":
-                words.append(combining_word)
 
     return words

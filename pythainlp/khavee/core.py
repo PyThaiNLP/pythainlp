@@ -1,14 +1,14 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-# ruff: noqa: C901
 from __future__ import annotations
 
-from typing import Union
+from typing import Optional, Union
 
 from pythainlp import thai_consonants
 from pythainlp.tokenize import subword_tokenize
 from pythainlp.util import remove_tonemark, sound_syllable
+from pythainlp.util.syllable import spelling_class
 
 
 class KhaveeVerifier:
@@ -63,7 +63,7 @@ class KhaveeVerifier:
         The method :meth:`check_klon` requires the external ``ssg`` library.
     """
 
-    # explicitly include ฤ and ฦ as they act as initial consonants but aren't in thai_consonants
+    # ฤ and ฦ act as initial consonants but are not in thai_consonants
     VALID_CONSONANTS = frozenset(thai_consonants + "ฤฦ")
 
     # Pali/Sanskrit loanwords where the final -ิ or -ุ is orthographically
@@ -143,29 +143,6 @@ class KhaveeVerifier:
     _OPEN_SYLLABLE_VOWELS: frozenset[str] = frozenset(
         {"า", "ๅ", "ะ", "ิ", "ี", "ึ", "ุ", "ู", "อ"}
     )
-    _KOK_CHARS: frozenset[str] = frozenset({"ก", "ข", "ค", "ฆ"})
-    _KOD_CHARS: frozenset[str] = frozenset(
-        {
-            "จ",
-            "ช",
-            "ซ",
-            "ฎ",
-            "ฏ",
-            "ฐ",
-            "ฑ",
-            "ฒ",
-            "ด",
-            "ต",
-            "ถ",
-            "ท",
-            "ธ",
-            "ศ",
-            "ษ",
-            "ส",
-        }
-    )
-    _KON_CHARS: frozenset[str] = frozenset({"ญ", "ณ", "น", "ร", "ล", "ฬ"})
-    _KOB_CHARS: frozenset[str] = frozenset({"บ", "ป", "พ", "ฟ", "ภ"})
 
     # Karu / Lahu prosody
     _LONG_VOWELS: frozenset[str] = frozenset(
@@ -189,10 +166,79 @@ class KhaveeVerifier:
         {"เออะ", "เออ", "เอ", "เอะ", "เอา", "เอาะ"}
     )
 
+    # check_sara: vowel sound of each vowel sign (สระเดี่ยว).
+    # "ั" maps to "อัว" instead when the word ends with "ว".
+    _SARA_OF_SIGN: dict[str, str] = {
+        "ะ": "อะ",
+        "ั": "อะ",
+        "ิ": "อิ",
+        "ุ": "อุ",
+        "ึ": "อึ",
+        "ี": "อี",
+        "ู": "อู",
+        "ื": "อือ",
+        "เ": "เอ",
+        "แ": "แอ",
+        "า": "อา",
+        "โ": "โอ",
+        "ำ": "อำ",
+        "อ": "ออ",
+        "ไ": "ไอ",
+        "ใ": "ไอ",
+        "็": "็",
+    }
+
+    # check_sara: ordered merge rules, first match wins.
+    # (first, second, merged, requires the word to end with "อ")
+    _SHORT_SARA_MERGES: tuple[tuple[str, str, str, bool], ...] = (
+        ("เอ", "อะ", "เอะ", False),
+        ("แอ", "อะ", "แอะ", False),
+    )
+    _COMPOUND_SARA_MERGES: tuple[tuple[str, str, str, bool], ...] = (
+        ("เอะ", "ออ", "เออะ", False),
+        ("เอ", "อิ", "เออ", False),  # เกิด, เมิน
+        ("เอ", "ออ", "เออ", True),  # เหม่อ
+        ("โอ", "อะ", "โอะ", False),  # โต๊ะ
+        ("เอ", "อี", "เอีย", False),  # เรียน
+        ("เอ", "อา", "เอา", False),
+    )
+    _UEA_SARA_MERGES: tuple[tuple[str, str, str, bool], ...] = (
+        ("เออ", "อือ", "เอือ", False),  # มะเขือ, เสือ, เงือก
+    )
+
+    # check_sara: ฤ/ฦ sequences
+    _RUE_LONG_SEQUENCES: tuple[str, ...] = ("ฤา", "ฤๅ", "ฦา", "ฦๅ")
+    # 'อิ' (กฤษณ์, กฤษณะ, ตฤณ, ตฤตีย, ทฤษฎี, ประกฤติ, วิกฤต, ฤทธิ์, อังกฤษ)
+    _RUE_I_SEQUENCES: tuple[str, ...] = (
+        "กฤช",
+        "กฤต",
+        "กฤษ",
+        "ตฤต",
+        "ตฤณ",
+        "ทฤษ",
+        "ปฤษ",
+        "ศฤง",
+        "สฤต",
+        "ฤทธ",
+    )
+
+    # check_marttra: last character -> vowel sign that makes the syllable open
+    # (เสีย, เมีย; เรือ, เสือ; ตัว, ชั่ว, กลัว, อัว)
+    _SIGN_OF_FINAL: dict[str, str] = {"ย": "ี", "อ": "ื", "ว": "ั"}
+    # check_marttra: spelling section (มาตราตัวสะกด) of each final consonant
+    _MARTTRA_OF_FINAL: dict[str, str] = {
+        char: marttra
+        for marttra, chars in spelling_class.items()
+        for char in chars
+    }
+
+    # check_klon
+    _WAK_NAMES: tuple[str, ...] = ("Wak 1", "Wak 2", "Wak 3", "Wak 4")
+
     def __init__(self) -> None:
         """Initialize the KhaveeVerifier class."""
 
-    # For backward compatibility, this method is kept as a private method.
+    # Alias of _is_true_final, kept for backward compatibility.
     def _has_true_final_yl(self, word: str) -> bool:
         """
         Check if ย or ล is a true final consonant
@@ -213,12 +259,9 @@ class KhaveeVerifier:
         :return: True if the ending character acts as a final consonant
         :rtype: bool
         """
-        # Handle การันย์
         word = self.handle_karun_sound_silence(word)
-        # Store original word to distinguish tone-dependent structures
-        original_word = word
-        # Strip tone marks first so words like 'ใกล้' properly evaluate as ending in 'ล'
-        word = remove_tonemark(word)
+        original_word = word  # keeps tone marks for exception lookups
+        word = remove_tonemark(word)  # so 'ใกล้' ends in 'ล'
 
         if len(word) < 2:
             return False
@@ -229,58 +272,62 @@ class KhaveeVerifier:
         if len(consonants) < 2:
             return False
 
-        # คำควบกล้ำ / อักษรนำ (initial clusters)
-        cluster = consonants[0] + consonants[1]
-
         # ไ/ใ never take a final consonant ย here is silent (ไทย, ไชย)
         # Check for ย inside เ-ีย (เสีย, เมีย) (part of the vowel)
-        if last_char == "ย":
-            if ("ไ" in word or "ใ" in word) or ("เ" in word and "ี" in word):
-                return False
+        if last_char == "ย" and (
+            ("ไ" in word or "ใ" in word) or ("เ" in word and "ี" in word)
+        ):
+            return False
 
-        # ---------------------------------------------------------------------
-        # Guard Clauses: If it's not ending in ล, ร, ว, or doesn't have exactly 2
-        # consonants, or lacks pre-posed vowels, it bypasses the cluster checks.
-        # ---------------------------------------------------------------------
+        # Skip the cluster checks unless the word ends in ล, ร, or ว,
+        # has exactly 2 consonants, and has a pre-posed vowel.
         if last_char not in "ลรว" or len(consonants) != 2:
             return True
 
-        # Check for ล, ร, ว in initial clusters (คำควบกล้ำ / อักษรนำ)
-        # with pre-posed vowels เ-, แ-, โ-, ไ-, ใ-
+        # Initial clusters (คำควบกล้ำ / อักษรนำ) with pre-posed vowels
         # (เปล, เถล, แผล, โหล, ไกล, ใกล้, โปร, แตร, ไกว, เขว)
-        if not (
-            "เ" in word
-            or "แ" in word
-            or "โ" in word
-            or "ไ" in word
-            or "ใ" in word
-        ):
+        if not any(vowel in word for vowel in "เแโไใ"):
             return True
 
-        # Check for ล
+        cluster = consonants[0] + consonants[1]
+        return self._is_true_cluster_final(
+            word, original_word, last_char, cluster
+        )
+
+    def _is_true_cluster_final(
+        self, word: str, original_word: str, last_char: str, cluster: str
+    ) -> bool:
+        """
+        Check if a final ล, ร, or ว after a pre-posed vowel is a true final.
+
+        :param str word: Thai word without tone marks
+        :param str original_word: Thai word with tone marks
+        :param str last_char: last character of ``word``
+        :param str cluster: first two consonants of ``word``
+        :return: False if the character is part of an initial cluster
+        :rtype: bool
+        """
         if last_char == "ล" and cluster in self._LAM_CLUSTERS:
-            # Exception 'เพล' - แม่กน (monk food ฉันเพล) Returns True, otherwise False
+            # 'เพล' (ฉันเพล) is the exception: แม่กน
             return word == "เพล"
 
-        # Check for ร
         if last_char == "ร" and cluster in self._RUA_CLUSTERS:
             return False
 
-        # Check for ว (ควบแท้ and อักษรนำ)
         if last_char == "ว":
-            # With ไ/ใ, 'ว' is ALWAYS a cluster (ไกว, ไขว้)
+            # With ไ/ใ, 'ว' is always a cluster (ไกว, ไขว้)
             if ("ไ" in word or "ใ" in word) and (cluster in self._WA_CLUSTERS):
                 return False
 
-            # With เ/แ/โ, 'ว' is mostly is a true final (เลว, เหว, แก้ว, แห้ว).
-            # Whitelist อักษรนำ/คำควบกล้ำ as exceptions
-            elif "เ" in word or "แ" in word or "โ" in word:
-                # USE ORIGINAL_WORD to safely catch open syllables แม่ ก กา
-                # เดินเขว, ว้าเหว่, แม่น้ำแคว, ตวาดแหว, โควตา, ช่องโหว่
-                if original_word in self._WA_WHITELIST:
-                    return False
+            # With เ/แ/โ, 'ว' is mostly a true final (เลว, เหว, แก้ว, แห้ว).
+            # The whitelist holds the cluster exceptions (เขว, เหว่, แคว).
+            # It matches original_word because the tone mark matters.
+            if ("เ" in word or "แ" in word or "โ" in word) and (
+                original_word in self._WA_WHITELIST
+            ):
+                return False
 
-        # If it passed all the filters above, it is a true final (จัย, สมัย, ชล, ผล, เหนื่อย)
+        # (จัย, สมัย, ชล, ผล, เหนื่อย)
         return True
 
     def check_sara(self, word: str) -> str:
@@ -302,62 +349,48 @@ class KhaveeVerifier:
             >>> print(kv.check_sara("เริง"))  # doctest: +SKIP
             'เออ'
         """
-        sara = []
-        countoa = 0  # Count occurrences of 'อ'
-
-        # Store original word to safely evaluate exceptions (like ฤทธิ์) after Karun stripping
-        original_word = word
-
-        # In case of การันย์ (word stripped of Karun characters)
+        original_word = word  # keeps ฤทธิ์-like words after การันต์ stripping
         word = self.handle_karun_sound_silence(word)
-        # Remove tonemarks for checking endings safely
         word_req = remove_tonemark(word)
 
-        # Empty string / weird input should return empty string (Catches "", "อ์", "้", etc.)
+        # Catches "", "อ์", "้", etc.
         if not word_req:
             return ""
 
-        # Intercept Pali/Sanskrit words with silent terminal vowels (สระที่ไม่ออกเสียงท้ายคำ)
-        # Removing the final character -ิ or -ุ
+        # Drop the silent final -ิ or -ุ of Pali/Sanskrit words
         if word_req.endswith(self._MASKING_TERMINAL_VOWELS):
             word = word[:-1]
             word_req = word_req[:-1]
 
-        # In case of สระเดี่ยว
-        for i in word:
-            if i == "ั" and word_req.endswith("ว"):
+        sara = self._scan_vowel_signs(word, word_req)
+        sara = self._merge_vowel_signs(sara, word, word_req)
+        sara = self._apply_word_vowel_rules(
+            sara, word, word_req, original_word
+        )
+        sara = self._apply_reduced_vowel_rules(sara, word, word_req)
+
+        if not sara:
+            # No explicit vowel: assume the implied short 'a'.
+            return "อะ"
+
+        return sara[0]
+
+    def _scan_vowel_signs(self, word: str, word_req: str) -> list[str]:
+        """
+        List the vowel sound of each vowel sign (สระเดี่ยว) in a word.
+
+        :param str word: Thai word
+        :param str word_req: ``word`` without tone marks
+        :return: vowel sounds in the order of their signs, plus one for รร
+        :rtype: list[str]
+        """
+        ends_with_wo = word_req.endswith("ว")
+        sara = []
+        for char in word:
+            if char == "ั" and ends_with_wo:
                 sara.append("อัว")
-            elif i in ("ะ", "ั"):
-                sara.append("อะ")
-            elif i == "ิ":
-                sara.append("อิ")
-            elif i == "ุ":
-                sara.append("อุ")
-            elif i == "ึ":
-                sara.append("อึ")
-            elif i == "ี":
-                sara.append("อี")
-            elif i == "ู":
-                sara.append("อู")
-            elif i == "ื":
-                sara.append("อือ")
-            elif i == "เ":
-                sara.append("เอ")
-            elif i == "แ":
-                sara.append("แอ")
-            elif i == "า":
-                sara.append("อา")
-            elif i == "โ":
-                sara.append("โอ")
-            elif i == "ำ":
-                sara.append("อำ")
-            elif i == "อ":
-                countoa += 1
-                sara.append("ออ")
-            elif i in ("ไ", "ใ"):
-                sara.append("ไอ")
-            elif i == "็":
-                sara.append("็")
+            elif char in self._SARA_OF_SIGN:
+                sara.append(self._SARA_OF_SIGN[char])
 
         # In case of รร
         if "รร" in word:
@@ -365,7 +398,42 @@ class KhaveeVerifier:
                 sara.append("อำ")
             else:
                 sara.append("อะ")
+        return sara
 
+    @staticmethod
+    def _merge_sara_pair(
+        sara: list[str],
+        rules: tuple[tuple[str, str, str, bool], ...],
+        ends_with_o: bool,
+    ) -> bool:
+        """
+        Merge the first matching pair of vowel sounds in place.
+
+        :param list[str] sara: vowel sounds, modified in place
+        :param rules: ordered (first, second, merged, requires final อ) rules
+        :param bool ends_with_o: whether the word ends with อ
+        :return: True if a rule was applied
+        :rtype: bool
+        """
+        for first, second, merged, requires_final_o in rules:
+            if requires_final_o and not ends_with_o:
+                continue
+            if first in sara and second in sara:
+                sara.remove(first)
+                sara.remove(second)
+                sara.append(merged)
+                return True
+        return False
+
+    @staticmethod
+    def _drop_consonant_o(sara: list[str], word: str) -> None:
+        """
+        Remove 'ออ' in place where อ acts as a consonant.
+
+        :param list[str] sara: vowel sounds, modified in place
+        :param str word: Thai word
+        """
+        countoa = word.count("อ")
         # Clean up 'ออ' if 'อ' is acting purely as an initial consonant (อต, อด, อบ, อวบ)
         if (
             "ออ" in sara
@@ -378,12 +446,49 @@ class KhaveeVerifier:
         # In case of ออ (Clean redundant ออ from compound vowels like คือ, มือ)
         if (
             countoa == 1
-            and "อ" == word[-1]
+            and word[-1] == "อ"
             and "เ" not in word
             and "ออ" in sara
             and len(sara) > 1
         ):
             sara.remove("ออ")
+
+    @staticmethod
+    def _apply_mai_taikhu(sara: list[str]) -> None:
+        """
+        Resolve one ไม้ไต่คู้ (-็) into a short vowel in place.
+
+        :param list[str] sara: vowel sounds, modified in place
+        """
+        if "็" not in sara:
+            return
+        sara.remove("็")
+        if "เอ" in sara:
+            sara.remove("เอ")
+            sara.append("เอะ")  # เจ็ด, เป็น, เด็ก
+        elif "แอ" in sara:
+            sara.remove("แอ")
+            sara.append("แอะ")  # แข็ง, แท็กซี่, แย็บ
+        else:
+            if "ออ" in sara:
+                sara.remove("ออ")
+            sara.append("เอาะ")  # ก็, ล็อก, ผล็อย
+
+    def _merge_vowel_signs(
+        self, sara: list[str], word: str, word_req: str
+    ) -> list[str]:
+        """
+        Merge vowel sounds of single signs into compound vowels (สระประสม).
+
+        :param list[str] sara: vowel sounds from :meth:`_scan_vowel_signs`
+        :param str word: Thai word
+        :param str word_req: ``word`` without tone marks
+        :return: merged vowel sounds
+        :rtype: list[str]
+        """
+        # Mixed contract: helpers mutate `sara` in place, but the เอาะ
+        # fallback below returns a new list, so callers use the return value.
+        self._drop_consonant_o(sara, word)
 
         # In case of เอ เอ (merging two 'เอ' into 'แอ')
         if sara.count("เอ") >= 2:
@@ -392,72 +497,45 @@ class KhaveeVerifier:
             sara.append("แอ")
 
         # In case of สระประสม
-        if "เอ" in sara and "อะ" in sara:
-            sara.remove("เอ")
-            sara.remove("อะ")
-            sara.append("เอะ")
-        elif "แอ" in sara and "อะ" in sara:
-            sara.remove("แอ")
-            sara.remove("อะ")
-            sara.append("แอะ")
-
+        self._merge_sara_pair(sara, self._SHORT_SARA_MERGES, False)
         # In case of สระประสม Transformed vowels ไม้ไต่คู้ (-็)
-        if "็" in sara:
-            sara.remove("็")
-            if "เอ" in sara:
-                sara.remove("เอ")
-                sara.append("เอะ")  # เจ็ด, เป็น, เด็ก
-            elif "แอ" in sara:
-                sara.remove("แอ")
-                sara.append("แอะ")  # แข็ง, แท็กซี่, แย็บ
-            else:
-                if "ออ" in sara:
-                    sara.remove("ออ")
-                sara.append("เอาะ")  # ก็, ล็อก, ผล็อย
+        self._apply_mai_taikhu(sara)
 
-        if "เอะ" in sara and "ออ" in sara:
-            sara.remove("เอะ")
-            sara.remove("ออ")
-            sara.append("เออะ")
-        elif "เอ" in sara and "อิ" in sara:
-            sara.remove("เอ")
-            sara.remove("อิ")
-            sara.append("เออ")  # เกิด, เมิน
-        elif "อ" == word[-1] and "เอ" in sara and "ออ" in sara:
-            sara.remove("เอ")
-            sara.remove("ออ")
-            sara.append("เออ")  # เหม่อ
-        elif "โอ" in sara and "อะ" in sara:
-            sara.remove("โอ")
-            sara.remove("อะ")
-            sara.append("โอะ")  # โต๊ะ
-        elif "เอ" in sara and "อี" in sara:
-            sara.remove("เอ")
-            sara.remove("อี")
-            sara.append("เอีย")  # เรียน
-        elif "เอ" in sara and "อา" in sara:
-            sara.remove("เอ")
-            sara.remove("อา")
-            sara.append("เอา")
-        elif "เ" in word and "า" in word and "ะ" in word:
-            sara = []
-            sara.append("เอาะ")
+        if not self._merge_sara_pair(
+            sara, self._COMPOUND_SARA_MERGES, word[-1] == "อ"
+        ) and ("เ" in word and "า" in word and "ะ" in word):
+            sara = ["เอาะ"]
 
-        if "อือ" in sara and "เออ" in sara:
-            sara.remove("เออ")
-            sara.remove("อือ")
-            sara.append("เอือ")  # มะเขือ, เสือ, เงือก
-        elif "ออ" in sara and len(sara) > 1:
+        if self._merge_sara_pair(sara, self._UEA_SARA_MERGES, False):
+            return sara
+        if "ออ" in sara and len(sara) > 1:
             sara.remove("ออ")
         elif "ว" in word and len(sara) == 0:
             if word_req in {"บวร", "วร"}:
                 sara.append("ออ")
             else:
                 sara.append("อัว")  # ควร, บวก, สวม
+        return sara
 
-        if "ั" in word and self.check_marttra(word) == "กา":
-            if "อัว" not in sara:
-                sara = ["ไอ"]
+    def _apply_word_vowel_rules(
+        self, sara: list[str], word: str, word_req: str, original_word: str
+    ) -> list[str]:
+        """
+        Override vowel sounds by whole-word patterns.
+
+        :param list[str] sara: vowel sounds from :meth:`_merge_vowel_signs`
+        :param str word: Thai word after การันต์ and silent vowel removal
+        :param str word_req: ``word`` without tone marks
+        :param str original_word: Thai word as given
+        :return: vowel sounds
+        :rtype: list[str]
+        """
+        if (
+            "ั" in word
+            and self.check_marttra(word) == "กา"
+            and "อัว" not in sara
+        ):
+            sara = ["ไอ"]
 
         # In case of อ
         if word in self._EXPLICIT_SARA_WORDS:
@@ -468,62 +546,66 @@ class KhaveeVerifier:
             sara = ["เอือ"]
 
         # In case of เ-ย (ลดรูป เ-อ) เลย, เคย, เอย
+        # Ensure no competing vowels exist ('เตียง' uses เอีย, not เออ)
         if (
             "เอ" in sara
             and word_req.endswith("ย")
             and self._is_true_final(original_word)
+            and all(v in {"เอ", "ออ"} for v in sara)
         ):
-            # Ensure no competing vowels exist ('เตียง' uses เอีย, not เออ)
-            other_vowels = [v for v in sara if v not in {"เอ", "ออ"}]
-            if not other_vowels:
-                sara = ["เออ"]
+            sara = ["เออ"]
 
-        # In case of ฤ ฦ
-        if any(ex in original_word for ex in ("ฤา", "ฤๅ", "ฦา", "ฦๅ")):
-            sara = ["อือ"]
-        elif "ฤ" in original_word or "ฦ" in original_word:
-            sara = []
-            # for 'เออ' (ฤกษ์ - เริก) the only 'เออ' sound exception of ฤ
-            if word == "ฤก" or original_word.startswith("ฤกษ"):
-                sara.append("เออ")
-            # for 'อิ' (กฤษณ์, กฤษณะ, ตฤณ, ตฤตีย, ทฤษฎี, ประกฤติ, วิกฤต, ฤทธิ์, อังกฤษ)
-            # Use original_word here to ensure stripped Karun characters (like ธิ์) are evaluated
-            elif any(
-                ex in original_word
-                for ex in (
-                    "กฤช",
-                    "กฤต",
-                    "กฤษ",
-                    "ตฤต",
-                    "ตฤณ",
-                    "ทฤษ",
-                    "ปฤษ",
-                    "ศฤง",
-                    "สฤต",
-                    "ฤทธ",
-                )
-            ):
-                sara.append("อิ")
-            # Default 'อึ' (รึ) (ฤดู, ฤทัย, พฤษภาคมม)
-            else:
-                sara.append("อึ")
+        return self._apply_rue_vowel_rules(sara, word, original_word)
 
+    def _apply_rue_vowel_rules(
+        self, sara: list[str], word: str, original_word: str
+    ) -> list[str]:
+        """
+        Override vowel sounds for words with ฤ or ฦ.
+
+        :param list[str] sara: vowel sounds
+        :param str word: Thai word after การันต์ and silent vowel removal
+        :param str original_word: Thai word as given
+        :return: vowel sounds
+        :rtype: list[str]
+        """
+        if any(ex in original_word for ex in self._RUE_LONG_SEQUENCES):
+            return ["อือ"]
+        if "ฤ" not in original_word and "ฦ" not in original_word:
+            return sara
+        # for 'เออ' (ฤกษ์ - เริก) the only 'เออ' sound exception of ฤ
+        if word == "ฤก" or original_word.startswith("ฤกษ"):
+            return ["เออ"]
+        # Use original_word here to ensure stripped Karun characters (like ธิ์) are evaluated
+        if any(ex in original_word for ex in self._RUE_I_SEQUENCES):
+            return ["อิ"]
+        # Default 'อึ' (รึ) (ฤดู, ฤทัย, พฤษภาคมม)
+        return ["อึ"]
+
+    @staticmethod
+    def _apply_reduced_vowel_rules(
+        sara: list[str], word: str, word_req: str
+    ) -> list[str]:
+        """
+        Override vowel sounds for reduced vowels (สระลดรูป) and symbols.
+
+        :param list[str] sara: vowel sounds
+        :param str word: Thai word after การันต์ and silent vowel removal
+        :param str word_req: ``word`` without tone marks
+        :return: vowel sounds
+        :rtype: list[str]
+        """
         # In case of สระลดรูป (ออ, โอะ)
         if not sara and len(word) >= 2:
-            if word[-1] == "ร":
-                # Words ending with ร without vowels usually take the 'ออ' sound (พร, นคร)
-                sara.append("ออ")
-            else:
-                # Other consonants without vowels usually take the hidden 'โอะ' sound (นม, กรด)
-                sara.append("โอะ")
+            # Words ending with ร without vowels usually take the 'ออ' sound (พร, นคร).
+            # Other consonants without vowels usually take the hidden 'โอะ' sound (นม, กรด).
+            sara = ["ออ"] if word[-1] == "ร" else ["โอะ"]
 
         # In case of นิกหิต (-ํ) + า (miss-typed of สระอำ) or standalone นิกหิต (-ํ) 'อัง'
         if "ํ" in word:
-            if "ํา" in word:
-                sara = ["อำ"]  # The strict decomposed 'อำ' typo
-            else:
-                # Standalone sounds like 'อัง' (อะ + ง) from pali/sanskrit
-                sara = ["อะ"]
+            # The strict decomposed 'อำ' typo, or standalone sounds like
+            # 'อัง' (อะ + ง) from pali/sanskrit
+            sara = ["อำ"] if "ํา" in word else ["อะ"]
 
         # In case of บ่ / บ
         if word_req == "บ":
@@ -533,12 +615,7 @@ class KhaveeVerifier:
         if word_req in {"ณ", "ธ", "อ", "พณ"}:
             sara = ["อะ"]
 
-        if not sara:
-            # Fallback: If no explicit vowel is found and it doesn't fit closed-syllable
-            # reductions, assume the implied short 'a' (เสียงอะกึ่งมาตรา).
-            return "อะ"
-
-        return sara[0]
+        return sara
 
     def check_marttra(self, word: str) -> str:
         """
@@ -563,111 +640,122 @@ class KhaveeVerifier:
             >>> print(kv.check_marttra("ทำ"))  # doctest: +SKIP
             'กา'
         """
-        # Resolve Karun first to prevents "ศาสตร์" or "ศุกร์"
-        # from complicating the cluster logic.
+        # Resolve การันต์ first so "ศาสตร์" and "ศุกร์" skip the cluster logic.
         word = self.handle_karun_sound_silence(word)
 
-        # is_true_final process requires the original word
-        # to check for exceptions in อักษรนำ/คำควบกล้ำ
+        # _is_true_final needs the word with tone marks.
         original_word = word
         word = remove_tonemark(word)
 
-        # Empty string should be returned as empty string (Catches "", "อ์", "้", etc.)
+        # Catches "", "อ์", "้", etc.
         if not word:
             return ""
 
-        # Intercept Pali/Sanskrit words with silent terminal vowels (สระที่ไม่ออกเสียงท้ายคำ)
-        # Removing the final character -ิ or -ุ
+        # Drop the silent final -ิ or -ุ of Pali/Sanskrit words
         if word.endswith(self._MASKING_TERMINAL_VOWELS):
             word = word[:-1]
 
-        # Handle consonant clusters ending with ร
-        if len(word) >= 3 and word[-1] == "ร":
-            prev_char = word[-2]
+        word = self._strip_silent_final_ro(word)
 
-            # Safe to always strip
-            # (e.g., บุตร, เนตร, มิตร, เกษตร, บัตร, เพชร, กอปร (อ่านว่า กอบ))
-            if prev_char in {"ต", "ช", "ป"}:
-                word = word[:-1]
+        marttra = self._marttra_of_open_form(word, original_word)
+        if marttra is not None:
+            return marttra
+        return self._marttra_of_final(word)
 
-            # Ambiguous (e.g., มังกร vs จักร, สุนทร vs สมุทร)
-            # Only strip 'ร' if the cluster is preceded by a specific short vowel.
-            elif prev_char in {"ก", "ข", "ค", "ฆ", "ท"}:
-                char_before_prev = word[-3]
+    @staticmethod
+    def _strip_silent_final_ro(word: str) -> str:
+        """
+        Remove a silent final ร of a consonant cluster.
 
-                # If preceded by -ั, -ิ, -ี, -ุ, -ู (e.g., จั-ก-ร, สมุ-ท-ร)
-                if char_before_prev in {"ั", "ิ", "ี", "ุ", "ู"}:
-                    word = word[:-1]
-                # (Words like นคร, มังกร, สุนทร will correctly BYPASS this and remain แม่กน)
+        :param str word: Thai word without tone marks
+        :return: ``word`` without the silent final ร
+        :rtype: str
+        """
+        if len(word) < 3 or word[-1] != "ร":
+            return word
+        prev_char = word[-2]
 
-        # Check for อักษรตัวเดียวแทนคำ Standalone words
+        # Safe to always strip
+        # (e.g., บุตร, เนตร, มิตร, เกษตร, บัตร, เพชร, กอปร (อ่านว่า กอบ))
+        if prev_char in {"ต", "ช", "ป"}:
+            return word[:-1]
+
+        # Ambiguous (e.g., มังกร vs จักร, สุนทร vs สมุทร)
+        # Only strip 'ร' if the cluster is preceded by a specific short vowel
+        # -ั, -ิ, -ี, -ุ, -ู (e.g., จั-ก-ร, สมุ-ท-ร).
+        # Words like นคร, มังกร, สุนทร remain แม่กน.
+        if prev_char in {"ก", "ข", "ค", "ฆ", "ท"} and word[-3] in {
+            "ั",
+            "ิ",
+            "ี",
+            "ุ",
+            "ู",
+        }:
+            return word[:-1]
+        return word
+
+    def _marttra_of_open_form(
+        self, word: str, original_word: str
+    ) -> Optional[str]:
+        """
+        Classify words that cannot have a final consonant.
+
+        :param str word: Thai word without tone marks
+        :param str original_word: Thai word with tone marks
+        :return: "กา" or "กง", or None if not decided here
+        :rtype: Optional[str]
+        """
+        # Single-character words
         if word in self._SINGLE_CHAR_WORDS:
             return "กา"
 
-        # -------------------------------------------------------------------------
-        # สระเกิน (อำ, ไอ, ใอ, เอา) Orthographic Handlers
-        # According to the Royal Society, these are classified structurally as แม่ ก กา.
-        # Phonetic rhyming (e.g. กรรม rhyming with จำ) is normalized in `is_sumpus`.
-        # -------------------------------------------------------------------------
+        # สระเกิน (อำ, ไอ, ใอ, เอา) are แม่ ก กา by spelling.
+        # Phonetic rhyming (กรรม with จำ) is normalized in `is_sumpus`.
 
-        # Check for ำ or นิคหิต (-ํ) + า
+        # ำ or นิคหิต (-ํ) + า
         if word[-1] == "ำ" or word.endswith("ํา"):
             return "กา"
 
-        # Check for standalone นิคหิต (-ํ) 'อัง'
+        # Standalone นิคหิต (-ํ) 'อัง'
         if word.endswith("ํ"):
             return "กง"
 
         # Any word with exactly 1 consonant (and not ending in ำ/ํ)
         # cannot have a final consonant and therefore must be "กา"
-
         consonants = sum(1 for c in word if c in self.VALID_CONSONANTS)
         if consonants == 1:
             return "กา"
 
-        # Check for ไ/ใ
-        if "ไ" in word or "ใ" in word:
-            if word[-1] not in "ยลรว":
-                return "กา"
-            elif not self._is_true_final(original_word):
-                return "กา"
-
-        # Check for เ, แ, โ + ย, ร, ล, ว (คำควบกล้ำ / อักษรนำ)
-        if word[-1] in "ยลรว" and ("เ" in word or "แ" in word or "โ" in word):
-            # ไม่ใช่ตัวสะกดแท้ -> แม่ก กา
-            if not self._is_true_final(original_word):
-                return "กา"
-
-        # Check for ตัวสะกด final consonants
-        # Add รากยาว "ๅ" (not สระอา) for word like ฤๅ(ษี)
-        last_char = word[-1]
-        if (
-            last_char in self._OPEN_SYLLABLE_VOWELS
-            or ("ี" in word and last_char == "ย")  # Catch สระเอีย (เสีย, เมีย)
-            or ("ื" in word and last_char == "อ")  # Catch สระอือ (เรือ, เสือ)
-            or (
-                "ั" in word and last_char == "ว"
-            )  # Catch สระอัว (ตัว, ชั่ว, กลัว, อัว)
+        # ไ/ใ
+        if ("ไ" in word or "ใ" in word) and (
+            word[-1] not in "ยลรว" or not self._is_true_final(original_word)
         ):
             return "กา"
-        elif last_char == "ง":
-            return "กง"
-        elif last_char == "ม":
-            return "กม"
-        elif last_char == "ย":
-            return "เกย"
-        elif last_char == "ว":
-            return "เกอว"
-        elif last_char in self._KOK_CHARS:
-            return "กก"
-        elif last_char in self._KOD_CHARS:
-            return "กด"
-        elif last_char in self._KON_CHARS:
-            return "กน"
-        elif last_char in self._KOB_CHARS:
-            return "กบ"
-        else:
+
+        # เ, แ, โ + ย, ร, ล, ว that is not a true final -> แม่ ก กา
+        if (
+            word[-1] in "ยลรว"
+            and ("เ" in word or "แ" in word or "โ" in word)
+            and not self._is_true_final(original_word)
+        ):
             return "กา"
+        return None
+
+    def _marttra_of_final(self, word: str) -> str:
+        """
+        Classify a word by its last character.
+
+        :param str word: Thai word without tone marks
+        :return: name of the spelling section
+        :rtype: str
+        """
+        last_char = word[-1]
+        if last_char in self._OPEN_SYLLABLE_VOWELS:
+            return "กา"
+        sign = self._SIGN_OF_FINAL.get(last_char)
+        if sign is not None and sign in word:
+            return "กา"
+        return self._MARTTRA_OF_FINAL.get(last_char, "กา")
 
     def is_sumpus(self, word1: str, word2: str) -> bool:
         """
@@ -692,7 +780,6 @@ class KhaveeVerifier:
             >>> print(kv.is_sumpus("จำ", "กรรม"))  # doctest: +SKIP
             True
         """
-        # Empty string should be returned as False
         if not word1 or not word2:
             return False
 
@@ -701,24 +788,17 @@ class KhaveeVerifier:
         sara1 = self.check_sara(word1)
         sara2 = self.check_sara(word2)
 
-        # -------------------------------------------------------------------------
-        # Phonetic Normalization for สระเกิน (อำ, ไอ, ใอ)
-        #
-        # While check_marttra classifies words like "วัย" as อะ+เกย and "ใจ" as ไอ+กา,
-        # poetry cares about the sound (เสียง).
-        # We normalize the phonetic CVC structures into their สระเกิน counterparts.
-        # ('เอา' requires no normalizer as native Thai spelling forces the /aw/ sound
-        # to use 'เ-า', bypassing the need for an อะ+เกอว collision).
-        # -------------------------------------------------------------------------
+        # check_marttra follows spelling ("วัย" is อะ+เกย), but rhyme follows
+        # sound, so normalize to the สระเกิน forms. 'เอา' needs none.
 
-        # อัย -> ไอ (Normalize 'อะ' + 'เกย' to 'ไอ' + 'กา')
+        # อัย -> ไอ
         if sara1 == "อะ" and marttra1 == "เกย":
             sara1 = "ไอ"
             marttra1 = "กา"
         if sara2 == "อะ" and marttra2 == "เกย":
             sara2 = "ไอ"
             marttra2 = "กา"
-        # อัม -> อำ (Normalize both 'อำ' and 'อะ' + 'กม' to 'อำ' + 'กา')
+        # อัม -> อำ
         if (sara1 == "อะ" or sara1 == "อำ") and marttra1 == "กม":
             sara1 = "อำ"
             marttra1 = "กา"
@@ -745,7 +825,6 @@ class KhaveeVerifier:
             Union[str, bool]: "karu" for heavy syllables or "lahu" for light syllables.
             or False if the input is an empty string.
         """
-        # Empty string should be returned as False
         if not text:
             return False
 
@@ -828,101 +907,113 @@ class KhaveeVerifier:
         if k_type not in {4, 8}:
             return "Something went wrong. Make sure you enter it in the correct form (k_type 4 or 8)."
 
-        # Normalize spacing and split phrases/sentences across arbitrary whitespace
         waks = text.split()
-        # Ensure the poem has complete stanzas (4 waks per stanza)
         if len(waks) % 4 != 0 or len(waks) == 0:
             return "The poem does not have complete stanzas (บท). A stanza must contain exactly 4 sentences (วรรค)."
 
-        errors = []
-        stanzas = []
-        # วรรคสดับ (Wak 1), วรรครับ (Wak 2), วรรครอง (Wak 3), วรรคส่ง (Wak 4)
-        wak_names = ["Wak 1", "Wak 2", "Wak 3", "Wak 4"]
+        # Wak 1 สดับ, Wak 2 รับ, Wak 3 รอง, Wak 4 ส่ง
+        stanzas = [
+            [subword_tokenize(waks[i + j], engine="ssg") for j in range(4)]
+            for i in range(0, len(waks), 4)
+        ]
 
-        # 1. Tokenize and group sentences into stanzas (4 Waks per stanza)
-        for i in range(0, len(waks), 4):
-            stanza = [
-                subword_tokenize(waks[i + j], engine="ssg") for j in range(4)
-            ]
-            stanzas.append(stanza)
-
-        # 2. Evaluate rules for each stanza
-        for stanza_index, stanza in enumerate(stanzas):
-            wak1, wak2, wak3, wak4 = stanza
-
-            # Safety check against empty sentences
-            if not all((wak1, wak2, wak3, wak4)):
-                errors.append(
-                    f"Stanza (บทที่) {stanza_index + 1} contains empty sentences."
-                )
-                continue
-
-            # Check word counts
-            max_words = 10 if k_type == 8 else 5
-            for wak_index, wak in enumerate(stanza):
-                if len(wak) > max_words:
-                    errors.append(
-                        f"Stanza (บทที่) {stanza_index + 1} {wak_names[wak_index]}: "
-                        f"Word count exceeds {max_words}: {wak}"
-                    )
-
-            # Define rhyme target lengths based on Klon type
-            # Klon 8: Targets first 5 words (อนุโลม 1, 2, 4 บังคับ 3, 5)
-            # Klon 4: Targets first 2 words
-            if k_type == 8:
-                wak2_targets = wak2[:5]
-                wak4_targets = wak4[:5]
-            else:
-                # Klon 4: If the target sentence has 5 words, check the first 3 words.
-                # Otherwise, check the standard first 2 words.
-                limit_wak2 = 3 if len(wak2) == 5 else 2
-                limit_wak4 = 3 if len(wak4) == 5 else 2
-
-                wak2_targets = wak2[:limit_wak2]
-                wak4_targets = wak4[:limit_wak4]
-
-            # Extract the last word of each Wak
-            wak1_last = wak1[-1]
-            wak2_last = wak2[-1]
-            wak3_last = wak3[-1]
-
-            # Rule 1: วรรคสดับ -> วรรครับ
-            if not any(
-                self.is_sumpus(wak1_last, target) for target in wak2_targets
-            ):
-                errors.append(
-                    f"Rhyme error in Stanza (บทที่) {stanza_index + 1}: "
-                    f"'{wak1_last}' ({wak_names[0]}) does not rhyme with {wak2_targets} ({wak_names[1]})"
-                )
-
-            # Rule 2: วรรครับ -> วรรครอง
-            if not self.is_sumpus(wak2_last, wak3_last):
-                errors.append(
-                    f"Rhyme error in Stanza (บทที่) {stanza_index + 1}: "
-                    f"'{wak2_last}' ({wak_names[1]}) does not rhyme with '{wak3_last}' ({wak_names[2]})"
-                )
-
-            # Rule 3: วรรครอง -> วรรคส่ง
-            if not any(
-                self.is_sumpus(wak3_last, target) for target in wak4_targets
-            ):
-                errors.append(
-                    f"Rhyme error in Stanza (บทที่) {stanza_index + 1}: "
-                    f"'{wak3_last}' ({wak_names[2]}) does not rhyme with {wak4_targets} ({wak_names[3]})"
-                )
-
-            # Rule 4: สัมผัสระหว่างบท (Inter-stanza)
-            if stanza_index > 0:
-                # Target Wak 4 of the previous stanza
-                prev_wak4_last = stanzas[stanza_index - 1][3][-1]
-                if not self.is_sumpus(prev_wak4_last, wak2_last):
-                    errors.append(
-                        f"Inter-stanza rhyme error (ผิดสัมผัสระหว่างบท) between Stanza {stanza_index} and {stanza_index + 1}: "
-                        f"'{prev_wak4_last}' ({wak_names[3]}) does not rhyme with '{wak2_last}' ({wak_names[1]})"
-                    )
+        errors: list[str] = []
+        for stanza_index in range(len(stanzas)):
+            errors.extend(self._check_stanza(stanzas, stanza_index, k_type))
 
         if not errors:
             return "The poem is correct according to the principle."
+        return errors
+
+    @staticmethod
+    def _rhyme_targets(
+        wak2: list[str], wak4: list[str], k_type: int
+    ) -> tuple[list[str], list[str]]:
+        """
+        Select the words of Wak 2 and Wak 4 that may receive a rhyme.
+
+        :param list[str] wak2: words of Wak 2
+        :param list[str] wak4: words of Wak 4
+        :param int k_type: type of Thai poem (4 or 8)
+        :return: target words of Wak 2 and Wak 4
+        :rtype: tuple[list[str], list[str]]
+        """
+        # Klon 8: first 5 words (อนุโลม 1, 2, 4; บังคับ 3, 5)
+        if k_type == 8:
+            return wak2[:5], wak4[:5]
+        # Klon 4: first 3 words if the wak has 5 words, else first 2
+        limit_wak2 = 3 if len(wak2) == 5 else 2
+        limit_wak4 = 3 if len(wak4) == 5 else 2
+        return wak2[:limit_wak2], wak4[:limit_wak4]
+
+    def _check_stanza(
+        self, stanzas: list[list[list[str]]], stanza_index: int, k_type: int
+    ) -> list[str]:
+        """
+        Check word counts and rhymes of one stanza (บท).
+
+        :param list[list[list[str]]] stanzas: tokenized stanzas of the poem
+        :param int stanza_index: index of the stanza to check
+        :param int k_type: type of Thai poem (4 or 8)
+        :return: error messages
+        :rtype: list[str]
+        """
+        stanza = stanzas[stanza_index]
+        wak1, wak2, wak3, wak4 = stanza
+        number = stanza_index + 1
+        wak_names = self._WAK_NAMES
+
+        if not all((wak1, wak2, wak3, wak4)):
+            return [f"Stanza (บทที่) {number} contains empty sentences."]
+
+        errors = []
+        max_words = 10 if k_type == 8 else 5
+        for wak_index, wak in enumerate(stanza):
+            if len(wak) > max_words:
+                errors.append(
+                    f"Stanza (บทที่) {number} {wak_names[wak_index]}: "
+                    f"Word count exceeds {max_words}: {wak}"
+                )
+
+        wak2_targets, wak4_targets = self._rhyme_targets(wak2, wak4, k_type)
+
+        wak1_last = wak1[-1]
+        wak2_last = wak2[-1]
+        wak3_last = wak3[-1]
+
+        # Rule 1: วรรคสดับ -> วรรครับ
+        if not any(
+            self.is_sumpus(wak1_last, target) for target in wak2_targets
+        ):
+            errors.append(
+                f"Rhyme error in Stanza (บทที่) {number}: "
+                f"'{wak1_last}' ({wak_names[0]}) does not rhyme with {wak2_targets} ({wak_names[1]})"
+            )
+
+        # Rule 2: วรรครับ -> วรรครอง
+        if not self.is_sumpus(wak2_last, wak3_last):
+            errors.append(
+                f"Rhyme error in Stanza (บทที่) {number}: "
+                f"'{wak2_last}' ({wak_names[1]}) does not rhyme with '{wak3_last}' ({wak_names[2]})"
+            )
+
+        # Rule 3: วรรครอง -> วรรคส่ง
+        if not any(
+            self.is_sumpus(wak3_last, target) for target in wak4_targets
+        ):
+            errors.append(
+                f"Rhyme error in Stanza (บทที่) {number}: "
+                f"'{wak3_last}' ({wak_names[2]}) does not rhyme with {wak4_targets} ({wak_names[3]})"
+            )
+
+        # Rule 4: สัมผัสระหว่างบท (Inter-stanza)
+        if stanza_index > 0:
+            prev_wak4_last = stanzas[stanza_index - 1][3][-1]
+            if not self.is_sumpus(prev_wak4_last, wak2_last):
+                errors.append(
+                    f"Inter-stanza rhyme error (ผิดสัมผัสระหว่างบท) between Stanza {stanza_index} and {number}: "
+                    f"'{prev_wak4_last}' ({wak_names[3]}) does not rhyme with '{wak2_last}' ({wak_names[1]})"
+                )
         return errors
 
     def check_aek_too(
@@ -981,12 +1072,11 @@ class KhaveeVerifier:
         :return: Thai word with silent consonant stripped
         :rtype: str
         """
-        # Only process if the word ends with Karun (-์)
-        # [word like โอห์ม which has Karun in the middle will not be processed]
+        # Only a final การันต์ is handled (not the middle one in โอห์ม)
         if not word.endswith("์"):
             return word
 
-        # For specific multi-letter Karun silent suffixes
+        # Multi-letter silent suffixes
         # 'พระลักษมณ์' -> strip 'ษมณ์' (leaving 'ก' for แม่กก)
         if word.endswith("กษมณ์"):
             return word[:-4]
@@ -1000,7 +1090,7 @@ class KhaveeVerifier:
         if word.endswith("ญจน์"):
             return word[:-3]
 
-        # For 2-Consonant Karun silent suffixes
+        # Two-consonant suffixes
         # ตร์: ศาสตร์, ภาพยนตร์, กาสาวพัสตร์, เวทมนตร์
         # ทร์: จันทร์, บดินทร์, ภูมินทร์, นราธิเบนทร์
         # ดร์: นิรันดร์
@@ -1008,9 +1098,8 @@ class KhaveeVerifier:
         if word.endswith(("ตร์", "ทร์", "ดร์", "ฎร์")):
             return word[:-3]
 
-        # For Standard Karun silent suffixes (1 Consonant + Optional Vowel + Karun)
-        # สัตว์ (ว์), แพทย์ (ย์), พันธุ์ (พันธุ์), สิทธิ์ (ธิ์)
-        # Check if there is an upper/lower vowel right before the Karun (พันธุ์, ธิ์)
+        # One consonant, optional upper/lower vowel, then การันต์:
+        # สัตว์ (ว์), แพทย์ (ย์), พันธุ์ (ธุ์), สิทธิ์ (ธิ์)
         if len(word) >= 3 and word[-2] in {"ิ", "ี", "ึ", "ื", "ุ", "ู", "ั"}:
             return word[:-3]
         else:

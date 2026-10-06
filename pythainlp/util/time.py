@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from datetime import datetime, time
 from functools import lru_cache
-from typing import Optional, Union
+from typing import Callable, Optional, Union
 
 from pythainlp.tokenize import Tokenizer
 from pythainlp.util.numtoword import num_to_thaiword
@@ -118,6 +118,40 @@ def _format_24h(h: int) -> str:
     return text
 
 
+# Hour formatters by output format name; looked up with ``==``
+_HOUR_FORMATTERS: tuple[tuple[str, Callable[[int], str]], ...] = (
+    ("6h", _format_6h),
+    ("m6h", _format_m6h),
+    ("24h", _format_24h),
+)
+_HALF_HOUR_FORMATS: tuple[str, str] = ("6h", "m6h")
+
+
+def _format_with_precision(
+    m: int, s: int, fmt: str, precision: Optional[str]
+) -> str:
+    """Spell out minutes and seconds when precision is "m" or "s"."""
+    if m == 30 and (s == 0 or precision == "m") and fmt in _HALF_HOUR_FORMATS:
+        return "ครึ่ง"
+    text = num_to_thaiword(m) + "นาที"
+    if precision == "s":
+        text += num_to_thaiword(s) + "วินาที"
+    return text
+
+
+def _format_non_zero(m: int, s: int, fmt: str) -> str:
+    """Spell out only the non-zero minutes and seconds."""
+    text = ""
+    if m:
+        if m == 30 and s == 0 and fmt in _HALF_HOUR_FORMATS:
+            text += "ครึ่ง"
+        else:
+            text += num_to_thaiword(m) + "นาที"
+    if s:
+        text += num_to_thaiword(s) + "วินาที"
+    return text
+
+
 def _format(
     h: int,
     m: int,
@@ -125,33 +159,16 @@ def _format(
     fmt: str = "24h",
     precision: Optional[str] = None,
 ) -> str:
-    text = ""
-    if fmt == "6h":
-        text = _format_6h(h)
-    elif fmt == "m6h":
-        text = _format_m6h(h)
-    elif fmt == "24h":
-        text = _format_24h(h)
+    for name, formatter in _HOUR_FORMATTERS:
+        if fmt == name:
+            text = formatter(h)
+            break
     else:
         raise NotImplementedError(f"Time format not supported: {fmt}")
 
     if precision in ("m", "s"):
-        if m == 30 and (s == 0 or precision == "m") and (fmt in ("6h", "m6h")):
-            text += "ครึ่ง"
-        else:
-            text += num_to_thaiword(m) + "นาที"
-            if precision == "s":
-                text += num_to_thaiword(s) + "วินาที"
-    else:
-        if m:
-            if m == 30 and s == 0 and (fmt in ("6h", "m6h")):
-                text += "ครึ่ง"
-            else:
-                text += num_to_thaiword(m) + "นาที"
-        if s:
-            text += num_to_thaiword(s) + "วินาที"
-
-    return text
+        return text + _format_with_precision(m, s, fmt, precision)
+    return text + _format_non_zero(m, s, fmt)
 
 
 def time_to_thaiword(
@@ -225,6 +242,107 @@ def time_to_thaiword(
     return text
 
 
+_TI_HOURS: tuple[str, ...] = (
+    "ตีหนึ่ง",
+    "ตีสอง",
+    "ตีสาม",
+    "ตีสี่",
+    "ตีห้า",
+)
+
+
+def _mark_affix(text: str) -> str:
+    """Insert "|" after the hour affix; return "" if none is found.
+
+    Affixes are tried in order. A non-"ตี" affix ends the search;
+    a "ตี" match does not, so a later affix can override it.
+    """
+    marked = ""
+    for affix in _THAI_TIME_AFFIX:
+        if affix not in text:
+            continue
+        if affix != "ตี":
+            return text.replace(affix, affix + "|")
+        for ti_hour in _TI_HOURS:
+            if ti_hour in text:
+                marked = text.replace(ti_hour, ti_hour + "|")
+                break
+    return marked
+
+
+def _is_evening(last: str) -> bool:
+    return last == "โมงเย็น" or last == "โมง"
+
+
+def _hour_from_morning_six(hour: list[str]) -> str:
+    value = _DICT_THAI_TIME[hour[0]]
+    return str(value + 6 if value < 6 else value)
+
+
+def _hour_from_thum(hour: list[str]) -> str:
+    if len(hour) == 1:
+        return "19"
+    return str(_DICT_THAI_TIME[hour[0]] + 18)
+
+
+def _hour_from_unit(hour: list[str]) -> Optional[str]:
+    """Convert hours ending in นาฬิกา, ตี, โมง; None if no rule matches."""
+    if hour[-1] == "นาฬิกา" and hour[0] in _DICT_THAI_TIME and hour[:-1]:
+        return str(thaiword_to_num("".join(hour[:-1])))
+    if hour[0] == "ตี" and hour[1] in _DICT_THAI_TIME:
+        return str(_DICT_THAI_TIME[hour[1]])
+    if hour[-1] == "โมงเช้า" and hour[0] in _DICT_THAI_TIME:
+        return _hour_from_morning_six(hour)
+    if _is_evening(hour[-1]) and hour[0] == "บ่าย":
+        return str(_DICT_THAI_TIME[hour[1]] + 12)
+    if _is_evening(hour[-1]) and hour[0] in _DICT_THAI_TIME:
+        return str(_DICT_THAI_TIME[hour[0]] + 12)
+    return None
+
+
+def _hour_from_name(hour: list[str]) -> Optional[str]:
+    """Convert named hours (เที่ยง, บ่ายโมง, ทุ่ม); None if no rule matches."""
+    if hour[-1] == "เที่ยงคืน":
+        return "0"
+    if hour[-1] == "เที่ยงวัน" or hour[-1] == "เที่ยง":
+        return "12"
+    if hour[0] == "บ่ายโมง":
+        return "13"
+    if hour[-1] == "ทุ่ม":
+        return _hour_from_thum(hour)
+    return None
+
+
+def _hour_text(hour: list[str]) -> str:
+    """Convert hour tokens to the hour number; "" if no rule matches.
+
+    The first matching rule wins; an earlier rule shadows a later one.
+    """
+    text = _hour_from_unit(hour)
+    if text is None:
+        text = _hour_from_name(hour)
+    return text if text is not None else ""
+
+
+def _minute_text(minute: Union[list[str], int]) -> str:
+    """Convert minute tokens to a two-digit (or longer) minute string."""
+    if not (minute and isinstance(minute, list)):
+        return "00"
+    n = 0
+    for affix in minute:
+        if affix not in _DICT_THAI_TIME:
+            continue
+        if affix != "สิบ":
+            n += _DICT_THAI_TIME[affix]
+        elif n != 0:
+            n *= 10
+        else:
+            n += 10
+    if n > 9:
+        return str(n)
+    return "0" + str(n)
+
+
 def thaiword_to_time(text: str, padding: bool = True) -> str:
     """Convert Thai time in words into time (H:M).
 
@@ -240,85 +358,24 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
         >>> thaiword_to_time("บ่ายโมงครึ่ง")
         '13:30'
     """
-    keys_dict = list(_DICT_THAI_TIME.keys())
     text = text.replace("กว่า", "").replace("ๆ", "").replace(" ", "")
-    _i = ["ตีหนึ่ง", "ตีสอง", "ตีสาม", "ตีสี่", "ตีห้า"]
-    _time = ""
-    for affix in _THAI_TIME_AFFIX:
-        if affix in text and affix != "ตี":
-            _time = text.replace(affix, affix + "|")
-            break
-        elif affix in text and affix == "ตี":
-            for j in _i:
-                if j in text:
-                    _time = text.replace(j, j + "|")
-                    break
-        else:
-            pass
-    if "|" not in _time:
+    marked = _mark_affix(text)
+    if "|" not in marked:
         raise ValueError("Cannot find any Thai word for time affix.")
 
-    _LIST_THAI_TIME = _time.split("|")
-    del _time
-
-    hour = _thai_time_cut().word_tokenize(_LIST_THAI_TIME[0])
-    minute_raw = _LIST_THAI_TIME[1]
+    hour_raw, minute_raw = marked.split("|")[:2]
+    hour = _thai_time_cut().word_tokenize(hour_raw)
     minute: Union[list[str], int]
     if len(minute_raw) > 1:
         minute = _thai_time_cut().word_tokenize(minute_raw)
     else:
         minute = 0
-    text = ""
 
-    # determine hour
-    if hour[-1] == "นาฬิกา" and hour[0] in keys_dict and hour[:-1]:
-        text += str(thaiword_to_num("".join(hour[:-1])))
-    elif hour[0] == "ตี" and hour[1] in keys_dict:
-        text += str(_DICT_THAI_TIME[hour[1]])
-    elif hour[-1] == "โมงเช้า" and hour[0] in keys_dict:
-        if _DICT_THAI_TIME[hour[0]] < 6:
-            text += str(_DICT_THAI_TIME[hour[0]] + 6)
-        else:
-            text += str(_DICT_THAI_TIME[hour[0]])
-    elif (hour[-1] == "โมงเย็น" or hour[-1] == "โมง") and hour[0] == "บ่าย":
-        text += str(_DICT_THAI_TIME[hour[1]] + 12)
-    elif (hour[-1] == "โมงเย็น" or hour[-1] == "โมง") and hour[0] in keys_dict:
-        text += str(_DICT_THAI_TIME[hour[0]] + 12)
-    elif hour[-1] == "เที่ยงคืน":
-        text += "0"
-    elif hour[-1] == "เที่ยงวัน" or hour[-1] == "เที่ยง":
-        text += "12"
-    elif hour[0] == "บ่ายโมง":
-        text += "13"
-    elif hour[-1] == "ทุ่ม":
-        if len(hour) == 1:
-            text += "19"
-        else:
-            text += str(_DICT_THAI_TIME[hour[0]] + 18)
-
-    if not text:
+    hour_text = _hour_text(hour)
+    if not hour_text:
         raise ValueError("Cannot find any Thai word for hour.")
 
-    if padding and len(text) == 1:
-        text = "0" + text
-    text += ":"
+    if padding and len(hour_text) == 1:
+        hour_text = "0" + hour_text
 
-    # determine minute
-    if minute and isinstance(minute, list):
-        n = 0
-        for affix in minute:
-            if affix in keys_dict:
-                if affix != "สิบ":
-                    n += _DICT_THAI_TIME[affix]
-                elif affix == "สิบ" and n != 0:
-                    n *= 10
-                elif affix == "สิบ" and n == 0:
-                    n += 10
-        if n != 0 and n > 9:
-            text += str(n)
-        else:
-            text += "0" + str(n)
-    else:
-        text += "00"
-
-    return text
+    return hour_text + ":" + _minute_text(minute)

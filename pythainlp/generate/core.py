@@ -10,7 +10,10 @@ https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability
 from __future__ import annotations
 
 import random
-from typing import Union
+from typing import TYPE_CHECKING, Optional, TypeVar, Union
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 from pythainlp.corpus.oscar import (
     unigram_word_freqs as oscar_word_freqs_unigram,
@@ -19,6 +22,29 @@ from pythainlp.corpus.tnc import bigram_word_freqs as tnc_word_freqs_bigram
 from pythainlp.corpus.tnc import trigram_word_freqs as tnc_word_freqs_trigram
 from pythainlp.corpus.tnc import unigram_word_freqs as tnc_word_freqs_unigram
 from pythainlp.corpus.ttc import unigram_word_freqs as ttc_word_freqs_unigram
+
+_T = TypeVar("_T")
+
+
+def _pick_next(
+    candidates: Sequence[_T], probs: Sequence[float], prob: float
+) -> Optional[_T]:
+    """Pick a random candidate whose probability is at least ``prob``.
+
+    The pick is by probability value, so candidates with equal
+    probability resolve to the first of them.
+
+    :param Sequence candidates: candidates, parallel to ``probs``
+    :param Sequence[float] probs: probability of each candidate
+    :param float prob: minimum probability
+    :return: the picked candidate, or None if no probability passes
+    :rtype: Optional[_T]
+    """
+    passed = [j for j in probs if j >= prob]
+    if not passed:
+        return None
+    # Non-cryptographic use, pseudo-random generator is acceptable here
+    return candidates[probs.index(random.choice(passed))]  # noqa: S311  # nosec B311  # NOSONAR
 
 
 class Unigram:
@@ -200,11 +226,9 @@ class Bigram:
                     if j[0] == late_word and j[1] not in list_word
                 ]
             probs = [self.prob(late_word, next_word[-1]) for next_word in temp]
-            p2 = [j for j in probs if j >= prob]
-            if len(p2) == 0:
+            items = _pick_next(temp, probs, prob)
+            if items is None:
                 break
-            # Non-cryptographic use, pseudo-random generator is acceptable here
-            items = temp[probs.index(random.choice(p2))]  # noqa: S311  # nosec B311  # NOSONAR
             late_word = items[-1]
             list_word.append(late_word)
 
@@ -294,33 +318,48 @@ class Trigram:
         list_word.append(start_seq)
 
         for _ in range(N):
-            if duplicate:
-                temp = [j for j in self.ti_keys if j[:2] == late_word]
-            else:
-                temp = [
-                    j
-                    for j in self.ti_keys
-                    if j[:2] == late_word and j[1:] not in list_word
-                ]
+            temp = self._candidates(late_word, list_word, duplicate)
             probs = [self.prob(word[0], word[1], word[2]) for word in temp]
-            p2 = [j for j in probs if j >= prob]
-            if len(p2) == 0:
+            items = _pick_next(temp, probs, prob)
+            if items is None:
                 break
-            # Non-cryptographic use, pseudo-random generator is acceptable here
-            items = temp[probs.index(random.choice(p2))]  # noqa: S311  # nosec B311  # NOSONAR
             late_word = items[1:]
             list_word.append(late_word)
 
-        listdata: list[str] = []
-        for item in list_word:
-            if isinstance(item, tuple):
-                for j in item:
-                    if j not in listdata:
-                        listdata.append(j)
-            elif isinstance(item, str) and item not in listdata:
-                listdata.append(item)
+        listdata = _flatten_unique(list_word)
 
         if output_str:
             return "".join(listdata)
 
         return listdata
+
+    def _candidates(
+        self,
+        late_word: Union[str, tuple[str, str]],
+        list_word: list[Union[str, tuple[str, str]]],
+        duplicate: bool,
+    ) -> list[tuple[str, str, str]]:
+        """List the trigrams that can follow ``late_word``."""
+        if duplicate:
+            return [j for j in self.ti_keys if j[:2] == late_word]
+        return [
+            j
+            for j in self.ti_keys
+            if j[:2] == late_word and j[1:] not in list_word
+        ]
+
+
+def _flatten_unique(items: Sequence[object]) -> list[str]:
+    """Flatten words and word tuples into a list without repeated words."""
+    listdata: list[str] = []
+    for item in items:
+        if isinstance(item, tuple):
+            words: tuple[str, ...] = item
+        elif isinstance(item, str):
+            words = (item,)
+        else:
+            continue
+        for word in words:
+            if word not in listdata:
+                listdata.append(word)
+    return listdata

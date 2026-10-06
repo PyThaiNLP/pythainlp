@@ -11,6 +11,7 @@ except ImportError as e:
     raise ImportError(
         "tltk is not installed. Install it with: pip install tltk"
     ) from e
+from pythainlp.tag._utils import _iob_to_markup
 from pythainlp.tokenize import word_tokenize
 
 nlp.pos_load()
@@ -76,25 +77,7 @@ def get_ner(
         (_post_process(word), pos, ner) for word, pos, ner in nlp.ner(_pos)
     ]
     if tag:
-        temp = ""
-        sent = ""
-        for idx, (word, pos, ner) in enumerate(sent_ner):
-            if ner.startswith("B-") and temp != "":
-                sent += "</" + temp + ">"
-                temp = ner[2:]
-                sent += "<" + temp + ">"
-            elif ner.startswith("B-"):
-                temp = ner[2:]
-                sent += "<" + temp + ">"
-            elif ner == "O" and temp != "":
-                sent += "</" + temp + ">"
-                temp = ""
-            sent += word
-
-            if idx == len(sent_ner) - 1 and temp != "":
-                sent += "</" + temp + ">"
-
-        return sent
+        return _iob_to_markup([(word, ner) for word, _, ner in sent_ner])
     if pos is False:
         return [(word, ner) for word, pos, ner in sent_ner]
     return sent_ner

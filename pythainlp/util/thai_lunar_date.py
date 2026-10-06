@@ -297,25 +297,23 @@ def last_day_in_year(year: int) -> int:
 
 
 def athikasurathin(year: int) -> bool:
-    """Check if a year is a leap year in the Thai lunar calendar"""
-    # Check divisibility by 400 (divisible by 400 is always a leap year)
+    """Check if a year is a solar leap year (อธิกสุรทิน, with 29 February).
+
+    :param int year: The Gregorian year. CE (Common Era)
+    :return: True if the year is a leap year in the Gregorian calendar
+    :rtype: bool
+    """
     if year % 400 == 0:
         return True
-
-    # Check divisibility by 100 (divisible by 100 but not 400 is not a leap
-    # year)
     elif year % 100 == 0:
         return False
-
-    # Check divisibility by 4 (divisible by 4 but not by 100 is a leap year)
     elif year % 4 == 0:
         return True
-
-    # All other cases are not leap years
     return False
 
 
 def number_day_in_year(year: int) -> int:
+    """Number of days (365 or 366) in a Gregorian year. CE (Common Era)"""
     if athikasurathin(year):
         return 366
 
@@ -345,15 +343,67 @@ def th_zodiac(year: int, output_type: int = 1) -> Union[str, int]:
         >>> th_zodiac(2024, output_type=3)
         5
     """
-    # Calculate zodiac index
     result = year % 12
     if result - 3 < 1:
         result = result - 3 + 12
     else:
         result = result - 3
 
-    # Return the zodiac based on the output type
     return _ZODIAC[output_type][result - 1]
+
+
+_DAYS_IN_MONTHS: dict[int, list[int]] = {
+    354: _DAYS_354,
+    355: _DAYS_355,
+    384: _DAYS_384,
+}
+
+
+def _nearest_begin_date(input_year: int) -> date:
+    """Find the latest begin date before the year preceding input_year."""
+    c_year = input_year - 1
+    for begin_date in reversed(_BEGIN_DATES):
+        if c_year > begin_date.year:
+            return begin_date
+    return _BEGIN_DATES[0]
+
+
+def _day_from_one(input_date: date) -> int:
+    """Count days since the lunar year began (1-based)."""
+    begin_date = _nearest_begin_date(input_date.year)
+    current_date = begin_date
+    for year in range(begin_date.year + 1, input_date.year):
+        current_date += timedelta(days=last_day_in_year(year))
+
+    r_day_prev = (date(current_date.year, 12, 31) - current_date).days
+    day_of_year = (input_date - date(input_date.year, 1, 1)).days
+    return r_day_prev + day_of_year + 1
+
+
+def _month_and_day(
+    days_of_year: int, days_in_month: list[int]
+) -> tuple[int, int]:
+    """Find the month index (1-based) and the day within that month."""
+    th_m = 0
+    for j, days in enumerate(days_in_month, start=1):
+        th_m = j
+        if 0 < days_of_year <= days:
+            break
+        days_of_year -= days
+    return th_m, days_of_year
+
+
+def _adjust_month(th_m: int, last_day: int) -> int:
+    """Map the month index to the month number, skipping the leap month."""
+    if last_day <= 355:  # 354 or 355
+        if th_m > 12:
+            th_m = th_m - 12
+    elif last_day == 384:
+        if th_m > 13:
+            th_m = th_m - 13
+        if th_m >= 9 and th_m <= 13:
+            th_m = th_m - 1
+    return th_m
 
 
 def to_lunar_date(input_date: date) -> str:
@@ -372,57 +422,21 @@ def to_lunar_date(input_date: date) -> str:
         >>> to_lunar_date(date(2024, 12, 31))
         'ขึ้น 2 ค่ำ เดือน 2'
     """
-    # Check if date is within supported range
     if input_date.year < 1903 or input_date.year > 2460:
-        raise NotImplementedError("Unsupported date")  # Unsupported date
+        raise NotImplementedError("Unsupported date")
 
-    # Choose the nearest begin date
-    c_year = input_date.year - 1
-    begin_date = _BEGIN_DATES[0]
-    for _date in reversed(_BEGIN_DATES):
-        if c_year > _date.year:
-            begin_date = _date
-            break
-
-    current_date = begin_date
-    for year in range(begin_date.year + 1, input_date.year):
-        day_in_year = last_day_in_year(year)
-        current_date += timedelta(days=day_in_year)
-
-    r_day_prev = (date(current_date.year, 12, 31) - current_date).days
-    day_of_year = (input_date - date(input_date.year, 1, 1)).days
-    day_from_one = r_day_prev + day_of_year + 1
+    day_from_one = _day_from_one(input_date)
     last_day = last_day_in_year(input_date.year)
 
-    if last_day == 354:
-        days_in_month = _DAYS_354
-    elif last_day == 355:
-        days_in_month = _DAYS_355
-    elif last_day == 384:
-        days_in_month = _DAYS_384
-    else:
+    days_in_month = _DAYS_IN_MONTHS.get(last_day)
+    if days_in_month is None:
         raise ValueError(
             f"Unexpected last_day value: {last_day!r}. "
             "Expected 354, 355, or 384."
         )
 
-    days_of_year = day_from_one
-    th_m = 0
-    for j, days in enumerate(days_in_month, start=1):
-        th_m = j
-        if 0 < days_of_year <= days:
-            break
-        else:
-            days_of_year -= days
-
-    if last_day <= 355:  # 354 or 355
-        if th_m > 12:
-            th_m = th_m - 12
-    elif last_day == 384:
-        if th_m > 13:
-            th_m = th_m - 13
-        if th_m >= 9 and th_m <= 13:
-            th_m = th_m - 1
+    th_m, days_of_year = _month_and_day(day_from_one, days_in_month)
+    th_m = _adjust_month(th_m, last_day)
 
     if days_of_year > 15:
         th_s = "แรม"
@@ -430,6 +444,4 @@ def to_lunar_date(input_date: date) -> str:
     else:
         th_s = "ขึ้น"
 
-    thai_lunar_date = f"{th_s} {days_of_year} ค่ำ เดือน {th_m}"
-
-    return thai_lunar_date
+    return f"{th_s} {days_of_year} ค่ำ เดือน {th_m}"

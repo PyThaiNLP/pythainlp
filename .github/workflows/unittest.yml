@@ -94,6 +94,9 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          # Full history of the "extra" job on pull requests,
+          # for the coverage check of new code (diff-cover).
+          fetch-depth: ${{ (github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2) && '0' || '1' }}
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -165,3 +168,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PYTHONIOENCODING: utf-8
         run: coveralls
+
+      # New and changed lines must be covered at least 75%.
+      # The overall target is 95%; see pyproject.toml.
+      - name: Coverage of new code
+        # Run even if the coverage report upload fails (for example, on forks).
+        if: ${{ !cancelled() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2 }}
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          git fetch --no-tags origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}"
+          pip install --only-binary :all: "diff-cover==10.6.0"
+          coverage xml
+          diff-cover coverage.xml --compare-branch="origin/${BASE_REF}" --fail-under=75

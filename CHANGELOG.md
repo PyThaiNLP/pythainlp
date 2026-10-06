@@ -21,45 +21,32 @@ and this project adheres to
 
 ### Added
 
-- Add word tokenization evaluation metrics (`evaluate_word_tokenization`,
-  `word_eval_function`, `char_eval_function`,
-  `TokenizationScore`) from SEFR CUT (`sefr_cut.evaluation`)
-  to `pythainlp.benchmarks`.
-- Thai G2P v4 model via Hugging Face Hub using ONNX Runtime (`thaig2p_v4`),
-  available in `pythainlp.transliterate`.
+- `fastthaig2p` engine in `pythainlp.transliterate`: native FastThaiG2P, with
+  text normalization and a 62k-word IPA dictionary ([#1499])
+- `thaig2p_v4` engine in `pythainlp.transliterate`, using ONNX Runtime
+  ([#1509])
+- `evaluate_word_tokenization`, `word_eval_function`, `char_eval_function`,
+  and `TokenizationScore` in `pythainlp.benchmarks` ([#1512])
 
 ### Changed
 
-- `pythainlp.transliterate.fastthaig2p`: Native FastThaiG2P grapheme-to-phoneme
-  conversion engine without external package dependencies. Supports text
-  normalization (numbers, dates, times, phone numbers, symbols, abbreviations,
-  maiyamok), 62k IPA dictionary lookup, and rule-based fallback. Accessible via
-  `transliterate(text, engine="fastthaig2p")` or `FastThaiG2P` class.
-- `pythainlp.tokenize.attacut`, `pythainlp.tokenize.oskut`, and
-  `pythainlp.tokenize.sefr_cut`: migrated to use
-  [LEKCut](https://github.com/PyThaiNLP/LEKCut) (ONNX), removing legacy
-  `attacut` (PyTorch), `oskut` (TensorFlow), and `sefr_cut` (TensorFlow)
-  package dependencies. The `segment()` APIs remain fully backward compatible.
-  Attacut tests moved from `tests/noauto_torch/` to `tests/noauto_onnx/`.
 - `pythainlp.tokenize.deepcut`: built-in ONNX engine replaces the
   TensorFlow-based `deepcut`; `custom_dict` is no longer applied ([#1372])
 - Improve guardrails in `check_sara()` and `nighit()` ([#1453])
+- `attacut`, `oskut`, and `sefr_cut` tokenizers use ONNX models via LEKCut,
+  not the PyTorch and TensorFlow packages ([#1511])
 - `bleu_score()` raises `ValueError` on unequal reference and hypothesis
   counts; `nighit()` requires `w1` to end with "ํ" ([#1548])
 
 ### Removed
 
-- Remove `pythainlp.generate.thai2fit`, `pythainlp.generate.wangchanglm`, and
-  `pythainlp.chat`.
+- `pythainlp.generate.thai2fit`, `pythainlp.generate.wangchanglm`, and
+  `pythainlp.chat` ([#1526])
 
 ### Fixed
 
-- `pythainlp.tokenize.tcc_p.tcc`: matching copied the rest of the text
-  (`text[p:]`) for every character cluster, so cost grew quadratically with
-  text length. This made `newmm` and other users of `tcc_p` slow on long
-  input: about 5.5 s of a 5.9 s `word_tokenize()` call on 608,000
-  characters. It now matches in place (`pattern.match(text, p)`), which is
-  about 15x faster at that size and gives identical output.
+- `tcc_p.tcc` matches in place, not on `text[p:]`: about 15x faster on long
+  text, same output ([#1529])
 - `pythainlp.corpus.wordnet`: Thai WordNet with NLTK 3.10+; `all_synsets()`
   `NameError`; `langs()` missing `tha` ([#1541])
 - `check_klon()` and `get_corpus_db()` no longer swallow unexpected
@@ -80,12 +67,17 @@ and this project adheres to
 
 ### Security
 
-- Tar and zip extraction rejects absolute and escaping links; without
-  `tarfile.data_filter`, tar extraction also rejects special files and drops
-  owners ([#1546])
+- Tar and zip extraction rejects absolute and escaping links; tar extraction
+  without `data_filter` also rejects special files ([#1546])
 
 [#1372]: https://github.com/PyThaiNLP/pythainlp/pull/1372
 [#1453]: https://github.com/PyThaiNLP/pythainlp/pull/1453
+[#1499]: https://github.com/PyThaiNLP/pythainlp/pull/1499
+[#1509]: https://github.com/PyThaiNLP/pythainlp/pull/1509
+[#1511]: https://github.com/PyThaiNLP/pythainlp/pull/1511
+[#1512]: https://github.com/PyThaiNLP/pythainlp/pull/1512
+[#1526]: https://github.com/PyThaiNLP/pythainlp/pull/1526
+[#1529]: https://github.com/PyThaiNLP/pythainlp/pull/1529
 [#1541]: https://github.com/PyThaiNLP/pythainlp/pull/1541
 [#1542]: https://github.com/PyThaiNLP/pythainlp/pull/1542
 [#1546]: https://github.com/PyThaiNLP/pythainlp/pull/1546

@@ -419,7 +419,7 @@ skip-magic-trailing-comma = false
 [tool.ruff.lint]
 # Flag errors (`C901`) whenever the complexity level exceeds this value.
 # Default is 10. We should aim to gradually reduce this to 10.
-mccabe.max-complexity = 36
+mccabe.max-complexity = 28
 select = [
     "E",
     "F",

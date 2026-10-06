@@ -22,6 +22,7 @@ test_packages: list[str] = [
     "tests.core.test_spell",
     "tests.core.test_tag",
     "tests.core.test_tokenize",
+    "tests.core.test_tokenize_thaisumcut",
     "tests.core.test_tools",
     "tests.core.test_transliterate",
     "tests.core.test_transliterate_wiktionary",

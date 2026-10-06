@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Translate text with the small100 model."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Optional
@@ -33,6 +35,13 @@ class Small100Translator:
         pretrained: str = "alirezamsh/small100",
         revision: Optional[str] = None,
     ) -> None:
+        """
+        Initialize the small100 translator.
+
+        :param bool use_gpu: load the model on a GPU
+        :param str pretrained: name of the pretrained model
+        :param Optional[str] revision: revision of the pretrained model
+        """
         from transformers import M2M100ForConditionalGeneration
 
         self.pretrained: str = pretrained

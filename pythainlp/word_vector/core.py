@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Provide Thai word vectors."""
+
 from __future__ import annotations
 
 import logging
@@ -46,6 +48,11 @@ class WordVector:
     """
 
     def __init__(self, model_name: str = "thai2fit_wv") -> None:
+        """
+        Initialize the word vector.
+
+        :param str model_name: name of the word vector model
+        """
         self.model_name: str
         self.model: "Word2VecKeyedVectors"
         self.WV_DIM: int

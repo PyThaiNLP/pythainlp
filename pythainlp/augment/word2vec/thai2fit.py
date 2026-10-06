@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Augment Thai text using word2vec from Thai2Fit."""
+
 from __future__ import annotations
 
 from typing import Optional
@@ -22,6 +24,7 @@ class Thai2fitAug:
     aug: Word2VecAug
 
     def __init__(self) -> None:
+        """Initialize the Thai2Fit word2vec augmenter."""
         self.thai2fit_wv: Optional[str] = get_corpus_path("thai2fit_wv")
         self.load_w2v()
 

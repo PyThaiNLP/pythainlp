@@ -23,4 +23,11 @@ except ImportError as e:
 
 
 def spell(text: str) -> list[str]:
+    """
+    Return possible correct spellings of a word.
+
+    :param str text: word to be checked
+    :return: list of suggested spellings
+    :rtype: list[str]
+    """
     return cast("list[str]", spell_candidates(text))

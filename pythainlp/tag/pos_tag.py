@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Part-of-speech (POS) tagging for Thai text."""
+
 from __future__ import annotations
 
 from typing import Optional

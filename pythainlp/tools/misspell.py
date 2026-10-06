@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+
+"""Generate misspelled Thai and English text from keyboard layouts."""
+
 from __future__ import annotations
 
 import math
@@ -45,6 +48,7 @@ ALL_CHARACTERS: list[list[str]] = [
 def search_location_of_character(
     char: str,
 ) -> Optional[tuple[int, int, int, int]]:
+    """Find the location of a character on the keyboard layouts."""
     for language_ix in [0, 1]:
         for ix, row in enumerate(ALL_CHARACTERS[language_ix]):
             if char in row:
@@ -57,6 +61,7 @@ def find_neighbour_locations(
     char: str,
     kernel: Optional[list[tuple[int, int]]] = None,
 ) -> list[tuple[int, int, int, int, str]]:
+    """Find the keyboard neighbors of a character location."""
     if kernel is None:
         kernel = [(-1, -1), (-1, 0), (1, 1), (0, 1), (0, -1), (1, 0)]
     language_ix, is_shift, row, pos = loc
@@ -75,6 +80,7 @@ def find_neighbour_locations(
 def find_misspell_candidates(
     char: str, verbose: bool = False
 ) -> Optional[list[str]]:
+    """Find characters that are neighbors of a character on the keyboard."""
     loc = search_location_of_character(char)
     if loc is None:
         return None

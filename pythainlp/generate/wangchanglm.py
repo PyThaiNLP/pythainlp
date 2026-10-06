@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Generate Thai text using the WangChanGLM model."""
+
 from __future__ import annotations
 
 import re
@@ -15,6 +17,8 @@ if TYPE_CHECKING:
 
 
 class WangChanGLM:
+    """Generate Thai text using the WangChanGLM model."""
+
     exclude_pattern: "re.Pattern[str]"
     stop_token: str
     PROMPT_DICT: dict[str, str]
@@ -27,6 +31,7 @@ class WangChanGLM:
     exclude_ids: list[int]
 
     def __init__(self) -> None:
+        """Initialize the WangChanGLM settings."""
         warn_deprecation(
             "pythainlp.generate.wangchanglm.WangChanGLM",
             deprecated_version="5.3.8",
@@ -43,6 +48,14 @@ class WangChanGLM:
         }
 
     def is_exclude(self, text: str) -> bool:
+        """
+        Check whether text contains a non-Thai character.
+
+        :param str text: text to check
+        :return: ``True`` if the text contains a character outside the Thai
+            range, otherwise ``False``
+        :rtype: bool
+        """
         return bool(self.exclude_pattern.search(text))
 
     def load_model(

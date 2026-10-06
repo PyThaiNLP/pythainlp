@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Named entity recognition using WangchanBERTa."""
+
 from __future__ import annotations
 
 import re
@@ -41,6 +43,8 @@ def _get_tokenizer() -> CamembertTokenizer:
 
 
 class ThaiNameTagger:
+    """Tag named entities in Thai text using WangchanBERTa."""
+
     dataset_name: str
     grouped_entities: bool
     classify_tokens: TokenClassificationPipeline
@@ -168,6 +172,8 @@ class ThaiNameTagger:
 
 
 class NamedEntityRecognition:
+    """Recognize named entities in Thai text using WangchanBERTa."""
+
     tokenizer: PreTrainedTokenizerBase
     model: PreTrainedModel
 

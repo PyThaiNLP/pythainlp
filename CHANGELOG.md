@@ -24,6 +24,8 @@ and this project adheres to
 - `pythainlp.tokenize.deepcut`: built-in ONNX engine replaces the
   TensorFlow-based `deepcut`; `custom_dict` is no longer applied ([#1372])
 - Improve guardrails in `check_sara()` and `nighit()` ([#1453])
+- `bleu_score()` raises `ValueError` on unequal reference and hypothesis
+  counts; `nighit()` requires `w1` to end with "ํ" ([#1548])
 
 ### Fixed
 
@@ -31,34 +33,25 @@ and this project adheres to
   `NameError`; `langs()` missing `tha` ([#1541])
 - `check_klon()` and `get_corpus_db()` no longer swallow unexpected
   exceptions ([#1542])
-- `download()`: download and extract via temporary paths, so a failed
-  download keeps the installed corpus; handle empty `db.json` keys ([#1546])
-- `db.json` is written atomically and keeps its mode and symlink ([#1546])
-- `remove()` no longer downloads a missing corpus before deleting it ([#1546])
+- `download()` uses temporary paths, so a failed download keeps the installed
+  corpus; `remove()` no longer downloads a missing corpus ([#1546])
+- `db.json` is written atomically and keeps its mode and symlink; handle
+  empty keys ([#1546])
 - `ThaiTextProcessor.preprocess()` no longer raises `TypeError` when
   `pre_rules` is not given ([#1547])
-- `sound_syllable()` and `tone_detector()` no longer raise `IndexError` for a
-  syllable without a consonant, such as "ฤๅ" ([#1548])
-- `thaiword_to_time()`: accept "ตีหก"; unknown hour words raise `ValueError`,
-  not `KeyError` ([#1548])
-- `convert_years()` accepts the same source and target era ([#1548])
-- `bleu_score()`: empty hypotheses give 0.0; unequal numbers of references
-  and hypotheses raise `ValueError` ([#1548])
-- `puan()` keeps syllables that have no initial consonant, and no longer
-  raises `IndexError` ([#1548])
-- `WunsenTransliterate.transliterate()` raises `NotImplementedError` for
-  `lang=None` ([#1548])
-- `check_klon()` no longer raises `IndexError` after a stanza with an empty
-  Wak 4 ([#1548])
-- `nighit()`: map ช to ญ; add ฆ, ญ, ฏ, ฒ, ต, ม; `w1` must
-  end with "ํ" ([#1548])
+- `sound_syllable()`, `tone_detector()`, `puan()`, `check_klon()`,
+  `thaiword_to_time()`: no `IndexError` or `KeyError` on valid input ([#1548])
+- `thaiword_to_time()` accepts "ตีหก"; `convert_years()` accepts the same
+  source and target era ([#1548])
+- `bleu_score()` gives 0.0 for an empty hypothesis; `WunsenTransliterate`
+  raises `NotImplementedError` for `lang=None` ([#1548])
+- `nighit()`: map ช to ญ; add ฆ, ญ, ฏ, ฒ, ต, ม ([#1548])
 
 ### Security
 
-- Tar and zip extraction rejects absolute and escaping links; unsafe tar
-  members raise `ValueError` ([#1546])
-- Without `tarfile.data_filter`, tar extraction rejects all links and special
-  files and drops owners ([#1546])
+- Tar and zip extraction rejects absolute and escaping links; without
+  `tarfile.data_filter`, tar extraction also rejects special files and drops
+  owners ([#1546])
 
 [#1372]: https://github.com/PyThaiNLP/pythainlp/pull/1372
 [#1453]: https://github.com/PyThaiNLP/pythainlp/pull/1453

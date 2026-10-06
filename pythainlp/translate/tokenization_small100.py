@@ -165,6 +165,17 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         num_madeup_words: int = 8,
         **kwargs: Any,
     ) -> None:
+        """
+        Initialize the tokenizer.
+
+        :param str vocab_file: path to the vocabulary file
+        :param str spm_file: path to the SentencePiece model file
+        :param Optional[str] tgt_lang: target language code
+        :param str language_codes: language code set (m2m100)
+        :param Optional[dict[str, str]] sp_model_kwargs: keyword arguments for
+            the SentencePiece processor
+        :param int num_madeup_words: number of made-up words
+        """
         self.sp_model_kwargs: dict[str, str] = (
             {} if sp_model_kwargs is None else sp_model_kwargs
         )
@@ -232,6 +243,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
 
     @property
     def vocab_size(self) -> int:
+        """Return the vocabulary size."""
         # Type ignore for external library dict operations
         return (
             len(self.encoder)
@@ -241,6 +253,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
 
     @property
     def tgt_lang(self) -> str:
+        """Return the target language code."""
         return self._tgt_lang
 
     @tgt_lang.setter
@@ -348,6 +361,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         )
 
     def get_vocab(self) -> dict[str, int]:
+        """Return the vocabulary as a token-to-id mapping."""
         vocab = {
             self.convert_ids_to_tokens(i): i for i in range(self.vocab_size)
         }
@@ -355,11 +369,13 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         return vocab
 
     def __getstate__(self) -> dict[str, Any]:
+        """Return the state for pickling, without the SentencePiece model."""
         state = self.__dict__.copy()
         state["sp_model"] = None
         return state
 
     def __setstate__(self, d: dict[str, Any]) -> None:
+        """Restore the state and reload the SentencePiece model."""
         self.__dict__: dict[str, Any] = d
 
         # for backward compatibility
@@ -373,6 +389,15 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
     def save_vocabulary(
         self, save_directory: str, filename_prefix: Optional[str] = None
     ) -> tuple[str, str]:
+        """
+        Save the vocabulary and the SentencePiece model files.
+
+        :param str save_directory: directory to save the files to
+        :param Optional[str] filename_prefix: prefix of the file names
+        :return: paths of the vocabulary file and the SentencePiece model file
+        :rtype: tuple[str, str]
+        :raises OSError: if save_directory is not a directory
+        """
         save_dir = Path(save_directory)
         if not save_dir.is_dir():
             raise OSError(f"{save_directory} should be a directory")
@@ -405,6 +430,15 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         tgt_lang: str = "ro",
         **kwargs: Any,
     ) -> BatchEncoding:
+        """
+        Prepare a batch of source and target texts for a seq2seq model.
+
+        :param list[str] src_texts: list of source texts
+        :param Optional[list[str]] tgt_texts: list of target texts
+        :param str tgt_lang: target language code
+        :return: encoded batch
+        :rtype: transformers.BatchEncoding
+        """
         self.tgt_lang: str = tgt_lang
         self.set_lang_special_tokens(self.tgt_lang)
         return super().prepare_seq2seq_batch(src_texts, tgt_texts, **kwargs)
@@ -447,9 +481,23 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         self.suffix_tokens: list[int] = [self.eos_token_id]
 
     def get_lang_token(self, lang: str) -> str:
+        """
+        Return the special token of a language.
+
+        :param str lang: language code
+        :return: language token
+        :rtype: str
+        """
         return self.lang_code_to_token[lang]
 
     def get_lang_id(self, lang: str) -> int:
+        """
+        Return the token id of a language.
+
+        :param str lang: language code
+        :return: language token id
+        :rtype: int
+        """
         lang_token = self.get_lang_token(lang)
         return self.lang_token_to_id[lang_token]
 
@@ -457,6 +505,15 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
 def load_spm(
     path: str, sp_model_kwargs: dict[str, str]
 ) -> SentencePieceProcessor:
+    """
+    Load a SentencePiece model from a file.
+
+    :param str path: path to the model file
+    :param dict[str, str] sp_model_kwargs: keyword arguments for the
+        SentencePiece processor
+    :return: SentencePiece processor
+    :rtype: sentencepiece.SentencePieceProcessor
+    """
     import sentencepiece
 
     spm = sentencepiece.SentencePieceProcessor(**sp_model_kwargs)
@@ -465,6 +522,13 @@ def load_spm(
 
 
 def load_json(path: str) -> Union[dict[str, str], list[str]]:
+    """
+    Load JSON data from a file.
+
+    :param str path: path to the JSON file
+    :return: loaded data
+    :rtype: Union[dict[str, str], list[str]]
+    """
     with open(path) as f:
         return cast("Union[dict[str, str], list[str]]", json.load(f))
 
@@ -472,5 +536,12 @@ def load_json(path: str) -> Union[dict[str, str], list[str]]:
 def save_json(
     data: Union[Mapping[str, Union[str, int]], list[str]], path: str
 ) -> None:
+    """
+    Save data to a JSON file.
+
+    :param data: data to save
+    :type data: Union[Mapping[str, Union[str, int]], list[str]]
+    :param str path: path to the JSON file
+    """
     with open(path, "w") as f:
         json.dump(data, f, indent=2)

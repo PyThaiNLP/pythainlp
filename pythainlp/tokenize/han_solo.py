@@ -49,6 +49,8 @@ def _get_tagger() -> pycrfsuite.Tagger:
 
 
 class Featurizer:
+    """Extract character n-gram features for Han-solo."""
+
     #  This class from ssg at https://github.com/ponrawee/ssg.
 
     N: int
@@ -61,11 +63,26 @@ class Featurizer:
         sequence_size: int = 1,
         delimiter: Optional[str] = None,
     ) -> None:
+        """
+        Initialize the featurizer.
+
+        :param int N: size of the character n-gram
+        :param int sequence_size: size of the character sequence
+        :param Optional[str] delimiter: delimiter character in the text
+        """
         self.N: int = N
         self.delimiter: Optional[str] = delimiter
         self.radius: int = N + sequence_size
 
     def pad(self, sentence: str, padder: str = "#") -> str:
+        """
+        Pad a sentence with a padding character on both sides.
+
+        :param str sentence: sentence to pad
+        :param str padder: padding character
+        :return: padded sentence
+        :rtype: str
+        """
         return padder * (self.radius) + sentence + padder * (self.radius)
 
     def _skip_delimiter(
@@ -131,6 +148,16 @@ class Featurizer:
         indiv_char: bool = True,
         return_type: str = "list",
     ) -> dict[str, list[Any]]:
+        """
+        Extract features and labels from a sentence.
+
+        :param str sentence: sentence to featurize
+        :param bool padding: pad the sentence first
+        :param bool indiv_char: include features of individual characters
+        :param str return_type: type of the features (list or dict)
+        :return: features (X) and labels (Y)
+        :rtype: dict[str, list[typing.Any]]
+        """
         if padding:
             sentence = self.pad(sentence)
         all_features_list: list[list[str]] = []
@@ -169,6 +196,13 @@ _to_feature: Featurizer = Featurizer()
 
 
 def segment(text: str) -> list[str]:
+    """
+    Tokenize text into words with Han-solo.
+
+    :param str text: text to be tokenized
+    :return: list of words
+    :rtype: list[str]
+    """
     tagger = _get_tagger()
     x = _to_feature.featurize(text)["X"]
     y_pred = tagger.tag(x)

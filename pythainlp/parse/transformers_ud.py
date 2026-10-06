@@ -26,11 +26,21 @@ from pythainlp.tools.path import safe_path_join
 
 
 class Parse:
+    """Dependency parser using TransformersUD."""
+
     def __init__(
         self,
         model: Optional[str] = "KoichiYasuoka/deberta-base-thai-ud-head",
         revision: Optional[str] = None,
     ) -> None:
+        """
+        Initialize the TransformersUD models.
+
+        :param Optional[str] model: model name or path; the default model
+            is used if ``None``
+        :param Optional[str] revision: git revision id (branch, tag, or
+            commit hash)
+        """
         from transformers import (
             AutoConfig,
             AutoModelForQuestionAnswering,
@@ -85,6 +95,16 @@ class Parse:
     def __call__(  # noqa: CCR001  # phase2-todo
         self, text: str, tag: str = "str"
     ) -> Union[list[list[str]], str]:
+        """
+        Parse the dependency structure of a text.
+
+        :param str text: text to be parsed
+        :param str tag: output type, ``"str"`` (CoNLL-U text, default)
+            or ``"list"``
+        :return: CoNLL-U text if ``tag`` is ``"str"``, otherwise a list of
+            lists of fields
+        :rtype: Union[list[list[str]], str]
+        """
         import numpy
         import torch
         import ufal.chu_liu_edmonds

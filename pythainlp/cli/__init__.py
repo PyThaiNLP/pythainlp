@@ -27,6 +27,13 @@ CLI_NAME: str = "thainlp"
 
 
 def make_usage(command: str) -> dict[str, str]:
+    """
+    Build the usage arguments of a command.
+
+    :param str command: command name
+    :return: ``prog`` and ``usage`` strings for argparse
+    :rtype: dict[str, str]
+    """
     prog = f"{CLI_NAME} {command}"
 
     return {"prog": prog, "usage": f"{prog} [options]"}

@@ -142,7 +142,7 @@ class WordNetAug:
     temp: list[str]
 
     def __init__(self) -> None:
-        pass
+        """Initialize the WordNet augmenter."""
 
     def find_synonyms(
         self,

@@ -118,6 +118,14 @@ TO_UD: dict[str, str] = {
 
 
 def ud_exception(w: str, tag: str) -> str:
+    """
+    Return NOUN for the words การ and ความ, otherwise the given tag.
+
+    :param str w: word
+    :param str tag: Universal POS tag of the word
+    :return: ``"NOUN"`` if the word is การ or ความ, otherwise ``tag``
+    :rtype: str
+    """
     if w in ("การ", "ความ"):
         return "NOUN"
 

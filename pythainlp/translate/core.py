@@ -181,6 +181,7 @@ class Translate:
         self.load_model()
 
     def load_model(self) -> None:
+        """Load the translation model for the language pair and engine."""
         src_lang = self.src_lang
         target_lang = self.target_lang
         use_gpu = self.use_gpu

@@ -35,6 +35,85 @@ They can use `pythainlp.tag._utils._iob_to_markup`:
 - `pythainlp/wangchanberta/core.py` (two copies)
 - `pythainlp/tag/wangchanberta_onnx.py`
 
+### Complexity ranking
+
+Measured on 2026-10-06. No function is over the limits (McCabe 10,
+cognitive 15). The totals add up the complexity of every function in a
+file, so a high total means many functions, not one hard function.
+The top 20 files are ranked by McCabe total plus cognitive total.
+
+| # | File | Lines | Functions | McCabe total | McCabe max | Cognitive total | Cognitive max |
+|---|------|-------|-----------|--------------|------------|-----------------|---------------|
+| 1 | `pythainlp/corpus/core.py` | 1276 | 49 | 152 | 10 | 143 | 15 |
+| 2 | `pythainlp/khavee/core.py` | 1117 | 24 | 117 | 9 | 163 | 13 |
+| 3 | `pythainlp/soundex/complete_soundex.py` | 708 | 20 | 77 | 7 | 104 | 14 |
+| 4 | `pythainlp/util/time.py` | 395 | 17 | 70 | 8 | 87 | 12 |
+| 5 | `pythainlp/tokenize/core.py` | 864 | 18 | 60 | 6 | 66 | 10 |
+| 6 | `pythainlp/util/syllable.py` | 367 | 14 | 44 | 8 | 51 | 12 |
+| 7 | `pythainlp/corpus/common.py` | 516 | 16 | 51 | 7 | 43 | 14 |
+| 8 | `pythainlp/util/trie.py` | 228 | 10 | 39 | 9 | 50 | 15 |
+| 9 | `pythainlp/benchmarks/metrics.py` | 518 | 13 | 39 | 7 | 44 | 12 |
+| 10 | `pythainlp/util/thai_lunar_date.py` | 478 | 13 | 40 | 6 | 42 | 14 |
+| 11 | `pythainlp/tokenize/newmm.py` | 272 | 7 | 34 | 6 | 47 | 11 |
+| 12 | `pythainlp/generate/core.py` | 381 | 12 | 42 | 6 | 38 | 10 |
+| 13 | `pythainlp/tag/_tag_perceptron.py` | 338 | 13 | 39 | 6 | 40 | 11 |
+| 14 | `pythainlp/tokenize/multi_cut.py` | 210 | 9 | 32 | 6 | 43 | 13 |
+| 15 | `pythainlp/transliterate/royin.py` | 342 | 9 | 29 | 8 | 44 | 14 |
+| 16 | `pythainlp/util/wordtonum.py` | 232 | 8 | 31 | 10 | 40 | 11 |
+| 17 | `pythainlp/util/thai.py` | 425 | 13 | 37 | 7 | 34 | 10 |
+| 18 | `pythainlp/tokenize/longest.py` | 210 | 10 | 30 | 6 | 41 | 13 |
+| 19 | `pythainlp/tokenize/thaisumcut.py` | 380 | 9 | 30 | 7 | 39 | 15 |
+| 20 | `pythainlp/util/numtoword.py` | 236 | 5 | 29 | 9 | 38 | 11 |
+
+Functions at the cognitive limit (15):
+`util/trie.py:87`, `tokenize/thaisumcut.py:268`, `corpus/core.py:1140`.
+
+Functions at the McCabe limit (10): `corpus.remove`,
+`tag.named_entity.load_engine`, `tools.misspell.find_misspell_candidates`,
+`util.spell_words._clean`, and `util.wordtonum.thaiword_to_num`.
+
+Commands:
+
+```bash
+ruff check --isolated --select C901 \
+    --config 'lint.mccabe.max-complexity=0' pythainlp
+flake8 --isolated --select CCR001 --max-cognitive-complexity=1 pythainlp
+```
+
+### Lint tightening candidates
+
+Ranked by value for effort. Counts are from 2026-10-06, run with the project
+config on `pythainlp`, `tests`, `examples`, and `notebooks`
+(`ruff check --select <rule> --config pyproject.toml ...`).
+Enable a rule in `[tool.ruff.lint]` in the same PR that fixes its findings.
+
+| # | Rule | Found | Fix | Note |
+|---|------|-------|-----|------|
+| 1 | `D213`, `D300`, `D2` subset (`D200`, `D205`, `D202`, `D209`, `D214`) | 0 + 42 | manual | `D213` is free now: it locks in the new docstring style. Keep `D203`, `D212` off. |
+| 2 | `PLE` | 1 | auto | A zero-width space in `tests/core/test_util_time.py:281`; write it as `\u200b`. |
+| 3 | `PGH003` | 12 | manual | Blanket `# type: ignore`; use `[code]`, as the style guide asks. |
+| 4 | `RUF100`, `RUF102` | 84 + 8 | auto | Unused and invalid `noqa`. Set `lint.external = ["CCR"]` first, so flake8's `CCR001` is kept. |
+| 5 | `UP015`, `UP031`, `UP033` | 4 + 6 + 5 | auto and manual | Redundant `open` mode, `%` formatting, `lru_cache(maxsize=None)`. |
+| 6 | `RUF022` | 17 | auto | Sort `__all__`, as the style guide asks. |
+| 7 | `UP037` | 140 | auto | Remove quotes from annotations. Needs `from __future__ import annotations` in each file. |
+| 8 | `D415`, `D400`, `D401`, `D413` | 76 + 76 + 4 + 2 | manual | Summary ends with a period, in the imperative mood. The first two flag the same lines. |
+| 9 | `EXE001`, `ICN001`, `INP001`, `SLOT000`, `PYI034`, `A002`, `FA100` | 13 | manual | One-off fixes, a few lines each. |
+| 10 | `RUF012` | 17 | manual | Mutable class attribute without `ClassVar`. Can hide shared-state bugs. |
+| 11 | `FLY002`, `RUF010`, `RUF015` | 22 | manual | Small readability fixes. |
+| 12 | `PLW2901` | 15 | manual | A loop variable is reassigned in the loop body. |
+| 13 | `BLE001` | 13 | manual | Blind `except`. Narrow it or add `# noqa: BLE001` with a reason. Related to PR 1542. |
+| 14 | `UP006`, `UP035` | 27 + 19 | manual | `typing.List` and similar. Safe with `from __future__ import annotations`. |
+| 15 | `RUF005` | 22 | manual | List concatenation; use unpacking. |
+| 16 | `PERF401`, `PERF402`, `PERF403` | 16 | manual | Loop to comprehension. Readability can get worse. |
+| 17 | `W505` (max 79) | 65 | manual | Doctest output and comment lines cannot always wrap. Needs `# noqa`. |
+| 18 | `TID252` | 27 | manual | Relative imports. The package uses them on purpose. Decide first. |
+| 19 | `T201`, `ERA001` | 75 + 132 | manual | `print` in the CLI and examples is intended. Many `ERA001` hits are false positives. |
+| 20 | `DTZ`, `PLW0603`, `PLR2004`, `PLR0913` | 17 + 49 + 86 + 22 | manual | Naive datetimes, `global` for lazy loading, magic numbers, and many arguments are intended in this code. Skip. |
+
+Do not enable `RUF001` and `RUF002` (256 findings). They flag Thai and
+look-alike characters on purpose. Skip `EM`, `TRY003`, and `N` rules:
+they are style choices, and `N` renames would break the public API.
+
 ## Follow-up bug fixes
 
 Bugs found while refactoring. Refactoring changes keep the current behavior.
@@ -258,11 +337,23 @@ the code disagree. The code was not changed. No test pins them.
 - `tag.thainer.ThaiNameTagger`: an unknown `version` does not raise. The CRF
   model is left unopened. `tag.tltk.get_ner` and `ThaiNameTagger.get_ner`
   ignore `pos` when `tag=True`.
-- Many functions and `parse` `__call__` methods have no docstring.
-- Missing docstrings: `augment.lm.phayathaibert.ThaiTextAugmenter.generate`,
-  `generate.wangchanglm` (`WangChanGLM`, `is_exclude`), `chat.ChatBotModel`,
-  the `transliterate.ipa` functions, `pali.py` (module), the helpers in
-  `tools.misspell` and `corpus.th_en_translit`.
+- `cli.data.App.path`: the docstring says "print the path of a local
+  dataset"; the code prints the PyThaiNLP data directory.
+- `wsd.get_score` returns `1 - cos_sim`, a distance, not a similarity.
+- `spell.wanchanberta_thai_grammarly.evaluate_one_text`: the `model`
+  parameter is unused; the function calls the module-level `tagging_model`.
+- `spell.phunspell.correct` and `spell.symspellpy.correct` raise
+  `IndexError` when there is no suggestion.
+- `augment.lm.phayathaibert.ThaiTextAugmenter.generate`: with `sample=True`
+  the index is always 0 to 4 and `word_rank` is ignored.
+- `augment.wordnet.WordNetAug.find_synonyms` iterates all synsets of the
+  word and ignores the POS-filtered `list_synsets`.
+- `parse.spacy_thai_engine.Parse.__init__`: `model` is ignored; the code
+  always calls `spacy_thai.load()`. `parse.dependency_parsing` lists it.
+- `tag.wangchanberta_onnx.WngchanBerta_ONNX`: the class name has a typo.
+- `util.thai_lunar_date`: `athikamas`, `athikavar`, `deviation`, and
+  `last_day_in_year` do not state the era of `year` (the code uses
+  `year - 78`).
 - Missing `:raises:` for `TypeError` in `thai_digit_to_arabic_digit` and
   similar functions.
 - `phayathaibert.core.replace_newlines` and some other docstrings with `\n`

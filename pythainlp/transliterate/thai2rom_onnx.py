@@ -32,6 +32,8 @@ _REPEAT_MIN_CYCLES: int = 3
 
 
 class ThaiTransliterator_ONNX:
+    """Transliterate Thai words to Latin (romanization) with an ONNX model."""
+
     def __init__(self) -> None:
         """
         Initialize the transliterator of Thai words.
@@ -149,6 +151,10 @@ class ThaiTransliterator_ONNX:
 
 
 class Seq2Seq_ONNX:
+    """
+    Sequence-to-sequence model that runs ONNX encoder and decoder sessions.
+    """
+
     encoder: InferenceSession
     decoder: InferenceSession
     pad_idx: int
@@ -166,6 +172,16 @@ class Seq2Seq_ONNX:
         max_length: int,
         target_vocab_size: int,
     ) -> None:
+        """
+        Initialize the sequence-to-sequence model.
+
+        :param onnxruntime.InferenceSession encoder: encoder session
+        :param onnxruntime.InferenceSession decoder: decoder session
+        :param int target_start_token: index of the target start token
+        :param int target_end_token: index of the target end token
+        :param int max_length: maximum sequence length
+        :param int target_vocab_size: size of the target vocabulary
+        """
         super().__init__()
 
         self.encoder: "InferenceSession" = encoder
@@ -291,4 +307,11 @@ _THAI_TO_ROM_ONNX: ThaiTransliterator_ONNX = ThaiTransliterator_ONNX()
 
 
 def romanize(text: str) -> str:
+    """
+    Romanize Thai text to the Latin alphabet using the ONNX model.
+
+    :param str text: Thai text to be romanized
+    :return: text rendered in the Latin alphabet
+    :rtype: str
+    """
     return _THAI_TO_ROM_ONNX.romanize(text)

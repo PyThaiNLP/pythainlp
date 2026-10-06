@@ -17,7 +17,14 @@ if TYPE_CHECKING:
 
 
 class App:
+    """Parse and run the ``misspell`` command."""
+
     def __init__(self, argv: Sequence[str]) -> None:
+        """
+        Initialize the command.
+
+        :param Sequence[str] argv: command line arguments
+        """
         parser = argparse.ArgumentParser(
             prog="misspell",
             description="Generate misspelled texts from a given file.",

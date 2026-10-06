@@ -23,12 +23,25 @@ if TYPE_CHECKING:
 
 
 class Parse:
+    """Dependency parser using Attaparse."""
+
     def __init__(self) -> None:
+        """Initialize the Attaparse model."""
         self.nlp: Pipeline = load_model()
 
     def __call__(  # noqa: CCR001  # phase2-todo
         self, text: str, tag: str = "str"
     ) -> Union[List[List[str]], str]:
+        """
+        Parse the dependency structure of a text.
+
+        :param str text: text to be parsed
+        :param str tag: output type, ``"str"`` (CoNLL-U text, default)
+            or ``"list"``
+        :return: CoNLL-U text if ``tag`` is ``"str"``, otherwise a list of
+            lists of fields
+        :rtype: Union[List[List[str]], str]
+        """
         doc = depparse(text, self.nlp)
         rows = []
         for sent in doc.sentences:

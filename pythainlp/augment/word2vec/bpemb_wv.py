@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Augment Thai text using word2vec from BPEmb."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, cast
@@ -31,6 +33,13 @@ class BPEmbAug:
     def __init__(
         self, lang: str = "th", vs: int = 100000, dim: int = 300
     ) -> None:
+        """
+        Initialize the BPEmb word2vec augmenter.
+
+        :param str lang: language code
+        :param int vs: vocabulary size
+        :param int dim: embedding dimension
+        """
         from bpemb import BPEmb
 
         self.bpemb_temp: BPEmb = BPEmb(lang=lang, dim=dim, vs=vs)

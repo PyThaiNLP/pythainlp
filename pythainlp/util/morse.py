@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Thai Morse code conversion functions."""
+
 from __future__ import annotations
 
 THAI_MORSE_CODE: dict[str, str] = {

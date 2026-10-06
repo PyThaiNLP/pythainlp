@@ -28,11 +28,18 @@ if TYPE_CHECKING:
 
 
 class KeyBERT:
+    """Extract keywords and keyphrases with the KeyBERT algorithm."""
+
     ft_pipeline: "Pipeline"
 
     def __init__(
         self, model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
     ) -> None:
+        """
+        Initialize the KeyBERT feature extraction pipeline.
+
+        :param str model_name: name of the model to extract features with
+        """
         from transformers import pipeline
 
         self.ft_pipeline: "Pipeline" = pipeline(

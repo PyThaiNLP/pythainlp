@@ -163,7 +163,7 @@ class WordNetAug:
                 self.list_synsets: list[Synset] = wordnet.synsets(word)
 
         for self.synset in wordnet.synsets(word):
-            for self.syn in self.synset.lemma_names(lang="tha"):
+            for self.syn in self.synset.lemma_names(lang="tha"):  # noqa: B020
                 self.synonyms.append(self.syn)
 
         self.synonyms_without_duplicates: list[str] = list(

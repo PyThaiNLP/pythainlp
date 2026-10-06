@@ -384,8 +384,10 @@ PyThaiNLP targets Windows, Linux, and macOS. CI tests all three.
       runtime type inspection tools, documentation generators, and static
       analysis tools. For example, `typing.get_type_hints()` and
       `inspect` should work properly.
-- [ ] Do not allow the use of assert in production code
-      (it is only allowed for testing and debugging).
+- [ ] Do not use `assert` in production code: Python removes it under
+      `-O`, so it cannot enforce a check. Raise an exception
+      (`ValueError`, `TypeError`, ...) instead.
+      Ruff `S101` enforces this. `assert` is fine in tests.
 - [ ] Do not use mutable default arguments in function/method definitions.
 - [ ] Do not use wildcard imports (from module import *).
 - [ ] When reordering the imports, be careful not to (re-)introduce circular
@@ -393,6 +395,12 @@ PyThaiNLP targets Windows, Linux, and macOS. CI tests all three.
 - [ ] Remove unused imports.
 - [ ] Remove any trailing whitespace in the Python file.
 - [ ] Make the package zip-safe if possible.
+- [ ] Sort the members of a collection literal (list, set, tuple, dict
+      keys, `__all__`) when possible, so it is easier to read, compare,
+      and maintain, even if the collection is a set.
+      Keep the order when it matters at run time, including an order
+      that gives an early exit or an early hit for the common cases.
+      Add a short comment in that case.
 - [ ] Be mindful about choice of data structures.
       Prefer built-in data structures like list, dict, set, and tuple
       unless there is a specific need for specialized data structures.

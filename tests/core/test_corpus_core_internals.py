@@ -102,7 +102,7 @@ def _zip_bytes(members: list[tuple[str, bytes, bool]]) -> bytes:
 
 
 def _md5(data: bytes) -> str:
-    return hashlib.md5(data).hexdigest()  # noqa: S324
+    return hashlib.md5(data, usedforsecurity=False).hexdigest()  # noqa: S324
 
 
 def _snapshot(root: Path) -> dict[str, bytes]:

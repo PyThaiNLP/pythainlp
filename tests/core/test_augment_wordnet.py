@@ -39,7 +39,10 @@ TAGS: dict[str, str] = {
 
 
 class FakeSynset:
+    """Synset with a fixed list of lemma names."""
+
     def __init__(self, names: list[str]) -> None:
+        """Set the lemma names."""
         self.names = names
 
     def lemma_names(self, lang: str = "eng") -> list[str]:
@@ -50,6 +53,7 @@ class FakeWordNet:
     """Replacement for pythainlp.corpus.wordnet; records its calls."""
 
     def __init__(self) -> None:
+        """Start with no recorded calls."""
         self.calls: list[tuple[str, Any]] = []
 
     def synsets(self, word: str, pos: Any = None) -> list[FakeSynset]:

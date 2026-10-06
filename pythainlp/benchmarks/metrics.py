@@ -90,9 +90,7 @@ def _lcs_length(x: Sequence[str], y: Sequence[str]) -> int:
 
 
 def _error_rate(ref: Sequence[str], hyp: Sequence[str]) -> float:
-    """
-    Calculate the edit distance between two sequences, divided by the
-    reference length.
+    """Calculate the edit distance divided by the reference length.
 
     :param Sequence[str] ref: reference items
     :param Sequence[str] hyp: hypothesis items

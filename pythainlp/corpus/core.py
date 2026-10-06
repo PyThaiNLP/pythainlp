@@ -501,7 +501,7 @@ def _check_member_path(path: str, member_name: str, archive_type: str) -> None:
     except ValueError:
         raise ValueError(
             f"Attempted path traversal in {archive_type} file: {member_name}"
-        )
+        ) from None
 
 
 def _link_error(member_name: str, link_target: str) -> ValueError:
@@ -530,7 +530,7 @@ def _check_link_target(
     try:
         safe_path_join(path, base_dir, link_target)
     except ValueError:
-        raise _link_error(member_name, link_target)
+        raise _link_error(member_name, link_target) from None
 
 
 def _check_tar_member(path: str, member: tarfile.TarInfo) -> None:

@@ -154,7 +154,7 @@ class FastTextEncoder:
                 return _subwords, np.array(_subword_ids)
 
         # 2. Extract n-grams (subwords) and get their hash indices
-        for ngram_start in range(0, len(_word)):
+        for ngram_start in range(len(_word)):
             for ngram_length in range(self.minn, self.maxn + 1):
                 if ngram_start + ngram_length <= len(_word):
                     _candidate_subword = _word[

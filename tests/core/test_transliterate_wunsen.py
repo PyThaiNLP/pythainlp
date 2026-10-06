@@ -21,9 +21,12 @@ MODULE_PATH = Path(pythainlp.__file__).parent / "transliterate" / "wunsen.py"
 
 
 class FakeThapSap:
+    """Replacement for wunsen.ThapSap; records its arguments."""
+
     created: list[tuple[str, dict[str, Any]]] = []
 
     def __init__(self, lang: str, **kwargs: Any) -> None:
+        """Record the arguments."""
         FakeThapSap.created.append((lang, kwargs))
         self.lang = lang
 

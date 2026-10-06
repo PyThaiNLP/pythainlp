@@ -256,11 +256,11 @@ class Braille:
                     nested_data[i] = sorted(item)
                 self.data: Union[list[list[str]], list[str]] = nested_data
             elif len(data) == 1:
-                self.data = sorted(list(data[0]))
+                self.data = sorted(data[0])
             else:
                 self.data = []
         else:
-            self.data = sorted(list(data)) if data else []
+            self.data = sorted(data) if data else []
 
         # International standard Braille mapping
         # Dots 1,2,3 = left column (top, middle, bottom)

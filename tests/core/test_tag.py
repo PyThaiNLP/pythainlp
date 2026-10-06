@@ -407,7 +407,7 @@ class TagNNERTestCase(unittest.TestCase):
 
 
 class IobToMarkupTestCase(unittest.TestCase):
-    """Test pythainlp.tag._utils._iob_to_markup"""
+    """Test pythainlp.tag._utils._iob_to_markup."""
 
     def test_iob_to_markup(self):
         cases = [

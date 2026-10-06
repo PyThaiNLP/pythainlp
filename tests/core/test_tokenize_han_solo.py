@@ -1600,7 +1600,8 @@ class HanSoloTaggerTestCase(unittest.TestCase):
         spec = importlib.util.spec_from_file_location(
             "han_solo_no_crf", str(han_solo.__file__)
         )
-        assert spec is not None and spec.loader is not None
+        if spec is None or spec.loader is None:
+            self.fail("cannot load han_solo.py")
         module = importlib.util.module_from_spec(spec)
         with mock.patch.dict(sys.modules, {"pycrfsuite": None}):
             with self.assertRaises(ImportError) as ctx:

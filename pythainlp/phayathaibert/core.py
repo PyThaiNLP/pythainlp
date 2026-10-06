@@ -201,15 +201,17 @@ class ThaiTextProcessor:
     def preprocess(
         self,
         text: str,
-        pre_rules: list[Callable[..., str]] = [
-            rm_brackets,
-            replace_newlines,
-            rm_useless_spaces,
-            replace_spaces,
-            replace_rep_after,
-        ],
+        pre_rules: Optional[list[Callable[..., str]]] = None,
         tok_func: Callable[..., list[str]] = word_tokenize,
     ) -> str:
+        if pre_rules is None:
+            pre_rules = [
+                self.rm_brackets,
+                self.replace_newlines,
+                self.rm_useless_spaces,
+                self.replace_spaces,
+                self.replace_rep_after,
+            ]
         text = text.lower()
         for rule in pre_rules:
             text = rule(text)

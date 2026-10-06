@@ -13,7 +13,7 @@ import sys
 import types
 import unittest
 from contextlib import contextmanager
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Optional
 
 from pythainlp.tokenize import (
     paragraph_tokenize,
@@ -107,6 +107,7 @@ class Recorder:
     """Callable that records its calls and returns a copy of a result."""
 
     def __init__(self, result: list[str]) -> None:
+        """Set the result to return."""
         self.result: list[str] = result
         self.calls: list[tuple[tuple[Any, ...], dict[str, Any]]] = []
 
@@ -136,16 +137,16 @@ def fake_module(name: str, **attrs: Any) -> Iterator[None]:
 
 @contextmanager
 def fake_engine(
-    module: str, func: str, result: list[str] = FAKE_RESULT
+    module: str, func: str, result: Optional[list[str]] = None
 ) -> Iterator[Recorder]:
-    recorder = Recorder(result)
+    recorder = Recorder(FAKE_RESULT if result is None else result)
     with fake_module(module, **{func: recorder}):
         yield recorder
 
 
 @contextmanager
-def fake_thaisum(result: list[str] = FAKE_RESULT) -> Iterator[Recorder]:
-    recorder = Recorder(result)
+def fake_thaisum(result: Optional[list[str]] = None) -> Iterator[Recorder]:
+    recorder = Recorder(FAKE_RESULT if result is None else result)
 
     class FakeSegmentor:
         def split_into_sentences(self, text: str) -> list[str]:

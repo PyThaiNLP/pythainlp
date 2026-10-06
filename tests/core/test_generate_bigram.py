@@ -138,15 +138,15 @@ class PickNextTestCase(unittest.TestCase):
     def test_consumes_one_random_choice(self) -> None:
         random.seed(7)
         _pick_next(["a", "b", "c"], [0.5, 0.6, 0.7], 0.0)
-        after = random.random()
+        after = random.random()  # nosec B311
         random.seed(7)
-        random.choice([0.5, 0.6, 0.7])
-        self.assertEqual(random.random(), after)
+        random.choice([0.5, 0.6, 0.7])  # nosec B311
+        self.assertEqual(random.random(), after)  # nosec B311
 
     def test_no_random_call_when_nothing_passes(self) -> None:
         random.seed(7)
         _pick_next(["a"], [0.1], 0.5)
-        after = random.random()
+        after = random.random()  # nosec B311
         random.seed(7)
         self.assertEqual(random.random(), after)
 

@@ -313,7 +313,7 @@ def athikasurathin(year: int) -> bool:
 
 
 def number_day_in_year(year: int) -> int:
-    """Number of days (365 or 366) in a Gregorian year. CE (Common Era)"""
+    """Get the number of days (365 or 366) in a Gregorian year (CE)."""
     if athikasurathin(year):
         return 366
 

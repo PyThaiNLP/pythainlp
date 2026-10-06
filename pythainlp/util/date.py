@@ -216,7 +216,7 @@ def thai_strptime(
     fmt: str,
     year: str = "be",
     add_year: Optional[int] = None,
-    tzinfo: Optional[ZoneInfo] = ZoneInfo("Asia/Bangkok"),
+    tzinfo: Optional[ZoneInfo] = ZoneInfo("Asia/Bangkok"),  # noqa: B008
 ) -> datetime:
     """Thai strptime
 

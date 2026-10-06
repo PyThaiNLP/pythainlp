@@ -434,7 +434,10 @@ select = [
     "W",
     "S",
     "TC",
-    "B028",
+    "B",
+    "C4",
+    "ISC",
+    "PIE",
     "C901",
     "F401",
     "F811",
@@ -443,8 +446,14 @@ select = [
     "W293",
 ]
 # Some rules are ignored for now; we can consider enabling them in the future.
-# S101 is use of assert statement, should be an easy fix.
-extend-ignore = ["E402", "E501", "E722", "S101", "S202", "S301", "S310"]
+# B905 (zip strict=) needs Python 3.10.
+# B010 (setattr) is for dynamic attributes that tests set on purpose.
+extend-ignore = ["B905", "E402", "E501", "E722", "S202", "S301", "S310"]
+
+[tool.ruff.lint.per-file-ignores]
+# S101 (assert) is not allowed in production code. Tests and notebooks may use it.
+"tests/**" = ["B010", "S101"]
+"notebooks/**" = ["S101"]
 
 [tool.tox]
 env_list = ["py39", "py310", "py311", "py312", "py313", "py314", "pypy310", "pypy311", "ruff", "flake8", "mypy"]
@@ -467,13 +476,13 @@ commands = [
     ["ruff", "check", "--config", "pyproject.toml", "pythainlp", "tests", "examples", "notebooks"],
     ["ruff", "format", "--check", "--config", "pyproject.toml", "pythainlp", "tests", "examples", "notebooks"],
 ]
-deps = ["ruff>=0.16.10"]
+deps = ["ruff==0.16.10"]
 skip_install = true
 
 [tool.tox.env.flake8]
 basepython = ["python"]
 commands = [["flake8", "pythainlp"]]
-deps = ["flake8>=7.3.0", "flake8-cognitive-complexity>=0.1.0"]
+deps = ["flake8==7.4.1", "flake8-cognitive-complexity==0.1.0"]
 skip_install = true
 
 [tool.tox.env.mypy]

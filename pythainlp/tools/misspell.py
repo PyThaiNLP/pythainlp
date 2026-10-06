@@ -55,15 +55,10 @@ def search_location_of_character(
 def find_neighbour_locations(
     loc: tuple[int, int, int, int],
     char: str,
-    kernel: list[tuple[int, int]] = [
-        (-1, -1),
-        (-1, 0),
-        (1, 1),
-        (0, 1),
-        (0, -1),
-        (1, 0),
-    ],
+    kernel: Optional[list[tuple[int, int]]] = None,
 ) -> list[tuple[int, int, int, int, str]]:
+    if kernel is None:
+        kernel = [(-1, -1), (-1, 0), (1, 1), (0, 1), (0, -1), (1, 0)]
     language_ix, is_shift, row, pos = loc
 
     valid_neighbours = []

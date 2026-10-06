@@ -2,5 +2,5 @@
 # Used only for the cognitive complexity check (CCR001);
 # Ruff handles all other linting.
 select = CCR001
-# Current maximum in the codebase is 97. Lower this gradually to 15.
-max-cognitive-complexity = 97
+# Current maximum in the codebase is 96. Lower this gradually to 15.
+max-cognitive-complexity = 96

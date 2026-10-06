@@ -9,6 +9,7 @@ need neither pandas nor PyYAML.
 
 import io
 import json
+import os
 import sys
 import tempfile
 import types
@@ -149,6 +150,37 @@ class CliBenchmarkTestCase(unittest.TestCase):
         self.assertNotIn("expected", details["samples"][0]["metrics"])
         self.assertEqual(details["metrics"]["char_level:tp"], 16.0)
         self.assertTrue((self.root / "eval-sub.yml").exists())
+
+    def test_save_details_with_relative_path(self) -> None:
+        # Regression: the output went to "/eval-sub.yml" (the filesystem
+        # root) when the input file had no directory part.
+        fake_yaml = types.ModuleType("yaml")
+        fake_yaml.dump = lambda data, f, **kw: f.write("{}")  # type: ignore[attr-defined]
+        frame = _FakeFrame([dict(_RECORD)])
+        old_cwd = os.getcwd()
+        self.addCleanup(os.chdir, old_cwd)
+        os.chdir(self.root)
+        self.write("sub.txt", "ก\n")
+        self.write("ref.txt", "ก\n")
+        with mock.patch.dict(sys.modules, {"yaml": fake_yaml}):
+            with mock.patch.object(
+                word_tokenization, "benchmark", return_value=frame
+            ):
+                with redirect_stdout(io.StringIO()):
+                    WordTokenizationBenchmark(
+                        "word-tokenization",
+                        [
+                            "--input-file",
+                            "sub.txt",
+                            "--test-file",
+                            "ref.txt",
+                            "--save-details",
+                        ],
+                    )
+        self.assertEqual(
+            sorted(p.name for p in self.root.iterdir()),
+            ["eval-details-sub.json", "eval-sub.yml", "ref.txt", "sub.txt"],
+        )
 
     def test_errors(self) -> None:
         with redirect_stdout(io.StringIO()):

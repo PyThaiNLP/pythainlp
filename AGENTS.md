@@ -75,6 +75,17 @@
         <https://semver.org/>
   - [ ] If it is a breaking change, indicate it clearly in the changelog.
     - [ ] Provide migration instructions if necessary.
+  - [ ] Keep entries concise, to the point, and without background or
+        rationale; link the PR for that.
+    - [ ] Aim at about 140 characters per entry.
+          A genuinely complex PR may exceed it.
+    - [ ] End each entry with a link to its PR, as in
+          <https://github.com/bact/pitloom/blob/main/CHANGELOG.md>:
+          `([#123])`, with the `[#123]: <PR URL>` definitions
+          at the end of each release section.
+    - [ ] Merge related PRs into one entry: `([#1], [#2])`.
+    - [ ] Sort the entries in each section by their lowest PR number.
+    - [ ] Skip documentation-only, version bump, and CI-only changes.
 - [ ] Do not leave trailing whitespaces in the code or documentation files,
       unless such a whitespace is explicitly necessary.
 - [ ] Metadata in pyproject.toml, codemeta.json, CITATION.cff, and other

@@ -34,6 +34,6 @@ class MultiEL:
         if isinstance(list_text, str):
             list_text = [list_text]
         return cast(
-            Union[list[dict[str, Any]], str],
+            "Union[list[dict[str, Any]], str]",
             self._bela_run.process_batch(list_text),
         )

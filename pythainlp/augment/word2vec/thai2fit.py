@@ -58,7 +58,9 @@ class Thai2fitAug:
 
         :Example:
 
-            >>> from pythainlp.augment.word2vec import Thai2fitAug  # doctest: +SKIP
+            >>> from pythainlp.augment.word2vec import (
+            ...     Thai2fitAug,
+            ... )  # doctest: +SKIP
 
             >>> aug = Thai2fitAug()  # doctest: +SKIP
             >>> aug.augment("ผมเรียน", n_sent=2, p=0.5)  # doctest: +SKIP

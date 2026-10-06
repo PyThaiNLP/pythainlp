@@ -2,8 +2,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-"""Unit tests for pythainlp.util module.
-"""
+"""Unit tests for pythainlp.util module."""
 
 import os
 import unittest
@@ -141,10 +140,14 @@ class UtilTestCase(unittest.TestCase):
         # num_to_thaiword_float
         self.assertEqual(num_to_thaiword_float(123.45), "หนึ่งร้อยยี่สิบสามจุดสี่ห้า")
         self.assertEqual(num_to_thaiword_float(0.5), "ศูนย์จุดห้า")
-        self.assertEqual(num_to_thaiword_float(123.12345), "หนึ่งร้อยยี่สิบสามจุดหนึ่งสองสามสี่ห้า")
+        self.assertEqual(
+            num_to_thaiword_float(123.12345), "หนึ่งร้อยยี่สิบสามจุดหนึ่งสองสามสี่ห้า"
+        )
         self.assertEqual(num_to_thaiword_float(3.14159), "สามจุดหนึ่งสี่หนึ่งห้าเก้า")
         self.assertEqual(num_to_thaiword_float(10.01), "สิบจุดศูนย์หนึ่ง")
-        self.assertEqual(num_to_thaiword_float(1001.001), "หนึ่งพันเอ็ดจุดศูนย์ศูนย์หนึ่ง")
+        self.assertEqual(
+            num_to_thaiword_float(1001.001), "หนึ่งพันเอ็ดจุดศูนย์ศูนย์หนึ่ง"
+        )
         self.assertEqual(num_to_thaiword_float(0.1), "ศูนย์จุดหนึ่ง")
         self.assertEqual(num_to_thaiword_float(11.11), "สิบเอ็ดจุดหนึ่งหนึ่ง")
         # Whole numbers return integer form
@@ -157,13 +160,17 @@ class UtilTestCase(unittest.TestCase):
         # Very small float (scientific notation)
         self.assertEqual(num_to_thaiword_float(1e-5), "ศูนย์จุดศูนย์ศูนย์ศูนย์ศูนย์หนึ่ง")
         self.assertEqual(
-             num_to_thaiword_float(1.23e-10),
-             "ศูนย์จุดศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์หนึ่งสองสาม",
-         )
+            num_to_thaiword_float(1.23e-10),
+            "ศูนย์จุดศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์หนึ่งสองสาม",
+        )
         self.assertEqual(num_to_thaiword_float(0.001), "ศูนย์จุดศูนย์ศูนย์หนึ่ง")
-        self.assertEqual(num_to_thaiword_float(100.0001), "หนึ่งร้อยจุดศูนย์ศูนย์ศูนย์หนึ่ง")
+        self.assertEqual(
+            num_to_thaiword_float(100.0001), "หนึ่งร้อยจุดศูนย์ศูนย์ศูนย์หนึ่ง"
+        )
         # Many decimal digits
-        self.assertEqual(num_to_thaiword_float(1.23456789), "หนึ่งจุดสองสามสี่ห้าหกเจ็ดแปดเก้า")
+        self.assertEqual(
+            num_to_thaiword_float(1.23456789), "หนึ่งจุดสองสามสี่ห้าหกเจ็ดแปดเก้า"
+        )
         # Large integer with decimal
         self.assertEqual(num_to_thaiword_float(1000000000.5), "หนึ่งพันล้านจุดห้า")
         # Integer type passed
@@ -193,8 +200,13 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(num_to_thaiword(11000000), "สิบเอ็ดล้าน")
         self.assertEqual(num_to_thaiword(21000000), "ยี่สิบเอ็ดล้าน")
         self.assertEqual(num_to_thaiword(11000001), "สิบเอ็ดล้านเอ็ด")
-        self.assertEqual(num_to_thaiword(501741221), "ห้าร้อยเอ็ดล้านเจ็ดแสนสี่หมื่นหนึ่งพันสองร้อยยี่สิบเอ็ด")
-        self.assertEqual(num_to_thaiword(6001461300), "หกพันเอ็ดล้านสี่แสนหกหมื่นหนึ่งพันสามร้อย")
+        self.assertEqual(
+            num_to_thaiword(501741221),
+            "ห้าร้อยเอ็ดล้านเจ็ดแสนสี่หมื่นหนึ่งพันสองร้อยยี่สิบเอ็ด",
+        )
+        self.assertEqual(
+            num_to_thaiword(6001461300), "หกพันเอ็ดล้านสี่แสนหกหมื่นหนึ่งพันสามร้อย"
+        )
         # Edge cases: simple powers
         self.assertEqual(num_to_thaiword(10), "สิบ")
         self.assertEqual(num_to_thaiword(20), "ยี่สิบ")
@@ -203,7 +215,9 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(num_to_thaiword(10000), "หนึ่งหมื่น")
         self.assertEqual(num_to_thaiword(100000), "หนึ่งแสน")
         # Edge cases: full block (all 6 digits)
-        self.assertEqual(num_to_thaiword(111111), "หนึ่งแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบเอ็ด")
+        self.assertEqual(
+            num_to_thaiword(111111), "หนึ่งแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบเอ็ด"
+        )
         # Edge cases: large numbers with multiple ล้าน blocks
         self.assertEqual(num_to_thaiword(1000000000), "หนึ่งพันล้าน")
         self.assertEqual(num_to_thaiword(1000000000000), "หนึ่งล้านล้าน")
@@ -290,12 +304,8 @@ class UtilTestCase(unittest.TestCase):
     def test_text_to_num_zero(self):
         # "ศูนย์" (zero) is excluded from the digit table as a special
         # case, which used to corrupt or crash on any floating-point
-        self.assertEqual(
-            text_to_num("หนึ่งร้อยยี่สิบสี่จุดศูนย์สี่"), ["124.04"]
-        )
-        self.assertEqual(
-            text_to_num("หนึ่งร้อยยี่สิบเอ็ดจุดศูนย์สี่ห้า"), ["121.045"]
-        )
+        self.assertEqual(text_to_num("หนึ่งร้อยยี่สิบสี่จุดศูนย์สี่"), ["124.04"])
+        self.assertEqual(text_to_num("หนึ่งร้อยยี่สิบเอ็ดจุดศูนย์สี่ห้า"), ["121.045"])
         self.assertEqual(text_to_num("ศูนย์จุดศูนย์เก้า"), ["0.09"])
         self.assertEqual(text_to_num("ห้าจุดศูนย์ศูนย์เก้า"), ["5.009"])
         self.assertEqual(text_to_num("สามจุดสี่ศูนย์เก้าศูนย์"), ["3.409"])
@@ -340,11 +350,11 @@ class UtilTestCase(unittest.TestCase):
         # Edge cases: different min_len values (min_len filters by frequency >= min_len)
         self.assertEqual(
             find_keyword(word_list, min_len=0),
-            {"แมว": 3, "กิน": 1, "ปลา": 1, "อร่อย": 1}
+            {"แมว": 3, "กิน": 1, "ปลา": 1, "อร่อย": 1},
         )
         self.assertEqual(
             find_keyword(word_list, min_len=1),
-            {"แมว": 3, "กิน": 1, "ปลา": 1, "อร่อย": 1}
+            {"แมว": 3, "กิน": 1, "ปลา": 1, "อร่อย": 1},
         )
         self.assertEqual(find_keyword(word_list, min_len=2), {"แมว": 3})
         self.assertEqual(find_keyword(word_list, min_len=10), {})
@@ -366,9 +376,13 @@ class UtilTestCase(unittest.TestCase):
         # Edge cases: single item list
         self.assertEqual(rank(["แมว"]), Counter({"แมว": 1}))
         # Edge cases: all stopwords with exclude_stopwords=True
-        self.assertEqual(rank(["ใน", "การ", "ที่"], exclude_stopwords=True), Counter())
+        self.assertEqual(
+            rank(["ใน", "การ", "ที่"], exclude_stopwords=True), Counter()
+        )
         # Edge cases: exclude_stopwords=False (explicitly test both values)
-        self.assertIsNotNone(rank(["แมว", "ใน", "การ"], exclude_stopwords=False))
+        self.assertIsNotNone(
+            rank(["แมว", "ใน", "การ"], exclude_stopwords=False)
+        )
         # Edge cases: duplicate handling
         self.assertEqual(rank(["แมว", "แมว", "แมว"]), Counter({"แมว": 3}))
 
@@ -534,7 +548,7 @@ class UtilTestCase(unittest.TestCase):
                 "8:17", fmt="xx"
             )  # format string is not supported
         with self.assertRaises(TypeError):
-            time_to_thaiword(42)   # type: ignore[arg-type]  # input is not datetime/time/str
+            time_to_thaiword(42)  # type: ignore[arg-type]  # input is not datetime/time/str
         with self.assertRaises(ValueError):
             time_to_thaiword("")  # input is empty
         with self.assertRaises(ValueError):
@@ -901,7 +915,7 @@ class UtilTestCase(unittest.TestCase):
             self.assertEqual(
                 sound_syllable(i),
                 j,
-                f"{i} should be determined to be a '{j}' syllable."
+                f"{i} should be determined to be a '{j}' syllable.",
             )
 
     def test_tone_detector(self):
@@ -988,7 +1002,7 @@ class UtilTestCase(unittest.TestCase):
             self.assertEqual(
                 tone_detector(j),
                 i,
-                f"{j} should be determined to be a '{i}' tone."
+                f"{j} should be determined to be a '{i}' tone.",
             )
 
     def test_syllable_length(self):
@@ -1003,7 +1017,9 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(to_idna("คนละครึ่ง.com"), "xn--42caj4e6bk1f5b1j.com")
         # Additional test cases for IDNA encoding
         self.assertEqual(to_idna("ไทย.com"), "xn--o3cw4h.com")
-        self.assertEqual(to_idna("example.com"), "example.com")  # ASCII unchanged
+        self.assertEqual(
+            to_idna("example.com"), "example.com"
+        )  # ASCII unchanged
         self.assertEqual(to_idna("ภาษาไทย.th"), "xn--o3crh0a8bb0k.th")
 
     def test_thai_strptime(self):
@@ -1118,7 +1134,9 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(to_lunar_date(date(2020, 10, 31)), "ขึ้น 15 ค่ำ เดือน 12")
         with self.assertRaises(NotImplementedError):
             to_lunar_date(date(1885, 9, 7))  # back to the future
-        with patch.object(thai_lunar_date, "last_day_in_year", return_value=353):
+        with patch.object(
+            thai_lunar_date, "last_day_in_year", return_value=353
+        ):
             with self.assertRaisesRegex(
                 ValueError, "Unexpected last_day value: 353"
             ):
@@ -1134,29 +1152,45 @@ class UtilTestCase(unittest.TestCase):
 
     def test_spelling(self):
         self.assertEqual(spelling([]), [])  # type: ignore[arg-type]
-        self.assertEqual(spelling("เรียน"), ['รอ', 'เอีย', 'นอ', 'เรียน'])
+        self.assertEqual(spelling("เรียน"), ["รอ", "เอีย", "นอ", "เรียน"])
+        self.assertEqual(spelling("เฝ้า"), ["ฝอ", "เอา", "เฝา", "ไม้โท", "เฝ้า"])
+        self.assertEqual(spelling("คน"), ["คอ", "นอ", "คน"])
+        self.assertEqual(spelling("กัน"), ["กอ", "อะ", "นอ", "กัน"])
         self.assertEqual(
-            spelling("เฝ้า"), ['ฝอ', 'เอา', 'เฝา', 'ไม้โท', 'เฝ้า']
-        )
-        self.assertEqual(spelling("คน"), ['คอ', 'นอ', 'คน'])
-        self.assertEqual(spelling("กัน"), ['กอ', 'อะ', 'นอ', 'กัน'])
-        self.assertEqual(
-            spelling("กั้น"), ['กอ', 'อะ', 'นอ', 'กัน', 'ไม้โท', 'กั้น']
+            spelling("กั้น"), ["กอ", "อะ", "นอ", "กัน", "ไม้โท", "กั้น"]
         )
 
     def test_longest_common_subsequence(self):
-        self.assertEqual(longest_common_subsequence("ABCBDAB", "BDCAB"), "BDAB")
-        self.assertEqual(longest_common_subsequence("AGGTAB", "GXTXAYB"), "GTAB")
+        self.assertEqual(
+            longest_common_subsequence("ABCBDAB", "BDCAB"), "BDAB"
+        )
+        self.assertEqual(
+            longest_common_subsequence("AGGTAB", "GXTXAYB"), "GTAB"
+        )
         self.assertEqual(longest_common_subsequence("ABCDGH", "AEDFHR"), "ADH")
 
         # Edge cases
-        self.assertEqual(longest_common_subsequence("", ""), "")  # empty strings
-        self.assertEqual(longest_common_subsequence("ABC", ""), "")  # one empty
-        self.assertEqual(longest_common_subsequence("", "ABC"), "")  # other empty
-        self.assertEqual(longest_common_subsequence("A", "A"), "A")  # single char match
-        self.assertEqual(longest_common_subsequence("A", "B"), "")  # single char no match
-        self.assertEqual(longest_common_subsequence("ABC", "ABC"), "ABC")  # identical
-        self.assertEqual(longest_common_subsequence("ABC", "XYZ"), "")  # no common chars
+        self.assertEqual(
+            longest_common_subsequence("", ""), ""
+        )  # empty strings
+        self.assertEqual(
+            longest_common_subsequence("ABC", ""), ""
+        )  # one empty
+        self.assertEqual(
+            longest_common_subsequence("", "ABC"), ""
+        )  # other empty
+        self.assertEqual(
+            longest_common_subsequence("A", "A"), "A"
+        )  # single char match
+        self.assertEqual(
+            longest_common_subsequence("A", "B"), ""
+        )  # single char no match
+        self.assertEqual(
+            longest_common_subsequence("ABC", "ABC"), "ABC"
+        )  # identical
+        self.assertEqual(
+            longest_common_subsequence("ABC", "XYZ"), ""
+        )  # no common chars
         self.assertEqual(longest_common_subsequence("ABC", "AC"), "AC")
 
         # Thai text
@@ -1165,12 +1199,10 @@ class UtilTestCase(unittest.TestCase):
 
     def test_analyze_thai_text(self):
         self.assertEqual(
-            analyze_thai_text("คนดี"),
-            {"ค": 1, "น": 1, "ด": 1, "สระ อี": 1}
+            analyze_thai_text("คนดี"), {"ค": 1, "น": 1, "ด": 1, "สระ อี": 1}
         )
         self.assertEqual(
-            analyze_thai_text("เล่น"),
-            {'สระ เอ': 1, 'ล': 1, 'ไม้เอก': 1, 'น': 1}
+            analyze_thai_text("เล่น"), {"สระ เอ": 1, "ล": 1, "ไม้เอก": 1, "น": 1}
         )
 
     # ### pythainlp.util.pronounce

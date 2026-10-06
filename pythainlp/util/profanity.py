@@ -37,7 +37,9 @@ def contains_profanity(
         True if the word is in the profanity list
 
         >>> # Add custom profanity words
-        >>> print(contains_profanity("คำใหม่", custom_words={"คำใหม่"}))  # doctest: +SKIP
+        >>> print(
+        ...     contains_profanity("คำใหม่", custom_words={"คำใหม่"})
+        ... )  # doctest: +SKIP
         True
     """
     if not text:
@@ -81,11 +83,15 @@ def find_profanity(
         >>> print(find_profanity("สวัสดีครับ"))  # doctest: +SKIP
         []
 
-        >>> print(find_profanity("text with profanity words"))  # doctest: +SKIP
+        >>> print(
+        ...     find_profanity("text with profanity words")
+        ... )  # doctest: +SKIP
         ['profanity_word1', 'profanity_word2']
 
         >>> # Add custom profanity words
-        >>> print(find_profanity("คำใหม่", custom_words={"คำใหม่"}))  # doctest: +SKIP
+        >>> print(
+        ...     find_profanity("คำใหม่", custom_words={"คำใหม่"})
+        ... )  # doctest: +SKIP
         ['คำใหม่']
     """
     if not text:
@@ -134,11 +140,15 @@ def censor_profanity(
         >>> print(censor_profanity("สวัสดีครับ"))  # doctest: +SKIP
         สวัสดีครับ
 
-        >>> print(censor_profanity("text with profanity word"))  # doctest: +SKIP
+        >>> print(
+        ...     censor_profanity("text with profanity word")
+        ... )  # doctest: +SKIP
         text with *** word
 
         >>> # Add custom profanity words
-        >>> print(censor_profanity("คำใหม่", custom_words={"คำใหม่"}))  # doctest: +SKIP
+        >>> print(
+        ...     censor_profanity("คำใหม่", custom_words={"คำใหม่"})
+        ... )  # doctest: +SKIP
         ******
     """
     if not text:

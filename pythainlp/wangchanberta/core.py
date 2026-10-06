@@ -28,7 +28,8 @@ def _get_tokenizer() -> CamembertTokenizer:
         from transformers import CamembertTokenizer
 
         _tokenizer = CamembertTokenizer.from_pretrained(
-            f"airesearch/{_model_name}", revision="main"  # nosec B615
+            f"airesearch/{_model_name}",
+            revision="main",  # nosec B615
         )
         if _model_name == "wangchanberta-base-att-spm-uncased":
             _tokenizer.additional_special_tokens = [
@@ -277,4 +278,4 @@ def segment(text: str) -> list[str]:
     if not text or not isinstance(text, str):
         return []
 
-    return cast(list[str], _get_tokenizer().tokenize(text))
+    return cast("list[str]", _get_tokenizer().tokenize(text))

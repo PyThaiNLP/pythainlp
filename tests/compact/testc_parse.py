@@ -35,7 +35,10 @@ class ChunkParseTestCaseC(unittest.TestCase):
             result = old_chunk_parse(w_p)
         self.assertIsNotNone(result)
         self.assertTrue(
-            any(issubclass(warning.category, DeprecationWarning) for warning in w)
+            any(
+                issubclass(warning.category, DeprecationWarning)
+                for warning in w
+            )
         )
 
     def test_deprecated_crfchunk(self):
@@ -48,7 +51,10 @@ class ChunkParseTestCaseC(unittest.TestCase):
             warnings.simplefilter("always")
             chunker = CRFchunk()
         self.assertTrue(
-            any(issubclass(warning.category, DeprecationWarning) for warning in w)
+            any(
+                issubclass(warning.category, DeprecationWarning)
+                for warning in w
+            )
         )
         result = chunker.parse(w_p)
         self.assertIsNotNone(result)

@@ -21,7 +21,9 @@ class MorphemeTestCase(unittest.TestCase):
         self.assertEqual(nighit("สํ", "นิษฐาน"), "สันนิษฐาน")
         self.assertEqual(nighit("สํ", "ปทา"), "สัมปทา")
         self.assertEqual(nighit("สํ", "โยค"), "สังโยค")
-        self.assertEqual(nighit("", "คีต"), "คีต")  # w1 is empty, should return w2
+        self.assertEqual(
+            nighit("", "คีต"), "คีต"
+        )  # w1 is empty, should return w2
         self.assertEqual(nighit("สํ", ""), "สํ")  # w2 is empty, should return w1
 
         with self.assertRaises(NotImplementedError):

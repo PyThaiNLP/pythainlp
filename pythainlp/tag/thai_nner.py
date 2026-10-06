@@ -12,7 +12,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, Union
 
 from pythainlp.corpus import get_corpus_path
-from pythainlp.tag.named_entity import EntitySpan
+
+# Runtime import keeps typing.get_type_hints() working on this module.
+from pythainlp.tag.named_entity import EntitySpan  # noqa: TC001
 
 if TYPE_CHECKING:
     from thai_nner import NNER  # noqa: F401
@@ -58,12 +60,18 @@ def get_top_level_entities(
 
     :Example:
 
-        >>> from pythainlp.tag.thai_nner import get_top_level_entities  # doctest: +SKIP
+        >>> from pythainlp.tag.thai_nner import (
+        ...     get_top_level_entities,
+        ... )  # doctest: +SKIP
 
         >>> # Input: nested entities where 'time' contains 'cardinal' and 'unit'
         >>> entities = [  # doctest: +SKIP
         ...     {"text": ["ห้า"], "span": [7, 9], "entity_type": "cardinal"},
-        ...     {"text": ["ห้า", "โมง"], "span": [7, 11], "entity_type": "time"},
+        ...     {
+        ...         "text": ["ห้า", "โมง"],
+        ...         "span": [7, 11],
+        ...         "entity_type": "time",
+        ...     },
         ...     {"text": ["โมง"], "span": [9, 11], "entity_type": "unit"},
         ... ]
 
@@ -111,7 +119,9 @@ class ThaiNNER:
         >>> from pythainlp.tag.thai_nner import ThaiNNER  # doctest: +SKIP
 
         >>> nner = ThaiNNER()  # doctest: +SKIP
-        >>> tokens, entities = nner.tag("วันนี้วันที่ 5 เมษายน 2565")  # doctest: +SKIP
+        >>> tokens, entities = nner.tag(
+        ...     "วันนี้วันที่ 5 เมษายน 2565"
+        ... )  # doctest: +SKIP
         >>> print(f"Tokens: {tokens}")  # doctest: +SKIP
         >>> print(f"Entities: {entities}")  # doctest: +SKIP
     """
@@ -166,7 +176,9 @@ class ThaiNNER:
             >>> nner = ThaiNNER()  # doctest: +SKIP
 
             >>> # Get all nested entities
-            >>> tokens, entities = nner.tag("วันที่ 5 เมษายน 2565")  # doctest: +SKIP
+            >>> tokens, entities = nner.tag(
+            ...     "วันที่ 5 เมษายน 2565"
+            ... )  # doctest: +SKIP
 
             >>> # Get only top-level entities
             >>> tokens, top_entities = nner.tag(  # doctest: +SKIP
@@ -209,7 +221,9 @@ class ThaiNNER:
             >>> # [('วัน', 'O'), ('ที่', 'O'), (' ', 'O'), ('5', 'B-DATE'), ...]
 
             >>> # Get HTML-like tags
-            >>> result = nner.get_ner("วันที่ 5 เมษายน 2565", tag=True)  # doctest: +SKIP
+            >>> result = nner.get_ner(
+            ...     "วันที่ 5 เมษายน 2565", tag=True
+            ... )  # doctest: +SKIP
             >>> # 'วันที่ <DATE>5 เมษายน 2565</DATE>'
         """
         # Get tokens and entities, using only top-level to avoid overlaps in IOB

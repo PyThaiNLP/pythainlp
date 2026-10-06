@@ -153,7 +153,7 @@ def gen_sentence(
     warn_deprecation(
         "pythainlp.generate.thai2fit.gen_sentence",
         deprecated_version="5.3.8",
-        removal_version="6.0.0"
+        removal_version="6.0.0",
     )
     if not start_seq:
         # Non-cryptographic use, pseudo-random generator is acceptable here

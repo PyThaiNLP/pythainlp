@@ -32,4 +32,4 @@ def spell(text: str) -> list[str]:
 
 
 def correct(text: str) -> str:
-    return cast(str, list(pspell.suggest(text))[0])
+    return cast("str", list(pspell.suggest(text))[0])

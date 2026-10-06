@@ -227,6 +227,14 @@
     <https://chris.beams.io/posts/git-commit/>
   - Commit Verbs 101: why I like to use this and why you should also like it.
     <https://chris.beams.io/posts/git-commit/>
+- [ ] When asked to write a pull request (PR) title, summary, description,
+      or change log entry, give each one separately in its own
+      fenced Markdown code block, so it can be copied.
+  - [ ] Use these default lengths when no length is given:
+    - [ ] PR title: under 60 characters (usable as a commit message too)
+    - [ ] PR summary: under 280 characters, as bullets
+    - [ ] PR description: under 1000 characters
+    - [ ] Change log entry: under 140 characters per entry
 
 ## Python
 
@@ -247,6 +255,10 @@
   - [ ] Use pyright, pyrefly, and pytype for second opinions.
   - [ ] When insert typing imports, put it in appropriate location and order.
         Use "if TYPE_CHECKING import" block when possible.
+        Ruff `TC` rules (flake8-type-checking) enforce this.
+        If an import must stay at runtime, for example to keep
+        `typing.get_type_hints()` working, add `# noqa: TC00x` with a
+        comment that gives the reason.
   - [ ] Minimize the use of `Any`. Try to find sources for type information
         of external libraries:
     - [ ] Check if type stub is available and install it.
@@ -294,7 +306,10 @@
       `collections.abc` modules.
       Use the most appropriate data structure for the specific use case
       to optimize performance and memory usage.
-- [ ] Recheck formatting with Ruff.
+- [ ] Recheck formatting with `ruff format`. CI enforces it.
+- [ ] Cognitive complexity is checked in CI with flake8 and
+      flake8-cognitive-complexity (`.flake8`). The limit is lowered
+      gradually toward 15.
 - [ ] Whem do packaging, the package metadata should follow
       the Core metadata specifications
       <https://packaging.python.org/en/latest/specifications/core-metadata/>.

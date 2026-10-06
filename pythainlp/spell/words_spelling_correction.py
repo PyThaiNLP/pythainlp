@@ -88,7 +88,8 @@ class FastTextEncoder:
         import numpy as np
 
         input_matrix = np.load(
-            safe_path_join(self.model_dir, "embeddings.npy"), allow_pickle=False
+            safe_path_join(self.model_dir, "embeddings.npy"),
+            allow_pickle=False,
         )
         words = []
         vocab_path = safe_path_join(self.model_dir, "vocabulary.txt")

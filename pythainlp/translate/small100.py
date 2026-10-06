@@ -61,7 +61,9 @@ class Small100Translator:
 
         :Example:
 
-            >>> from pythainlp.translate.small100 import Small100Translator  # doctest: +SKIP
+            >>> from pythainlp.translate.small100 import (
+            ...     Small100Translator,
+            ... )  # doctest: +SKIP
 
             >>> mt = Small100Translator()  # doctest: +SKIP
 
@@ -78,7 +80,9 @@ class Small100Translator:
             'Test du système'
 
             >>> # Translate text from Thai to English with excluded words
-            >>> mt.translate("ทดสอบระบบ", tgt_lang="en", exclude_words=["ระบบ"])  # doctest: +SKIP
+            >>> mt.translate(
+            ...     "ทดสอบระบบ", tgt_lang="en", exclude_words=["ระบบ"]
+            ... )  # doctest: +SKIP
             'Testing ระบบ'
 
         """

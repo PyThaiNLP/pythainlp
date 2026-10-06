@@ -35,9 +35,7 @@ class DetokenizeAttacutTestCaseN(unittest.TestCase):
             word_tokenize("ไอพีของคุณคือ 127.0.0.1 ครับ", engine="attacut"),
         )
 
-        tokens = word_tokenize(
-            "เวลา 12:12pm มีโปรโมชั่น 11.11", engine="attacut"
-        )
+        tokens = word_tokenize("เวลา 12:12pm มีโปรโมชั่น 11.11", engine="attacut")
         self.assertTrue(
             any(value in tokens for value in ["12:12pm", "12:12"]),
             msg=f"attacut: {tokens}",
@@ -142,4 +140,3 @@ class SubwordTokenizeWangchanbertaTestCaseN(unittest.TestCase):
 
     def test_subword_tokenize_wangchanberta(self):
         assert_subword_tokenize_basic(self, "wangchanberta")
-

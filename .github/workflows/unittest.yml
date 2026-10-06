@@ -50,6 +50,12 @@ concurrency:
     }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+
 jobs:
   unittest:
     strategy:
@@ -75,6 +81,7 @@ jobs:
             python-version: "3.10"
 
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     env:
       PYICU_WIN_VER: 2.15 # 2.15 is the last version that supports Python 3.9
       INSTALL_FULL_DEPS: false
@@ -84,18 +91,16 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v6.2.0
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
-
-      - name: Install build tools
-        run: |
-          pip install --upgrade pip
-          pip install coverage coveralls
+          cache-dependency-path: pyproject.toml
 
       - name: Install ICU (macOS)
         if: startsWith(matrix.os, 'macos-')
@@ -149,6 +154,7 @@ jobs:
           PYTHONIOENCODING: utf-8
         run: |
           pip install ".[compact,extra]"
+          pip install --only-binary :all: --no-binary docopt "coverage==7.16.2" "coveralls==4.1.0"
           coverage run -m unittest tests.core tests.compact tests.extra
 
       # Only submit a report from the "extra" run, to get maximum coverage

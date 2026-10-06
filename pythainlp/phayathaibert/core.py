@@ -350,7 +350,9 @@ class PartOfSpeechTagger:
 
         Labels POS for given sentence:
 
-            >>> from pythainlp.phayathaibert.core import PartOfSpeechTagger  # doctest: +SKIP
+            >>> from pythainlp.phayathaibert.core import (
+            ...     PartOfSpeechTagger,
+            ... )  # doctest: +SKIP
 
             >>> tagger = PartOfSpeechTagger()  # doctest: +SKIP
             >>> tagger.get_tag("แมวทำอะไรตอนห้าโมงเช้า")  # doctest: +SKIP
@@ -478,4 +480,4 @@ def segment(sentence: str) -> list[str]:
     if not sentence or not isinstance(sentence, str):
         return []
 
-    return cast(list[str], _tokenizer.tokenize(sentence))
+    return cast("list[str]", _tokenizer.tokenize(sentence))

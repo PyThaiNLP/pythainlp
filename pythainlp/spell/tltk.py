@@ -23,4 +23,4 @@ except ImportError as e:
 
 
 def spell(text: str) -> list[str]:
-    return cast(list[str], spell_candidates(text))
+    return cast("list[str]", spell_candidates(text))

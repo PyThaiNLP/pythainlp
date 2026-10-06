@@ -84,13 +84,19 @@ class WunsenTransliterate:
 
         :Example:
 
-            >>> from pythainlp.transliterate.wunsen import WunsenTransliterate  # doctest: +SKIP
+            >>> from pythainlp.transliterate.wunsen import (
+            ...     WunsenTransliterate,
+            ... )  # doctest: +SKIP
             >>> wt = WunsenTransliterate()  # doctest: +SKIP
             >>> wt.transliterate("ohayō", lang="jp")  # doctest: +SKIP
             'โอฮาโย'
-            >>> wt.transliterate("ohayou", lang="jp", jp_input="Hepburn-no diacritic")  # doctest: +SKIP
+            >>> wt.transliterate(
+            ...     "ohayou", lang="jp", jp_input="Hepburn-no diacritic"
+            ... )  # doctest: +SKIP
             'โอฮาโย'
-            >>> wt.transliterate("ohayō", lang="jp", system="RI35")  # doctest: +SKIP
+            >>> wt.transliterate(
+            ...     "ohayō", lang="jp", system="RI35"
+            ... )  # doctest: +SKIP
             'โอะฮะโย'
             >>> wt.transliterate("annyeonghaseyo", lang="ko")  # doctest: +SKIP
             'อันนย็องฮาเซโย'
@@ -98,9 +104,13 @@ class WunsenTransliterate:
             'ซีน จ่าว'
             >>> wt.transliterate("ni3 hao3", lang="zh")  # doctest: +SKIP
             'หนี เห่า'
-            >>> wt.transliterate("ni3 hao3", lang="zh", zh_sandhi=False)  # doctest: +SKIP
+            >>> wt.transliterate(
+            ...     "ni3 hao3", lang="zh", zh_sandhi=False
+            ... )  # doctest: +SKIP
             'หนี่ เห่า'
-            >>> wt.transliterate("ni3 hao3", lang="zh", system="RI49")  # doctest: +SKIP
+            >>> wt.transliterate(
+            ...     "ni3 hao3", lang="zh", system="RI49"
+            ... )  # doctest: +SKIP
             'หนี ห่าว'
         """
         if (
@@ -141,4 +151,4 @@ class WunsenTransliterate:
         if self.thap_value is None:
             raise RuntimeError("ThapSap model not initialized")
 
-        return cast(str, self.thap_value.thap(text))
+        return cast("str", self.thap_value.thap(text))

@@ -69,7 +69,7 @@ def audio_vector(word: str) -> list[list[int]]:
         [[-1, 1, 1, -1, -1, -1, ...]]
     """
     return cast(
-        list[list[int]],
+        "list[list[int]]",
         _ft.word_to_vector_list(word2audio(word), numeric=True),
     )
 
@@ -85,7 +85,9 @@ def word_approximation(word: str, list_word: list[str]) -> list[float]:
     :Example:
 
         >>> from pythainlp.soundex.sound import word_approximation
-        >>> word_approximation("รถ", ["รด", "รส", "รม", "น้ำ"])  # doctest: +SKIP
+        >>> word_approximation(
+        ...     "รถ", ["รด", "รส", "รม", "น้ำ"]
+        ... )  # doctest: +SKIP
         [0.0, 0.0, 3.875, 8.375]
     """
     _word = word2audio(word)

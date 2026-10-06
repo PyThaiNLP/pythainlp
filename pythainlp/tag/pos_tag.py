@@ -236,13 +236,17 @@ def pos_tag_transformers(
         model = AutoModelForTokenClassification.from_pretrained(
             base_model, revision=revision
         )
-        tokenizer = AutoTokenizer.from_pretrained(base_model, revision=revision)
+        tokenizer = AutoTokenizer.from_pretrained(
+            base_model, revision=revision
+        )
     elif corpus == "pud" and engine in _pud_support_engine.keys():
         base_model = _pud_support_engine.get(engine)
         model = AutoModelForTokenClassification.from_pretrained(
             base_model, revision=revision
         )
-        tokenizer = AutoTokenizer.from_pretrained(base_model, revision=revision)
+        tokenizer = AutoTokenizer.from_pretrained(
+            base_model, revision=revision
+        )
     else:
         raise ValueError(
             f"pos_tag_transformers not support {engine} engine or {corpus} corpus."

@@ -23,7 +23,9 @@ def abbreviation_to_full_text(
 
     :Example:
 
-        >>> from pythainlp.util import abbreviation_to_full_text  # doctest: +SKIP
+        >>> from pythainlp.util import (
+        ...     abbreviation_to_full_text,
+        ... )  # doctest: +SKIP
 
         >>> text = "รร.ของเราน่าอยู่"  # doctest: +SKIP
 
@@ -41,4 +43,6 @@ def abbreviation_to_full_text(
             " Install it with: pip install khamyo"
             " or pip install pythainlp[abbreviation]"
         ) from e
-    return cast(list[tuple[str, Optional[float]]], _replace(text, top_k=top_k))
+    return cast(
+        "list[tuple[str, Optional[float]]]", _replace(text, top_k=top_k)
+    )

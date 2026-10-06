@@ -30,7 +30,9 @@ from pythainlp.tools.core import safe_print, warn_deprecation
 class ToolsTestCase(unittest.TestCase):
     def test_path(self):
         data_filename = "ttc_freq.txt"
-        self.assertTrue(get_full_data_path(data_filename).endswith(data_filename))
+        self.assertTrue(
+            get_full_data_path(data_filename).endswith(data_filename)
+        )
         self.assertIsInstance(get_pythainlp_data_path(), str)
         self.assertIsInstance(get_pythainlp_path(), str)
 
@@ -198,7 +200,17 @@ class ToolsTestCase(unittest.TestCase):
                     f"Expected read-only for PYTHAINLP_READ_ONLY={truthy!r}",
                 )
         # Falsy values
-        for falsy in ("", "0", "false", "False", "FALSE", "no", "NO", "off", "OFF"):
+        for falsy in (
+            "",
+            "0",
+            "false",
+            "False",
+            "FALSE",
+            "no",
+            "NO",
+            "off",
+            "OFF",
+        ):
             with patch.dict(
                 os.environ,
                 {"PYTHAINLP_READ_ONLY": falsy},
@@ -278,14 +290,28 @@ class ToolsTestCase(unittest.TestCase):
         """Test is_unsafe_pickle_allowed() reflects PYTHAINLP_ALLOW_UNSAFE_PICKLE env var."""
         # Truthy values
         for truthy in ("1", "true", "True", "TRUE", "yes", "YES", "on", "ON"):
-            with patch.dict(os.environ, {"PYTHAINLP_ALLOW_UNSAFE_PICKLE": truthy}):
+            with patch.dict(
+                os.environ, {"PYTHAINLP_ALLOW_UNSAFE_PICKLE": truthy}
+            ):
                 self.assertTrue(
                     is_unsafe_pickle_allowed(),
                     f"Expected True for PYTHAINLP_ALLOW_UNSAFE_PICKLE={truthy!r}",
                 )
         # Falsy values
-        for falsy in ("", "0", "false", "False", "FALSE", "no", "NO", "off", "OFF"):
-            with patch.dict(os.environ, {"PYTHAINLP_ALLOW_UNSAFE_PICKLE": falsy}):
+        for falsy in (
+            "",
+            "0",
+            "false",
+            "False",
+            "FALSE",
+            "no",
+            "NO",
+            "off",
+            "OFF",
+        ):
+            with patch.dict(
+                os.environ, {"PYTHAINLP_ALLOW_UNSAFE_PICKLE": falsy}
+            ):
                 self.assertFalse(
                     is_unsafe_pickle_allowed(),
                     f"Expected False for PYTHAINLP_ALLOW_UNSAFE_PICKLE={falsy!r}",

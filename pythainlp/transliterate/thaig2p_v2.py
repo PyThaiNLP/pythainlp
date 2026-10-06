@@ -39,7 +39,7 @@ class ThaiG2P:
         )
 
     def g2p(self, text: str) -> str:
-        outputs = cast(list[dict[str, str]], self.pipe(text))
+        outputs = cast("list[dict[str, str]]", self.pipe(text))
         return outputs[0]["generated_text"]
 
 

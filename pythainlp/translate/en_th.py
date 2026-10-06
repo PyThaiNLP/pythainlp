@@ -106,7 +106,9 @@ class EnThTranslator:
 
         Translate text from English to Thai:
 
-            >>> from pythainlp.translate import EnThTranslator  # doctest: +SKIP
+            >>> from pythainlp.translate import (
+            ...     EnThTranslator,
+            ... )  # doctest: +SKIP
 
             >>> enth = EnThTranslator()  # doctest: +SKIP
 
@@ -115,7 +117,9 @@ class EnThTranslator:
 
         Translate text from English to Thai with excluded words:
 
-            >>> enth.translate("I love cat.", exclude_words=["cat"])  # doctest: +SKIP
+            >>> enth.translate(
+            ...     "I love cat.", exclude_words=["cat"]
+            ... )  # doctest: +SKIP
             ฉันรัก cat
 
         """
@@ -192,7 +196,9 @@ class ThEnTranslator:
 
         Translate text from Thai to English:
 
-            >>> from pythainlp.translate import ThEnTranslator  # doctest: +SKIP
+            >>> from pythainlp.translate import (
+            ...     ThEnTranslator,
+            ... )  # doctest: +SKIP
 
             >>> then = ThEnTranslator()  # doctest: +SKIP
 
@@ -201,7 +207,9 @@ class ThEnTranslator:
 
         Translate text from Thai to English with excluded words:
 
-            >>> then.translate("ฉันรักแมว", exclude_words=["แมว"])  # doctest: +SKIP
+            >>> then.translate(
+            ...     "ฉันรักแมว", exclude_words=["แมว"]
+            ... )  # doctest: +SKIP
             I love แมว.
 
         """

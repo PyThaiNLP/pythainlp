@@ -8,26 +8,36 @@ name: Test pip package
 on:
   workflow_dispatch: {}
 
+permissions:
+  contents: read
+
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+
 jobs:
   pypi-test:
 
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       matrix:
         # Ideally, this should be the minimum supported version,
         # as in `requires-python` in pyproject.toml
         # But for now, we just test on the second-latest supported version
         # because some dependencies may not support the older versions.
-        python-version: ["3.12"]
+        python-version: ["3.14"]
 
     steps:
-    - uses: actions/checkout@v7.0.1
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v6.2.0
+      uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
         python-version: ${{ matrix.python-version }}
         cache: "pip"
+        cache-dependency-path: pyproject.toml
 
     - name: Install dependencies
       env:

@@ -115,7 +115,9 @@ class TransliterateTestCaseX(unittest.TestCase):
         encoder_outputs = torch.randn(1, 2, 4)
         mask = torch.ones(1, 2, dtype=torch.bool)
 
-        with self.assertRaisesRegex(ValueError, "Unsupported attention method"):
+        with self.assertRaisesRegex(
+            ValueError, "Unsupported attention method"
+        ):
             attn(hidden, encoder_outputs, mask)
 
     def test_thai2rom_seq2seq_hidden_mismatch_raises_value_error(self):
@@ -137,7 +139,9 @@ class TransliterateTestCaseX(unittest.TestCase):
         ):
             thai2rom.Seq2Seq(encoder, decoder, 2, 3, 10)
 
-    def test_thai2rom_seq2seq_inference_teacher_forcing_raises_value_error(self):
+    def test_thai2rom_seq2seq_inference_teacher_forcing_raises_value_error(
+        self,
+    ):
         encoder = thai2rom.Encoder(
             vocabulary_size=16,
             embedding_size=8,
@@ -201,7 +205,9 @@ class TransliterateTestCaseX(unittest.TestCase):
         encoder_outputs = torch.randn(1, 2, 4)
         mask = torch.ones(1, 2, dtype=torch.bool)
 
-        with self.assertRaisesRegex(ValueError, "Unsupported attention method"):
+        with self.assertRaisesRegex(
+            ValueError, "Unsupported attention method"
+        ):
             attn(hidden, encoder_outputs, mask)
 
     def test_thaig2p_seq2seq_hidden_mismatch_raises_value_error(self):
@@ -223,7 +229,9 @@ class TransliterateTestCaseX(unittest.TestCase):
         ):
             thaig2p.Seq2Seq(encoder, decoder, 2, 3, 10)
 
-    def test_thaig2p_seq2seq_inference_teacher_forcing_raises_value_error(self):
+    def test_thaig2p_seq2seq_inference_teacher_forcing_raises_value_error(
+        self,
+    ):
         encoder = thaig2p.Encoder(
             vocabulary_size=16,
             embedding_size=8,

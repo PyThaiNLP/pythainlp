@@ -4,13 +4,14 @@
 from __future__ import annotations
 
 import logging
-from collections.abc import Callable
 from typing import TYPE_CHECKING, cast
 
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import thai2fit_tokenizer, word_tokenize
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     import numpy as np
     from gensim.models.keyedvectors import Word2VecKeyedVectors
     from numpy.typing import NDArray
@@ -126,7 +127,7 @@ class WordVector:
         >>> wv.doesnt_match(words)
         'เรือ'
         """
-        return cast(str, self.model.doesnt_match(words))
+        return cast("str", self.model.doesnt_match(words))
 
     def most_similar_cosmul(
         self, positive: list[str], negative: list[str]
@@ -228,7 +229,7 @@ class WordVector:
         KeyError: "word 'เมนูอาหารไทย' not in vocabulary"
         """
         return cast(
-            list[tuple[str, float]],
+            "list[tuple[str, float]]",
             self.model.most_similar_cosmul(
                 positive=positive, negative=negative
             ),
@@ -270,7 +271,7 @@ class WordVector:
         0.04300258
 
         """
-        return cast(float, self.model.similarity(word1, word2))
+        return cast("float", self.model.similarity(word1, word2))
 
     def sentence_vectorizer(
         self, text: str, use_mean: bool = True

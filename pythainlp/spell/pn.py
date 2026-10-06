@@ -198,11 +198,19 @@ class NorvigSpellChecker:
 
         :Example:
 
-            >>> from pythainlp.spell import NorvigSpellChecker  # doctest: +SKIP
+            >>> from pythainlp.spell import (
+            ...     NorvigSpellChecker,
+            ... )  # doctest: +SKIP
 
-            >>> dictionary = [("หวาน", 30), ("มะนาว", 2), ("แอบ", 3223)]  # doctest: +SKIP
+            >>> dictionary = [
+            ...     ("หวาน", 30),
+            ...     ("มะนาว", 2),
+            ...     ("แอบ", 3223),
+            ... ]  # doctest: +SKIP
 
-            >>> checker = NorvigSpellChecker(custom_dict=dictionary)  # doctest: +SKIP
+            >>> checker = NorvigSpellChecker(
+            ...     custom_dict=dictionary
+            ... )  # doctest: +SKIP
             >>> checker.dictionary()  # doctest: +SKIP
             dict_items([('หวาน', 30), ('มะนาว', 2), ('แอบ', 3223)])
         """
@@ -220,7 +228,9 @@ class NorvigSpellChecker:
 
         :Example:
 
-            >>> from pythainlp.spell import NorvigSpellChecker  # doctest: +SKIP
+            >>> from pythainlp.spell import (
+            ...     NorvigSpellChecker,
+            ... )  # doctest: +SKIP
 
             >>> checker = NorvigSpellChecker()  # doctest: +SKIP
 
@@ -246,7 +256,9 @@ class NorvigSpellChecker:
 
         :Example:
 
-            >>> from pythainlp.spell import NorvigSpellChecker  # doctest: +SKIP
+            >>> from pythainlp.spell import (
+            ...     NorvigSpellChecker,
+            ... )  # doctest: +SKIP
 
             >>> checker = NorvigSpellChecker()  # doctest: +SKIP
 
@@ -271,7 +283,9 @@ class NorvigSpellChecker:
 
         :Example:
 
-            >>> from pythainlp.spell import NorvigSpellChecker  # doctest: +SKIP
+            >>> from pythainlp.spell import (
+            ...     NorvigSpellChecker,
+            ... )  # doctest: +SKIP
 
             >>> checker = NorvigSpellChecker()  # doctest: +SKIP
 
@@ -306,7 +320,9 @@ class NorvigSpellChecker:
 
         :Example:
 
-            >>> from pythainlp.spell import NorvigSpellChecker  # doctest: +SKIP
+            >>> from pythainlp.spell import (
+            ...     NorvigSpellChecker,
+            ... )  # doctest: +SKIP
 
             >>> checker = NorvigSpellChecker()  # doctest: +SKIP
 
@@ -342,7 +358,9 @@ class NorvigSpellChecker:
 
         :Example:
 
-            >>> from pythainlp.spell import NorvigSpellChecker  # doctest: +SKIP
+            >>> from pythainlp.spell import (
+            ...     NorvigSpellChecker,
+            ... )  # doctest: +SKIP
 
             >>> checker = NorvigSpellChecker()  # doctest: +SKIP
 

@@ -59,7 +59,12 @@ _ensure_corpus(_omw_package(nltk.__version__))
 _ensure_corpus("wordnet")
 
 from nltk.corpus import wordnet
-from nltk.corpus.reader.wordnet import Lemma, Synset
+
+# Runtime import keeps typing.get_type_hints() working on this module.
+from nltk.corpus.reader.wordnet import (  # noqa: TC002
+    Lemma,
+    Synset,
+)
 
 
 def synsets(
@@ -108,7 +113,9 @@ def synsets(
         >>> synsets("แรง", pos="a", lang="tha")
         [Synset('hard.s.10'), Synset('strong.s.02')]
     """
-    return cast(list[Synset], wordnet.synsets(lemma=word, pos=pos, lang=lang))
+    return cast(
+        "list[Synset]", wordnet.synsets(lemma=word, pos=pos, lang=lang)
+    )
 
 
 def synset(name_synsets: str) -> Synset:
@@ -174,7 +181,7 @@ def all_lemma_names(pos: Optional[str] = None, lang: str = "tha") -> list[str]:
         >>> len(all_lemma_names(pos="a"))
         5277
     """
-    return cast(list[str], wordnet.all_lemma_names(pos=pos, lang=lang))
+    return cast("list[str]", wordnet.all_lemma_names(pos=pos, lang=lang))
 
 
 def all_synsets(pos: Optional[str] = None) -> Iterable[Synset]:
@@ -225,7 +232,7 @@ def langs() -> list[str]:
     # are listed.
     if hasattr(wordnet, "add_omw") and not getattr(wordnet, "omw_langs", True):
         wordnet.add_omw()
-    return cast(list[str], wordnet.langs())
+    return cast("list[str]", wordnet.langs())
 
 
 def lemmas(
@@ -270,7 +277,7 @@ def lemmas(
         >>> lemmas("ม้วน", pos="n")
         [Lemma('roll.n.11.ม้วน')]
     """
-    return cast(list[Lemma], wordnet.lemmas(word, pos=pos, lang=lang))
+    return cast("list[Lemma]", wordnet.lemmas(word, pos=pos, lang=lang))
 
 
 def lemma(name_synsets: str) -> Lemma:
@@ -362,7 +369,7 @@ def path_similarity(synsets1: Synset, synsets2: Synset) -> float:
         >>> path_similarity(obj, cat)
         0.08333333333333333
     """
-    return cast(float, wordnet.path_similarity(synsets1, synsets2))
+    return cast("float", wordnet.path_similarity(synsets1, synsets2))
 
 
 def lch_similarity(synsets1: Synset, synsets2: Synset) -> float:
@@ -399,7 +406,7 @@ def lch_similarity(synsets1: Synset, synsets2: Synset) -> float:
         >>> lch_similarity(obj, cat)
         1.1526795099383855
     """
-    return cast(float, wordnet.lch_similarity(synsets1, synsets2))
+    return cast("float", wordnet.lch_similarity(synsets1, synsets2))
 
 
 def wup_similarity(synsets1: Synset, synsets2: Synset) -> float:
@@ -430,7 +437,7 @@ def wup_similarity(synsets1: Synset, synsets2: Synset) -> float:
         >>> wup_similarity(obj, cat)
         0.35294117647058826
     """
-    return cast(float, wordnet.wup_similarity(synsets1, synsets2))
+    return cast("float", wordnet.wup_similarity(synsets1, synsets2))
 
 
 def morphy(form: str, pos: Optional[str] = None) -> str:
@@ -460,7 +467,7 @@ def morphy(form: str, pos: Optional[str] = None) -> str:
         >>> morphy("calculated")
         'calculate'
     """
-    return cast(str, wordnet.morphy(form, pos=pos))
+    return cast("str", wordnet.morphy(form, pos=pos))
 
 
 def custom_lemmas(tab_file: Union[str, IO[str]], lang: str) -> None:

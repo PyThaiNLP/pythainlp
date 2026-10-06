@@ -42,7 +42,9 @@ def remove_repeated_ngrams(string_list: list[str], n: int = 2) -> list[str]:
 
         >>> from pythainlp.lm import remove_repeated_ngrams  # doctest: +SKIP
 
-        >>> remove_repeated_ngrams(["เอา", "เอา", "แบบ", "ไหน"], n=1)  # doctest: +SKIP
+        >>> remove_repeated_ngrams(
+        ...     ["เอา", "เอา", "แบบ", "ไหน"], n=1
+        ... )  # doctest: +SKIP
         ['เอา', 'แบบ', 'ไหน']
     """
     if not string_list or n <= 0:

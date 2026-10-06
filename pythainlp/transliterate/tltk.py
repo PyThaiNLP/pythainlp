@@ -22,7 +22,7 @@ def romanize(text: str) -> str:
     """
     # Replace ฅ with ค to avoid KeyError in tltk (out-of-vocabulary issue)
     text = text.replace("ฅ", "ค")
-    _temp = cast(str, th2roman(text))
+    _temp = cast("str", th2roman(text))
     return _temp[: _temp.rfind(" <s/>")].replace("<s/>", "")
 
 
@@ -30,7 +30,7 @@ def tltk_g2p(text: str) -> str:
     # Replace ฅ with ค to avoid KeyError in tltk (out-of-vocabulary issue)
     text = text.replace("ฅ", "ค")
     _temp = (
-        cast(str, g2p(text))
+        cast("str", g2p(text))
         .split("<tr/>")[1]
         .replace("|<s/>", "")
         .replace("|", " ")
@@ -41,5 +41,5 @@ def tltk_g2p(text: str) -> str:
 def tltk_ipa(text: str) -> str:
     # Replace ฅ with ค to avoid KeyError in tltk (out-of-vocabulary issue)
     text = text.replace("ฅ", "ค")
-    _temp = cast(str, th2ipa(text))
+    _temp = cast("str", th2ipa(text))
     return _temp[: _temp.rfind(" <s/>")].replace("<s/>", "")

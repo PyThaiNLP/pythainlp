@@ -11,7 +11,6 @@ from pythainlp.tag.thainer import ThaiNameTagger
 
 
 class TagTestCaseX(unittest.TestCase):
-
     def test_thai_name_tagger_1_5(self):
         ner = ThaiNameTagger(version="1.5")
         self.assertEqual(ner.get_ner(""), [])
@@ -60,8 +59,7 @@ class TagTestCaseX(unittest.TestCase):
         )
         self.assertEqual(
             ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.", tag=True),
-            "วันที่ <DATE>15 ก.ย. 61</DATE> "
-            "ทดสอบระบบเวลา <TIME>14:49 น.</TIME>",
+            "วันที่ <DATE>15 ก.ย. 61</DATE> ทดสอบระบบเวลา <TIME>14:49 น.</TIME>",
         )
         self.assertEqual(
             ner.get_ner(

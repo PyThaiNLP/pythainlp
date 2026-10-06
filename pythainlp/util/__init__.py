@@ -118,7 +118,11 @@ from pythainlp.util.normalize import (
     remove_zw,
     reorder_vowels,
 )
-from pythainlp.util.numtoword import bahttext, num_to_thaiword, num_to_thaiword_float
+from pythainlp.util.numtoword import (
+    bahttext,
+    num_to_thaiword,
+    num_to_thaiword_float,
+)
 from pythainlp.util.phoneme import ipa_to_rtgs, nectec_to_ipa, remove_tone_ipa
 from pythainlp.util.profanity import (
     censor_profanity,

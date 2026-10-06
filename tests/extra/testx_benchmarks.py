@@ -365,7 +365,9 @@ class BenchmarksTestCaseX(unittest.TestCase):
         self.assertGreaterEqual(wer_newmm, 0.0)
 
         # Test with longest
-        wer_longest = word_error_rate(reference, hypothesis, tokenize="longest")
+        wer_longest = word_error_rate(
+            reference, hypothesis, tokenize="longest"
+        )
         self.assertIsNotNone(wer_longest)
         self.assertGreaterEqual(wer_longest, 0.0)
 
@@ -379,7 +381,7 @@ class BenchmarksTestCaseX(unittest.TestCase):
         wer = word_error_rate(reference, hypothesis)
 
         # Empty reference with non-empty hypothesis should return inf or 0
-        self.assertTrue(wer == 0.0 or wer == float('inf'))
+        self.assertTrue(wer == 0.0 or wer == float("inf"))
 
     def test_word_error_rate_insertions(self):
         """Test WER with insertions (hypothesis longer than reference)."""
@@ -439,7 +441,7 @@ class BenchmarksTestCaseX(unittest.TestCase):
         cer = character_error_rate(reference, hypothesis)
 
         # Empty reference with non-empty hypothesis should return inf or 0
-        self.assertTrue(cer == 0.0 or cer == float('inf'))
+        self.assertTrue(cer == 0.0 or cer == float("inf"))
 
     def test_character_error_rate_insertions(self):
         """Test CER with insertions (hypothesis longer than reference)."""

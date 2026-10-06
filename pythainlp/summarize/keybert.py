@@ -72,7 +72,9 @@ class KeyBERT:
 
         :Example:
 
-            >>> from pythainlp.summarize.keybert import KeyBERT  # doctest: +SKIP
+            >>> from pythainlp.summarize.keybert import (
+            ...     KeyBERT,
+            ... )  # doctest: +SKIP
 
             >>> text = '''  # doctest: +SKIP
             ...     อาหาร หมายถึง ของแข็งหรือของเหลว
@@ -240,7 +242,9 @@ def _rank_keywords(
     ) -> "NDArray[np.float32]":
         # `a` has one row (document embedding), so flatten to get 1-D scores.
         scores = np.matmul(a, b.T).reshape(-1)
-        return cast("NDArray[np.float32]", scores.astype(np.float32, copy=False))
+        return cast(
+            "NDArray[np.float32]", scores.astype(np.float32, copy=False)
+        )
 
     doc_vector = l2_norm(doc_vector)
     word_vectors = l2_norm(word_vectors)

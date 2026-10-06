@@ -53,16 +53,16 @@ def remove_trailing_repeat_consonants(
         >>> from pythainlp.util import remove_trailing_repeat_consonants
         >>> from pythainlp.util import dict_trie
         >>> # use default dictionary (pythainlp.corpus.thai_words())
-        >>> remove_trailing_repeat_consonants('เริ่ดดดดดดดด')
+        >>> remove_trailing_repeat_consonants("เริ่ดดดดดดดด")
         'เริ่ด'
         >>> # "อืมมม" is in the default dictionary
-        >>> remove_trailing_repeat_consonants('อืมมมมมมมมมมมมมมม')
+        >>> remove_trailing_repeat_consonants("อืมมมมมมมมมมมมมมม")
         'อืมมม'
         >>> # use custom dictionary
         >>> custom_dict = dict_trie(["อืมมมมม"])
-        >>> remove_trailing_repeat_consonants('อืมมมมมมมมมมมมมมม', custom_dict)
+        >>> remove_trailing_repeat_consonants("อืมมมมมมมมมมมมมมม", custom_dict)
         'อืมมมมม'
-        >>> remove_trailing_repeat_consonants('เริ่ดดด คุณณณ ความลับบบบบ')
+        >>> remove_trailing_repeat_consonants("เริ่ดดด คุณณณ ความลับบบบบ")
         'เริ่ด คุณ ความลับ'
     """
     # use default dictionary if not given

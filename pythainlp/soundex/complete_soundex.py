@@ -695,11 +695,17 @@ def complete_soundex_similarity(code1: str, code2: str) -> float:
         ... )
 
         >>> # Encode two words
-        >>> code1 = complete_soundex("ข้มขืน")  # Bitter/Forced (with tone)  # doctest: +SKIP
-        >>> code2 = complete_soundex("ขมขืน")  # Bitter (no tone)  # doctest: +SKIP
+        >>> code1 = complete_soundex(
+        ...     "ข้มขืน"
+        ... )  # Bitter/Forced (with tone)  # doctest: +SKIP
+        >>> code2 = complete_soundex(
+        ...     "ขมขืน"
+        ... )  # Bitter (no tone)  # doctest: +SKIP
 
         >>> # Calculate similarity
-        >>> similarity = complete_soundex_similarity(code1, code2)  # doctest: +SKIP
+        >>> similarity = complete_soundex_similarity(
+        ...     code1, code2
+        ... )  # doctest: +SKIP
         ~0.93 (13 matches out of 14 characters)
 
         >>> # Perfect match

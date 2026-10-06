@@ -184,7 +184,7 @@ def process_thai(
         pre_rules = pre_rules_th_sparse
     if post_rules is None:
         post_rules = cast(
-            Collection[Callable[[list[str]], list[str]]],
+            "Collection[Callable[[list[str]], list[str]]]",
             post_rules_th_sparse,
         )
 

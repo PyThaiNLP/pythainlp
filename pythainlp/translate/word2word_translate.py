@@ -87,4 +87,4 @@ def translate(word: str, src: str, target: str) -> Optional[list[str]]:
     elif src == target:
         return [word]
     _engine = Word2word(src, target)
-    return cast(Optional[list[str]], _engine(word))
+    return cast("Optional[list[str]]", _engine(word))

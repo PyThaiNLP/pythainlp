@@ -152,7 +152,9 @@ def spell_sent(list_words: list[str], engine: str = "pn") -> list[list[str]]:
 
         >>> from pythainlp.spell import spell_sent  # doctest: +SKIP
 
-        >>> spell_sent(["เด็", "อินอร์เน็ต", "แรง"], engine="symspellpy")  # doctest: +SKIP
+        >>> spell_sent(
+        ...     ["เด็", "อินอร์เน็ต", "แรง"], engine="symspellpy"
+        ... )  # doctest: +SKIP
         [['เด็ก', 'อินเทอร์เน็ต', 'แรง']]
     """
     if engine == "symspellpy":
@@ -189,7 +191,9 @@ def correct_sent(list_words: list[str], engine: str = "pn") -> list[str]:
 
         >>> from pythainlp.spell import correct_sent  # doctest: +SKIP
 
-        >>> correct_sent(["เด็", "อินอร์เน็ต", "แรง"], engine="symspellpy")  # doctest: +SKIP
+        >>> correct_sent(
+        ...     ["เด็", "อินอร์เน็ต", "แรง"], engine="symspellpy"
+        ... )  # doctest: +SKIP
         ['เด็ก', 'อินเทอร์เน็ต', 'แรง']
     """
     return spell_sent(list_words, engine=engine)[0]

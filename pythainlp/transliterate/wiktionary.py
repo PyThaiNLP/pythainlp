@@ -349,12 +349,12 @@ def transliterate_wiktionary(text: str, mode: str = "ipa") -> str:
                 v = v_lookup[seq_idx] if v_lookup else (v1 + v2)
                 g_clean = g.replace("ฺ", "")
                 g_lookup = _INITIAL.get(g_clean, _INITIAL[""])
-                g = cast(list[str], g_lookup["seq"])[seq_idx]
+                g = cast("list[str]", g_lookup["seq"])[seq_idx]
 
             c1_clean = c1.replace("ฺ", "")
             if c1_clean in _INITIAL:
-                ini = cast(list[str], _INITIAL[c1_clean]["seq"])[seq_idx]
-                cls = cast(str, _INITIAL[c1_clean]["class"])
+                ini = cast("list[str]", _INITIAL[c1_clean]["seq"])[seq_idx]
+                cls = cast("str", _INITIAL[c1_clean]["class"])
             else:
                 return match.group(0)
 
@@ -382,7 +382,9 @@ def transliterate_wiktionary(text: str, mode: str = "ipa") -> str:
             tone_dict = (
                 _TONE_FROM_MARK.get(tmark)
                 if tmark
-                else _TONE_NO_MARK.get(f"{life}-{length}", _TONE_NO_MARK.get(life))
+                else _TONE_NO_MARK.get(
+                    f"{life}-{length}", _TONE_NO_MARK.get(life)
+                )
             )
             tone = tone_dict.get(cls) if tone_dict else None
 
@@ -403,7 +405,9 @@ def transliterate_wiktionary(text: str, mode: str = "ipa") -> str:
 
     text = re.sub(f"{_THAI_RANGE}+", lambda m: process_word(m), text)
 
-    text = re.sub(r"[๐-๙]", lambda m: _SYMBOLS.get(m.group(0), m.group(0)), text)
+    text = re.sub(
+        r"[๐-๙]", lambda m: _SYMBOLS.get(m.group(0), m.group(0)), text
+    )
 
     if mode == "royin":
         text = re.sub(r"^@", "", text)

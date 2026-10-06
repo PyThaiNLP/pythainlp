@@ -98,7 +98,9 @@ class TagTestCase(unittest.TestCase):
 
     def test_pos_tag_error_handling(self):
         with self.assertRaises(ValueError):
-            pos_tag(["ทดสอบ"], engine="invalid_engine", corpus="invalid_corpus")
+            pos_tag(
+                ["ทดสอบ"], engine="invalid_engine", corpus="invalid_corpus"
+            )
         with self.assertRaises(ValueError):
             pos_tag(["ทดสอบ"], engine="unigram", corpus="invalid_corpus")
 
@@ -247,10 +249,14 @@ class BlackboardPreProcessTestCase(unittest.TestCase):
         self.assertEqual(self.pre_process([" "]), ["_"])
 
     def test_regular_words_unchanged(self):
-        self.assertEqual(self.pre_process(["ผม", "รัก", "คุณ"]), ["ผม", "รัก", "คุณ"])
+        self.assertEqual(
+            self.pre_process(["ผม", "รัก", "คุณ"]), ["ผม", "รัก", "คุณ"]
+        )
 
     def test_mixed_space_and_words(self):
-        self.assertEqual(self.pre_process(["ผม", " ", "คุณ"]), ["ผม", "_", "คุณ"])
+        self.assertEqual(
+            self.pre_process(["ผม", " ", "คุณ"]), ["ผม", "_", "คุณ"]
+        )
 
     def test_multiple_spaces(self):
         self.assertEqual(self.pre_process([" ", " "]), ["_", "_"])
@@ -259,7 +265,9 @@ class BlackboardPreProcessTestCase(unittest.TestCase):
         self.assertEqual(self.pre_process([]), [])
 
     def test_non_space_special_chars_unchanged(self):
-        self.assertEqual(self.pre_process(["_"]), ["_"])  # already escaped form
+        self.assertEqual(
+            self.pre_process(["_"]), ["_"]
+        )  # already escaped form
 
     def test_single_thai_word(self):
         self.assertEqual(self.pre_process(["สวัสดี"]), ["สวัสดี"])
@@ -353,7 +361,9 @@ class TagNNERTestCase(unittest.TestCase):
         # Test basic IOB conversion
         tokens = ["วัน", "ที่", " ", "5", " ", "เมษายน"]
         entities = [
-            EntitySpan(text=["5", " ", "เมษายน"], span=[3, 6], entity_type="date")
+            EntitySpan(
+                text=["5", " ", "เมษายน"], span=[3, 6], entity_type="date"
+            )
         ]
         result = _entities_to_iob(tokens, entities)
 
@@ -372,7 +382,9 @@ class TagNNERTestCase(unittest.TestCase):
         # Test basic HTML conversion
         tokens = ["วัน", "ที่", " ", "5", " ", "เมษายน"]
         entities = [
-            EntitySpan(text=["5", " ", "เมษายน"], span=[3, 6], entity_type="date")
+            EntitySpan(
+                text=["5", " ", "เมษายน"], span=[3, 6], entity_type="date"
+            )
         ]
         result = _entities_to_html(tokens, entities)
 
@@ -383,7 +395,9 @@ class TagNNERTestCase(unittest.TestCase):
         # Test with multiple entities
         tokens = ["นาย", "สมชาย", " ", "อยู่", "ที่", "กรุงเทพ"]
         entities = [
-            EntitySpan(text=["นาย", "สมชาย"], span=[0, 2], entity_type="person"),
+            EntitySpan(
+                text=["นาย", "สมชาย"], span=[0, 2], entity_type="person"
+            ),
             EntitySpan(text=["กรุงเทพ"], span=[5, 6], entity_type="location"),
         ]
         result = _entities_to_html(tokens, entities)

@@ -54,7 +54,7 @@ def coreference_resolution(
 
     model = _MODEL_CACHE.get(model_key)
     if model is not None:
-        return cast(list[CorefResult], model.predict(texts))
+        return cast("list[CorefResult]", model.predict(texts))
 
     return [
         CorefResult(text=text, clusters_string=[], clusters=[])

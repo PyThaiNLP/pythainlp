@@ -5,7 +5,9 @@ from __future__ import annotations
 
 import re
 import sys
-from collections.abc import Mapping
+
+# Runtime import keeps typing.get_type_hints() working on this module.
+from collections.abc import Mapping  # noqa: TC003
 from typing import TYPE_CHECKING, Any, TypedDict, Union, overload
 
 if TYPE_CHECKING:
@@ -184,9 +186,7 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
     return txt
 
 
-def compute_stats(
-    ref_sample: str, raw_sample: str
-) -> TokenizationStat:
+def compute_stats(ref_sample: str, raw_sample: str) -> TokenizationStat:
     """Compute statistics for tokenization quality.
 
     These statistics include:

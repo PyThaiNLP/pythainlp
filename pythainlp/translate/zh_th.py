@@ -41,7 +41,9 @@ class ThZhTranslator:
             pretrained, revision=revision
         )
         self.model_thzh: AutoModelForSeq2SeqLM = (
-            AutoModelForSeq2SeqLM.from_pretrained(pretrained, revision=revision)
+            AutoModelForSeq2SeqLM.from_pretrained(
+                pretrained, revision=revision
+            )
         )
         if use_gpu:
             self.model_thzh = self.model_thzh.cuda()
@@ -61,7 +63,9 @@ class ThZhTranslator:
 
         Translate text from Thai to Chinese:
 
-            >>> from pythainlp.translate import ThZhTranslator  # doctest: +SKIP
+            >>> from pythainlp.translate import (
+            ...     ThZhTranslator,
+            ... )  # doctest: +SKIP
 
             >>> thzh = ThZhTranslator()  # doctest: +SKIP
 
@@ -70,7 +74,9 @@ class ThZhTranslator:
 
         Translate text from Thai to Chinese with excluded words:
 
-            >>> thzh.translate("ผมรักคุณ", exclude_words=["ผม"])  # doctest: +SKIP
+            >>> thzh.translate(
+            ...     "ผมรักคุณ", exclude_words=["ผม"]
+            ... )  # doctest: +SKIP
             ผม爱你
 
         """
@@ -117,7 +123,9 @@ class ZhThTranslator:
             pretrained, revision=revision
         )
         self.model_zhth: AutoModelForSeq2SeqLM = (
-            AutoModelForSeq2SeqLM.from_pretrained(pretrained, revision=revision)
+            AutoModelForSeq2SeqLM.from_pretrained(
+                pretrained, revision=revision
+            )
         )
         if use_gpu:
             self.model_zhth = self.model_zhth.cuda()
@@ -137,7 +145,9 @@ class ZhThTranslator:
 
         Translate text from Chinese to Thai:
 
-            >>> from pythainlp.translate import ZhThTranslator  # doctest: +SKIP
+            >>> from pythainlp.translate import (
+            ...     ZhThTranslator,
+            ... )  # doctest: +SKIP
 
             >>> zhth = ZhThTranslator()  # doctest: +SKIP
 
@@ -146,7 +156,9 @@ class ZhThTranslator:
 
         Translate text from Chinese to Thai with excluded words:
 
-            >>> zhth.translate("我爱你", exclude_words=["我"])  # doctest: +SKIP
+            >>> zhth.translate(
+            ...     "我爱你", exclude_words=["我"]
+            ... )  # doctest: +SKIP
             我รักคุณนะ
 
         """

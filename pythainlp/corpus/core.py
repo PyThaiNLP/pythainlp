@@ -50,7 +50,7 @@ class _ResponseWrapper:
         """Parse JSON content from response."""
         try:
             return cast(
-                dict[str, Any], json.loads(self._content.decode("utf-8"))
+                "dict[str, Any]", json.loads(self._content.decode("utf-8"))
             )
         except (json.JSONDecodeError, UnicodeDecodeError) as err:
             raise ValueError(f"Failed to parse JSON response: {err}") from err
@@ -77,7 +77,8 @@ def get_corpus_db(url: str) -> Optional[_ResponseWrapper]:
         print(f"HTTP error occurred: {http_err}")
     except URLError as err:
         print(f"URL error occurred: {err}")
-    except Exception as err:
+    except (OSError, ValueError) as err:
+        # Network failure (including timeout) or malformed URL/response
         print(f"Error occurred: {err}")
 
     return corpus_db
@@ -99,11 +100,11 @@ def get_corpus_db_detail(name: str, version: str = "") -> dict[str, Any]:
     if not version:
         for corpus in local_db["_default"].values():
             if corpus["name"] == name:
-                return cast(dict[str, Any], corpus)
+                return cast("dict[str, Any]", corpus)
     else:
         for corpus in local_db["_default"].values():
             if corpus["name"] == name and corpus["version"] == version:
-                return cast(dict[str, Any], corpus)
+                return cast("dict[str, Any]", corpus)
 
     return {}
 
@@ -185,7 +186,7 @@ def _load_default_db() -> dict[str, Any]:
     corpus_files = files("pythainlp.corpus")
     default_db_file = corpus_files.joinpath("default_db.json")
     text = default_db_file.read_text(encoding="utf-8-sig")
-    return cast(dict[str, Any], json.loads(text))
+    return cast("dict[str, Any]", json.loads(text))
 
 
 def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
@@ -523,9 +524,7 @@ def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
             # safe_path_join, which canonicalises and validates containment in one step.
             if not os.path.isabs(link_target):
                 try:
-                    safe_path_join(
-                        path, os.path.dirname(member), link_target
-                    )
+                    safe_path_join(path, os.path.dirname(member), link_target)
                 except ValueError:
                     raise ValueError(
                         f"Symlink {member} points outside extraction directory: {link_target}"
@@ -771,7 +770,10 @@ def remove(name: str) -> bool:
 
     :Example:
 
-        >>> from pythainlp.corpus import remove, get_corpus_path  # doctest: +SKIP
+        >>> from pythainlp.corpus import (
+        ...     remove,
+        ...     get_corpus_path,
+        ... )  # doctest: +SKIP
         >>> remove("ttc")  # doctest: +SKIP
         True
         >>> get_corpus_path("ttc")  # doctest: +SKIP

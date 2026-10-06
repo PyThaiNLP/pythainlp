@@ -62,6 +62,7 @@ class KhaveeVerifier:
     :Note:
         The method :meth:`check_klon` requires the external ``ssg`` library.
     """
+
     # explicitly include ฤ and ฦ as they act as initial consonants but aren't in thai_consonants
     VALID_CONSONANTS = frozenset(thai_consonants + "ฤฦ")
 
@@ -70,46 +71,123 @@ class KhaveeVerifier:
     # (the leading vowel is detected first) and necessary in check_marttra
     # (to expose the true final consonant for spelling-section classification).
     _MASKING_TERMINAL_VOWELS: tuple[str, ...] = (
-        "เกียรติ", "ชาติ", "ญาติ", "มัติ", "วัติ", "บัติ", "ญัติ",
-        "ยัติ", "ภูมิ", "พฤติ", "พรรดิ", "วรรดิ", "พยาธิ", "โพธิ",
-        "เกตุ", "เมรุ", "เหตุ", "ธาตุ", "วุฒิ", "สมมุติ", "วิมุติ",
+        "เกียรติ",
+        "ชาติ",
+        "ญาติ",
+        "มัติ",
+        "วัติ",
+        "บัติ",
+        "ญัติ",
+        "ยัติ",
+        "ภูมิ",
+        "พฤติ",
+        "พรรดิ",
+        "วรรดิ",
+        "พยาธิ",
+        "โพธิ",
+        "เกตุ",
+        "เมรุ",
+        "เหตุ",
+        "ธาตุ",
+        "วุฒิ",
+        "สมมุติ",
+        "วิมุติ",
     )
 
     # Syllables that are always light (ลหุ) regardless of orthography.
-    _LAHU_SYLLABLE_OVERRIDES: frozenset[str] = frozenset({
-        "บ", "บ่", "ณ", "ธ", "ก็", "ฤ", "ฦ",
-    })
+    _LAHU_SYLLABLE_OVERRIDES: frozenset[str] = frozenset(
+        {
+            "บ",
+            "บ่",
+            "ณ",
+            "ธ",
+            "ก็",
+            "ฤ",
+            "ฦ",
+        }
+    )
 
     # Pre-computed frozensets for high-frequency set operations
-    _SINGLE_CHAR_WORDS: frozenset[str] = frozenset({"บ", "ณ", "ธ", "พณ", "ฤ", "ฦ"})
+    _SINGLE_CHAR_WORDS: frozenset[str] = frozenset(
+        {"บ", "ณ", "ธ", "พณ", "ฤ", "ฦ"}
+    )
 
     # Initial cluster sets for _is_true_final
-    _LAM_CLUSTERS: frozenset[str] = frozenset({
-        "กล", "ขล", "คล", "ปล", "ผล", "พล", "หล", "ถล", "ฉล", "สล", "ศล", "ตล"
-    })
-    _RUA_CLUSTERS: frozenset[str] = frozenset({
-        "กร", "ขร", "คร", "ตร", "ปร", "พร", "ฟร", "บร", "ศร", "สร", "หร"
-    })
-    _WA_CLUSTERS: frozenset[str] = frozenset({
-        "กว", "ขว", "คว", "สว", "หว", "ทว", "ชว", "ศว", "ถว"
-    })
-    _WA_WHITELIST: frozenset[str] = frozenset({"เขว", "เหว่", "แคว", "แหว", "โคว", "โหว", "โหว่"})
+    _LAM_CLUSTERS: frozenset[str] = frozenset(
+        {
+            "กล",
+            "ขล",
+            "คล",
+            "ปล",
+            "ผล",
+            "พล",
+            "หล",
+            "ถล",
+            "ฉล",
+            "สล",
+            "ศล",
+            "ตล",
+        }
+    )
+    _RUA_CLUSTERS: frozenset[str] = frozenset(
+        {"กร", "ขร", "คร", "ตร", "ปร", "พร", "ฟร", "บร", "ศร", "สร", "หร"}
+    )
+    _WA_CLUSTERS: frozenset[str] = frozenset(
+        {"กว", "ขว", "คว", "สว", "หว", "ทว", "ชว", "ศว", "ถว"}
+    )
+    _WA_WHITELIST: frozenset[str] = frozenset(
+        {"เขว", "เหว่", "แคว", "แหว", "โคว", "โหว", "โหว่"}
+    )
 
     # Spelling sections (มาตราตัวสะกด)
-    _OPEN_SYLLABLE_VOWELS: frozenset[str] = frozenset({"า", "ๅ", "ะ", "ิ", "ี", "ึ", "ุ", "ู", "อ"})
+    _OPEN_SYLLABLE_VOWELS: frozenset[str] = frozenset(
+        {"า", "ๅ", "ะ", "ิ", "ี", "ึ", "ุ", "ู", "อ"}
+    )
     _KOK_CHARS: frozenset[str] = frozenset({"ก", "ข", "ค", "ฆ"})
-    _KOD_CHARS: frozenset[str] = frozenset({
-        "จ", "ช", "ซ", "ฎ", "ฏ", "ฐ", "ฑ", "ฒ", "ด", "ต", "ถ", "ท", "ธ", "ศ", "ษ", "ส"
-    })
+    _KOD_CHARS: frozenset[str] = frozenset(
+        {
+            "จ",
+            "ช",
+            "ซ",
+            "ฎ",
+            "ฏ",
+            "ฐ",
+            "ฑ",
+            "ฒ",
+            "ด",
+            "ต",
+            "ถ",
+            "ท",
+            "ธ",
+            "ศ",
+            "ษ",
+            "ส",
+        }
+    )
     _KON_CHARS: frozenset[str] = frozenset({"ญ", "ณ", "น", "ร", "ล", "ฬ"})
     _KOB_CHARS: frozenset[str] = frozenset({"บ", "ป", "พ", "ฟ", "ภ"})
 
     # Karu / Lahu prosody
-    _LONG_VOWELS: frozenset[str] = frozenset({
-        "อา", "อี", "อือ", "อู", "เอ", "แอ", "เออ", "โอ", "ออ", "เอีย", "เอือ", "อัว"
-    })
+    _LONG_VOWELS: frozenset[str] = frozenset(
+        {
+            "อา",
+            "อี",
+            "อือ",
+            "อู",
+            "เอ",
+            "แอ",
+            "เออ",
+            "โอ",
+            "ออ",
+            "เอีย",
+            "เอือ",
+            "อัว",
+        }
+    )
     _SPECIAL_VOWELS: frozenset[str] = frozenset({"อำ", "ไอ", "เอา"})
-    _EXPLICIT_SARA_WORDS: frozenset[str] = frozenset({"เออะ", "เออ", "เอ", "เอะ", "เอา", "เอาะ"})
+    _EXPLICIT_SARA_WORDS: frozenset[str] = frozenset(
+        {"เออะ", "เออ", "เอ", "เอะ", "เอา", "เอาะ"}
+    )
 
     def __init__(self) -> None:
         """Initialize the KhaveeVerifier class."""
@@ -170,7 +248,13 @@ class KhaveeVerifier:
         # Check for ล, ร, ว in initial clusters (คำควบกล้ำ / อักษรนำ)
         # with pre-posed vowels เ-, แ-, โ-, ไ-, ใ-
         # (เปล, เถล, แผล, โหล, ไกล, ใกล้, โปร, แตร, ไกว, เขว)
-        if not ("เ" in word or "แ" in word or "โ" in word or "ไ" in word or "ใ" in word):
+        if not (
+            "เ" in word
+            or "แ" in word
+            or "โ" in word
+            or "ไ" in word
+            or "ใ" in word
+        ):
             return True
 
         # Check for ล
@@ -190,7 +274,7 @@ class KhaveeVerifier:
 
             # With เ/แ/โ, 'ว' is mostly is a true final (เลว, เหว, แก้ว, แห้ว).
             # Whitelist อักษรนำ/คำควบกล้ำ as exceptions
-            elif ("เ" in word or "แ" in word or "โ" in word):
+            elif "เ" in word or "แ" in word or "โ" in word:
                 # USE ORIGINAL_WORD to safely catch open syllables แม่ ก กา
                 # เดินเขว, ว้าเหว่, แม่น้ำแคว, ตวาดแหว, โควตา, ช่องโหว่
                 if original_word in self._WA_WHITELIST:
@@ -283,11 +367,22 @@ class KhaveeVerifier:
                 sara.append("อะ")
 
         # Clean up 'ออ' if 'อ' is acting purely as an initial consonant (อต, อด, อบ, อวบ)
-        if "ออ" in sara and len(sara) == 1 and word.startswith("อ") and countoa == 1:
+        if (
+            "ออ" in sara
+            and len(sara) == 1
+            and word.startswith("อ")
+            and countoa == 1
+        ):
             sara.remove("ออ")
 
         # In case of ออ (Clean redundant ออ from compound vowels like คือ, มือ)
-        if countoa == 1 and "อ" == word[-1] and "เ" not in word and "ออ" in sara and len(sara) > 1:
+        if (
+            countoa == 1
+            and "อ" == word[-1]
+            and "เ" not in word
+            and "ออ" in sara
+            and len(sara) > 1
+        ):
             sara.remove("ออ")
 
         # In case of เอ เอ (merging two 'เอ' into 'แอ')
@@ -373,7 +468,11 @@ class KhaveeVerifier:
             sara = ["เอือ"]
 
         # In case of เ-ย (ลดรูป เ-อ) เลย, เคย, เอย
-        if "เอ" in sara and word_req.endswith("ย") and self._is_true_final(original_word):
+        if (
+            "เอ" in sara
+            and word_req.endswith("ย")
+            and self._is_true_final(original_word)
+        ):
             # Ensure no competing vowels exist ('เตียง' uses เอีย, not เออ)
             other_vowels = [v for v in sara if v not in {"เอ", "ออ"}]
             if not other_vowels:
@@ -389,8 +488,21 @@ class KhaveeVerifier:
                 sara.append("เออ")
             # for 'อิ' (กฤษณ์, กฤษณะ, ตฤณ, ตฤตีย, ทฤษฎี, ประกฤติ, วิกฤต, ฤทธิ์, อังกฤษ)
             # Use original_word here to ensure stripped Karun characters (like ธิ์) are evaluated
-            elif any(ex in original_word for ex in
-                     ("กฤช", "กฤต", "กฤษ", "ตฤต", "ตฤณ", "ทฤษ", "ปฤษ", "ศฤง", "สฤต", "ฤทธ")):
+            elif any(
+                ex in original_word
+                for ex in (
+                    "กฤช",
+                    "กฤต",
+                    "กฤษ",
+                    "ตฤต",
+                    "ตฤณ",
+                    "ทฤษ",
+                    "ปฤษ",
+                    "ศฤง",
+                    "สฤต",
+                    "ฤทธ",
+                )
+            ):
                 sara.append("อิ")
             # Default 'อึ' (รึ) (ฤดู, ฤทัย, พฤษภาคมม)
             else:
@@ -533,7 +645,9 @@ class KhaveeVerifier:
             last_char in self._OPEN_SYLLABLE_VOWELS
             or ("ี" in word and last_char == "ย")  # Catch สระเอีย (เสีย, เมีย)
             or ("ื" in word and last_char == "อ")  # Catch สระอือ (เรือ, เสือ)
-            or ("ั" in word and last_char == "ว")  # Catch สระอัว (ตัว, ชั่ว, กลัว, อัว)
+            or (
+                "ั" in word and last_char == "ว"
+            )  # Catch สระอัว (ตัว, ชั่ว, กลัว, อัว)
         ):
             return "กา"
         elif last_char == "ง":
@@ -714,98 +828,102 @@ class KhaveeVerifier:
         if k_type not in {4, 8}:
             return "Something went wrong. Make sure you enter it in the correct form (k_type 4 or 8)."
 
-        try:
-            # Normalize spacing and split phrases/sentences across arbitrary whitespace
-            waks = text.split()
-            # Ensure the poem has complete stanzas (4 waks per stanza)
-            if len(waks) % 4 != 0 or len(waks) == 0:
-                return "The poem does not have complete stanzas (บท). A stanza must contain exactly 4 sentences (วรรค)."
+        # Normalize spacing and split phrases/sentences across arbitrary whitespace
+        waks = text.split()
+        # Ensure the poem has complete stanzas (4 waks per stanza)
+        if len(waks) % 4 != 0 or len(waks) == 0:
+            return "The poem does not have complete stanzas (บท). A stanza must contain exactly 4 sentences (วรรค)."
 
-            errors = []
-            stanzas = []
-            # วรรคสดับ (Wak 1), วรรครับ (Wak 2), วรรครอง (Wak 3), วรรคส่ง (Wak 4)
-            wak_names = ["Wak 1", "Wak 2", "Wak 3", "Wak 4"]
+        errors = []
+        stanzas = []
+        # วรรคสดับ (Wak 1), วรรครับ (Wak 2), วรรครอง (Wak 3), วรรคส่ง (Wak 4)
+        wak_names = ["Wak 1", "Wak 2", "Wak 3", "Wak 4"]
 
-            # 1. Tokenize and group sentences into stanzas (4 Waks per stanza)
-            for i in range(0, len(waks), 4):
-                stanza = [subword_tokenize(waks[i + j], engine="ssg") for j in range(4)]
-                stanzas.append(stanza)
+        # 1. Tokenize and group sentences into stanzas (4 Waks per stanza)
+        for i in range(0, len(waks), 4):
+            stanza = [
+                subword_tokenize(waks[i + j], engine="ssg") for j in range(4)
+            ]
+            stanzas.append(stanza)
 
-            # 2. Evaluate rules for each stanza
-            for stanza_index, stanza in enumerate(stanzas):
-                wak1, wak2, wak3, wak4 = stanza
+        # 2. Evaluate rules for each stanza
+        for stanza_index, stanza in enumerate(stanzas):
+            wak1, wak2, wak3, wak4 = stanza
 
-                # Safety check against empty sentences
-                if not all((wak1, wak2, wak3, wak4)):
-                    errors.append(f"Stanza (บทที่) {stanza_index + 1} contains empty sentences.")
-                    continue
+            # Safety check against empty sentences
+            if not all((wak1, wak2, wak3, wak4)):
+                errors.append(
+                    f"Stanza (บทที่) {stanza_index + 1} contains empty sentences."
+                )
+                continue
 
-                # Check word counts
-                max_words = 10 if k_type == 8 else 5
-                for wak_index, wak in enumerate(stanza):
-                    if len(wak) > max_words:
-                        errors.append(
-                            f"Stanza (บทที่) {stanza_index + 1} {wak_names[wak_index]}: "
-                            f"Word count exceeds {max_words}: {wak}"
-                        )
-
-                # Define rhyme target lengths based on Klon type
-                # Klon 8: Targets first 5 words (อนุโลม 1, 2, 4 บังคับ 3, 5)
-                # Klon 4: Targets first 2 words
-                if k_type == 8:
-                    wak2_targets = wak2[:5]
-                    wak4_targets = wak4[:5]
-                else:
-                    # Klon 4: If the target sentence has 5 words, check the first 3 words.
-                    # Otherwise, check the standard first 2 words.
-                    limit_wak2 = 3 if len(wak2) == 5 else 2
-                    limit_wak4 = 3 if len(wak4) == 5 else 2
-
-                    wak2_targets = wak2[:limit_wak2]
-                    wak4_targets = wak4[:limit_wak4]
-
-                # Extract the last word of each Wak
-                wak1_last = wak1[-1]
-                wak2_last = wak2[-1]
-                wak3_last = wak3[-1]
-
-                # Rule 1: วรรคสดับ -> วรรครับ
-                if not any(self.is_sumpus(wak1_last, target) for target in wak2_targets):
+            # Check word counts
+            max_words = 10 if k_type == 8 else 5
+            for wak_index, wak in enumerate(stanza):
+                if len(wak) > max_words:
                     errors.append(
-                        f"Rhyme error in Stanza (บทที่) {stanza_index + 1}: "
-                        f"'{wak1_last}' ({wak_names[0]}) does not rhyme with {wak2_targets} ({wak_names[1]})"
+                        f"Stanza (บทที่) {stanza_index + 1} {wak_names[wak_index]}: "
+                        f"Word count exceeds {max_words}: {wak}"
                     )
 
-                # Rule 2: วรรครับ -> วรรครอง
-                if not self.is_sumpus(wak2_last, wak3_last):
+            # Define rhyme target lengths based on Klon type
+            # Klon 8: Targets first 5 words (อนุโลม 1, 2, 4 บังคับ 3, 5)
+            # Klon 4: Targets first 2 words
+            if k_type == 8:
+                wak2_targets = wak2[:5]
+                wak4_targets = wak4[:5]
+            else:
+                # Klon 4: If the target sentence has 5 words, check the first 3 words.
+                # Otherwise, check the standard first 2 words.
+                limit_wak2 = 3 if len(wak2) == 5 else 2
+                limit_wak4 = 3 if len(wak4) == 5 else 2
+
+                wak2_targets = wak2[:limit_wak2]
+                wak4_targets = wak4[:limit_wak4]
+
+            # Extract the last word of each Wak
+            wak1_last = wak1[-1]
+            wak2_last = wak2[-1]
+            wak3_last = wak3[-1]
+
+            # Rule 1: วรรคสดับ -> วรรครับ
+            if not any(
+                self.is_sumpus(wak1_last, target) for target in wak2_targets
+            ):
+                errors.append(
+                    f"Rhyme error in Stanza (บทที่) {stanza_index + 1}: "
+                    f"'{wak1_last}' ({wak_names[0]}) does not rhyme with {wak2_targets} ({wak_names[1]})"
+                )
+
+            # Rule 2: วรรครับ -> วรรครอง
+            if not self.is_sumpus(wak2_last, wak3_last):
+                errors.append(
+                    f"Rhyme error in Stanza (บทที่) {stanza_index + 1}: "
+                    f"'{wak2_last}' ({wak_names[1]}) does not rhyme with '{wak3_last}' ({wak_names[2]})"
+                )
+
+            # Rule 3: วรรครอง -> วรรคส่ง
+            if not any(
+                self.is_sumpus(wak3_last, target) for target in wak4_targets
+            ):
+                errors.append(
+                    f"Rhyme error in Stanza (บทที่) {stanza_index + 1}: "
+                    f"'{wak3_last}' ({wak_names[2]}) does not rhyme with {wak4_targets} ({wak_names[3]})"
+                )
+
+            # Rule 4: สัมผัสระหว่างบท (Inter-stanza)
+            if stanza_index > 0:
+                # Target Wak 4 of the previous stanza
+                prev_wak4_last = stanzas[stanza_index - 1][3][-1]
+                if not self.is_sumpus(prev_wak4_last, wak2_last):
                     errors.append(
-                        f"Rhyme error in Stanza (บทที่) {stanza_index + 1}: "
-                        f"'{wak2_last}' ({wak_names[1]}) does not rhyme with '{wak3_last}' ({wak_names[2]})"
+                        f"Inter-stanza rhyme error (ผิดสัมผัสระหว่างบท) between Stanza {stanza_index} and {stanza_index + 1}: "
+                        f"'{prev_wak4_last}' ({wak_names[3]}) does not rhyme with '{wak2_last}' ({wak_names[1]})"
                     )
 
-                # Rule 3: วรรครอง -> วรรคส่ง
-                if not any(self.is_sumpus(wak3_last, target) for target in wak4_targets):
-                    errors.append(
-                        f"Rhyme error in Stanza (บทที่) {stanza_index + 1}: "
-                        f"'{wak3_last}' ({wak_names[2]}) does not rhyme with {wak4_targets} ({wak_names[3]})"
-                    )
-
-                # Rule 4: สัมผัสระหว่างบท (Inter-stanza)
-                if stanza_index > 0:
-                    # Target Wak 4 of the previous stanza
-                    prev_wak4_last = stanzas[stanza_index - 1][3][-1]
-                    if not self.is_sumpus(prev_wak4_last, wak2_last):
-                        errors.append(
-                            f"Inter-stanza rhyme error (ผิดสัมผัสระหว่างบท) between Stanza {stanza_index} and {stanza_index + 1}: "
-                            f"'{prev_wak4_last}' ({wak_names[3]}) does not rhyme with '{wak2_last}' ({wak_names[1]})"
-                        )
-
-            if not errors:
-                return "The poem is correct according to the principle."
-            return errors
-
-        except Exception as e:
-            return f"Something went wrong during evaluation: {e}"
+        if not errors:
+            return "The poem is correct according to the principle."
+        return errors
 
     def check_aek_too(
         self, text: Union[list[str], str], dead_syllable_as_aek: bool = False
@@ -833,7 +951,9 @@ class KhaveeVerifier:
             ...     kv.check_aek_too("เอ้ง"),
             ... )
             >>> # -> False, aek, too
-            >>> print(kv.check_aek_too(["เอง", "เอ่ง", "เอ้ง"]))  # doctest: +SKIP
+            >>> print(
+            ...     kv.check_aek_too(["เอง", "เอ่ง", "เอ้ง"])
+            ... )  # doctest: +SKIP
             >>> # -> [False, 'aek', 'too']  ^^^^^^^^^^ # ใช้ List ได้เหมือนกัน
         """
         if isinstance(text, list):

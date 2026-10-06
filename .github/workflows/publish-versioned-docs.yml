@@ -19,6 +19,7 @@ jobs:
   publish-versioned-docs:
     name: Publish versioned documentation
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     # Only run for the main repository, not forks.
     if: github.repository == 'PyThaiNLP/pythainlp'
     permissions:
@@ -31,28 +32,28 @@ jobs:
       run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
 
     - name: Checkout pythainlp (for scripts)
-      uses: actions/checkout@v7.0.1
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         path: pythainlp
 
     - name: Checkout dev-docs repository
-      uses: actions/checkout@v7.0.1
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         repository: PyThaiNLP/dev-docs
         token: ${{ secrets.PERSONAL_TOKEN }}
         path: dev-docs
 
     - name: Checkout docs repository
-      uses: actions/checkout@v7.0.1
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         repository: PyThaiNLP/docs
         token: ${{ secrets.PERSONAL_TOKEN }}
         path: docs
 
     - name: Set up Python
-      uses: actions/setup-python@v6.2.0
+      uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
-        python-version: "3.12"
+        python-version: "3.14"
 
     - name: Copy dev-docs to versioned directory in docs
       run: |

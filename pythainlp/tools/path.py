@@ -229,7 +229,9 @@ def get_pythainlp_data_path() -> str:
 
     :Example:
 
-        >>> from pythainlp.tools import get_pythainlp_data_path  # doctest: +SKIP
+        >>> from pythainlp.tools import (
+        ...     get_pythainlp_data_path,
+        ... )  # doctest: +SKIP
         >>> get_pythainlp_data_path()  # doctest: +SKIP
         '/root/pythainlp-data'
     """

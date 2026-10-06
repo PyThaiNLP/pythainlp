@@ -152,7 +152,9 @@ class Translate:
 
         Translate text with excluded words:
 
-            >>> th2en.translate("ฉันรักแมว", exclude_words=["แมว"])  # doctest: +SKIP
+            >>> th2en.translate(
+            ...     "ฉันรักแมว", exclude_words=["แมว"]
+            ... )  # doctest: +SKIP
             I love แมว.
         """
         self.model: Union[

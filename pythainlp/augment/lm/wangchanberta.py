@@ -29,7 +29,8 @@ class Thai2transformersAug:
         self.target_tokenizer: type[CamembertTokenizer] = CamembertTokenizer
         self.tokenizer: CamembertTokenizer = (
             CamembertTokenizer.from_pretrained(
-                self.model_name, revision="main"  # nosec B615
+                self.model_name,
+                revision="main",  # nosec B615
             )
         )
         self.tokenizer.additional_special_tokens = [
@@ -77,7 +78,9 @@ class Thai2transformersAug:
 
         :Example:
 
-            >>> from pythainlp.augment.lm import Thai2transformersAug  # doctest: +SKIP
+            >>> from pythainlp.augment.lm import (
+            ...     Thai2transformersAug,
+            ... )  # doctest: +SKIP
 
             >>> aug = Thai2transformersAug()  # doctest: +SKIP
 

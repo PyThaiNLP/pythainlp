@@ -243,7 +243,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         self.set_lang_special_tokens(self._tgt_lang)
 
     def _tokenize(self, text: str) -> list[str]:
-        return cast(list[str], self.sp_model.encode(text, out_type=str))
+        return cast("list[str]", self.sp_model.encode(text, out_type=str))
 
     def _convert_token_to_id(self, token: str) -> int:
         if token in self.lang_token_to_id:
@@ -256,12 +256,12 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
             return self.id_to_lang_token[index]
         token = self.decoder.get(index, self.unk_token)
         if token is None:
-            return cast(str, self.unk_token)
+            return cast("str", self.unk_token)
         return token
 
     def convert_tokens_to_string(self, tokens: list[str]) -> str:
         """Converts a sequence of tokens (strings for sub-words) in a single string."""
-        return cast(str, self.sp_model.decode(tokens))
+        return cast("str", self.sp_model.decode(tokens))
 
     def get_special_tokens_mask(
         self,
@@ -290,7 +290,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         if already_has_special_tokens:
             # External library method
             return cast(
-                list[int],
+                "list[int]",
                 super().get_special_tokens_mask(
                     token_ids_0=token_ids_0,
                     token_ids_1=token_ids_1,
@@ -428,7 +428,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
             )
         self.tgt_lang: str = tgt_lang
         inputs = self(raw_inputs, add_special_tokens=True, **extra_kwargs)
-        return cast(dict[str, Any], inputs)
+        return cast("dict[str, Any]", inputs)
 
     def _switch_to_input_mode(self) -> None:
         self.set_lang_special_tokens(self.tgt_lang)
@@ -465,7 +465,7 @@ def load_spm(
 
 def load_json(path: str) -> Union[dict[str, str], list[str]]:
     with open(path) as f:
-        return cast(Union[dict[str, str], list[str]], json.load(f))
+        return cast("Union[dict[str, str], list[str]]", json.load(f))
 
 
 def save_json(

@@ -42,7 +42,9 @@ def prayut_and_somchaip(text: str, length: int = 4) -> str:
 
     :Example:
 
-        >>> from pythainlp.soundex.prayut_and_somchaip import prayut_and_somchaip
+        >>> from pythainlp.soundex.prayut_and_somchaip import (
+        ...     prayut_and_somchaip,
+        ... )
         >>> prayut_and_somchaip("king", 2)
         '52'
         >>> prayut_and_somchaip("คิง", 2)

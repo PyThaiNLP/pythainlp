@@ -198,7 +198,9 @@ def num_to_thaiword_float(number: float) -> str:
             raise ValueError("number must be a finite float")
 
     # Handle whole numbers (including integer types)
-    if isinstance(number, int) or (isinstance(number, float) and number.is_integer()):
+    if isinstance(number, int) or (
+        isinstance(number, float) and number.is_integer()
+    ):
         return num_to_thaiword(int(number))
 
     # Capture sign for negative floats

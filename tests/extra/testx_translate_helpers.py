@@ -17,24 +17,18 @@ class TranslateHelpersTestCaseX(unittest.TestCase):
         """Test excluding a single word"""
         text = "I love cat and dog"
         exclude_words = ["cat"]
-        prepared, mapping = _prepare_text_with_exclusions(
-            text, exclude_words
-        )
+        prepared, mapping = _prepare_text_with_exclusions(text, exclude_words)
 
         # Check that the word is replaced
         self.assertNotIn(" cat ", prepared)
         self.assertIn("<<<PYTHAINLP_EXCLUDE_0>>>", prepared)
-        self.assertEqual(
-            mapping["<<<PYTHAINLP_EXCLUDE_0>>>"], "cat"
-        )
+        self.assertEqual(mapping["<<<PYTHAINLP_EXCLUDE_0>>>"], "cat")
 
     def test_prepare_text_with_exclusions_multiple_words(self):
         """Test excluding multiple words"""
         text = "แมวกินปลา"
         exclude_words = ["แมว", "ปลา"]
-        prepared, mapping = _prepare_text_with_exclusions(
-            text, exclude_words
-        )
+        prepared, mapping = _prepare_text_with_exclusions(text, exclude_words)
 
         # Check that both words are replaced
         self.assertNotIn("แมว", prepared)
@@ -46,9 +40,7 @@ class TranslateHelpersTestCaseX(unittest.TestCase):
         """Test with no exclusions"""
         text = "Hello world"
         exclude_words = None
-        prepared, mapping = _prepare_text_with_exclusions(
-            text, exclude_words
-        )
+        prepared, mapping = _prepare_text_with_exclusions(text, exclude_words)
 
         # Text should be unchanged
         self.assertEqual(prepared, text)
@@ -58,9 +50,7 @@ class TranslateHelpersTestCaseX(unittest.TestCase):
         """Test with empty exclusion list"""
         text = "Hello world"
         exclude_words: list[str] = []
-        prepared, mapping = _prepare_text_with_exclusions(
-            text, exclude_words
-        )
+        prepared, mapping = _prepare_text_with_exclusions(text, exclude_words)
 
         # Text should be unchanged
         self.assertEqual(prepared, text)
@@ -78,9 +68,7 @@ class TranslateHelpersTestCaseX(unittest.TestCase):
 
     def test_restore_excluded_words_multiple(self):
         """Test restoring multiple excluded words"""
-        translated = (
-            "<<<PYTHAINLP_EXCLUDE_0>>>กิน<<<PYTHAINLP_EXCLUDE_1>>>"
-        )
+        translated = "<<<PYTHAINLP_EXCLUDE_0>>>กิน<<<PYTHAINLP_EXCLUDE_1>>>"
         mapping = {
             "<<<PYTHAINLP_EXCLUDE_0>>>": "แมว",
             "<<<PYTHAINLP_EXCLUDE_1>>>": "ปลา",
@@ -125,9 +113,7 @@ class TranslateHelpersTestCaseX(unittest.TestCase):
         """Test that partial word matches are not replaced"""
         text = "I love category and cat"
         exclude_words = ["cat"]
-        prepared, mapping = _prepare_text_with_exclusions(
-            text, exclude_words
-        )
+        prepared, mapping = _prepare_text_with_exclusions(text, exclude_words)
 
         # "category" should not have "cat" replaced
         self.assertIn("category", prepared)
@@ -142,9 +128,7 @@ class TranslateHelpersTestCaseX(unittest.TestCase):
         """Test excluding a word that doesn't appear in the text"""
         text = "I love dogs and puppies"
         exclude_words = ["cat"]
-        prepared, mapping = _prepare_text_with_exclusions(
-            text, exclude_words
-        )
+        prepared, mapping = _prepare_text_with_exclusions(text, exclude_words)
 
         # Text should be unchanged since "cat" doesn't appear
         self.assertEqual(prepared, text)
@@ -155,9 +139,7 @@ class TranslateHelpersTestCaseX(unittest.TestCase):
         """Test that duplicate words in exclusion list are handled"""
         text = "I love cat and cat"
         exclude_words = ["cat", "cat", "dog"]
-        prepared, mapping = _prepare_text_with_exclusions(
-            text, exclude_words
-        )
+        prepared, mapping = _prepare_text_with_exclusions(text, exclude_words)
 
         # Should only have unique placeholders
         self.assertEqual(len(mapping), 2)  # cat and dog only
@@ -168,9 +150,7 @@ class TranslateHelpersTestCaseX(unittest.TestCase):
         """Test that longer words are replaced before shorter ones"""
         text = "I have a cat and a category"
         exclude_words = ["cat", "category"]
-        prepared, mapping = _prepare_text_with_exclusions(
-            text, exclude_words
-        )
+        prepared, mapping = _prepare_text_with_exclusions(text, exclude_words)
 
         # Both should be replaced correctly
         self.assertNotIn("category", prepared)
@@ -182,22 +162,20 @@ class TranslateHelpersTestCaseX(unittest.TestCase):
         """Test excluding a word followed by period"""
         text = "I love cat."
         exclude_words = ["cat"]
-        prepared, mapping = _prepare_text_with_exclusions(
-            text, exclude_words
-        )
+        prepared, mapping = _prepare_text_with_exclusions(text, exclude_words)
 
         # "cat" should be replaced even with period
         self.assertIn("<<<PYTHAINLP_EXCLUDE_0>>>.", prepared)
-        self.assertNotIn("cat", prepared.replace("<<<PYTHAINLP_EXCLUDE_0>>>", ""))
+        self.assertNotIn(
+            "cat", prepared.replace("<<<PYTHAINLP_EXCLUDE_0>>>", "")
+        )
         self.assertEqual(mapping["<<<PYTHAINLP_EXCLUDE_0>>>"], "cat")
 
     def test_word_with_comma(self):
         """Test excluding a word followed by comma"""
         text = "Hello, PyThaiNLP, how are you?"
         exclude_words = ["PyThaiNLP"]
-        prepared, mapping = _prepare_text_with_exclusions(
-            text, exclude_words
-        )
+        prepared, mapping = _prepare_text_with_exclusions(text, exclude_words)
 
         # "PyThaiNLP" should be replaced even with comma
         self.assertIn("<<<PYTHAINLP_EXCLUDE_0>>>", prepared)
@@ -207,9 +185,7 @@ class TranslateHelpersTestCaseX(unittest.TestCase):
         """Test excluding a word followed by exclamation"""
         text = "I use PyThaiNLP for NLP!"
         exclude_words = ["PyThaiNLP", "NLP"]
-        prepared, mapping = _prepare_text_with_exclusions(
-            text, exclude_words
-        )
+        prepared, mapping = _prepare_text_with_exclusions(text, exclude_words)
 
         # Both words should be replaced even with exclamation
         self.assertIn("<<<PYTHAINLP_EXCLUDE_0>>>", prepared)
@@ -219,21 +195,19 @@ class TranslateHelpersTestCaseX(unittest.TestCase):
         """Test excluding a word in quotes"""
         text = 'The "cat" is here.'
         exclude_words = ["cat"]
-        prepared, mapping = _prepare_text_with_exclusions(
-            text, exclude_words
-        )
+        prepared, mapping = _prepare_text_with_exclusions(text, exclude_words)
 
         # "cat" should be replaced even in quotes
         self.assertIn('"<<<PYTHAINLP_EXCLUDE_0>>>"', prepared)
-        self.assertNotIn("cat", prepared.replace("<<<PYTHAINLP_EXCLUDE_0>>>", ""))
+        self.assertNotIn(
+            "cat", prepared.replace("<<<PYTHAINLP_EXCLUDE_0>>>", "")
+        )
 
     def test_word_in_parentheses(self):
         """Test excluding a word in parentheses"""
         text = "I use (PyThaiNLP) for NLP"
         exclude_words = ["PyThaiNLP"]
-        prepared, mapping = _prepare_text_with_exclusions(
-            text, exclude_words
-        )
+        prepared, mapping = _prepare_text_with_exclusions(text, exclude_words)
 
         # "PyThaiNLP" should be replaced even in parentheses
         self.assertIn("(<<<PYTHAINLP_EXCLUDE_0>>>)", prepared)

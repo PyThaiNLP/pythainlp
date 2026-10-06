@@ -45,7 +45,9 @@ class CorpusCatalogTestCase(unittest.TestCase):
         catalog = get_corpus_db(url)
 
         self.assertIsNotNone(catalog, "Catalog download should succeed")
-        self.assertTrue(hasattr(catalog, "json"), "Catalog should have json method")
+        self.assertTrue(
+            hasattr(catalog, "json"), "Catalog should have json method"
+        )
         self.assertTrue(
             hasattr(catalog, "status_code"), "Catalog should have status_code"
         )
@@ -58,7 +60,9 @@ class CorpusCatalogTestCase(unittest.TestCase):
         self.assertIsNotNone(catalog)
         catalog_data = catalog.json()  # type: ignore
 
-        self.assertIsInstance(catalog_data, dict, "Catalog should be a dictionary")
+        self.assertIsInstance(
+            catalog_data, dict, "Catalog should be a dictionary"
+        )
         self.assertGreater(
             len(catalog_data), 0, "Catalog should contain at least one corpus"
         )
@@ -81,7 +85,9 @@ class CorpusCatalogTestCase(unittest.TestCase):
 
         # Check for some known corpus entries
         # "test" is a standard test corpus that should always exist
-        self.assertIn("test", catalog_data, "Catalog should contain 'test' corpus")
+        self.assertIn(
+            "test", catalog_data, "Catalog should contain 'test' corpus"
+        )
 
         # Verify the test corpus has required fields
         test_corpus = catalog_data["test"]
@@ -105,7 +111,11 @@ class CorpusCatalogTestCase(unittest.TestCase):
         # Test querying non-existent corpus
         detail_nonexist = get_corpus_db_detail("NONEXISTENT_CORPUS_12345")
         self.assertIsInstance(detail_nonexist, dict)
-        self.assertEqual(len(detail_nonexist), 0, "Non-existent corpus should return empty dict")
+        self.assertEqual(
+            len(detail_nonexist),
+            0,
+            "Non-existent corpus should return empty dict",
+        )
 
     def test_no_db_json_created_on_import(self):
         """Test that importing pythainlp.corpus does not create db.json."""
@@ -119,6 +129,7 @@ class CorpusCatalogTestCase(unittest.TestCase):
                 import importlib
 
                 import pythainlp.corpus as corpus_module
+
                 importlib.reload(corpus_module)
                 self.assertFalse(
                     os.path.exists(non_existent_path),

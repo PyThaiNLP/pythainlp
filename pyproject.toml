@@ -71,17 +71,27 @@ dependencies = [
 ## 1) Development ########################################
 
 dev = [
-    "bandit>=1.9.4",
-    "black>=25.11.0",
-    "build>=1.6.1",
-    "bump-my-version>=1.2.6",
-    "coverage>=7.10.7",
-    "flake8>=7.0.0",
-    "flake8-type-checking>=3.2.0",
-    "mypy>=1.19.1",
-    "pylint>=4.0.0",
-    "ruff>=0.14.14",
-    "tox>=4.30.3",
+    # Some tools drop Python 3.9 in newer releases. Use the latest version
+    # for each Python range. bandit 1.8.x reports false positives for B615
+    # (revision is a variable).
+    "bandit>=1.8.6;python_version<'3.10'",
+    "bandit>=1.9.4;python_version>='3.10'",
+    "build>=1.4.4;python_version<'3.10'",
+    "build>=1.6.1;python_version>='3.10'",
+    "bump-my-version>=1.5.1",
+    "coverage>=7.10.7;python_version<'3.10'",
+    "coverage>=7.16.2;python_version>='3.10'",
+    "flake8>=7.3.0;python_version<'3.10'",
+    "flake8>=7.4.1;python_version>='3.10'",
+    "flake8-cognitive-complexity>=0.1.0",
+    # Same as CI. mypy 2.x requires Python 3.10 or later and rejects
+    # python_version = "3.9" in [tool.mypy].
+    "mypy==1.19.1",
+    "pylint>=3.3.9;python_version<'3.10'",
+    "pylint>=4.1.2;python_version>='3.10'",
+    "ruff>=0.16.10",
+    "tox>=4.30.3;python_version<'3.10'",
+    "tox>=4.64.9;python_version>='3.10'",
 ]
 
 docs = [
@@ -407,15 +417,16 @@ quote-style = "double"
 skip-magic-trailing-comma = false
 
 [tool.ruff.lint]
-# Flag errors (`C901`) whenever the complexity level exceeds 5. Default is 10.
-# We should aim to gradually reduce this to 10.
-mccabe.max-complexity = 38
+# Flag errors (`C901`) whenever the complexity level exceeds this value.
+# Default is 10. We should aim to gradually reduce this to 10.
+mccabe.max-complexity = 36
 select = [
     "E",
     "F",
     "I",
     "W",
     "S",
+    "TC",
     "B028",
     "C901",
     "F401",
@@ -429,7 +440,7 @@ select = [
 extend-ignore = ["E402", "E501", "E722", "S101", "S202", "S301", "S310"]
 
 [tool.tox]
-env_list = ["py39", "py310", "py311", "py312", "py313", "py314", "pypy310", "pypy311", "ruff"]
+env_list = ["py39", "py310", "py311", "py312", "py313", "py314", "pypy310", "pypy311", "ruff", "flake8", "mypy"]
 skip_missing_interpreters = true
 
 [tool.tox.env_run_base]
@@ -442,11 +453,28 @@ basepython = "pypy3.10"
 [tool.tox.env.pypy311]
 basepython = "pypy3.11"
 
+# The lint environments below mirror .github/workflows/lint.yml and mypy.yml.
 [tool.tox.env.ruff]
-basepython = "python"
-commands = [["ruff", "check", "pythainlp"], ["ruff", "format", "--check", "pythainlp"]]
-deps = "ruff"
+basepython = ["python"]
+commands = [
+    ["ruff", "check", "--config", "pyproject.toml", "pythainlp", "tests", "examples", "notebooks"],
+    ["ruff", "format", "--check", "--config", "pyproject.toml", "pythainlp", "tests", "examples", "notebooks"],
+]
+deps = ["ruff>=0.16.10"]
 skip_install = true
+
+[tool.tox.env.flake8]
+basepython = ["python"]
+commands = [["flake8", "pythainlp"]]
+deps = ["flake8>=7.3.0", "flake8-cognitive-complexity>=0.1.0"]
+skip_install = true
+
+[tool.tox.env.mypy]
+commands = [["mypy", "pythainlp", "tests"]]
+# Same version as mypy.yml. mypy 1.19 is the last release that targets
+# Python 3.9; python_version in [tool.mypy] sets the target.
+deps = ["mypy==1.19.1"]
+extras = []
 
 [tool.mypy]
 check_untyped_defs = true
@@ -475,7 +503,10 @@ warn_unused_ignores = true
 module = ["tests.*"]
 disallow_untyped_defs = false
 
-# Ignore missing imports for optional dependencies
+# Treat optional dependencies as untyped, whether installed or not.
+# Without "follow_imports = skip", mypy analyzes installed packages
+# (for example, torch) with python_version = "3.9" and fails on
+# newer syntax.
 [[tool.mypy.overrides]]
 module = [
     "attacut.*",
@@ -527,6 +558,7 @@ module = [
     "wunsen.*",
     "yaml.*",
 ]
+follow_imports = "skip"
 ignore_missing_imports = true
 
 [tool.pylint.main]

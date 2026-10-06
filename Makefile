@@ -46,8 +46,8 @@ clean-test: ## remove test and coverage artifacts
 	rm -f .coverage
 	rm -fr htmlcov/
 
-lint: ## check style
-	ruff check pythainlp tests notebooks
+lint: ## check style, formatting, cognitive complexity, and types (as in CI)
+	tox -e ruff,flake8,mypy
 
 test: ## run tests quickly with the default Python
 	python -m unittest discover

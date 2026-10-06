@@ -94,7 +94,9 @@ def summarize(
         ที่อยู่ - ศิลปวัฒนธรรม']
 
         >>> text = "ถ้าพูดถึงขนมหวานในตำนานที่ชื่นใจที่สุดแล้วละก็ต้องไม่พ้น น้ำแข็งใส แน่ๆ เพราะว่าเป็นอะไรที่ชื่นใจสุดๆ"  # doctest: +SKIP
-        >>> summarize(text, engine="mt5-cpe-kmutt-thai-sentence-sum")  # doctest: +SKIP
+        >>> summarize(
+        ...     text, engine="mt5-cpe-kmutt-thai-sentence-sum"
+        ... )  # doctest: +SKIP
         ['น้ําแข็งใสเป็นอะไรที่ชื่นใจที่สุด']
     """
     if not text or not isinstance(text, str):
@@ -187,7 +189,9 @@ def extract_keywords(
         'ควบคุมการเปลี่ยนแปลง',
         'มีพิษ']
 
-        >>> keywords = extract_keywords(text, max_keywords=10)  # doctest: +SKIP
+        >>> keywords = extract_keywords(
+        ...     text, max_keywords=10
+        ... )  # doctest: +SKIP
 
         ['อวัยวะต่างๆ',
         'ซ่อมแซมส่วน',

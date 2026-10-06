@@ -15,17 +15,43 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
-- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.3...v5.3.4>
+- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.8...dev>
 
 ## [Unreleased]
 
-## Deprecated
+### Added
+
+- API documentation page for `pythainlp.cli`.
+
+### Deprecated
 
 - Add warn deprecation `pythainlp.generate.thai2fit`,
   `pythainlp.generate.wangchanglm`, and `pythainlp.chat`. #1519
 
-## Changed
+### Changed
 
+- Development: CI now enforces `ruff format` (code base and notebooks
+  reformatted) and checks cognitive complexity with
+  `flake8-cognitive-complexity`. The limit starts at 97, the current maximum;
+  lower it to 15.
+- Development: enable Ruff `TC` rules. Typing-only imports move into
+  `TYPE_CHECKING` blocks, and `typing.cast()` type arguments are quoted.
+- Development: CI pins `ruff`, `flake8`, `mypy`, `bandit`, `coverage`, and
+  `coveralls` to the latest versions the CI Python supports. The new
+  cognitive complexity job runs on Python 3.14.
+- Development: pin all GitHub Actions to the commit hash of their latest
+  stable release, with the version number in a comment.
+- Development: CI workflows cache pip downloads keyed on `pyproject.toml`,
+  set job timeouts and least-privilege `permissions`, and do not persist
+  checkout credentials in read-only jobs. The `mypy` job no longer installs
+  PyThaiNLP, and the `unittest` job installs `coverage` only where it is used.
+- Development: `tox` has `ruff`, `flake8`, and `mypy` environments that
+  match CI.
+- Development: update `dev` extra to the latest versions for each Python
+  range (3.9, and 3.10 or later). Pin `mypy==1.19.1`, the last release that
+  targets Python 3.9. Remove `black` and `flake8-type-checking`.
+- `mypy` no longer follows installed optional dependencies. It failed on
+  `torch` with the Python 3.9 target.
 - Improve guardrails in `check_sara()` and `nighit()`
 - `pythainlp.tokenize.deepcut`: migrated from the TensorFlow-based `deepcut`
   package to a built-in ONNX inference engine, removing the TensorFlow
@@ -35,8 +61,13 @@ and this project adheres to
   backward compatibility but is no longer applied to the model inference.
   Deepcut tests moved from `tests/noauto_tensorflow/` to `tests/noauto_onnx/`.
 
-## Fixed
+### Fixed
 
+- `pythainlp.khavee.KhaveeVerifier.check_klon()` no longer returns the text of
+  an unexpected exception as its result; the exception propagates.
+- `pythainlp.corpus.get_corpus_db()` no longer swallows unexpected exceptions.
+  It still returns `None` after an `OSError` (including network timeout) or a
+  `ValueError` (malformed URL or response).
 - `pythainlp.corpus.wordnet`: with NLTK 3.10 or later, Thai WordNet failed
   with `Resource 'omw-2.0' not found`. It now downloads the Open Multilingual
   Wordnet (OMW) package that the installed NLTK reads: `omw-2.0` for

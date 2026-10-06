@@ -47,11 +47,14 @@ class SpellTestCase(unittest.TestCase):
 
         # Verify default dictionary is filtered with thai_orst_words
         from pythainlp.corpus import thai_orst_words
+
         orst = thai_orst_words()
         # Check that dictionary size is reasonable (around ORST size)
         dict_size = len(checker.dictionary())
         self.assertGreater(dict_size, 30000)  # Should have substantial words
-        self.assertLess(dict_size, len(orst) + 1000)  # Should not exceed ORST by much
+        self.assertLess(
+            dict_size, len(orst) + 1000
+        )  # Should not exceed ORST by much
 
         user_list_tuple = [
             ("การงาน", 31),  # longer than max_len
@@ -115,8 +118,11 @@ class SpellTestCase(unittest.TestCase):
         # Check a sample of words from the dictionary
         dict_words = [word for word, _ in list(checker.dictionary())[:1000]]
         non_orst_words = [w for w in dict_words if w not in orst]
-        self.assertEqual(len(non_orst_words), 0,
-                        "All words in spell checker should be from ORST")
+        self.assertEqual(
+            len(non_orst_words),
+            0,
+            "All words in spell checker should be from ORST",
+        )
 
         # The specific case from issue #680
         # Both 'ปลาอินทรีย์' (misspelled) and 'ปลาอินทรี' (correct)

@@ -40,7 +40,7 @@ def follow_rtgs(text: str) -> Optional[bool]:
     except IndexError:
         return None
     else:
-        return cast(bool, follow)
+        return cast("bool", follow)
 
 
 def _romanize(text: str, fallback_func: Callable[[str], str]) -> str:
@@ -54,7 +54,7 @@ def _romanize(text: str, fallback_func: Callable[[str], str]) -> str:
     except TypeError as e:
         raise TypeError(f"`fallback_engine` is not callable. {e}") from e
     else:
-        return cast(str, lookup)
+        return cast("str", lookup)
 
 
 def romanize(text: str, fallback_func: Callable[[str], str]) -> str:

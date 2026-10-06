@@ -57,7 +57,9 @@ class LTW2VAug:
 
         :Example:
 
-            >>> from pythainlp.augment.word2vec import LTW2VAug  # doctest: +SKIP
+            >>> from pythainlp.augment.word2vec import (
+            ...     LTW2VAug,
+            ... )  # doctest: +SKIP
 
             >>> aug = LTW2VAug()  # doctest: +SKIP
             >>> aug.augment("ผมเรียน", n_sent=2, p=0.5)  # doctest: +SKIP

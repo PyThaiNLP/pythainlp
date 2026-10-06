@@ -40,7 +40,7 @@ class BPEmbAug:
         """:param str text: Thai text
         :rtype: List[str]
         """
-        return cast(list[str], self.bpemb_temp.encode(text))
+        return cast("list[str]", self.bpemb_temp.encode(text))
 
     def load_w2v(self) -> None:
         """Load BPEmb model"""
@@ -61,7 +61,9 @@ class BPEmbAug:
         :rtype: list[str]
         :Example:
 
-            >>> from pythainlp.augment.word2vec.bpemb_wv import BPEmbAug  # doctest: +SKIP
+            >>> from pythainlp.augment.word2vec.bpemb_wv import (
+            ...     BPEmbAug,
+            ... )  # doctest: +SKIP
 
             >>> aug = BPEmbAug()  # doctest: +SKIP
             >>> aug.augment("ผมเรียน", n_sent=2, p=0.5)  # doctest: +SKIP

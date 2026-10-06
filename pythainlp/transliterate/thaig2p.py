@@ -274,9 +274,7 @@ class Attn(nn.Module):  # type: ignore[misc]
                 self.other.unsqueeze(0).expand(*hidden.size()).transpose(1, 2),
             ).squeeze(2)
         else:
-            raise ValueError(
-                f"Unsupported attention method: {self.method!r}"
-            )
+            raise ValueError(f"Unsupported attention method: {self.method!r}")
 
         attn_energies = attn_energies.masked_fill(mask == 0, -1e10)
 

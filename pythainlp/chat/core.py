@@ -48,7 +48,7 @@ class ChatBotModel:
         warn_deprecation(
             "pythainlp.chat.ChatBotModel",
             deprecated_version="5.3.8",
-            removal_version="6.0.0"
+            removal_version="6.0.0",
         )
         import torch
 

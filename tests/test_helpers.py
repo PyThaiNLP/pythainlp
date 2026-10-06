@@ -48,7 +48,9 @@ def assert_subword_tokenize_handles_none_and_empty(
     test_case.assertEqual(subword_tokenize("", engine=engine), [])
 
 
-def assert_subword_tokenize_basic(test_case: unittest.TestCase, engine: str) -> None:
+def assert_subword_tokenize_basic(
+    test_case: unittest.TestCase, engine: str
+) -> None:
     """Run basic subword tokenize tests with common test cases.
 
     This helper function runs a standard set of tests for subword tokenization:
@@ -77,9 +79,7 @@ def assert_subword_tokenize_basic(test_case: unittest.TestCase, engine: str) -> 
     )
 
     # Should not produce standalone vowels
-    test_case.assertNotIn(
-        "า", subword_tokenize("สวัสดีดาวอังคาร", engine=engine)
-    )
+    test_case.assertNotIn("า", subword_tokenize("สวัสดีดาวอังคาร", engine=engine))
 
     # Test with mixed Thai-numeric
     test_case.assertIsInstance(subword_tokenize("โควิด19", engine=engine), list)

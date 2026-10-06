@@ -51,7 +51,9 @@ class ThFrTranslator:
             pretrained, revision=revision
         )
         self.model_thfr: AutoModelForSeq2SeqLM = (
-            AutoModelForSeq2SeqLM.from_pretrained(pretrained, revision=revision)
+            AutoModelForSeq2SeqLM.from_pretrained(
+                pretrained, revision=revision
+            )
         )
         if use_gpu:
             self.model_thfr = self.model_thfr.cuda()
@@ -71,7 +73,9 @@ class ThFrTranslator:
 
         Translate text from Thai to French:
 
-            >>> from pythainlp.translate.th_fr import ThFrTranslator  # doctest: +SKIP
+            >>> from pythainlp.translate.th_fr import (
+            ...     ThFrTranslator,
+            ... )  # doctest: +SKIP
 
             >>> thfr = ThFrTranslator()  # doctest: +SKIP
 
@@ -80,7 +84,9 @@ class ThFrTranslator:
 
         Translate text from Thai to French with excluded words:
 
-            >>> thfr.translate("ทดสอบระบบ", exclude_words=["ระบบ"])  # doctest: +SKIP
+            >>> thfr.translate(
+            ...     "ทดสอบระบบ", exclude_words=["ระบบ"]
+            ... )  # doctest: +SKIP
             "Test du ระบบ."
 
         """

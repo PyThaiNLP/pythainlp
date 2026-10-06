@@ -30,7 +30,7 @@ class WangChanGLM:
         warn_deprecation(
             "pythainlp.generate.wangchanglm.WangChanGLM",
             deprecated_version="5.3.8",
-            removal_version="6.0.0"
+            removal_version="6.0.0",
         )
         self.exclude_pattern: "re.Pattern[str]" = re.compile(r"[^ก-๙]+")
         self.stop_token: str = "\n"  # noqa: S105
@@ -149,7 +149,7 @@ class WangChanGLM:
                     temperature=temperature,  # 0.9
                 )
         return cast(
-            str,
+            "str",
             self.tokenizer.decode(
                 output_tokens[0][len(batch["input_ids"][0]) :],
                 skip_special_tokens=skip_special_tokens,

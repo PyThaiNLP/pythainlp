@@ -24,9 +24,7 @@ class tokenizeDeepcutTestCaseN(unittest.TestCase):
             word_tokenize("ไอพีของคุณคือ 127.0.0.1 ครับ", engine="deepcut"),
         )
 
-        tokens = word_tokenize(
-            "เวลา 12:12pm มีโปรโมชั่น 11.11", engine="deepcut"
-        )
+        tokens = word_tokenize("เวลา 12:12pm มีโปรโมชั่น 11.11", engine="deepcut")
         self.assertTrue(
             any(value in tokens for value in ["12:12pm", "12:12"]),
             msg=f"deepcut: {tokens}",

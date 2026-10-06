@@ -61,7 +61,7 @@ class ThaiTokenizer(BaseTokenizer):
             ['อาภรณ์', ',', ' ', 'จิน', 'ตม', 'ย', 'ปัญญา',
              ' ', 'ภาวนามยปัญญา']
             >>>
-            >>> word_tokenize(text, engine='ulmfit')
+            >>> word_tokenize(text, engine="ulmfit")
             ['อาภรณ์', ',', ' ', 'จิน', 'ตม', 'ย', 'ปัญญา',
              ' ', 'ภาวนามยปัญญา']
 

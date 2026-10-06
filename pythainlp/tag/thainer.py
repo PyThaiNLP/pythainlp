@@ -93,7 +93,9 @@ class ThaiNameTagger:
         >>> from pythainlp.tag.thainer import ThaiNameTagger  # doctest: +SKIP
 
         >>> thainer14 = ThaiNameTagger(version="1.4")  # doctest: +SKIP
-        >>> thainer14.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")  # doctest: +SKIP
+        >>> thainer14.get_ner(
+        ...     "วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น."
+        ... )  # doctest: +SKIP
     """
 
     crf: CRFTagger

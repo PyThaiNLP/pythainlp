@@ -131,7 +131,7 @@ class CRFChunkParser:
         :rtype: list[str]
         """
         self.xseq = _extract_features(token_pos)
-        return cast(list[str], self.tagger.tag(self.xseq))
+        return cast("list[str]", self.tagger.tag(self.xseq))
 
     def __enter__(self) -> CRFChunkParser:
         """Context manager entry."""

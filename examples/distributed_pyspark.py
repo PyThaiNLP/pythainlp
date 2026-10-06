@@ -76,7 +76,9 @@ def example_dataframe_api():
     from pyspark.sql.functions import udf
     from pyspark.sql.types import ArrayType, StringType
 
-    spark = SparkSession.builder.appName("PyThaiNLP DataFrame Example").getOrCreate()
+    spark = SparkSession.builder.appName(
+        "PyThaiNLP DataFrame Example"
+    ).getOrCreate()
 
     # Create sample DataFrame
     data = [
@@ -237,7 +239,9 @@ if __name__ == "__main__":
     print("2. DataFrame API example")
     print("3. Advanced features example")
     print("4. Production best practices example")
-    print("\nTo run a specific example, uncomment the corresponding line below:")
+    print(
+        "\nTo run a specific example, uncomment the corresponding line below:"
+    )
     print("=" * 70)
 
     # Uncomment one of these to run:

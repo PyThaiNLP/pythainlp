@@ -99,7 +99,7 @@ class TranslateTestCaseX(unittest.TestCase):
         )
         self.assertEqual(
             word_translate("แมว", src="th", target="th", engine="word2word"),
-            ["แมว"]
+            ["แมว"],
         )
 
         with self.assertRaises(NotImplementedError):

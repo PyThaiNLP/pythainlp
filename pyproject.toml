@@ -142,7 +142,14 @@ onnx = ["numpy>=1.22", "onnxruntime>=1.10.0", "sentencepiece>=0.1.91"]
 
 oskut = ["lekcut>=1.0.0"]
 
-qwen3 = ["torch>=1.9.0", "transformers>=4.22.1"]
+phayathaibert_onnx = [
+    "huggingface-hub>=0.16.0",
+    "numpy>=1.22",
+    "onnxruntime>=1.10.0",
+    "tokenizers>=0.13.0",
+]
+
+qwen3 =["torch>=1.9.0", "transformers>=4.22.1"]
 
 sefr_cut = ["lekcut>=1.0.0"]
 
@@ -238,6 +245,7 @@ noauto-onnx = [
     "huggingface-hub>=0.16.0",
     "numpy>=1.26.0",
     "onnxruntime>=1.10.0",
+    "tokenizers>=0.13.0",
 ]
 
 # Cython-based dependencies - for tests.noauto_cython
@@ -628,6 +636,7 @@ module = [
     "symspellpy.*",
     "thai_nner.*",
     "tltk.*",
+    "tokenizers.*",
     "torch.*",
     "tqdm.*",
     "transformers.*",

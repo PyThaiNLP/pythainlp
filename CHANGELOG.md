@@ -27,6 +27,8 @@ and this project adheres to
   ([#1509])
 - `evaluate_word_tokenization`, `word_eval_function`, `char_eval_function`,
   and `TokenizationScore` in `pythainlp.benchmarks` ([#1512])
+- `pos_tag()` engine `phayathaibert` (ONNX) and `pos_tag_transformers()`
+  corpus `tud`: PhayaThaiBERT Universal POS tagger trained on TUD ([#1536])
 
 ### Changed
 
@@ -86,6 +88,7 @@ and this project adheres to
 [#1512]: https://github.com/PyThaiNLP/pythainlp/pull/1512
 [#1526]: https://github.com/PyThaiNLP/pythainlp/pull/1526
 [#1529]: https://github.com/PyThaiNLP/pythainlp/pull/1529
+[#1536]: https://github.com/PyThaiNLP/pythainlp/issues/1536
 [#1541]: https://github.com/PyThaiNLP/pythainlp/pull/1541
 [#1542]: https://github.com/PyThaiNLP/pythainlp/pull/1542
 [#1546]: https://github.com/PyThaiNLP/pythainlp/pull/1546

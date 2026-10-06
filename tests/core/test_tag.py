@@ -459,3 +459,69 @@ class IobToMarkupTestCase(unittest.TestCase):
     def test_iob_to_markup_long_input(self):
         tagged = [("ก", "B-A")] + [("ก", "I-A")] * 10000
         self.assertEqual(_iob_to_markup(tagged), "<A>" + "ก" * 10001 + "</A>")
+
+
+class PhayaThaiBERTHelperTestCase(unittest.TestCase):
+    """Test the pure-Python helpers of pythainlp.tag.phayathaibert_onnx"""
+
+    def test_first_subword_labels(self):
+        from pythainlp.tag.phayathaibert_onnx import _first_subword_labels
+
+        id2label = {0: "NOUN", 1: "VERB", 2: "PRON"}
+        # <s> word0-a word0-b word1 </s>
+        word_ids = [None, 0, 0, 1, None]
+        label_ids = [1, 2, 1, 0, 1]
+        self.assertEqual(
+            _first_subword_labels(word_ids, label_ids, 2, id2label),
+            ["PRON", "NOUN"],
+        )
+
+    def test_first_subword_labels_word_without_subword(self):
+        from pythainlp.tag.phayathaibert_onnx import _first_subword_labels
+
+        id2label = {0: "NOUN", 1: "VERB"}
+        # word 1 produced no subword at all
+        word_ids = [None, 0, 2, None]
+        label_ids = [0, 0, 1, 0]
+        self.assertEqual(
+            _first_subword_labels(word_ids, label_ids, 3, id2label),
+            ["NOUN", "X", "VERB"],
+        )
+
+    def test_chunk_spans_fits_in_one(self):
+        from pythainlp.tag.phayathaibert_onnx import _chunk_spans
+
+        self.assertEqual(_chunk_spans([3, 4, 5], 20), [(0, 3)])
+
+    def test_chunk_spans_splits_at_word_boundaries(self):
+        from pythainlp.tag.phayathaibert_onnx import _chunk_spans
+
+        self.assertEqual(_chunk_spans([3, 4, 5], 7), [(0, 2), (2, 3)])
+
+    def test_chunk_spans_oversized_word_gets_own_span(self):
+        from pythainlp.tag.phayathaibert_onnx import _chunk_spans
+
+        self.assertEqual(_chunk_spans([3, 10, 2], 5), [(0, 1), (1, 2), (2, 3)])
+
+    def test_chunk_spans_empty(self):
+        from pythainlp.tag.phayathaibert_onnx import _chunk_spans
+
+        self.assertEqual(_chunk_spans([], 5), [])
+
+    def test_pos_tag_phayathaibert_empty_list(self):
+        self.assertEqual(pos_tag([], engine="phayathaibert"), [])
+
+    def test_missing_dependency_error_before_download(self):
+        import sys
+        from unittest import mock
+
+        from pythainlp.tag import phayathaibert_onnx
+
+        with mock.patch.dict(sys.modules, {"onnxruntime": None}):
+            with mock.patch(
+                "pythainlp.tag.phayathaibert_onnx.get_hf_hub"
+            ) as get_hf_hub:
+                with self.assertRaises(ImportError) as ctx:
+                    phayathaibert_onnx.PhayaThaiBERTTagger()
+                self.assertIn("pip install", str(ctx.exception))
+                get_hf_hub.assert_not_called()

@@ -142,6 +142,7 @@ By separating tests by dependency group, we can:
   - Need dependencies from `pip install "pythainlp[noauto-onnx]"`
 - Tests requiring ONNX Runtime:
   - attacut, deepcut, oskut, sefr_cut tokenizers (via LEKCut / ONNX)
+  - phayathaibert POS tagger (downloads a ~530 MB model on first run)
 - Dependencies: ~200-500 MB
 - Test case class suffix: `TestCaseN`
 

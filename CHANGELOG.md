@@ -38,20 +38,20 @@ and this project adheres to
 - `ThaiTextProcessor.preprocess()` no longer raises `TypeError` when
   `pre_rules` is not given ([#1547])
 - `sound_syllable()` and `tone_detector()` no longer raise `IndexError` for a
-  syllable without a consonant, such as "ฤๅ" ([#NNNN])
+  syllable without a consonant, such as "ฤๅ" ([#1548])
 - `thaiword_to_time()`: accept "ตีหก"; unknown hour words raise `ValueError`,
-  not `KeyError` ([#NNNN])
-- `convert_years()` accepts the same source and target era ([#NNNN])
+  not `KeyError` ([#1548])
+- `convert_years()` accepts the same source and target era ([#1548])
 - `bleu_score()`: empty hypotheses give 0.0; unequal numbers of references
-  and hypotheses raise `ValueError` ([#NNNN])
+  and hypotheses raise `ValueError` ([#1548])
 - `puan()` keeps syllables that have no initial consonant, and no longer
-  raises `IndexError` ([#NNNN])
+  raises `IndexError` ([#1548])
 - `WunsenTransliterate.transliterate()` raises `NotImplementedError` for
-  `lang=None` ([#NNNN])
+  `lang=None` ([#1548])
 - `check_klon()` no longer raises `IndexError` after a stanza with an empty
-  Wak 4 ([#NNNN])
+  Wak 4 ([#1548])
 - `nighit()`: map ช to ญ; add ฆ, ญ, ฏ, ฒ, ต, ม; `w1` must
-  end with "ํ" ([#NNNN])
+  end with "ํ" ([#1548])
 
 ### Security
 
@@ -66,7 +66,7 @@ and this project adheres to
 [#1542]: https://github.com/PyThaiNLP/pythainlp/pull/1542
 [#1546]: https://github.com/PyThaiNLP/pythainlp/pull/1546
 [#1547]: https://github.com/PyThaiNLP/pythainlp/pull/1547
-[#NNNN]: https://github.com/PyThaiNLP/pythainlp/pull/NNNN
+[#1548]: https://github.com/PyThaiNLP/pythainlp/pull/1548
 
 ## [5.3.8] - 2026-09-25
 

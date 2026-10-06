@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.benchmarks.metrics.bleu_score.
+"""
+Characterization tests for pythainlp.benchmarks.metrics.bleu_score.
 
 Golden cases were recorded from the code before the complexity refactor.
 Tokenization is replaced with a whitespace split so that the cases depend
@@ -653,7 +654,8 @@ GRID_DIGEST = (
 
 
 def _grid_digest(fn: Any) -> tuple[int, str]:
-    """Hash the outcomes of ``fn`` over a seeded grid of equal-length inputs.
+    """
+    Hash the outcomes of ``fn`` over a seeded grid of equal-length inputs.
 
     Skips cases where every hypothesis has fewer than 4 tokens: the
     old empty-hypothesis crash was fixed there, and a score of 0.0 for

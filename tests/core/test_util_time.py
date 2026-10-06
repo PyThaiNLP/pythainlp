@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.util.time.
+"""
+Characterization tests for pythainlp.util.time.
 
 Golden cases were recorded from the pre-refactor implementation.
 """

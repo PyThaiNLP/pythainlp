@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Tests for pythainlp.transliterate.wunsen.
+"""
+Tests for pythainlp.transliterate.wunsen.
 
 The optional ``wunsen`` package is replaced by a fake module, so the tests
 run in the core tier.
@@ -201,6 +202,24 @@ class WunsenTestCase(unittest.TestCase):
                     self.assertEqual(len(FakeThapSap.created), before)
                     # The object recovers with a valid language.
                     self.assertEqual(wt.transliterate("b", lang="vi"), "vi:b")
+
+    def test_failed_creation_keeps_old_model(self) -> None:
+        # BUG-LEDGER: wunsen-stale-model
+        # Expected: the repeated call raises again, not reuse the zh model.
+        class FailingThapSap(FakeThapSap):
+            def __init__(self, lang: str, **kwargs: Any) -> None:
+                if kwargs.get("system") == "BAD":
+                    raise ValueError("bad system")
+                super().__init__(lang, **kwargs)
+
+        wt = self.wunsen.WunsenTransliterate()
+        with mock.patch.object(self.wunsen, "ThapSap", FailingThapSap):
+            self.assertEqual(wt.transliterate("a", lang="zh"), "zh:a")
+            with self.assertRaises(ValueError):
+                wt.transliterate("a", lang="jp", system="BAD")
+            self.assertEqual(
+                wt.transliterate("a", lang="jp", system="BAD"), "zh:a"
+            )
 
     def test_recover_with_options_after_error(self) -> None:
         wt = self.wunsen.WunsenTransliterate()

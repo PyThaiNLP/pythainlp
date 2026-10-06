@@ -1153,7 +1153,7 @@ class UtilTestCase(unittest.TestCase):
                         continue
                     try:
                         out = convert_years(year, src, target)
-                    except Exception as err:
+                    except Exception as err:  # noqa: BLE001
                         out = "!" + type(err).__name__
                     digest.update(repr((year, src, target, out)).encode())
                     count += 1

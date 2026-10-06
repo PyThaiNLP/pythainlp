@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.morpheme.word_formation.nighit.
+"""
+Characterization tests for pythainlp.morpheme.word_formation.nighit.
 
 Golden cases were recorded from the code before the complexity refactor.
 """
@@ -140,6 +141,8 @@ ADVERSARIAL: list[list[Any]] = [
         [
             "exc",
             NIE,
+            # BUG-LEDGER: nighit-message-format
+            # Expected: a one-line message.
             "\n        The function doesn't support กขํ and ซา.\n        ",
         ],
     ],
@@ -211,6 +214,7 @@ class NighitCharacterizationTestCase(unittest.TestCase):
                 if ending is None:
                     with self.assertRaises(NotImplementedError) as ctx:
                         nighit("สํ", w2)
+                    # BUG-LEDGER: nighit-message-format
                     self.assertEqual(
                         str(ctx.exception),
                         "\n        The function doesn't support "
@@ -296,6 +300,8 @@ class NighitCharacterizationTestCase(unittest.TestCase):
         # Expected: keep the stem or reject it.
         self.assertEqual(nighit("สงฆํ", "คา"), "สังคา")
         self.assertEqual(nighit("สงฆํ", "คา"), nighit("สํ", "คา"))
+        # A bare ํ is accepted too. Expected: reject it.
+        self.assertEqual(nighit("ํ", "คา"), "ํังคา")
 
 
 if __name__ == "__main__":

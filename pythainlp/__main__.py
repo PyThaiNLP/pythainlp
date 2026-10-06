@@ -11,7 +11,7 @@ from pythainlp import cli
 
 
 def main(argv: Optional[list[str]] = None) -> None:
-    """ThaiNLP command line."""
+    """Run the PyThaiNLP command line."""
     if not argv:
         argv = sys.argv
 

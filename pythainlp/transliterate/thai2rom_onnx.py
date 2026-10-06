@@ -1,7 +1,9 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Romanization of Thai words based on machine-learnt engine in ONNX runtime ("thai2rom")"""
+"""
+Romanization of Thai words using the "thai2rom" engine in ONNX runtime.
+"""
 
 from __future__ import annotations
 
@@ -31,9 +33,10 @@ _REPEAT_MIN_CYCLES: int = 3
 
 class ThaiTransliterator_ONNX:
     def __init__(self) -> None:
-        """Transliteration of Thai words.
+        """
+        Initialize the transliterator of Thai words.
 
-        Now supports Thai to Latin (romanization)
+        It supports Thai to Latin (romanization).
         """
         # get the model, download it if it's not available locally
         self.__encoder_filename: str = get_corpus_path(_MODEL_ENCODER_NAME)  # type: ignore[assignment]
@@ -102,7 +105,8 @@ class ThaiTransliterator_ONNX:
         )
 
     def _prepare_sequence_in(self, text: str) -> "NDArray[np.int64]":
-        """Prepare an int64 input sequence for the ONNX encoder.
+        """
+        Prepare an int64 input sequence for the ONNX encoder.
 
         :param str text: Thai text to encode
         :return: encoded character ids ending with the ``<end>`` token
@@ -120,9 +124,12 @@ class ThaiTransliterator_ONNX:
         return np.array(idxs, dtype=np.int64)
 
     def romanize(self, text: str) -> str:
-        """:param str text: Thai text to be romanized
-        :return: English (more or less) text that spells out how the Thai text
-                 should be pronounced.
+        """
+        Romanize Thai text to Latin alphabet.
+
+        :param str text: Thai text to be romanized
+        :return: Latin text that spells out how the Thai text is pronounced
+        :rtype: str
         """
         import numpy as np
 
@@ -173,7 +180,8 @@ class Seq2Seq_ONNX:
     def create_mask(
         self, source_seq: "NDArray[np.int64]"
     ) -> "NDArray[np.bool_]":
-        """Create a boolean mask for non-padding positions.
+        """
+        Create a boolean mask for non-padding positions.
 
         :param numpy.typing.NDArray[numpy.int64] source_seq: encoded source
             sequence
@@ -186,7 +194,8 @@ class Seq2Seq_ONNX:
     def run(
         self, source_seq: "NDArray[np.int64]", source_seq_len: List[int]
     ) -> "NDArray[np.float32]":
-        """Run ONNX seq2seq decoding and return logits.
+        """
+        Run ONNX seq2seq decoding and return logits.
 
         :param numpy.typing.NDArray[numpy.int64] source_seq: encoded source
             sequence with shape ``(batch_size, sequence_length)``

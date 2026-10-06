@@ -1,9 +1,10 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Spell out time as Thai words.
+"""
+Spell out time as Thai words.
 
-Convert time string or time object to Thai words.
+Convert a time string or a time object to Thai words.
 """
 
 from __future__ import annotations
@@ -50,7 +51,7 @@ _DICT_THAI_TIME: dict[str, int] = {
 
 @lru_cache
 def _thai_time_cut() -> Tokenizer:
-    """Lazy load Thai time tokenizer with cache"""
+    """Load the Thai time tokenizer lazily, with cache."""
     return Tokenizer(custom_dict=list(_DICT_THAI_TIME.keys()), engine="newmm")
 
 
@@ -69,7 +70,7 @@ _THAI_TIME_AFFIX: list[str] = [
 
 
 def _format_6h(h: int) -> str:
-    """Thai time (6-hour clock)."""
+    """Spell out an hour on the Thai 6-hour clock."""
     text = ""
 
     if h == 0:
@@ -94,7 +95,7 @@ def _format_6h(h: int) -> str:
 
 
 def _format_m6h(h: int) -> str:
-    """Thai time (modified 6-hour clock)."""
+    """Spell out an hour on the Thai modified 6-hour clock."""
     text = ""
 
     if h == 0:
@@ -114,7 +115,7 @@ def _format_m6h(h: int) -> str:
 
 
 def _format_24h(h: int) -> str:
-    """Thai time (24-hour clock)."""
+    """Spell out an hour on the 24-hour clock."""
     text = num_to_thaiword(h) + "นาฬิกา"
     return text
 
@@ -177,21 +178,26 @@ def time_to_thaiword(
     fmt: str = "24h",
     precision: Optional[str] = None,
 ) -> str:
-    """Spell out time as Thai words.
+    """
+    Spell out time as Thai words.
 
-    :param time_data: time input; a :class:`datetime.time` object,
-        a :class:`datetime.datetime` object, or a string
-        in ``H:M`` or ``H:M:S`` format (24-hour clock)
-    :type time_data: datetime.time or datetime.datetime or str
-    :param str fmt: time output format
+    :param Union[datetime.time, datetime.datetime, str] time_data:
+        a :class:`datetime.time` object, a :class:`datetime.datetime`
+        object, or a string in ``H:M`` or ``H:M:S`` format
+        (24-hour clock)
+    :param str fmt: output format
+
         * *24h* - 24-hour clock (default)
         * *6h* - 6-hour clock
-        * *m6h* - Modified 6-hour clock
-    :param str precision: precision of the spell out time
-        * *m* - always spell out at minute level
-        * *s* - always spell out at second level
-        * None - spell out only non-zero parts
-    :return: Time spelled out as Thai words
+        * *m6h* - modified 6-hour clock
+
+    :param Optional[str] precision: precision of the spelled-out time
+
+        * *m* - always spell out to the minute
+        * *s* - always spell out to the second
+        * None - spell out only non-zero parts (default)
+
+    :return: time spelled out as Thai words
     :rtype: str
 
     :Example:
@@ -247,11 +253,13 @@ _TI_HOURS: tuple[str, ...] = (
     "ตีสาม",
     "ตีสี่",
     "ตีห้า",
+    "ตีหก",
 )
 
 
 def _mark_affix(text: str) -> str:
-    """Insert "|" after the hour affix; return "" if none is found.
+    """
+    Insert "|" after the hour affix; return "" if none is found.
 
     Affixes are tried in order. A non-"ตี" affix ends the search;
     a "ตี" match does not, so a later affix can override it.
@@ -278,9 +286,12 @@ def _hour_from_morning_six(hour: list[str]) -> str:
     return str(value + 6 if value < 6 else value)
 
 
-def _hour_from_thum(hour: list[str]) -> str:
+def _hour_from_thum(hour: list[str]) -> Optional[str]:
+    """Convert hours ending in ทุ่ม; None if the first token is unknown."""
     if len(hour) == 1:
         return "19"
+    if hour[0] not in _DICT_THAI_TIME:
+        return None
     return str(_DICT_THAI_TIME[hour[0]] + 18)
 
 
@@ -293,6 +304,8 @@ def _hour_from_unit(hour: list[str]) -> Optional[str]:
     if hour[-1] == "โมงเช้า" and hour[0] in _DICT_THAI_TIME:
         return _hour_from_morning_six(hour)
     if _is_evening(hour[-1]) and hour[0] == "บ่าย":
+        if hour[1] not in _DICT_THAI_TIME:
+            return None
         return str(_DICT_THAI_TIME[hour[1]] + 12)
     if _is_evening(hour[-1]) and hour[0] in _DICT_THAI_TIME:
         return str(_DICT_THAI_TIME[hour[0]] + 12)
@@ -313,7 +326,8 @@ def _hour_from_name(hour: list[str]) -> Optional[str]:
 
 
 def _hour_text(hour: list[str]) -> str:
-    """Convert hour tokens to the hour number; "" if no rule matches.
+    """
+    Convert hour tokens to the hour number; "" if no rule matches.
 
     The first matching rule wins; an earlier rule shadows a later one.
     """
@@ -343,13 +357,14 @@ def _minute_text(minute: Union[list[str], int]) -> str:
 
 
 def thaiword_to_time(text: str, padding: bool = True) -> str:
-    """Convert Thai time in words into time (H:M).
+    """
+    Convert Thai time in words to a time string (H:M).
 
     :param str text: Thai time in words
-    :param bool padding: Zero pad the hour if True
-
+    :param bool padding: zero-pad the hour if True
     :return: time string
     :rtype: str
+    :raises ValueError: if the text is not a valid Thai time
 
     :Example:
 

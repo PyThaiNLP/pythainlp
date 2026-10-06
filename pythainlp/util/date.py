@@ -1,9 +1,11 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai date/time conversion.
+"""
+Thai date and time conversion.
 
-Note: It does not take into account the change of new year's day in Thailand
+Note: It does not take into account the change of New Year's Day in
+Thailand.
 """
 
 from __future__ import annotations
@@ -119,24 +121,27 @@ def _is_known_era(era: object) -> bool:
 
 
 def convert_years(year: str, src: str = "be", target: str = "ad") -> str:
-    """Convert years
+    """
+    Convert a year from one era to another.
 
-    :param int year: Year
-    :param str src: The source year
-    :param str target: The target year
-    :return: The converted year
+    :param str year: year, as an integer string
+    :param str src: source era
+    :param str target: target era
+    :return: converted year
     :rtype: str
+    :raises NotImplementedError: if ``src`` or ``target`` is not a
+        supported era
+    :raises ValueError: if ``year`` is not an integer string
 
-    **Options for year**
-        * *be* - Buddhist calendar
+    Options for ``src`` and ``target``:
+        * *be* - Buddhist Era
         * *ad* - Anno Domini
-        * *re* - Rattanakosin era
-        * *ah* - Anno Hejira
+        * *re* - Rattanakosin Era
+        * *ah* - Anno Hegirae
 
-    **Warning**: This function works properly only after 1941 \
-    because Thailand has change the Thai calendar in 1941.
-    If you are the time traveler or the historian, \
-    you should care about the correct calendar.
+    **Warning**: This function works properly only after 1941,
+    because Thailand changed its calendar in 1941.
+    Historians need to take the correct calendar into account.
 
     :Example:
 
@@ -150,8 +155,11 @@ def convert_years(year: str, src: str = "be", target: str = "ad") -> str:
         >>> # Convert BE to Rattanakosin Era (RE)
         >>> convert_years("2566", src="be", target="re")
         '242'
+        >>> # The same era returns the year as a normalized integer string
+        >>> convert_years("2566", src="be", target="be")
+        '2566'
     """
-    if src == target or not _is_known_era(src) or not _is_known_era(target):
+    if not _is_known_era(src) or not _is_known_era(target):
         raise NotImplementedError(
             f"This function doesn't support {src} to {target}"
         )
@@ -197,10 +205,11 @@ def _fmt_keys(fmt: str) -> list[str]:
 
 
 def _full_year(y: str, year: str, add_year: Optional[int]) -> str:
-    """Normalize a year text; a BE year becomes an AD year.
+    """
+    Normalize a year text, and convert a BE year to an AD year.
 
-    A year below 100 is added to ``add_year``, or to 2500 (BE) or
-    2000 (AD) if ``add_year`` is None.
+    Add a year below 100 to ``add_year``, or to 2500 (BE) or 2000 (AD)
+    if ``add_year`` is None.
     """
     if int(y) < 100 and year in ("be", "ad"):
         if add_year is None:
@@ -218,18 +227,21 @@ def thai_strptime(
     add_year: Optional[int] = None,
     tzinfo: Optional[ZoneInfo] = ZoneInfo("Asia/Bangkok"),  # noqa: B008
 ) -> datetime:
-    """Thai strptime
+    """
+    Parse Thai date and time text into a :class:`datetime.datetime`.
 
-    :param str text: text
+    :param str text: text containing date and time
     :param str fmt: string containing date and time directives
-    :param str year: year of the text \
-        (ad is Anno Domini and be is Buddhist Era)
-    :param Optional[int] add_year: add to year when converting to ad. Default is None.
-    :param object tzinfo: tzinfo (default is Asia/Bangkok)
-    :return: The year that is converted to datetime.datetime
+    :param str year: era of the year in the text
+        (*ad* for Anno Domini, *be* for Buddhist Era)
+    :param Optional[int] add_year: year to add to a two-digit year
+        (default is None)
+    :param Optional[zoneinfo.ZoneInfo] tzinfo: time zone
+        (default is Asia/Bangkok)
+    :return: parsed date and time
     :rtype: datetime.datetime
 
-    The fmt chars that are supported:
+    Supported directives in ``fmt``:
         * *%d* - Day (1 - 31)
         * *%B* - Thai month (03, 3, มี.ค., or มีนาคม)
         * *%Y* - Year (66, 2566, or 2023)
@@ -242,7 +254,7 @@ def thai_strptime(
 
         >>> from pythainlp.util import thai_strptime
 
-        >>> thai_strptime("15 ก.ค. 2565 09:00:01","%d %B %Y %H:%M:%S")
+        >>> thai_strptime("15 ก.ค. 2565 09:00:01", "%d %B %Y %H:%M:%S")
         datetime.datetime(2022, 7, 15, 9, 0, 1, tzinfo=zoneinfo.ZoneInfo(key='Asia/Bangkok'))
     """
     fmt = fmt.replace("%-m", "%m")
@@ -274,9 +286,10 @@ def thai_strptime(
 
 
 def now_reign_year() -> int:
-    """Return the reign year of the 10th King of Chakri dynasty.
+    """
+    Return the current reign year of the 10th King of Chakri dynasty.
 
-    :return: reign year of the 10th King of Chakri dynasty.
+    :return: reign year of the 10th King of Chakri dynasty
     :rtype: int
 
     :Example:
@@ -292,16 +305,17 @@ def now_reign_year() -> int:
 
 
 def reign_year_to_ad(reign_year: int, reign: int) -> int:
-    """Convert reign year to AD.
+    """
+    Convert a reign year to an AD year.
 
-    Return AD year according to the reign year for
-    the 7th to 10th King of Chakri dynasty, Thailand.
-    For instance, the AD year of the 4th reign year of the 10th King is 2019.
+    Return the AD year for a reign year of the 7th to 10th King of
+    Chakri dynasty, Thailand.
+    For instance, the AD year of the 4th reign year of the 10th King is
+    2019.
 
     :param int reign_year: reign year of the King
-    :param int reign: the reign of the King (i.e. 7, 8, 9, and 10)
-
-    :return: the year in AD of the King given the reign and reign year.
+    :param int reign: reign of the King (7, 8, 9, or 10)
+    :return: AD year of the given reign and reign year
     :rtype: int
 
     :Example:
@@ -333,13 +347,14 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
 def thaiword_to_date(
     text: str, date: Optional[datetime] = None
 ) -> Optional[datetime]:
-    """Convert Thai relative date to :class:`datetime.datetime`.
+    """
+    Convert Thai relative date to :class:`datetime.datetime`.
 
-    :param str text: Thai text containing relative date
-    :param datetime.datetime date: date (default is datetime.datetime.now())
-
-    :return: datetime object, if it can be calculated. Otherwise, None.
-    :rtype: datetime.datetime
+    :param str text: Thai text containing a relative date
+    :param datetime.datetime date: reference date
+        (default is datetime.datetime.now())
+    :return: date and time if it can be calculated, otherwise None
+    :rtype: Optional[datetime.datetime]
 
     :Example:
 

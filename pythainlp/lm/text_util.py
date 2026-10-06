@@ -7,11 +7,12 @@ from __future__ import annotations
 def calculate_ngram_counts(
     list_words: list[str], n_min: int = 2, n_max: int = 4
 ) -> dict[tuple[str, ...], int]:
-    """Calculate n-gram counts for the given word list.
+    """
+    Calculate n-gram counts for the given word list.
 
     :param list[str] list_words: list of words
-    :param int n_min: minimum n-gram size (default: 2)
-    :param int n_max: maximum n-gram size (default: 4)
+    :param int n_min: minimum n-gram size (default is 2)
+    :param int n_max: maximum n-gram size (default is 4)
 
     :return: dictionary mapping n-grams to their counts
     :rtype: dict[tuple[str, ...], int]
@@ -30,10 +31,11 @@ def calculate_ngram_counts(
 
 
 def remove_repeated_ngrams(string_list: list[str], n: int = 2) -> list[str]:
-    """Remove repeated n-grams from a word list.
+    """
+    Remove repeated n-grams from a word list.
 
     :param list[str] string_list: list of words
-    :param int n: n-gram size
+    :param int n: n-gram size (default is 2)
     :return: list of words with repeated n-grams removed
     :rtype: list[str]
 
@@ -67,7 +69,7 @@ def remove_repeated_ngrams(string_list: list[str], n: int = 2) -> list[str]:
 
 
 def _add_ngram(output_list: list[str], ngram: tuple[str, ...], n: int) -> None:
-    """Add a new n-gram, skipping the part that overlaps the output."""
+    """Add an n-gram, skipping the part that overlaps the output."""
     if not output_list or output_list[-(n - 1) :] != list(ngram[:-1]):
         output_list.extend(ngram)
     else:

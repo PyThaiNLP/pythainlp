@@ -1,17 +1,20 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Dictionary-based maximal matching word segmentation, constrained by
-Thai Character Cluster (TCC) boundaries with improved rules.
+"""
+Tokenize Thai text into words with dictionary-based maximal matching.
 
-The codes are based on the notebooks created by Korakot Chaovavanich,
-with heuristic graph size limit added to avoid exponential waiting time.
+The tokenizer constrains the matching by Thai Character Cluster (TCC)
+boundaries with improved rules.
+
+The code is based on notebooks created by Korakot Chaovavanich,
+with a heuristic graph size limit added to avoid exponential waiting time.
 
 :See Also:
-    * \
-        https://colab.research.google.com/notebook#fileId=1V1Z657_5eSWPo8rLfVRwA0A5E4vkg7SI
-    * \
-        https://colab.research.google.com/drive/14Ibg-ngZXj15RKwjNwoZlOT32fQBOrBx#scrollTo=MYZ7NzAR7Dmw
+    * Colab notebook, version 1:
+      https://colab.research.google.com/notebook#fileId=1V1Z657_5eSWPo8rLfVRwA0A5E4vkg7SI
+    * Colab notebook, version 2:
+      https://colab.research.google.com/drive/14Ibg-ngZXj15RKwjNwoZlOT32fQBOrBx#scrollTo=MYZ7NzAR7Dmw
 """
 
 from __future__ import annotations
@@ -86,9 +89,18 @@ def _extend_graph(
     custom_dict: Trie,
     graph_size: int,
 ) -> int:
-    """Add dictionary words starting at ``begin_pos`` to the graph.
+    """
+    Add dictionary words starting at ``begin_pos`` to the graph.
 
+    :param graph: graph of beginning positions to ending positions
+    :param list[int] pos_list: priority queue of possible breaking positions
+    :param str text: text being tokenized
+    :param int begin_pos: position to start from
+    :param bytearray valid_poss: valid TCC break positions
+    :param pythainlp.util.Trie custom_dict: dictionary trie
+    :param int graph_size: current graph size
     :return: new graph size
+    :rtype: int
     """
     for word in custom_dict.prefixes(text, begin_pos):
         end_pos_candidate = begin_pos + len(word)
@@ -110,7 +122,7 @@ def _find_skip_end(
     valid_poss: bytearray,
     custom_dict: Trie,
 ) -> int:
-    """Find the end of an out-of-dictionary token starting at ``begin_pos``."""
+    """Find the end of an out-of-dictionary word starting at ``begin_pos``."""
     len_text = len(text)
     m = _PAT_NONTHAI.match(text, begin_pos)
     if m:  # non-Thai token, skip to the end
@@ -222,26 +234,24 @@ def segment(
     custom_dict: Optional[Trie] = None,
     safe_mode: bool = False,
 ) -> list[str]:
-    """Maximal-matching word segmentation constrained by Thai Character Cluster.
+    """
+    Tokenize text into words with maximal matching and TCC boundaries.
 
-    A dictionary-based word segmentation using maximal matching algorithm,
-    constrained by Thai Character Cluster boundaries.
-
+    This is a dictionary-based tokenizer that uses a maximal matching
+    algorithm, constrained by Thai Character Cluster (TCC) boundaries.
     A custom dictionary can be supplied.
 
-    For very long texts (hundreds of kilobytes or more), consider using
-    ``safe_mode=True`` to enable chunk-based processing and reduce memory use.
+    For very long text (hundreds of kilobytes or more), consider using
+    ``safe_mode=True`` to enable chunk-based processing and reduce memory
+    use.
 
-    :param text: text to be tokenized
-    :type text: str
-    :param custom_dict: tokenization dictionary,\
-        defaults to word_dict_trie()
-    :type custom_dict: Trie, optional
-    :param safe_mode: use chunk-based processing to reduce memory use and
-        processing time for long text with many ambiguous breaking points,
-        defaults to False
-    :type safe_mode: bool, optional
-    :return: list of tokens
+    :param str text: text to be tokenized
+    :param pythainlp.util.Trie custom_dict: dictionary trie
+        (default: the default word trie)
+    :param bool safe_mode: True to use chunk-based processing, which reduces
+        memory use and processing time for long text with many ambiguous
+        breaking points (default: False)
+    :return: list of words
     :rtype: list[str]
     """
     if not text or not isinstance(text, str):

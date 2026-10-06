@@ -31,22 +31,20 @@ def _post_process(text: str) -> str:
 def get_ner(
     text: str, pos: bool = True, tag: bool = False
 ) -> Union[list[tuple[str, str]], list[tuple[str, str, str]], str]:
-    """Named-entity recognizer from **TLTK**
+    """
+    Tag named entities in text using **TLTK**.
 
-    This function tags named-entities in text in IOB format.
+    This function tags named entities in text in IOB format.
 
-    :param str text: text in Thai to be tagged
-    :param bool pos: To include POS tags in the results (`True`) or
-        exclude (`False`). The default value is `True`
-    :param bool tag: output HTML-like tag.
-    :return: a list of tuples associated with tokenized words, NER tags,
-        POS tags (if the parameter `pos` is specified as `True`),
-        and output HTML-like tags (if the parameter `tag` is
-        specified as `True`).
-        Otherwise, return a list of tuples associated with tokenized
-        words and NER tags
+    :param str text: Thai text to be tagged
+    :param bool pos: include POS tags in the results (``True``, default)
+        or exclude them (``False``)
+    :param bool tag: return the text with HTML-like tags
+        instead of a list of tuples
+    :return: list of tuples of word, POS tag (if ``pos`` is ``True``),
+        and named entity tag; or the text with HTML-like tags
+        (if ``tag`` is ``True``)
     :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]], str]
-
     :Example:
 
         >>> from pythainlp.tag.tltk import get_ner

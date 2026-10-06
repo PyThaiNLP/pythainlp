@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for engine dispatch in pythainlp.tokenize.core.
+"""
+Characterization tests for engine dispatch in pythainlp.tokenize.core.
 
 Optional engines are replaced by fake modules in :data:`sys.modules`,
 so every dispatch branch runs with core dependencies only.

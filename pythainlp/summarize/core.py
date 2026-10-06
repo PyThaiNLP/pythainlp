@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Text summarization and keyword extraction"""
+"""Text summarization and keyword extraction."""
 
 from __future__ import annotations
 
@@ -25,32 +25,25 @@ def summarize(
     engine: str = DEFAULT_SUMMARIZE_ENGINE,
     tokenizer: str = "newmm",
 ) -> list[str]:
-    """Summarizes text based on frequency of words.
+    """
+    Summarize text based on word frequency.
 
     Under the hood, this function first tokenizes sentences from the given
     text with :func:`pythainlp.tokenize.sent_tokenize`.
     Then, it computes frequencies of tokenized words
     (with :func:`pythainlp.tokenize.word_tokenize`) in all sentences
-    and normalizes them with maximum word frequency. The words with normalized
-    frequencies that are less than 0.1 or greater than 0.9 will be
-    filtered out from frequency dictionary. Finally, it picks *n* sentences
-    with highest sum of normalized frequency from all words which are
-    in the sentence and also appear in the frequency dictionary.
+    and normalizes them with the maximum word frequency. It filters out
+    the words with normalized frequencies that are less than 0.1 or
+    greater than 0.9 from the frequency dictionary. Finally, it picks *n*
+    sentences with the highest sum of normalized frequency from all words
+    that are in the sentence and also appear in the frequency dictionary.
 
-    :param str text: text to be summarized
-    :param int n: number of sentences to be included in the summary
-                  By default, n is *1* (effective for frequency engine only)
-    :param str engine: text summarization engine (By default: *frequency*).
-    :param str tokenizer: word tokenizer engine name (refer to
-                          :func:`pythainlp.tokenize.word_tokenize`).
-                          By default, tokenizer is *newmm*
-                          (effective for frequency engine only)
+    :param str text: text to summarize
+    :param int n: number of sentences in the summary (default is 1,
+        effective for the frequency engine only)
+    :param str engine: text summarization engine
 
-    :return: list of selected sentences
-    :rtype: list[str]
-
-    **Options for engine**
-        * *frequency* (default) - word frequency
+        * *frequency* - word frequency (default)
         * *mt5* - mT5-small model
         * *mt5-small* - mT5-small model
         * *mt5-base* - mT5-base model
@@ -59,6 +52,13 @@ def summarize(
         * *mt5-xxl* - mT5-xxl model
         * *mt5-cpe-kmutt-thai-sentence-sum* - mT5 Thai sentence
           summarization by CPE KMUTT
+
+    :param str tokenizer: engine to tokenize text with. See
+        :func:`pythainlp.tokenize.word_tokenize` for available engines
+        (default is ``"newmm"``, effective for the frequency engine only)
+
+    :return: list of selected sentences
+    :rtype: list[str]
 
     :Example:
 
@@ -132,7 +132,8 @@ def extract_keywords(
     tokenizer: str = "newmm",
     stop_words: Optional[Iterable[str]] = None,
 ) -> list[str]:
-    """Return the most relevant keywords (and keyphrases) from a document.
+    """
+    Return the most relevant keywords (and keyphrases) from a document.
 
     Each algorithm may produce completely different keywords,
     so choose the algorithm carefully.
@@ -144,28 +145,28 @@ def extract_keywords(
         creating a ``KeyBERT`` object directly is recommended.
 
     :param str text: text to extract keywords from
-    :param tuple[int, int] keyphrase_ngram_range: token range for keywords.
-        ``(1, 1)`` allows unigrams only (e.g. "เสา", "ไฟฟ้า");
+    :param tuple[int, int] keyphrase_ngram_range: range of words per
+        keyword. ``(1, 1)`` allows unigrams only (e.g. "เสา", "ไฟฟ้า");
         ``(1, 2)`` allows unigrams and bigrams
-        (e.g. "เสา", "ไฟฟ้า", "เสาไฟฟ้า"). Default: ``(1, 2)``.
-    :param int max_keywords: maximum number of keywords to return.
-        Default: 5.
-    :param int min_df: minimum term frequency to qualify as keyword.
-        Default: 1.
-    :param str engine: keyword extraction algorithm. Default: ``'keybert'``.
-    :param str tokenizer: tokenizer engine name.
-        See :func:`pythainlp.tokenize.word_tokenize` for options.
-        Default: ``'newmm'``.
-    :param stop_words: words to ignore. If ``None``,
-        :func:`pythainlp.corpus.thai_stopwords` is used. Default: ``None``.
-    :type stop_words: collections.abc.Iterable[str] or None
+        (e.g. "เสา", "ไฟฟ้า", "เสาไฟฟ้า") (default is ``(1, 2)``)
+    :param int max_keywords: maximum number of keywords to return
+        (default is 5)
+    :param int min_df: minimum word frequency to qualify as a keyword
+        (default is 1)
+    :param str engine: keyword extraction engine
+
+        * *keybert* - KeyBERT keyword extraction (default)
+        * *frequency* - word frequency
+
+    :param str tokenizer: engine to tokenize text with. See
+        :func:`pythainlp.tokenize.word_tokenize` for available engines
+        (default is ``"newmm"``)
+    :param Optional[collections.abc.Iterable[str]] stop_words: words to
+        ignore. If None, use :func:`pythainlp.corpus.thai_stopwords`
+        (default is None)
 
     :return: list of keywords
     :rtype: list[str]
-
-    **Options for engine**
-        * *keybert* (default) - KeyBERT keyword extraction
-        * *frequency* - word frequency
 
     :Example:
 

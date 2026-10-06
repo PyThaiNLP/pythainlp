@@ -64,10 +64,6 @@ Entry format:
 
 #### Util
 
-- **`tone-detector-ru-lue`** `pythainlp/util/syllable.py`: `tone_detector`.
-  Input "ฤๅ" raises `IndexError`. Expected: return a tone.
-- **`sound-syllable-ru-lue`** `pythainlp/util/syllable.py`: `sound_syllable`.
-  Input "ฤๅ" raises `IndexError`.
 - **`sound-syllable-e-a`** `pythainlp/util/syllable.py`: `sound_syllable`.
   Input "เอะ" returns "live". Expected: "dead".
 - **`syllable-consonant-sets`** `pythainlp/util/syllable.py`.
@@ -76,24 +72,15 @@ Entry format:
   Input with "ตี" has no break after it.
 - **`thai-strptime-m-y`** `pythainlp/util/date.py`: `thai_strptime`.
   Directives `%m` and `%y` are handled incorrectly.
-- **`convert-years-same-era`** `pythainlp/util/date.py`: `convert_years`.
-  Converting "be" to "be" raises `NotImplementedError`.
 - **`count-thai-chars-double`** `pythainlp/util/thai.py`: `count_thai_chars`.
   Some characters are counted twice.
 - **`numtoword-ed-duplicate`** `pythainlp/util/numtoword.py`.
   The "เอ็ด" rule is applied in both `_num_to_thaiword_block` and
   `num_to_thaiword`. Results are correct; the code is redundant.
-- **`thaiword-to-time-ti-six`** `pythainlp/util/time.py`: `thaiword_to_time`.
-  Input "ตีหก" or "ตีสิบห้า" raises `ValueError`, because the "ตี" hour
-  list ends at "ตีห้า". Expected: "06:00" for "ตีหก".
 - **`thaiword-to-time-range`** `pythainlp/util/time.py`: `thaiword_to_time`.
   Input "บ่ายโมงครึ่งตีสองสิบเอ็ด" with `padding=False` returns "13:321".
   A minute above 59 or an hour above 23 is not checked. Expected:
   `ValueError`.
-- **`thaiword-to-time-unknown-token`** `pythainlp/util/time.py`:
-  `thaiword_to_time`. Input "กนาทีทุ่ม" raises `KeyError`; other unknown
-  input raises `ValueError` from `thaiword_to_num`. Expected: one
-  consistent `ValueError`.
 
 #### Tokenize
 
@@ -135,13 +122,12 @@ Entry format:
 - **`wiktionary-ho-rule-unreachable`** `pythainlp/transliterate/wiktionary.py`:
   `_apply_ho_rule`. The `^ห.$` check never matches, so the re-splitting of
   "ห" plus a sonorant is dead code.
-- **`puan-missing-initial`** `pythainlp/transliterate/spoonerism.py`: `puan`.
-  A syllable without a consonant, such as "ะ", is dropped and the swap
-  misaligns: `puan("ก-ะ-ข-ะ")` returns "ะ-ข". With no initial at all it
-  raises `IndexError`. Expected: keep every syllable.
-- **`wunsen-none-lang-uninitialized`** `pythainlp/transliterate/wunsen.py`:
-  `transliterate`. `lang=None` on a fresh object raises `RuntimeError`.
-  Expected: `NotImplementedError`.
+- **`wunsen-stale-model`** `pythainlp/transliterate/wunsen.py`:
+  `WunsenTransliterate.transliterate`. `_set_options` stores the new options
+  before `ThapSap(...)` is created. If `ThapSap` raises, the old model stays
+  in `thap_value`, and a repeated call with the same options skips the
+  re-creation and silently uses the old model. Expected: keep the options and
+  the model consistent. Pinning test: `test_failed_creation_keeps_old_model`.
 
 #### Khavee
 
@@ -153,10 +139,6 @@ Entry format:
   `is_sumpus`, `check_karu_lahu`. A word that is empty after stripping tone
   marks or การันต์ gets sara and marttra "". `is_sumpus("้", "์")` returns
   True and `check_karu_lahu("้")` returns "karu". Expected: False.
-- **`khavee-klon-empty-prev-wak4`** `pythainlp/khavee/core.py`: `check_klon`.
-  A stanza whose Wak 4 has no tokens, followed by another stanza, raises
-  `IndexError` in the inter-stanza rhyme check. Expected: report errors
-  without raising.
 
 #### Soundex
 
@@ -177,8 +159,6 @@ Entry format:
 
 #### Benchmarks, generate, lm, augment, morpheme
 
-- **`bleu-score-edge`** `pythainlp/benchmarks`: `bleu_score`.
-  Raises `ZeroDivisionError`; `zip` truncates unequal inputs silently.
 - **`wordnetaug-pos-ignored`** `pythainlp/augment`: `WordNetAug`.
   The part-of-speech filter is ignored.
 - **`remove-repeated-ngrams-zero`** `pythainlp/lm/text_util.py`:
@@ -194,12 +174,100 @@ Entry format:
 - **`ngram-gen-flatten-dedup`** `pythainlp/generate/core.py`:
   `Trigram.gen_sentence`. Flattening the output drops repeated words, so
   `duplicate=True` has no effect. Expected: keep repeated words.
-- **`nighit-consonant-table`** `pythainlp/morpheme/word_formation.py`:
-  `nighit`. "ช" is in both the ก-group and the จ-group, so "ญ" is never
-  used. "ต" and several other consonants raise `NotImplementedError`.
-- **`nighit-w1-check`** `pythainlp/morpheme/word_formation.py`: `nighit`.
-  Any two-character `w1` passes the check, such as `nighit("ab", "คา")`.
-  Expected: require `w1` to end with "ํ".
+- **`nighit-w1-prefix`** `pythainlp/morpheme/word_formation.py`: `nighit`.
+  Only the first character of `w1` is used. `nighit("สงฆํ", "คา")` returns
+  "สังคา", the same as `nighit("สํ", "คา")`; the characters between the
+  first one and "ํ" are dropped. Expected: keep the stem or reject it.
+  A bare "ํ" is also accepted: `nighit("ํ", "คา")` returns "ํังคา".
+  Expected: require a consonant before "ํ".
+  Pinning test: `test_w1_prefix_dropped`.
+- **`nighit-message-format`** `pythainlp/morpheme/word_formation.py`:
+  `nighit`. The `NotImplementedError` message for an unsupported `w2`
+  consonant has a newline and indentation inside. Expected: a one-line
+  message like the one for `w1`.
+  Pinning tests: `ADVERSARIAL` and `test_unsupported_consonants`.
+
+### Docstring and doctest issues
+
+Found while standardizing the docstrings. The docstring or doctest and
+the code disagree. The code was not changed. No test pins them.
+
+#### Wrong or non-runnable doctests
+
+- `phayathaibert.NamedEntityTagger.get_ner`: the doctest calls `ner.tag(...)`.
+  No `ner` object and no `tag` method exist.
+- `phayathaibert.ThaiTextAugmenter.augment` and
+  `augment.lm.phayathaibert`: the doctest passes `num_args=5`. The
+  parameter is `num_augs`.
+- `phayathaibert.ThaiTextProcessor`: the doctests of `replace_url`,
+  `rm_brackets`, `rm_useless_spaces`, `replace_spaces`,
+  `replace_rep_after`, `replace_wrep_post`, `remove_space`, and
+  `replace_newlines` call bare names. They are methods. Some outputs are
+  unquoted, and the `replace_spaces` doctest ignores the default
+  `space_token` (`<_>`).
+- `ulmfit.replace_wrep_post`: the doctest imports `replace_wrep_post_nonum`
+  but calls `replace_wrep_post`.
+- `ulmfit.process_thai`: the doctest has multi-line `>>>` calls without
+  `...` prompts. A `:Note:` names `pythainlp.util.normalize`, but the rules
+  use `reorder_vowels`.
+- `word_vector.most_similar_cosmul` and `doesnt_match`: some outputs
+  probably do not match a real run.
+- `summarize.keybert`: the doctest calls `kb.extract_keyword(...)`. The
+  method is `extract_keywords`.
+- `util.keywords.rank`: the "Exclude stopwords" example calls `rank(words)`
+  without `exclude_stopwords=True`, and the output is not what a plain call
+  returns.
+- `util.date.thaiword_to_date`: the example has no `>>>`, so it is not a
+  doctest.
+- `transliterate.pali.pronunciate_pali("สฺวากฺขา")`: the doctest expects
+  "สวากขาโต" and gets "สวากขา".
+- `transliterate.romanize("ก็อปปี้", engine="lookup")`: the doctest expects
+  "copy". It fails when the lookup corpus is not present.
+
+#### Docstring does not match the code
+
+- `util.remove_trailing_repeat_consonants`: documents `dictionary`; the
+  parameter is `custom_dict`. The private helpers
+  `_remove_repeat_trailing_consonants_from_segment`,
+  `_update_consonant_repeaters`, and
+  `_find_longest_consonant_repeaters_match` have the same kind of wrong
+  parameter names (`consonant`, `dictionary`, `segment`).
+- `util.keywords.find_keyword`: the parameter `min_len` means a minimum
+  frequency.
+- `transliterate.transliterate`: the `:return:` says "phonetic alphabet",
+  but the *icu* and *iso_11940* engines return Latin transliteration.
+- `generate.thai2fit.gen_sentence`: the docstring lists `duplicate`, which
+  is not a parameter.
+- `benchmarks.word_tokenization.preprocessing`: the docstring says `text`;
+  the parameter is `txt`.
+- `translate.tokenization_small100.set_lang_special_tokens`: the docstring
+  says there is no prefix; the code sets `prefix_tokens=[cur_lang_id]`.
+- `tokenize.core._sent_tokenize_words` (`crfcut`) and
+  `_split_at_separators`: the behavior in their code comments is not in
+  the docstrings.
+- `transliterate.transliterate`: the options list `icu` as a phonetic
+  engine. It returns Latin script.
+- `spell.get_words_spell_suggestion`: the docstring parameter is
+  `list_word`; the code parameter is `list_words`.
+- `tag.NNER`: the class docstring lists `corpus`; `__init__` has only
+  `engine`. `load_engine` ignores its `engine` argument.
+- `tag.pos_tag`: the docstring lists the *wangchanberta* engine, but the code
+  raises `ValueError` for it. `pos_tag_sents` lists corpus *tnc*, which is
+  not in the supported list. `pos_tag_transformers` names *phayathaibert*;
+  the engine key is `"phayathai"`, and its `sentence` is a string.
+- `tag.thainer.ThaiNameTagger`: an unknown `version` does not raise. The CRF
+  model is left unopened. `tag.tltk.get_ner` and `ThaiNameTagger.get_ner`
+  ignore `pos` when `tag=True`.
+- Many functions and `parse` `__call__` methods have no docstring.
+- Missing docstrings: `augment.lm.phayathaibert.ThaiTextAugmenter.generate`,
+  `generate.wangchanglm` (`WangChanGLM`, `is_exclude`), `chat.ChatBotModel`,
+  the `transliterate.ipa` functions, `pali.py` (module), the helpers in
+  `tools.misspell` and `corpus.th_en_translit`.
+- Missing `:raises:` for `TypeError` in `thai_digit_to_arabic_digit` and
+  similar functions.
+- `phayathaibert.core.replace_newlines` and some other docstrings with `\n`
+  in a non-raw string (pydocstyle D301); making them raw strings changes
+  the doctest source.
 
 ### Security notes (not yet bugs)
 

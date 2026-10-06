@@ -291,7 +291,8 @@ class CorpusTestCase(unittest.TestCase):
                     self.assertNotEqual(result, "")
 
     def test_download_read_only_mode(self):
-        """Test that download() returns False when read-only mode is active.
+        """
+        Test that download() returns False when read-only mode is active.
 
         When the data directory is read-only (e.g. a read-only mounted volume),
         download() must not attempt any network or file-system operations and

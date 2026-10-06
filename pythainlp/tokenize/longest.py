@@ -1,13 +1,14 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Dictionary-based longest-matching Thai word segmentation.
-Implementation based on code from Patorn Utenpattanun.
+"""
+Tokenize Thai text into words with dictionary-based longest matching.
+
+The implementation is based on code from Patorn Utenpattanun.
 
 :See Also:
-    * `GitHub Repository \
-       <https://github.com/patorn/thaitokenizer/blob/master/thaitokenizer/tokenizer.py>`_
-
+    * GitHub repository:
+      https://github.com/patorn/thaitokenizer/blob/master/thaitokenizer/tokenizer.py
 """
 
 from __future__ import annotations
@@ -48,7 +49,7 @@ _UNKNOWN: bool = False
 
 
 def _include_trailing(text: str, word: str) -> str:
-    """Append a trailing character (such as "ๆ") that follows ``word``."""
+    """Append a trailing character (such as "ๆ") that follows a word."""
     len_word = len(word)
     if len_word < len(text) and text[len_word] in _TRAILING_CHAR:
         return text[0 : len_word + 1]
@@ -164,14 +165,17 @@ _tokenizers_lock: threading.Lock = threading.Lock()
 
 
 def segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
-    """Dictionary-based longest matching word segmentation.
+    """
+    Tokenize text into words with dictionary-based longest matching.
 
     This function is thread-safe. It uses a lock to protect access to the
     internal tokenizer cache.
 
-    :param str text: text to be tokenized into words
-    :param pythainlp.util.Trie custom_dict: dictionary for tokenization
-    :return: list of words, tokenized from the text
+    :param str text: text to be tokenized
+    :param pythainlp.util.Trie custom_dict: dictionary trie
+        (default: the default word trie)
+    :return: list of words
+    :rtype: list[str]
     """
     if not text or not isinstance(text, str):
         return []

@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.util.thai.count_thai_chars.
+"""
+Characterization tests for pythainlp.util.thai.count_thai_chars.
 
 Golden data was recorded from the pre-refactor implementation.
 """

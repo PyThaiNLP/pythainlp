@@ -409,6 +409,12 @@ content-type = "application/octet-stream"
 pattern = "pythainlp/corpus/*.db"
 content-type = "application/vnd.sqlite3"
 
+# Docstring checks run by Codacy (pydocstyle); same as .pydocstyle.ini.
+# Summary on the second line (D213) is the project style, so D212 is off.
+# D211 is used over D203.
+[tool.pydocstyle]
+ignore = ["D203", "D212"]
+
 [tool.ruff]
 indent-width = 4
 line-length = 79

@@ -1,12 +1,16 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""The Royal Thai General System of Transcription (RTGS)
+"""
+The Royal Thai General System of Transcription (RTGS)
 is the official system for rendering Thai words in the Latin alphabet.
 It was published by the Royal Institute of Thailand.
 
 :See Also:
-    * `Wikipedia <https://en.wikipedia.org/wiki/Royal_Thai_General_System_of_Transcription>`_
+    * `Wikipedia`_
+
+.. _Wikipedia:
+    https://en.wikipedia.org/wiki/Royal_Thai_General_System_of_Transcription
 """
 
 from __future__ import annotations
@@ -137,7 +141,8 @@ _RE_NORMALIZE: re.Pattern[str] = re.compile(
 
 
 def _normalize(word: str) -> str:
-    """Remove silence, no sound, and tonal characters.
+    """
+    Remove silence, no sound, and tonal characters.
 
     ตัดอักษรที่ไม่ออกเสียง (การันต์ ไปยาลน้อย ไม้ยมก*) และวรรณยุกต์ทิ้ง
     """
@@ -173,7 +178,8 @@ def _double_ro_rua(word: str, i: int) -> Optional[list[str]]:
 def _initial_consonant(
     word: str, i: int, consonants: str, j: int, mod_chars: list[str]
 ) -> tuple[list[str], bool]:
-    """Romanize a consonant of an initial cluster.
+    """
+    Romanize a consonant of an initial cluster.
 
     :return: romanized chars to append, and the new vowel-seen flag
     """
@@ -201,7 +207,8 @@ def _initial_consonant(
 def _consonant_after_vowel(
     word: str, i: int, consonants: str, j: int
 ) -> tuple[str, bool]:
-    """Romanize a consonant after a vowel: final or start of a new syllable.
+    """
+    Romanize a consonant after a vowel: final or start of a new syllable.
 
     :return: romanized string to append, and the new vowel-seen flag
     """
@@ -274,16 +281,19 @@ def _romanize(word: str) -> str:
 def _should_add_syllable_separator(
     prev_word: str, curr_word: str, prev_romanized: str
 ) -> bool:
-    """Determine if 'a' should be added between two romanized syllables.
+    """
+    Determine if 'a' should be added between two romanized syllables.
 
     This applies when:
-    - Previous word has explicit vowel and ends with consonant
-    - Current word is a 2-consonant cluster with no vowels (e.g., 'กร')
 
-    :param prev_word: The previous Thai word/token
-    :param curr_word: The current Thai word/token
-    :param prev_romanized: The romanized form of the previous word
-    :return: True if 'a' should be added before the current word
+    * the previous word has an explicit vowel and ends with a consonant
+    * the current word is a 2-consonant cluster with no vowels
+      (e.g., 'กร')
+
+    :param prev_word: previous Thai word
+    :param curr_word: current Thai word
+    :param prev_romanized: romanized form of the previous word
+    :return: ``True`` if 'a' should be added before the current word
     """
     if not prev_romanized or len(curr_word) < 2:
         return False
@@ -305,14 +315,14 @@ def _should_add_syllable_separator(
 
 
 def romanize(text: str) -> str:
-    """Render Thai words in Latin alphabet, using RTGS
+    """
+    Render Thai words in the Latin alphabet, using RTGS.
 
-    Royal Thai General System of Transcription (RTGS),
-    is the official system by the Royal Institute of Thailand.
+    The Royal Thai General System of Transcription (RTGS) is the
+    official system by the Royal Institute of Thailand.
 
-    :param text: Thai text to be romanized
-    :type text: str
-    :return: A string of Thai words rendered in the Latin alphabet
+    :param str text: Thai text to be romanized
+    :return: text rendered in the Latin alphabet
     :rtype: str
     """
     words = word_tokenize(text)

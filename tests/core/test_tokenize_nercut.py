@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.tokenize.nercut.
+"""
+Characterization tests for pythainlp.tokenize.nercut.
 
 Golden data were recorded from the implementation before its refactor.
 A fake tagger replaces the NER engine. The module is imported with a fake
@@ -19,7 +20,8 @@ import pythainlp
 
 
 def _import_nercut() -> Any:
-    """Load nercut.py under a private name with a fake NER.
+    """
+    Load nercut.py under a private name with a fake NER.
 
     Neither ``sys.modules`` nor the ``pythainlp.tokenize`` package
     attribute is changed.

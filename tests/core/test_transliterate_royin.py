@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.transliterate.royin.
+"""
+Characterization tests for pythainlp.transliterate.royin.
 
 Expected values were recorded from the implementation before refactoring
 of _replace_consonants.

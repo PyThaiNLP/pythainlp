@@ -1,10 +1,11 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""NLTK WordNet wrapper
+"""
+NLTK WordNet wrapper.
 
-API here is exactly the same as NLTK WordNet API,
-except that the lang (language) argument is "tha" (Thai) by default.
+The API is the same as the NLTK WordNet API, except that the *lang*
+(language) argument is "tha" (Thai) by default.
 
 For more on usage, see NLTK Howto:
 https://www.nltk.org/howto/wordnet.html
@@ -22,7 +23,8 @@ import nltk
 
 
 def _omw_package(nltk_version: str) -> str:
-    """Return the Open Multilingual Wordnet (OMW) package an NLTK version reads.
+    """
+    Return the Open Multilingual Wordnet (OMW) package of an NLTK version.
 
     :param str nltk_version: NLTK version, such as ``"3.10.3"`` or
         ``"3.9.0rc1"``
@@ -42,9 +44,12 @@ def _omw_package(nltk_version: str) -> str:
 
 
 def _ensure_corpus(package: str) -> None:
-    """Download an NLTK corpus package unless it is already installed.
+    """
+    Download an NLTK corpus package unless it is already installed.
 
     NLTK keeps a package either unzipped or as ``<package>.zip``.
+
+    :param str package: NLTK package name
     """
     for resource in (f"corpora/{package}", f"corpora/{package}.zip"):
         try:
@@ -70,19 +75,19 @@ from nltk.corpus.reader.wordnet import (  # noqa: TC002
 def synsets(
     word: str, pos: Optional[str] = None, lang: str = "tha"
 ) -> list[Synset]:
-    """This function returns the synonym set for all lemmas of the given word
-    with an optional argument to constrain the part of speech of the word.
+    """
+    Return the synonym sets (synsets) of all lemmas of a word.
+
+    The function can constrain the part of speech of the word.
 
     :param str word: word to find synsets of
-    :param Optional[str] pos: constraint of the part of speech (i.e. *n* for Noun, *v*
-                    for Verb, *a* for Adjective, *s* for Adjective
-                    satellites, and *r* for Adverb). Default is None.
-    :param str lang: abbreviation of language (i.e. *eng*, *tha*).
-                     By default, it is *tha*
-
-    :return: :class:`Synset` all lemmas of the word constrained with
-             the argument *pos*.
-    :rtype: list[:class:`Synset`]
+    :param Optional[str] pos: part-of-speech (POS) tag to constrain the
+        search (*n* for noun, *v* for verb, *a* for adjective, *s* for
+        adjective satellite, and *r* for adverb; default is None)
+    :param str lang: language code, such as *eng* or *tha*
+        (default is *tha*)
+    :return: synsets of all lemmas of the word, constrained by *pos*
+    :rtype: list[nltk.corpus.reader.wordnet.Synset]
 
     :Example:
 
@@ -119,13 +124,14 @@ def synsets(
 
 
 def synset(name_synsets: str) -> Synset:
-    """This function returns the synonym set (synset) given the name of the synset
-    (i.e. 'dog.n.01', 'chase.v.01').
+    """
+    Return the synonym set (synset) of a given name.
+
+    The name looks like "dog.n.01" or "chase.v.01".
 
     :param str name_synsets: name of the synset
-
-    :return: :class:`Synset` of the given name
-    :rtype: :class:`Synset`
+    :return: synset of the given name
+    :rtype: nltk.corpus.reader.wordnet.Synset
 
     :Example:
 
@@ -143,19 +149,19 @@ def synset(name_synsets: str) -> Synset:
 
 
 def all_lemma_names(pos: Optional[str] = None, lang: str = "tha") -> list[str]:
-    """This function returns all lemma names for all synsets of the given
-    part of speech tag and language. If part of speech tag is not
-    specified, all synsets of all parts of speech will be used.
+    """
+    Return all lemma names of all synsets of a part of speech and language.
 
-    :param Optional[str] pos: constraint of the part of speech (i.e. *n* for Noun,
-                    *v* for Verb, *a* for Adjective, *s* for
-                    Adjective satellites, and *r* for Adverb).
-                    By default, *pos* is **None**.
-    :param str lang: abbreviation of language (i.e. *eng*, *tha*).
-                     By default, it is *tha*.
+    If *pos* is not specified, the function uses all synsets of all parts
+    of speech.
 
-    :return: :class:`Synset` of lemmas names given the POS and language
-    :rtype: list[:class:`Synset`]
+    :param Optional[str] pos: part-of-speech (POS) tag to constrain the
+        search (*n* for noun, *v* for verb, *a* for adjective, *s* for
+        adjective satellite, and *r* for adverb; default is None)
+    :param str lang: language code, such as *eng* or *tha*
+        (default is *tha*)
+    :return: list of lemma names for the given POS tag and language
+    :rtype: list[str]
 
     :Example:
 
@@ -185,13 +191,14 @@ def all_lemma_names(pos: Optional[str] = None, lang: str = "tha") -> list[str]:
 
 
 def all_synsets(pos: Optional[str] = None) -> Iterable[Synset]:
-    """This function iterates over all synsets constrained by the given
-    part of speech tag.
+    """
+    Iterate over all synsets, constrained by a part of speech.
 
-    :param Optional[str] pos: part of speech tag. Default is None.
-
-    :return: list of synsets constrained by the given part of speech tag.
-    :rtype: Iterable[:class:`Synset`]
+    :param Optional[str] pos: part-of-speech (POS) tag to constrain the
+        search (*n* for noun, *v* for verb, *a* for adjective, *s* for
+        adjective satellite, and *r* for adverb; default is None)
+    :return: synsets constrained by the given POS tag
+    :rtype: Iterable[nltk.corpus.reader.wordnet.Synset]
 
     :Example:
 
@@ -215,9 +222,10 @@ def all_synsets(pos: Optional[str] = None) -> Iterable[Synset]:
 
 
 def langs() -> list[str]:
-    """This function returns a set of ISO-639 language codes.
+    """
+    Return the ISO 639 language codes.
 
-    :return: ISO-639 language codes
+    :return: ISO 639 language codes
     :rtype: list[str]
 
     :Example:
@@ -238,19 +246,19 @@ def langs() -> list[str]:
 def lemmas(
     word: str, pos: Optional[str] = None, lang: str = "tha"
 ) -> list[Lemma]:
-    """This function returns all lemmas given the word with an optional
-    argument to constrain the part of speech of the word.
+    """
+    Return all lemmas of a word.
+
+    The function can constrain the part of speech of the word.
 
     :param str word: word to find lemmas of
-    :param Optional[str] pos: constraint of the part of speech (i.e. *n* for Noun,
-                    *v* for Verb, *a* for Adjective, *s* for
-                    Adjective satellites, and *r* for Adverb). Default is None.
-    :param str lang: abbreviation of language (i.e. *eng*, *tha*).
-                     By default, it is *tha*.
-
-    :return: :class:`Synset` of all lemmas of the word constrained
-              by the argument *pos*.
-    :rtype: list[:class:`Lemma`]
+    :param Optional[str] pos: part-of-speech (POS) tag to constrain the
+        search (*n* for noun, *v* for verb, *a* for adjective, *s* for
+        adjective satellite, and *r* for adverb; default is None)
+    :param str lang: language code, such as *eng* or *tha*
+        (default is *tha*)
+    :return: all lemmas of the word, constrained by *pos*
+    :rtype: list[nltk.corpus.reader.wordnet.Lemma]
 
     :Example:
 
@@ -281,15 +289,15 @@ def lemmas(
 
 
 def lemma(name_synsets: str) -> Lemma:
-    """This function returns lemma object given the name.
+    """
+    Return the lemma object of a given name.
 
     .. note::
-        Support only English language (*eng*).
+        The function supports only the English language (*eng*).
 
-    :param str name_synsets: name of the synset
-
-    :return: lemma object with the given name
-    :rtype: :class:`Lemma`
+    :param str name_synsets: name of the lemma
+    :return: lemma object of the given name
+    :rtype: nltk.corpus.reader.wordnet.Lemma
 
     :Example:
 
@@ -308,17 +316,18 @@ def lemma(name_synsets: str) -> Lemma:
 
 
 def lemma_from_key(key: str) -> Lemma:
-    """This function returns lemma object given the lemma key.
-    This is similar to :func:`lemma` but it needs to be given the key
-    of lemma instead of the name of lemma.
+    """
+    Return the lemma object of a given key.
+
+    The function is similar to :func:`lemma`, but it takes the key of the
+    lemma instead of the name of the lemma.
 
     .. note::
-        Support only English language (*eng*).
+        The function supports only the English language (*eng*).
 
     :param str key: key of the lemma object
-
-    :return: lemma object with the given key
-    :rtype: :class:`Lemma`
+    :return: lemma object of the given key
+    :rtype: nltk.corpus.reader.wordnet.Lemma
 
     :Example:
 
@@ -334,24 +343,24 @@ def lemma_from_key(key: str) -> Lemma:
 
 
 def path_similarity(synsets1: Synset, synsets2: Synset) -> float:
-    """This function returns similarity between two synsets based on the
-    shortest path distance calculated using the equation below.
+    r"""
+    Return the path similarity between two synsets.
+
+    The similarity is based on the shortest path distance, calculated with
+    the equation below.
 
     .. math::
 
-        path\\_similarity = {1 \\over shortest\\_path\\_distance(synsets1,
+        path\_similarity = {1 \over shortest\_path\_distance(synsets1,
                              synsets2) + 1}
 
     The shortest path distance is calculated by the connection through
     the is-a (hypernym/hyponym) taxonomy. The score is in the range of
-    0 to 1. Path similarity of 1 indicates identicality.
+    0 to 1. A path similarity of 1 indicates identity.
 
-    :param `Synset` synsets1: first synset supplied to measures
-                              the path similarity with
-    :param `Synset` synsets2: second synset supplied to measures
-                              the path similarity with
-
-    :return: path similarity between two synsets
+    :param nltk.corpus.reader.wordnet.Synset synsets1: first synset
+    :param nltk.corpus.reader.wordnet.Synset synsets2: second synset
+    :return: path similarity between the two synsets
     :rtype: float
 
     :Example:
@@ -373,22 +382,20 @@ def path_similarity(synsets1: Synset, synsets2: Synset) -> float:
 
 
 def lch_similarity(synsets1: Synset, synsets2: Synset) -> float:
-    """This function returns Leacock Chodorow similarity (LCH)
-    between two synsets, based on the shortest path distance
-    and the maximum depth of the taxonomy. The equation to
-    calculate LCH similarity is shown below:
+    r"""
+    Return the Leacock-Chodorow (LCH) similarity between two synsets.
+
+    The similarity is based on the shortest path distance and the maximum
+    depth of the taxonomy, calculated with the equation below.
 
     .. math::
 
-        lch\\_similarity = {-log(shortest\\_path\\_distance(synsets1,
-                           synsets2) \\over 2 * taxonomy\\_depth}
+        lch\_similarity = {-log(shortest\_path\_distance(synsets1,
+                           synsets2) \over 2 * taxonomy\_depth}
 
-    :param `Synset` synsets1: first synset supplied to measures
-                              the LCH similarity
-    :param `Synset` synsets2: second synset supplied to measures
-                              the LCH similarity
-
-    :return: LCH similarity between two synsets
+    :param nltk.corpus.reader.wordnet.Synset synsets1: first synset
+    :param nltk.corpus.reader.wordnet.Synset synsets2: second synset
+    :return: LCH similarity between the two synsets
     :rtype: float
 
     :Example:
@@ -410,16 +417,15 @@ def lch_similarity(synsets1: Synset, synsets2: Synset) -> float:
 
 
 def wup_similarity(synsets1: Synset, synsets2: Synset) -> float:
-    """This function returns Wu-Palmer similarity (WUP) between two synsets,
-    based on the depth of the two senses in the taxonomy and their
-    Least Common Subsumer (most specific ancestor node).
+    """
+    Return the Wu-Palmer (WUP) similarity between two synsets.
 
-    :param `Synset` synsets1: first synset supplied to measures
-                              the WUP similarity with
-    :param `Synset` synsets2: second synset supplied to measures
-                              the WUP similarity with
+    The similarity is based on the depth of the two senses in the taxonomy
+    and their Least Common Subsumer (most specific ancestor node).
 
-    :return: WUP similarity between two synsets
+    :param nltk.corpus.reader.wordnet.Synset synsets1: first synset
+    :param nltk.corpus.reader.wordnet.Synset synsets2: second synset
+    :return: WUP similarity between the two synsets
     :rtype: float
 
     :Example:
@@ -441,13 +447,12 @@ def wup_similarity(synsets1: Synset, synsets2: Synset) -> float:
 
 
 def morphy(form: str, pos: Optional[str] = None) -> str:
-    """This function finds a possible base form for the given form,
-    with the given part of speech.
+    """
+    Find a possible base form of a given form and part of speech.
 
-    :param str form: the form to finds the base form of
-    :param Optional[str] pos: part of speech tag of words to be searched.
-        Default is None.
-
+    :param str form: form to find the base form of
+    :param Optional[str] pos: part-of-speech (POS) tag of the words to be
+        searched (default is None)
     :return: base form of the given form
     :rtype: str
 
@@ -471,11 +476,14 @@ def morphy(form: str, pos: Optional[str] = None) -> str:
 
 
 def custom_lemmas(tab_file: Union[str, IO[str]], lang: str) -> None:
-    """This function reads a custom tab file
-    (see: https://omwn.org/)
-    containing mappings of lemmas in the given language.
+    """
+    Read a custom tab file of lemma mappings in a given language.
 
-    :param tab_file: Tab file as a file or file-like object
-    :param str lang: abbreviation of language (i.e. *eng*, *tha*).
+    See `Open Multilingual Wordnet <https://omwn.org/>`_
+    for the file format.
+
+    :param Union[str, IO[str]] tab_file: tab file, as a file name or a
+        file-like object
+    :param str lang: language code, such as *eng* or *tha*
     """
     wordnet.custom_lemmas(tab_file, lang)

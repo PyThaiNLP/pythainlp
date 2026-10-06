@@ -148,7 +148,8 @@ class TransliterateTestCase(unittest.TestCase):
 
 
 class RepetitionCycleTestCase(unittest.TestCase):
-    """Tests for the greedy-decoding cycle detector.
+    """
+    Tests for the greedy-decoding cycle detector.
 
     See: https://github.com/PyThaiNLP/pythainlp/issues/1403
     """

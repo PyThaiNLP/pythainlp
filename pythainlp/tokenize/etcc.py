@@ -1,11 +1,12 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Segmenting text into Enhanced Thai Character Clusters (ETCCs)
-Python implementation by Wannaphong Phatthiyaphaibun
+"""
+Tokenize text into Enhanced Thai Character Clusters (ETCCs).
 
-This implementation relies on a dictionary of ETCC created from etcc.txt
-in pythainlp/corpus.
+This Python implementation is by Wannaphong Phatthiyaphaibun.
+It relies on a dictionary of ETCCs created from ``etcc.txt``
+in ``pythainlp/corpus``.
 
 Notebook:
 https://colab.research.google.com/drive/1UTQgxxMRxOr9Jp1B1jcq1frBNvorhtBQ
@@ -30,7 +31,7 @@ from pythainlp.tokenize import Tokenizer
 
 @lru_cache
 def _cut_etcc() -> "Tokenizer":
-    """Lazy load ETCC tokenizer with cache"""
+    """Return the ETCC tokenizer, loaded lazily and cached."""
     return Tokenizer(get_corpus("etcc.txt"), engine="longest")
 
 
@@ -53,17 +54,18 @@ def _cut_subword(tokens: list[str]) -> list[str]:
 
 
 def segment(text: str) -> list[str]:
-    """Segmenting text into ETCCs.
+    """
+    Tokenize text into ETCCs.
 
-    Enhanced Thai Character Cluster (ETCC) is a kind of subword unit.
-    The concept was presented in Inrut, Jeeragone, Patiroop Yuanghirun,
-    Sarayut Paludkong, Supot Nitsuwat, and Para Limmaneepraserth.
+    An Enhanced Thai Character Cluster (ETCC) is a kind of subword unit.
+    Inrut, Jeeragone, Patiroop Yuanghirun, Sarayut Paludkong,
+    Supot Nitsuwat, and Para Limmaneepraserth presented the concept in
     "Thai word segmentation using combination of forward and backward
-    longest matching techniques." In International Symposium on Communications
-    and Information Technology (ISCIT), pp. 37-40. 2001.
+    longest matching techniques." In International Symposium on
+    Communications and Information Technology (ISCIT), pp. 37-40. 2001.
 
-    :param str text: text to be tokenized into character clusters
-    :return: list of clusters tokenized from the text
+    :param str text: text to be tokenized
+    :return: list of character clusters
     :rtype: list[str]
     """
     if not text or not isinstance(text, str):

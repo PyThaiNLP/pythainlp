@@ -1,8 +1,11 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""This file is a port from
-> https://gist.github.com/touchiep/99f4f5bb349d6b983ef78697630ab78e
+"""
+Thai lunar date conversion.
+
+This file is a port from
+https://gist.github.com/touchiep/99f4f5bb349d6b983ef78697630ab78e
 """
 
 from __future__ import annotations
@@ -297,9 +300,10 @@ def last_day_in_year(year: int) -> int:
 
 
 def athikasurathin(year: int) -> bool:
-    """Check if a year is a solar leap year (อธิกสุรทิน, with 29 February).
+    """
+    Check if a year is a solar leap year (อธิกสุรทิน, with 29 February).
 
-    :param int year: The Gregorian year. CE (Common Era)
+    :param int year: Gregorian year (Common Era)
     :return: True if the year is a leap year in the Gregorian calendar
     :rtype: bool
     """
@@ -311,7 +315,7 @@ def athikasurathin(year: int) -> bool:
 
 
 def number_day_in_year(year: int) -> int:
-    """Get the number of days (365 or 366) in a Gregorian year (CE)."""
+    """Return the number of days (365 or 366) in a Gregorian year (CE)."""
     if athikasurathin(year):
         return 366
 
@@ -319,13 +323,13 @@ def number_day_in_year(year: int) -> int:
 
 
 def th_zodiac(year: int, output_type: int = 1) -> Union[str, int]:
-    """Thai Zodiac Year Name
-    Converts a Gregorian year to its corresponding Zodiac name.
+    """
+    Convert a Gregorian year to its Thai zodiac year name.
 
-    :param int year: The Gregorian year. AD (Anno Domini)
-    :param int output_type: Output type (1 = Thai, 2 = English, 3 = Number).
-
-    :return: The Zodiac name or number corresponding to the input year.
+    :param int year: Gregorian year (Anno Domini)
+    :param int output_type: output type
+        (1 for Thai name, 2 for English name, 3 for number)
+    :return: zodiac name or number of the year
     :rtype: Union[str, int]
 
     :Example:
@@ -358,7 +362,7 @@ _DAYS_IN_MONTHS: dict[int, list[int]] = {
 
 
 def _nearest_begin_date(input_year: int) -> date:
-    """Find the latest begin date before the year preceding input_year."""
+    """Find the latest begin date before the year preceding ``input_year``."""
     c_year = input_year - 1
     for begin_date in reversed(_BEGIN_DATES):
         if c_year > begin_date.year:
@@ -367,7 +371,7 @@ def _nearest_begin_date(input_year: int) -> date:
 
 
 def _day_from_one(input_date: date) -> int:
-    """Count days since the lunar year began (1-based)."""
+    """Count the days since the lunar year began (1-based)."""
     begin_date = _nearest_begin_date(input_date.year)
     current_date = begin_date
     for year in range(begin_date.year + 1, input_date.year):
@@ -405,10 +409,11 @@ def _adjust_month(th_m: int, last_day: int) -> int:
 
 
 def to_lunar_date(input_date: date) -> str:
-    """Convert the solar date to Thai Lunar Date
+    """
+    Convert a solar date to a Thai lunar date.
 
-    :param date input_date: date of the day.
-    :return: Thai text lunar date
+    :param datetime.date input_date: solar date
+    :return: Thai lunar date text
     :rtype: str
 
     :Example:

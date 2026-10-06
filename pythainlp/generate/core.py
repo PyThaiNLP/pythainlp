@@ -1,9 +1,10 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Text generator using n-gram language model
+"""
+Generate text using an n-gram language model.
 
-codes are from
+The code is from
 https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058
 """
 
@@ -29,15 +30,16 @@ _T = TypeVar("_T")
 def _pick_next(
     candidates: Sequence[_T], probs: Sequence[float], prob: float
 ) -> Optional[_T]:
-    """Pick a random candidate whose probability is at least ``prob``.
+    """
+    Pick a random candidate whose probability is at least ``prob``.
 
     The pick is by probability value, so candidates with equal
     probability resolve to the first of them.
 
-    :param Sequence candidates: candidates, parallel to ``probs``
+    :param Sequence[_T] candidates: candidates, parallel to ``probs``
     :param Sequence[float] probs: probability of each candidate
     :param float prob: minimum probability
-    :return: the picked candidate, or None if no probability passes
+    :return: picked candidate, or None if no probability passes
     :rtype: Optional[_T]
     """
     passed = [j for j in probs if j >= prob]
@@ -48,9 +50,11 @@ def _pick_next(
 
 
 class Unigram:
-    """Text generator using Unigram
+    """
+    Generate text using the unigram model.
 
     :param str name: corpus name
+
         * *tnc* - Thai National Corpus (default)
         * *ttc* - Thai Textbook Corpus (TTC)
         * *oscar* - OSCAR Corpus
@@ -86,15 +90,16 @@ class Unigram:
         output_str: bool = True,
         duplicate: bool = False,
     ) -> Union[list[str], str]:
-        """Generate a sentence using the unigram model.
+        """
+        Generate a sentence using the unigram model.
 
-        :param str start_seq: word to begin sentence with
+        :param str start_seq: word to begin the sentence with
         :param int N: number of words
-        :param float prob: minimum word probability threshold
-        :param bool output_str: output as string
-        :param bool duplicate: allow duplicate words in sentence
+        :param float prob: minimum word probability
+        :param bool output_str: return a string instead of a list of words
+        :param bool duplicate: allow duplicate words in the sentence
 
-        :return: list of words or a word string
+        :return: generated sentence as a string or a list of words
         :rtype: Union[list[str], str]
 
         :Example:
@@ -146,9 +151,11 @@ class Unigram:
 
 
 class Bigram:
-    """Text generator using Bigram
+    """
+    Generate text using the bigram model.
 
     :param str name: corpus name
+
         * *tnc* - Thai National Corpus (default)
     """
 
@@ -167,7 +174,8 @@ class Bigram:
         self.words: list[str] = [i[-1] for i in self.bi_keys]
 
     def prob(self, t1: str, t2: str) -> float:
-        """Compute bigram probability P(t2 | t1).
+        """
+        Compute bigram probability P(t2 | t1).
 
         :param str t1: first word
         :param str t2: second word
@@ -189,15 +197,16 @@ class Bigram:
         output_str: bool = True,
         duplicate: bool = False,
     ) -> Union[list[str], str]:
-        """Generate a sentence using the bigram model.
+        """
+        Generate a sentence using the bigram model.
 
-        :param str start_seq: word to begin sentence with
+        :param str start_seq: word to begin the sentence with
         :param int N: number of words
-        :param float prob: minimum word probability threshold
-        :param bool output_str: output as string
-        :param bool duplicate: allow duplicate words in sentence
+        :param float prob: minimum word probability
+        :param bool output_str: return a string instead of a list of words
+        :param bool duplicate: allow duplicate words in the sentence
 
-        :return: list of words or a word string
+        :return: generated sentence as a string or a list of words
         :rtype: Union[list[str], str]
 
         :Example:
@@ -239,9 +248,11 @@ class Bigram:
 
 
 class Trigram:
-    """Text generator using Trigram
+    """
+    Generate text using the trigram model.
 
     :param str name: corpus name
+
         * *tnc* - Thai National Corpus (default)
     """
 
@@ -264,7 +275,8 @@ class Trigram:
         self.words: list[str] = [i[-1] for i in self.bi_keys]
 
     def prob(self, t1: str, t2: str, t3: str) -> float:
-        """Compute trigram probability P(t3 | t1, t2).
+        """
+        Compute trigram probability P(t3 | t1, t2).
 
         :param str t1: first word
         :param str t2: second word
@@ -288,16 +300,17 @@ class Trigram:
         output_str: bool = True,
         duplicate: bool = False,
     ) -> Union[list[str], str]:
-        """Generate a sentence using the trigram model.
+        """
+        Generate a sentence using the trigram model.
 
-        :param start_seq: word or bigram to begin sentence with
+        :param start_seq: word or bigram to begin the sentence with
         :type start_seq: Union[str, tuple[str, str]]
         :param int N: number of words
-        :param float prob: minimum word probability threshold
-        :param bool output_str: output as string
-        :param bool duplicate: allow duplicate words in sentence
+        :param float prob: minimum word probability
+        :param bool output_str: return a string instead of a list of words
+        :param bool duplicate: allow duplicate words in the sentence
 
-        :return: list of words or a word string
+        :return: generated sentence as a string or a list of words
         :rtype: Union[list[str], str]
 
         :Example:
@@ -339,7 +352,7 @@ class Trigram:
         list_word: list[Union[str, tuple[str, str]]],
         duplicate: bool,
     ) -> list[tuple[str, str, str]]:
-        """List the trigrams that can follow ``late_word``."""
+        """Return the trigrams that can follow ``late_word``."""
         if duplicate:
             return [j for j in self.ti_keys if j[:2] == late_word]
         return [

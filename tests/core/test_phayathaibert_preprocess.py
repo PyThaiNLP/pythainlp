@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Regression test for ThaiTextProcessor.preprocess.
+"""
+Regression test for ThaiTextProcessor.preprocess.
 
 The module is imported under a private name with a fake ``transformers``
 package, because importing it downloads the real tokenizer.
@@ -19,7 +20,8 @@ import pythainlp
 
 
 def _import_phayathaibert() -> Any:
-    """Load phayathaibert/core.py with a fake ``transformers``.
+    """
+    Load phayathaibert/core.py with a fake ``transformers``.
 
     Neither ``sys.modules`` nor the ``pythainlp.phayathaibert`` package
     attribute is changed.

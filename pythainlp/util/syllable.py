@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Syllable tools"""
+"""Syllable tools."""
 
 from __future__ import annotations
 
@@ -121,13 +121,11 @@ def _sound_live_final(syllable: str, consonant_count: int) -> str:
 
 
 def sound_syllable(syllable: str) -> str:
-    """Sound syllable classification
-
-    This function is sound syllable classification.
-    The syllable is a live syllable or dead syllable.
+    """
+    Classify the sound of a Thai syllable as live or dead.
 
     :param str syllable: Thai syllable
-    :return: syllable's type ("live" or "dead")
+    :return: type of the syllable ("live" or "dead")
     :rtype: str
 
     :Example:
@@ -137,6 +135,8 @@ def sound_syllable(syllable: str) -> str:
         'live'
         >>> sound_syllable("เลข")
         'dead'
+        >>> sound_syllable("ฤๅ")
+        'live'
     """
     if len(syllable) < 2:
         return "dead"
@@ -145,7 +145,9 @@ def sound_syllable(syllable: str) -> str:
     if len(consonants) == 0 and "อ" in syllable:
         return _sound_vowel_only(syllable)
 
-    # Raises IndexError if there is no consonant (known bug)
+    if not consonants:
+        return "dead" if _has_short_sound(syllable) else "live"
+
     spelling_consonant = consonants[-1]
     if (
         spelling_consonant in _check_2
@@ -169,12 +171,11 @@ def sound_syllable(syllable: str) -> str:
 
 
 def syllable_open_close_detector(syllable: str) -> str:
-    """Open/close Thai syllables detector
-
-    This function is used for finding Thai syllables that are open or closed sound.
+    """
+    Detect whether a Thai syllable is open or closed.
 
     :param str syllable: Thai syllable
-    :return: open / close
+    :return: "open" or "close"
     :rtype: str
 
     :Example:
@@ -197,12 +198,11 @@ def syllable_open_close_detector(syllable: str) -> str:
 
 
 def syllable_length(syllable: str) -> str:
-    """Thai syllable length
-
-    This function is used for finding syllable's length. (long or short)
+    """
+    Detect the vowel length of a Thai syllable.
 
     :param str syllable: Thai syllable
-    :return: syllable's length (long or short)
+    :return: length of the syllable ("long" or "short")
     :rtype: str
 
     :Example:
@@ -315,9 +315,10 @@ _TONE_TABLE: dict[tuple[str, ...], str] = _build_tone_table()
 
 
 def tone_detector(syllable: str) -> str:
-    """Thai tone detector for syllables
+    """
+    Detect the tone of a Thai syllable.
 
-    Return tone of a syllable.
+    The tone is one of:
 
     - l: low
     - m: mid
@@ -327,7 +328,8 @@ def tone_detector(syllable: str) -> str:
     - empty string: cannot be detected
 
     :param str syllable: Thai syllable
-    :return: syllable's tone (l, m, h, r, f) or empty if it cannot be detected
+    :return: tone of the syllable (l, m, h, r, f),
+        or an empty string if it cannot be detected
     :rtype: str
 
     :Example:

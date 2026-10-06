@@ -72,13 +72,14 @@ support_list: set[str] = {
 
 
 def translate(word: str, src: str, target: str) -> Optional[list[str]]:
-    """Word translate
+    """
+    Translate a word using the word2word library.
 
-    :param str word: text
-    :param str src: src language
-    :param str target: target language
-    :return: return list word translate or None
-    :rtype: Union[List[str], None]
+    :param str word: word to translate
+    :param str src: source language code
+    :param str target: target language code
+    :return: list of translated words, or None
+    :rtype: Optional[list[str]]
     """
     if src not in support_list or target not in support_list:
         raise NotImplementedError(f"word2word doesn't support {src}-{target}.")

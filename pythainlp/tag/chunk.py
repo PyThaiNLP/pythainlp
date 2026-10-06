@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Deprecated. Use :func:`pythainlp.chunk.chunk_parse` instead.
+"""
+Deprecated. Use :func:`pythainlp.chunk.chunk_parse` instead.
 
 .. deprecated:: 5.3.2
     :func:`chunk_parse` has moved to :mod:`pythainlp.chunk`.
@@ -18,15 +19,17 @@ def chunk_parse(
     engine: str = "crf",
     corpus: str = "orchidpp",
 ) -> list[str]:
-    """Parse a Thai sentence into phrase-structure chunks (IOB format).
+    """
+    Parse a Thai sentence into phrase-structure chunks (IOB format).
 
     .. deprecated:: 5.3.2
         Use :func:`pythainlp.chunk.chunk_parse` instead.
 
-    :param list[tuple[str, str]] sent: list of (word, POS-tag) pairs.
-    :param str engine: chunking engine (default: ``"crf"``).
-    :param str corpus: corpus name (default: ``"orchidpp"``).
-    :return: list of IOB chunk labels, one per token.
+    :param list[tuple[str, str]] sent: list of (word, POS tag) pairs
+    :param str engine: chunking engine (default: ``"crf"``)
+    :param str corpus: corpus used to train the chunker model
+        (default: ``"orchidpp"``)
+    :return: list of IOB chunk labels, one per word
     :rtype: list[str]
     """
     warn_deprecation(

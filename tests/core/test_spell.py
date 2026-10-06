@@ -100,7 +100,8 @@ class SpellTestCase(unittest.TestCase):
             _ = NorvigSpellChecker(custom_dict=user_list_int)  # type: ignore[arg-type]
 
     def test_issue_680_orst_filtering(self):
-        """Test for issue #680: Spell checker uses only ORST words.
+        """
+        Test for issue #680: Spell checker uses only ORST words.
 
         Issue #680 reported that the TNC dictionary contained misspelled words.
         The solution is to filter Phupha dataset by thai_orst_words.

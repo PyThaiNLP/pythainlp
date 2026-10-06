@@ -22,7 +22,7 @@ _tokenizer: Optional["CamembertTokenizer"] = None
 
 
 def _get_tokenizer() -> CamembertTokenizer:
-    """Get the tokenizer, initializing it if necessary."""
+    """Return the tokenizer, initializing it if necessary."""
     global _tokenizer
     if _tokenizer is None:
         from transformers import CamembertTokenizer
@@ -51,14 +51,18 @@ class ThaiNameTagger:
     def __init__(
         self, dataset_name: str = "thainer", grouped_entities: bool = True
     ) -> None:
-        """This function tags named entities in text in IOB format.
+        """
+        Initialize a named entity tagger in IOB format.
 
-        Powered by wangchanberta from VISTEC-depa\
-             AI Research Institute of Thailand
+        Powered by WangchanBERTa from the VISTEC-depa AI Research
+        Institute of Thailand.
 
-        :param str dataset_name:
-            * *thainer* - ThaiNER dataset
-        :param bool grouped_entities: grouped entities
+        :param str dataset_name: dataset the model is fine-tuned on
+
+            * *thainer* - ThaiNER dataset (default)
+
+        :param bool grouped_entities: whether to group word pieces of
+            the same entity
         """
         from transformers import pipeline
 
@@ -84,18 +88,20 @@ class ThaiNameTagger:
     def get_ner(  # noqa: C901, CCR001  # phase2-todo
         self, text: str, pos: bool = False, tag: bool = False
     ) -> Union[list[tuple[str, str]], str]:
-        """This function tags named entities in text in IOB format.
-        Powered by wangchanberta from VISTEC-depa\
-             AI Research Institute of Thailand
+        """
+        Tag named entities in text in IOB format.
 
-        :param str text: text in Thai to be tagged
-        :param bool tag: output HTML-like tags.
-        :return: a list of tuples associated with tokenized word groups,\
-            NER tags, and output HTML-like tags (if the parameter `tag` is \
-            specified as `True`). \
-            Otherwise, return a list of tuples associated with tokenized \
-            words and NER tags
-        :rtype: Union[list[tuple[str, str]]], str
+        Powered by WangchanBERTa from the VISTEC-depa AI Research
+        Institute of Thailand.
+
+        :param str text: Thai text to be tagged
+        :param bool pos: output part-of-speech tags. This model does not
+            support them, so a warning is raised.
+        :param bool tag: return HTML-like tags in a string instead of a
+            list of tuples
+        :return: list of tuples (word group, named entity tag), or a string
+            with HTML-like tags if **tag** is True
+        :rtype: Union[list[tuple[str, str]], str]
         """
         if pos:
             warnings.warn(
@@ -170,12 +176,14 @@ class NamedEntityRecognition:
         model: str = "pythainlp/thainer-corpus-v2-base-model",
         revision: Optional[str] = None,
     ) -> None:
-        """This function tags named entities in text in IOB format.
+        """
+        Initialize a named entity tagger in IOB format.
 
-        Powered by wangchanberta from VISTEC-depa\
-             AI Research Institute of Thailand
-        :param str model: The model that use wangchanberta pretrained.
-        :param Optional[str] revision: a git revision id (branch, tag, or
+        Powered by WangchanBERTa from the VISTEC-depa AI Research
+        Institute of Thailand.
+
+        :param str model: name of a model pretrained from WangchanBERTa
+        :param Optional[str] revision: git revision id (branch, tag, or
             commit hash). Pin to a full commit hash for secure downloads.
         """
         from transformers import AutoModelForTokenClassification, AutoTokenizer
@@ -209,18 +217,20 @@ class NamedEntityRecognition:
     def get_ner(  # noqa: CCR001  # phase2-todo
         self, text: str, pos: bool = False, tag: bool = False
     ) -> Union[list[tuple[str, str]], str]:
-        """This function tags named entities in text in IOB format.
-        Powered by wangchanberta from VISTEC-depa\
-             AI Research Institute of Thailand
+        """
+        Tag named entities in text in IOB format.
 
-        :param str text: text in Thai to be tagged
-        :param bool tag: output HTML-like tags.
-        :return: a list of tuples associated with tokenized word groups, NER tags, \
-                 and output HTML-like tags (if the parameter `tag` is \
-                 specified as `True`). \
-                 Otherwise, return a list of tuples associated with tokenized \
-                 words and NER tags
-        :rtype: Union[list[tuple[str, str]]], str
+        Powered by WangchanBERTa from the VISTEC-depa AI Research
+        Institute of Thailand.
+
+        :param str text: Thai text to be tagged
+        :param bool pos: output part-of-speech tags. This model does not
+            support them, so a warning is raised.
+        :param bool tag: return HTML-like tags in a string instead of a
+            list of tuples
+        :return: list of tuples (word group, named entity tag), or a string
+            with HTML-like tags if **tag** is True
+        :rtype: Union[list[tuple[str, str]], str]
         """
         import torch
 
@@ -270,7 +280,10 @@ class NamedEntityRecognition:
 
 
 def segment(text: str) -> list[str]:
-    """Subword tokenize. SentencePiece from wangchanberta model.
+    """
+    Tokenize text into subwords with the WangchanBERTa tokenizer.
+
+    The tokenizer is a SentencePiece model.
 
     :param str text: text to be tokenized
     :return: list of subwords

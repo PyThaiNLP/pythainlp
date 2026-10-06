@@ -14,9 +14,10 @@ from pythainlp.tokenize import word_tokenize
 
 
 class FastTextAug:
-    """Text Augment from fastText
+    """
+    Augment Thai text using fastText.
 
-    :param str model_path: path of model file
+    :param str model_path: path to the model file
     """
 
     model: Union[FastText, KeyedVectors]
@@ -25,7 +26,11 @@ class FastTextAug:
     list_synonym: list[list[str]]
 
     def __init__(self, model_path: str) -> None:
-        """:param str model_path: path of model file"""
+        """
+        Load the fastText model.
+
+        :param str model_path: path to the model file
+        """
         from gensim.models.fasttext import FastText as FastText_gensim
         from gensim.models.keyedvectors import KeyedVectors
 
@@ -40,19 +45,25 @@ class FastTextAug:
         self.dict_wv: list[str] = list(self.model.key_to_index.keys())
 
     def tokenize(self, text: str) -> list[str]:
-        """Thai text tokenization for fastText
+        """
+        Tokenize Thai text into a list of words.
 
-        :param str text: Thai text
+        :param str text: Thai text to tokenize
 
         :return: list of words
-        :rtype: List[str]
+        :rtype: list[str]
         """
         return word_tokenize(text, engine="icu")
 
     def modify_sent(self, sent: list[str], p: float = 0.7) -> list[list[str]]:
-        """:param list[str] sent: text of sentence
-        :param float p: probability
-        :rtype: List[List[str]]
+        """
+        Find replacement words for each word in a sentence.
+
+        :param list[str] sent: list of words
+        :param float p: minimum similarity score of a replacement word
+        :return: list of replacement words for each word, which is the
+            word itself if there is no replacement
+        :rtype: list[list[str]]
         """
         list_sent_new = []
         for i in sent:
@@ -69,17 +80,18 @@ class FastTextAug:
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7
     ) -> list[tuple[str, ...]]:
-        """Text Augment from fastText
+        """
+        Augment text using fastText.
 
         You may want to download the Thai model
         from https://fasttext.cc/docs/en/crawl-vectors.html.
 
-        :param str sentence: Thai sentence
-        :param int n_sent: number of sentences
-        :param float p: probability of word
+        :param str sentence: Thai text to augment
+        :param int n_sent: number of augmented sentences
+        :param float p: minimum similarity score of a replacement word
 
-        :return: list of synonyms
-        :rtype: List[Tuple[str]]
+        :return: list of augmented sentences, each a tuple of words
+        :rtype: list[tuple[str, ...]]
         """
         self.sentence: list[str] = self.tokenize(sentence)
         self.list_synonym: list[list[str]] = self.modify_sent(

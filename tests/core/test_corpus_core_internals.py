@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.corpus.core internals.
+"""
+Characterization tests for pythainlp.corpus.core internals.
 
 Cover the download manager, the corpus path lookup, the version
 constraint checker, and the safe archive extraction helpers.
@@ -425,7 +426,8 @@ _TAR_REJECTED_POSIX: tuple[tuple[list[_TarMember], str, str], ...] = (
 
 
 def _late_binding_members() -> list[_TarMember]:
-    """Return a symlink that escapes only after a later link exists.
+    """
+    Return a symlink that escapes only after a later link exists.
 
     "a" -> "d1/d2/x/../.." is inside while "x" is missing. Once
     "d1/d2/x" -> "../.." is extracted, "a" points to the parent of the
@@ -441,7 +443,8 @@ def _late_binding_members() -> list[_TarMember]:
 
 
 def _path_max_members() -> list[_TarMember]:
-    """Return a CVE-2025-4517 style archive.
+    """
+    Return a CVE-2025-4517 style archive.
 
     Short symlinks to long directory names make the resolved path longer
     than PATH_MAX, so an unpatched ``os.path.realpath`` stops resolving
@@ -470,7 +473,8 @@ else:
 
 
 class _SafeExtractTarTestMixin(_MixinBase):
-    """Tests shared by both ``_safe_extract_tar`` branches.
+    """
+    Tests shared by both ``_safe_extract_tar`` branches.
 
     Archives are extracted for real into a temporary directory.
     """
@@ -599,7 +603,8 @@ class _SafeExtractTarTestMixin(_MixinBase):
 class SafeExtractTarDataFilterTestCase(
     _SafeExtractTarTestMixin, unittest.TestCase
 ):
-    """Branch that uses the "data" extraction filter of ``tarfile``.
+    """
+    Branch that uses the "data" extraction filter of ``tarfile``.
 
     The filter exists in Python 3.12 and later, and in the security
     releases 3.9.17, 3.10.12, and 3.11.4.
@@ -669,7 +674,8 @@ def _tarfile_without_data_filter() -> types.ModuleType:
 class SafeExtractTarManualTestCase(
     _SafeExtractTarTestMixin, unittest.TestCase
 ):
-    """Branch without the "data" extraction filter: manual validation.
+    """
+    Branch without the "data" extraction filter: manual validation.
 
     ``TarFile.extractall`` runs without a filter, as in old Python.
     """

@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Named-entity recognizer"""
+"""Named entity recognizer."""
 
 from __future__ import annotations
 
@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 
 
 class EntitySpan(TypedDict):
-    """Named-entity span with its type, tokens, and position."""
+    """Named entity span with its type, words, and position."""
 
     entity_type: str
     text: list[str]
@@ -42,25 +42,27 @@ NEREngineType = Union[
 
 
 class NER:
-    """Class of named-entity recognizer
+    """
+    Named entity recognizer.
 
-    :param str engine: engine of named-entity recognizer
-    :param str corpus: corpus
+    :param str engine: engine to use for recognition. Options are:
 
-    **Options for engine**
         * *phayathaibert* - PhayaThaiBERT-based Thai NER engine
         * *thainer* - Thai NER engine
-        * *thai-nner* - Thai Nested NER engine
+        * *thai-nner* - Thai nested NER engine
         * *thainer-v2* - Thai NER engine v2.0 for Thai NER 2.0 (default)
-        * *tltk* - wrapper for `TLTK <https://pypi.org/project/tltk/>`_.
+        * *tltk* - wrapper for `TLTK <https://pypi.org/project/tltk/>`_
         * *wangchanberta* - WangchanBERTa-based Thai NER engine
+    :param str corpus: corpus used to train the engine model.
+        Options are:
 
-    **Options for corpus**
         * *thainer* - Thai NER corpus (default)
         * *thainer-v2* - Thai NER v2 corpus
 
-    **Note**: The tltk engine supports NER models from tltk only.
-              The thai-nner engine supports nested NER and ignores corpus parameter.
+    .. note::
+        The tltk engine supports NER models from tltk only.
+        The thai-nner engine supports nested NER and ignores the corpus
+        parameter.
     """
 
     name_engine: str
@@ -116,19 +118,19 @@ class NER:
     def tag(
         self, text: str, pos: bool = False, tag: bool = False
     ) -> Union[list[tuple[str, str]], list[tuple[str, str, str]], str]:
-        """This function tags named entities in text in IOB format.
+        """
+        Tag named entities in text in IOB format.
 
-        :param str text: text in Thai to be tagged
-        :param bool pos: output with part-of-speech tags.\
-            (wangchanberta is not supported)
-        :param bool tag: output HTML-like tags.
-        :return: a list of tuples associated with tokenized words, NER tags,
-                 POS tags (if the parameter `pos` is specified as `True`),
-                 and output HTML-like tags (if the parameter `tag` is
-                 specified as `True`).
-                 Otherwise, return a list of tuples associated with tokenized
-                 words and NER tags
+        :param str text: Thai text to be tagged
+        :param bool pos: include part-of-speech (POS) tags in the results
+            (not supported by wangchanberta)
+        :param bool tag: return the text with HTML-like tags
+            instead of a list of tuples
+        :return: list of tuples of word, POS tag (if ``pos`` is ``True``),
+            and named entity tag; or the text with HTML-like tags
+            (if ``tag`` is ``True``)
         :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]], str]
+
         :Example:
 
             >>> from pythainlp.tag import NER
@@ -152,13 +154,13 @@ class NER:
 
 
 class NNER:
-    """Nested Named Entity Recognition
+    """
+    Nested named entity recognizer.
 
-    :param str engine: engine of nested named entity recognizer
-    :param str corpus: corpus
+    :param str engine: engine to use for recognition. Options are:
 
-    **Options for engine**
-        * *thai_nner* - Thai NER engine
+        * *thai_nner* - Thai nested NER engine (default)
+    :param str corpus: corpus used to train the engine model
     """
 
     engine: "ThaiNNER"
@@ -174,21 +176,19 @@ class NNER:
     def tag(
         self, text: str, top_level_only: bool = False
     ) -> tuple[list[str], list[EntitySpan]]:
-        """This function tags nested named entities.
+        """
+        Tag nested named entities in text.
 
-        :param str text: text in Thai to be tagged
-        :param bool top_level_only: If True, return only top-level (outermost)
-                                     entities. If False, return all nested
-                                     entities. Default is False.
-
-        :return: a tuple of (tokens, entities) where tokens is a list of
-                 tokenized strings and entities is a list of dictionaries
-                 containing 'text', 'span', and 'entity_type' keys.
+        :param str text: Thai text to be tagged
+        :param bool top_level_only: return only top-level (outermost)
+            entities (``True``) or all nested entities (``False``, default)
+        :return: tuple of (words, entities), where entities is a list of
+            dicts with ``text``, ``span``, and ``entity_type`` keys
         :rtype: tuple[list[str], list[EntitySpan]]
 
         .. note::
-            The tokenized output may include empty strings as part of the
-            tokenization process from the underlying Thai-NNER model.
+            The list of words may include empty strings as part of the
+            tokenization process of the underlying Thai-NNER model.
 
         :Example:
 

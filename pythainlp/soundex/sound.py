@@ -16,10 +16,11 @@ _dst: panphon.distance.Distance = panphon.distance.Distance()
 
 
 def _clean_ipa(ipa: str) -> str:
-    """Clean IPA by removing tones and space between phonetic codes
+    """
+    Clean IPA text by removing tones and spaces between phonetic codes.
 
-    :param str ipa: IPA text
-    :return: IPA with tones removed from the text
+    :param str ipa: International Phonetic Alphabet (IPA) text
+    :return: IPA text with tones removed
     :rtype: str
     """
     return (
@@ -35,10 +36,11 @@ def _clean_ipa(ipa: str) -> str:
 
 
 def word2audio(word: str) -> str:
-    """Convert word to IPA
+    """
+    Convert a word to IPA.
 
-    :param str word: Thai word
-    :return: IPA with tones removed from the text
+    :param str word: Thai word to be converted
+    :return: IPA text with tones removed
     :rtype: str
 
     :Example:
@@ -56,10 +58,11 @@ def word2audio(word: str) -> str:
 
 
 def audio_vector(word: str) -> list[list[int]]:
-    """Convert audio to vector list
+    """
+    Convert a word to a list of phonetic feature vectors.
 
-    :param str word: Thai word
-    :return: List of features from panphon
+    :param str word: Thai word to be converted
+    :return: list of features from panphon
     :rtype: list[list[int]]
 
     :Example:
@@ -75,11 +78,13 @@ def audio_vector(word: str) -> list[list[int]]:
 
 
 def word_approximation(word: str, list_word: list[str]) -> list[float]:
-    """Thai Word Approximation
+    """
+    Calculate the phonetic distance from a word to each word in a list.
 
-    :param str word: Thai word
-    :param str list_word: Thai word
-    :return: List of approximation of words (The smaller the value, the closer)
+    :param str word: Thai word to be compared
+    :param list[str] list_word: list of Thai words to compare against
+    :return: list of distances to the words, in order
+        (the smaller the value, the closer)
     :rtype: list[float]
 
     :Example:

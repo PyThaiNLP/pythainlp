@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Offline tests for pythainlp.cli.benchmark.
+"""
+Offline tests for pythainlp.cli.benchmark.
 
 ``yaml`` and the benchmark function are replaced with fakes, so the tests
 need neither pandas nor PyYAML.

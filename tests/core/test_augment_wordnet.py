@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.augment.wordnet.WordNetAug.augment.
+"""
+Characterization tests for pythainlp.augment.wordnet.WordNetAug.augment.
 
 Golden cases were recorded from the code before the complexity refactor.
 The NLTK WordNet reader, the Thai WordNet wrapper, and the POS tagger are
@@ -483,7 +484,8 @@ class WordNetAugCharacterizationTestCase(unittest.TestCase):
 
     # BUG-LEDGER: wordnetaug-pos-ignored
     def test_bug_pos_filter_is_ignored(self) -> None:
-        """The synonyms ignore ``pos``; only an unused lookup uses it.
+        """
+        The synonyms ignore ``pos``; only an unused lookup uses it.
 
         Expected: synsets are filtered by the WordNet POS.
         """

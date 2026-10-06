@@ -1,9 +1,10 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""PyThaiNLP data tools
+"""
+PyThaiNLP data tools.
 
-For text processing and text conversion, see pythainlp.util
+For text processing and text conversion, see :mod:`pythainlp.util`.
 """
 
 from __future__ import annotations
@@ -24,46 +25,47 @@ PYTHAINLP_DEFAULT_DATA_DIR: str = "pythainlp-data"
 
 
 def is_read_only_mode() -> bool:
-    """Return whether PyThaiNLP is operating in read-only mode.
+    """
+    Return whether PyThaiNLP is operating in read-only mode.
 
-    Read-only mode prevents **implicit background writes** to PyThaiNLP's
-    internal data directory — writes that happen as side effects the user
-    may not be aware of. It is activated by setting the
-    ``PYTHAINLP_READ_ONLY`` environment variable to a truthy value
-    (e.g. ``"1"``).
+    Read-only mode prevents **implicit background writes** to the internal
+    data directory of PyThaiNLP. These are writes that happen as side
+    effects the user may not be aware of. Setting the
+    ``PYTHAINLP_READ_ONLY`` environment variable to a truthy value (for
+    example, ``"1"``) activates this mode.
 
     .. deprecated::
         ``PYTHAINLP_READ_MODE`` is deprecated.
         Use ``PYTHAINLP_READ_ONLY`` instead.
         Setting both variables at the same time raises :exc:`ValueError`.
 
-    When read-only mode is active, the following implicit writes are blocked:
+    When read-only mode is active, these implicit writes are blocked:
 
     - Creating the PyThaiNLP data directory
       (``~/pythainlp-data`` or as set by ``PYTHAINLP_DATA``).
-    - :func:`pythainlp.corpus.download` — corpus downloads and catalog
+    - :func:`pythainlp.corpus.download`: corpus downloads and catalog
       updates.
-    - :func:`pythainlp.corpus.remove` — corpus file and catalog deletions.
+    - :func:`pythainlp.corpus.remove`: corpus file and catalog deletions.
 
-    The following **explicit** user-initiated writes are **not** blocked,
-    because the user deliberately provided the destination path:
+    These **explicit** user-initiated writes are **not** blocked, because
+    the user deliberately provides the destination path:
 
     - Saving a trained model to a user-specified path
-      (e.g. ``model.save("my_model.json")``).
+      (for example, ``model.save("my_model.json")``).
     - Training a tagger with an explicit ``save_loc`` argument.
     - Saving a tokenizer vocabulary to a user-specified directory.
-    - CLI output files written to a path the user specified or invoked.
+    - Writing CLI output files to a path the user specified or invoked.
 
     .. note::
-        Use :func:`~pythainlp.tools.path.is_offline_mode` (``PYTHAINLP_OFFLINE``)
-        to disable only *automatic* background downloads while still allowing
-        explicit :func:`~pythainlp.corpus.download` calls.
+        Use :func:`~pythainlp.tools.path.is_offline_mode`
+        (``PYTHAINLP_OFFLINE``) to disable only *automatic* background
+        downloads while still allowing explicit
+        :func:`~pythainlp.corpus.download` calls.
 
-    :return: ``True`` if PyThaiNLP is in read-only mode, ``False`` otherwise.
+    :return: True if PyThaiNLP is in read-only mode, False otherwise
     :rtype: bool
-
     :raises ValueError: if both ``PYTHAINLP_READ_ONLY`` and
-        ``PYTHAINLP_READ_MODE`` are set at the same time.
+        ``PYTHAINLP_READ_MODE`` are set at the same time
 
     :Example:
 
@@ -102,15 +104,16 @@ def is_read_only_mode() -> bool:
 
 
 def is_unsafe_pickle_allowed() -> bool:
-    """Return whether loading legacy pickle-based corpus files is allowed.
+    """
+    Return whether loading legacy pickle-based corpus files is allowed.
 
-    Pickle deserialisation can execute arbitrary code if the file has been
+    Pickle deserialization can execute arbitrary code if the file has been
     tampered with, so it is **disabled by default**.
     Set the ``PYTHAINLP_ALLOW_UNSAFE_PICKLE`` environment variable to
-    a truthy value (e.g. ``"1"``) only when you trust the corpus file and
-    understand the risk.
+    a truthy value (for example, ``"1"``) only when you trust the corpus
+    file and understand the risk.
 
-    :return: ``True`` if legacy pickle loading is allowed, ``False`` otherwise.
+    :return: True if legacy pickle loading is allowed, False otherwise
     :rtype: bool
     """
     val = os.getenv("PYTHAINLP_ALLOW_UNSAFE_PICKLE", "")
@@ -118,10 +121,11 @@ def is_unsafe_pickle_allowed() -> bool:
 
 
 def is_offline_mode() -> bool:
-    """Return whether PyThaiNLP is operating in offline mode.
+    """
+    Return whether PyThaiNLP is operating in offline mode.
 
-    Offline mode is activated by setting the ``PYTHAINLP_OFFLINE``
-    environment variable to a truthy value (e.g. ``"1"``).
+    Setting the ``PYTHAINLP_OFFLINE`` environment variable to a truthy
+    value (for example, ``"1"``) activates offline mode.
     Falsy values (``""``, ``"0"``, ``"false"``, ``"no"``, ``"off"``)
     keep online mode active.
 
@@ -139,7 +143,7 @@ def is_offline_mode() -> bool:
         ``PYTHAINLP_OFFLINE`` only prevents *automatic* downloads
         initiated by :func:`~pythainlp.corpus.get_corpus_path`.
 
-    :return: ``True`` if PyThaiNLP is in offline mode, ``False`` otherwise.
+    :return: True if PyThaiNLP is in offline mode, False otherwise
     :rtype: bool
 
     :Example:
@@ -158,21 +162,19 @@ def is_offline_mode() -> bool:
 
 
 def safe_path_join(base: str, *parts: str) -> str:
-    """Join *base* with *parts*, verify containment, and return the normalized path.
+    """
+    Join *base* with *parts*, verify containment, and return the path.
 
-    This is the authoritative path-traversal guard used throughout the library
-    wherever a base directory and external path components are combined
-    (e.g., :func:`get_full_data_path` and the internal corpus path helpers
-    in :mod:`pythainlp.corpus.core`).
+    This is the authoritative path traversal guard used throughout the
+    library wherever a base directory and external path components are
+    combined (for example, :func:`get_full_data_path` and the internal
+    corpus path helpers in :mod:`pythainlp.corpus.core`).
 
-    :param str base: base directory that the result must reside within.
-    :param parts: additional path components to append.
-    :type parts: str
-
-    :return: normalized absolute path of the joined result.
+    :param str base: base directory that the result must reside within
+    :param str parts: additional path components to append
+    :return: normalized absolute path of the joined result
     :rtype: str
-
-    :raises ValueError: if the resolved path escapes *base*.
+    :raises ValueError: if the resolved path escapes *base*
     """
     abs_base = os.path.abspath(base)
     abs_full = os.path.abspath(os.path.join(abs_base, *parts))
@@ -185,15 +187,15 @@ def safe_path_join(base: str, *parts: str) -> str:
 
 
 def get_full_data_path(path: str) -> str:
-    """Join the PyThaiNLP data directory path with *path* and return the result.
+    """
+    Join the PyThaiNLP data directory path with *path* and return it.
 
-    :param str path: relative path or filename to append to the data directory.
-
-    :return: normalized absolute path within the PyThaiNLP data directory.
+    :param str path: relative path or filename to append to the data
+        directory
+    :return: normalized absolute path within the PyThaiNLP data directory
     :rtype: str
-
     :raises ValueError: if *path* resolves to a location outside the
-        PyThaiNLP data directory (path traversal attempt).
+        PyThaiNLP data directory (path traversal attempt)
 
     :Example:
 
@@ -205,11 +207,12 @@ def get_full_data_path(path: str) -> str:
 
 
 def get_pythainlp_data_path() -> str:
-    """Return the full path where PyThaiNLP keeps its (downloaded) data.
+    """
+    Return the full path where PyThaiNLP keeps its (downloaded) data.
 
     The directory is created if it does not yet exist.
 
-    The path is resolved in the following order:
+    The path is resolved in this order:
 
     1. ``PYTHAINLP_DATA`` environment variable (preferred).
     2. ``PYTHAINLP_DATA_DIR`` environment variable
@@ -224,7 +227,7 @@ def get_pythainlp_data_path() -> str:
         Use ``PYTHAINLP_DATA`` instead (follows the same pattern as
         ``NLTK_DATA``).
 
-    :return: full path of directory for :mod:`pythainlp` downloaded data
+    :return: full path of the directory for downloaded :mod:`pythainlp` data
     :rtype: str
 
     :Example:
@@ -262,14 +265,15 @@ def get_pythainlp_data_path() -> str:
 
 
 def get_pythainlp_path() -> str:
-    """This function returns full path of PyThaiNLP codes.
+    """
+    Return the full path of the PyThaiNLP code.
 
-    Note: When the package is installed as a zip file, the returned path
-    may not be a standard filesystem path and should not be used for direct
-    file I/O operations. Use importlib.resources for accessing package files
-    in a zip-safe manner.
+    When the package is installed as a zip file, the returned path may
+    not be a standard file system path. Do not use it for direct file
+    I/O. Use ``importlib.resources`` to access package files in a zip-safe
+    manner.
 
-    :return: full path of :mod:`pythainlp` codes
+    :return: full path of the :mod:`pythainlp` code
     :rtype: str
 
     :Example:

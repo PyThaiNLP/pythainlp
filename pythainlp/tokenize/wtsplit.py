@@ -1,7 +1,11 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Where's the Point? Self-Supervised Multilingual Punctuation-Agnostic Sentence Segmentation
+"""
+Tokenize text with wtpsplit.
+
+wtpsplit implements "Where's the Point? Self-Supervised Multilingual
+Punctuation-Agnostic Sentence Segmentation".
 
 GitHub: https://github.com/bminixhofer/wtpsplit
 """
@@ -26,12 +30,25 @@ def _tokenize(
     paragraph_threshold: float = 0.5,
     style: str = "newline",
 ) -> list[str]:
-    """Internal tokenization function with model loading protection.
+    """
+    Tokenize text with a WtP model, protecting model loading.
 
     The wrapper uses a lock to protect model loading when switching models.
     However, thread-safety of the underlying WtP library itself is not
-    guaranteed. Please refer to the WtP library documentation for its
+    guaranteed. Refer to the WtP library documentation for its
     thread-safety guarantees.
+
+    :param str text: text to be tokenized
+    :param str lang_code: language code of the text
+    :param str model: name of the WtP model
+    :param str tokenize: level of tokenization, ``"sentence"`` or
+        ``"paragraph"``
+    :param float paragraph_threshold: threshold for paragraph boundaries
+    :param str style: paragraph style, ``"newline"`` or ``"opus100"``
+    :return: list of sentences or paragraphs
+    :rtype: list[str]
+    :raises RuntimeError: if the model fails to load
+    :raises ValueError: if the paragraph style is unknown
     """
     # Thread-safe model loading
     global _MODEL, _MODEL_NAME

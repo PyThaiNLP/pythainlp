@@ -1,14 +1,14 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""symspellpy
+"""
+symspellpy spell checker.
 
 symspellpy is a Python port of SymSpell v6.5.
-We used unigram & bigram from Thai National Corpus (TNC).
+This module uses unigrams and bigrams from the Thai National Corpus (TNC).
 
 :See Also:
-    * \
-        https://github.com/mammothb/symspellpy
+    * https://github.com/mammothb/symspellpy
 """
 
 from __future__ import annotations
@@ -40,11 +40,16 @@ _load_lock: threading.Lock = threading.Lock()  # Thread safety for lazy loading
 
 
 def _get_sym_spell() -> SymSpell:
-    """Lazy load the symspell instance.
+    """
+    Load the SymSpell instance lazily.
 
     This function uses a lock to ensure thread-safe initialization.
     The context manager is kept alive for the lifetime of the program
     to prevent cleanup of temporary files while SymSpell is in use.
+
+    :return: SymSpell instance with the unigram and bigram dictionaries
+    :rtype: symspellpy.SymSpell
+    :raises FileNotFoundError: if the bigram corpus is not found
     """
     global _sym_spell, _unigram_file_ctx
     if _sym_spell is None:

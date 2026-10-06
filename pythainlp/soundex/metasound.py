@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai soundex - MetaSound system
+"""
+Thai soundex, MetaSound system.
 
 References:
 Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with
@@ -54,15 +55,16 @@ def _remove_karan(chars: list[str]) -> list[str]:
 
 
 def metasound(text: str, length: int = 4) -> str:
-    """Converts Thai text into phonetic code with the
-    matching technique called **MetaSound**
-    [#metasound]_ (combination between Soundex and Metaphone algorithms).
-    MetaSound algorithm was developed specifically for the Thai language.
+    """
+    Convert text into phonetic code with the matching technique called
+    **MetaSound** [#metasound]_ (a combination of the Soundex and
+    Metaphone algorithms).
 
-    :param str text: Thai text
+    The MetaSound algorithm was developed specifically for Thai.
+
+    :param str text: Thai word to be encoded
     :param int length: preferred length of the MetaSound code (default is 4)
-
-    :return: MetaSound for the given text
+    :return: MetaSound code
     :rtype: str
 
     :Example:

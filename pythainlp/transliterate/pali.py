@@ -6,12 +6,11 @@ import re
 
 def pronunciate_pali(word: str) -> str:
     """
-    Convert pali word to Thai pronunciation
+    Convert a Pali word to its Thai pronunciation.
 
-    :param str word: Pali word (written in Thai script) to be pronunciated.
-
-    :return: A string of Thai letters indicating
-             how the input text should be pronounced.
+    :param str word: Pali word, written in Thai script
+    :return: Thai letters indicating how the word is pronounced
+    :rtype: str
 
     :Example:
 

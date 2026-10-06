@@ -13,7 +13,8 @@ if TYPE_CHECKING:
 
 
 class BPEmbAug:
-    """Thai Text Augment using word2vec from BPEmb
+    """
+    Augment Thai text using word2vec from BPEmb.
 
     BPEmb:
     `github.com/bheinzerling/bpemb <https://github.com/bheinzerling/bpemb>`_
@@ -37,13 +38,17 @@ class BPEmbAug:
         self.load_w2v()
 
     def tokenizer(self, text: str) -> list[str]:
-        """:param str text: Thai text
-        :rtype: List[str]
+        """
+        Tokenize text into a list of subword units.
+
+        :param str text: Thai text to tokenize
+        :return: list of subword units
+        :rtype: list[str]
         """
         return cast("list[str]", self.bpemb_temp.encode(text))
 
     def load_w2v(self) -> None:
-        """Load BPEmb model"""
+        """Load the BPEmb model."""
         self.aug: Word2VecAug = Word2VecAug(
             self.model, tokenize=self.tokenizer, type="model"
         )
@@ -51,14 +56,16 @@ class BPEmbAug:
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7
     ) -> list[str]:
-        """Text Augment using word2vec from BPEmb
+        """
+        Augment text using word2vec from BPEmb.
 
-        :param str sentence: Thai sentence
-        :param int n_sent: number of sentence
-        :param float p: probability of word
+        :param str sentence: Thai text to augment
+        :param int n_sent: number of augmented sentences
+        :param float p: minimum similarity score of a replacement word
 
-        :return: list of synonyms
+        :return: list of augmented sentences
         :rtype: list[str]
+
         :Example:
 
             >>> from pythainlp.augment.word2vec.bpemb_wv import (

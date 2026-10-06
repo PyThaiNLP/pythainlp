@@ -64,12 +64,13 @@ class TokenizationStat(TypedDict):
 
 
 def _f1(precision: float, recall: float) -> float:
-    """Compute f1.
+    """
+    Compute the F1 score.
 
-    :param float precision
-    :param float recall
+    :param float precision: precision value
+    :param float recall: recall value
 
-    :return: f1
+    :return: F1 score
     :rtype: float
     """
     if precision == recall == 0:
@@ -93,7 +94,8 @@ def _flatten_result(
     my_dict: Any,
     sep: str = ":",
 ) -> dict[str, Union[int, str]]:
-    """Flatten a two-level dictionary.
+    """
+    Flatten a two-level dictionary.
 
     Uses keys from the first level as a prefix for keys in the second level.
     For example::
@@ -102,13 +104,13 @@ def _flatten_result(
         _flatten_result(my_dict)
         # {"a:b": 7}
 
-    :param my_dict: dictionary containing stats
+    :param my_dict: dictionary containing statistics
     :type my_dict: TokenizationStat or
         collections.abc.Mapping[str,
         collections.abc.Mapping[str, Union[int, str]]]
-    :param str sep: separator between the two keys (default: ``":"``)
+    :param str sep: separator between the two keys (default is ``":"``)
 
-    :return: a flat dictionary with combined keys
+    :return: flat dictionary with combined keys
     :rtype: dict[str, Union[int, str]]
     """
     return {
@@ -119,12 +121,13 @@ def _flatten_result(
 
 
 def benchmark(ref_samples: list[str], samples: list[str]) -> "pd.DataFrame":
-    """Performance benchmarking for samples.
+    """
+    Benchmark tokenized samples against reference samples.
 
     See :func:`pythainlp.benchmarks.word_tokenization.compute_stats`
     for computed metrics.
 
-    :param list[str] ref_samples: ground truth
+    :param list[str] ref_samples: reference (ground truth) samples
     :param list[str] samples: samples to evaluate
 
     :return: dataframe with shape ``len(samples) × len(metrics)``
@@ -164,10 +167,12 @@ Pair (i=%d)
 
 
 def preprocessing(txt: str, remove_space: bool = True) -> str:
-    """Clean up text before performing evaluation.
+    # TODO: docstring names ``text``, but the parameter is ``txt``
+    """
+    Clean up text before performing evaluation.
 
-    :param str text: text to be preprocessed
-    :param bool remove_space: whether to remove white space
+    :param str text: text to preprocess
+    :param bool remove_space: remove white space
 
     :return: preprocessed text
     :rtype: str
@@ -187,19 +192,18 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
 
 
 def compute_stats(ref_sample: str, raw_sample: str) -> TokenizationStat:
-    """Compute statistics for tokenization quality.
+    """
+    Compute statistics for tokenization quality.
 
     These statistics include:
 
-    **Character-level**:
-      True Positive, False Positive, True Negative, False Negative
-    **Word-level**:
-      Precision, Recall, and F1
-    **Global**:
-      A ``{0, 1}`` sequence indicating whether each word
-      is tokenized correctly.
+    * *Character-level* - true positive, false positive, true negative,
+      false negative
+    * *Word-level* - precision, recall, and F1
+    * *Global* - a ``{0, 1}`` sequence indicating whether each word
+      is tokenized correctly
 
-    :param str ref_sample: ground truth sample
+    :param str ref_sample: reference (ground truth) sample
     :param str raw_sample: sample to evaluate
 
     :return: character-level, word-level, and global tokenization metrics
@@ -261,13 +265,14 @@ def compute_stats(ref_sample: str, raw_sample: str) -> TokenizationStat:
 def _binary_representation(
     txt: str, verbose: bool = False
 ) -> "NDArray[np.int8]":
-    """Transform text into {0, 1} sequence.
+    """
+    Transform text into a {0, 1} sequence.
 
-    where (1) indicates that the corresponding character is the beginning of
+    A 1 indicates that the corresponding character is the beginning of
     a word. For example, ผม|ไม่|ชอบ|กิน|ผัก -> 10100...
 
-    :param str txt: input text that we want to transform
-    :param bool verbose: for debugging purposes
+    :param str txt: text to transform
+    :param bool verbose: print each character with its value, for debugging
 
     :return: {0, 1} sequence
     :rtype: numpy.typing.NDArray[numpy.int8]
@@ -301,7 +306,8 @@ def _binary_representation(
 def _find_word_boundaries(
     bin_reps: "NDArray[np.int8]",
 ) -> list[tuple[int, int]]:
-    """Find the starting and ending location of each word.
+    """
+    Find the starting and ending location of each word.
 
     :param numpy.typing.NDArray[numpy.int8] bin_reps: binary representation
         of a text
@@ -322,7 +328,8 @@ def _find_words_correctly_tokenized(
     ref_boundaries: list[tuple[int, int]],
     predicted_boundaries: list[tuple[int, int]],
 ) -> tuple[int, ...]:
-    """Find whether each word is correctly tokenized.
+    """
+    Find whether each word is correctly tokenized.
 
     :param list[tuple[int, int]] ref_boundaries: word boundaries of
         the reference tokenization

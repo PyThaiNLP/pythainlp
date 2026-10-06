@@ -2,16 +2,25 @@
 # SPDX-FileCopyrightText: 2020 Nakhun Chumpolsathien
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""The implementation of sentence segmentator from Nakhun Chumpolsathien, 2020
-original codes are from: https://github.com/nakhunchumpolsathien/ThaiSum
+"""
+Tokenize Thai text into sentences with the ThaiSum sentence segmentor.
+
+This is an implementation of the sentence segmentor by
+Nakhun Chumpolsathien, 2020. The original code is from
+https://github.com/nakhunchumpolsathien/ThaiSum
 
 Cite:
 
-@mastersthesis{chumpolsathien_2020,
-    title={Using Knowledge Distillation from Keyword Extraction to Improve the Informativeness of Neural Cross-lingual Summarization},
-    author={Chumpolsathien, Nakhun},
-    year={2020},
-    school={Beijing Institute of Technology}
+.. code-block:: bibtex
+
+    @mastersthesis{chumpolsathien_2020,
+        title={Using Knowledge Distillation from Keyword Extraction
+            to Improve the Informativeness of Neural Cross-lingual
+            Summarization},
+        author={Chumpolsathien, Nakhun},
+        year={2020},
+        school={Beijing Institute of Technology}
+    }
 """
 
 from __future__ import annotations
@@ -245,10 +254,16 @@ def middle_cut(sentences: list[str]) -> list[str]:
 def _find_split_positions(
     tokens: list[str], keyword: str, end_gap: int, near_gap: int
 ) -> tuple[list[int], list[int]]:
-    """Find where to put "<stop>" around a keyword.
+    """
+    Find where to put "<stop>" around a keyword.
 
+    :param list[str] tokens: list of words
+    :param str keyword: keyword to look for
+    :param int end_gap: distance from the keyword to the end of the words
+    :param int near_gap: distance from the keyword to the next space
     :return: positions of the spaces to replace with "<stop>",
         and positions to insert "<stop>" before
+    :rtype: tuple[list[int], list[int]]
     """
     last_position = len(tokens)
     keyword_position = -1

@@ -1,8 +1,9 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai-English Cross-Language Transliterated Word Retrieval
-using Soundex Technique
+"""
+Thai-English Cross-Language Transliterated Word Retrieval
+using Soundex Technique.
 
 References:
 Prayut Suwanvisat, Somchai Prasitjutrakul.
@@ -69,13 +70,14 @@ _REST_CODES: dict[str, str] = _build_table(
 
 
 def prayut_and_somchaip(text: str, length: int = 4) -> str:
-    """Converts English-Thai Cross-Language Transliterated Words into
-    phonetic code with the matching technique called **Soundex** [#prayut_and_somchaip]_.
+    """
+    Convert a Thai-English cross-language transliterated word into
+    phonetic code with the matching technique called **Soundex**
+    [#prayut_and_somchaip]_.
 
-    :param str text: English-Thai Cross-Language Transliterated Word
-    :param int length: preferred length of the Soundex code (default is 4)
-
-    :return: Soundex for the given text
+    :param str text: English or Thai transliterated word to be encoded
+    :param int length: preferred length of the soundex code (default is 4)
+    :return: soundex code
     :rtype: str
 
     :Example:

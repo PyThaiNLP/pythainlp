@@ -99,7 +99,7 @@ class App:
             print("Not found.")
 
     def catalog(self, argv: Sequence[str]) -> None:
-        """Print dataset/corpus available for download."""
+        """Print the datasets and corpora available for download."""
         corpus_db_response = corpus.get_corpus_db(corpus.corpus_db_url())
         corpus_db_dict: dict[str, dict[str, str]] = corpus_db_response.json()  # type: ignore[union-attr]
         corpus_names = sorted(corpus_db_dict.keys())
@@ -118,5 +118,5 @@ class App:
         )
 
     def path(self, argv: Sequence[str]) -> None:
-        """Print path of local dataset."""
+        """Print the path of a local dataset."""
         print(get_pythainlp_data_path())

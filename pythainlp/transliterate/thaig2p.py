@@ -1,8 +1,10 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai Grapheme-to-Phoneme (Thai G2P)
-GitHub : https://github.com/wannaphong/thai-g2p
+"""
+Thai Grapheme-to-Phoneme (Thai G2P).
+
+GitHub: https://github.com/wannaphong/thai-g2p
 """
 
 from __future__ import annotations
@@ -110,9 +112,13 @@ class ThaiG2P:
         return tensor.to(device)
 
     def g2p(self, text: str) -> str:
-        """:param str text: Thai text to be romanized
-        :return: English (more or less) text that spells out how the Thai text
-                 should be pronounced.
+        """
+        Convert Thai text to its pronunciation.
+
+        :param str text: Thai text to be converted
+        :return: text in a phonetic alphabet, indicating how the Thai text
+            is pronounced
+        :rtype: str
         """
         input_tensor = self._prepare_sequence_in(text).view(1, -1)
         input_length = [len(text) + 1]
@@ -151,7 +157,7 @@ class Encoder(nn.Module):  # type: ignore[misc]
         hidden_size: int,
         dropout: float = 0.5,
     ) -> None:
-        """Constructor"""
+        """Initialize the layers."""
         super().__init__()
         self.hidden_size: int = hidden_size
         self.character_embedding: nn.Embedding = nn.Embedding(
@@ -298,7 +304,7 @@ class AttentionDecoder(nn.Module):  # type: ignore[misc]
         hidden_size: int,
         dropout: float = 0.5,
     ) -> None:
-        """Constructor"""
+        """Initialize the layers."""
         super().__init__()
         self.vocabulary_size: int = vocabulary_size
         self.hidden_size: int = hidden_size
@@ -324,7 +330,7 @@ class AttentionDecoder(nn.Module):  # type: ignore[misc]
         encoder_outputs: torch.Tensor,
         mask: torch.Tensor,
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-        """ "Defines the forward computation of the decoder"""
+        """Compute the forward pass of the decoder."""
         # input_character: (batch_size, 1)
         # last_hidden: (batch_size, hidden_dim)
         # encoder_outputs: (batch_size, sequence_len, hidden_dim)

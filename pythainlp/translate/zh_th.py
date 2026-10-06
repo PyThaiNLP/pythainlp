@@ -1,12 +1,14 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Lalita Chinese-Thai Machine Translation
+"""
+Translate between Chinese and Thai using Lalita models.
 
-from AI builder
+The models are from AI builder.
 
 - GitHub: https://github.com/LalitaDeelert/lalita-mt-zhth
-- Facebook post https://web.facebook.com/aibuildersx/posts/166736255494822
+- Facebook post:
+  https://web.facebook.com/aibuildersx/posts/166736255494822
 """
 
 from __future__ import annotations
@@ -19,14 +21,16 @@ if TYPE_CHECKING:
 
 
 class ThZhTranslator:
-    """Thai-Chinese Machine Translation
+    """
+    Translate Thai to Chinese.
 
-    from Lalita @ AI builder
+    The model is from Lalita @ AI builder.
 
     - GitHub: https://github.com/LalitaDeelert/lalita-mt-zhth
-    - Facebook post https://web.facebook.com/aibuildersx/posts/166736255494822
+    - Facebook post:
+      https://web.facebook.com/aibuildersx/posts/166736255494822
 
-    :param bool use_gpu : load model using GPU (Default is False)
+    :param bool use_gpu: load the model on a GPU (default: False)
     """
 
     def __init__(
@@ -51,12 +55,13 @@ class ThZhTranslator:
     def translate(
         self, text: str, exclude_words: Optional[list[str]] = None
     ) -> str:
-        """Translate text from Thai to Chinese
+        """
+        Translate text from Thai to Chinese.
 
-        :param str text: input text in source language
-        :param list[str] exclude_words: words to exclude from translation
-                                        (optional)
-        :return: translated text in target language
+        :param str text: text to translate
+        :param Optional[list[str]] exclude_words: words to exclude from
+            translation
+        :return: translated text
         :rtype: str
 
         :Example:
@@ -101,14 +106,16 @@ class ThZhTranslator:
 
 
 class ZhThTranslator:
-    """Chinese-Thai Machine Translation
+    """
+    Translate Chinese to Thai.
 
-    from Lalita @ AI builder
+    The model is from Lalita @ AI builder.
 
     - GitHub: https://github.com/LalitaDeelert/lalita-mt-zhth
-    - Facebook post https://web.facebook.com/aibuildersx/posts/166736255494822
+    - Facebook post:
+      https://web.facebook.com/aibuildersx/posts/166736255494822
 
-    :param bool use_gpu : load model using GPU (Default is False)
+    :param bool use_gpu: load the model on a GPU (default: False)
     """
 
     def __init__(
@@ -133,12 +140,13 @@ class ZhThTranslator:
     def translate(
         self, text: str, exclude_words: Optional[list[str]] = None
     ) -> str:
-        """Translate text from Chinese to Thai
+        """
+        Translate text from Chinese to Thai.
 
-        :param str text: input text in source language
-        :param list[str] exclude_words: words to exclude from translation
-                                        (optional)
-        :return: translated text in target language
+        :param str text: text to translate
+        :param Optional[list[str]] exclude_words: words to exclude from
+            translation
+        :return: translated text
         :rtype: str
 
         :Example:

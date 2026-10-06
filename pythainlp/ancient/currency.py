@@ -5,7 +5,10 @@ from __future__ import annotations
 
 
 def convert_currency(value: float, from_unit: str) -> dict[str, float]:
-    """Convert ancient Thai currency to other units
+    """
+    Convert a value in an ancient Thai currency unit to other units.
+
+    Supported units:
 
     * เบี้ย (Bia)
     * อัฐ (At)
@@ -17,13 +20,14 @@ def convert_currency(value: float, from_unit: str) -> dict[str, float]:
     * ชั่ง (Chang)
 
     See more:
-        `Thai money <https://en.wikipedia.org/wiki/History_of_Thai_money>`_.
+    `Thai money <https://en.wikipedia.org/wiki/History_of_Thai_money>`_.
 
-    :param float value: value
-    :param str from_unit: currency unit \
-        ('เบี้ย', 'อัฐ', 'ไพ', 'เฟื้อง', 'สลึง', 'บาท', 'ตำลึง', 'ชั่ง')
-    :return: Thai currency
+    :param float value: value in the unit given by ``from_unit``
+    :param str from_unit: currency unit, one of 'เบี้ย', 'อัฐ', 'ไพ',
+        'เฟื้อง', 'สลึง', 'บาท', 'ตำลึง', 'ชั่ง'
+    :return: value in each unit, keyed by unit name
     :rtype: dict[str, float]
+    :raises NotImplementedError: if ``from_unit`` is not supported
 
     :Example:
 

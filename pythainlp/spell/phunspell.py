@@ -1,13 +1,13 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Phunspell
+"""
+Phunspell spell checker.
 
-A pure Python spell checker utilizing spylls, a port of Hunspell.
+Phunspell is a pure Python spell checker using spylls, a port of Hunspell.
 
 :See Also:
-    * \
-        https://github.com/dvwright/phunspell
+    * https://github.com/dvwright/phunspell
 """
 
 from __future__ import annotations

@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.lm.text_util.remove_repeated_ngrams.
+"""
+Characterization tests for pythainlp.lm.text_util.remove_repeated_ngrams.
 
 Golden cases were recorded from the code before the complexity refactor.
 """
@@ -153,7 +154,8 @@ class RemoveRepeatedNgramsTestCase(unittest.TestCase):
 
     # BUG-LEDGER: remove-repeated-ngrams-zero
     def test_bug_unigram_slice_zero_returns_whole_list(self) -> None:
-        """For n=1 the slice is ``[-0:]``, the whole list, not ``[]``.
+        """
+        For n=1 the slice is ``[-0:]``, the whole list, not ``[]``.
 
         The output is the same as the intended one, because for a unigram
         both branches add the same word. Expected: slice ``[len - (n - 1):]``.

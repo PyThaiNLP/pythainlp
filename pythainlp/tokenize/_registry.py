@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Engine registry for the tokenizer functions in pythainlp.tokenize.core.
+"""
+Provide the engine registry for the tokenizers in pythainlp.tokenize.core.
 
 Each engine has a small adapter function. An adapter imports its engine
 module only when it is called, so optional dependencies stay unloaded
@@ -31,7 +32,8 @@ TextSegmenter = Callable[[str], list[str]]
 
 
 def engine_not_found(engine: object) -> NoReturn:
-    """Raise the error for an unknown tokenizer engine.
+    """
+    Raise the error for an unknown tokenizer engine.
 
     :param object engine: name of the engine
     :raises ValueError: always
@@ -44,11 +46,12 @@ def engine_not_found(engine: object) -> NoReturn:
 
 
 def find_engine(table: EngineTable[_T], engine: object) -> Optional[_T]:
-    """Find the adapter of an engine.
+    """
+    Find the adapter of an engine.
 
     :param table: engine table to search
     :param object engine: name of the engine
-    :return: the adapter, or None if no names match
+    :return: adapter of the engine, or None if no names match
     """
     for names, adapter in table:
         if engine in names:
@@ -57,11 +60,12 @@ def find_engine(table: EngineTable[_T], engine: object) -> Optional[_T]:
 
 
 def get_engine(table: EngineTable[_T], engine: object) -> _T:
-    """Get the adapter of an engine.
+    """
+    Get the adapter of an engine.
 
     :param table: engine table to search
     :param object engine: name of the engine
-    :return: the adapter
+    :return: adapter of the engine
     :raises ValueError: if no names match
     """
     adapter = find_engine(table, engine)
@@ -71,10 +75,11 @@ def get_engine(table: EngineTable[_T], engine: object) -> _T:
 
 
 def wtp_size(engine: str) -> str:
-    """Get the wtpsplit model size from an engine name like ``wtp-tiny``.
+    """
+    Get the wtpsplit model size from an engine name like ``wtp-tiny``.
 
     :param str engine: name of the engine
-    :return: the model size; ``mini`` if the name has no size
+    :return: model size, or ``mini`` if the name has no size
     """
     if "-" not in engine:
         return "mini"
@@ -231,7 +236,8 @@ SENT_ENGINES: EngineTable[TextSegmenter] = (
 
 
 def segment_sentences(text: str, engine: str) -> list[str]:
-    """Split text into sentences with a sentence tokenizer engine.
+    """
+    Tokenize text into sentences with a sentence tokenizer engine.
 
     Engine names that start with ``wtp`` select wtpsplit.
 

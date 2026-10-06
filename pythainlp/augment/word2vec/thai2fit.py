@@ -11,7 +11,8 @@ from pythainlp.tokenize import thai2fit_tokenizer
 
 
 class Thai2fitAug:
-    """Text Augment using word2vec from Thai2Fit
+    """
+    Augment Thai text using word2vec from Thai2Fit.
 
     Thai2Fit:
     `github.com/cstorm125/thai2fit <https://github.com/cstorm125/thai2fit>`_
@@ -25,14 +26,18 @@ class Thai2fitAug:
         self.load_w2v()
 
     def tokenizer(self, text: str) -> list[str]:
-        """:param str text: Thai text
-        :rtype: List[str]
+        """
+        Tokenize text into a list of words.
+
+        :param str text: Thai text to tokenize
+        :return: list of words
+        :rtype: list[str]
         """
         tok = thai2fit_tokenizer()
         return tok.word_tokenize(text)
 
     def load_w2v(self) -> None:
-        """Load Thai2Fit's word2vec model"""
+        """Load the Thai2Fit word2vec model."""
         if not self.thai2fit_wv:
             raise FileNotFoundError(
                 "corpus-not-found name='thai2fit_wv'\n"
@@ -47,14 +52,15 @@ class Thai2fitAug:
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7
     ) -> list[tuple[str, ...]]:
-        """Text Augment using word2vec from Thai2Fit
+        """
+        Augment text using word2vec from Thai2Fit.
 
-        :param str sentence: Thai sentence
-        :param int n_sent: number of sentence
-        :param float p: probability of word
+        :param str sentence: Thai text to augment
+        :param int n_sent: number of augmented sentences
+        :param float p: minimum similarity score of a replacement word
 
-        :return: list of text augmented
-        :rtype: List[Tuple[str]]
+        :return: list of augmented sentences, each a tuple of words
+        :rtype: list[tuple[str, ...]]
 
         :Example:
 

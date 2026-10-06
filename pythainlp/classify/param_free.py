@@ -12,14 +12,17 @@ if TYPE_CHECKING:
 
 
 class GzipModel:
-    """This class is a re-implementation of
-    “Low-Resource” Text Classification: A Parameter-Free Classification Method
-    with Compressors (Jiang et al., Findings 2023)
+    """
+    Parameter-free text classifier using a gzip compressor.
 
-    :param Optional[list] training_data: list [(text_sample,label)].
-        Default is None.
-    :param str model_path: Path for loading model (if you saved the model).
-        Default is empty string.
+    This class is a re-implementation of
+    “Low-Resource” Text Classification: A Parameter-Free Classification Method
+    with Compressors (Jiang et al., Findings 2023).
+
+    :param Optional[list[tuple[str, str]]] training_data: list of
+        (text, label) tuples (default: ``None``)
+    :param str model_path: path to load a saved model from
+        (default: empty string, which trains from ``training_data``)
     """
 
     cx2_list: list[int]
@@ -47,9 +50,10 @@ class GzipModel:
         return temp_list
 
     def predict(self, x1: str, k: int = 1) -> str:
-        """Predict the label for the given text.
+        """
+        Predict the label for the given text.
 
-        :param str x1: the text that we want to predict label for
+        :param str x1: text to predict the label of
         :param int k: number of nearest neighbors to consider (default: 1)
         :return: predicted label
         :rtype: str
@@ -94,9 +98,10 @@ class GzipModel:
         return predict_class
 
     def save(self, path: str) -> None:
-        """Save model to file.
+        """
+        Save the model to a file.
 
-        :param str path: path to save model
+        :param str path: path to save the model to
         """
         with open(path, "w", encoding="utf-8") as f:
             json.dump(
@@ -109,9 +114,10 @@ class GzipModel:
             )
 
     def load(self, path: str) -> None:
-        """Load model from file.
+        """
+        Load the model from a file.
 
-        :param str path: path to load model from
+        :param str path: path to load the model from
         """
         import numpy as np
 

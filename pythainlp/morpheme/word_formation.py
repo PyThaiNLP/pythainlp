@@ -8,14 +8,16 @@ from typing import Optional
 from pythainlp import thai_consonants
 
 # Consonant that follows nighit, by the first consonant of the next word.
-# The first matching row is used.
+# Each consonant appears in at most one row, sorted in Thai alphabetical
+# order. ฎ and ด are kept for compatibility.
+# Unsupported: ฃ ฅ ซ บ ฝ ฟ อ ฮ
 _NIGHIT_ENDINGS: tuple[tuple[tuple[str, ...], str], ...] = (
-    (("ก", "ช", "ค", "ข", "ง"), "ง"),
-    (("จ", "ฉ", "ช", "ฌ"), "ญ"),
-    (("ฎ", "ฐ", "ฑ", "ณ"), "ณ"),
-    (("ด", "ถ", "ท", "ธ", "น"), "น"),
-    (("ป", "ผ", "พ", "ภ"), "ม"),
-    (("ย", "ร", "ล", "ฬ", "ว", "ศ", "ษ", "ส", "ห"), "ง"),
+    (("ก", "ข", "ค", "ฆ", "ง"), "ง"),
+    (("จ", "ฉ", "ช", "ฌ", "ญ"), "ญ"),
+    (("ฎ", "ฏ", "ฐ", "ฑ", "ฒ", "ณ"), "ณ"),
+    (("ด", "ต", "ถ", "ท", "ธ", "น"), "น"),
+    (("ป", "ผ", "พ", "ภ", "ม"), "ม"),
+    (("ย", "ร", "ล", "ว", "ศ", "ษ", "ส", "ห", "ฬ"), "ง"),
 )
 
 
@@ -28,18 +30,25 @@ def _nighit_ending(consonant: str) -> Optional[str]:
 
 
 def nighit(w1: str, w2: str) -> str:
-    """Create a new word using Nighit (นิคหิต or ํ).
+    """
+    Create a new word using Nighit (นิคหิต or ํ).
 
     Nighit is the niggahita in Thai, used to form new words
     from Pali roots. This function applies a simple rule to
     combine two Thai words derived from Pali.
 
-    Reference: https://www.trueplookpanya.com/learning/detail/1180
+    Reference:
+    https://www.trueplookpanya.com/learning/detail/1180
 
-    :param str w1: a Thai word ending with a nighit (ํ)
-    :param str w2: a Thai word
+    :param str w1: Thai word ending with a nighit (ํ)
+    :param str w2: Thai word to be combined with ``w1``
     :return: combined Thai word
     :rtype: str
+    :raises TypeError: if ``w1`` or ``w2`` is not a string
+    :raises NotImplementedError: if ``w1`` does not end with ํ, or the
+        first consonant of ``w2`` is not supported
+    :raises ValueError: if ``w2`` contains no Thai consonant
+
     :Example:
 
         >>> from pythainlp.morpheme import nighit
@@ -47,6 +56,10 @@ def nighit(w1: str, w2: str) -> str:
         'สังคีต'
         >>> nighit("สํ", "จร")
         'สัญจร'
+        >>> nighit("สํ", "ญา")
+        'สัญญา'
+        >>> nighit("สํ", "มา")
+        'สัมมา'
         >>> nighit("สํ", "ฐาน")
         'สัณฐาน'
         >>> nighit("สํ", "นิษฐาน")
@@ -64,7 +77,7 @@ def nighit(w1: str, w2: str) -> str:
         return w2
     if not w2:
         return w1
-    if not str(w1).endswith("ํ") and len(w1) != 2:
+    if not w1.endswith("ํ"):
         raise NotImplementedError(f"The function doesn't support {w1}.")
     list_w1 = list(w1)
     list_w2 = list(w2)

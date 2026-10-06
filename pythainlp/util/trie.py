@@ -1,9 +1,10 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Trie data structure.
+"""
+Trie data structure.
 
-Designed to be used for tokenizer's dictionary, but can be for other purposes.
+Designed for the dictionary of a tokenizer, but usable for other purposes.
 """
 
 from __future__ import annotations
@@ -13,14 +14,15 @@ from typing import Optional, Union
 
 
 class Trie(Iterable[str]):
-    """Trie data structure for efficient prefix-based word search.
+    """
+    Trie data structure for efficient prefix-based word search.
 
-    A Trie (prefix tree) is a tree-like data structure used to store
+    A trie (prefix tree) is a tree-like data structure that stores
     a collection of strings. It enables fast retrieval of words with
-    common prefixes, making it ideal for dictionary-based tokenization
+    common prefixes, which suits dictionary-based tokenization
     and autocomplete features.
 
-    :param Iterable[str] words: An iterable collection of words to initialize the Trie
+    :param Iterable[str] words: words to initialize the trie with
 
     :Example:
 
@@ -53,10 +55,12 @@ class Trie(Iterable[str]):
             self.add(word)
 
     def add(self, word: str) -> None:
-        """Add a word to the trie.
-        Spaces in front of and following the word will be removed.
+        """
+        Add a word to the trie.
 
-        :param str word: a word
+        Remove spaces in front of and following the word.
+
+        :param str word: word to be added
         """
         word = word.strip()
         cur = self.root
@@ -73,10 +77,12 @@ class Trie(Iterable[str]):
             self._word_count += 1
 
     def remove(self, word: str) -> None:
-        """Remove a word from the trie.
-        If the word is not found, do nothing.
+        """
+        Remove a word from the trie.
 
-        :param str word: a word
+        Do nothing if the word is not found.
+
+        :param str word: word to be removed
         """
         # Navigate to the word's end node, recording the path.
         node = self.root
@@ -105,11 +111,12 @@ class Trie(Iterable[str]):
                     parent.children = None  # free empty dict
 
     def prefixes(self, text: str, start: int = 0) -> list[str]:
-        """List all possible words from first sequence of characters in a word.
+        """
+        List all words in the trie that start at a position in text.
 
         :param str text: text to search for prefixes
-        :param int start: starting position in text, defaults to 0
-        :return: a list of possible words starting at ``start``
+        :param int start: starting position in the text (default is 0)
+        :return: list of words in the trie starting at ``start``
         :rtype: list[str]
         """
         res = []
@@ -159,12 +166,16 @@ class Trie(Iterable[str]):
 
 
 def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
-    """Create a dictionary trie from a file or an iterable.
+    """
+    Create a dictionary trie from a file or an iterable.
 
-    :param str|Iterable[str]|pythainlp.util.Trie dict_source: a path to
-        dictionary file or a list of words or a pythainlp.util.Trie object
-    :return: a trie object
+    :param Union[str, Iterable[str], pythainlp.util.Trie] dict_source:
+        path to a dictionary file, an iterable of words, or a
+        :class:`pythainlp.util.Trie` object
+    :return: trie object
     :rtype: pythainlp.util.Trie
+    :raises TypeError: if ``dict_source`` is not a non-empty string,
+        an iterable of words, or a trie
     """
     trie = Trie([])
 

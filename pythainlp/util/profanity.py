@@ -1,9 +1,7 @@
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Profanity detection for Thai language
-"""
+"""Profanity detection for Thai."""
 
 from __future__ import annotations
 
@@ -18,12 +16,13 @@ def contains_profanity(
     text: str, custom_words: Optional[set[str]] = None, engine: str = "newmm"
 ) -> bool:
     """
-    Check if the given text contains profanity words.
+    Check whether text contains profanity words.
 
     :param str text: Thai text to check
-    :param set custom_words: additional profanity words to check (default: None)
-    :param str engine: tokenization engine (default: "newmm")
-    :return: True if text contains profanity, False otherwise
+    :param Optional[set[str]] custom_words: additional profanity words
+        (default is None)
+    :param str engine: word tokenization engine (default is *newmm*)
+    :return: True if the text contains profanity, False otherwise
     :rtype: bool
 
     :Example:
@@ -64,11 +63,12 @@ def find_profanity(
     text: str, custom_words: Optional[set[str]] = None, engine: str = "newmm"
 ) -> list[str]:
     """
-    Find all profanity words in the given text.
+    Find all profanity words in text.
 
     :param str text: Thai text to check
-    :param set custom_words: additional profanity words to check (default: None)
-    :param str engine: tokenization engine (default: "newmm")
+    :param Optional[set[str]] custom_words: additional profanity words
+        (default is None)
+    :param str engine: word tokenization engine (default is *newmm*)
     :return: list of profanity words found in the text
     :rtype: list[str]
 
@@ -120,13 +120,15 @@ def censor_profanity(
     engine: str = "newmm",
 ) -> str:
     """
-    Replace profanity words in the text with a replacement character.
+    Replace profanity words in text with a replacement character.
 
     :param str text: Thai text to censor
-    :param str replacement: character to replace profanity with (default: "*")
-    :param set custom_words: additional profanity words to censor (default: None)
-    :param str engine: tokenization engine (default: "newmm")
-    :return: Text with profanity words censored
+    :param str replacement: character to replace profanity with
+        (default is ``"*"``)
+    :param Optional[set[str]] custom_words: additional profanity words
+        (default is None)
+    :param str engine: word tokenization engine (default is *newmm*)
+    :return: text with profanity words censored
     :rtype: str
 
     :Example:

@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.tokenize.newmm.
+"""
+Characterization tests for pythainlp.tokenize.newmm.
 
 Golden data were recorded from the implementation before its refactor.
 """

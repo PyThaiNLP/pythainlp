@@ -1,12 +1,13 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""nercut 0.2
+"""
+Tokenize Thai text into words with nercut 0.2.
 
-Word segmentation from a named entity tagger,
-combining tokens that are parts of the same named entity.
+The tokenizer uses a named entity tagger and combines words that are parts
+of the same named entity.
 
-Code by Wannaphong Phatthiyaphaibun
+The code is by Wannaphong Phatthiyaphaibun.
 """
 
 from __future__ import annotations
@@ -27,9 +28,15 @@ def _combine_step(
     combining_word: str,
     taglist: Iterable[str],
 ) -> tuple[str, list[str]]:
-    """Process one tagged token.
+    """
+    Process one tagged word.
 
-    :return: the updated combining word, and the words to emit
+    :param str curr_word: current word
+    :param str curr_tag: named entity tag of the current word
+    :param str combining_word: words of the current named entity so far
+    :param Iterable[str] taglist: named entity tags to combine
+    :return: updated combining word, and the words to emit
+    :rtype: tuple[str, list[str]]
     """
     tag = curr_tag[2:] if curr_tag != "O" else "O"
 
@@ -54,12 +61,14 @@ def segment(
     ],
     tagger: NER = _thainer,
 ) -> list[str]:
-    """Word segmentation that merges tokens of the same named entity.
+    """
+    Tokenize text into words, combining words of the same named entity.
 
-    :param str text: text to be tokenized into words
-    :param Iterable[str] taglist: named entity tags to merge
-    :param pythainlp.tag.NER tagger: named entity tagger
-    :return: list of words, tokenized from the text
+    :param str text: text to be tokenized
+    :param Iterable[str] taglist: named entity tags to combine
+    :param pythainlp.tag.named_entity.NER tagger: named entity tagger
+    :return: list of words
+    :rtype: list[str]
     """
     if not text:
         return []

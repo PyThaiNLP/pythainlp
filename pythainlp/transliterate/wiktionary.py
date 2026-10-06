@@ -2,7 +2,8 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
-Thai pronunciation transliteration from Wiktionary th-pron module.
+Thai pronunciation transliteration from the Wiktionary th-pron module.
+
 Source code: https://en.wiktionary.org/wiki/Module:th-pron
 """
 
@@ -331,7 +332,8 @@ def _apply_ho_rule(
 def _lookup_vowel(
     v1: str, g: str, v2: str, openness: str, seq_idx: int
 ) -> tuple[str, str, str]:
-    """Return the vowel output, the original vowel, and the glide output.
+    """
+    Return the vowel output, the original vowel, and the glide output.
 
     The glide output is empty if the glide is part of the vowel.
     """
@@ -432,13 +434,14 @@ def _process_word(word: str, seq_idx: int, mode: str) -> str:
 
 
 def transliterate_wiktionary(text: str, mode: str = "ipa") -> str:
-    """Transliterate Thai text using Wiktionary th-pron logic.
+    """
+    Transliterate Thai text using Wiktionary th-pron logic.
 
-    :param str text: Thai text input (single word or text fragment).
-    :param str mode: Output mode: ``paiboon``, ``royin``, or ``ipa``.
-    Unsupported modes return the input text unchanged.
-
-    :return: Transliterated text.
+    :param str text: Thai text to be transliterated, a single word or
+        a text fragment
+    :param str mode: output mode, one of ``paiboon``, ``royin``, or
+        ``ipa`` (default). An unsupported mode returns the text unchanged
+    :return: transliterated text
     :rtype: str
 
     :Example:
@@ -467,10 +470,12 @@ def transliterate_wiktionary(text: str, mode: str = "ipa") -> str:
 
 
 def get_word_dict(word: str) -> dict[str, str]:
-    """Return Wiktionary transliteration outputs in all supported systems.
+    """
+    Return Wiktionary transliteration outputs in all supported systems.
 
-    :param str word: Thai input word.
-    :return: ``dict[str, str]`` with ``word``, ``paiboon``, ``royin``, and ``ipa``.
+    :param str word: Thai word to be transliterated
+    :return: dictionary with the keys ``word``, ``paiboon``, ``royin``,
+        and ``ipa``
     :rtype: dict[str, str]
 
     :Example:

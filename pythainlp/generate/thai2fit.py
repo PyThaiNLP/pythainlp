@@ -1,9 +1,10 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai2fit: Thai Wikipeida Language Model for Text Generation
+"""
+Generate text using the Thai2fit Thai Wikipedia language model.
 
-Codes are from
+The code is from
 https://github.com/PyThaiNLP/tutorials/blob/master/source/notebooks/text_generation.ipynb
 """
 
@@ -130,15 +131,18 @@ def gen_sentence(
     prob: float = 0.001,
     output_str: bool = True,
 ) -> Union[list[str], str]:
-    """Text generator using Thai2fit
+    # TODO: docstring lists ``duplicate``, which is not a parameter
+    """
+    Generate text using the Thai2fit model.
 
-    :param str start_seq: word to begin sentence with
+    :param str start_seq: word to begin the sentence with
     :param int N: number of words
-    :param bool output_str: output as string
-    :param bool duplicate: allow duplicate words in sentence
+    :param float prob: minimum word probability
+    :param bool output_str: return a string instead of a list of words
+    :param bool duplicate: allow duplicate words in the sentence
 
-    :return: list words or str words
-    :rtype: list[str], str
+    :return: generated sentence as a string or a list of words
+    :rtype: Union[list[str], str]
 
     :Example:
 

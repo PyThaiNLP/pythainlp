@@ -1,17 +1,26 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.util.time.
+"""
+Characterization tests for pythainlp.util.time.
 
 Golden cases were recorded from the pre-refactor implementation.
 """
 
 from __future__ import annotations
 
+import hashlib
+import random
 import unittest
 from typing import Optional
 
-from pythainlp.util.time import _format, thaiword_to_time
+from pythainlp.util.time import (
+    _DICT_THAI_TIME,
+    _THAI_TIME_AFFIX,
+    _format,
+    thaiword_to_time,
+    time_to_thaiword,
+)
 
 # fmt: off
 _HOUR_GOLDEN: dict[str, tuple[str, ...]] = {
@@ -126,23 +135,31 @@ _TW_OK: tuple[tuple[str, bool, str], ...] = (
     ("ยี่นาฬิกาสิบ", True, "02:10"),
     ("ตีสามสิบห้า", True, "03:15"),
     ("ตีหนึ่ง", False, "1:00"),
+    ("ตีหก", True, "06:00"),
+    ("ตีหก", False, "6:00"),
+    ("ตีหกสิบห้านาที", True, "06:15"),
+    ("ตีหกครึ่ง", True, "06:30"),
+    ("ตีหกครึ่ง", False, "6:30"),
     ("เที่ยงครึ่ง", True, "12:30"),
     ("บ่ายโมงครึ่ง", False, "13:30"),
 )
 
 _TW_ERR: tuple[tuple[str, bool, type[Exception], str], ...] = (
     ("เที่ยงคืนสิบหกบ่ายโมง", True, ValueError, "Cannot find any Thai word for hour."),
-    ("สามสิบเอ็ดๆแปดสามสิบตีหกเจ็ด", True, ValueError, "Cannot find any Thai word for time affix."),
+    ("สามสิบเอ็ดๆแปดสามสิบตีหกเจ็ด", True, ValueError, "Cannot find any Thai word for hour."),
     ("ตีเที่ยงวันนาฬิกาตีห้า", False, ValueError, "The input string is not a valid Thai numeral"),
-    ("ๆกตีสองทุ่มศูนย์", True, KeyError, "'ก'"),
-    (" นาทีครึ่งๆสามสิบทุ่มเจ็ด", True, KeyError, "'นาที'"),
-    ("กนาทีทุ่ม", True, KeyError, "'กนาที'"),
-    ("กกๆกว่าศูนย์ทุ่ม", False, KeyError, "'กก'"),
-    ("กกนาทีทุ่ม", True, KeyError, "'กกนาที'"),
-    ("นาทีนาทีทุ่ม", True, KeyError, "'นาทีนาที'"),
-    ("กหกสี่สามทุ่มยี่", True, KeyError, "'กหก'"),
-    ("นาทีกทุ่ม", True, KeyError, "'นาทีก'"),
-    ("ตีหก", True, ValueError, "Cannot find any Thai word for time affix."),
+    ("ๆกตีสองทุ่มศูนย์", True, ValueError, "Cannot find any Thai word for hour."),
+    (" นาทีครึ่งๆสามสิบทุ่มเจ็ด", True, ValueError, "Cannot find any Thai word for hour."),
+    ("กนาทีทุ่ม", True, ValueError, "Cannot find any Thai word for hour."),
+    ("กกๆกว่าศูนย์ทุ่ม", False, ValueError, "Cannot find any Thai word for hour."),
+    ("กกนาทีทุ่ม", True, ValueError, "Cannot find any Thai word for hour."),
+    ("นาทีนาทีทุ่ม", True, ValueError, "Cannot find any Thai word for hour."),
+    ("กหกสี่สามทุ่มยี่", True, ValueError, "Cannot find any Thai word for hour."),
+    ("นาทีกทุ่ม", True, ValueError, "Cannot find any Thai word for hour."),
+    ("กทุ่ม", True, ValueError, "Cannot find any Thai word for hour."),
+    ("นาทีทุ่ม", True, ValueError, "Cannot find any Thai word for hour."),
+    ("บ่ายกโมงเย็น", True, ValueError, "Cannot find any Thai word for hour."),
+    ("ตีสิบห้า", True, ValueError, "Cannot find any Thai word for time affix."),
     ("ตี", True, ValueError, "Cannot find any Thai word for time affix."),
     ("", True, ValueError, "Cannot find any Thai word for time affix."),
 )
@@ -150,6 +167,41 @@ _TW_ERR: tuple[tuple[str, bool, type[Exception], str], ...] = (
 
 _NO_AFFIX = "Cannot find any Thai word for time affix."
 _NO_HOUR = "Cannot find any Thai word for hour."
+
+
+_FUZZ_EXTRA = ("กว่า", "ๆ", "ครึ่ง", "นาที", "ก", "สิบ", "เอ็ด", "ยี่", "ตี")
+
+
+def _fuzz_inputs() -> list[str]:
+    vocab = list(
+        dict.fromkeys((*_DICT_THAI_TIME, *_THAI_TIME_AFFIX, *_FUZZ_EXTRA))
+    )
+    rng = random.Random(0)  # noqa: S311  # seeded, not crypto
+    return [
+        "".join(rng.choice(vocab) for _ in range(rng.randint(1, 4)))
+        for _ in range(GRID_SIZE)
+    ]
+
+
+def _time_outcome(text: str, padding: bool) -> str:
+    try:
+        return thaiword_to_time(text, padding)
+    except Exception as err:
+        return "!" + type(err).__name__ + ":" + str(err)
+
+
+def _out_of_range(outcome: str) -> bool:
+    if outcome.startswith("!"):
+        return False
+    hour, minute = outcome.split(":")
+    return int(hour) > 23 or int(minute) > 59
+
+
+GRID_SIZE = 4000
+GRID_COUNT = 5976
+GRID_DIGEST = (
+    "bfc81a1e46999437d0b683b2e7bd7374d7c0708a1791fd838969ca0f446c5b18"
+)
 
 
 class FormatTestCase(unittest.TestCase):
@@ -241,11 +293,15 @@ class ThaiwordToTimeTestCase(unittest.TestCase):
             thaiword_to_time("โมงเย็นเที่ยงคืนสามสองตีหนึ่งตีห้าตีห้า"), "25:16"
         )
 
-    def test_ti_six_unsupported(self) -> None:
-        # BUG-LEDGER: thaiword-to-time-ti-six
-        # "ตีหก" (6 a.m.) is not in the ตี hour list; expected "06:00".
-        with self.assertRaisesRegex(ValueError, _NO_AFFIX):
-            thaiword_to_time("ตีหก")
+    def test_ti_six(self) -> None:
+        for padding, expected in ((True, "06:00"), (False, "6:00")):
+            with self.subTest(padding=padding):
+                self.assertEqual(thaiword_to_time("ตีหก", padding), expected)
+        for fmt in ("6h", "24h"):
+            with self.subTest(fmt=fmt):
+                text = time_to_thaiword("06:00", fmt=fmt)
+                self.assertEqual(thaiword_to_time(text), "06:00")
+        # "ตีสิบห้า" is not Thai usage
         with self.assertRaisesRegex(ValueError, _NO_AFFIX):
             thaiword_to_time("ตีสิบห้า")
 
@@ -260,13 +316,62 @@ class ThaiwordToTimeTestCase(unittest.TestCase):
         )
 
     def test_unknown_token(self) -> None:
-        # BUG-LEDGER: thaiword-to-time-unknown-token
-        # Unknown words raise KeyError (or an unrelated ValueError)
-        # instead of the documented ValueError.
-        with self.assertRaises(KeyError):
-            thaiword_to_time("กนาทีทุ่ม")
+        # Formerly KeyError; "ตีหก" and "ตีสิบห้า" are in test_ti_six.
+        for text in ("กนาทีทุ่ม", "บ่ายกโมงเย็น", "กทุ่ม"):
+            with self.subTest(text=text):
+                with self.assertRaisesRegex(ValueError, _NO_HOUR):
+                    thaiword_to_time(text)
         with self.assertRaisesRegex(ValueError, "not a valid Thai numeral"):
             thaiword_to_time("ตีเที่ยงวันนาฬิกาตีห้า")
+
+    def test_adversarial_inputs(self) -> None:
+        # Current behavior, not a promise; only the ตีหก row differs from
+        # the behavior before the fix.
+        cases: tuple[tuple[str, str], ...] = (
+            ("   ", _NO_AFFIX),
+            ("\u200b", _NO_AFFIX),
+            ("ตี\u200bหนึ่ง", _NO_AFFIX),
+            ("ตี๑", _NO_AFFIX),
+            ("\u0e47", _NO_AFFIX),
+            ("ก" * 10000, _NO_AFFIX),
+        )
+        for text, message in cases:
+            with self.subTest(text=text[:10]):
+                with self.assertRaisesRegex(ValueError, message):
+                    thaiword_to_time(text)
+        for text, expected in (
+            ("ตีหนึ่ง1", "01:00"),
+            ("ตีหนึ่ง\u0e47", "01:00"),
+            ("ตีสาม\u200bสิบ", "03:10"),
+            ("ตีหนึ่ง" + "ก" * 10000, "01:00"),
+            ("ตีหก\u200b", "06:00"),
+        ):
+            with self.subTest(text=text[:10]):
+                self.assertEqual(thaiword_to_time(text), expected)
+
+    def test_unchanged_grid(self) -> None:
+        # Seeded random token strings; outcomes recorded before the fix.
+        # Excluded: texts with "ตี" (ตีหก is fixed; the rest touches the
+        # unfixed bug thaiword-to-time-ti), results out of range (unfixed
+        # bug thaiword-to-time-range), and the hour error (formerly
+        # KeyError; see test_unknown_token).
+        digest = hashlib.sha256()
+        count = 0
+        for text in _fuzz_inputs():
+            if "ตี" in text:
+                continue
+            for padding in (True, False):
+                outcome = _time_outcome(text, padding)
+                if outcome.startswith("!KeyError") or outcome == (
+                    "!ValueError:" + _NO_HOUR
+                ):
+                    continue
+                if _out_of_range(outcome):
+                    continue
+                digest.update(repr((text, padding, outcome)).encode())
+                count += 1
+        self.assertEqual(count, GRID_COUNT)
+        self.assertEqual(digest.hexdigest(), GRID_DIGEST)
 
 
 if __name__ == "__main__":

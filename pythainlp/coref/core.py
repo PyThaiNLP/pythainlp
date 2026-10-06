@@ -15,22 +15,26 @@ def coreference_resolution(
     model_name: str = "han-coref-v1.0",
     device: str = "cpu",
 ) -> list[CorefResult]:
-    """Coreference Resolution
+    """
+    Resolve coreferences in texts.
 
-    :param Union[str, list[str]] texts: list of texts to apply coreference resolution to
-    :param str model_name: coreference resolution model
-    :param str device: device for running coreference resolution model on\
+    :param Union[str, list[str]] texts: text, or list of texts, to be
+        resolved
+    :param str model_name: model to use for coreference resolution.
+        Options are:
+
+        * *han-coref-v1.0* - Han-Coref: Thai coreference resolution
+          by PyThaiNLP v1.0 (default)
+    :param str device: device to run the model on
         ("cpu", "cuda", and others)
-    :return: List of texts with coreference resolution
+    :return: list of results with coreference clusters, one per text
     :rtype: list[CorefResult]
-
-    :Options for model_name:
-        * *han-coref-v1.0* - (default) Han-Coref: Thai coreference resolution\
-            by PyThaiNLP v1.0
 
     :Example:
 
-        >>> from pythainlp.coref import coreference_resolution  # doctest: +SKIP
+        >>> from pythainlp.coref import (
+        ...     coreference_resolution,
+        ... )  # doctest: +SKIP
 
         >>> print(  # doctest: +SKIP
         ...     coreference_resolution(

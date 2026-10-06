@@ -113,7 +113,7 @@ def postype2wordnet(pos: str, corpus: str) -> Optional[str]:
     **Options for corpus**
         * *orchid* - Orchid Corpus
     """
-    if corpus not in ["orchid"]:
+    if corpus != "orchid":
         return None
     return orchid[pos]
 

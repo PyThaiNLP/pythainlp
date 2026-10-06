@@ -155,12 +155,11 @@ def morse_encode(text: str, lang: str = "th") -> str:
         return " ".join(
             THAI_MORSE_CODE.get(char, " ") for char in text.upper()
         )
-    elif lang == "en":  # English
+    if lang == "en":  # English
         return " ".join(
             ENGLISH_MORSE_CODE.get(char, " ") for char in text.upper()
         )
-    else:
-        raise NotImplementedError(f"This function doesn't support {lang}.")
+    raise NotImplementedError(f"This function doesn't support {lang}.")
 
 
 def morse_decode(morse_text: str, lang: str = "th") -> str:
@@ -187,10 +186,9 @@ def morse_decode(morse_text: str, lang: str = "th") -> str:
             decodingthai.get(code, "") for code in morse_text.split(" ")
         )
         return "".join(ans.split())
-    elif lang == "en":
+    if lang == "en":
         ans = "".join(
             decodingeng.get(code, " ") for code in morse_text.split(" ")
         )
         return " ".join(ans.split())
-    else:
-        raise NotImplementedError(f"This function doesn't support {lang}.")
+    raise NotImplementedError(f"This function doesn't support {lang}.")

@@ -338,19 +338,14 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         if token_ids_1 is None:
             if self.prefix_tokens is None:
                 return token_ids_0 + self.suffix_tokens
-            else:
-                return self.prefix_tokens + token_ids_0 + self.suffix_tokens
+            return self.prefix_tokens + token_ids_0 + self.suffix_tokens
         # We don't expect to process pairs,
         # but leave the pair logic for API consistency
         if self.prefix_tokens is None:
             return token_ids_0 + token_ids_1 + self.suffix_tokens
-        else:
-            return (
-                self.prefix_tokens
-                + token_ids_0
-                + token_ids_1
-                + self.suffix_tokens
-            )
+        return (
+            self.prefix_tokens + token_ids_0 + token_ids_1 + self.suffix_tokens
+        )
 
     def get_vocab(self) -> dict[str, int]:
         vocab = {

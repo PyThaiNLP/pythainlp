@@ -290,7 +290,7 @@ def deviation(year: int) -> float:
 def last_day_in_year(year: int) -> int:
     if athikamas(year):
         return 384
-    elif athikavar(year):
+    if athikavar(year):
         return 355
 
     return 354
@@ -305,11 +305,9 @@ def athikasurathin(year: int) -> bool:
     """
     if year % 400 == 0:
         return True
-    elif year % 100 == 0:
+    if year % 100 == 0:
         return False
-    elif year % 4 == 0:
-        return True
-    return False
+    return year % 4 == 0
 
 
 def number_day_in_year(year: int) -> int:

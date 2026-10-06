@@ -235,12 +235,11 @@ class PerceptronTagger:
         """
         if "-" in word and word[0] != "-":
             return "!HYPHEN"
-        elif word.isdigit() and len(word) == 4:
+        if word.isdigit() and len(word) == 4:
             return "!YEAR"
-        elif word[0].isdigit():
+        if word[0].isdigit():
             return "!DIGITS"
-        else:
-            return word.lower()
+        return word.lower()
 
     def _get_features(
         self, i: int, word: str, context: list[str], prev: str, prev2: str

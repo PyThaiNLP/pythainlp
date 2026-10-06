@@ -83,13 +83,12 @@ def romanize(
 
         fallback = select_romanize_engine(fallback_engine)
         return romanize(text, fallback_func=fallback)
-    else:
-        rom_engine = select_romanize_engine(engine)
-        trans_word = []
-        for subword in text.split(" "):
-            trans_word.append(rom_engine(subword))
-        new_word = " ".join(trans_word)
-        return new_word
+    rom_engine = select_romanize_engine(engine)
+    trans_word = []
+    for subword in text.split(" "):
+        trans_word.append(rom_engine(subword))
+    new_word = " ".join(trans_word)
+    return new_word
 
 
 def transliterate(

@@ -916,8 +916,10 @@ class SafeExtractZipTestCase(unittest.TestCase):
             # Absolute targets are rejected, as in tar
             (
                 [("link", b"/etc/passwd", True)],
-                "Symlink link points outside extraction directory: "
-                "/etc/passwd",
+                (
+                    "Symlink link points outside extraction directory: "
+                    "/etc/passwd"
+                ),
             ),
             (
                 [("link", b"/../../x", True)],

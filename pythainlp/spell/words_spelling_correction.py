@@ -94,7 +94,7 @@ class FastTextEncoder:
         words = []
         vocab_path = safe_path_join(self.model_dir, "vocabulary.txt")
         with open(vocab_path, encoding="utf-8") as f:
-            for line in f.readlines():
+            for line in f:
                 words.append(line.rstrip())
         return words, input_matrix
 

@@ -51,9 +51,9 @@ def aksonhan_to_current(word: str) -> str:
     """
     if len(word) < 3:
         return word
-    elif word in _set_aksonhan:
+    if word in _set_aksonhan:
         return _dict_aksonhan[word]
-    elif word in _dict_thai:  # word in Thai words
+    if word in _dict_thai:  # word in Thai words
         return word
 
     _seg = _tokenizer.word_tokenize(word)

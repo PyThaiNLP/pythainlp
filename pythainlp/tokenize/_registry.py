@@ -202,7 +202,7 @@ def _crfcut(text: str) -> list[str]:
 
 
 def _whitespace(text: str) -> list[str]:
-    return re.split(r" +", text, flags=re.U)
+    return re.split(r" +", text, flags=re.UNICODE)
 
 
 def _whitespace_newline(text: str) -> list[str]:

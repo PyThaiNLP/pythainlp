@@ -231,7 +231,7 @@ def pos_tag_transformers(
         "mdeberta": "Pavarissy/mdeberta-v3-ud-thai-pud-upos",
     }
 
-    if corpus == "blackboard" and engine in _blackboard_support_engine.keys():
+    if corpus == "blackboard" and engine in _blackboard_support_engine:
         base_model = _blackboard_support_engine.get(engine)
         model = AutoModelForTokenClassification.from_pretrained(
             base_model, revision=revision
@@ -239,7 +239,7 @@ def pos_tag_transformers(
         tokenizer = AutoTokenizer.from_pretrained(
             base_model, revision=revision
         )
-    elif corpus == "pud" and engine in _pud_support_engine.keys():
+    elif corpus == "pud" and engine in _pud_support_engine:
         base_model = _pud_support_engine.get(engine)
         model = AutoModelForTokenClassification.from_pretrained(
             base_model, revision=revision

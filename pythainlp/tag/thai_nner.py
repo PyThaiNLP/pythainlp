@@ -232,9 +232,8 @@ class ThaiNNER:
         if tag:
             # Convert to HTML-like tags format
             return _entities_to_html(tokens, entities)
-        else:
-            # Convert to IOB format
-            return _entities_to_iob(tokens, entities)
+        # Convert to IOB format
+        return _entities_to_iob(tokens, entities)
 
 
 def _entities_to_iob(

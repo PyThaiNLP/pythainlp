@@ -112,7 +112,7 @@ def nectec_to_ipa(pronunciation: str) -> str:
     parts = pronunciation.split("-")
     ipa = []
     for part in parts:
-        if part in dict_nectec_to_ipa.keys():
+        if part in dict_nectec_to_ipa:
             ipa.append(dict_nectec_to_ipa[part])
         else:
             ipa.append(part)

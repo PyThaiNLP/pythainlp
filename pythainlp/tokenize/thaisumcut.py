@@ -202,10 +202,13 @@ def _remove_digit_spaces(sentence: str) -> str:
         if sentence[k].isdigit() and sentence[k - 1] == " ":
             sentence = sentence[: k - 1] + sentence[k:]
             sentence_len = len(sentence)
-        if k + 2 <= sentence_len:
-            if sentence[k].isdigit() and sentence[k + 1] == " ":
-                sentence = sentence[: k + 1] + sentence[k + 2 :]
-                sentence_len = len(sentence)
+        if (
+            k + 2 <= sentence_len
+            and sentence[k].isdigit()
+            and sentence[k + 1] == " "
+        ):
+            sentence = sentence[: k + 1] + sentence[k + 2 :]
+            sentence_len = len(sentence)
     return sentence
 
 

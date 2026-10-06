@@ -253,7 +253,6 @@ def word_translate(
         from .word2word_translate import translate
 
         return translate(word=word, src=src, target=target)
-    else:
-        raise NotImplementedError(
-            f"pythainlp.translate.word_translate isn't support {engine}."
-        )
+    raise NotImplementedError(
+        f"pythainlp.translate.word_translate isn't support {engine}."
+    )

@@ -41,7 +41,7 @@ class ThaiTextProcessor:
             self._TK_WREP,
             self._TK_URL,
             self._TK_END,
-        ) = "<unk> <rep> <wrep> <url> </s>".split()
+        ) = ["<unk>", "<rep>", "<wrep>", "<url>", "</s>"]
         self.SPACE_SPECIAL_TOKEN: str = "<_>"  # noqa: S105
 
     def replace_url(self, text: str) -> str:

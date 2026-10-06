@@ -149,14 +149,13 @@ class Featurizer:
                 "X": all_features_list,
                 "Y": [str(label) for label in all_labels_int],
             }
-        else:
-            return {
-                "X": [
-                    dict.fromkeys(feature_list, 1)
-                    for feature_list in all_features_list
-                ],
-                "Y": all_labels_int,
-            }
+        return {
+            "X": [
+                dict.fromkeys(feature_list, 1)
+                for feature_list in all_features_list
+            ],
+            "Y": all_labels_int,
+        }
 
 
 _to_feature: Featurizer = Featurizer()

@@ -30,9 +30,11 @@ _KEYS = (
 _SINGLE_CHAR = [
     (
         ("non_thai",),
-        " "
-        "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x00\n"
-        "é\u200b—一\u0e80",
+        (
+            " "
+            "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x00\n"
+            "é\u200b—一\u0e80"
+        ),
     ),
     (("consonants",), "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"),
     (("vowels", "non_thai"), "ฤฦ"),

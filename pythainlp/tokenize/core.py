@@ -335,10 +335,9 @@ def map_indices_to_words(
             start, end = c[0]
             if start > n_sum + len(words) - 1:
                 break
-            else:
-                c.popleft()
-                word = sentence[start - n_sum : end + 1 - n_sum]
-                sentence_result.append(word)
+            c.popleft()
+            word = sentence[start - n_sum : end + 1 - n_sum]
+            sentence_result.append(word)
 
         result.append(sentence_result)
         n_sum += len(words)

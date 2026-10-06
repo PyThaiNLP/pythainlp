@@ -57,11 +57,7 @@ def contains_profanity(
 
     tokens = word_tokenize(text, custom_dict=custom_dict, engine=engine)
 
-    for token in tokens:
-        if token in profanity_set:
-            return True
-
-    return False
+    return any(token in profanity_set for token in tokens)
 
 
 def find_profanity(

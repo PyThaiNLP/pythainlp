@@ -100,9 +100,7 @@ def is_thai_char(ch: str) -> bool:
         True
     """
     ch_val = ord(ch)
-    if _TH_FIRST_CHAR_ASCII <= ch_val <= _TH_LAST_CHAR_ASCII:
-        return True
-    return False
+    return _TH_FIRST_CHAR_ASCII <= ch_val <= _TH_LAST_CHAR_ASCII
 
 
 def isthaichar(ch: str) -> bool:
@@ -272,8 +270,7 @@ def display_thai_char(ch: str) -> str:
     ):
         # last condition is Sra Aum, Thanthakhat, Nikhahit, Yamakkan
         return "_" + ch
-    else:
-        return ch
+    return ch
 
 
 def thai_word_tone_detector(word: Optional[str]) -> list[tuple[str, str]]:

@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+from contextlib import suppress
 from importlib.resources import as_file, files
 from typing import TYPE_CHECKING, Any, Optional, Union, cast
 
@@ -159,7 +160,5 @@ class CRFChunkParser:
             Use the context manager protocol for reliable cleanup.
         """
         if self._model_file_ctx is not None:
-            try:
+            with suppress(Exception):
                 self._model_file_ctx.__exit__(None, None, None)
-            except Exception:  # noqa: S110
-                pass

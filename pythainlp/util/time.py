@@ -8,6 +8,7 @@ Convert time string or time object to Thai words.
 
 from __future__ import annotations
 
+from contextlib import suppress
 from datetime import datetime, time
 from functools import lru_cache
 from typing import Callable, Optional, Union
@@ -227,10 +228,8 @@ def time_to_thaiword(
         try:
             _time = datetime.strptime(time_data, _TIME_FORMAT_WITH_SEC)
         except ValueError:
-            try:
+            with suppress(ValueError):
                 _time = datetime.strptime(time_data, _TIME_FORMAT_WITHOUT_SEC)
-            except ValueError:
-                pass
 
         if not _time:
             raise ValueError(

@@ -151,9 +151,7 @@ _vowel_patterns: list[str] = [
     + "\\2"
     for i in _v1
 ]
-_vowel_patterns += [
-    i.replace("-", "([ก-ฮ])") + ",\\1" + i for i in _dict_2.keys()
-]
+_vowel_patterns += [i.replace("-", "([ก-ฮ])") + ",\\1" + i for i in _dict_2]
 _VOWELS: list[tuple[str, str]] = [
     (x.split(",")[0], x.split(",")[1]) for x in _vowel_patterns
 ]
@@ -541,9 +539,8 @@ class Braille:
                 if pattern_str in self.db:
                     result += self.db[pattern_str]
             return result
-        else:
-            pattern_str = "".join(cast("list[str]", self.data))
-            return self.db.get(pattern_str, "")
+        pattern_str = "".join(cast("list[str]", self.data))
+        return self.db.get(pattern_str, "")
 
     def printbraille(self) -> str:
         """Mirror dot patterns for physical braille printing.
@@ -572,9 +569,8 @@ class Braille:
                 mirrored_patterns.append(self.db[mirrored_sorted])
             mirrored_patterns.reverse()
             return "".join(mirrored_patterns)
-        else:
-            mirrored = "".join(
-                mirror_map[dot] for dot in cast("list[str]", self.data)
-            )
-            mirrored_sorted = "".join(sorted(mirrored))
-            return self.db[mirrored_sorted]
+        mirrored = "".join(
+            mirror_map[dot] for dot in cast("list[str]", self.data)
+        )
+        mirrored_sorted = "".join(sorted(mirrored))
+        return self.db[mirrored_sorted]

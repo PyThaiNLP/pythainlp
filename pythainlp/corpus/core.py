@@ -75,9 +75,9 @@ def get_corpus_db(url: str) -> Optional[_ResponseWrapper]:
 
     corpus_db = None
     try:
-        req = Request(url, headers={"User-Agent": _USER_AGENT})
+        req = Request(url, headers={"User-Agent": _USER_AGENT})  # noqa: S310
         # SSL certificate verification is enabled by default
-        with urlopen(req, timeout=10) as response:  # nosec B310
+        with urlopen(req, timeout=10) as response:  # noqa: S310  # nosec B310
             corpus_db = _ResponseWrapper(response)
     except HTTPError as http_err:
         print(f"HTTP error occurred: {http_err}")
@@ -213,7 +213,7 @@ def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
                 corpus_path(),
                 corpus_db[name]["versions"][version]["filename"],
             )
-        elif not version:  # load latest version
+        if not version:  # load latest version
             version = corpus_db[name]["latest_version"]
             return safe_path_join(
                 corpus_path(),
@@ -386,9 +386,9 @@ def _download(url: str, dst: str, md5: str = "") -> int:
     """
     from urllib.request import Request, urlopen
 
-    req = Request(url, headers={"User-Agent": _USER_AGENT})
+    req = Request(url, headers={"User-Agent": _USER_AGENT})  # noqa: S310
     # SSL certificate verification is enabled by default
-    with urlopen(req, timeout=10) as response:  # nosec B310
+    with urlopen(req, timeout=10) as response:  # noqa: S310  # nosec B310
         file_size = int(response.info().get("Content-Length", -1))
         # Resolve links, so a link at *dst* stays and its target is replaced.
         file_path = os.path.realpath(get_full_data_path(dst))
@@ -616,7 +616,7 @@ def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
         members = tar.getmembers()
         for member in members:
             _check_tar_member(path, member)
-        tar.extractall(  # nosec B202
+        tar.extractall(  # noqa: S202  # nosec B202
             path=path, members=[_filter_tar_member(m) for m in members]
         )
         return
@@ -667,7 +667,7 @@ def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
                 os.path.dirname(info.filename),
             )
 
-    zip_file.extractall(path=path)  # nosec B202
+    zip_file.extractall(path=path)  # noqa: S202  # nosec B202
 
 
 def _version2int(v: str) -> int:

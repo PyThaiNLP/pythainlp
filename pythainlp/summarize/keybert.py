@@ -124,7 +124,7 @@ class KeyBERT:
             return []
 
         # generate all lists of keywords / keyphrases
-        stop_words_ = stop_words if stop_words else thai_stopwords()
+        stop_words_ = stop_words or thai_stopwords()
         kw_candidates = _generate_ngrams(
             text, keyphrase_ngram_range, min_df, tokenizer, stop_words_
         )
@@ -140,8 +140,7 @@ class KeyBERT:
 
         if return_similarity:
             return keywords
-        else:
-            return [kw for kw, _ in keywords]
+        return [kw for kw, _ in keywords]
 
     def embed(self, docs: Union[str, list[str]]) -> "NDArray[np.float32]":
         """Create embeddings by averaging vectors from the last hidden layer.

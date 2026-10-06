@@ -82,7 +82,7 @@ def translate(word: str, src: str, target: str) -> Optional[list[str]]:
     """
     if src not in support_list or target not in support_list:
         raise NotImplementedError(f"word2word doesn't support {src}-{target}.")
-    elif src == target:
+    if src == target:
         return [word]
     _engine = Word2word(src, target)
     return cast("Optional[list[str]]", _engine(word))

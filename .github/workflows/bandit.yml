@@ -67,7 +67,8 @@ jobs:
           cache-dependency-path: pyproject.toml
 
       - name: Install bandit
-        run: pip install "bandit==1.9.4"
+        run: |
+          pip install --only-binary :all: "bandit==1.9.4"
 
       - name: Run bandit
         run: bandit -r pythainlp -c pyproject.toml

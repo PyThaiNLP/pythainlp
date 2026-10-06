@@ -102,9 +102,6 @@ jobs:
           cache: "pip"
           cache-dependency-path: pyproject.toml
 
-      - name: Upgrade pip
-        run: pip install --upgrade pip
-
       - name: Install ICU (macOS)
         if: startsWith(matrix.os, 'macos-')
         run: |
@@ -157,7 +154,7 @@ jobs:
           PYTHONIOENCODING: utf-8
         run: |
           pip install ".[compact,extra]"
-          pip install "coverage==7.16.2" "coveralls==4.1.0"
+          pip install --only-binary :all: --no-binary docopt "coverage==7.16.2" "coveralls==4.1.0"
           coverage run -m unittest tests.core tests.compact tests.extra
 
       # Only submit a report from the "extra" run, to get maximum coverage

@@ -13,7 +13,7 @@ import tarfile
 import zipfile
 from functools import lru_cache
 from importlib.resources import files
-from typing import TYPE_CHECKING, Any, Optional, cast
+from typing import TYPE_CHECKING, Any, Optional
 
 from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
@@ -49,9 +49,8 @@ class _ResponseWrapper:
     def json(self) -> dict[str, Any]:
         """Parse JSON content from response."""
         try:
-            return cast(
-                "dict[str, Any]", json.loads(self._content.decode("utf-8"))
-            )
+            data: dict[str, Any] = json.loads(self._content.decode("utf-8"))
+            return data
         except (json.JSONDecodeError, UnicodeDecodeError) as err:
             raise ValueError(f"Failed to parse JSON response: {err}") from err
 
@@ -95,16 +94,14 @@ def get_corpus_db_detail(name: str, version: str = "") -> dict[str, Any]:
     if not os.path.exists(db_path):
         return {}
     with open(db_path, encoding="utf-8-sig") as f:
-        local_db = json.load(f)
+        local_db: dict[str, Any] = json.load(f)
 
-    if not version:
-        for corpus in local_db["_default"].values():
-            if corpus["name"] == name:
-                return cast("dict[str, Any]", corpus)
-    else:
-        for corpus in local_db["_default"].values():
-            if corpus["name"] == name and corpus["version"] == version:
-                return cast("dict[str, Any]", corpus)
+    for corpus in local_db["_default"].values():
+        if corpus["name"] == name and (
+            not version or corpus["version"] == version
+        ):
+            detail: dict[str, Any] = corpus
+            return detail
 
     return {}
 
@@ -186,7 +183,8 @@ def _load_default_db() -> dict[str, Any]:
     corpus_files = files("pythainlp.corpus")
     default_db_file = corpus_files.joinpath("default_db.json")
     text = default_db_file.read_text(encoding="utf-8-sig")
-    return cast("dict[str, Any]", json.loads(text))
+    db: dict[str, Any] = json.loads(text)
+    return db
 
 
 def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:

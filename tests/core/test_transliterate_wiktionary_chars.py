@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.transliterate.wiktionary.
+"""
+Characterization tests for pythainlp.transliterate.wiktionary.
 
 Expected values were recorded from the implementation before refactoring.
 """

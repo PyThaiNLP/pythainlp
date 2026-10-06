@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Summarization by frequency of words"""
+"""Summarize text by word frequency."""
 
 from __future__ import annotations
 

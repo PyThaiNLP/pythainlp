@@ -42,7 +42,7 @@ _USER_AGENT: str = (
 
 
 class _ResponseWrapper:
-    """Wrapper to provide requests.Response-like interface for urllib response."""
+    """Wrap a urllib response in a requests.Response-like interface."""
 
     status_code: int
     headers: HTTPMessage
@@ -54,7 +54,7 @@ class _ResponseWrapper:
         self._content = response.read()
 
     def json(self) -> dict[str, Any]:
-        """Parse JSON content from response."""
+        """Parse the JSON content of the response."""
         try:
             data: dict[str, Any] = json.loads(self._content.decode("utf-8"))
             return data
@@ -63,12 +63,15 @@ class _ResponseWrapper:
 
 
 def get_corpus_db(url: str) -> Optional[_ResponseWrapper]:
-    """Get corpus catalog from server.
+    """
+    Get the corpus catalog from a server.
 
-    :param str url: URL corpus catalog
+    Uses HTTPS with certificate validation enabled by default in Python's
+    urllib. Download a corpus catalog from trusted URLs only.
 
-    Security Note: Uses HTTPS with certificate validation enabled by default
-    in Python's urllib. Only download corpus from trusted URLs.
+    :param str url: URL of the corpus catalog
+    :return: response wrapper, or None if the request fails
+    :rtype: Optional[pythainlp.corpus.core._ResponseWrapper]
     """
     from urllib.error import HTTPError, URLError
     from urllib.request import Request, urlopen
@@ -91,11 +94,13 @@ def get_corpus_db(url: str) -> Optional[_ResponseWrapper]:
 
 
 def get_corpus_db_detail(name: str, version: str = "") -> dict[str, Any]:
-    """Get details about a corpus, using information from local catalog.
+    """
+    Get details about a corpus from the local catalog.
 
-    :param str name: name of corpus
-    :return: details about corpus
-    :rtype: dict
+    :param str name: corpus name
+    :param str version: corpus version (empty string means any version)
+    :return: details about the corpus, or an empty dict if not found
+    :rtype: dict[str, Any]
     """
     db_path = corpus_db_path()
     if not os.path.exists(db_path):
@@ -115,20 +120,19 @@ def get_corpus_db_detail(name: str, version: str = "") -> dict[str, Any]:
 
 @lru_cache(maxsize=None)
 def get_corpus(filename: str, comments: bool = True) -> frozenset[str]:
-    """Read corpus data from file and return a frozenset.
+    r"""
+    Read corpus data from a file and return a frozenset.
 
-    Each line in the file will be a member of the set.
-
-    Whitespace stripped and empty values and duplicates removed.
+    Each line in the file becomes a member of the set.
+    Whitespace is stripped, and empty values and duplicates are removed.
 
     If comments is False, any text at any position after the character
-    '#' in each line will be discarded.
+    "#" in each line is discarded.
 
     :param str filename: filename of the corpus to be read
     :param bool comments: keep comments
-
-    :return: :class:`frozenset` consisting of lines in the file
-    :rtype: :class:`frozenset`
+    :return: frozenset of lines in the file
+    :rtype: frozenset[str]
 
     :Example:
 
@@ -136,12 +140,11 @@ def get_corpus(filename: str, comments: bool = True) -> frozenset[str]:
         >>> get_corpus("negations_th.txt")  # doctest: +SKIP
         frozenset({'แต่', 'ไม่'})
         >>> get_corpus("ttc_freq.txt")  # doctest: +SKIP
-        frozenset({'โดยนัยนี้\\t1', 'ตัวบท\\t10', ...})
+        frozenset({'โดยนัยนี้\t1', 'ตัวบท\t10', ...})
         >>> get_corpus("icubrk_th.txt")  # doctest: +SKIP
         frozenset({'กกขนาก', '# Thai Dictionary for ICU BreakIterator', 'กก', ...})
         >>> get_corpus("icubrk_th.txt", comments=False)  # doctest: +SKIP
         frozenset({'กกขนาก', 'กก', ...})
-
     """
     corpus_files = files("pythainlp.corpus")
     corpus_file = corpus_files.joinpath(filename)
@@ -157,18 +160,16 @@ def get_corpus(filename: str, comments: bool = True) -> frozenset[str]:
 
 @lru_cache(maxsize=None)
 def get_corpus_as_is(filename: str) -> list[str]:
-    """Read corpus data from file, as it is, and return a list.
+    """
+    Read corpus data from a file as it is and return a list.
 
-    Each line in the file will be a member of the list.
-
-    No modifications in member values and their orders.
-
-    If strip or comment removal is needed, use get_corpus() instead.
+    Each line in the file becomes a member of the list.
+    Member values and their order are not modified.
+    To strip whitespace or remove comments, use :func:`get_corpus` instead.
 
     :param str filename: filename of the corpus to be read
-
-    :return: :class:`list` consisting of lines in the file
-    :rtype: :class:`list`
+    :return: list of lines in the file
+    :rtype: list[str]
 
     :Example:
 
@@ -195,15 +196,16 @@ def _load_default_db() -> dict[str, Any]:
 
 
 def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
-    """Get model path from default_db.json
+    """
+    Get the corpus path from default_db.json.
+
+    To edit default_db.json, edit pythainlp/corpus/default_db.json.
 
     :param str name: corpus name
-    :return: path to the corpus or **None** if the corpus doesn't \
-             exist on the device
-    :rtype: str
-
-    If you want to edit default_db.json, \
-        you can edit pythainlp/corpus/default_db.json
+    :param str version: corpus version (empty string means latest)
+    :return: path to the corpus, or None if the corpus does not exist
+        on the device
+    :rtype: Optional[str]
     """
     corpus_db = _load_default_db()
 
@@ -226,11 +228,13 @@ def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
 def _resolve_corpus_file_path(
     corpus_db_detail: dict[str, Any],
 ) -> Optional[str]:
-    """Resolve the local filesystem path for a corpus catalog entry.
+    """
+    Resolve the local file system path of a corpus catalog entry.
 
-    :param dict corpus_db_detail: a corpus catalog entry from the local DB
-    :return: full local path to the corpus file or folder,
-             or ``None`` if required path information is missing
+    :param dict[str, Any] corpus_db_detail: corpus catalog entry from the
+        local catalog
+    :return: full local path to the corpus file or folder, or None if
+        required path information is missing
     :rtype: Optional[str]
     """
     if corpus_db_detail.get("is_folder"):
@@ -241,15 +245,15 @@ def _resolve_corpus_file_path(
 
 
 def _download_corpus_db_detail(name: str, version: str) -> dict[str, Any]:
-    """Download a corpus missing from the local catalog.
+    """
+    Download a corpus that is missing from the local catalog.
 
     :param str name: corpus name
     :param str version: corpus version (empty string means latest)
-    :return: the corpus catalog entry, or an empty dict when the download
-             fails or the corpus is still not in the catalog
-    :rtype: dict
-
-    :raises FileNotFoundError: when ``PYTHAINLP_OFFLINE`` is set.
+    :return: corpus catalog entry, or an empty dict if the download fails
+        or the corpus is still not in the catalog
+    :rtype: dict[str, Any]
+    :raises FileNotFoundError: if ``PYTHAINLP_OFFLINE`` is set
     """
     if is_offline_mode():
         raise FileNotFoundError(
@@ -268,15 +272,15 @@ def _download_corpus_db_detail(name: str, version: str) -> dict[str, Any]:
 def _redownload_missing_corpus(
     name: str, version: str, path: str
 ) -> Optional[str]:
-    """Download again a corpus that is in the catalog but missing on disk.
+    """
+    Download again a corpus that is in the catalog but missing on disk.
 
     :param str name: corpus name
     :param str version: corpus version (empty string means latest)
     :param str path: expected local path of the corpus
-    :return: *path* if it exists after the download, otherwise ``None``
+    :return: *path* if it exists after the download, otherwise None
     :rtype: Optional[str]
-
-    :raises FileNotFoundError: when ``PYTHAINLP_OFFLINE`` is set.
+    :raises FileNotFoundError: if ``PYTHAINLP_OFFLINE`` is set
     """
     if is_offline_mode():
         raise FileNotFoundError(
@@ -293,9 +297,10 @@ def _redownload_missing_corpus(
 
 
 def get_corpus_path(name: str, version: str = "") -> Optional[str]:
-    """Get corpus path.
+    """
+    Get the local path of a corpus.
 
-    The function checks the following locations in order:
+    The function checks these locations in order:
 
     1. Bundled (default) corpora shipped with PyThaiNLP.
     2. The local download catalog (``~/pythainlp-data/``).
@@ -303,18 +308,17 @@ def get_corpus_path(name: str, version: str = "") -> Optional[str]:
     When the corpus file is not present locally, the behavior depends on the
     ``PYTHAINLP_OFFLINE`` environment variable:
 
-    - If ``PYTHAINLP_OFFLINE`` is set to a truthy value (e.g., ``"1"``),
-      a :exc:`FileNotFoundError` is raised immediately.
-    - Otherwise, the corpus is downloaded automatically.
+    - If ``PYTHAINLP_OFFLINE`` is set to a truthy value (for example,
+      ``"1"``), the function raises :exc:`FileNotFoundError` immediately.
+    - Otherwise, the function downloads the corpus automatically.
 
     :param str name: corpus name
     :param str version: corpus version (empty string means latest)
-    :return: full local path when the corpus exists,
-             or ``None`` when the corpus cannot be found or downloaded.
+    :return: full local path if the corpus exists, or None if the corpus
+        cannot be found or downloaded
     :rtype: Optional[str]
-
-    :raises FileNotFoundError: when the corpus is missing locally and
-        ``PYTHAINLP_OFFLINE`` is set to a truthy value.
+    :raises FileNotFoundError: if the corpus is missing locally and
+        ``PYTHAINLP_OFFLINE`` is set to a truthy value
 
     :Example:
 
@@ -363,17 +367,8 @@ def get_corpus_path(name: str, version: str = "") -> Optional[str]:
 
 
 def _download(url: str, dst: str, md5: str = "") -> int:
-    """Download helper.
-
-    :param str url: URL for the file to download.
-    :param str dst: local destination path for the downloaded file.
-    :param str md5: expected MD5 checksum of the file.
-        An empty string or ``"-"`` skips the check.
-    :return: the file size from the ``Content-Length`` header,
-        or -1 if the header is missing
-    :rtype: int
-
-    :raises ValueError: if the checksum does not match.
+    """
+    Download a file and verify its checksum.
 
     Download into a new temporary file next to *dst*, verify it, then
     move it into place. If the download or the check fails, or is
@@ -381,8 +376,17 @@ def _download(url: str, dst: str, md5: str = "") -> int:
     existed at *dst* stays as it was. A replaced file keeps its
     permission bits, and a symbolic link at *dst* stays a link.
 
-    Security Note: Downloads use HTTPS with SSL certificate validation.
+    Downloads use HTTPS with SSL certificate validation.
     Files are verified using MD5 checksums after download.
+
+    :param str url: URL of the file to download
+    :param str dst: local destination path of the downloaded file
+    :param str md5: expected MD5 checksum of the file
+        (an empty string or ``"-"`` skips the check)
+    :return: file size from the ``Content-Length`` header,
+        or -1 if the header is missing
+    :rtype: int
+    :raises ValueError: if the checksum does not match
     """
     from urllib.request import Request, urlopen
 
@@ -433,13 +437,13 @@ def _copy_response(
 
 
 def _check_hash(file_path: str, md5: str) -> None:
-    """Check hash helper.
+    """
+    Check the checksum of a file.
 
-    :param str file_path: full path of the file to verify.
-    :param str md5: expected MD5 checksum of the file.
-        An empty string or ``"-"`` skips the check.
-
-    :raises ValueError: if the checksum does not match.
+    :param str file_path: full path of the file to verify
+    :param str md5: expected MD5 checksum of the file
+        (an empty string or ``"-"`` skips the check)
+    :raises ValueError: if the checksum does not match
     """
     if not md5 or md5 == "-":
         return
@@ -455,22 +459,25 @@ def _check_hash(file_path: str, md5: str) -> None:
 
 
 def _is_within_directory(directory: str, target: str) -> bool:
-    """Check if target path is within directory (prevent path traversal).
+    """
+    Check if a target path is within a directory.
 
-    :param str directory: base directory path.
-    :param str target: target file path to check.
-    :return: ``True`` if target is within directory, ``False`` otherwise.
+    This check prevents path traversal. It normalizes paths with
+    ``os.path.abspath()`` to handle relative paths and ``..`` sequences.
+    It does not follow symbolic links (unlike ``os.path.realpath()``),
+    because:
+
+    - The extraction functions validate symbolic links separately.
+    - The check is on the path string itself, not on where it points.
+    - This avoids false negatives when symbolic links do not exist yet.
+
+    For symbolic link security, use the symbolic link validation of the
+    extraction functions.
+
+    :param str directory: base directory path
+    :param str target: target file path to check
+    :return: True if the target is within the directory, False otherwise
     :rtype: bool
-
-    Security Note: This function normalizes paths using os.path.abspath()
-    to handle relative paths and .. sequences. It does NOT follow symlinks
-    (unlike os.path.realpath()), because:
-
-    - Symlink validation is handled separately in extraction functions.
-    - We want to check if the path string itself is safe, not where it points.
-    - This prevents false negatives when symlinks don't exist yet.
-
-    For symlink security, use the extraction function's symlink validation.
     """
     # Use abspath to normalize paths but NOT realpath (which follows symlinks)
     abs_directory = os.path.abspath(directory)
@@ -487,14 +494,14 @@ def _is_within_directory(directory: str, target: str) -> bool:
 
 
 def _check_member_path(path: str, member_name: str, archive_type: str) -> None:
-    """Check that an archive member stays within the extraction directory.
+    """
+    Check that an archive member stays within the extraction directory.
 
-    :param str path: destination path for extraction.
-    :param str member_name: name of the archive member.
+    :param str path: destination path for extraction
+    :param str member_name: name of the archive member
     :param str archive_type: archive type for the error message
-        (``"tar"`` or ``"zip"``).
-
-    :raises ValueError: if the member path escapes *path*.
+        (``"tar"`` or ``"zip"``)
+    :raises ValueError: if the member path escapes *path*
     """
     try:
         safe_path_join(path, member_name)
@@ -515,15 +522,15 @@ def _link_error(member_name: str, link_target: str) -> ValueError:
 def _check_link_target(
     path: str, member_name: str, link_target: str, base_dir: str
 ) -> None:
-    """Check that a link member points within the extraction directory.
+    """
+    Check that a link member points within the extraction directory.
 
-    :param str path: destination path for extraction.
-    :param str member_name: name of the link member.
-    :param str link_target: target of the link.
+    :param str path: destination path for extraction
+    :param str member_name: name of the link member
+    :param str link_target: target of the link
     :param str base_dir: directory, relative to *path*, from which a
-        relative target is resolved.
-
-    :raises ValueError: if the link target is absolute or escapes *path*.
+        relative target is resolved
+    :raises ValueError: if the link target is absolute or escapes *path*
     """
     if os.path.isabs(link_target) or link_target.startswith(("/", os.sep)):
         raise _link_error(member_name, link_target)
@@ -534,16 +541,16 @@ def _check_link_target(
 
 
 def _check_tar_member(path: str, member: tarfile.TarInfo) -> None:
-    """Check the name and type of a tar member.
+    """
+    Check the name and type of a tar member.
 
     The check is lexical: it does not look at the file system.
     Only regular files and directories are allowed.
 
-    :param str path: destination path for extraction.
-    :param tarfile.TarInfo member: tar member to check.
-
+    :param str path: destination path for extraction
+    :param tarfile.TarInfo member: tar member to check
     :raises ValueError: if the member name escapes *path*, or if the
-        member is a link or a special file (such as a FIFO or a device).
+        member is a link or a special file (such as a FIFO or a device)
     """
     _check_member_path(path, member.name, "tar")
     if member.issym() or member.islnk():
@@ -553,13 +560,18 @@ def _check_tar_member(path: str, member: tarfile.TarInfo) -> None:
 
 
 def _data_filter_mode(member: tarfile.TarInfo) -> int:
-    """Return a safe file mode, similar to ``tarfile.data_filter``.
+    """
+    Return a safe file mode, similar to ``tarfile.data_filter``.
 
     Drop the high bits and the group and other write bits. A file gets
     owner read and write; it keeps the executable bits only if the owner
     can execute it. A directory gets owner read, write, and execute.
     Unlike ``tarfile.data_filter``, which does not set the mode of a
     directory, the mode of a directory is limited too.
+
+    :param tarfile.TarInfo member: tar member to get the mode of
+    :return: safe file mode
+    :rtype: int
     """
     mode = member.mode & 0o755
     if member.isdir():
@@ -570,11 +582,16 @@ def _data_filter_mode(member: tarfile.TarInfo) -> int:
 
 
 def _filter_tar_member(member: tarfile.TarInfo) -> tarfile.TarInfo:
-    """Return a copy of a tar member with a safe mode and no owner.
+    """
+    Return a copy of a tar member with a safe mode and no owner.
 
     The owner is dropped, so files belong to the extracting user,
     even when it is root. A user or group ID of -1 tells
     :func:`os.chown` to keep the current value.
+
+    :param tarfile.TarInfo member: tar member to filter
+    :return: filtered copy of the member
+    :rtype: tarfile.TarInfo
     """
     filtered = copy.copy(member)
     filtered.mode = _data_filter_mode(member)
@@ -584,21 +601,17 @@ def _filter_tar_member(member: tarfile.TarInfo) -> tarfile.TarInfo:
 
 
 def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
-    """Safely extract tar archive, preventing path traversal attacks.
+    """
+    Extract a tar archive safely, preventing path traversal.
 
     *path* should be a new, empty directory.
 
-    :param tarfile.TarFile tar: tarfile object to extract.
-    :param str path: destination path for extraction.
-
-    :raises ValueError: if a member is unsafe.
-
-    Security Note: If ``tarfile.data_filter`` is available (Python
-    3.9.17+, 3.10.12+, 3.11.4+, and 3.12+), uses it. A
-    ``tarfile.FilterError`` becomes a :exc:`ValueError`, with the
-    original error as its cause. Python releases without the 2025 fixes
-    to the filter (CVE-2025-4517, CVE-2025-4330, CVE-2025-4138) can be
-    escaped through symbolic links. Use a recent patch release.
+    If ``tarfile.data_filter`` is available (Python 3.9.17+, 3.10.12+,
+    3.11.4+, and 3.12+), the function uses it. A ``tarfile.FilterError``
+    becomes a :exc:`ValueError`, with the original error as its cause.
+    Python releases without the 2025 fixes to the filter (CVE-2025-4517,
+    CVE-2025-4330, CVE-2025-4138) can be escaped through symbolic links.
+    Use a recent patch release.
 
     Otherwise, a stricter manual check runs before anything is
     extracted. It rejects:
@@ -609,8 +622,12 @@ def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
     - Special files, such as FIFOs and devices.
 
     Without links, the checks on names are enough if *path* holds no
-    symlinks. File modes are limited as with ``tarfile.data_filter``,
+    symbolic links. File modes are limited as with ``tarfile.data_filter``,
     and the owner is not restored.
+
+    :param tarfile.TarFile tar: tar file object to extract
+    :param str path: destination path for extraction
+    :raises ValueError: if a member is unsafe
     """
     if not hasattr(tarfile, "data_filter"):
         members = tar.getmembers()
@@ -628,32 +645,38 @@ def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
 
 
 def _is_zip_symlink(info: zipfile.ZipInfo) -> bool:
-    """Return whether a zip member is a Unix symlink.
+    """
+    Return whether a zip member is a Unix symbolic link.
 
     The high 16 bits of ``external_attr`` hold the Unix file mode.
+
+    :param zipfile.ZipInfo info: zip member to check
+    :return: True if the member is a symbolic link, False otherwise
+    :rtype: bool
     """
     return (info.external_attr >> 16) & 0o170000 == 0o120000
 
 
 def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
-    """Safely extract zip archive, preventing path traversal attacks.
+    """
+    Extract a zip archive safely, preventing path traversal.
 
-    :param zipfile.ZipFile zip_file: zipfile object to extract.
-    :param str path: destination path for extraction.
-
-    :raises ValueError: if a member is unsafe. Nothing is extracted then.
-
-    Security Note: This function prevents path traversal attacks including:
+    The function prevents path traversal attacks, including:
 
     - Files with ``..`` in their path.
-    - Symlinks with an absolute target, or with a target outside the
-      extraction directory (on Unix systems).
+    - Symbolic links with an absolute target, or with a target outside
+      the extraction directory (on Unix systems).
 
     Each entry is checked, including entries with a duplicate name.
 
-    Note: ZIP format has limited symlink support. Symlinks are primarily
-    created by Unix-based archiving tools and may not be portable.
-    :meth:`zipfile.ZipFile.extractall` writes them as regular files.
+    The zip format has limited symbolic link support. Unix-based
+    archiving tools mainly create symbolic links, and they may not be
+    portable. :meth:`zipfile.ZipFile.extractall` writes them as regular
+    files.
+
+    :param zipfile.ZipFile zip_file: zip file object to extract
+    :param str path: destination path for extraction
+    :raises ValueError: if a member is unsafe (nothing is extracted then)
     """
     for info in zip_file.infolist():
         _check_member_path(path, info.filename, "zip")
@@ -671,7 +694,7 @@ def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
 
 
 def _version2int(v: str) -> int:
-    """X.X.X => X0X0X"""
+    """Convert a version string X.X.X to an integer X0X0X."""
     if "-" in v:
         v = v.split("-")[0]
     if v.endswith(".*"):
@@ -692,9 +715,13 @@ def _version2int(v: str) -> int:
 
 
 def _installed_version_int() -> int:
-    """Return the installed PyThaiNLP version as an integer.
+    """
+    Return the installed PyThaiNLP version as an integer.
 
     A "dev" or "beta" suffix is dropped.
+
+    :return: installed version as an integer
+    :rtype: int
     """
     version = __version__
     if "dev" in version:
@@ -705,9 +732,15 @@ def _installed_version_int() -> int:
 
 
 def _check_lower_bound(cause: str, v: int) -> bool:
-    """Check *v* against a cause that starts with ``">"``.
+    """
+    Check *v* against a cause that starts with ``">"``.
 
     The cause can also have an upper bound, like ``">=5.0<6.0"``.
+
+    :param str cause: version constraint
+    :param int v: installed version as an integer
+    :return: True if *v* satisfies the lower bound of *cause*
+    :rtype: bool
     """
     if "<" not in cause:
         if cause.startswith(">="):
@@ -724,11 +757,12 @@ def _check_lower_bound(cause: str, v: int) -> bool:
 
 
 def _check_version(cause: str) -> bool:
-    """Check if the installed PyThaiNLP version satisfies a constraint.
+    """
+    Check if the installed PyThaiNLP version satisfies a constraint.
 
     :param str cause: version constraint, such as ``"*"``, ``"==5.0"``,
         ``">=5.0"``, ``"<6.0"``, or ``">=5.0<6.0"``
-    :return: ``True`` if the installed version satisfies *cause*
+    :return: True if the installed version satisfies *cause*
     :rtype: bool
     """
     v = _installed_version_int()
@@ -758,14 +792,15 @@ def _load_local_db() -> dict[str, Any]:
 
 
 def _select_version(corpus: dict[str, Any], version: str) -> Optional[str]:
-    """Select the corpus version to download and check that it is supported.
+    """
+    Select the corpus version to download and check that it is supported.
 
     Without *version*, the last compatible version in catalog order wins.
 
-    :param dict corpus: corpus entry from the remote catalog
+    :param dict[str, Any] corpus: corpus entry from the remote catalog
     :param str version: requested version (empty string means any)
-    :return: the selected version, or ``None`` (with a printed message)
-             when it is missing or not supported
+    :return: selected version, or None (with a printed message) if it is
+        missing or not supported
     :rtype: Optional[str]
     """
     versions = corpus["versions"]
@@ -786,9 +821,10 @@ def _select_version(corpus: dict[str, Any], version: str) -> Optional[str]:
 def _find_local_corpus_no(
     local_db: dict[str, Any], name: str
 ) -> Optional[str]:
-    """Return the local catalog key of the first entry named *name*.
+    """
+    Return the local catalog key of the first entry named *name*.
 
-    The version is not checked. Return ``None`` if not found.
+    The version is not checked. Return None if not found.
     Any key counts, even an empty string.
     """
     entries: dict[str, Any] = local_db["_default"]
@@ -799,7 +835,8 @@ def _find_local_corpus_no(
 
 
 def _next_local_corpus_no(entries: dict[str, Any]) -> int:
-    """Return the number for a new local catalog entry.
+    """
+    Return the number for a new local catalog entry.
 
     It is one more than the largest numeric key. Keys that are not
     decimal numbers, such as an empty string, are ignored.
@@ -811,14 +848,15 @@ def _next_local_corpus_no(entries: dict[str, Any]) -> int:
 def _extract_corpus_archive(
     corpus_versions: dict[str, Any], name: str, version: str, file_name: str
 ) -> Optional[str]:
-    """Extract a downloaded tar or zip corpus into its own folder.
+    """
+    Extract a downloaded tar or zip corpus into its own folder.
 
     Extract into a new temporary folder next to the corpus folder, then
     swap it into place. An existing corpus folder is replaced as a whole.
     If the extraction fails, remove the temporary folder, then raise
     again; an existing corpus folder stays as it was.
 
-    :return: the folder name, or ``None`` if the corpus is not an archive
+    :return: folder name, or None if the corpus is not an archive
     :rtype: Optional[str]
     """
     if corpus_versions["is_tar_gz"] == "True":
@@ -844,7 +882,7 @@ def _extract_corpus_archive(
 def _extract_archive(
     archive_path: str, folder_path: str, is_tar: bool
 ) -> None:
-    """Safely extract a tar or zip archive into *folder_path*."""
+    """Extract a tar or zip archive safely into *folder_path*."""
     if is_tar:
         with tarfile.open(archive_path) as tar:
             _safe_extract_tar(tar, folder_path)
@@ -854,7 +892,8 @@ def _extract_archive(
 
 
 def _sibling_temp_path(path: str, suffix: str) -> str:
-    """Return a unique hidden path in the directory of *path*.
+    """
+    Return a unique hidden path in the directory of *path*.
 
     The name is ``.<name>.<random hex>.<suffix>``.
     """
@@ -865,9 +904,10 @@ def _sibling_temp_path(path: str, suffix: str) -> str:
 
 
 def _remove_path(path: str) -> None:
-    """Remove a file, a link, or a directory tree; ignore errors.
+    """
+    Remove a file, a link, or a directory tree; ignore errors.
 
-    A symlink is removed, not followed.
+    A symbolic link is removed, not followed.
     """
     if os.path.isdir(path) and not os.path.islink(path):
         shutil.rmtree(path, ignore_errors=True)
@@ -877,7 +917,8 @@ def _remove_path(path: str) -> None:
 
 
 def _swap_in_folder(new_path: str, folder_path: str) -> None:
-    """Move *new_path* to *folder_path*, replacing what is there.
+    """
+    Move *new_path* to *folder_path*, replacing what is there.
 
     The old entry is moved aside first, and is moved back if the move
     of *new_path* fails. It is removed only after the swap succeeds.
@@ -915,7 +956,7 @@ _REPLACE_RETRIES: int = 5 if os.name == "nt" else 0
 
 
 def _replace_file(src: str, dst: str) -> None:
-    """Replace *dst* with *src*, retrying a temporary PermissionError."""
+    """Replace *dst* with *src*, retrying on a temporary PermissionError."""
     for _ in range(_REPLACE_RETRIES):
         try:
             os.replace(src, dst)
@@ -926,7 +967,7 @@ def _replace_file(src: str, dst: str) -> None:
 
 
 def _file_mode(path: str) -> Optional[int]:
-    """Return the permission bits of *path*, or ``None`` if missing."""
+    """Return the permission bits of *path*, or None if missing."""
     try:
         return stat.S_IMODE(os.stat(path).st_mode)
     except FileNotFoundError:
@@ -934,7 +975,8 @@ def _file_mode(path: str) -> Optional[int]:
 
 
 def _write_local_db(local_db: dict[str, Any]) -> None:
-    """Write the local corpus catalog atomically.
+    """
+    Write the local corpus catalog atomically.
 
     Write to a temporary file in the same directory, then replace the
     catalog with it, so a crash cannot leave a partly written catalog.
@@ -1021,9 +1063,10 @@ def _print_installed_status(current_ver: str, version: str) -> None:
 def download(
     name: str, force: bool = False, url: str = "", version: str = ""
 ) -> bool:
-    """Download corpus.
+    """
+    Download a corpus.
 
-    The available corpus names can be seen in this file:
+    The available corpus names are listed in this file:
     https://pythainlp.org/pythainlp-corpus/db.json
 
     This function always performs the download regardless of the
@@ -1032,12 +1075,16 @@ def download(
     ``PYTHAINLP_OFFLINE`` only blocks the *automatic* download triggered
     by :func:`pythainlp.corpus.get_corpus_path`.
 
+    By default, downloaded corpora and models are saved in
+    ``$HOME/pythainlp-data/``
+    (for example, ``/Users/bact/pythainlp-data/wiki_lm_lstm.pth``).
+
     :param str name: corpus name
-    :param bool force: force downloading
+    :param bool force: force the download
     :param str url: URL of the corpus catalog
-    :param str version: version of the corpus
-    :return: **True** if the corpus is found and successfully downloaded.
-             Otherwise, it returns **False**.
+    :param str version: corpus version (empty string means latest)
+    :return: True if the corpus is found and downloaded successfully,
+        False otherwise
     :rtype: bool
 
     :Example:
@@ -1047,10 +1094,6 @@ def download(
         Corpus: wiki_lm_lstm
         - Downloading: wiki_lm_lstm 0.1
         ...
-
-    By default, downloaded corpora and models will be saved in
-    ``$HOME/pythainlp-data/``
-    (e.g. ``/Users/bact/pythainlp-data/wiki_lm_lstm.pth``).
     """
     if is_read_only_mode():
         print("PyThaiNLP is in read-only mode. It cannot download.")
@@ -1095,11 +1138,12 @@ def download(
 
 
 def remove(name: str) -> bool:
-    """Remove corpus
+    """
+    Remove a corpus.
 
     :param str name: corpus name
-    :return: **True** if the corpus is found and successfully removed.
-             Otherwise, it returns **False**.
+    :return: True if the corpus is found and removed successfully,
+        False otherwise
     :rtype: bool
 
     :Example:
@@ -1148,7 +1192,8 @@ def remove(name: str) -> bool:
 
 
 def make_safe_directory_name(name: str) -> str:
-    """Make safe directory name
+    """
+    Make a safe directory name.
 
     :param str name: directory name
     :return: safe directory name
@@ -1191,15 +1236,16 @@ def make_safe_directory_name(name: str) -> str:
 def get_hf_hub(
     repo_id: str, filename: str = "", revision: Optional[str] = None
 ) -> str:
-    """HuggingFace Hub in :mod:`pythainlp` data directory.
+    """
+    Download a Hugging Face Hub repository into the PyThaiNLP data directory.
 
-    :param str repo_id: repo_id
-    :param str filename: filename (optional, default is empty string).
-        If empty, downloads entire snapshot.
-    :param Optional[str] revision: a git revision id, which can be a branch
-        name, a tag, or a commit hash (optional, default is ``None``).
+    :param str repo_id: repository ID
+    :param str filename: name of the file to download
+        (if empty, download the entire snapshot)
+    :param Optional[str] revision: git revision ID, which can be a branch
+        name, a tag, or a commit hash (default is None).
         Pin to a full commit hash for reproducible and secure downloads.
-    :return: path
+    :return: path to the downloaded file or snapshot
     :rtype: str
     """
     try:

@@ -68,13 +68,14 @@ class Thai2transformersAug:
         return sent2
 
     def augment(self, sentence: str, num_replace_tokens: int = 3) -> list[str]:
-        """Text augmentation from WangchanBERTa
+        """
+        Augment text using WangchanBERTa.
 
-        :param str sentence: Thai sentence
-        :param int num_replace_tokens: number replace tokens
+        :param str sentence: Thai text to augment
+        :param int num_replace_tokens: number of tokens to replace
 
-        :return: list of text augment
-        :rtype: List[str]
+        :return: list of augmented sentences
+        :rtype: list[str]
 
         :Example:
 

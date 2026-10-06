@@ -18,11 +18,11 @@ class ChatBotModel:
     model: "WangChanGLM"
 
     def __init__(self) -> None:
-        """Chat using AI generation"""
+        """Initialize the chatbot with an empty chat history."""
         self.history = []
 
     def reset_chat(self) -> None:
-        """Reset chat by cleaning history"""
+        """Reset the chat by clearing the history."""
         self.history = []
 
     def load_model(
@@ -35,15 +35,16 @@ class ChatBotModel:
         offload_folder: str = "./",
         low_cpu_mem_usage: bool = True,
     ) -> None:
-        """Load model
+        """
+        Load the model.
 
-        :param str model_name: Model name (Now, we support wangchanglm only)
-        :param bool return_dict: return_dict
-        :param bool load_in_8bit: load model in 8bit
-        :param str device: device (cpu, cuda or other)
-        :param Optional[torch.dtype] torch_dtype: torch_dtype
-        :param str offload_folder: offload folder
-        :param bool low_cpu_mem_usage: low cpu mem usage
+        :param str model_name: model name (only wangchanglm is supported)
+        :param bool return_dict: return the output as a dictionary
+        :param bool load_in_8bit: load the model in 8-bit precision
+        :param str device: device (cpu, cuda, or other)
+        :param Optional[torch.dtype] torch_dtype: data type of the model
+        :param str offload_folder: folder to offload weights to
+        :param bool low_cpu_mem_usage: reduce CPU memory usage while loading
         """
         warn_deprecation(
             "pythainlp.chat.ChatBotModel",
@@ -72,11 +73,13 @@ class ChatBotModel:
             raise NotImplementedError(f"We doesn't support {model_name}.")
 
     def chat(self, text: str) -> str:
-        """Chatbot
+        """
+        Send a text to the chatbot and return its answer.
 
-        :param str text: text for asking chatbot with.
-        :return: answer from chatbot.
+        :param str text: text to ask the chatbot
+        :return: answer from the chatbot
         :rtype: str
+
         :Example:
 
             >>>     from pythainlp.chat import ChatBotModel  # doctest: +SKIP

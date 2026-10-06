@@ -1,9 +1,11 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Convert number in words to a computable number value
+"""
+Convert numbers in Thai words to numeric values.
 
-First version of the code adapted from Korakot Chaovavanich's notebook
+The first version of the code was adapted from Korakot Chaovavanich's
+notebook:
 https://colab.research.google.com/drive/148WNIeclf0kOU6QxKd6pcfwpSs8l-VKD#scrollTo=EuVDd0nNuI8Q
 """
 
@@ -53,7 +55,7 @@ _valid_tokens: set[str] = (
 
 @lru_cache
 def _tokenizer() -> Tokenizer:
-    """Lazy load Thai numeral tokenizer with cache"""
+    """Load the Thai numeral tokenizer lazily, with cache."""
     return Tokenizer(custom_dict=_valid_tokens)
 
 
@@ -77,7 +79,7 @@ def _check_is_thainum(
 
 @lru_cache
 def _tokenizer_thaiwords() -> Tokenizer:
-    """Lazy load Thai words tokenizer with cache"""
+    """Load the Thai word tokenizer lazily, with cache."""
     _dict_words = [i for i in thai_words() if not _check_is_thainum(i)[0]]
     _dict_words.extend(_digits.keys())
     _dict_words.extend(["สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน", "จุด"])
@@ -85,10 +87,11 @@ def _tokenizer_thaiwords() -> Tokenizer:
 
 
 def thaiword_to_num(word: str) -> int:
-    """Converts the spelled-out numerals in Thai scripts into an actual integer.
+    """
+    Convert a numeral spelled out in Thai to an integer.
 
-    :param str word: Spelled-out numerals in Thai scripts
-    :return: Corresponding integer value of the input
+    :param str word: numeral spelled out in Thai
+    :return: integer value of the numeral
     :rtype: int
 
     :Example:
@@ -147,9 +150,10 @@ def _decimal_unit(words: list[str]) -> float:
 
 
 def words_to_num(words: list[str]) -> float:
-    """Thai words to float.
+    """
+    Convert a list of Thai numeral words to a floating-point number.
 
-    :param list[str] words: Thai words (a number broken into tokens)
+    :param list[str] words: Thai words (a number split into words)
     :return: float value of the words
     :rtype: float
 
@@ -186,11 +190,15 @@ def _flush(thainum: list[str], result: list[str]) -> None:
 
 
 def text_to_num(text: str) -> list[str]:
-    """Thai text to list of Thai words with floating point numbers
+    """
+    Convert numerals spelled out in Thai text to numbers.
 
-    :param str text: Thai text with the spelled-out numerals
-    :return: list of Thai words with float values of the input
-    :rtype: List[str]
+    Return a list of words, with each spelled-out numeral replaced by
+    its numeric value as text.
+
+    :param str text: Thai text with spelled-out numerals
+    :return: list of words with numerals converted to numbers
+    :rtype: list[str]
 
     :Example:
 

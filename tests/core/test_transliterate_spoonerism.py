@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.transliterate.spoonerism.
+"""
+Characterization tests for pythainlp.transliterate.spoonerism.
 
 The w2p engine needs optional dependencies, so pronunciate is mocked.
 Expected values were recorded from the implementation before refactoring.

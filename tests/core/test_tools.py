@@ -51,7 +51,8 @@ class ToolsTestCase(unittest.TestCase):
                 self.assertTrue(os.path.isdir(path))
 
     def test_custom_data_dir(self):
-        """Test that PYTHAINLP_DATA_DIR is accepted but emits a deprecation warning.
+        """
+        Test that PYTHAINLP_DATA_DIR is accepted but emits a deprecation warning.
 
         This test verifies the functionality needed for distributed
         environments like PySpark, where setting PYTHAINLP_DATA_DIR
@@ -264,7 +265,8 @@ class ToolsTestCase(unittest.TestCase):
             self.assertIn("PYTHAINLP_READ_MODE", str(ctx.exception))
 
     def test_get_pythainlp_data_path_no_makedirs_in_read_only(self):
-        """Test that get_pythainlp_data_path skips makedirs in read-only mode.
+        """
+        Test that get_pythainlp_data_path skips makedirs in read-only mode.
 
         Directory creation is an implicit side-effect the user may not be
         aware of.  Read-only mode must suppress it.

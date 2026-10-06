@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.util.date.thai_strptime.
+"""
+Characterization tests for pythainlp.util.date.thai_strptime.
 
 Golden data was recorded from the pre-refactor implementation.
 """
@@ -19,7 +20,8 @@ _TZ = {"d": _BANGKOK, "utc": _UTC, None: None}
 
 
 class _AnyMessage:
-    """Match any message.
+    """
+    Match any message.
 
     For text that comes from the standard library
     and differs between Python versions.

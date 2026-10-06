@@ -136,12 +136,14 @@ for key, val in THAI_MORSE_CODE.items():
 
 
 def morse_encode(text: str, lang: str = "th") -> str:
-    """Convert text to Morse code (support Thai and English)
+    """
+    Convert text to Morse code (Thai and English are supported).
 
-    :param str text: Text
-    :param str lang: Language Code (*th* is Thai and *en* is English)
+    :param str text: text to be converted
+    :param str lang: language code (``'th'`` for Thai, ``'en'`` for English)
     :return: Morse code
     :rtype: str
+    :raises NotImplementedError: if ``lang`` is not supported
 
     :Example:
 
@@ -163,15 +165,17 @@ def morse_encode(text: str, lang: str = "th") -> str:
 
 
 def morse_decode(morse_text: str, lang: str = "th") -> str:
-    """Convert Morse code to text.
+    """
+    Convert Morse code to text.
 
     Thai decoding may produce incorrect characters
     that can be fixed with a spell corrector.
 
-    :param str morse_text: Morse code
+    :param str morse_text: Morse code to be converted
     :param str lang: language code (``'th'`` for Thai, ``'en'`` for English)
     :return: decoded text
     :rtype: str
+    :raises NotImplementedError: if ``lang`` is not supported
 
     :Example:
 

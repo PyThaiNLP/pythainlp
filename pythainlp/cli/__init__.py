@@ -33,12 +33,11 @@ def make_usage(command: str) -> dict[str, str]:
 
 
 def exit_if_empty(command: str, parser: ArgumentParser) -> None:
-    """Print help and exit if command is empty.
+    """
+    Print help and exit if the command is empty.
 
-    :param command: command from command line
-    :type command: str
-    :param parser: parser object of the app
-    :type parser: ArgumentParser
+    :param str command: command from the command line
+    :param argparse.ArgumentParser parser: parser object of the app
     """
     if not command:
         if parser:

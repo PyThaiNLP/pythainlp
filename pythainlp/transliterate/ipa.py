@@ -1,12 +1,11 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Transliterating text to International Phonetic Alphabet (IPA)
-Using epitran
+"""
+Transliterate text to International Phonetic Alphabet (IPA) using epitran.
 
 :See Also:
-    * `GitHub \
-        <https://github.com/dmort27/epitran>`_
+    * `GitHub <https://github.com/dmort27/epitran>`_
 """
 
 from __future__ import annotations

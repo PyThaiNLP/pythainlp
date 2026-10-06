@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Offline tests for pythainlp.summarize and the benchmark text helpers.
+"""
+Offline tests for pythainlp.summarize and the benchmark text helpers.
 
 They use only the standard library and the bundled corpora. The mT5 and
 KeyBERT engines are replaced with fakes.

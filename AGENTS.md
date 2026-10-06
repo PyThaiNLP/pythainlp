@@ -7,6 +7,35 @@
       The document list test categories, their dependency sets,
       and test naming conventions.
 - [ ] Use reStructuredText for docstring (PEP 287), targeting Sphinx.
+  - [ ] Docstring layout (Codacy enforces pydocstyle D213; its settings
+        cannot change):
+    - [ ] Use `"""`. A one-line docstring stays on one line, with the
+          closing quotes on the same line.
+    - [ ] Start a multi-line docstring summary on the second line, after
+          the opening `"""`.
+    - [ ] The summary is one sentence in the imperative mood
+          ("Convert ...", "Return ..."), ending with a period.
+    - [ ] Then a blank line, an optional description, a blank line,
+          the fields, a blank line, and `:Example:`.
+    - [ ] Keep every line within 79 characters (indent included).
+          Exceptions: a URL, and a doctest output line that cannot wrap.
+          Do not end a docstring line with a backslash; it joins lines.
+  - [ ] Docstring fields, in this order:
+        `:param <type> <name>:`, `:return:`, `:rtype:`,
+        `:raises <Exception>:`.
+    - [ ] Write the type as in the annotation, with built-in generics
+          (`list[str]`) and full qualified names.
+    - [ ] A field description is a phrase that starts in lowercase and
+          has no final period; a description of several sentences uses
+          capitalized sentences with periods.
+    - [ ] Continue a long field on the next line, indented by 4 spaces.
+    - [ ] List options as `* *name* - description` under the field,
+          indented by 4 spaces. Mark the default with `(default)`.
+  - [ ] Docstring wording: use US spelling, active voice, and parallel
+        phrasing between similar functions. Use these terms the same
+        way everywhere: "text" (a `str` to process), "word" (a token),
+        "list of words", "engine" (an algorithm or model option),
+        "corpus", "tokenize", and "Thai" (capitalized).
 - [ ] When possible, follow NLTK established convention of submodule
       name (tend to be a verb or a generic noun), function name, and
       configuration. Communicate this to the users during code review.

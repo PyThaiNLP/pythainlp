@@ -56,16 +56,17 @@ class WangChanGLM:
         low_cpu_mem_usage: bool = True,
         revision: Optional[str] = None,
     ) -> None:
-        """Load model
+        """
+        Load the model.
 
         :param str model_path: model path
-        :param bool return_dict: return dict
-        :param bool load_in_8bit: load model in 8bit
-        :param str device: device (cpu, cuda or other)
-        :param Optional[torch.dtype] torch_dtype: torch_dtype
-        :param str offload_folder: offload folder
-        :param bool low_cpu_mem_usage: low cpu mem usage
-        :param Optional[str] revision: a git revision id (branch, tag, or
+        :param bool return_dict: return the output as a dictionary
+        :param bool load_in_8bit: load the model in 8-bit precision
+        :param str device: device (cpu, cuda, or other)
+        :param Optional[torch.dtype] torch_dtype: data type of the model
+        :param str offload_folder: folder to offload weights to
+        :param bool low_cpu_mem_usage: reduce CPU memory usage while loading
+        :param Optional[str] revision: git revision id (branch, tag, or
             commit hash). Pin to a full commit hash for secure downloads.
         """
         import pandas as pd
@@ -107,18 +108,19 @@ class WangChanGLM:
         thai_only: bool = True,
         skip_special_tokens: bool = True,
     ) -> str:
-        """Generate Instruct
+        """
+        Generate an answer to an instruction prompt.
 
-        :param str text: text
+        :param str text: text of the prompt
         :param int max_new_tokens: maximum number of new tokens
-        :param float top_p: top p
-        :param float temperature: temperature
-        :param int top_k: top k
-        :param int no_repeat_ngram_size: do not repeat ngram size
-        :param float typical_p: typical p
-        :param bool thai_only: Thai only
-        :param bool skip_special_tokens: skip special tokens
-        :return: the answer from Instruct
+        :param float top_p: cumulative probability for nucleus sampling
+        :param float temperature: sampling temperature
+        :param int top_k: number of top tokens to sample from
+        :param int no_repeat_ngram_size: size of n-grams that must not repeat
+        :param float typical_p: typical probability for sampling
+        :param bool thai_only: generate Thai characters only
+        :param bool skip_special_tokens: skip special tokens in the output
+        :return: generated answer
         :rtype: str
         """
         import torch
@@ -169,19 +171,21 @@ class WangChanGLM:
         thai_only: bool = True,
         skip_special_tokens: bool = True,
     ) -> str:
-        """Generate Instruct
+        """
+        Generate an answer to an instruction.
 
-        :param str instruct: Instruct
-        :param str context: context (optional, default is empty string)
+        :param str instruct: instruction
+        :param str context: context of the instruction (optional, empty
+            by default)
         :param int max_new_tokens: maximum number of new tokens
-        :param float top_p: top p
-        :param float temperature: temperature
-        :param int top_k: top k
-        :param int no_repeat_ngram_size: do not repeat ngram size
-        :param float typical_p: typical p
-        :param bool thai_only: Thai only
-        :param bool skip_special_tokens: skip special tokens
-        :return: the answer from Instruct
+        :param float top_p: cumulative probability for nucleus sampling
+        :param float temperature: sampling temperature
+        :param int top_k: number of top tokens to sample from
+        :param int no_repeat_ngram_size: size of n-grams that must not repeat
+        :param float typical_p: typical probability for sampling
+        :param bool thai_only: generate Thai characters only
+        :param bool skip_special_tokens: skip special tokens in the output
+        :return: generated answer
         :rtype: str
 
         :Example:

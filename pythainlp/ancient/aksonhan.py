@@ -27,15 +27,16 @@ _dict_thai: set[str] = set(thai_orst_words())  # call Thai words
 
 
 def aksonhan_to_current(word: str) -> str:
-    """Convert AksonHan words to current Thai words
+    """
+    Convert an AksonHan word to the current Thai word.
 
     AksonHan (อักษรหัน) writes two consonants to spell
     the short /a/ vowel (สระ อะ).
 
-    Today, รร is an aksonhan pattern still used in Thai.
+    Today, รร is an AksonHan pattern still used in Thai.
 
-    :param str word: Thai word
-    :return: Thai AksonHan to be converted to current Thai word
+    :param str word: Thai word in AksonHan spelling
+    :return: word in current Thai spelling
     :rtype: str
 
     :Example:

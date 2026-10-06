@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Tokenzier classes for ULMFiT"""
+"""Tokenizer classes for ULMFiT."""
 
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ from pythainlp.tokenize import thai2fit_tokenizer
 
 
 class BaseTokenizer:
-    """Basic class for a tokenizer function. (codes from `fastai`)"""
+    """Provide a basic tokenizer class (code from `fastai`)."""
 
     lang: str
 
@@ -29,9 +29,10 @@ class BaseTokenizer:
 
 
 class ThaiTokenizer(BaseTokenizer):
-    """Wrapper around a frozen newmm tokenizer to make it a
-    :class:`fastai.BaseTokenizer`.
-    (see: https://docs.fast.ai/text.transform#BaseTokenizer)
+    """
+    Wrap a frozen newmm tokenizer as a :class:`fastai.BaseTokenizer`.
+
+    See https://docs.fast.ai/text.transform#BaseTokenizer
     """
 
     lang: str
@@ -41,10 +42,11 @@ class ThaiTokenizer(BaseTokenizer):
 
     @staticmethod
     def tokenizer(text: str) -> list[str]:
-        """Tokenize text using the newmm engine and the thai2fit dictionary.
+        """
+        Tokenize text using the newmm engine and the thai2fit dictionary.
 
-        :param str text: text to tokenize
-        :return: tokenized text
+        :param str text: text to be tokenized
+        :return: list of words
         :rtype: list[str]
 
         :Example:

@@ -1,13 +1,12 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Transliterating Japanese/Korean/Mandarin/Vietnamese romanization text
-to Thai text
-By Wunsen
+"""
+Transliterate Japanese, Korean, Mandarin, and Vietnamese romanization
+text to Thai text, using Wunsen.
 
 :See Also:
-    * `GitHub \
-        <https://github.com/cakimpei/wunsen>`_
+    * `GitHub <https://github.com/cakimpei/wunsen>`_
 """
 
 from __future__ import annotations
@@ -18,13 +17,12 @@ from wunsen import ThapSap
 
 
 class WunsenTransliterate:
-    """Transliterating Japanese/Korean/Mandarin/Vietnamese romanization text
-    to Thai text
-    by Wunsen
+    """
+    Transliterate Japanese, Korean, Mandarin, and Vietnamese romanization
+    text to Thai text, using Wunsen.
 
     :See Also:
-        * `GitHub \
-            <https://github.com/cakimpei/wunsen>`_
+        * `GitHub <https://github.com/cakimpei/wunsen>`_
     """
 
     thap_value: Optional["ThapSap"]
@@ -86,18 +84,20 @@ class WunsenTransliterate:
         zh_sandhi: Optional[bool] = None,
         system: Optional[str] = None,
     ) -> str:
-        """Use Wunsen for transliteration
+        """
+        Transliterate romanization text to Thai text using Wunsen.
 
-        :param str text: text to be transliterated to Thai text.
-        :param str lang: source language
-        :param Optional[str] jp_input: Japanese input method (for Japanese only). Default is None.
-        :param Optional[bool] zh_sandhi: Mandarin third tone sandhi option
-            (for Mandarin only). Default is None.
-        :param Optional[str] system: transliteration system (for Japanese and
-            Mandarin only). Default is None.
-
+        :param str text: romanization text to be transliterated
+        :param str lang: source language (see the options below)
+        :param Optional[str] jp_input: Japanese input method, for Japanese
+            only (default is ``None``)
+        :param Optional[bool] zh_sandhi: Mandarin third tone sandhi option,
+            for Mandarin only (default is ``None``)
+        :param Optional[str] system: transliteration system, for Japanese
+            and Mandarin only (default is ``None``)
         :return: Thai text
         :rtype: str
+        :raises NotImplementedError: if the language is not supported
 
         :Options for lang:
             * *jp* - Japanese (from Hepburn romanization)

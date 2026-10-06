@@ -12,10 +12,12 @@ if TYPE_CHECKING:
 
 
 class Qwen3:
-    """Qwen3-0.6B language model for Thai text generation.
+    """
+    Generate Thai text using the Qwen3-0.6B language model.
 
-    A small but capable language model from Alibaba Cloud's Qwen family,
-    optimized for various NLP tasks including Thai language processing.
+    A small but capable language model from the Qwen family of Alibaba
+    Cloud, optimized for various NLP tasks including Thai language
+    processing.
     """
 
     def __init__(self) -> None:
@@ -33,13 +35,15 @@ class Qwen3:
         low_cpu_mem_usage: bool = True,
         revision: Optional[str] = None,
     ) -> None:
-        """Load Qwen3 model.
+        """
+        Load the Qwen3 model.
 
-        :param str model_path: model path or HuggingFace model ID
-        :param str device: device (cpu, cuda or other)
-        :param Optional[torch.dtype] torch_dtype: torch data type (e.g., torch.float16, torch.bfloat16)
-        :param bool low_cpu_mem_usage: low cpu mem usage
-        :param Optional[str] revision: a git revision id (branch, tag, or
+        :param str model_path: model path or Hugging Face model ID
+        :param str device: device (cpu, cuda, or other)
+        :param Optional[torch.dtype] torch_dtype: data type of the model,
+            for example ``torch.float16`` or ``torch.bfloat16``
+        :param bool low_cpu_mem_usage: reduce CPU memory usage while loading
+        :param Optional[str] revision: git revision id (branch, tag, or
             commit hash). Pin to a full commit hash for secure downloads.
 
         :Example:
@@ -122,15 +126,17 @@ class Qwen3:
         do_sample: bool = True,
         skip_special_tokens: bool = True,
     ) -> str:
-        """Generate text from a prompt.
+        """
+        Generate text from a prompt.
 
-        :param str text: input text prompt
-        :param int max_new_tokens: maximum number of new tokens to generate
-        :param float temperature: temperature for sampling (higher = more random)
-        :param float top_p: top p for nucleus sampling
-        :param int top_k: top k for top-k sampling
-        :param bool do_sample: whether to use sampling or greedy decoding
-        :param bool skip_special_tokens: skip special tokens in output
+        :param str text: text of the prompt
+        :param int max_new_tokens: maximum number of new tokens
+        :param float temperature: sampling temperature (higher is more
+            random)
+        :param float top_p: cumulative probability for nucleus sampling
+        :param int top_k: number of top tokens to sample from
+        :param bool do_sample: use sampling instead of greedy decoding
+        :param bool skip_special_tokens: skip special tokens in the output
         :return: generated text
         :rtype: str
 
@@ -200,15 +206,18 @@ class Qwen3:
         do_sample: bool = True,
         skip_special_tokens: bool = True,
     ) -> str:
-        """Generate text using chat format.
+        """
+        Generate text using chat format.
 
-        :param list[dict[str, Any]] messages: list of message dictionaries with 'role' and 'content' keys
-        :param int max_new_tokens: maximum number of new tokens to generate
-        :param float temperature: temperature for sampling
-        :param float top_p: top p for nucleus sampling
-        :param int top_k: top k for top-k sampling
-        :param bool do_sample: whether to use sampling
-        :param bool skip_special_tokens: skip special tokens in output
+        :param list[dict[str, Any]] messages: list of messages, each a
+            dictionary with ``role`` and ``content`` keys
+        :param int max_new_tokens: maximum number of new tokens
+        :param float temperature: sampling temperature (higher is more
+            random)
+        :param float top_p: cumulative probability for nucleus sampling
+        :param int top_k: number of top tokens to sample from
+        :param bool do_sample: use sampling instead of greedy decoding
+        :param bool skip_special_tokens: skip special tokens in the output
         :return: generated response
         :rtype: str
 

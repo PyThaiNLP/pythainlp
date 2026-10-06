@@ -41,9 +41,9 @@ class RougeScore(TypedDict):
 
 def _get_ngrams(tokens: list[str], n: int) -> list[tuple[str, ...]]:
     """
-    Get n-grams from a list of tokens.
+    Get n-grams from a list of words.
 
-    :param list[str] tokens: list of tokens
+    :param list[str] tokens: list of words
     :param int n: n-gram size
 
     :return: list of n-grams
@@ -59,8 +59,8 @@ def _calculate_precision_recall_fmeasure(
     Calculate precision, recall, and F-measure.
 
     :param int overlap: number of overlapping items
-    :param int hyp_count: number of items in hypothesis
-    :param int ref_count: number of items in reference
+    :param int hyp_count: number of items in the hypothesis
+    :param int ref_count: number of items in the reference
 
     :return: precision, recall, and F-measure
     :rtype: tuple[float, float, float]
@@ -83,14 +83,15 @@ def _lcs_length(x: Sequence[str], y: Sequence[str]) -> int:
     :param Sequence[str] x: first sequence
     :param Sequence[str] y: second sequence
 
-    :return: length of LCS
+    :return: length of the LCS
     :rtype: int
     """
     return _lcs_lengths(x, y)[len(x)][len(y)]
 
 
 def _error_rate(ref: Sequence[str], hyp: Sequence[str]) -> float:
-    """Calculate the edit distance divided by the reference length.
+    """
+    Calculate the edit distance divided by the reference length.
 
     :param Sequence[str] ref: reference items
     :param Sequence[str] hyp: hypothesis items
@@ -129,14 +130,14 @@ def _error_rate(ref: Sequence[str], hyp: Sequence[str]) -> float:
 def _normalize_references(
     references: Union[list[str], list[list[str]]],
 ) -> list[list[str]]:
-    """Wrap each reference in a list when one reference per hypothesis."""
+    """Wrap each reference in a list if each hypothesis has one reference."""
     if references and isinstance(references[0], str):
         return [[ref] for ref in cast("list[str]", references)]
     return references  # type: ignore[return-value]
 
 
 def _tokenize_text(text: str, tokenize: str, lowercase: bool) -> list[str]:
-    """Tokenize a single text, optionally lowercasing the tokens."""
+    """Tokenize a text, optionally lowercasing the words."""
     from pythainlp.tokenize import word_tokenize
 
     tokens = word_tokenize(text, engine=tokenize, keep_whitespace=False)
@@ -209,20 +210,20 @@ def bleu_score(
     Understudy) metric that automatically tokenizes Thai text using
     PyThaiNLP before calculating the score.
 
-    :param Union[list[str], list[list[str]]] references: reference translations.
-        Can be:
-        - A list of strings (one reference per hypothesis)
-        - A list of lists of strings (multiple references per hypothesis)
+    :param Union[list[str], list[list[str]]] references: reference
+        translations, either a list of strings (one reference per
+        hypothesis) or a list of lists of strings (multiple references
+        per hypothesis)
     :param list[str] hypotheses: hypothesis translations to evaluate
-    :param str tokenize: tokenization engine to use (default: "newmm").
-        See :func:`pythainlp.tokenize.word_tokenize` for available engines.
-    :param bool lowercase: whether to lowercase text before evaluation
-        (default: False)
-    :param int max_ngram: maximum n-gram order (default: 4)
-    :param bool smooth: whether to use smoothing for zero counts
-        (default: True)
+    :param str tokenize: engine to tokenize text with. See
+        :func:`pythainlp.tokenize.word_tokenize` for available engines
+        (default is ``"newmm"``)
+    :param bool lowercase: lowercase text before evaluation
+        (default is False)
+    :param int max_ngram: maximum n-gram order (default is 4)
+    :param bool smooth: smooth zero counts (default is True)
 
-    :return: a :class:`BleuScore` typed dict with ``'bleu'``,
+    :return: :class:`BleuScore` typed dict with ``'bleu'``,
         ``'precisions'``, ``'bp'``, ``'length_ratio'``, ``'hyp_length'``,
         and ``'ref_length'``. ``'precisions'`` is ``list[float]``;
         ``'hyp_length'`` and ``'ref_length'`` are ``int``; all other
@@ -324,19 +325,22 @@ def rouge_score(
     tokenizes Thai text using PyThaiNLP.
 
     Supported ROUGE types:
-    - rouge1: unigram-based scoring
-    - rouge2: bigram-based scoring
-    - rougeL: longest common subsequence-based scoring
+
+    * *rouge1* - unigram-based scoring
+    * *rouge2* - bigram-based scoring
+    * *rougeL* - longest common subsequence-based scoring
 
     :param str reference: reference text
     :param str hypothesis: hypothesis text to evaluate
-    :param str tokenize: tokenization engine to use (default: "newmm").
-        See :func:`pythainlp.tokenize.word_tokenize` for available engines.
-    :param Optional[list[str]] rouge_types: list of ROUGE types to calculate.
-        Default is ["rouge1", "rouge2", "rougeL"]
+    :param str tokenize: engine to tokenize text with. See
+        :func:`pythainlp.tokenize.word_tokenize` for available engines
+        (default is ``"newmm"``)
+    :param Optional[list[str]] rouge_types: ROUGE types to calculate
+        (default is ``["rouge1", "rouge2", "rougeL"]``)
 
-    :return: dictionary mapping ROUGE type to a :class:`RougeScore` typed dict
-        with ``'precision'``, ``'recall'``, and ``'fmeasure'`` keys.
+    :return: dictionary mapping each ROUGE type to a :class:`RougeScore`
+        typed dict with ``'precision'``, ``'recall'``, and ``'fmeasure'``
+        keys
     :rtype: dict[str, RougeScore]
 
     :Example:
@@ -422,9 +426,9 @@ def word_error_rate(
     tokenize: str = "newmm",
 ) -> float:
     """
-    Calculate Word Error Rate (WER) for Thai text with automatic tokenization.
+    Calculate word error rate (WER) for Thai text.
 
-    Word Error Rate is a common metric for evaluating speech recognition
+    Word error rate is a common metric for evaluating speech recognition
     and machine translation systems. It measures the minimum number of
     word-level edits (insertions, deletions, substitutions) needed to
     transform the hypothesis into the reference, normalized by the
@@ -433,17 +437,19 @@ def word_error_rate(
     WER = (S + D + I) / N
 
     where:
-    - S = number of substitutions
-    - D = number of deletions
-    - I = number of insertions
-    - N = number of words in reference
+
+    * S = number of substitutions
+    * D = number of deletions
+    * I = number of insertions
+    * N = number of words in the reference
 
     :param str reference: reference text
     :param str hypothesis: hypothesis text to evaluate
-    :param str tokenize: tokenization engine to use (default: "newmm").
-        See :func:`pythainlp.tokenize.word_tokenize` for available engines.
+    :param str tokenize: engine to tokenize text with. See
+        :func:`pythainlp.tokenize.word_tokenize` for available engines
+        (default is ``"newmm"``)
 
-    :return: word error rate as a float (0.0 = perfect, >1.0 = very poor)
+    :return: word error rate (0.0 is perfect, above 1.0 is very poor)
     :rtype: float
 
     :Example:
@@ -473,9 +479,9 @@ def character_error_rate(
     hypothesis: str,
 ) -> float:
     """
-    Calculate Character Error Rate (CER) for Thai text.
+    Calculate character error rate (CER) for Thai text.
 
-    Character Error Rate is a metric for evaluating speech recognition
+    Character error rate is a metric for evaluating speech recognition
     and optical character recognition (OCR) systems. It measures the
     minimum number of character-level edits (insertions, deletions,
     substitutions) needed to transform the hypothesis into the reference,
@@ -484,15 +490,16 @@ def character_error_rate(
     CER = (S + D + I) / N
 
     where:
-    - S = number of substitutions
-    - D = number of deletions
-    - I = number of insertions
-    - N = number of characters in reference
+
+    * S = number of substitutions
+    * D = number of deletions
+    * I = number of insertions
+    * N = number of characters in the reference
 
     :param str reference: reference text
     :param str hypothesis: hypothesis text to evaluate
 
-    :return: character error rate as a float (0.0 = perfect, >1.0 = very poor)
+    :return: character error rate (0.0 is perfect, above 1.0 is very poor)
     :rtype: float
 
     :Example:

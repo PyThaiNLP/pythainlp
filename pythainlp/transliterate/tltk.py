@@ -14,10 +14,11 @@ except ImportError as e:
 
 
 def romanize(text: str) -> str:
-    """Transliterating thai text to the Latin alphabet using tltk.
+    """
+    Romanize Thai text to the Latin alphabet using tltk.
 
     :param str text: Thai text to be romanized
-    :return: A string of Thai words rendered in the Latin alphabet.
+    :return: text rendered in the Latin alphabet
     :rtype: str
     """
     # Replace ฅ with ค to avoid KeyError in tltk (out-of-vocabulary issue)

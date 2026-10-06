@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Named-entity recognizer"""
+"""Named entity recognizer."""
 
 from __future__ import annotations
 
@@ -83,11 +83,13 @@ def _doc2features(
 
 
 class ThaiNameTagger:
-    """Thai named-entity recognizer or Thai NER.
-    This function supports Thai NER 1.4 and 1.5 only.
-    :param str version: Thai NER version.
-        It supports Thai NER 1.4 & 1.5.
-        The default value is `1.4
+    """
+    Thai named entity recognizer (Thai NER).
+
+    This class supports Thai NER 1.4 and 1.5 only.
+
+    :param str version: Thai NER version, ``"1.4"`` (default)
+        or ``"1.5"``
 
     :Example:
 
@@ -103,11 +105,11 @@ class ThaiNameTagger:
     pos_tag_name: str
 
     def __init__(self, version: str = "1.4") -> None:
-        """Thai named-entity recognizer.
+        """
+        Initialize the Thai named entity recognizer.
 
-        :param str version: Thai NER version.
-                            It's support Thai NER 1.4 & 1.5.
-                            The default value is `1.4`
+        :param str version: Thai NER version, ``"1.4"`` (default)
+            or ``"1.5"``
         """
         from pycrfsuite import (
             Tagger as CRFTagger,  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-module-attribute]
@@ -141,18 +143,17 @@ class ThaiNameTagger:
     def get_ner(
         self, text: str, pos: bool = True, tag: bool = False
     ) -> Union[list[tuple[str, str]], list[tuple[str, str, str]], str]:
-        """This function tags named-entities in text in IOB format.
+        """
+        Tag named entities in text in IOB format.
 
-        :param str text: text in Thai to be tagged
-        :param bool pos: To include POS tags in the results (`True`) or
-                            exclude (`False`). The default value is `True`
-        :param bool tag: output HTML-like tags.
-        :return: a list of tuples associated with tokenized words, NER tags,
-                 POS tags (if the parameter `pos` is specified as `True`),
-                 and output HTML-like tags (if the parameter `tag` is
-                 specified as `True`).
-                 Otherwise, return a list of tuples associated with tokenized
-                 words and NER tags
+        :param str text: Thai text to be tagged
+        :param bool pos: include POS tags in the results (``True``,
+            default) or exclude them (``False``)
+        :param bool tag: return the text with HTML-like tags
+            instead of a list of tuples
+        :return: list of tuples of word, POS tag (if ``pos`` is ``True``),
+            and named entity tag; or the text with HTML-like tags
+            (if ``tag`` is ``True``)
         :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]], str]
 
         :Note:

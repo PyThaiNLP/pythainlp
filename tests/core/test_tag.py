@@ -115,7 +115,8 @@ class TagTestCase(unittest.TestCase):
 
 
 class PerceptronTaggerTestCase(unittest.TestCase):
-    """Test pythainlp.tag.PerceptronTagger
+    """
+    Test pythainlp.tag.PerceptronTagger
 
     :param unittest: _description_
     :type unittest: _type_

@@ -30,18 +30,25 @@ def _nighit_ending(consonant: str) -> Optional[str]:
 
 
 def nighit(w1: str, w2: str) -> str:
-    """Create a new word using Nighit (นิคหิต or ํ).
+    """
+    Create a new word using Nighit (นิคหิต or ํ).
 
     Nighit is the niggahita in Thai, used to form new words
     from Pali roots. This function applies a simple rule to
     combine two Thai words derived from Pali.
 
-    Reference: https://www.trueplookpanya.com/learning/detail/1180
+    Reference:
+    https://www.trueplookpanya.com/learning/detail/1180
 
-    :param str w1: a Thai word ending with a nighit (ํ)
-    :param str w2: a Thai word
+    :param str w1: Thai word ending with a nighit (ํ)
+    :param str w2: Thai word to be combined with ``w1``
     :return: combined Thai word
     :rtype: str
+    :raises TypeError: if ``w1`` or ``w2`` is not a string
+    :raises NotImplementedError: if ``w1`` does not end with ํ, or the
+        first consonant of ``w2`` is not supported
+    :raises ValueError: if ``w2`` contains no Thai consonant
+
     :Example:
 
         >>> from pythainlp.morpheme import nighit

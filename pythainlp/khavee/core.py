@@ -20,29 +20,30 @@ class KhaveeVerifier:
     sounds (สระ), spelling sections (มาตราตัวสะกด), rhymes (สัมผัส),
     syllable weight (ครุ/ลหุ), and full Thai klon 4/8 poem structure (กลอน).
 
-    This class is designed to be deterministic according to the Royal Society of
-    Thailand's orthographic standards. The only exception is the use of "ssg" for
-    syllable segmentation in the :meth:`check_klon` method.
+    This class is designed to be deterministic according to the Royal
+    Society of Thailand's orthographic standards. The only exception is
+    the use of "ssg" for syllable segmentation in :meth:`check_klon`.
 
     Key capabilities:
-    - :meth:`check_sara` -> Identify the phonetic vowel sound of a Thai word,
-    handling complex vowels (สระประสม), transformed vowels (สระเปลี่ยนรูป),
-    and reduced vowels (สระลดรูป).
-    - :meth:`check_marttra` -> Determine the orthographic spelling section
-    (relative to the final consonant) per Royal Society standards.
-    - :meth:`is_sumpus` -> Evaluate whether two words rhyme by comparing
-    both vowel sound and spelling section, with phonetic normalisation
-    for สระเกิน (e.g., อำ, ไอ).
-    - :meth:`check_karu_lahu` -> Classify a syllable as heavy (ครุ) or
-    light (ลหุ) for meter analysis.
-    - :meth:`check_klon` -> Validate an entire poem against traditional
-    กลอนสี่ (4-syllable) or กลอนแปด (8-syllable) rhyme rules.
-    - :meth:`check_aek_too` -> Identify tonal marks (เอก/โท) on Thai words.
-    - :meth:`handle_karun_sound_silence` -> Strip characters silenced by
-    the การันย์ marker (e.g., \"โอห์ม\" → \"โอ\").
-    - :meth:`_has_true_final_yl` and :meth:`_is_true_final` -> Determine
-    whether a word-ending \"ย\" or \"ล\" is a genuine final consonant
-    rather than part of an initial cluster or vowel digraph.
+
+    * :meth:`check_sara` - identify the phonetic vowel sound of a Thai
+      word, handling complex vowels (สระประสม), transformed vowels
+      (สระเปลี่ยนรูป), and reduced vowels (สระลดรูป)
+    * :meth:`check_marttra` - determine the orthographic spelling section
+      (relative to the final consonant) per Royal Society standards
+    * :meth:`is_sumpus` - evaluate whether two words rhyme by comparing
+      both vowel sound and spelling section, with phonetic normalization
+      for สระเกิน (e.g., อำ, ไอ)
+    * :meth:`check_karu_lahu` - classify a syllable as heavy (ครุ) or
+      light (ลหุ) for meter analysis
+    * :meth:`check_klon` - validate an entire poem against traditional
+      กลอนสี่ (4-syllable) or กลอนแปด (8-syllable) rhyme rules
+    * :meth:`check_aek_too` - identify tonal marks (เอก/โท) on Thai words
+    * :meth:`handle_karun_sound_silence` - strip characters silenced by
+      the การันต์ marker (e.g., "โอห์ม" -> "โอ")
+    * :meth:`_has_true_final_yl` and :meth:`_is_true_final` - determine
+      whether a word-ending "ย" or "ล" is a genuine final consonant
+      rather than part of an initial cluster or vowel digraph
 
     :Example:
         Basic usage::
@@ -241,8 +242,10 @@ class KhaveeVerifier:
     # Alias of _is_true_final, kept for backward compatibility.
     def _has_true_final_yl(self, word: str) -> bool:
         """
-        Check if ย or ล is a true final consonant
-        (not just part of the vowel sound with ไ/ใ)
+        Check if ย or ล is a true final consonant.
+
+        A true final consonant is not just part of the vowel sound
+        with ไ/ใ.
 
         :param str word: Thai word
         :return: True if ย or ล is a true final consonant
@@ -252,8 +255,10 @@ class KhaveeVerifier:
 
     def _is_true_final(self, word: str) -> bool:
         """
-        Check if the last character is a true final consonant
-        (not part of a vowel sound or an initial cluster).
+        Check if the last character is a true final consonant.
+
+        A true final consonant is not part of a vowel sound or an
+        initial cluster.
 
         :param str word: Thai word
         :return: True if the ending character acts as a final consonant
@@ -339,7 +344,8 @@ class KhaveeVerifier:
         transformed vowels (สระเปลี่ยนรูป), and reductions (สระลดรูป).
 
         :param str word: Thai word
-        :return: The name of the vowel sound of the word (e.g., 'เออ', 'อะ', 'เอาะ')
+        :return: name of the vowel sound of the word
+            (e.g., 'เออ', 'อะ', 'เอาะ')
         :rtype: str
 
         :Example:
@@ -621,14 +627,16 @@ class KhaveeVerifier:
         """
         Check the spelling section (มาตราตัวสะกด) of a Thai word.
 
-        Note: This function strictly adheres to orthographic spelling (รูป) based on
-        the Royal Society of Thailand (ราชบัณฑิตยสภา) standards, rather than phonetics (เสียง).
-        Therefore, words ending in สระเกิน (อำ, ไอ, ใอ, เอา) as well as ฤ, ฤๅ, ฦ, ฦๅ
-        are correctly classified grammatically as แม่ ก กา ("กา"). Phonetic rhyming
-        for these vowels is handled dynamically in the `is_sumpus` function.
+        This function strictly adheres to orthographic spelling (รูป)
+        based on the Royal Society of Thailand (ราชบัณฑิตยสภา) standards,
+        rather than phonetics (เสียง). Therefore, words ending in
+        สระเกิน (อำ, ไอ, ใอ, เอา) as well as ฤ, ฤๅ, ฦ, ฦๅ are classified
+        as แม่ ก กา ("กา"). Phonetic rhyming for these vowels is handled
+        in :meth:`is_sumpus`.
 
         :param str word: Thai word
-        :return: name of the spelling section of the word (e.g., กา, กก, กด, กน, กบ, กม, เกย, เกอว)
+        :return: name of the spelling section of the word
+            (e.g., กา, กก, กด, กน, กบ, กม, เกย, เกอว)
         :rtype: str
 
         :Example:
@@ -761,14 +769,15 @@ class KhaveeVerifier:
         """
         Check the rhyme (สัมผัส) between two Thai words.
 
-        This function evaluates both the vowel sound (สระ) and the spelling section (มาตราตัวสะกด).
-        It incorporates phonetic normalization for สระเกิน (อำ, ไอ, ใอ) to ensure that
-        words with matching sounds but differing orthographies (e.g., "จำ" and "กรรม")
-        are correctly evaluated as rhymes.
+        This function evaluates both the vowel sound (สระ) and the
+        spelling section (มาตราตัวสะกด). It applies phonetic normalization
+        for สระเกิน (อำ, ไอ, ใอ), so that words with matching sounds but
+        different orthographies (e.g., "จำ" and "กรรม") are evaluated as
+        rhymes.
 
-        :param str word1: First Thai word
-        :param str word2: Second Thai word
-        :return: True if the words rhyme, False otherwise.
+        :param str word1: first Thai word
+        :param str word2: second Thai word
+        :return: ``True`` if the words rhyme, otherwise ``False``
         :rtype: bool
 
         :Example:
@@ -808,9 +817,11 @@ class KhaveeVerifier:
         return bool(marttra1 == marttra2 and sara1 == sara2)
 
     def check_karu_lahu(self, text: str) -> Union[str, bool]:
-        """Classify a Thai syllable as heavy (ครุ karu) or light (ลหุ lahu).
+        """
+        Classify a Thai syllable as heavy (ครุ karu) or light (ลหุ lahu).
 
-        Syllable weight is determined by Thai prosody rules for classical poetry:
+        Syllable weight is determined by Thai prosody rules for classical
+        poetry:
 
         - A syllable is heavy (ครุ) if it contains a long vowel, ends with any
           final consonant (including sonorant finals / นมยวง), or contains one
@@ -818,12 +829,10 @@ class KhaveeVerifier:
         - A syllable is light (ลหุ) if it is an open syllable (แม่ ก กา)
           containing a short vowel with no final consonant.
 
-        Args:
-            text (str): A single Thai syllable or word to classify.
-
-        Returns:
-            Union[str, bool]: "karu" for heavy syllables or "lahu" for light syllables.
-            or False if the input is an empty string.
+        :param str text: single Thai syllable or word to be classified
+        :return: "karu" for a heavy syllable, "lahu" for a light syllable,
+            or ``False`` if the text is empty
+        :rtype: Union[str, bool]
         """
         if not text:
             return False
@@ -848,10 +857,12 @@ class KhaveeVerifier:
 
         :param str text: Thai poem
         :param int k_type: type of Thai poem (4 or 8)
-        :return: the check results of the suitability of the poem according to Thai principles.
+        :return: check results of the poem, a message that the poem is
+            correct or a list of error messages
         :rtype: Union[list[str], str]
+        :raises ImportError: if the ``ssg`` library is not installed
 
-        ════════════════════════════════════════════════════════════════════════
+        ══════════════════════════════════════════════════════════════════════
 
         กลอนสี่ (Klon 4) Diagram:
         วรรคที่ ๑ (สดับ)    วรรคที่ ๒ (รับ)
@@ -861,36 +872,34 @@ class KhaveeVerifier:
         O O O X        X X O O
               ┏━━━━━━━━┯━┳━━━┛
         O O O X        X X O X ━┓
-              ┏━━━━━━━━┯━┓      ┃ สัมผัสระหว่างบท (Inter-stanza rhyme)
+              ┏━━━━━━━━┯━┓      ┃ สัมผัสระหว่างบท
         O O O X        X X O O ━┛
               ┏━━━━━━━━┯━┳━━━┛
         O O O X        X X O X
 
-        ════════════════════════════════════════════════════════════════════════
+        ══════════════════════════════════════════════════════════════════════
 
         กลอนแปด (Klon 8) Diagram:
         วรรคที่ ๑ (สดับ)    วรรคที่ ๒ (รับ)
         วรรคที่ ๓ (รอง)    วรรคที่ ๔ (ส่ง)
 
-                      ┏━━━━━━━━┯━┯━┳━┯━┑    [สัมผัสคำที่ 3 หรือ 5 / อนุโลม 1,2,4]
+                      ┏━━━━━━━━┯━┯━┳━┯━┑  [สัมผัสคำที่ 3 หรือ 5 / อนุโลม 1,2,4]
         O O O O O O O X        O O X O O O O X
                       ┏━━━━━━━━┯━┯━┳━┯━━━━━━━┛
         O O O O O O O X        O O X O O O O X ━┓
-                      ┏━━━━━━━━┯━┯━┳━┯━┑        ┃ สัมผัสระหว่างบท (Inter-stanza rhyme)
+                      ┏━━━━━━━━┯━┯━┳━┯━┑        ┃ สัมผัสระหว่างบท
         O O O O O O O X        O O X O O O O X ━┛
                       ┏━━━━━━━━┯━┯━┳━┯━━━━━━━┛
         O O O O O O O X        O O X O O O O X
 
-        ════════════════════════════════════════════════════════════════════════
+        ══════════════════════════════════════════════════════════════════════
 
         :Example:
 
             >>> from pythainlp.khavee import KhaveeVerifier  # doctest: +SKIP
             >>> kv = KhaveeVerifier()  # doctest: +SKIP
             >>> print(kv.check_klon(  # doctest: +SKIP
-            ...     'ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้ววิ่งตามไป ไล่หมาน้ำทอง \
-            ...     ฉันมันคนเก่ง เอ๋งเอ๋งคะนอง มีคนจับจอง เป็นของน้องเธียร', \
-            ...     k_type=4
+            ...     'ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้ววิ่งตามไป ไล่หมาน้ำทอง             ...     ฉันมันคนเก่ง เอ๋งเอ๋งคะนอง มีคนจับจอง เป็นของน้องเธียร',             ...     k_type=4
             ... ))
             The poem is correct according to the principle.
         """
@@ -1020,14 +1029,15 @@ class KhaveeVerifier:
         self, text: Union[list[str], str], dead_syllable_as_aek: bool = False
     ) -> Union[list[Union[bool, str]], bool, str]:
         """
-        Checker of Thai tonal words
+        Check if Thai words carry the tone mark เอก (aek) or โท (too).
 
         :param Union[list[str], str] text: Thai word or list of Thai words
-        :param bool dead_syllable_as_aek: if True, dead syllable will
-            be considered as aek
-        :return: the check result if the word is aek or too
-            or False (not both) or list of check results if input is list
-        :rtype: Union[list[bool], List[str], bool, str]
+        :param bool dead_syllable_as_aek: if ``True``, treat a dead
+            syllable as aek
+        :return: "aek" or "too" if the word has exactly that tone mark,
+            otherwise ``False``; a list of results if ``text`` is a list
+        :rtype: Union[list[Union[bool, str]], bool, str]
+        :raises TypeError: if ``text`` is neither a string nor a list
 
         :Example:
 
@@ -1063,12 +1073,13 @@ class KhaveeVerifier:
 
     def handle_karun_sound_silence(self, word: str) -> str:
         """
-        Handle silent sounds in Thai words using '-์' character (Karun)
-        by stripping all characters before the 'Karun' character
-        that should be silenced
+        Strip the silent characters of a Thai word marked by Karun (-์).
+
+        Remove the characters before the Karun character that should be
+        silenced.
 
         :param str word: Thai word
-        :return: Thai word with silent consonant stripped
+        :return: Thai word with silent characters stripped
         :rtype: str
         """
         # Only a final การันต์ is handled (not the middle one in โอห์ม)

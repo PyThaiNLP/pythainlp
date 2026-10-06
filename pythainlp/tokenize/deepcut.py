@@ -1,11 +1,12 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""DeepCut Thai word segmentation using ONNX runtime.
+"""
+Tokenize Thai text into words with DeepCut, using ONNX Runtime.
 
-DeepCut is a Thai word segmentation library using 1D Convolution Neural
-Network. This module provides ONNX-based inference, removing the need for
-TensorFlow.
+DeepCut is a Thai word tokenization library that uses a 1D convolutional
+neural network. This module provides ONNX-based inference, which removes the
+need for TensorFlow.
 
 The ONNX model is ported from the original DeepCut TensorFlow model,
 available from the LEKCut project.
@@ -285,9 +286,10 @@ def _get_session() -> InferenceSession:
 def _create_feature_array(
     text: str, n_pad: int = _N_PAD
 ) -> tuple["NDArray[np.float32]", "NDArray[np.float32]"]:
-    """Create character and type feature arrays for ONNX model input.
+    """
+    Create character and type feature arrays for ONNX model input.
 
-    :param str text: input text
+    :param str text: text to extract features from
     :param int n_pad: window size for padding (default: 21)
     :return: character and type feature arrays of shape (n, n_pad)
     :rtype: tuple[numpy.ndarray, numpy.ndarray]
@@ -323,10 +325,11 @@ def _create_feature_array(
 def segment(
     text: str,
 ) -> list[str]:
-    """Segment Thai text using the DeepCut ONNX model.
+    """
+    Tokenize text into words with the DeepCut ONNX model.
 
-    :param str text: text to segment
-    :return: list of word tokens
+    :param str text: text to be tokenized
+    :return: list of words
     :rtype: list[str]
 
     :Example:

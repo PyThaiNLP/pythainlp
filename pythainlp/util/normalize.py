@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Text normalization"""
+"""Text normalization."""
 
 from __future__ import annotations
 
@@ -69,19 +69,21 @@ def _last_char(
 
 
 def remove_dangling(text: str) -> str:
-    """Remove Thai non-base characters at the beginning of text and after spaces.
+    """
+    Remove Thai non-base characters at the beginning of text and after spaces.
 
-    This is a common "typo", especially for input field in a form,
-    as these non-base characters can be visually hidden from user
-    who may accidentally typed them in.
+    This is a common typo, especially in input fields of a form,
+    as these non-base characters can be visually hidden from the user
+    who may type them in accidentally.
 
-    A character to be removed should be both:
+    A character to be removed must meet both conditions:
 
-        * tone mark, above vowel, below vowel, or non-base sign AND
-        * located at the beginning of the text or after spaces
+        * it is a tone mark, above vowel, below vowel, or non-base sign
+        * it is at the beginning of the text or after spaces
 
-    :param str text: input text
-    :return: text without dangling Thai characters at the beginning and after spaces
+    :param str text: text to be normalized
+    :return: text without dangling Thai characters at the beginning
+        and after spaces
     :rtype: str
 
     :Example:
@@ -98,12 +100,13 @@ def remove_dangling(text: str) -> str:
 
 
 def remove_dup_spaces(text: str) -> str:
-    """Remove duplicate spaces. Replace multiple spaces with one space.
+    """
+    Remove duplicate spaces.
 
-    Multiple newline characters and empty lines will be replaced
-    with one newline character.
+    Replace multiple spaces with one space. Replace multiple newline
+    characters and empty lines with one newline character.
 
-    :param str text: input text
+    :param str text: text to be normalized
     :return: text without duplicated spaces and newlines
     :rtype: str
 
@@ -121,7 +124,8 @@ def remove_dup_spaces(text: str) -> str:
 
 
 def remove_tonemark(text: str) -> str:
-    """Remove all Thai tone marks from the text.
+    """
+    Remove all Thai tone marks from text.
 
     Thai script has four tone marks indicating four tones as follows:
 
@@ -130,11 +134,10 @@ def remove_tonemark(text: str) -> str:
         * High tone (Thai: ไม้ตรี  _๊ )
         * Rising tone (Thai: ไม้จัตวา _๋ )
 
-    Putting wrong tone mark is a common mistake in Thai writing.
-    By removing tone marks from the string, it could be used to
-    for a approximate string matching.
+    Using a wrong tone mark is a common mistake in Thai writing.
+    Text without tone marks can be used for approximate string matching.
 
-    :param str text: input text
+    :param str text: text to be normalized
     :return: text without Thai tone marks
     :rtype: str
 
@@ -151,17 +154,18 @@ def remove_tonemark(text: str) -> str:
 
 
 def remove_zw(text: str) -> str:
-    """Remove zero-width characters.
+    """
+    Remove zero-width characters.
 
-    These non-visible characters may cause unexpected result from the
-    user's point of view. Removing them can make string matching more robust.
+    These invisible characters may cause unexpected results from the
+    user's point of view. Removing them makes string matching more robust.
 
     Characters to be removed:
 
         * Zero-width space (ZWSP)
-        * Zero-width non-joiner (ZWJP)
+        * Zero-width non-joiner (ZWNJ)
 
-    :param str text: input text
+    :param str text: text to be normalized
     :return: text without zero-width characters
     :rtype: str
 
@@ -181,14 +185,16 @@ def remove_zw(text: str) -> str:
 
 
 def remove_spaces_before_marks(text: str) -> str:
-    """Remove spaces before Thai tone marks and non-base characters.
+    """
+    Remove spaces before Thai tone marks and non-base characters.
 
     Spaces before tone marks, above vowels, below vowels, and other
     non-base characters are often unintentional typos. This function
     removes such spaces to normalize the text.
 
-    :param str text: input text
-    :return: text without spaces before Thai tone marks and non-base characters
+    :param str text: text to be normalized
+    :return: text without spaces before Thai tone marks and
+        non-base characters
     :rtype: str
 
     :Example:
@@ -201,9 +207,10 @@ def remove_spaces_before_marks(text: str) -> str:
 
 
 def reorder_vowels(text: str) -> str:
-    """Reorder vowels and tone marks to the standard logical order/spelling.
+    """
+    Reorder vowels and tone marks to the standard logical order.
 
-    Characters in input text will be reordered/transformed,
+    This function reorders or transforms characters in text
     according to these rules:
 
         * Sara E + Sara E -> Sara Ae
@@ -211,7 +218,7 @@ def reorder_vowels(text: str) -> str:
         * tone mark + non-base vowel -> non-base vowel + tone mark
         * follow vowel + tone mark -> tone mark + follow vowel
 
-    :param str text: input text
+    :param str text: text to be normalized
     :return: text with vowels and tone marks in the standard logical order
     :rtype: str
 
@@ -230,12 +237,13 @@ def reorder_vowels(text: str) -> str:
 
 
 def remove_repeat_vowels(text: str) -> str:
-    """Remove repeating vowels, tone marks, and signs.
+    """
+    Remove repeating vowels, tone marks, and signs.
 
-    Calls reorder_vowels() first to ensure that
-    double Sara E will be converted to Sara Ae and not be removed.
+    This function calls :func:`reorder_vowels` first, so that
+    a double Sara E becomes Sara Ae and is not removed.
 
-    :param str text: input text
+    :param str text: text to be normalized
     :return: text without repeating Thai vowels, tone marks, and signs
     :rtype: str
 
@@ -258,7 +266,10 @@ def remove_repeat_vowels(text: str) -> str:
 
 
 def normalize(text: str) -> str:
-    """Normalize and clean Thai text with normalizing rules as follows:
+    """
+    Normalize and clean Thai text.
+
+    This function applies these rules:
 
         * Remove zero-width spaces
         * Remove duplicate spaces
@@ -268,17 +279,17 @@ def normalize(text: str) -> str:
         * Remove duplicate tone marks
         * Remove dangling non-base characters at the beginning of text
 
-    normalize() simply call remove_zw(), remove_dup_spaces(),
-    remove_spaces_before_marks(), remove_repeat_vowels(), and
-    remove_dangling(), in that order.
+    This function calls :func:`remove_zw`, :func:`remove_dup_spaces`,
+    :func:`remove_spaces_before_marks`, :func:`remove_repeat_vowels`,
+    and :func:`remove_dangling`, in that order.
 
-    If a user wants to customize the selection or the order of rules
-    to be applied, they can choose to call those functions by themselves.
+    To customize the selection or the order of rules,
+    call those functions separately.
 
-    Note: for Unicode normalization, see unicodedata.normalize().
+    Note: for Unicode normalization, see :func:`unicodedata.normalize`.
 
-    :param str text: input text
-    :return: normalized text according to the rules
+    :param str text: text to be normalized
+    :return: normalized text
     :rtype: str
 
     :Example:
@@ -303,9 +314,10 @@ _RE_MAIYAMOK: Pattern[str] = re.compile(f"({_MAIYAMOK})")
 
 
 def _split_maiyamok(sent: list[str]) -> list[str]:
-    """Split Maiyamok that is attached to other text.
+    """
+    Split Maiyamok that is attached to other text.
 
-    For example, "นกๆๆ", "นกๆ ๆ", and "นกๆคน".
+    Examples of such text are "นกๆๆ", "นกๆ ๆ", and "นกๆคน".
     """
     tokens: list[str] = []
     for token in sent:
@@ -314,14 +326,14 @@ def _split_maiyamok(sent: list[str]) -> list[str]:
 
 
 def expand_maiyamok(sent: Union[str, list[str]]) -> list[str]:
-    """Expand Maiyamok.
+    """
+    Expand Maiyamok.
 
     Maiyamok (ๆ) (Unicode U+0E46) is a Thai character indicating word
     repetition. This function preprocesses Thai text by replacing
-    Maiyamok with a word being repeated.
+    Maiyamok with the repeated word.
 
-    :param sent: sentence (list or string)
-    :type sent: Union[str, list[str]]
+    :param Union[str, list[str]] sent: sentence, as text or list of words
     :return: list of words
     :rtype: list[str]
 
@@ -349,17 +361,17 @@ def expand_maiyamok(sent: Union[str, list[str]]) -> list[str]:
 
 
 def maiyamok(sent: Union[str, list[str]]) -> list[str]:
-    """Expand Maiyamok.
+    """
+    Expand Maiyamok.
 
     .. deprecated:: 5.0.5
         Use :func:`expand_maiyamok` instead.
 
     Maiyamok (ๆ) (Unicode U+0E46) is a Thai character indicating word
     repetition. This function preprocesses Thai text by replacing
-    Maiyamok with a word being repeated.
+    Maiyamok with the repeated word.
 
-    :param sent: sentence (list or string)
-    :type sent: Union[str, list[str]]
+    :param Union[str, list[str]] sent: sentence, as text or list of words
     :return: list of words
     :rtype: list[str]
 

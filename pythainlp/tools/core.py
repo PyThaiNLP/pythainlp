@@ -15,16 +15,17 @@ def warn_deprecation(
     deprecated_version: str = "",
     removal_version: str = "",
 ) -> None:
-    """Warn about the deprecation of a function, class, or other symbol.
+    """
+    Warn about the deprecation of a function, class, or other symbol.
 
-    :param str deprecated_symbol: Fully qualified name of the deprecated
-        symbol (e.g. ``"pythainlp.util.isthaichar"``).
-    :param str replacing_symbol: Fully qualified name of the replacement
-        (optional).
-    :param str deprecated_version: Version in which the symbol was
-        deprecated (optional).
-    :param str removal_version: Version in which the symbol will be
-        removed (optional).
+    :param str deprecated_symbol: fully qualified name of the deprecated
+        symbol (for example, ``"pythainlp.util.isthaichar"``)
+    :param str replacing_symbol: fully qualified name of the replacement
+        (optional)
+    :param str deprecated_version: version in which the symbol was
+        deprecated (optional)
+    :param str removal_version: version in which the symbol will be
+        removed (optional)
     """
     message = f"'{deprecated_symbol}' is deprecated"
     if deprecated_version:
@@ -38,10 +39,10 @@ def warn_deprecation(
 
 
 def safe_print(text: str) -> None:
-    """Print text to console, handling UnicodeEncodeError.
+    """
+    Print text to the console, handling UnicodeEncodeError.
 
-    :param text: Text to print.
-    :type text: str
+    :param str text: text to print
     """
     try:
         print(text)

@@ -2,7 +2,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
-Complete Soundex for Thai Words Similarity Analysis
+Complete Soundex for Thai word similarity analysis.
 
 Original paper:
 Chalermpol Tapsai, Phayung Meesad, and Choochart Haruechaiyasak. 2020.
@@ -46,8 +46,9 @@ class CompleteSoundex:
     """
     Complete Soundex implementation for Thai words similarity analysis.
 
-    This class implements the Complete Soundex algorithm as described in the paper
-    by Chalermpol  Tapsai, Phayung  Meesad, and Choochart  Haruechaiyasak (2020).
+    This class implements the Complete Soundex algorithm as described in
+    the paper by Chalermpol Tapsai, Phayung Meesad, and
+    Choochart Haruechaiyasak (2020).
     """
 
     def __init__(self) -> None:
@@ -188,8 +189,8 @@ class CompleteSoundex:
         """
         Apply heuristic rules to split syllables.
 
-        Returns a list of tuples (syllable, implicit_rule) where implicit_rule
-        can be 'a', 'o', or None.
+        Return a list of tuples (syllable, implicit_rule) where
+        implicit_rule can be 'a', 'o', or None.
         """
         # อัต pattern: split as อัต-ตX..., ต stays with the second syllable
         if text.startswith("อัต") and len(text) > 3:
@@ -465,9 +466,10 @@ class CompleteSoundex:
         """
         Process a single syllable and return its soundex code.
 
-        :param str syl: The syllable to process
-        :param str implicit_rule: Optional implicit vowel rule ('a' or 'o')
-        :return: Soundex code for the syllable
+        :param str syl: syllable to be processed
+        :param str implicit_rule: implicit vowel rule, 'a' or 'o'
+            (optional)
+        :return: soundex code of the syllable
         :rtype: str
         """
         chars = list(syl)
@@ -521,7 +523,8 @@ class CompleteSoundex:
 
     @staticmethod
     def _needs_asterisk(text: str, syllables: list[str]) -> bool:
-        """Check if the code needs a trailing asterisk.
+        """
+        Check if the code needs a trailing asterisk.
 
         The asterisk marks these patterns:
 
@@ -538,7 +541,7 @@ class CompleteSoundex:
         )
 
     def _encode_syllables(self, text: str, syllables: list[str]) -> str:
-        """Encode syllables, applying heuristic splits, and add the asterisk."""
+        """Encode syllables with heuristic splits and add the asterisk."""
         parts = []
         for syl in syllables:
             for sub_syl, rule in self.heuristic_split(syl):
@@ -552,10 +555,10 @@ class CompleteSoundex:
         """
         Encode a Thai word into Complete Soundex code.
 
-        This method handles both single and multi-syllable words by internally
-        tokenizing multi-syllable words using syllable_tokenize.
+        This method handles both single and multi-syllable words by
+        internally tokenizing multi-syllable words using syllable_tokenize.
 
-        :param str text: Thai word to encode
+        :param str text: Thai word to be encoded
         :return: Complete Soundex code
         :rtype: str
 
@@ -591,13 +594,13 @@ _complete_soundex_instance: "Optional[CompleteSoundex]" = None
 
 def complete_soundex(text: str) -> str:
     """
-    Convert a Thai word into phonetic code using the Complete Soundex algorithm.
+    Convert a Thai word into phonetic code using Complete Soundex.
 
-    This function handles both single and multi-syllable words by internally
-    tokenizing multi-syllable words when the syllable_tokenize dependency is available.
+    This function handles both single and multi-syllable words by
+    internally tokenizing multi-syllable words when the syllable_tokenize
+    dependency is available.
 
-    :param str text: Thai word
-
+    :param str text: Thai word to be encoded
     :return: Complete Soundex code
     :rtype: str
 
@@ -635,21 +638,21 @@ def complete_soundex(text: str) -> str:
 
 def complete_soundex_similarity(code1: str, code2: str) -> float:
     """
-    Calculate similarity between two Complete Soundex codes based on the
-    character-wise comparison formula defined in Tapsai et al. (2020).
+    Calculate the similarity between two Complete Soundex codes.
 
-    The similarity is calculated character-by-character using the formula:
+    The calculation follows the character-wise comparison formula
+    defined in Tapsai et al. (2020), character by character:
     S(X,Y) = Sum(sim(c_xi, c_yi)) / max(len(X), len(Y))
 
     Where sim(c_xi, c_yi) = 1 if characters match, else 0.
 
     This implements Equation (1) from the paper (Section 3.3, page 55),
-    which compares codes position-by-position rather than by syllable blocks.
+    which compares codes position by position rather than by syllable
+    blocks.
 
-    :param str code1: The full concatenated soundex code for word 1
-    :param str code2: The full concatenated soundex code for word 2
-
-    :return: Similarity score between 0.0 and 1.0
+    :param str code1: full concatenated soundex code of the first word
+    :param str code2: full concatenated soundex code of the second word
+    :return: similarity score between 0.0 and 1.0
     :rtype: float
 
     :Example:

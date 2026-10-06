@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Romanization of Thai words based on machine-learnt engine ("thai2rom")"""
+"""Romanization of Thai words using the machine-learned engine "thai2rom"."""
 
 from __future__ import annotations
 
@@ -42,9 +42,10 @@ class ThaiTransliterator:
     _network: "Seq2Seq"
 
     def __init__(self) -> None:
-        """Transliteration of Thai words.
+        """
+        Initialize the transliterator of Thai words.
 
-        Now supports Thai to Latin (romanization)
+        It supports Thai to Latin (romanization).
         """
         self.__model_filename = get_corpus_path(_MODEL_NAME)  # type: ignore[assignment]
         if not self.__model_filename:
@@ -87,7 +88,7 @@ class ThaiTransliterator:
         self._network.eval()
 
     def _prepare_sequence_in(self, text: str) -> torch.Tensor:
-        """Prepare input sequence for PyTorch"""
+        """Prepare the input sequence for PyTorch."""
         idxs = []
         for ch in text:
             if ch in self._char_to_ix:
@@ -99,11 +100,11 @@ class ThaiTransliterator:
         return tensor.to(device)
 
     def romanize(self, text: str) -> str:
-        """Romanize Thai text to Latin alphabet.
+        """
+        Romanize Thai text to Latin alphabet.
 
         :param str text: Thai text to be romanized
-        :return: English (more or less) text that spells out how the Thai text
-                 should be pronounced.
+        :return: Latin text that spells out how the Thai text is pronounced
         :rtype: str
         """
         input_tensor = self._prepare_sequence_in(text).view(1, -1)
@@ -141,7 +142,7 @@ class Encoder(nn.Module):  # type: ignore[misc]
         hidden_size: int,
         dropout: float = 0.5,
     ) -> None:
-        """Constructor"""
+        """Initialize the layers."""
         super().__init__()
         self.hidden_size = hidden_size
         self.character_embedding = nn.Embedding(
@@ -279,7 +280,7 @@ class AttentionDecoder(nn.Module):  # type: ignore[misc]
         hidden_size: int,
         dropout: float = 0.5,
     ) -> None:
-        """Constructor"""
+        """Initialize the layers."""
         super().__init__()
         self.vocabulary_size = vocabulary_size
         self.hidden_size = hidden_size
@@ -305,7 +306,7 @@ class AttentionDecoder(nn.Module):  # type: ignore[misc]
         encoder_outputs: torch.Tensor,
         mask: torch.Tensor,
     ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
-        """Defines the forward computation of the decoder"""
+        """Compute the forward pass of the decoder."""
         # input_character: (batch_size, 1)
         # last_hidden: (batch_size, hidden_dim)
         # encoder_outputs: (batch_size, sequence_len, hidden_dim)
@@ -456,11 +457,11 @@ _THAI_TO_ROM: ThaiTransliterator = ThaiTransliterator()
 
 
 def romanize(text: str) -> str:
-    """Romanize Thai text
+    """
+    Romanize Thai text.
 
-    :param text: Thai text to be romanized
-    :type text: str
-    :return: Roman characters representing the pronunciation of the Thai text
+    :param str text: Thai text to be romanized
+    :return: Latin text that spells out how the Thai text is pronounced
     :rtype: str
     """
     return _THAI_TO_ROM.romanize(text)

@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.tokenize.han_solo.
+"""
+Characterization tests for pythainlp.tokenize.han_solo.
 
 Golden data was recorded from the pre-refactor implementation.
 A stand-in for python-crfsuite is used when the package is not installed,
@@ -20,7 +21,8 @@ import pythainlp
 
 
 def _load_han_solo() -> Any:
-    """Load han_solo.py under a private name.
+    """
+    Load han_solo.py under a private name.
 
     Neither ``sys.modules`` nor the ``pythainlp.tokenize`` package
     attribute is changed. ``pycrfsuite`` is faked if it is not installed.

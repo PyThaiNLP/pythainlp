@@ -1,8 +1,9 @@
-"""UDgoeswith
+"""
+UDgoeswith: POS tagger and dependency parser using ``goeswith``.
 
 Author: Prof. Koichi Yasuoka
 
-This tagger is provided under the terms of the apache-2.0 License.
+This tagger is provided under the terms of the Apache-2.0 License.
 
 The source: https://huggingface.co/KoichiYasuoka/deberta-base-thai-ud-goeswith
 

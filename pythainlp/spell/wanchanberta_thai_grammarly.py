@@ -1,13 +1,14 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Two-stage Thai Misspelling Correction based on Pre-trained Language Models
+"""
+Two-stage Thai misspelling correction based on pre-trained language models.
 
 :See Also:
-    * Paper: \
-        https://ieeexplore.ieee.org/abstract/document/10202006
-    * GitHub: \
-        https://github.com/bookpanda/Two-stage-Thai-Misspelling-Correction-Based-on-Pre-trained-Language-Models
+    * Paper:
+      https://ieeexplore.ieee.org/abstract/document/10202006
+    * GitHub:
+      https://github.com/bookpanda/Two-stage-Thai-Misspelling-Correction-Based-on-Pre-trained-Language-Models
 """
 
 from __future__ import annotations

@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.util.strftime.
+"""
+Characterization tests for pythainlp.util.strftime.
 
 Golden data was recorded from the pre-refactor implementation.
 Directives that the C library of Windows rejects are skipped there.

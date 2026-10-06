@@ -57,7 +57,8 @@ THWIKI_LSTM: dict[str, Optional[str]] = {
 
 
 def get_thwiki_lstm() -> dict[str, str]:
-    """Get THWIKI LSTM model paths with validation.
+    """
+    Return the Thai Wikipedia (THWIKI) LSTM model paths, with validation.
 
     :return: dictionary with ``wgts_fname`` and ``itos_fname`` keys
     :rtype: dict[str, str]
@@ -116,33 +117,32 @@ def process_thai(
     tok_func: Optional[Callable[[str], list[str]]] = None,
     post_rules: Optional[Collection[Callable[[list[str]], list[str]]]] = None,
 ) -> list[str]:
-    """Process Thai texts for models (with sparse features as default)
+    """
+    Process Thai text for models, with sparse features as default.
 
-    :param str text: text to be cleaned
+    :param str text: text to be processed
     :param Optional[Collection[Callable[[str], str]]] pre_rules: rules to
-        apply before tokenization. If None, use the default sparse pre-rules.
-    :param Optional[Callable[[str], list[str]]] tok_func: tokenization
-        function. By default, **tok_func** is
-        :func:`pythainlp.tokenize.word_tokenize`.
-
+        apply before tokenization. If None, use the default sparse
+        pre-rules.
+    :param Optional[Callable[[str], list[str]]] tok_func: function to
+        tokenize text. If None, use the ``tokenize`` method of
+        :func:`pythainlp.tokenize.thai2fit_tokenizer`.
     :param Optional[Collection[Callable[[list[str]], list[str]]]] post_rules:
         rules to apply after tokenization. If None, use the default sparse
         post-rules.
-
-    :return: a list of cleaned tokenized texts
+    :return: list of processed words
     :rtype: list[str]
 
-
     :Note:
-      - The default **pre-rules** consists of :func:`fix_html`,
+      - The default **pre-rules** consist of :func:`fix_html`,
         :func:`pythainlp.util.normalize`,
         :func:`spec_add_spaces`,
         :func:`rm_useless_spaces`,
         :func:`rm_useless_newlines`,
-        :func:`rm_brackets`
+        :func:`rm_brackets`,
         and :func:`replace_rep_nonum`.
 
-      - The default **post-rules** consists of :func:`ungroup_emoji`,
+      - The default **post-rules** consist of :func:`ungroup_emoji`,
         :func:`lowercase_all`, :func:`replace_wrep_post_nonum`,
         and :func:`remove_space`.
 
@@ -203,15 +203,20 @@ def process_thai(
 def document_vector(
     text: str, learn: Learner, data: DataBunch, agg: str = "mean"
 ) -> "NDArray[np.float32]":
-    """Vectorize a Thai sentence into a 400-dimension vector.
+    """
+    Vectorize Thai text into a 400-dimension vector.
 
-    Uses a :class:`fastai` language model and data bunch.
-    Word vectors are aggregated by mean or summation.
+    Use a :class:`fastai` language model and data bunch.
+    Aggregate word vectors by mean or sum.
 
-    :param str text: text to vectorize
-    :param learn: :class:`fastai` language model learner
-    :param data: :class:`fastai` data bunch
-    :param str agg: aggregation method; ``"mean"`` or ``"sum"``
+    :param str text: text to be vectorized
+    :param fastai.basic_train.Learner learn: :class:`fastai` language
+        model learner
+    :param fastai.basic_data.DataBunch data: :class:`fastai` data bunch
+    :param str agg: aggregation method
+
+        * *mean* - average of word vectors (default)
+        * *sum* - sum of word vectors
 
     :return: document vector of shape ``(1, 400)``
     :rtype: numpy.typing.NDArray[numpy.float32]
@@ -222,7 +227,7 @@ def document_vector(
         >>> from fastai.text import load_data, language_model_learner, AWD_LSTM
         >>>
         >>> # Load Data Bunch
-        >>> data = load_data(MODEL_PATH, 'thwiki_lm_data.pkl')
+        >>> data = load_data(MODEL_PATH, "thwiki_lm_data.pkl")
         >>>
         >>> # Initialize language_model_learner
         >>> config = dict(emb_sz=400, n_hid=1550, n_layers=4, pad_token=1,
@@ -231,12 +236,14 @@ def document_vector(
         >>> trn_args = dict(drop_mult=0.9, clip=0.12, alpha=2, beta=1)
         >>> learn = language_model_learner(data, AWD_LSTM, config=config,
                                            pretrained=False, **trn_args)
-        >>> document_vector('วันนี้วันดีปีใหม่', learn, data)
+        >>> document_vector("วันนี้วันดีปีใหม่", learn, data)
 
     :See Also:
-        * A notebook showing how to train `ulmfit` language model and its
-          usage, `Jupyter Notebook \
-          <https://github.com/cstorm125/thai2fit/blob/master/thwiki_lm/word2vec_examples.ipynb>`_
+        * A notebook showing how to train a `ulmfit` language model and
+          how to use it: `Jupyter Notebook`_
+
+    .. _Jupyter Notebook:
+        https://github.com/cstorm125/thai2fit/blob/master/thwiki_lm/word2vec_examples.ipynb
 
     """
     s = thai2fit_tokenizer().word_tokenize(text)
@@ -261,15 +268,16 @@ def merge_wgts(
     itos_pre: list[str],
     itos_new: list[str],
 ) -> dict[str, torch.Tensor]:
-    """Insert new vocab into an existing model and update weights.
+    """
+    Insert new vocabulary into an existing model and update weights.
 
-    New vocab weights are initialised with the average embedding
-    when not found in the pretrained vocab.
+    Initialize weights of new words with the average embedding
+    when the words are not in the pretrained vocabulary.
 
     :param int em_sz: embedding size
-    :param wgts: torch model weights
-    :param list[str] itos_pre: pretrained list of vocab
-    :param list[str] itos_new: list of new vocab
+    :param dict[str, torch.Tensor] wgts: torch model weights
+    :param list[str] itos_pre: list of words in the pretrained vocabulary
+    :param list[str] itos_new: list of words in the new vocabulary
 
     :return: merged torch model weights
     :rtype: dict[str, torch.Tensor]

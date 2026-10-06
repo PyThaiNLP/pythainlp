@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.generate.core.Bigram.gen_sentence.
+"""
+Characterization tests for pythainlp.generate.core.Bigram.gen_sentence.
 
 Golden cases were recorded from the code before the shared-helper refactor.
 The model is a small in-memory fake, so no corpus is loaded or downloaded.

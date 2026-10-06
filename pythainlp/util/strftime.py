@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai date/time formatting."""
+"""Thai date and time formatting."""
 
 from __future__ import annotations
 
@@ -29,7 +29,7 @@ _EXTENSIONS: str = "EO-_0^#"  # extension flags
 
 
 def _std_strftime(dt_obj: datetime, fmt_char: str) -> str:
-    """Standard datetime.strftime() with normalization and exception handling."""
+    """Call :meth:`datetime.datetime.strftime` and handle its errors."""
     str_ = ""
     try:
         str_ = dt_obj.strftime(f"%{fmt_char}")
@@ -166,9 +166,10 @@ _NEED_L10N: str = "".join(_L10N_HANDLERS)  # flags that need localization
 
 
 def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
-    """Conversion support for thai_strftime().
+    """
+    Convert a directive for :func:`thai_strftime`.
 
-    The fmt_char should be in _NEED_L10N when calling this function.
+    Call this function with a ``fmt_char`` that is in ``_NEED_L10N``.
     """
     handler = _L10N_HANDLERS.get(fmt_char)
     if handler is None:
@@ -222,9 +223,14 @@ _EXTENSION_HANDLERS: dict[str, Callable[[str], str]] = {
 def _convert_directive(
     dt_obj: datetime, fmt: str, start: int
 ) -> tuple[str, int]:
-    """Convert the directive that starts with "%" at ``fmt[start]``.
+    """
+    Convert the directive that starts with "%" at ``fmt[start]``.
 
+    :param datetime.datetime dt_obj: date and time to be formatted
+    :param str fmt: string containing date and time directives
+    :param int start: index of "%" in ``fmt``
     :return: converted text and the index of the next unread character
+    :rtype: tuple[str, int]
     """
     fmt_len = len(fmt)
     pos = start + 1
@@ -250,41 +256,46 @@ def thai_strftime(
     fmt: str = "%-d %b %y",
     thaidigit: bool = False,
 ) -> str:
-    """Convert :class:`datetime.datetime` into Thai date and time format.
+    """
+    Convert :class:`datetime.datetime` into Thai date and time format.
 
     The formatting directives are similar to :func:`datetime.strftime`.
 
-    This function uses Thai names and Thai Buddhist Era for these directives:
+    This function uses Thai names and the Thai Buddhist Era for these
+    directives:
         * **%a** - abbreviated weekday name
-          (i.e. "จ", "อ", "พ", "พฤ", "ศ", "ส", "อา")
+          (such as "จ", "อ", "พ", "พฤ", "ศ", "ส", "อา")
         * **%A** - full weekday name
-          (i.e. "วันจันทร์", "วันอังคาร", "วันเสาร์", "วันอาทิตย์")
+          (such as "วันจันทร์", "วันอังคาร", "วันเสาร์", "วันอาทิตย์")
         * **%b** - abbreviated month name
-          (i.e. "ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.", "ธ.ค.")
+          (such as "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.",
+          "ธ.ค.")
         * **%B** - full month name
-          (i.e. "มกราคม", "กุมภาพันธ์", "พฤศจิกายน", "ธันวาคม",)
-        * **%y** - year without century (i.e. "56", "10")
-        * **%Y** - year with century (i.e. "2556", "2410")
+          (such as "มกราคม", "กุมภาพันธ์", "พฤศจิกายน", "ธันวาคม")
+        * **%y** - year without century (such as "56", "10")
+        * **%Y** - year with century (such as "2556", "2410")
         * **%c** - date and time representation
-          (i.e. "พ   6 ต.ค. 01:40:00 2519")
+          (such as "พ   6 ต.ค. 01:40:00 2519")
         * **%v** - short date representation
-          (i.e. " 6-ม.ค.-2562", "27-ก.พ.-2555")
+          (such as " 6-ม.ค.-2562", "27-ก.พ.-2555")
 
-    Other directives will be passed to datetime.strftime()
+    This function passes other directives to
+    :meth:`datetime.datetime.strftime`.
 
     :Note:
         * The Thai Buddhist Era (BE) year is simply converted from AD
-          by adding 543. This is certainly not accurate for years
+          by adding 543. This is not accurate for years
           before 1941 AD, due to the change in Thai New Year's Day.
-        * This meant to be an interim solution, since
-          Python standard's locale module (which relied on C's strftime())
-          does not support "th" or "th_TH" locale yet. If supported,
-          we can just locale.setlocale(locale.LC_TIME, "th_TH")
-          and then use native datetime.strftime().
+        * This function is an interim solution, since the Python
+          standard :mod:`locale` module (which relies on the C
+          ``strftime()``) does not support the "th" or "th_TH" locale
+          yet. If supported, we can call
+          ``locale.setlocale(locale.LC_TIME, "th_TH")``
+          and then use the native :meth:`datetime.datetime.strftime`.
 
-    We are trying to make this platform-independent and support extensions
-    as many as possible. See these links for strftime() extensions
-    in POSIX, BSD, and GNU libc:
+    This function aims to be platform-independent and to support as many
+    extensions as possible. See these links for ``strftime()``
+    extensions in POSIX, BSD, and GNU libc:
 
         * Python
           https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior
@@ -299,18 +310,14 @@ def thai_strftime(
         * JavaScript's implementation https://github.com/samsonjs/strftime
         * strftime() quick reference https://strftime.net/
 
-    :param datetime dt_obj: an instantiatetd object of
-                            :mod:`datetime.datetime`
+    :param datetime.datetime dt_obj: date and time to be formatted
     :param str fmt: string containing date and time directives
-    :param bool thaidigit: If `thaidigit` is set to **False** (default),
-                           number will be represented in Arabic digit.
-                           If it is set to **True**, it will be represented
-                           in Thai digit.
-
-    :return: Date and time text, with month in Thai name and year in
-             Thai Buddhist era. The year is simply converted from AD
-             by adding 543 (will not accurate for years before 1941 AD,
-             due to change in Thai New Year's Day).
+    :param bool thaidigit: represent numbers in Thai digits if **True**,
+        otherwise in Arabic digits (default)
+    :return: date and time text, with month in Thai name and year in
+        Thai Buddhist Era. The year is simply converted from AD
+        by adding 543 (not accurate for years before 1941 AD,
+        due to the change in Thai New Year's Day).
     :rtype: str
 
     :Example:

@@ -7,7 +7,8 @@ from __future__ import annotations
 
 
 def _iob_to_markup(tagged: list[tuple[str, str]]) -> str:
-    """Join (word, IOB tag) pairs into text with XML-like entity tags.
+    """
+    Join (word, IOB tag) pairs into text with XML-like entity tags.
 
     A ``B-X`` tag opens ``<X>`` and closes the previous entity, if any.
     An ``O`` tag closes the open entity. An ``I-X`` tag changes nothing,

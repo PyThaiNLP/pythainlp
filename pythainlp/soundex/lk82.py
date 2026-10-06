@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai soundex - LK82 system
+"""
+Thai soundex, LK82 system.
 
 Original paper:
 Vichit Lorchirachoonkul. 1982. A Thai soundex
@@ -74,7 +75,8 @@ def _before_long_u(text: str, i: int) -> bool:
 
 
 def _encode_char(text: str, i: int, i_v: Optional[int]) -> Optional[str]:
-    """Encode Sara U, Ho Hip, O Ang, or a semivowel at text[i].
+    """
+    Encode Sara U, Ho Hip, O Ang, or a semivowel at text[i].
 
     Return None when the character has no code, or "" for Sara U after
     ต/ธ (the empty string breaks repeat removal in step 13).
@@ -107,12 +109,12 @@ def _finish(res: list[str]) -> str:
 
 
 def lk82(text: str) -> str:
-    """Converts Thai text into phonetic code with the
-    Thai soundex algorithm named **LK82** [#lk82]_.
+    """
+    Convert text into phonetic code with the Thai soundex algorithm
+    named **LK82** [#lk82]_.
 
-    :param str text: Thai word
-
-    :return: LK82 soundex of the given Thai word
+    :param str text: Thai word to be encoded
+    :return: LK82 soundex code
     :rtype: str
 
     :Example:

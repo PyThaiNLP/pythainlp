@@ -150,7 +150,8 @@ class KhaveeCheckKlonTestCaseX(unittest.TestCase):
         )
 
     def test_check_klon8_invalid_poem(self):
-        """Test that invalid klon8 poem with too many words.
+        """
+        Test that invalid klon8 poem with too many words.
         (แม่รักลูกลูกก็รู้อยู่ว่ารักมากมาก)"""
         poem = (
             "แม่รักลูกลูกก็รู้อยู่ว่ารักมากมาก คนอื่นสักหมื่นแสนไม่แม้นเหมือน "

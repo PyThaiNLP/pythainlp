@@ -17,7 +17,7 @@ from pythainlp.tools import safe_path_join
 
 
 class WngchanBerta_ONNX:
-    """WangchanBERTa NER engine with ONNX Runtime backend"""
+    """WangchanBERTa named entity recognizer with ONNX Runtime backend."""
 
     model_name: str
     model_version: str
@@ -71,9 +71,10 @@ class WngchanBerta_ONNX:
             self.id2tag = self._json["id2label"]
 
     def build_tokenizer(self, sent: str) -> dict[str, "NDArray[np.int64]"]:
-        """Build ONNX tokenizer inputs for a sentence.
+        """
+        Build ONNX tokenizer inputs for a sentence.
 
-        :param str sent: input sentence
+        :param str sent: sentence to be tokenized
         :return: model inputs containing int64 ``input_ids`` and
             ``attention_mask`` arrays
         :rtype: dict[str, numpy.typing.NDArray[numpy.int64]]
@@ -91,7 +92,8 @@ class WngchanBerta_ONNX:
     def postprocess(
         self, logits_data: "NDArray[np.float32]"
     ) -> "NDArray[np.float32]":
-        """Convert raw logits to probabilities.
+        """
+        Convert raw logits to probabilities.
 
         :param numpy.typing.NDArray[numpy.float32] logits_data: raw model
             logits

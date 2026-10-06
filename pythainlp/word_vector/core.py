@@ -32,15 +32,17 @@ class _DuplicateWordFilter(logging.Filter):
 
 
 class WordVector:
-    """Word Vector class
+    """
+    Provide Thai word vectors.
 
-    :param str model_name: model name
+    :param str model_name: name of the word vector model
 
-    **Options for model_name**
-        * *thai2fit_wv* (default) - word vector from thai2fit
-        * *ltw2v* - word vector from LTW2V: The Large Thai Word2Vec v0.1
-        * *ltw2v_v1.0_15_window* - word vector from LTW2V v1.0 and 15 window
-        * *ltw2v_v1.0_5_window* - word vector from LTW2V v1.0 and 5 window
+        * *thai2fit_wv* - word vectors from thai2fit (default)
+        * *ltw2v* - word vectors from LTW2V: The Large Thai Word2Vec v0.1
+        * *ltw2v_v1.0_15_window* - word vectors from LTW2V v1.0 with a
+          window size of 15
+        * *ltw2v_v1.0_5_window* - word vectors from LTW2V v1.0 with a
+          window size of 5
     """
 
     def __init__(self, model_name: str = "thai2fit_wv") -> None:
@@ -51,9 +53,11 @@ class WordVector:
         self.load_wordvector(model_name)
 
     def load_wordvector(self, model_name: str) -> None:
-        """Load word vector model.
+        """
+        Load a word vector model.
 
-        :param str model_name: model name
+        :param str model_name: name of the word vector model
+        :raises FileNotFoundError: if the model corpus is not found
         """
         from gensim.models import KeyedVectors
 
@@ -85,7 +89,8 @@ class WordVector:
             self.tokenize = word_tokenize
 
     def get_model(self) -> Word2VecKeyedVectors:
-        """Get word vector model.
+        """
+        Return the word vector model.
 
         :return: `gensim` word2vec model
         :rtype: gensim.models.keyedvectors.Word2VecKeyedVectors
@@ -93,23 +98,26 @@ class WordVector:
         return self.model
 
     def doesnt_match(self, words: list[str]) -> str:
-        """This function returns one word that is mostly unrelated to other words
-        in the list. We use the function :func:`doesnt_match`
-        from :mod:`gensim`.
+        """
+        Return the word that is the most unrelated to other words.
 
-        :param list[str] words: a list of words
-        :raises KeyError: if there is any word in `positive` or `negative` that is
-                          not in the vocabulary of the model.
-        :return: the word that is mostly unrelated
+        Use the function :func:`doesnt_match` from :mod:`gensim`.
+
+        :param list[str] words: list of words
+        :return: the most unrelated word
         :rtype: str
+        :raises KeyError: if a word in **words** is not in the vocabulary
+            of the model
 
         :Note:
             * If a word in `words` is not in the vocabulary, :class:`KeyError`
               will be raised.
 
         :Example:
+
         Pick the word "พริกไทย" (name of food) out of the list of meals
         ("อาหารเช้า", "อาหารเที่ยง", "อาหารเย็น").
+
         >>> from pythainlp.word_vector import WordVector
         >>>
         >>> wv = WordVector()
@@ -132,26 +140,28 @@ class WordVector:
     def most_similar_cosmul(
         self, positive: list[str], negative: list[str]
     ) -> list[tuple[str, float]]:
-        """This function finds the top-10 words that are most similar with respect
-        to two lists of words labeled as positive and negative.
-        The top-10 most similar words are obtained using multiplication
+        """
+        Find the top-10 words most similar to two lists of words.
+
+        The two lists are labeled as positive and negative. The top-10
+        most similar words are obtained using the multiplication
         combination objective from Omer Levy and Yoav Goldberg
         [OmerLevy_YoavGoldberg_2014]_.
 
-        We use the function :func:`gensim.most_similar_cosmul` directly from
+        Use the function :func:`gensim.most_similar_cosmul` directly from
         :mod:`gensim`.
 
-        :param list[str] positive: a list of words to add
-        :param list[str] negative: a list of words to subtract
-
-        :raises KeyError: if there is any word in `positive` or `negative` that is
-                          not in the vocabulary of the model.
-        :return: list of top-10 most similar words and its similarity score
-        :rtype:  list[tuple[str, float]]
+        :param list[str] positive: list of words to add
+        :param list[str] negative: list of words to subtract
+        :return: list of the top-10 most similar words and their
+            similarity scores
+        :rtype: list[tuple[str, float]]
+        :raises KeyError: if a word in **positive** or **negative** is not
+            in the vocabulary of the model
 
         :Note:
-            *  With a single word in the positive list, it will find the
-               most similar words to the word given (similar
+            *  With a single word in the positive list, it finds the
+               most similar words to the given word (similar
                to :func:`gensim.most_similar`)
             *  If a word in `positive` or `negative` is not in the vocabulary,
                :class:`KeyError` will be raised.
@@ -217,7 +227,7 @@ class WordVector:
         ('ลาว', 0.2995176911354065), ('คนไทย', 0.2885020673274994),
         ('เวียดนาม', 0.2878379821777344), ('ชาวไทย', 0.28480708599090576)]
 
-        The function returns :class:`KeyError` when the term "เมนูอาหารไทย"
+        The function raises :class:`KeyError` when the term "เมนูอาหารไทย"
         is not in the vocabulary.
 
         >>> from pythainlp.word_vector import WordVector
@@ -236,15 +246,15 @@ class WordVector:
         )
 
     def similarity(self, word1: str, word2: str) -> float:
-        """This function computes cosine similarity between two words.
+        """
+        Compute the cosine similarity between two words.
 
-        :param str word1: first word to be compared with
-        :param str word2: second word to be compared with
-
-        :raises KeyError: if either `word1` or `word2` is not in the
-                          vocabulary of the model.
-        :return: the cosine similarity between the two word vectors
+        :param str word1: first word to be compared
+        :param str word2: second word to be compared
+        :return: cosine similarity between the two word vectors
         :rtype: float
+        :raises KeyError: if **word1** or **word2** is not in the
+            vocabulary of the model
 
         :Note:
             *  If a word in `word1` or `word2` is not in the vocabulary,
@@ -252,7 +262,7 @@ class WordVector:
 
         :Example:
 
-        Compute consine similarity between two words: "รถไฟ" and "รถไฟฟ้า"
+        Compute cosine similarity between two words: "รถไฟ" and "รถไฟฟ้า"
         (train and electric train).
 
         >>> from pythainlp.word_vector import WordVector
@@ -261,7 +271,7 @@ class WordVector:
         0.43387136
 
 
-        Compute consine similarity between two words: "เสือดาว" and "รถไฟฟ้า"
+        Compute cosine similarity between two words: "เสือดาว" and "รถไฟฟ้า"
         (leopard and electric train).
 
         >>> from pythainlp.word_vector import WordVector
@@ -276,21 +286,19 @@ class WordVector:
     def sentence_vectorizer(
         self, text: str, use_mean: bool = True
     ) -> "NDArray[np.float32]":
-        """Converts a Thai sentence into a vector.
-        Specifically, it first tokenizes that text and maps each tokenized word
-        with the word vectors from the model.
-        Then, word vectors are aggregated into one vector of 300 dimensions
-        by calculating either the mean or summation of all word vectors.
+        """
+        Convert Thai text into a vector.
 
-        :param str text: text input
-        :param bool use_mean: if `True` aggregate word vectors with mean of all
-                                 word vectors. Otherwise, aggregate with
-                                 summation of all word vectors
+        First tokenize the text and map each word to its word vector
+        from the model. Then aggregate the word vectors into one vector
+        of 300 dimensions, by the mean or the sum of all word vectors.
 
-        :return: a :class:`numpy.ndarray` of dtype ``numpy.float32`` and
-               shape ``(1, 300)`` representing the given sentence
+        :param str text: text to be vectorized
+        :param bool use_mean: if True, aggregate word vectors by their
+            mean; otherwise, aggregate by their sum
+        :return: :class:`numpy.ndarray` of dtype ``numpy.float32`` and
+            shape ``(1, 300)`` representing the given text
         :rtype: numpy.typing.NDArray[numpy.float32]
-
 
         :Example:
 

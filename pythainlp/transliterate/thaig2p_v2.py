@@ -1,9 +1,10 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai Grapheme-to-Phoneme (Thai G2P)
+"""
+Thai Grapheme-to-Phoneme (Thai G2P), version 2.
 
-huggingface: https://huggingface.co/pythainlp/thaig2p-v2.0
+Hugging Face: https://huggingface.co/pythainlp/thaig2p-v2.0
 """
 
 # Use a pipeline as a high-level helper
@@ -17,7 +18,7 @@ if TYPE_CHECKING:
 
 class ThaiG2P:
     """
-    Thai Grapheme-to-Phoneme using transformer-based model (v2).
+    Thai Grapheme-to-Phoneme using a transformer-based model (v2).
 
     This version uses the Hugging Face transformers pipeline with the
     pythainlp/thaig2p-v2.0 model for converting Thai text to International

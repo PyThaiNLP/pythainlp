@@ -63,42 +63,47 @@ def get_sense(
     custom_dict: Optional[dict[str, list[str]]] = None,
     custom_tokenizer: Tokenizer = _word_cut,
 ) -> list[tuple[str, float]]:
-    """Get word sense from the sentence.
-    Gets definition and distance from context in sentence.
+    """
+    Get the sense of a word in a sentence.
+
+    This function returns the definitions of the word and their distances
+    from the context in the sentence.
 
     :param str sentence: Thai sentence
     :param str word: Thai word
-    :param str device: device for running model on.
-    :param Optional[dict[str, list[str]]] custom_dict: Thai dictionary in the
-        form {"word": ["definition", ...]}
-    :param Tokenizer custom_tokenizer: Tokenizer used to tokenize words in \
-        sentence.
-    :return: a list of definitions and distances (1 - cos_sim) or \
-        an empty list (if word is not in the dictionary)
+    :param str device: device to run the model on
+    :param Optional[dict[str, list[str]]] custom_dict: Thai dictionary in
+        the form {"word": ["definition", ...]}
+    :param pythainlp.tokenize.Tokenizer custom_tokenizer: tokenizer to
+        tokenize the sentence
+    :return: list of definitions and distances (1 - cosine similarity),
+        or an empty list if the word is not in the dictionary
     :rtype: list[tuple[str, float]]
 
-    We get the ideas from `Context-Aware Semantic Similarity Measurement for \
-        Unsupervised Word Sense Disambiguation \
-        <https://arxiv.org/abs/2305.03520>`_ to build get_sense function.
+    This function is based on the ideas in `Context-Aware Semantic
+    Similarity Measurement for Unsupervised Word Sense Disambiguation
+    <https://arxiv.org/abs/2305.03520>`_.
 
-    Use Thai dictionary from wiktionary.
+    It uses the Thai dictionary from Wiktionary.
     See `thai_dict <https://pythainlp.org/pythainlp-corpus/thai_dict.html>`_.
 
-    Use sentence transformers model from \
-        `sentence-transformers/paraphrase-multilingual-mpnet-base-v2 \
-        <https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2>`_ \
-        for unsupervised word sense disambiguation.
+    It uses the sentence transformers model
+    `sentence-transformers/paraphrase-multilingual-mpnet-base-v2
+    <https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2>`_
+    for unsupervised word sense disambiguation.
 
     :Example:
 
         >>> from pythainlp.wsd import get_sense  # doctest: +SKIP
-        >>> print(get_sense("เขากำลังอบขนมคุกกี้","คุกกี้"))  # doctest: +SKIP
+        >>> print(get_sense("เขากำลังอบขนมคุกกี้", "คุกกี้"))  # doctest: +SKIP
         [('โปรแกรมคอมพิวเตอร์ใช้ในทางอินเทอร์เน็ตสำหรับเก็บข้อมูลของผู้ใช้งาน',
           0.0974416732788086),
          ('ชื่อขนมชนิดหนึ่งจำพวกขนมเค้ก แต่ทำเป็นชิ้นเล็ก ๆ แบน ๆ แล้วอบให้กรอบ',
           0.09319090843200684)]
 
-        >>> print(get_sense("เว็บนี้ต้องการคุกกี้ในการทำงาน","คุกกี้"))  # doctest: +SKIP
+        >>> print(
+        ...     get_sense("เว็บนี้ต้องการคุกกี้ในการทำงาน", "คุกกี้")
+        ... )  # doctest: +SKIP
         [('โปรแกรมคอมพิวเตอร์ใช้ในทางอินเทอร์เน็ตสำหรับเก็บข้อมูลของผู้ใช้งาน',
           0.1005704402923584),
          ('ชื่อขนมชนิดหนึ่งจำพวกขนมเค้ก แต่ทำเป็นชิ้นเล็ก ๆ แบน ๆ แล้วอบให้กรอบ',

@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Attaparse: Thai dependency parser based on Stanza and PhayaThaiBERT.
+"""
+Attaparse: Thai dependency parser based on Stanza and PhayaThaiBERT.
 
 GitHub: https://github.com/nlp-chula/attaparse
 """

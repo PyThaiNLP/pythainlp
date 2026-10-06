@@ -11,10 +11,12 @@ from pythainlp.tokenize import word_tokenize
 
 
 class LTW2VAug:
-    """Text Augment using word2vec from LTW2V
+    """
+    Augment Thai text using word2vec from LTW2V.
 
     LTW2V:
-    `github.com/PyThaiNLP/large-thaiword2vec <https://github.com/PyThaiNLP/large-thaiword2vec>`_
+    `github.com/PyThaiNLP/large-thaiword2vec
+    <https://github.com/PyThaiNLP/large-thaiword2vec>`_
     """
 
     ltw2v_wv: Optional[str]
@@ -25,13 +27,17 @@ class LTW2VAug:
         self.load_w2v()
 
     def tokenizer(self, text: str) -> list[str]:
-        """:param str text: Thai text
-        :rtype: List[str]
+        """
+        Tokenize text into a list of words.
+
+        :param str text: Thai text to tokenize
+        :return: list of words
+        :rtype: list[str]
         """
         return word_tokenize(text, engine="newmm")
 
     def load_w2v(self) -> None:  # insert substitute
-        """Load LTW2V's word2vec model"""
+        """Load the LTW2V word2vec model."""
         if not self.ltw2v_wv:
             raise FileNotFoundError(
                 "corpus-not-found name='ltw2v_wv'\n"
@@ -46,14 +52,15 @@ class LTW2VAug:
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7
     ) -> list[tuple[str, ...]]:
-        """Text Augment using word2vec from Thai2Fit
+        """
+        Augment text using word2vec from LTW2V.
 
-        :param str sentence: Thai sentence
-        :param int n_sent: number of sentence
-        :param float p: probability of word
+        :param str sentence: Thai text to augment
+        :param int n_sent: number of augmented sentences
+        :param float p: minimum similarity score of a replacement word
 
-        :return: list of text augmented
-        :rtype: List[Tuple[str]]
+        :return: list of augmented sentences, each a tuple of words
+        :rtype: list[tuple[str, ...]]
 
         :Example:
 

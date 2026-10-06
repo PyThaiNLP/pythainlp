@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Check if it is Thai text"""
+"""Check whether text is Thai."""
 
 from __future__ import annotations
 
@@ -84,11 +84,11 @@ _THAI_CHAR_NAMES: MappingProxyType[str, str] = MappingProxyType(
 
 
 def is_thai_char(ch: str) -> bool:
-    """Check if a character is a Thai character.
+    """
+    Check whether a character is a Thai character.
 
-    :param ch: input character
-    :type ch: str
-    :return: True if ch is a Thai character, otherwise False.
+    :param str ch: character to check
+    :return: True if the character is a Thai character, otherwise False
     :rtype: bool
 
     :Example:
@@ -104,14 +104,14 @@ def is_thai_char(ch: str) -> bool:
 
 
 def isthaichar(ch: str) -> bool:
-    """Check if a character is a Thai character.
+    """
+    Check whether a character is a Thai character.
 
     .. deprecated:: 5.3.2
         Use :func:`is_thai_char` instead.
 
-    :param ch: input character
-    :type ch: str
-    :return: True if ch is a Thai character, otherwise False.
+    :param str ch: character to check
+    :return: True if the character is a Thai character, otherwise False
     :rtype: bool
     """
     warn_deprecation(
@@ -124,14 +124,12 @@ def isthaichar(ch: str) -> bool:
 
 
 def is_thai(text: str, ignore_chars: str = ".") -> bool:
-    """Check if every character in a string is a Thai character.
+    """
+    Check whether every character in text is a Thai character.
 
-    :param text: input text
-    :type text: str
-    :param ignore_chars: characters to be ignored, defaults to "."
-    :type ignore_chars: str, optional
-    :return: True if every character in the input string is Thai,
-             otherwise False.
+    :param str text: text to check
+    :param str ignore_chars: characters to be ignored (default is ".")
+    :return: True if every character in the text is Thai, otherwise False
     :rtype: bool
 
     :Example:
@@ -157,17 +155,15 @@ def is_thai(text: str, ignore_chars: str = ".") -> bool:
 
 
 def isthai(text: str, ignore_chars: str = ".") -> bool:
-    """Check if every character in a string is a Thai character.
+    """
+    Check whether every character in text is a Thai character.
 
     .. deprecated:: 5.3.2
         Use :func:`is_thai` instead.
 
-    :param text: input text
-    :type text: str
-    :param ignore_chars: characters to be ignored, defaults to "."
-    :type ignore_chars: str, optional
-    :return: True if every character in the input string is Thai,
-             otherwise False.
+    :param str text: text to check
+    :param str ignore_chars: characters to be ignored (default is ".")
+    :return: True if every character in the text is Thai, otherwise False
     :rtype: bool
     """
     warn_deprecation(
@@ -180,13 +176,12 @@ def isthai(text: str, ignore_chars: str = ".") -> bool:
 
 
 def count_thai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
-    """Find proportion of Thai characters in a given text.
+    """
+    Calculate the proportion of Thai characters in text.
 
-    :param text: input text
-    :type text: str
-    :param ignore_chars: characters to be ignored, defaults to whitespace,\\
-        digits, and punctuation marks.
-    :type ignore_chars: str, optional
+    :param str text: text to check
+    :param str ignore_chars: characters to be ignored
+        (default is whitespace, digits, and punctuation marks)
     :return: proportion of Thai characters in the text (percentage)
     :rtype: float
 
@@ -226,16 +221,15 @@ def count_thai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
 
 
 def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
-    """Find proportion of Thai characters in a given text.
+    """
+    Calculate the proportion of Thai characters in text.
 
     .. deprecated:: 5.3.2
         Use :func:`count_thai` instead.
 
-    :param text: input text
-    :type text: str
-    :param ignore_chars: characters to be ignored, defaults to whitespace,\\
-        digits, and punctuation marks.
-    :type ignore_chars: str, optional
+    :param str text: text to check
+    :param str ignore_chars: characters to be ignored
+        (default is whitespace, digits, and punctuation marks)
     :return: proportion of Thai characters in the text (percentage)
     :rtype: float
     """
@@ -249,12 +243,14 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
 
 
 def display_thai_char(ch: str) -> str:
-    """Prefix an underscore (_) to a high-position vowel or a tone mark,
-    to ease readability.
+    """
+    Prefix an underscore (_) to a high-position vowel or a tone mark.
 
-    :param ch: input character
-    :type ch: str
-    :return: "_" + ch
+    The underscore eases readability.
+
+    :param str ch: character to be displayed
+    :return: "_" + ch for a high-position vowel or a tone mark,
+        otherwise the character itself
     :rtype: str
 
     :Example:
@@ -274,18 +270,18 @@ def display_thai_char(ch: str) -> str:
 
 
 def thai_word_tone_detector(word: Optional[str]) -> list[tuple[str, str]]:
-    """Thai tone detector for word.
+    """
+    Detect the tone of each syllable in a Thai word.
 
-    It uses pythainlp.transliterate.pronunciate for converting word to\
-        pronunciation.
+    This function converts the word to pronunciation with
+    :func:`pythainlp.transliterate.pronunciate`.
 
-    :param word: Thai word, or None
-    :type word: str, optional
-    :return: list of tuples (syllable, tone) for each syllable.
-        Tone values: ``l`` (low), ``m`` (mid), ``h`` (high),
-        ``r`` (rising), ``f`` (falling), or empty string
+    :param Optional[str] word: Thai word, or None
+    :return: list of (syllable, tone) tuples, one for each syllable.
+        Tone values are ``l`` (low), ``m`` (mid), ``h`` (high),
+        ``r`` (rising), ``f`` (falling), or an empty string
         if it cannot be detected.
-        Returns ``[]`` if word is None or empty.
+        Return ``[]`` if the word is None or empty.
     :rtype: list[tuple[str, str]]
 
     :Example:
@@ -343,7 +339,7 @@ _COUNTER_MIN_LEN: int = 64
 
 
 def _char_type(char: str) -> str:
-    """Return the name of the first character type that contains ``char``."""
+    """Return the name of the first character type containing ``char``."""
     for name, chars in _CHAR_TYPES:
         if char in chars:
             return name
@@ -362,14 +358,15 @@ def _count_iterable(
 
 
 def count_thai_chars(text: str) -> dict[str, int]:
-    """Count Thai characters by type.
+    """
+    Count Thai characters by type.
 
-    Count Thai characters by type: consonants, vowels, lead_vowels,
-    follow_vowels, above_vowels, below_vowels, tonemarks, signs,
-    thai_digits, punctuations, and non_thai.
+    The types are consonants, vowels, lead_vowels, follow_vowels,
+    above_vowels, below_vowels, tonemarks, signs, thai_digits,
+    punctuations, and non_thai.
 
-    :param str text: input text
-    :return: dict with counts of Thai characters by type
+    :param str text: text to be counted
+    :return: dictionary of character counts by type
     :rtype: dict[str, int]
 
     :Example:
@@ -400,13 +397,14 @@ def count_thai_chars(text: str) -> dict[str, int]:
 
 
 def analyze_thai_text(text: str) -> dict[str, int]:
-    """Analyze Thai text and return a character count by descriptive name.
+    """
+    Count characters in Thai text by descriptive name.
 
     Process the text character by character and map each Thai character
-    to its descriptive name or to itself (for consonants and digits).
+    to its descriptive name, or to itself (for consonants and digits).
 
-    :param str text: Thai text string to be analyzed
-    :return: dict mapping character names to their count in the text
+    :param str text: Thai text to be analyzed
+    :return: dictionary mapping character names to their counts
     :rtype: dict[str, int]
 
     :Example:

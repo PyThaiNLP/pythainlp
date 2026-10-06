@@ -1,11 +1,13 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Convert number value to Thai read out
+"""
+Convert numbers to Thai text read out.
 
-Adapted from
-https://justmindthought.blogspot.com/2012/12/code-php.html
-https://suksit.com/post/writing-bahttext-in-php/
+Adapted from:
+
+* https://justmindthought.blogspot.com/2012/12/code-php.html
+* https://suksit.com/post/writing-bahttext-in-php/
 """
 
 from __future__ import annotations
@@ -44,15 +46,17 @@ _EXCEPTIONS: dict[str, str] = {"หนึ่งสิบ": "สิบ", "สอ�
 
 
 def bahttext(number: float) -> str:
-    """Converts a number to Thai text and adds
-    a suffix "บาท" (Baht).
-    The precision will be fixed at two decimal places (0.00)
-    to fit "สตางค์" (Satang) unit.
-    This function works similarly to the ``BAHTTEXT`` function in Microsoft Excel.
+    """
+    Convert a number to Thai text in Baht currency format.
 
-    :param float number: number to be converted into Thai Baht currency format
-    :return: text representing the amount of money in the format
-             of Thai currency
+    Add the suffix "บาท" (Baht). The precision is fixed at two decimal
+    places (0.00) to fit the "สตางค์" (Satang) unit.
+    This function works similarly to the ``BAHTTEXT`` function in
+    Microsoft Excel.
+
+    :param float number: number to be converted
+    :return: text representing the amount of money in Thai currency
+        format
     :rtype: str
     :raises TypeError: if *number* is not a numeric type
 
@@ -94,7 +98,8 @@ def bahttext(number: float) -> str:
 
 
 def _num_to_thaiword_block(num: int) -> str:
-    """Convert a positive integer < 1,000,000 to Thai text.
+    """
+    Convert a positive integer < 1,000,000 to Thai text.
 
     This is the core logic for a single block of up to 6 digits.
     """
@@ -118,9 +123,10 @@ def _num_to_thaiword_block(num: int) -> str:
 
 
 def num_to_thaiword(number: Optional[int]) -> str:
-    """Converts a number to Thai text.
+    """
+    Convert an integer to Thai text.
 
-    :param int number: an integer number to be converted to Thai text
+    :param Optional[int] number: integer to be converted
     :return: text representing the number in Thai
     :rtype: str
 
@@ -167,7 +173,7 @@ def num_to_thaiword(number: Optional[int]) -> str:
 
 
 def _expand_exponent(num_str: str) -> str:
-    """Rewrite scientific notation (e.g. "1e-05") as a plain decimal string."""
+    """Rewrite scientific notation (such as "1e-05") as a decimal string."""
     if "e" not in num_str.lower():
         return num_str
 
@@ -185,16 +191,19 @@ def _expand_exponent(num_str: str) -> str:
 
 
 def num_to_thaiword_float(number: float) -> str:
-    """Converts a floating-point number to Thai text.
+    """
+    Convert a floating-point number to Thai text.
 
-    The integer part is converted using :func:`num_to_thaiword`.
-    The decimal point is read as "จุด".
-    Each digit after the decimal is read individually without place descriptions.
+    Convert the integer part with :func:`num_to_thaiword`.
+    Read the decimal point as "จุด".
+    Read each digit after the decimal point individually, without place
+    descriptions.
 
-    :param float number: a floating-point number to be converted to Thai text
+    :param float number: number to be converted
     :return: text representing the number in Thai
     :rtype: str
     :raises TypeError: if *number* is not a numeric type
+    :raises ValueError: if *number* is not finite
 
     :Example:
 

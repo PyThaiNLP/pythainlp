@@ -109,7 +109,8 @@ def _get_version_dirs(docs_dir: Path) -> list[str]:
 
 
 def update_docs_index(docs_dir: Path) -> None:
-    """Generate or overwrite ``docs_dir/index.html`` listing all versions.
+    """
+    Generate or overwrite ``docs_dir/index.html`` listing all versions.
 
     :param docs_dir: Path to the versioned documentation repository root.
     """
@@ -124,7 +125,8 @@ def update_docs_index(docs_dir: Path) -> None:
 
 
 def update_dev_docs_index(index_path: Path, version: str) -> None:
-    """Inject or update a released-versions section in *index_path*.
+    """
+    Inject or update a released-versions section in *index_path*.
 
     Looks for ``<!-- BEGIN VERSIONS -->`` / ``<!-- END VERSIONS -->`` markers.
     If found, prepends *version* to the existing list (skips if already there).

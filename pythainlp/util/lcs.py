@@ -10,7 +10,8 @@ if TYPE_CHECKING:
 
 
 def _lcs_lengths(str1: Sequence[str], str2: Sequence[str]) -> list[list[int]]:
-    """Build the table of longest common subsequence lengths.
+    """
+    Build the table of longest common subsequence lengths.
 
     ``table[i][j]`` is the length for ``str1[:i]`` and ``str2[:j]``.
     Each argument is a string or another sequence of strings.
@@ -28,11 +29,12 @@ def _lcs_lengths(str1: Sequence[str], str2: Sequence[str]) -> list[list[int]]:
 
 
 def longest_common_subsequence(str1: str, str2: str) -> str:
-    """Find the longest common subsequence between two strings.
+    """
+    Return the longest common subsequence of two strings.
 
-    :param str str1: The first string.
-    :param str str2: The second string.
-    :return: The longest common subsequence.
+    :param str str1: first string
+    :param str str2: second string
+    :return: longest common subsequence
     :rtype: str
 
     :Example:

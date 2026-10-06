@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileCopyrightText: Copyright 2019 Ponrawee Prasertsom
 # SPDX-License-Identifier: Apache-2.0
-"""🪿 Han-solo: Thai syllable segmenter
+"""
+🪿 Han-solo: Thai syllable tokenizer.
 
 GitHub: https://github.com/PyThaiNLP/Han-solo
 """
@@ -27,7 +28,8 @@ _load_lock: threading.Lock = threading.Lock()  # Thread safety for lazy loading
 
 
 def _get_tagger() -> pycrfsuite.Tagger:
-    """Load the tagger model once, in a thread-safe way.
+    """
+    Load the tagger model once, in a thread-safe way.
 
     The file context manager stays open for the life of the program,
     so a temporary model file is not removed while the tagger uses it.
@@ -69,9 +71,14 @@ class Featurizer:
     def _skip_delimiter(
         self, sentence: str, abs_index: int, step: int
     ) -> tuple[int, str]:
-        """Skip the delimiter, moving ``abs_index`` by ``step``.
+        """
+        Skip the delimiter, moving ``abs_index`` by ``step``.
 
-        :return: the new index and the character at that index
+        :param str sentence: sentence to scan
+        :param int abs_index: index to start from
+        :param int step: step to move the index by
+        :return: new index and the character at that index
+        :rtype: tuple[int, str]
         """
         char = sentence[abs_index]
         while char == self.delimiter:
@@ -82,7 +89,7 @@ class Featurizer:
     def _context_features(
         self, sentence: str, current_position: int, indiv_char: bool
     ) -> list[str]:
-        """Extract features around ``current_position``."""
+        """Extract features around the current position."""
         features: list[str] = []
         chars_left = ""
         chars_right = ""

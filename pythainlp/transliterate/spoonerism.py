@@ -22,7 +22,8 @@ def _initial_char(syllable: str) -> Optional[str]:
 
 
 def _swap_initials(pron: list[str]) -> list[str]:
-    """Swap initials or rimes of syllables, keeping every position.
+    """
+    Swap initials or rimes of syllables, keeping every position.
 
     With 2 or 3 syllables that have an initial, the last two swap their
     rimes while the initials stay. With 4 or more, the initials of the
@@ -46,16 +47,16 @@ def _swap_initials(pron: list[str]) -> list[str]:
 
 
 def puan(word: str, show_pronunciation: bool = True) -> str:
-    """Thai Spoonerism
-
-    Converts a Thai word to a spoonerism word.
+    """
+    Convert a Thai word to a spoonerism word.
 
     Syllables without an initial consonant stay in place.
 
-    :param str word: Thai word to be spoonerized
-    :param bool show_pronunciation: True (default) or False
-
-    :return: A string of Thai spoonerism word.
+    :param str word: Thai word to be converted
+    :param bool show_pronunciation: if ``True`` (default), return the
+        pronunciation with syllables separated by hyphens; otherwise
+        return the syllables joined without hyphens
+    :return: spoonerism word
     :rtype: str
 
     :Example:

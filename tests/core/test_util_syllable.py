@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Characterization tests for pythainlp.util.syllable.
+"""
+Characterization tests for pythainlp.util.syllable.
 
 Golden values were recorded from the pre-refactor implementation.
 Known bugs are pinned on purpose (see working-docs/ROADMAP.md).

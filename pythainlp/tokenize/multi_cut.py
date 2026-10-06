@@ -1,14 +1,16 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Multi cut -- Thai word segmentation with maximum matching.
-Original codes from Korakot Chaovavanich.
+"""
+Tokenize Thai text into words with multi-cut, a maximum matching approach.
+
+The original code is by Korakot Chaovavanich.
 
 :See Also:
-    * `Facebook post \
-        <https://www.facebook.com/groups/408004796247683/permalink/431283740586455/>`_
-    * `GitHub Gist \
-        <https://gist.github.com/korakot/fe26c65dc9eed467f4497f784a805716>`_
+    * Facebook post:
+      https://www.facebook.com/groups/408004796247683/permalink/431283740586455/
+    * GitHub Gist:
+      https://gist.github.com/korakot/fe26c65dc9eed467f4497f784a805716
 """
 
 from __future__ import annotations
@@ -26,7 +28,7 @@ from pythainlp.tokenize import word_dict_trie
 
 
 class LatticeString(str):
-    """String that keeps possible tokenizations"""
+    """Keep the possible tokenizations of a string."""
 
     unique: bool
     multi: list[str]
@@ -79,7 +81,7 @@ def _serialize(
 
 
 def _find_skip_end(text: str, p: int, custom_dict: Trie) -> int:
-    """Find the end of an out-of-dictionary token starting at ``p``."""
+    """Find the end of an out-of-dictionary word starting at ``p``."""
     len_text = len(text)
     m = _PAT_NONTHAI.match(text[p:])
     if m:  # non-Thai token
@@ -97,7 +99,7 @@ def _find_skip_end(text: str, p: int, custom_dict: Trie) -> int:
 def _multicut(
     text: str, custom_dict: Optional[Trie] = None
 ) -> Iterator[LatticeString]:
-    """Return LatticeString"""
+    """Yield a :class:`LatticeString` for each part of the text."""
     if not custom_dict:
         custom_dict = word_dict_trie()
     len_text = len(text)
@@ -152,14 +154,13 @@ def _combine(ww: list[LatticeString]) -> Iterator[str]:
 
 
 def segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
-    """Dictionary-based maximum matching word segmentation.
+    """
+    Tokenize text into words with dictionary-based maximum matching.
 
-    :param text: text to be tokenized
-    :type text: str
-    :param custom_dict: tokenization dictionary,\
-        defaults to a Trie generated from pythainlp.corpus.thai_words
-    :type custom_dict: Trie, optional
-    :return: list of segmented tokens
+    :param str text: text to be tokenized
+    :param pythainlp.util.Trie custom_dict: dictionary trie
+        (default: a trie of :func:`pythainlp.corpus.thai_words`)
+    :return: list of words
     :rtype: list[str]
     """
     if not text or not isinstance(text, str):
@@ -174,14 +175,13 @@ def segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
 def find_all_segment(
     text: str, custom_dict: Optional[Trie] = None
 ) -> list[str]:
-    """Get all possible segment variations.
+    """
+    Get all possible tokenizations of text.
 
-    :param text: input string to be tokenized
-    :type text: str
-    :param custom_dict: tokenization dictionary,\
-        defaults to word_dict_trie()
-    :type custom_dict: Trie, optional
-    :return: list of segment variations
+    :param str text: text to be tokenized
+    :param pythainlp.util.Trie custom_dict: dictionary trie
+        (default: a trie of :func:`pythainlp.corpus.thai_words`)
+    :return: list of tokenizations, each with words separated by ``|``
     :rtype: list[str]
     """
     if not text or not isinstance(text, str):

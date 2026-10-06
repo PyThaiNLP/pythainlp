@@ -1,7 +1,12 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thank https://dev.to/ton_ami/text-data-augmentation-synonym-replacement-4h8l"""
+"""
+Augment text using WordNet.
+
+Thanks to the article at
+https://dev.to/ton_ami/text-data-augmentation-synonym-replacement-4h8l
+"""
 
 from __future__ import annotations
 
@@ -105,13 +110,16 @@ orchid: dict[str, str] = {
 
 
 def postype2wordnet(pos: str, corpus: str) -> Optional[str]:
-    """Convert part-of-speech type to wordnet type
+    """
+    Convert a part-of-speech (POS) type to a WordNet type.
 
     :param str pos: POS type
-    :param str corpus: part-of-speech corpus
+    :param str corpus: POS tag corpus
 
-    **Options for corpus**
-        * *orchid* - Orchid Corpus
+        * *orchid* - ORCHID corpus
+
+    :return: WordNet POS type, or None if the corpus is not supported
+    :rtype: Optional[str]
     """
     if corpus != "orchid":
         return None
@@ -119,7 +127,7 @@ def postype2wordnet(pos: str, corpus: str) -> Optional[str]:
 
 
 class WordNetAug:
-    """Text Augment using wordnet"""
+    """Augment text using WordNet."""
 
     synonyms: list[str]
     list_synsets: list[Synset]
@@ -142,11 +150,12 @@ class WordNetAug:
         pos: Optional[str] = None,
         postag_corpus: str = "orchid",
     ) -> list[str]:
-        """Find synonyms using wordnet
+        """
+        Find synonyms using WordNet.
 
-        :param str word: word
-        :param Optional[str] pos: part-of-speech type. Default is None.
-        :param str postag_corpus: name of POS tag corpus
+        :param str word: word to find synonyms of
+        :param Optional[str] pos: POS type (default is None)
+        :param str postag_corpus: POS tag corpus
         :return: list of synonyms
         :rtype: list[str]
         """
@@ -179,15 +188,17 @@ class WordNetAug:
         postag: bool = True,
         postag_corpus: str = "orchid",
     ) -> list[list[str]]:
-        """Text Augment using wordnet
+        """
+        Augment text by replacing words with WordNet synonyms.
 
-        :param str sentence: Thai sentence
-        :param object tokenize: function for tokenizing words
-        :param int max_syn_sent: maximum number of synonymous sentences
-        :param bool postag: use part-of-speech
-        :param str postag_corpus: name of POS tag corpus
+        :param str sentence: Thai text to augment
+        :param Callable[[str], list[str]] tokenize: function to tokenize
+            text into a list of words
+        :param int max_syn_sent: maximum number of augmented sentences
+        :param bool postag: use POS tags to find synonyms
+        :param str postag_corpus: POS tag corpus
 
-        :return: list of synonyms
+        :return: list of augmented sentences, each a list of words
         :rtype: list[list[str]]
 
         :Example:

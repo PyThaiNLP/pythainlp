@@ -1,10 +1,11 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai soundex
+"""
+Thai soundex.
 
 Has multiple systems to choose from: Udom83 (default), LK82, MetaSound,
-Complete Soundex, and Prayut & Somchaip
+Complete Soundex, and Prayut & Somchaip.
 """
 
 from __future__ import annotations
@@ -23,20 +24,22 @@ from pythainlp.soundex.udom83 import udom83
 def soundex(
     text: str, engine: str = DEFAULT_SOUNDEX_ENGINE, length: int = 4
 ) -> str:
-    """Converts Thai text into phonetic code.
+    """
+    Convert text into phonetic code.
 
-    :param str text: word
+    :param str text: Thai word to be encoded
     :param str engine: soundex engine
-    :param int length: preferred length of the Soundex code (default is 4)\
-        for metasound and prayut_and_somchaip only
-    :return: Soundex code
+        (see the options below)
+    :param int length: preferred length of the soundex code (default is 4),
+        used by the *metasound* and *prayut_and_somchaip* engines only
+    :return: soundex code
     :rtype: str
 
     :Options for engine:
         * *udom83* (default) - Thai soundex algorithm proposed
-          by Vichit Lorchirachoonkul [#udom83]_
+          by Wannee Udompanich [#udom83]_
         * *lk82* - Thai soundex algorithm proposed by
-          Wannee Udompanich [#lk82]_
+          Vichit Lorchirachoonkul [#lk82]_
         * *metasound* - Thai soundex algorithm based on a combination
           of Metaphone and Soundex proposed by Snae & Brückner [#metasound]_
         * *prayut_and_somchaip* - Thai-English Cross-Language Transliterated
@@ -49,33 +52,33 @@ def soundex(
         >>> from pythainlp.soundex import soundex
         >>> soundex("ลัก")
         'ร100000'
-        >>> soundex("ลัก", engine='lk82')
+        >>> soundex("ลัก", engine="lk82")
         'ร1000'
-        >>> soundex("ลัก", engine='metasound')
+        >>> soundex("ลัก", engine="metasound")
         'ล100'
         >>> soundex("รัก")
         'ร100000'
-        >>> soundex("รัก", engine='lk82')
+        >>> soundex("รัก", engine="lk82")
         'ร1000'
-        >>> soundex("รัก", engine='metasound')
+        >>> soundex("รัก", engine="metasound")
         'ร100'
         >>> soundex("รักษ์")
         'ร100000'
-        >>> soundex("รักษ์", engine='lk82')
+        >>> soundex("รักษ์", engine="lk82")
         'ร1000'
-        >>> soundex("รักษ์", engine='metasound')
+        >>> soundex("รักษ์", engine="metasound")
         'ร100'
         >>> soundex("บูรณการ")
         'บ931900'
-        >>> soundex("บูรณการ", engine='lk82')
+        >>> soundex("บูรณการ", engine="lk82")
         'บE419'
-        >>> soundex("บูรณการ", engine='metasound')
+        >>> soundex("บูรณการ", engine="metasound")
         'บ551'
         >>> soundex("ปัจจุบัน")
         'ป775300'
-        >>> soundex("ปัจจุบัน", engine='lk82')
+        >>> soundex("ปัจจุบัน", engine="lk82")
         'ป3E54'
-        >>> soundex("ปัจจุบัน", engine='metasound')
+        >>> soundex("ปัจจุบัน", engine="metasound")
         'ป223'
         >>> soundex("vp", engine="prayut_and_somchaip")
         '11'

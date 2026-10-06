@@ -1,136 +1,69 @@
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Byte-compiled / optimized / DLL files
+# Python bytecode and extensions
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
 *.so
 
-# Distribution / packaging
-.Python
-.installed.cfg
+# Virtual environments
+.env
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+__pypackages__/
+
+# Build and packaging
 build/
-develop-eggs/
 dist/
 downloads/
 eggs/
 .eggs/
-*.egg-info/
 *.egg
-lib/
-lib64/
+*.egg-info/
+.installed.cfg
+develop-eggs/
 parts/
 sdist/
 var/
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
-
-# PyInstaller
-# Usually these files are written by a python script from a template
-# before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
+lib/
+lib64/
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
-htmlcov/
+# Tests, coverage, and linters
 .tox/
 .nox/
 .coverage
 .coverage.*
 .cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
 .hypothesis/
 .pytest_cache/
 .ruff_cache/
-cover/
-tests/ptagger_temp*
-ptagger_temp*
-
-# Translations
-*.mo
-*.pot
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
-
-# PyBuilder
-.pybuilder/
-target/
-
-# IPython / Jupyter Notebook
-.ipynb_checkpoints
-profile_default/
-ipython_config.py
-Untitled*.ipynb
-
-# IDE files
-.idea
-\.idea/codeStyles/
-\.idea/
-.vscode
-
-# macOS generated files
-._*
-.DS_Store
-.DS_Store?
-.Spotlight-V100
-.Trashes
-
-# Document generator temporary files
-docs/_build/
-docs/_build/doctrees/api/
-docs/_build/html/
-docs/_build/doctrees/
-
-# mypy
 .mypy_cache/
 .dmypy.json
 dmypy.json
-
-# Pyre type checker
 .pyre/
-
-# pytype static type analyzer
 .pytype/
+htmlcov/
+cover/
+coverage.xml
+nosetests.xml
+*.cover
+*.py,cover
+ptagger_temp*
 
-# Cython debug symbols
-cython_debug/
+# Documentation build
+docs/_build/
+
+# Notebooks
+.ipynb_checkpoints
+Untitled*.ipynb
 notebooks/iso_11940-dev.ipynb
-
-# vscode devcontainer
-.devcontainer/
 notebooks/d.model
 
-# Logs
-logs/
-*.log
-
-# Temp files
-*.tmp
-*.temp
-
-# Type annotation analyzer
+# Type annotation analyzer output
 build_tools/output/*.csv
 build_tools/output/*.json
 
@@ -144,3 +77,47 @@ crash-*
 leak-*
 timeout-*
 oom-*
+
+# Logs and temporary files
+logs/
+*.log
+*.tmp
+*.temp
+
+# Editors and IDEs
+.idea/
+.vscode/
+.devcontainer/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+*.stackdump
+
+# Linux
+*~
+.directory
+.fuse_hidden*
+.nfs*
+.Trash-*
+
+# Cython debug symbols
+cython_debug/

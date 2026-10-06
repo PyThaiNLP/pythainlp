@@ -209,10 +209,58 @@ maintain the code quality and improve it.
   - [ ] Default SPDX-License-Identifier for documentation is "CC0-1.0"
   - [ ] Sort SPDX metadata.
 
+## Cross-platform support
+
+PyThaiNLP targets Windows, Linux, and macOS. CI tests all three.
+
+- [ ] Paths: use `pathlib` or `pythainlp.tools.safe_path_join()`.
+      Do not hardcode `/` or `\`, `/tmp`, a drive letter, or the home
+      directory layout. Windows paths have a length limit, reserved
+      names (`NUL`), 8.3 short names (`RUNNER~1`), and are
+      case-insensitive. Compare paths after `os.path.realpath()`.
+- [ ] Files: pass `encoding=` to `open()` (use UTF-8). Close a file
+      before replacing or deleting it; Windows raises `PermissionError`.
+      Symbolic links and permission bits are limited on Windows.
+- [ ] Encoding: the default differs by platform (Windows uses a
+      legacy code page, such as cp874 or cp1252, until Python 3.15).
+  - [ ] Use UTF-8 for Thai text, source files, and data files.
+        Use `utf-8-sig` to read a file that may start with a BOM.
+  - [ ] Do not assume `print()` can write Thai: a Windows console or a
+        redirected stream may raise `UnicodeEncodeError`.
+        Do not depend on `sys.stdout.encoding` or `locale`.
+  - [ ] Do not compare Thai strings as bytes. Count and slice
+        `str` code points, not bytes, and not user-perceived characters
+        (a combining mark is its own code point).
+  - [ ] macOS can normalize non-ASCII file names (NFD); do not rely
+        on an exact round trip. Keep file names in ASCII.
+- [ ] Signals: catch `KeyboardInterrupt`, not a signal number.
+      Windows lacks `SIGKILL`, `SIGHUP`, and `SIGALRM`.
+- [ ] Processes: `multiprocessing` uses `spawn` on Windows and macOS.
+      Guard the entry point; keep arguments picklable.
+- [ ] Environment variables are case-insensitive on Windows only.
+      Do not rely on `HOME`; use `pathlib.Path.home()`.
+- [ ] Prefer a feature check (`hasattr`, `try`/`except`) over a
+      platform check. Otherwise use `sys.platform` or `os.name`.
+- [ ] Keep optional native dependencies (ICU, PyTorch) out of the
+      core install; they are not available everywhere.
+- [ ] Tests:
+  - [ ] Do not record expected values on one platform only.
+        For example, Windows rejects `time.strftime()` directives
+        such as `%-d`.
+  - [ ] Use `tempfile`; do not write to the working directory.
+  - [ ] Use `unittest.skipIf` with a reason for a platform-specific test.
+
 ## Shell scripts and command line
 
 - [ ] Mind the differences between GNU, BSD, macOS,
       and other implementations of common Unix tools.
+      For example, `sed -i` needs an argument on BSD but not on GNU;
+      `date`, `readlink -f`, `xargs`, and `grep -P` also differ.
+      Prefer POSIX options, or write the step in Python.
+- [ ] Mind the differences between shells (bash, zsh, PowerShell,
+      `cmd`): quoting, escaping, unmatched globs (zsh fails),
+      and variable syntax (`$VAR`, `%VAR%`, `$env:VAR`).
+      In GitHub Actions, set `shell:` when it matters.
 - [ ] Be defensive on variable expansion.
 - [ ] Use quotes or other constructs to encapsulate paths, make it compatible
       with different kinds of shells.

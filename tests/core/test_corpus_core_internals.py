@@ -47,7 +47,7 @@ _TarMember = tuple[str, str, Optional[Union[bytes, str]]]
 # Absolute POSIX paths such as "/etc/passwd" have a different meaning
 # on Windows. Tests that depend on them run on POSIX systems only.
 _skip_on_windows = unittest.skipIf(
-    os.name == "nt", "absolute POSIX paths are not portable to Windows"
+    os.name == "nt", "POSIX paths and symbolic links are not portable"
 )
 
 
@@ -545,6 +545,7 @@ class _SafeExtractTarTestMixin(_MixinBase):
                     f"{link} -> {target}",
                 )
 
+    @_skip_on_windows
     def test_symlink_chains_stay_inside(self) -> None:
         for members, _ in _TAR_CHAINS:
             with self.subTest(members=members):
@@ -556,6 +557,7 @@ class _SafeExtractTarTestMixin(_MixinBase):
                 self.assert_nothing_outside()
                 self.assert_links_inside()
 
+    @_skip_on_windows
     def test_late_binding_symlink_stays_inside(self) -> None:
         # Rejected by the manual branch. A patched "data" filter
         # normalizes the target of "a" to "d1".

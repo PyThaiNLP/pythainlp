@@ -4,9 +4,10 @@
 """Characterization tests for pythainlp.util.strftime.
 
 Golden data was recorded from the pre-refactor implementation.
-It uses only directives that behave the same on all platforms.
+Directives that the C library of Windows rejects are skipped there.
 """
 
+import os
 import typing
 import unittest
 import warnings
@@ -31,6 +32,9 @@ _DATETIMES = (
 )
 
 # (format, expected output for each datetime in _DATETIMES)
+# The C strftime() of Windows rejects these, and thai_strftime() warns.
+_NOT_ON_WINDOWS = frozenset({"%--", "%--d", "%_-", "%-E"})
+
 _GOLDEN = [
     (
         "%A",
@@ -619,6 +623,8 @@ class ThaiStrftimeTestCase(unittest.TestCase):
 
     def test_golden(self) -> None:
         for fmt, expected in _GOLDEN:
+            if os.name == "nt" and fmt in _NOT_ON_WINDOWS:
+                continue
             for dt_obj, exp in zip(_DATETIMES, expected):
                 with self.subTest(fmt=fmt, dt=dt_obj):
                     with warnings.catch_warnings():

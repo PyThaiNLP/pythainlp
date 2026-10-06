@@ -446,8 +446,10 @@ def _check_hash(file_path: str, md5: str) -> None:
     import hashlib
 
     with open(file_path, "rb") as f:
-        # MD5 is insecure but sufficient here
-        file_md5 = hashlib.md5(f.read()).hexdigest()  # noqa: S324  # nosec B324
+        # MD5 only detects a damaged download; the catalog supplies it
+        file_md5 = hashlib.md5(  # noqa: S324  # nosec B324  # NOSONAR
+            f.read(), usedforsecurity=False
+        ).hexdigest()
     if md5 != file_md5:
         raise ValueError("Hash does not match expected.")
 

@@ -25,6 +25,11 @@ class CRFchunk(CRFChunkParser):
     """
 
     def __init__(self, corpus: str = "orchidpp") -> None:
+        """
+        Initialize the chunk parser.
+
+        :param str corpus: corpus used to train the chunk parser model
+        """
         warn_deprecation(
             "pythainlp.tag.crfchunk.CRFchunk",
             "pythainlp.chunk.CRFChunkParser",

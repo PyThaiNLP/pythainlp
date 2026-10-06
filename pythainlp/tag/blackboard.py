@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Constants for the Blackboard treebank POS tag set."""
+
 from __future__ import annotations
 
 # defined strings for special characters

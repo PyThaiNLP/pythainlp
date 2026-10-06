@@ -89,6 +89,14 @@ def _get_sym_spell() -> SymSpell:
 
 
 def spell(text: str, max_edit_distance: int = 2) -> list[str]:
+    """
+    Return possible correct spellings of a word.
+
+    :param str text: word to be checked
+    :param int max_edit_distance: maximum edit distance of a suggestion
+    :return: list of suggested spellings
+    :rtype: list[str]
+    """
     sym_spell = _get_sym_spell()
     return [
         str(i).split(",", maxsplit=1)[0]
@@ -101,12 +109,29 @@ def spell(text: str, max_edit_distance: int = 2) -> list[str]:
 
 
 def correct(text: str, max_edit_distance: int = 1) -> str:
+    """
+    Correct the spelling of a word.
+
+    :param str text: word to be corrected
+    :param int max_edit_distance: maximum edit distance of a suggestion
+    :return: first suggested spelling
+    :rtype: str
+    :raises IndexError: if there is no suggested spelling
+    """
     return spell(text, max_edit_distance=max_edit_distance)[0]
 
 
 def spell_sent(
     list_words: list[str], max_edit_distance: int = 2
 ) -> list[list[str]]:
+    """
+    Return possible correct spellings of a list of words.
+
+    :param list[str] list_words: list of words to be checked
+    :param int max_edit_distance: maximum edit distance of a suggestion
+    :return: list of words of each suggested spelling
+    :rtype: list[list[str]]
+    """
     sym_spell = _get_sym_spell()
     temp = [
         str(i).split(",", maxsplit=1)[0].split(" ")
@@ -128,6 +153,14 @@ def spell_sent(
 def correct_sent(
     list_words: list[str], max_edit_distance: int = 1
 ) -> list[str]:
+    """
+    Correct the spelling of a list of words.
+
+    :param list[str] list_words: list of words to be corrected
+    :param int max_edit_distance: maximum edit distance of a suggestion
+    :return: list of corrected words
+    :rtype: list[str]
+    """
     return [
         i[0]
         for i in spell_sent(list_words, max_edit_distance=max_edit_distance)

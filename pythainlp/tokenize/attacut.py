@@ -17,10 +17,17 @@ from attacut import Tokenizer
 
 
 class AttacutTokenizer:
+    """Wrap the AttaCut tokenizer."""
+
     _MODEL_NAME: str
     _tokenizer: Tokenizer
 
     def __init__(self, model: str = "attacut-sc") -> None:
+        """
+        Initialize the AttaCut tokenizer.
+
+        :param str model: name of the AttaCut model (attacut-sc or attacut-c)
+        """
         self._MODEL_NAME: str = "attacut-sc"
 
         if model == "attacut-c":
@@ -29,6 +36,13 @@ class AttacutTokenizer:
         self._tokenizer: Tokenizer = Tokenizer(model=self._MODEL_NAME)
 
     def tokenize(self, text: str) -> list[str]:
+        """
+        Tokenize text into words.
+
+        :param str text: text to be tokenized
+        :return: list of words
+        :rtype: list[str]
+        """
         return cast("list[str]", self._tokenizer.tokenize(text))
 
 

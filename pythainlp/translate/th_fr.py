@@ -45,6 +45,13 @@ class ThFrTranslator:
         pretrained: str = "Helsinki-NLP/opus-mt-th-fr",
         revision: Optional[str] = None,
     ) -> None:
+        """
+        Initialize the Thai-to-French translator.
+
+        :param bool use_gpu: load the model on a GPU
+        :param str pretrained: name of the pretrained model
+        :param Optional[str] revision: revision of the pretrained model
+        """
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
         self.tokenizer_thfr: AutoTokenizer = AutoTokenizer.from_pretrained(

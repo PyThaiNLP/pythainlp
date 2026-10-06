@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+
+"""Parameter-free text classification."""
+
 from __future__ import annotations
 
 import gzip
@@ -33,6 +36,13 @@ class GzipModel:
         training_data: Optional[list[tuple[str, str]]] = None,
         model_path: str = "",
     ) -> None:
+        """
+        Initialize the model.
+
+        :param Optional[list[tuple[str, str]]] training_data: list of
+            (text, label) tuples
+        :param str model_path: path to load a saved model from
+        """
         import numpy as np
 
         if model_path:
@@ -42,6 +52,12 @@ class GzipModel:
             self.cx2_list = self.train()
 
     def train(self) -> list[int]:
+        """
+        Compute the compressed length of each training text.
+
+        :return: compressed length of each training text
+        :rtype: list[int]
+        """
         temp_list = []
         for i in range(len(self.training_data)):
             temp_list.append(

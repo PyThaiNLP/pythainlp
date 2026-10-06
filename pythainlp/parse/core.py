@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Dependency parsing for Thai text."""
+
 from __future__ import annotations
 
 from typing import Any, List, Optional, Union

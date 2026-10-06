@@ -11,6 +11,8 @@ from pythainlp.summarize import CPE_KMUTT_THAI_SENTENCE_SUM
 
 
 class mT5Summarizer:
+    """Summarize text using the mT5 model."""
+
     def __init__(
         self,
         model_size: str = "small",
@@ -72,6 +74,13 @@ class mT5Summarizer:
         self.skip_special_tokens: bool = skip_special_tokens
 
     def summarize(self, text: str) -> list[str]:
+        """
+        Summarize text.
+
+        :param str text: text to summarize
+        :return: list that contains the summary
+        :rtype: list[str]
+        """
         preprocess_text = text.strip().replace("\n", "")
         if self.model_name == f"thanathorn/{CPE_KMUTT_THAI_SENTENCE_SUM}":
             t5_prepared_Text = "simplify: " + preprocess_text

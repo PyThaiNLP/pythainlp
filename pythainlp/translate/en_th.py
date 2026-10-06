@@ -74,6 +74,11 @@ class EnThTranslator:
     """
 
     def __init__(self, use_gpu: bool = False) -> None:
+        """
+        Initialize the English-to-Thai translator.
+
+        :param bool use_gpu: load the model on a GPU
+        """
         self._tokenizer: MosesTokenizer = MosesTokenizer("en")
 
         self._model_name: str = _EN_TH_MODEL_NAME
@@ -155,6 +160,11 @@ class ThEnTranslator:
     """
 
     def __init__(self, use_gpu: bool = False) -> None:
+        """
+        Initialize the Thai-to-English translator.
+
+        :param bool use_gpu: load the model on a GPU
+        """
         self._model_name: str = _TH_EN_MODEL_NAME
 
         _download_install(self._model_name)

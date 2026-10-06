@@ -197,6 +197,13 @@ _MIDDLE_CUT_WORDS = 20
 
 
 def list_to_string(list: list[str]) -> str:
+    """
+    Join a list of strings and collapse the whitespace.
+
+    :param list[str] list: list of strings
+    :return: joined string
+    :rtype: str
+    """
     string = "".join(list)
     string = " ".join(string.split())
     return string
@@ -235,6 +242,13 @@ def _mark_middle_cuts(sentence: str, sentence_size: int) -> str:
 
 
 def middle_cut(sentences: list[str]) -> list[str]:
+    """
+    Split long sentences at the space nearest to the middle.
+
+    :param list[str] sentences: list of sentences
+    :return: list of sentences
+    :rtype: list[str]
+    """
     result_parts = []
     for sentence in sentences:
         sentence_size = len(word_tokenize(sentence, keep_whitespace=False))
@@ -332,9 +346,19 @@ def _mark_boundaries(text: str) -> str:
 
 
 class ThaiSentenceSegmentor:
+    """Tokenize Thai text into sentences."""
+
     def split_into_sentences(
         self, text: str, isMiddleCut: bool = False
     ) -> list[str]:
+        """
+        Split text into sentences.
+
+        :param str text: text to be tokenized
+        :param bool isMiddleCut: also cut long sentences at the middle
+        :return: list of sentences
+        :rtype: list[str]
+        """
         text = f" {text} "
         text = text.replace("\n", " ")
         text = _replace_all(text, _PROTECT)

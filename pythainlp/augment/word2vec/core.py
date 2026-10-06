@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Augment text using word2vec word vectors."""
+
 from __future__ import annotations
 
 import itertools
@@ -19,6 +21,8 @@ class _DuplicateWordFilter(logging.Filter):
 
 
 class Word2VecAug:
+    """Augment text using word2vec word vectors."""
+
     tokenizer: Callable[[str], list[str]]
     model: "KeyedVectors"
     dict_wv: list[str]

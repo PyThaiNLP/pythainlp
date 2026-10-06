@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Augment Thai text using WangchanBERTa."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -12,6 +14,8 @@ model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
 
 
 class Thai2transformersAug:
+    """Augment Thai text using WangchanBERTa."""
+
     model_name: str
     target_tokenizer: type["CamembertTokenizer"]
     tokenizer: "CamembertTokenizer"
@@ -20,6 +24,7 @@ class Thai2transformersAug:
     input_text: str
 
     def __init__(self) -> None:
+        """Initialize the WangchanBERTa tokenizer and fill-mask pipeline."""
         from transformers import (
             CamembertTokenizer,
             pipeline,
@@ -49,6 +54,14 @@ class Thai2transformersAug:
     def generate(
         self, sentence: str, num_replace_tokens: int = 3
     ) -> list[str]:
+        """
+        Generate sentences by filling masked tokens.
+
+        :param str sentence: Thai text to augment
+        :param int num_replace_tokens: number of tokens to replace
+        :return: list of generated sentences
+        :rtype: list[str]
+        """
         sent2: list[str] = []
         self.input_text: str = sentence
         sent = [

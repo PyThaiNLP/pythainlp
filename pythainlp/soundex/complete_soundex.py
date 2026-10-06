@@ -52,6 +52,7 @@ class CompleteSoundex:
     """
 
     def __init__(self) -> None:
+        """Initialize the Complete Soundex lookup tables."""
         self.thai_consonants: str = (
             "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬฮอ"
         )

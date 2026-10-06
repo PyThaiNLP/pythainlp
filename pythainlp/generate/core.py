@@ -67,6 +67,7 @@ class Unigram:
     _word_prob: dict[str, float]
 
     def __init__(self, name: str = "tnc") -> None:
+        """Initialize the unigram model."""
         if name == "tnc":
             self.counts: dict[str, int] = tnc_word_freqs_unigram()
         elif name == "ttc":
@@ -166,6 +167,7 @@ class Bigram:
     words: list[str]
 
     def __init__(self, name: str = "tnc") -> None:
+        """Initialize the bigram model."""
         if name == "tnc":
             self.uni: dict[str, int] = tnc_word_freqs_unigram()
             self.bi: dict[tuple[str, str], int] = tnc_word_freqs_bigram()
@@ -265,6 +267,7 @@ class Trigram:
     words: list[str]
 
     def __init__(self, name: str = "tnc") -> None:
+        """Initialize the trigram model."""
         if name == "tnc":
             self.uni: dict[str, int] = tnc_word_freqs_unigram()
             self.bi: dict[tuple[str, str], int] = tnc_word_freqs_bigram()

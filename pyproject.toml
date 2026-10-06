@@ -434,6 +434,7 @@ skip-magic-trailing-comma = false
 # `# phase2-todo`.
 mccabe.max-complexity = 10
 select = [
+    "D1",
     "E",
     "F",
     "I",
@@ -471,8 +472,12 @@ extend-ignore = ["B905", "E501", "RET504", "SIM108", "SIM117"]
 "pythainlp/tokenize/__init__.py" = ["E402"]
 # S101 (assert) is not allowed in production code. Tests and notebooks may use it.
 # B010 (setattr) is for attributes that tests set on purpose.
-"tests/**" = ["B010", "S101"]
-"notebooks/**" = ["S101"]
+# D1 (missing docstring) applies to the pythainlp package only.
+"tests/**" = ["B010", "D1", "S101"]
+"notebooks/**" = ["D1", "S101"]
+"examples/**" = ["D1"]
+"build_tools/**" = ["D1"]
+"docs/**" = ["D1"]
 
 [tool.tox]
 env_list = ["py39", "py310", "py311", "py312", "py313", "py314", "pypy310", "pypy311", "ruff", "flake8", "mypy"]

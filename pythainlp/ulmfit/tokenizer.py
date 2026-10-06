@@ -19,13 +19,29 @@ class BaseTokenizer:
     lang: str
 
     def __init__(self, lang: str) -> None:
+        """
+        Initialize the tokenizer.
+
+        :param str lang: language code
+        """
         self.lang: str = lang
 
     def tokenizer(self, t: str) -> list[str]:
+        """
+        Tokenize text by splitting on spaces.
+
+        :param str t: text to be tokenized
+        :return: list of words
+        :rtype: list[str]
+        """
         return t.split(" ")
 
     def add_special_cases(self, toks: Collection[str]) -> None:
-        pass
+        """
+        Add special cases to the tokenizer; do nothing.
+
+        :param Collection[str] toks: special cases to be added
+        """
 
 
 class ThaiTokenizer(BaseTokenizer):
@@ -38,6 +54,11 @@ class ThaiTokenizer(BaseTokenizer):
     lang: str
 
     def __init__(self, lang: str = "th") -> None:
+        """
+        Initialize the tokenizer.
+
+        :param str lang: language code
+        """
         self.lang: str = lang
 
     @staticmethod
@@ -71,4 +92,8 @@ class ThaiTokenizer(BaseTokenizer):
         return thai2fit_tokenizer().word_tokenize(text)
 
     def add_special_cases(self, toks: Collection[str]) -> None:
-        pass
+        """
+        Add special cases to the tokenizer; do nothing.
+
+        :param Collection[str] toks: special cases to be added
+        """

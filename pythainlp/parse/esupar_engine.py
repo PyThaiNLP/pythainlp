@@ -22,7 +22,14 @@ if TYPE_CHECKING:
 
 
 class Parse:
+    """Dependency parser using esupar."""
+
     def __init__(self, model: Optional[str] = "th") -> None:
+        """
+        Initialize the esupar model.
+
+        :param Optional[str] model: model to load; ``"th"`` if ``None``
+        """
         if model is None:
             model = "th"
         self.nlp: Model = esupar.load(model)
@@ -30,6 +37,16 @@ class Parse:
     def __call__(
         self, text: str, tag: str = "str"
     ) -> Union[List[List[str]], str]:
+        """
+        Parse the dependency structure of a text.
+
+        :param str text: text to be parsed
+        :param str tag: output type, ``"str"`` (CoNLL-U text, default)
+            or ``"list"``
+        :return: CoNLL-U text if ``tag`` is ``"str"``, otherwise a list of
+            lists of fields
+        :rtype: Union[List[List[str]], str]
+        """
         _data = str(self.nlp(text))
         if tag == "list":
             _temp = _data.splitlines()

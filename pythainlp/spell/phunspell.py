@@ -28,8 +28,23 @@ pspell: "phunspell.Phunspell" = phunspell.Phunspell("th_TH")
 
 
 def spell(text: str) -> list[str]:
+    """
+    Return possible correct spellings of a word.
+
+    :param str text: word to be checked
+    :return: list of suggested spellings
+    :rtype: list[str]
+    """
     return list(pspell.suggest(text))
 
 
 def correct(text: str) -> str:
+    """
+    Correct the spelling of a word.
+
+    :param str text: word to be corrected
+    :return: first suggested spelling
+    :rtype: str
+    :raises IndexError: if there is no suggested spelling
+    """
     return cast("str", list(pspell.suggest(text))[0])

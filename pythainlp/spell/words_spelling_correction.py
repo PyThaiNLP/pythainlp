@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Word-level spelling correction using FastText-like embeddings."""
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -329,6 +331,7 @@ class Words_Spelling_Correction(FastTextEncoder):
     list_word: list[str]
 
     def __init__(self) -> None:
+        """Initialize the word spelling correction model."""
         self.model_name = "pythainlp/word-spelling-correction-char2vec"
         self.model_path = get_hf_hub(self.model_name)
         self.model_onnx = get_hf_hub(self.model_name, "nearest_neighbors.onnx")

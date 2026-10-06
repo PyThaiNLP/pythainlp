@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Convert AksonHan (อักษรหัน) words to current Thai spelling."""
+
 from __future__ import annotations
 
 from itertools import chain

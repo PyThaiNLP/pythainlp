@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Thai NLP functions using TLTK."""
+
 from __future__ import annotations
 
 from typing import Union, cast
@@ -19,6 +21,16 @@ nlp.ner_load()
 
 
 def pos_tag(words: list[str], corpus: str = "tnc") -> list[tuple[str, str]]:
+    """
+    Tag part-of-speech (POS) in a list of words using **TLTK**.
+
+    :param list[str] words: list of words
+    :param str corpus: corpus used to train the tagger; only
+        ``"tnc"`` is supported
+    :return: list of tuples (word, POS tag)
+    :rtype: list[tuple[str, str]]
+    :raises ValueError: if the corpus is not supported
+    """
     if corpus != "tnc":
         raise ValueError(f"tltk not support {corpus!r} corpus.")
     return cast("list[tuple[str, str]]", nlp.pos_tag_wordlist(words))

@@ -82,9 +82,16 @@ def _group_spaces(tokens: list[str]) -> list[str]:
 
 
 class LongestMatchTokenizer:
+    """Tokenize text into words with dictionary-based longest matching."""
+
     __trie: Trie
 
     def __init__(self, trie: Trie) -> None:
+        """
+        Initialize the tokenizer.
+
+        :param pythainlp.util.Trie trie: dictionary trie
+        """
         self.__trie: Trie = trie
 
     @staticmethod
@@ -156,6 +163,13 @@ class LongestMatchTokenizer:
         return _group_spaces(tokens)
 
     def tokenize(self, text: str) -> list[str]:
+        """
+        Tokenize text into words.
+
+        :param str text: text to be tokenized
+        :return: list of words
+        :rtype: list[str]
+        """
         tokens = self.__segment(text)
         return tokens
 

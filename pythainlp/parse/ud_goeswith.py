@@ -18,11 +18,21 @@ from transformers import AutoModelForTokenClassification, AutoTokenizer
 
 
 class Parse:
+    """Dependency parser using UDgoeswith."""
+
     def __init__(
         self,
         model: Optional[str] = "KoichiYasuoka/deberta-base-thai-ud-goeswith",
         revision: Optional[str] = None,
     ) -> None:
+        """
+        Initialize the UDgoeswith model.
+
+        :param Optional[str] model: model name; the default model is used
+            if ``None``
+        :param Optional[str] revision: git revision id (branch, tag, or
+            commit hash)
+        """
         if model is None:
             model = "KoichiYasuoka/deberta-base-thai-ud-goeswith"
         self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(
@@ -37,6 +47,16 @@ class Parse:
     def __call__(  # noqa: CCR001  # phase2-todo
         self, text: str, tag: str = "str"
     ) -> Union[List[List[str]], str]:
+        """
+        Parse the dependency structure of a text.
+
+        :param str text: text to be parsed
+        :param str tag: output type, ``"str"`` (CoNLL-U text, default)
+            or ``"list"``
+        :return: CoNLL-U text if ``tag`` is ``"str"``, otherwise a list of
+            lists of fields
+        :rtype: Union[List[List[str]], str]
+        """
         import numpy as np
         import torch
         import ufal.chu_liu_edmonds

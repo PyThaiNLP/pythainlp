@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Augment Thai text using PhayaThaiBERT."""
+
 from __future__ import annotations
 
 import random
@@ -16,12 +18,15 @@ _MODEL_NAME: str = "clicknext/phayathaibert"
 
 
 class ThaiTextAugmenter:
+    """Augment Thai text using PhayaThaiBERT."""
+
     tokenizer: "AutoTokenizer"
     model_for_masked_lm: "AutoModelForMaskedLM"
     model: "Pipeline"
     processor: "ThaiTextProcessor"
 
     def __init__(self) -> None:
+        """Initialize the PhayaThaiBERT fill-mask pipeline."""
         from transformers import (
             AutoModelForMaskedLM,
             AutoTokenizer,
@@ -48,6 +53,17 @@ class ThaiTextAugmenter:
         max_length: int = 3,
         sample: bool = False,
     ) -> str:
+        """
+        Generate text by repeatedly filling a mask token.
+
+        :param str sample_text: text to start from
+        :param int word_rank: rank of the predicted word to use in each step
+        :param int max_length: number of mask-filling steps
+        :param bool sample: pick a random one of the top five predictions
+            instead of the one at ``word_rank``
+        :return: generated text
+        :rtype: str
+        """
         sample_txt = sample_text
         final_text = ""
 

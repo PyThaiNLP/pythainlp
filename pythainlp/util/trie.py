@@ -41,14 +41,22 @@ class Trie(Iterable[str]):
     _word_count: int
 
     class Node:
+        """Node of the trie."""
+
         __slots__: tuple[str, str] = ("end", "children")
 
         def __init__(self) -> None:
+            """Initialize an empty node."""
             self.end: bool = False
             # Children dict is created on demand to reduce memory for leaf nodes.
             self.children: Optional[dict[str, Trie.Node]] = None
 
     def __init__(self, words: Iterable[str]) -> None:
+        """
+        Initialize the trie with words.
+
+        :param Iterable[str] words: words to initialize the trie with
+        """
         self._word_count: int = 0
         self.root: Trie.Node = Trie.Node()
         for word in words:
@@ -136,6 +144,13 @@ class Trie(Iterable[str]):
         return res
 
     def __contains__(self, key: str) -> bool:
+        """
+        Check if a word is in the trie.
+
+        :param str key: word to look for
+        :return: True if the word is in the trie
+        :rtype: bool
+        """
         cur = self.root
         for ch in key:
             if cur.children is None:
@@ -147,6 +162,13 @@ class Trie(Iterable[str]):
         return cur.end
 
     def __iter__(self) -> Iterator[str]:
+        """
+        Iterate over all words in the trie.
+
+        :return: iterator of words
+        :rtype: Iterator[str]
+        """
+
         # DFS through the trie to yield all stored words.
         # A shared mutable prefix list is appended/popped to avoid
         # O(k²) list copies that a stack-based approach would incur.
@@ -162,6 +184,12 @@ class Trie(Iterable[str]):
         yield from _dfs(self.root, [])
 
     def __len__(self) -> int:
+        """
+        Return the number of words in the trie.
+
+        :return: number of words
+        :rtype: int
+        """
         return self._word_count
 
 

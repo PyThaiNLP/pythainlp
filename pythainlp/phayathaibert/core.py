@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""PhayaThaiBERT text processing, augmentation, and tagging."""
+
 from __future__ import annotations
 
 import random
@@ -34,7 +36,10 @@ _tokenizer: "CamembertTokenizer" = CamembertTokenizer.from_pretrained(
 
 
 class ThaiTextProcessor:
+    """Preprocess Thai text for PhayaThaiBERT."""
+
     def __init__(self) -> None:
+        """Initialize the text processor."""
         (
             self._TK_UNK,
             self._TK_REP,
@@ -262,7 +267,10 @@ class ThaiTextProcessor:
 
 
 class ThaiTextAugmenter:
+    """Augment Thai text using PhayaThaiBERT masked language model."""
+
     def __init__(self) -> None:
+        """Initialize the text augmenter."""
         from transformers import (
             AutoModelForMaskedLM,
             AutoTokenizer,
@@ -373,11 +381,20 @@ class ThaiTextAugmenter:
 
 
 class PartOfSpeechTagger:
+    """Tag part-of-speech (POS) in Thai text using PhayaThaiBERT."""
+
     def __init__(
         self,
         model: str = "lunarlist/pos_thai_phayathai",
         revision: Optional[str] = None,
     ) -> None:
+        """
+        Initialize the POS tagger.
+
+        :param str model: name of the model to load
+        :param Optional[str] revision: git revision id (branch, tag, or
+            commit hash)
+        """
         # Load model directly
         from transformers import (
             AutoModelForTokenClassification,
@@ -431,11 +448,20 @@ class PartOfSpeechTagger:
 
 
 class NamedEntityTagger:
+    """Tag named entities in Thai text using PhayaThaiBERT."""
+
     def __init__(
         self,
         model: str = "Pavarissy/phayathaibert-thainer",
         revision: Optional[str] = None,
     ) -> None:
+        """
+        Initialize the named entity tagger.
+
+        :param str model: name of the model to load
+        :param Optional[str] revision: git revision id (branch, tag, or
+            commit hash)
+        """
         from transformers import (
             AutoModelForTokenClassification,
             AutoTokenizer,

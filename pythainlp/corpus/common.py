@@ -464,6 +464,14 @@ def thai_synonyms() -> dict[str, Union[list[str], list[list[str]]]]:
 
 
 def thai_synonym() -> dict[str, Union[list[str], list[list[str]]]]:
+    """
+    Return Thai synonyms (deprecated).
+
+    Use :func:`thai_synonyms` instead.
+
+    :return: words, parts of speech, and synonym groups
+    :rtype: dict[str, Union[list[str], list[list[str]]]]
+    """
     warn_deprecation(
         "pythainlp.corpus.thai_synonym",
         "pythainlp.corpus.thai_synonyms",

@@ -103,6 +103,11 @@ class CRFChunkParser:
     xseq: list[dict[str, Union[str, bool]]]
 
     def __init__(self, corpus: str = "orchidpp") -> None:
+        """
+        Initialize the chunker.
+
+        :param str corpus: corpus for the CRF model
+        """
         self.corpus = corpus
         self._model_file_ctx = None
         self.load_model(self.corpus)

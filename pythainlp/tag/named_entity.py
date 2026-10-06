@@ -71,9 +71,21 @@ class NER:
     def __init__(
         self, engine: str = "thainer-v2", corpus: str = "thainer"
     ) -> None:
+        """
+        Initialize the named entity recognizer.
+
+        :param str engine: engine to use for recognition
+        :param str corpus: corpus used to train the engine model
+        """
         self.load_engine(engine=engine, corpus=corpus)
 
     def load_engine(self, engine: str, corpus: str) -> None:
+        """
+        Load the named entity recognition engine.
+
+        :param str engine: engine to use for recognition
+        :param str corpus: corpus used to train the engine model
+        """
         self.name_engine = engine
         self.engine = None
 
@@ -166,9 +178,19 @@ class NNER:
     engine: "ThaiNNER"
 
     def __init__(self, engine: str = "thai_nner") -> None:
+        """
+        Initialize the nested named entity recognizer.
+
+        :param str engine: engine to use for recognition
+        """
         self.load_engine(engine)
 
     def load_engine(self, engine: str = "thai_nner") -> None:
+        """
+        Load the nested named entity recognition engine.
+
+        :param str engine: engine to use for recognition
+        """
         from pythainlp.tag.thai_nner import ThaiNNER
 
         self.engine = ThaiNNER()

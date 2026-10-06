@@ -167,6 +167,8 @@ def _convert_custom_dict(
 
 
 class NorvigSpellChecker:
+    """Check and correct spelling using Peter Norvig's algorithm."""
+
     def __init__(
         self,
         custom_dict: Optional[

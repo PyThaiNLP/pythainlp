@@ -32,6 +32,7 @@ class WunsenTransliterate:
     system: Optional[str]
 
     def __init__(self) -> None:
+        """Initialize the transliterator."""
         self.thap_value: Optional[ThapSap] = None
         self.lang: Optional[str] = None
         self.jp_input: Optional[str] = None

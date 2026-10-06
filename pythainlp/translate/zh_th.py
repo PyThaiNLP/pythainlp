@@ -39,6 +39,13 @@ class ThZhTranslator:
         pretrained: str = "Lalita/marianmt-th-zh_cn",
         revision: Optional[str] = None,
     ) -> None:
+        """
+        Initialize the Thai-to-Chinese translator.
+
+        :param bool use_gpu: load the model on a GPU
+        :param str pretrained: name of the pretrained model
+        :param Optional[str] revision: revision of the pretrained model
+        """
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
         self.tokenizer_thzh: AutoTokenizer = AutoTokenizer.from_pretrained(
@@ -124,6 +131,13 @@ class ZhThTranslator:
         pretrained: str = "Lalita/marianmt-zh_cn-th",
         revision: Optional[str] = None,
     ) -> None:
+        """
+        Initialize the Chinese-to-Thai translator.
+
+        :param bool use_gpu: load the model on a GPU
+        :param str pretrained: name of the pretrained model
+        :param Optional[str] revision: revision of the pretrained model
+        """
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
         self.tokenizer_zhth: AutoTokenizer = AutoTokenizer.from_pretrained(

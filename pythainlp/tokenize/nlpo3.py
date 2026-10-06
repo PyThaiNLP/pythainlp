@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Wrap nlpo3, a Rust implementation of the Thai word tokenizer."""
+
 from __future__ import annotations
 
 import threading

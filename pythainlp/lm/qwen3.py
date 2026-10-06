@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Generate Thai text using the Qwen3 language model."""
 
 from __future__ import annotations
 
@@ -21,6 +22,7 @@ class Qwen3:
     """
 
     def __init__(self) -> None:
+        """Initialize Qwen3 without a loaded model."""
         self.model: Optional["PreTrainedModel"] = None
         self.tokenizer: Optional["PreTrainedTokenizerBase"] = None
         self.device: Optional[str] = None

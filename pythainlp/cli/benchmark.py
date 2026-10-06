@@ -24,7 +24,14 @@ def _read_file(path: str) -> list[str]:
 
 
 class App:
+    """Parse and run the ``benchmark`` command."""
+
     def __init__(self, argv: Sequence[str]) -> None:
+        """
+        Initialize the command.
+
+        :param Sequence[str] argv: command line arguments
+        """
         parser = argparse.ArgumentParser(
             prog="benchmark",
             description=(
@@ -51,7 +58,15 @@ class App:
 
 
 class WordTokenizationBenchmark:
+    """Parse and run the word tokenization benchmark."""
+
     def __init__(self, name: str, argv: Sequence[str]) -> None:
+        """
+        Initialize the benchmark.
+
+        :param str name: task name
+        :param Sequence[str] argv: task options
+        """
         parser = argparse.ArgumentParser(**cli.make_usage("benchmark " + name))  # type: ignore[arg-type]
 
         parser.add_argument(

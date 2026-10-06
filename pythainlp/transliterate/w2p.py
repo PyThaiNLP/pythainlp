@@ -55,6 +55,8 @@ def _load_vocab() -> tuple[
 
 
 class Thai_W2P:
+    """Convert Thai words to their pronunciation in Thai letters."""
+
     graphemes: list[str]
     phonemes: list[str]
     g2idx: dict[str, int]
@@ -77,6 +79,11 @@ class Thai_W2P:
     word: str
 
     def __init__(self) -> None:
+        """
+        Initialize the model and load its weights.
+
+        :raises FileNotFoundError: if the model corpus is not found
+        """
         super().__init__()
         self.graphemes: list[str] = hp.graphemes
         self.phonemes: list[str] = hp.phonemes
@@ -321,6 +328,13 @@ class Thai_W2P:
         return "".join(preds_str)
 
     def __call__(self, word: str) -> str:
+        """
+        Convert a Thai word to its pronunciation in Thai letters.
+
+        :param str word: Thai word to be converted
+        :return: Thai letters indicating how the word is pronounced
+        :rtype: str
+        """
         if not any(letter in word for letter in self.graphemes):
             pron_result = word
         else:  # predict for oov

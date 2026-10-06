@@ -40,6 +40,7 @@ class LatticeString(str):
         multi: Optional[list[str]] = None,
         in_dict: bool = True,
     ) -> "LatticeString":
+        """Create a new lattice string from a value."""
         return str.__new__(cls, value)
 
     def __init__(
@@ -48,6 +49,13 @@ class LatticeString(str):
         multi: Optional[list[str]] = None,
         in_dict: bool = True,
     ) -> None:
+        """
+        Initialize the lattice string.
+
+        :param str value: string value
+        :param Optional[list[str]] multi: possible tokenizations of the value
+        :param bool in_dict: whether the value is in the dictionary
+        """
         self.unique: bool = True
         if multi:
             self.multi: list[str] = list(multi)
@@ -133,6 +141,13 @@ def _multicut(
 
 
 def mmcut(text: str) -> list[str]:
+    """
+    Tokenize text into words with the minimum-cut selection.
+
+    :param str text: text to be tokenized
+    :return: list of words
+    :rtype: list[str]
+    """
     res = []
     for w in _multicut(text):
         mm = min(w.multi, key=lambda x: x.count("/"))

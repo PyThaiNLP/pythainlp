@@ -258,11 +258,23 @@ the code disagree. The code was not changed. No test pins them.
 - `tag.thainer.ThaiNameTagger`: an unknown `version` does not raise. The CRF
   model is left unopened. `tag.tltk.get_ner` and `ThaiNameTagger.get_ner`
   ignore `pos` when `tag=True`.
-- Many functions and `parse` `__call__` methods have no docstring.
-- Missing docstrings: `augment.lm.phayathaibert.ThaiTextAugmenter.generate`,
-  `generate.wangchanglm` (`WangChanGLM`, `is_exclude`), `chat.ChatBotModel`,
-  the `transliterate.ipa` functions, `pali.py` (module), the helpers in
-  `tools.misspell` and `corpus.th_en_translit`.
+- `cli.data.App.path`: the docstring says "print the path of a local
+  dataset"; the code prints the PyThaiNLP data directory.
+- `wsd.get_score` returns `1 - cos_sim`, a distance, not a similarity.
+- `spell.wanchanberta_thai_grammarly.evaluate_one_text`: the `model`
+  parameter is unused; the function calls the module-level `tagging_model`.
+- `spell.phunspell.correct` and `spell.symspellpy.correct` raise
+  `IndexError` when there is no suggestion.
+- `augment.lm.phayathaibert.ThaiTextAugmenter.generate`: with `sample=True`
+  the index is always 0 to 4 and `word_rank` is ignored.
+- `augment.wordnet.WordNetAug.find_synonyms` iterates all synsets of the
+  word and ignores the POS-filtered `list_synsets`.
+- `parse.spacy_thai_engine.Parse.__init__`: `model` is ignored; the code
+  always calls `spacy_thai.load()`. `parse.dependency_parsing` lists it.
+- `tag.wangchanberta_onnx.WngchanBerta_ONNX`: the class name has a typo.
+- `util.thai_lunar_date`: `athikamas`, `athikavar`, `deviation`, and
+  `last_day_in_year` do not state the era of `year` (the code uses
+  `year - 78`).
 - Missing `:raises:` for `TypeError` in `thai_digit_to_arabic_digit` and
   similar functions.
 - `phayathaibert.core.replace_newlines` and some other docstrings with `\n`

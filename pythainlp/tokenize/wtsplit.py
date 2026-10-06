@@ -101,6 +101,17 @@ def tokenize(
     paragraph_threshold: float = 0.5,
     style: str = "newline",
 ) -> list[str]:
+    """
+    Tokenize text into sentences or paragraphs with wtpsplit.
+
+    :param str text: text to be tokenized
+    :param str size: model size (tiny, mini, base, or large)
+    :param str tokenize: tokenization level (sentence or paragraph)
+    :param float paragraph_threshold: threshold for the paragraph boundary
+    :param str style: paragraph separator style (newline or newline-char)
+    :return: list of sentences or paragraphs
+    :rtype: list[str]
+    """
     _model_load = ""
     if size == "tiny":
         _model_load = "wtp-bert-tiny"

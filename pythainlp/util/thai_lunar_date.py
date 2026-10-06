@@ -251,11 +251,25 @@ def _calculate_f_year_f_dev(year: int) -> tuple[int, float]:
 
 
 def athikamas(year: int) -> bool:
+    """
+    Check if a year is a leap month year (อธิกมาส).
+
+    :param int year: year in the Buddhist Era or Common Era
+    :return: True if the year has an extra month
+    :rtype: bool
+    """
     athi = ((year - 78) - 0.45222) % 2.7118886
     return athi < 1
 
 
 def athikavar(year: int) -> bool:
+    """
+    Check if a year is a leap day year (อธิกวาร).
+
+    :param int year: year in the Buddhist Era or Common Era
+    :return: True if the year has an extra day
+    :rtype: bool
+    """
     if athikamas(year):
         return False
 
@@ -267,6 +281,13 @@ def athikavar(year: int) -> bool:
 
 
 def deviation(year: int) -> float:
+    """
+    Return the deviation of a year from the lunar calendar.
+
+    :param int year: year in the Buddhist Era or Common Era
+    :return: deviation value of the year
+    :rtype: float
+    """
     curr_dev = 0.0
     last_dev = 0.0
     f_year, f_dev = _calculate_f_year_f_dev(year)
@@ -291,6 +312,13 @@ def deviation(year: int) -> float:
 
 
 def last_day_in_year(year: int) -> int:
+    """
+    Return the number of days in a lunar year.
+
+    :param int year: year in the Buddhist Era or Common Era
+    :return: number of days (354, 355, or 384)
+    :rtype: int
+    """
     if athikamas(year):
         return 384
     if athikavar(year):

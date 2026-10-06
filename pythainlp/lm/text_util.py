@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-# ruff: noqa: C901
 from __future__ import annotations
 
 
@@ -50,7 +49,7 @@ def remove_repeated_ngrams(string_list: list[str], n: int = 2) -> list[str]:
     if not string_list or n <= 0:
         return string_list
 
-    unique_ngrams = set()
+    unique_ngrams: set[tuple[str, ...]] = set()
 
     output_list: list[str] = []
 
@@ -60,16 +59,23 @@ def remove_repeated_ngrams(string_list: list[str], n: int = 2) -> list[str]:
 
             if ngram not in unique_ngrams:
                 unique_ngrams.add(ngram)
-
-                if not output_list or output_list[-(n - 1) :] != list(
-                    ngram[:-1]
-                ):
-                    output_list.extend(ngram)
-                else:
-                    output_list.append(ngram[-1])
+                _add_ngram(output_list, ngram, n)
         else:
-            for char in string_list[i:]:
-                if not output_list or output_list[-1] != char:
-                    output_list.append(char)
+            _add_tail(output_list, string_list[i:])
 
     return output_list
+
+
+def _add_ngram(output_list: list[str], ngram: tuple[str, ...], n: int) -> None:
+    """Add a new n-gram, skipping the part that overlaps the output."""
+    if not output_list or output_list[-(n - 1) :] != list(ngram[:-1]):
+        output_list.extend(ngram)
+    else:
+        output_list.append(ngram[-1])
+
+
+def _add_tail(output_list: list[str], tail: list[str]) -> None:
+    """Add the words after the last full n-gram, skipping adjacent repeats."""
+    for char in tail:
+        if not output_list or output_list[-1] != char:
+            output_list.append(char)

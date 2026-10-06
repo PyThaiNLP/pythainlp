@@ -374,6 +374,11 @@ optional_value = "prod"
 first_value = "dev"
 values = ["dev", "beta", "prod"]
 
+# Test coverage targets:
+# - Overall: 95%.
+# - New and changed code: at least 75%, checked in CI by diff-cover
+#   (.github/workflows/unittest.yml).
+# - AI agents: aim at near 100% for the code they add or change.
 [tool.coverage.run]
 source = ["pythainlp"]
 
@@ -417,9 +422,11 @@ quote-style = "double"
 skip-magic-trailing-comma = false
 
 [tool.ruff.lint]
+# See the test coverage targets at [tool.coverage.run].
 # Flag errors (`C901`) whenever the complexity level exceeds this value.
-# Default is 10. We should aim to gradually reduce this to 10.
-mccabe.max-complexity = 28
+# The limit is 10. Unrefactored functions carry a `# noqa: C901` marked
+# `# phase2-todo`.
+mccabe.max-complexity = 10
 select = [
     "E",
     "F",

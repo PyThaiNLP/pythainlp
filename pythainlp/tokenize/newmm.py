@@ -77,12 +77,71 @@ def _bfs_paths_graph(
                 queue.append((pos, path + [pos]))
 
 
+def _extend_graph(
+    graph: defaultdict[int, list[int]],
+    pos_list: list[int],
+    text: str,
+    begin_pos: int,
+    valid_poss: bytearray,
+    custom_dict: Trie,
+    graph_size: int,
+) -> int:
+    """Add dictionary words starting at ``begin_pos`` to the graph.
+
+    :return: new graph size
+    """
+    for word in custom_dict.prefixes(text, begin_pos):
+        end_pos_candidate = begin_pos + len(word)
+        if valid_poss[end_pos_candidate]:
+            graph[begin_pos].append(end_pos_candidate)
+            graph_size = graph_size + 1
+
+            if end_pos_candidate not in pos_list:
+                heappush(pos_list, end_pos_candidate)
+
+            if graph_size > _MAX_GRAPH_SIZE:
+                break
+    return graph_size
+
+
+def _find_skip_end(
+    text: str,
+    begin_pos: int,
+    valid_poss: bytearray,
+    custom_dict: Trie,
+) -> int:
+    """Find the end of an out-of-dictionary token starting at ``begin_pos``."""
+    len_text = len(text)
+    m = _PAT_NONTHAI.match(text, begin_pos)
+    if m:  # non-Thai token, skip to the end
+        return m.end()
+
+    # Thai token, find minimum skip
+    for pos in range(begin_pos + 1, len_text):
+        if valid_poss[pos]:
+            words = [
+                word
+                for word in custom_dict.prefixes(text, pos)
+                if (
+                    valid_poss[pos + len(word)]
+                    and not _PAT_THAI_TWOCHARS.match(word)
+                )
+            ]
+            if words:  # is a Thai token that longer than 2 chars
+                return pos
+
+            # is a non-Thai token
+            if _PAT_NONTHAI.match(text, pos):
+                return pos
+    return len_text
+
+
 def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
     # main data structure:
     # - key is beginning position (int)
     # - value is possible ending positions (List[int])
     # if key is not found, value is empty list
-    graph = defaultdict(list)
+    graph: defaultdict[int, list[int]] = defaultdict(list)
 
     graph_size = 0  # keep track of graph size, if too big, force cutoff
 
@@ -93,17 +152,15 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
     end_pos = 0
     while pos_list[0] < len_text:
         begin_pos = heappop(pos_list)
-        for word in custom_dict.prefixes(text, begin_pos):
-            end_pos_candidate = begin_pos + len(word)
-            if valid_poss[end_pos_candidate]:
-                graph[begin_pos].append(end_pos_candidate)
-                graph_size = graph_size + 1
-
-                if end_pos_candidate not in pos_list:
-                    heappush(pos_list, end_pos_candidate)
-
-                if graph_size > _MAX_GRAPH_SIZE:
-                    break
+        graph_size = _extend_graph(
+            graph,
+            pos_list,
+            text,
+            begin_pos,
+            valid_poss,
+            custom_dict,
+            graph_size,
+        )
 
         len_pos_list = len(pos_list)
         if len_pos_list == 1:  # one candidate, no longer ambiguous
@@ -116,35 +173,48 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
                 yield text[end_pos:pos]
                 end_pos = pos
         elif len_pos_list == 0:  # no candidate, deal with non-dictionary word
-            m = _PAT_NONTHAI.match(text, begin_pos)
-            if m:  # non-Thai token, skip to the end
-                end_pos = m.end()
-            else:  # Thai token, find minimum skip
-                for pos in range(begin_pos + 1, len_text):
-                    if valid_poss[pos]:
-                        words = [
-                            word
-                            for word in custom_dict.prefixes(text, pos)
-                            if (
-                                valid_poss[pos + len(word)]
-                                and not _PAT_THAI_TWOCHARS.match(word)
-                            )
-                        ]
-                        if words:  # is a Thai token that longer than 2 chars
-                            end_pos = pos
-                            break
-
-                        # is a non-Thai token
-                        if _PAT_NONTHAI.match(text, pos):
-                            end_pos = pos
-                            break
-                else:
-                    end_pos = len_text
-
+            end_pos = _find_skip_end(text, begin_pos, valid_poss, custom_dict)
             graph_size = 0
             graph.clear()
             yield text[begin_pos:end_pos]
             heappush(pos_list, end_pos)
+
+
+def _split_chunks(text: str, custom_dict: Trie) -> list[str]:
+    """Split a long text into chunks at likely breaking points."""
+    text_parts = []
+    while len(text) >= _TEXT_SCAN_END:
+        cut_pos = _find_cut_pos(text, custom_dict)
+        text_parts.append(text[:cut_pos])
+        text = text[cut_pos:]
+
+    if len(text):
+        text_parts.append(text)
+    return text_parts
+
+
+def _find_cut_pos(text: str, custom_dict: Trie) -> int:
+    """Find a position to cut a chunk, in the scan window of ``text``."""
+    sample = text[_TEXT_SCAN_BEGIN:_TEXT_SCAN_END]
+
+    # try to break by space first
+    space_idx = sample.rfind(" ")
+    if space_idx >= 0:
+        return space_idx + 1 + _TEXT_SCAN_BEGIN
+
+    tokens = list(_onecut(sample, custom_dict))
+    token_max_idx = 0
+    token_max_len = 0
+    for i, token in enumerate(tokens):
+        if len(token) >= token_max_len:
+            token_max_len = len(token)
+            token_max_idx = i
+
+    # choose the position that covers longest token
+    cut_pos = _TEXT_SCAN_BEGIN
+    for i in range(0, token_max_idx):
+        cut_pos = cut_pos + len(tokens[i])
+    return cut_pos
 
 
 def segment(
@@ -185,41 +255,8 @@ def segment(
 
     # if the text is longer than the limit,
     # break them into smaller chunks, then tokenize each chunk
-    text_parts = []
-    while len(text) >= _TEXT_SCAN_END:
-        sample = text[_TEXT_SCAN_BEGIN:_TEXT_SCAN_END]
-
-        # find possible breaking positions
-        cut_pos = _TEXT_SCAN_END
-
-        # try to break by space first
-        space_idx = sample.rfind(" ")
-        if space_idx >= 0:
-            cut_pos = space_idx + 1 + _TEXT_SCAN_BEGIN
-        else:
-            tokens = list(_onecut(sample, custom_dict))
-            token_max_idx = 0
-            token_max_len = 0
-            for i, token in enumerate(tokens):
-                if len(token) >= token_max_len:
-                    token_max_len = len(token)
-                    token_max_idx = i
-
-            # choose the position that covers longest token
-            cut_pos = _TEXT_SCAN_BEGIN
-            for i in range(0, token_max_idx):
-                cut_pos = cut_pos + len(tokens[i])
-
-        text_parts.append(text[:cut_pos])
-        text = text[cut_pos:]
-
-    # append remaining text
-    if len(text):
-        text_parts.append(text)
-
-    # tokenizes each text part
-    tokens = []
-    for text_part in text_parts:
-        tokens.extend(list(_onecut(text_part, custom_dict)))
+    tokens: list[str] = []
+    for text_part in _split_chunks(text, custom_dict):
+        tokens.extend(_onecut(text_part, custom_dict))
 
     return tokens

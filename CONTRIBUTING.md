@@ -226,6 +226,9 @@ Always supply `category` explicitly for clarity and greppability.
 We use standard Python `unittest`.
 The test suite is in `tests/` directory.
 
+Coverage targets: 95% overall; at least 75% for new and changed code
+(checked in CI). See [AGENTS.md](AGENTS.md).
+
 To run unit tests locally together with code coverage test:
 
 (from main `pythainlp/` directory)

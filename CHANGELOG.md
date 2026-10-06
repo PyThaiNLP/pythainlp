@@ -31,11 +31,22 @@ and this project adheres to
   `NameError`; `langs()` missing `tha` ([#1541])
 - `check_klon()` and `get_corpus_db()` no longer swallow unexpected
   exceptions ([#1542])
+- `download()`: download and extract via temporary paths, so a failed
+  download keeps the installed corpus; handle empty `db.json` keys ([#NNNN])
+- `db.json` is written atomically and keeps its mode and symlink ([#NNNN])
+
+### Security
+
+- Tar and zip extraction rejects absolute and escaping links; unsafe tar
+  members raise `ValueError` ([#NNNN])
+- Without `tarfile.data_filter`, tar extraction rejects all links and special
+  files and drops owners ([#NNNN])
 
 [#1372]: https://github.com/PyThaiNLP/pythainlp/pull/1372
 [#1453]: https://github.com/PyThaiNLP/pythainlp/pull/1453
 [#1541]: https://github.com/PyThaiNLP/pythainlp/pull/1541
 [#1542]: https://github.com/PyThaiNLP/pythainlp/pull/1542
+[#NNNN]: https://github.com/PyThaiNLP/pythainlp/pull/NNNN
 
 ## [5.3.8] - 2026-09-25
 

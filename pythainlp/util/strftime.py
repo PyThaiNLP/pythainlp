@@ -6,13 +6,12 @@
 from __future__ import annotations
 
 import warnings
+from collections.abc import Callable  # noqa: TC003  # for get_type_hints()
+from datetime import datetime  # noqa: TC003  # for get_type_hints()
 from string import digits
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from datetime import datetime
 
 from pythainlp import thai_digits
+from pythainlp.util._calendar import _BE_AD_OFFSET
 from pythainlp.util.date import (
     thai_abbr_months,
     thai_abbr_weekdays,
@@ -25,9 +24,7 @@ __all__: list[str] = [
 ]
 
 _HA_TH_DIGITS: dict[int, int] = str.maketrans(digits, thai_digits)
-_BE_AD_DIFFERENCE: int = 543
 
-_NEED_L10N: str = "AaBbCcDFGgvXxYy+"  # flags that need localization
 _EXTENSIONS: str = "EO-_0^#"  # extension flags
 
 
@@ -57,93 +54,195 @@ def _std_strftime(dt_obj: datetime, fmt_char: str) -> str:
     return str_
 
 
+def _be_year(dt_obj: datetime) -> str:
+    """Buddhist Era year, at least 4 digits."""
+    return str(dt_obj.year + _BE_AD_OFFSET).zfill(4)
+
+
+def _iso_be_year(dt_obj: datetime) -> str:
+    """Buddhist Era year of the ISO week-based year (``%G``)."""
+    return str(int(dt_obj.strftime("%G")) + _BE_AD_OFFSET)
+
+
+def _fmt_century(dt_obj: datetime) -> str:
+    # Thai Buddhist century (AD+543)/100 + 1 as decimal number
+    return str(int((dt_obj.year + _BE_AD_OFFSET) / 100) + 1).zfill(2)
+
+
+def _fmt_datetime(dt_obj: datetime) -> str:
+    # Locale's appropriate date and time representation
+    # Wed  6 Oct 01:40:00 1976
+    # พ   6 ต.ค. 01:40:00 2519  <-- left-aligned weekday, right-aligned day
+    return "{:<2} {:>2} {} {} {}".format(
+        thai_abbr_weekdays[dt_obj.weekday()],
+        dt_obj.day,
+        thai_abbr_months[dt_obj.month - 1],
+        dt_obj.strftime("%H:%M:%S"),
+        _be_year(dt_obj),
+    )
+
+
+def _fmt_year_short(dt_obj: datetime) -> str:
+    # Year without century
+    return (str(dt_obj.year + _BE_AD_OFFSET)[-2:]).zfill(2)
+
+
+def _fmt_us_date(dt_obj: datetime) -> str:
+    # Equivalent to ``%m/%d/%y''
+    return f"{dt_obj.strftime('%m/%d')}/{_fmt_year_short(dt_obj)}"
+
+
+def _fmt_iso_date(dt_obj: datetime) -> str:
+    # Equivalent to ``%Y-%m-%d''
+    return "{}-{}".format(_be_year(dt_obj), dt_obj.strftime("%m-%d"))
+
+
+def _fmt_iso_year(dt_obj: datetime) -> str:
+    # ISO 8601 year with century representing the year that contains
+    # the greater part of the ISO week (%V). Monday as the first day
+    # of the week.
+    return _iso_be_year(dt_obj).zfill(4)
+
+
+def _fmt_iso_year_short(dt_obj: datetime) -> str:
+    # Same year as in ``%G'', but as a decimal number without century (00-99)
+    return _iso_be_year(dt_obj)[-2:].zfill(2)
+
+
+def _fmt_bsd_date(dt_obj: datetime) -> str:
+    # BSD extension, ' 6-Oct-1976'
+    day = f"{dt_obj.day:>2}"
+    return f"{day}-{thai_abbr_months[dt_obj.month - 1]}-{_be_year(dt_obj)}"
+
+
+def _fmt_local_date(dt_obj: datetime) -> str:
+    # Locale's appropriate date representation
+    return (
+        f"{str(dt_obj.day).zfill(2)}/{str(dt_obj.month).zfill(2)}"
+        f"/{_be_year(dt_obj)}"
+    )
+
+
+def _fmt_date_command(dt_obj: datetime) -> str:
+    # National representation of the date and time
+    # (the format is similar to that produced by date(1))
+    # Wed  6 Oct 1976 01:40:00
+    return "{:<2} {:>2} {} {} {}".format(
+        thai_abbr_weekdays[dt_obj.weekday()],
+        dt_obj.day,
+        thai_abbr_months[dt_obj.month - 1],
+        dt_obj.year + _BE_AD_OFFSET,
+        dt_obj.strftime("%H:%M:%S"),
+    )
+
+
+# Directives in _NEED_L10N and their conversion functions.
+_L10N_HANDLERS: dict[str, Callable[[datetime], str]] = {
+    # National representation of the full weekday name
+    "A": lambda dt_obj: thai_full_weekdays[dt_obj.weekday()],
+    # National representation of the abbreviated weekday
+    "a": lambda dt_obj: thai_abbr_weekdays[dt_obj.weekday()],
+    # National representation of the full month name
+    "B": lambda dt_obj: thai_full_months[dt_obj.month - 1],
+    # National representation of the abbreviated month name
+    "b": lambda dt_obj: thai_abbr_months[dt_obj.month - 1],
+    "C": _fmt_century,
+    "c": _fmt_datetime,
+    "D": _fmt_us_date,
+    "F": _fmt_iso_date,
+    "G": _fmt_iso_year,
+    "g": _fmt_iso_year_short,
+    "v": _fmt_bsd_date,
+    # Locale's appropriate time representation
+    "X": lambda dt_obj: dt_obj.strftime("%H:%M:%S"),
+    "x": _fmt_local_date,
+    # Year with century
+    "Y": _be_year,
+    "y": _fmt_year_short,
+    "+": _fmt_date_command,
+}
+
+_NEED_L10N: str = "".join(_L10N_HANDLERS)  # flags that need localization
+
+
 def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
     """Conversion support for thai_strftime().
 
     The fmt_char should be in _NEED_L10N when calling this function.
     """
-    str_ = ""
-    if fmt_char == "A":
-        # National representation of the full weekday name
-        str_ = thai_full_weekdays[dt_obj.weekday()]
-    elif fmt_char == "a":
-        # National representation of the abbreviated weekday
-        str_ = thai_abbr_weekdays[dt_obj.weekday()]
-    elif fmt_char == "B":
-        # National representation of the full month name
-        str_ = thai_full_months[dt_obj.month - 1]
-    elif fmt_char == "b":
-        # National representation of the abbreviated month name
-        str_ = thai_abbr_months[dt_obj.month - 1]
-    elif fmt_char == "C":
-        # Thai Buddhist century (AD+543)/100 + 1 as decimal number;
-        str_ = str(int((dt_obj.year + _BE_AD_DIFFERENCE) / 100) + 1).zfill(2)
-    elif fmt_char == "c":
-        # Locale's appropriate date and time representation
-        # Wed  6 Oct 01:40:00 1976
-        # พ   6 ต.ค. 01:40:00 2519  <-- left-aligned weekday, right-aligned day
-        str_ = "{:<2} {:>2} {} {} {}".format(
-            thai_abbr_weekdays[dt_obj.weekday()],
-            dt_obj.day,
-            thai_abbr_months[dt_obj.month - 1],
-            dt_obj.strftime("%H:%M:%S"),
-            str(dt_obj.year + _BE_AD_DIFFERENCE).zfill(4),
-        )
-    elif fmt_char == "D":
-        # Equivalent to ``%m/%d/%y''
-        str_ = "{}/{}".format(
-            dt_obj.strftime("%m/%d"),
-            (str(dt_obj.year + _BE_AD_DIFFERENCE)[-2:]).zfill(2),
-        )
-    elif fmt_char == "F":
-        # Equivalent to ``%Y-%m-%d''
-        str_ = "{}-{}".format(
-            str(dt_obj.year + _BE_AD_DIFFERENCE).zfill(4),
-            dt_obj.strftime("%m-%d"),
-        )
-    elif fmt_char == "G":
-        # ISO 8601 year with century representing the year that contains
-        # the greater part of the ISO week (%V). Monday as the first day
-        # of the week.
-        str_ = str(int(dt_obj.strftime("%G")) + _BE_AD_DIFFERENCE).zfill(4)
-    elif fmt_char == "g":
-        # Same year as in ``%G'',
-        # but as a decimal number without century (00-99).
-        str_ = (
-            str(int(dt_obj.strftime("%G")) + _BE_AD_DIFFERENCE)[-2:]
-        ).zfill(2)
-    elif fmt_char == "v":
-        # BSD extension, ' 6-Oct-1976'
-        str_ = f"{dt_obj.day:>2}-{thai_abbr_months[dt_obj.month - 1]}-{str(dt_obj.year + _BE_AD_DIFFERENCE).zfill(4)}"
-    elif fmt_char == "X":
-        # Locale’s appropriate time representation.
-        str_ = dt_obj.strftime("%H:%M:%S")
-    elif fmt_char == "x":
-        # Locale’s appropriate date representation.
-        str_ = f"{str(dt_obj.day).zfill(2)}/{str(dt_obj.month).zfill(2)}/{str(dt_obj.year + _BE_AD_DIFFERENCE).zfill(4)}"
-    elif fmt_char == "Y":
-        # Year with century
-        str_ = (str(dt_obj.year + _BE_AD_DIFFERENCE)).zfill(4)
-    elif fmt_char == "y":
-        # Year without century
-        str_ = (str(dt_obj.year + _BE_AD_DIFFERENCE)[-2:]).zfill(2)
-    elif fmt_char == "+":
-        # National representation of the date and time
-        # (the format is similar to that produced by date(1))
-        # Wed  6 Oct 1976 01:40:00
-        str_ = "{:<2} {:>2} {} {} {}".format(
-            thai_abbr_weekdays[dt_obj.weekday()],
-            dt_obj.day,
-            thai_abbr_months[dt_obj.month - 1],
-            dt_obj.year + _BE_AD_DIFFERENCE,
-            dt_obj.strftime("%H:%M:%S"),
-        )
-    else:
+    handler = _L10N_HANDLERS.get(fmt_char)
+    if handler is None:
         # No known localization available, use Python's default
-        # With a good _NEED_L10N and _EXTENSIONS, this should not happen
-        str_ = _std_strftime(dt_obj, fmt_char)  # pragma: no cover
+        return _std_strftime(dt_obj, fmt_char)
+    return handler(dt_obj)
 
-    return str_
+
+def _l10n_or_std_strftime(dt_obj: datetime, fmt_char: str) -> str:
+    if fmt_char in _NEED_L10N:
+        return _thai_strftime(dt_obj, fmt_char)
+    return _std_strftime(dt_obj, fmt_char)
+
+
+def _strip_padding(text: str) -> str:
+    # GNU libc extension, "-": no padding
+    return text[1:] if text[0] in " 0" else text
+
+
+def _space_padding(text: str) -> str:
+    # GNU libc extension, "_": explicitly specify space (" ") for padding
+    return " " + text[1:] if text[0] == "0" else text
+
+
+def _zero_padding(text: str) -> str:
+    # GNU libc extension, "0": explicitly specify zero ("0") for padding
+    return "0" + text[1:] if text[0] == " " else text
+
+
+def _keep_text(text: str) -> str:
+    return text
+
+
+# Extension flags and their conversion functions.
+_EXTENSION_HANDLERS: dict[str, Callable[[str], str]] = {
+    "-": _strip_padding,
+    "_": _space_padding,
+    "0": _zero_padding,
+    # GNU libc extension, convert to upper case
+    "^": str.upper,
+    # GNU libc extension, swap case - useful for %Z
+    "#": str.swapcase,
+    # POSIX extension, use the locale's alternative representation.
+    # Not implemented yet.
+    "E": _keep_text,
+    # POSIX extension, use the locale's alternative numeric symbols
+    "O": lambda text: text.translate(_HA_TH_DIGITS),
+}
+
+
+def _convert_directive(
+    dt_obj: datetime, fmt: str, start: int
+) -> tuple[str, int]:
+    """Convert the directive that starts with "%" at ``fmt[start]``.
+
+    :return: converted text and the index of the next unread character
+    """
+    fmt_len = len(fmt)
+    pos = start + 1
+    if pos >= fmt_len:
+        # % char at string's end has no meaning
+        return "%", pos
+
+    fmt_char = fmt[pos]
+    if fmt_char not in _EXTENSIONS:
+        return _l10n_or_std_strftime(dt_obj, fmt_char), pos + 1
+
+    pos += 1
+    if pos >= fmt_len:
+        # format char at string's end has no meaning
+        return fmt_char, pos
+
+    text = _l10n_or_std_strftime(dt_obj, fmt[pos])
+    return _EXTENSION_HANDLERS.get(fmt_char, _keep_text)(text), pos + 1
 
 
 def thai_strftime(
@@ -252,77 +351,17 @@ def thai_strftime(
         >>> thai_strftime(datetime_obj, "%H:%M %#p")
         '05:59 am'
     """
-    thaidate_parts = []
+    thaidate_parts: list[str] = []
 
     i = 0
     fmt_len = len(fmt)
     while i < fmt_len:
-        str_ = ""
         if fmt[i] == "%":
-            j = i + 1
-            if j < fmt_len:
-                fmt_char = fmt[j]
-                if fmt_char in _NEED_L10N:  # requires localization?
-                    str_ = _thai_strftime(dt_obj, fmt_char)
-                elif fmt_char in _EXTENSIONS:
-                    fmt_char_ext = fmt_char
-                    k = j + 1
-                    if k < fmt_len:
-                        fmt_char = fmt[k]
-                        if fmt_char in _NEED_L10N:
-                            str_ = _thai_strftime(dt_obj, fmt_char)
-                        else:
-                            str_ = _std_strftime(dt_obj, fmt_char)
-
-                        if fmt_char_ext == "-":
-                            # GNU libc extension,
-                            # no padding
-                            if str_[0] and str_[0] in " 0":
-                                str_ = str_[1:]
-                        elif fmt_char_ext == "_":
-                            # GNU libc extension,
-                            # explicitly specify space (" ") for padding
-                            if str_[0] and str_[0] == "0":
-                                str_ = " " + str_[1:]
-                        elif fmt_char_ext == "0":
-                            # GNU libc extension,
-                            # explicitly specify zero ("0") for padding
-                            if str_[0] and str_[0] == " ":
-                                str_ = "0" + str_[1:]
-                        elif fmt_char_ext == "^":
-                            # GNU libc extension,
-                            # convert to upper case
-                            str_ = str_.upper()
-                        elif fmt_char_ext == "#":
-                            # GNU libc extension,
-                            # swap case - useful for %Z
-                            str_ = str_.swapcase()
-                        elif fmt_char_ext == "E":
-                            # POSIX extension,
-                            # uses the locale's alternative representation
-                            # Not implemented yet
-                            pass
-                        elif fmt_char_ext == "O":
-                            # POSIX extension,
-                            # uses the locale's alternative numeric symbols
-                            str_ = str_.translate(_HA_TH_DIGITS)
-                        i = i + 1  # consume char after format char
-                    else:
-                        # format char at string's end has no meaning
-                        str_ = fmt_char_ext
-                else:  # not in _NEED_L10N nor _EXTENSIONS
-                    # no known localization available, use Python's default
-                    str_ = _std_strftime(dt_obj, fmt_char)
-
-                i = i + 1  # consume char after "%"
-            else:
-                # % char at string's end has no meaning
-                str_ = "%"
+            str_, i = _convert_directive(dt_obj, fmt, i)
         else:
             str_ = fmt[i]
-
+            i += 1
         thaidate_parts.append(str_)
-        i = i + 1
 
     thaidate_text = "".join(thaidate_parts)
 

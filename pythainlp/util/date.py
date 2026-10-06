@@ -6,10 +6,6 @@
 Note: It does not take into account the change of new year's day in Thailand
 """
 
-# BE คือ พ.ศ.
-# AD คือ ค.ศ.
-# AH ปีฮิจเราะห์ศักราชเป็นปีพุทธศักราช จะต้องบวกด้วย 1122
-# ไม่ได้รองรับปี พ.ศ. ก่อนการเปลี่ยนวันขึ้นปีใหม่ของประเทศไทย
 from __future__ import annotations
 
 from typing import Optional, Union
@@ -27,6 +23,8 @@ __all__: list[str] = [
 import re
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
+
+from pythainlp.util._calendar import _ERA_OFFSETS_FROM_BE
 
 thai_abbr_weekdays: list[str] = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
 thai_full_weekdays: list[str] = [
@@ -116,6 +114,10 @@ _DAY: dict[str, int] = {
 }
 
 
+def _is_known_era(era: object) -> bool:
+    return isinstance(era, str) and era in _ERA_OFFSETS_FROM_BE
+
+
 def convert_years(year: str, src: str = "be", target: str = "ad") -> str:
     """Convert years
 
@@ -149,52 +151,12 @@ def convert_years(year: str, src: str = "be", target: str = "ad") -> str:
         >>> convert_years("2566", src="be", target="re")
         '242'
     """
-    output_year = None
-    if src == "be":
-        # พ.ศ. - 543  = ค.ศ.
-        if target == "ad":
-            output_year = str(int(year) - 543)
-        # พ.ศ. - 2324 = ร.ศ.
-        elif target == "re":
-            output_year = str(int(year) - 2324)
-        # พ.ศ. - 1122 = ฮ.ศ.
-        elif target == "ah":
-            output_year = str(int(year) - 1122)
-    elif src == "ad":
-        # ค.ศ. + 543 = พ.ศ.
-        if target == "be":
-            output_year = str(int(year) + 543)
-        # ค.ศ. + 543 - 2324 = ร.ศ.
-        elif target == "re":
-            output_year = str(int(year) + 543 - 2324)
-        # ค.ศ. +543- 1122 = ฮ.ศ.
-        elif target == "ah":
-            output_year = str(int(year) + 543 - 1122)
-    elif src == "re":
-        # ร.ศ. + 2324 = พ.ศ.
-        if target == "be":
-            output_year = str(int(year) + 2324)
-        # ร.ศ. + 2324 - 543 = ค.ศ.
-        elif target == "ad":
-            output_year = str(int(year) + 2324 - 543)
-        # ร.ศ. + 2324 - 1122 = ฮ.ศ.
-        elif target == "ah":
-            output_year = str(int(year) + 2324 - 1122)
-    elif src == "ah":
-        # ฮ.ศ. + 1122 = พ.ศ.
-        if target == "be":
-            output_year = str(int(year) + 1122)
-        # ฮ.ศ. +1122 - 543= ค.ศ.
-        elif target == "ad":
-            output_year = str(int(year) + 1122 - 543)
-        # ฮ.ศ. +1122 - 2324 = ร.ศ.
-        elif target == "re":
-            output_year = str(int(year) + 1122 - 2324)
-    if output_year is None:
+    if src == target or not _is_known_era(src) or not _is_known_era(target):
         raise NotImplementedError(
             f"This function doesn't support {src} to {target}"
         )
-    return output_year
+    be_year = int(year) - _ERA_OFFSETS_FROM_BE[src]
+    return str(be_year + _ERA_OFFSETS_FROM_BE[target])
 
 
 def _find_month(text: str) -> int:
@@ -203,6 +165,50 @@ def _find_month(text: str) -> int:
             if j in text:
                 return i + 1
     return 0  # Not found in list
+
+
+# Directives of thai_strptime() and their regular expressions.
+# The order matters: each replacement is applied in turn.
+_STRPTIME_REGEX: tuple[tuple[str, str], ...] = (
+    ("%d", dates_list),
+    ("%B", thai_full_month_lists_regex),
+    ("%Y", year_all_regex),
+    ("%H", r"(\d\d|\d)"),
+    ("%M", r"(\d\d|\d)"),
+    ("%S", r"(\d\d|\d)"),
+    ("%f", r"(\d+)"),
+)
+_TIME_KEYS: tuple[str, ...] = ("H", "M", "S", "f")
+
+
+def _fmt_to_regex(fmt: str) -> str:
+    for directive, regex in _STRPTIME_REGEX:
+        fmt = fmt.replace(directive, regex)
+    return fmt
+
+
+def _fmt_keys(fmt: str) -> list[str]:
+    """Names of the directives in ``fmt``, with the separators removed."""
+    return [
+        i.strip().strip("-").strip(":").strip(".")
+        for i in fmt.split("%")
+        if i != ""
+    ]
+
+
+def _full_year(y: str, year: str, add_year: Optional[int]) -> str:
+    """Normalize a year text; a BE year becomes an AD year.
+
+    A year below 100 is added to ``add_year``, or to 2500 (BE) or
+    2000 (AD) if ``add_year`` is None.
+    """
+    if int(y) < 100 and year in ("be", "ad"):
+        if add_year is None:
+            add_year = 2500 if year == "be" else 2000
+        y = str(int(add_year) + int(y))
+    if year == "be":
+        y = convert_years(y, src="be", target="ad")
+    return y
 
 
 def thai_strptime(
@@ -243,57 +249,18 @@ def thai_strptime(
     fmt = fmt.replace("%-d", "%d")
     fmt = fmt.replace("%b", "%B")
     fmt = fmt.replace("%-y", "%y")
-    data = {}
-    _old = fmt
-    if "%d" in fmt:
-        fmt = fmt.replace("%d", dates_list)
-    if "%B" in fmt:
-        fmt = fmt.replace("%B", thai_full_month_lists_regex)
-    if "%Y" in fmt:
-        fmt = fmt.replace("%Y", year_all_regex)
-    if "%H" in fmt:
-        fmt = fmt.replace("%H", r"(\d\d|\d)")
-    if "%M" in fmt:
-        fmt = fmt.replace("%M", r"(\d\d|\d)")
-    if "%S" in fmt:
-        fmt = fmt.replace("%S", r"(\d\d|\d)")
-    if "%f" in fmt:
-        fmt = fmt.replace("%f", r"(\d+)")
-    keys = [
-        i.strip().strip("-").strip(":").strip(".")
-        for i in _old.split("%")
-        if i != ""
-    ]
-    y_matches = re.findall(fmt, text)
+    keys = _fmt_keys(fmt)
+    y_matches = re.findall(_fmt_to_regex(fmt), text)
 
     data = {i: "".join(list(j)) for i, j in zip(keys, y_matches[0])}
-    hour: Union[int, str] = 0
-    minute: Union[int, str] = 0
-    second: Union[int, str] = 0
-    f: Union[int, str] = 0
     d = data["d"]
     m: int = _find_month(data["B"])
     y = data["Y"]
-    if "H" in keys:
-        hour = data["H"]
-    if "M" in keys:
-        minute = data["M"]
-    if "S" in keys:
-        second = data["S"]
-    if "f" in keys:
-        f = data["f"]
-    if int(y) < 100 and year == "be":
-        if add_year is None:
-            y = str(2500 + int(y))
-        else:
-            y = str(int(add_year) + int(y))
-    elif int(y) < 100 and year == "ad":
-        if add_year is None:
-            y = str(2000 + int(y))
-        else:
-            y = str(int(add_year) + int(y))
-    if year == "be":
-        y = convert_years(y, src="be", target="ad")
+    time_parts: list[Union[int, str]] = [
+        data[name] if name in keys else 0 for name in _TIME_KEYS
+    ]
+    hour, minute, second, f = time_parts
+    y = _full_year(y, year, add_year)
     return datetime(
         year=int(y),
         month=m,

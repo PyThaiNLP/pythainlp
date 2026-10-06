@@ -366,7 +366,7 @@ class Seq2Seq(nn.Module):  # type: ignore[misc]
         mask = source_seq != self.pad_idx
         return mask
 
-    def forward(
+    def forward(  # noqa: CCR001  # phase2-todo
         self,
         source_seq: torch.Tensor,
         source_seq_len: torch.Tensor,

@@ -132,7 +132,7 @@ class WngchanBerta_ONNX:
     ) -> list[tuple[str, str]]:
         return list_ner
 
-    def get_ner(
+    def get_ner(  # noqa: CCR001  # phase2-todo
         self, text: str, tag: bool = False
     ) -> Union[str, list[tuple[str, str]]]:
         self._s = self.build_tokenizer(text)

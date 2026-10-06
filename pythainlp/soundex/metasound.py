@@ -25,6 +25,34 @@ _C7: str = "ย"  # Y -> 7
 _C8: str = "ว"  # W -> 8
 
 
+def _build_code_table() -> dict[str, str]:
+    """Map each consonant to its code; the first matching group wins."""
+    table: dict[str, str] = {}
+    groups = (_C1, _C2, _C3, _C4, _C5, _C6, _C7, _C8)
+    for code, group in enumerate(groups, start=1):
+        for ch in group:
+            table.setdefault(ch, str(code))
+    return table
+
+
+_CODES: dict[str, str] = _build_code_table()
+
+
+def _remove_karan(chars: list[str]) -> list[str]:
+    """Remove each thanthakhat and the character before it."""
+    if _THANTHAKHAT not in chars:
+        return chars
+    kept: list[str] = []
+    prev = ""
+    for ch in chars:
+        if ch != _THANTHAKHAT:
+            kept.append(ch)
+        elif kept and prev != _THANTHAKHAT:
+            kept.pop()
+        prev = ch
+    return kept
+
+
 def metasound(text: str, length: int = 4) -> str:
     """Converts Thai text into phonetic code with the
     matching technique called **MetaSound**
@@ -57,46 +85,12 @@ def metasound(text: str, length: int = 4) -> str:
         return ""
 
     # keep only consonants and thanthakhat
-    chars = []
-    for ch in text:
-        if ch in _CONS_THANTHAKHAT:
-            chars.append(ch)
+    chars = [ch for ch in text if ch in _CONS_THANTHAKHAT]
+    chars = _remove_karan(chars)[:length]
 
-    # remove karan (thanthakhat and a consonant before it)
-    i = 0
-    while i < len(chars):
-        if chars[i] == _THANTHAKHAT:
-            if i > 0:
-                chars[i - 1] = " "
-            chars[i] = " "
-        i += 1
-
-    # filter out spaces left by karan removal, then truncate
-    chars = [c for c in chars if c != " "]
-    chars = chars[:length]
-    i = 1
-    while i < len(chars):
-        if chars[i] in _C1:
-            chars[i] = "1"
-        elif chars[i] in _C2:
-            chars[i] = "2"
-        elif chars[i] in _C3:
-            chars[i] = "3"
-        elif chars[i] in _C4:
-            chars[i] = "4"
-        elif chars[i] in _C5:
-            chars[i] = "5"
-        elif chars[i] in _C6:
-            chars[i] = "6"
-        elif chars[i] in _C7:
-            chars[i] = "7"
-        elif chars[i] in _C8:
-            chars[i] = "8"
-        else:
-            chars[i] = "0"
-        i += 1
-
-    while len(chars) < length:
-        chars.append("0")
-
-    return "".join(chars)
+    # the first character stays; the rest are coded
+    coded = [chars[0]] if chars else []
+    coded.extend(_CODES.get(ch, "0") for ch in chars[1:])
+    if len(coded) < length:
+        coded.extend("0" * (length - len(coded)))
+    return "".join(coded)

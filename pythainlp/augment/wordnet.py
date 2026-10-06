@@ -203,7 +203,6 @@ class WordNetAug:
              ('เรา', 'ชอบ', 'ไปยัง', 'ร.ร.'),
              ('เรา', 'ชอบ', 'ไปยัง', 'รร.')]
         """
-        new_sentences = []
         self.list_words: list[str] = tokenize(sentence)
         self.list_synonym: list[list[str]] = []
         self.p_all: int = 1
@@ -212,24 +211,22 @@ class WordNetAug:
                 self.list_words, corpus=postag_corpus
             )
             for word, pos in self.list_pos:
-                self.temp: list[str] = self.find_synonyms(
-                    word, pos, postag_corpus
+                self._add_synonyms(
+                    word, self.find_synonyms(word, pos, postag_corpus)
                 )
-                if not self.temp:
-                    self.list_synonym.append([word])
-                else:
-                    self.list_synonym.append(self.temp)
-                    self.p_all *= len(self.temp)
         else:
             for word in self.list_words:
-                self.temp: list[str] = self.find_synonyms(word)
-                if not self.temp:
-                    self.list_synonym.append([word])
-                else:
-                    self.list_synonym.append(self.temp)
-                    self.p_all *= len(self.temp)
+                self._add_synonyms(word, self.find_synonyms(word))
         if max_syn_sent > self.p_all:
             max_syn_sent = self.p_all
-        for x in list(itertools.product(*self.list_synonym))[0:max_syn_sent]:
-            new_sentences.append(list(x))
-        return new_sentences
+        combinations = list(itertools.product(*self.list_synonym))
+        return [list(x) for x in combinations[0:max_syn_sent]]
+
+    def _add_synonyms(self, word: str, synonyms: list[str]) -> None:
+        """Record the synonyms of a word, or the word itself if none."""
+        self.temp: list[str] = synonyms  # kept: public attribute
+        if not synonyms:
+            self.list_synonym.append([word])
+        else:
+            self.list_synonym.append(synonyms)
+            self.p_all *= len(synonyms)

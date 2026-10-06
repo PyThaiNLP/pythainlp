@@ -27,16 +27,15 @@ _load_lock: threading.Lock = threading.Lock()  # Thread safety for lazy loading
 
 
 def _get_tagger() -> pycrfsuite.Tagger:
-    """Lazy load the tagger model.
+    """Load the tagger model once, in a thread-safe way.
 
-    This function uses a lock to ensure thread-safe initialization.
-    The context manager is kept alive for the lifetime of the program
-    to prevent cleanup of temporary files while the tagger is in use.
+    The file context manager stays open for the life of the program,
+    so a temporary model file is not removed while the tagger uses it.
     """
     global _tagger, _model_file_ctx
     if _tagger is None:
         with _load_lock:
-            # Double-check pattern to avoid race conditions
+            # Check again: another thread may have loaded it
             if _tagger is None:
                 _tagger = pycrfsuite.Tagger()
                 corpus_files = files("pythainlp.corpus")
@@ -67,6 +66,58 @@ class Featurizer:
     def pad(self, sentence: str, padder: str = "#") -> str:
         return padder * (self.radius) + sentence + padder * (self.radius)
 
+    def _skip_delimiter(
+        self, sentence: str, abs_index: int, step: int
+    ) -> tuple[int, str]:
+        """Move ``abs_index`` by ``step`` until the character is not
+        the delimiter.
+
+        :return: the new index and the character at that index
+        """
+        char = sentence[abs_index]
+        while char == self.delimiter:
+            abs_index += step
+            char = sentence[abs_index]
+        return abs_index, char
+
+    def _context_features(
+        self, sentence: str, current_position: int, indiv_char: bool
+    ) -> list[str]:
+        """Extract features around ``current_position``."""
+        features: list[str] = []
+        chars_left = ""
+        chars_right = ""
+        abs_index_left = current_position  # left start at -1
+        abs_index_right = current_position - 1  # right start at 0
+        for counter in range(self.radius):
+            abs_index_left -= (
+                1  # สมมุติตำแหน่งที่ 0 จะได้ -1, -2, -3, -4, -5 (radius = 5)
+            )
+            abs_index_left, char_left = self._skip_delimiter(
+                sentence, abs_index_left, -1
+            )
+            # เก็บตัวหนังสือ
+            chars_left = char_left + chars_left
+            # ใส่ลง feature
+            if indiv_char:
+                features.append("|".join([str(-counter - 1), char_left]))
+
+            abs_index_right += (
+                1  # สมมุติคือตำแหน่งที่ 0 จะได้ 0, 1, 2, 3, 4 (radius = 5)
+            )
+            abs_index_right, char_right = self._skip_delimiter(
+                sentence, abs_index_right, 1
+            )
+            chars_right += char_right
+            if indiv_char:
+                features.append("|".join([str(counter), char_right]))
+
+        chars = chars_left + chars_right
+        for i in range(0, len(chars) - self.N + 1):
+            ngram = chars[i : i + self.N]
+            features.append("|".join([str(i - self.radius), ngram]))
+        return features
+
     def featurize(
         self,
         sentence: str,
@@ -85,59 +136,15 @@ class Featurizer:
             if skip_next:
                 skip_next = False
                 continue
-            features: list[str] = []
             cut = 0
-            char = sentence[current_position]
-            if char == self.delimiter:
+            if sentence[current_position] == self.delimiter:
                 cut = 1
                 skip_next = True
-            counter = 0
-            chars_left = ""
-            chars_right = ""
-            abs_index_left = current_position  # left start at -1
-            abs_index_right = current_position - 1  # right start at 0
-            while counter < self.radius:
-                abs_index_left -= (
-                    1  # สมมุติตำแหน่งที่ 0 จะได้ -1, -2, -3, -4, -5 (radius = 5)
-                )
-                char_left = sentence[abs_index_left]
-                while char_left == self.delimiter:
-                    abs_index_left -= 1
-                    char_left = sentence[abs_index_left]
-                relative_index_left = -counter - 1
-                # เก็บตัวหนังสือ
-                chars_left = char_left + chars_left
-                # ใส่ลง feature
-                if indiv_char:
-                    left_key = "|".join([str(relative_index_left), char_left])
-                    features.append(left_key)
-
-                abs_index_right += (
-                    1  # สมมุติคือตำแหน่งที่ 0 จะได้ 0, 1, 2, 3, 4 (radius = 5)
-                )
-                char_right = sentence[abs_index_right]
-                while char_right == self.delimiter:
-                    abs_index_right += 1
-                    char_right = sentence[abs_index_right]
-                relative_index_right = counter
-                chars_right += char_right
-                if indiv_char:
-                    right_key = "|".join(
-                        [str(relative_index_right), char_right]
-                    )
-                    features.append(right_key)
-
-                counter += 1
-
-            chars = chars_left + chars_right
-            for i in range(0, len(chars) - self.N + 1):
-                ngram = chars[i : i + self.N]
-                ngram_key = "|".join([str(i - self.radius), ngram])
-                features.append(ngram_key)
-            all_features_list.append(features)
+            all_features_list.append(
+                self._context_features(sentence, current_position, indiv_char)
+            )
             all_labels_int.append(cut)
 
-        # Convert to the requested return type
         if return_type == "list":
             return {
                 "X": all_features_list,

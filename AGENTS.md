@@ -25,7 +25,13 @@
       Maintain near-100% type annotation coverage.
 - [ ] Add tests for new functionality or behavior.
       New PR must not drop the test coverage more than 0.1%.
-- [ ] Keep the test coverage high. Aim at least 70% test coverage.
+- [ ] Keep the test coverage high.
+  - [ ] The overall test coverage target is 95%.
+  - [ ] New and changed code must have at least 75% test coverage.
+        CI checks this for each pull request (`diff-cover`).
+  - [ ] AI agents should aim higher: near 100% test coverage
+        (line and branch) of the code they add or change,
+        when possible or practical.
 - [ ] Add test cases to cover all code branches and capture edge cases.
 - [ ] `# type: ignore[arg-type]` comment can be used in the test code,
       only if that specific code want to explicitly test type handling
@@ -53,6 +59,36 @@
       regarding singular vs. plural forms. Use singular names for
       classes representing a single entity and reserve plural
       names only for collections, utility modules, or clear aggregates.
+- [ ] Known issues and planned work are in
+      <https://github.com/PyThaiNLP/pythainlp/blob/dev/working-docs/ROADMAP.md>.
+      Other working notes are in `working-docs/` too.
+  - [ ] Record each bug found while working on something else there,
+        with a test that pins the current behavior.
+  - [ ] Do not fix such a bug inside an unrelated or
+        behavior-preserving change; fix it in its own pull request.
+
+## Code quality and the boy scout rule
+
+Leave every file you touch better than you found it:
+maintain the code quality and improve it.
+
+- [ ] Keep code complexity within the limits (McCabe 10, cognitive 15).
+      Refactor a touched function that exceeds them,
+      or at least do not make it more complex.
+- [ ] Keep code maintainable: small functions, lookup tables instead of
+      long `if` chains, shared helpers instead of copy-pasted blocks.
+- [ ] Keep test coverage high: see the coverage targets above.
+      Cover every function you add or touch, branches included.
+- [ ] Write compact tests.
+  - [ ] Use parameterized tests (`subTest` or table-driven cases)
+        instead of many near-identical test methods.
+- [ ] Add characterization tests before refactoring,
+      to record the current behavior.
+- [ ] Add a regression test for every bug fix.
+- [ ] Add adversarial tests: empty input, `None`, wrong types,
+      Unicode edge cases, very long input, and boundary values.
+- [ ] Prefer the smallest change. Keep refactoring changes
+      behavior-preserving.
 
 ## Project contribution guidelines
 
@@ -319,9 +355,10 @@
       to optimize performance and memory usage.
 - [ ] Recheck formatting with `ruff format`. CI enforces it.
 - [ ] Cognitive complexity is checked in CI with flake8 and
-      flake8-cognitive-complexity (`.flake8`). The limit is lowered
-      gradually toward 15.
-- [ ] Whem do packaging, the package metadata should follow
+      flake8-cognitive-complexity (`.flake8`). The limit is 15.
+      Functions not yet refactored carry `# noqa: CCR001` (or
+      `# noqa: C901` for McCabe) and a `# phase2-todo` tag.
+- [ ] When packaging, the package metadata should follow
       the Core metadata specifications
       <https://packaging.python.org/en/latest/specifications/core-metadata/>.
 

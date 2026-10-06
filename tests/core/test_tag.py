@@ -16,6 +16,7 @@ from pythainlp.tag import (
     tag_provinces,
     unigram,
 )
+from pythainlp.tag._utils import _iob_to_markup
 
 TEST_TOKENS = ["ผม", "รัก", "คุณ"]
 
@@ -403,3 +404,57 @@ class TagNNERTestCase(unittest.TestCase):
         result = _entities_to_html(tokens, entities)
         expected = "<PERSON>นายสมชาย</PERSON> อยู่ที่<LOCATION>กรุงเทพ</LOCATION>"
         self.assertEqual(result, expected)
+
+
+class IobToMarkupTestCase(unittest.TestCase):
+    """Test pythainlp.tag._utils._iob_to_markup"""
+
+    def test_iob_to_markup(self):
+        cases = [
+            ("empty", [], ""),
+            ("no entity", [("ก", "O"), ("ข", "O")], "กข"),
+            ("single", [("ก", "B-A")], "<A>ก</A>"),
+            ("entity then O", [("ก", "B-A"), ("ข", "O")], "<A>ก</A>ข"),
+            ("inside", [("ก", "B-A"), ("ข", "I-A")], "<A>กข</A>"),
+            (
+                "adjacent entities",
+                [("ก", "B-A"), ("ข", "B-B")],
+                "<A>ก</A><B>ข</B>",
+            ),
+            (
+                "leading O",
+                [("ก", "O"), ("ข", "B-A"), ("ค", "I-A"), ("ง", "O")],
+                "ก<A>ขค</A>ง",
+            ),
+            # Quirks kept from the original loops
+            ("I without B", [("ก", "I-A"), ("ข", "O")], "กข"),
+            (
+                "I with other type",
+                [("ก", "B-A"), ("ข", "I-B")],
+                "<A>กข</A>",
+            ),
+            ("unknown tag", [("ก", "B-A"), ("ข", "X")], "<A>กข</A>"),
+            ("empty type", [("ก", "B-")], "<>ก"),
+            (
+                "empty type reopened",
+                [("ก", "B-"), ("ข", "B-A")],
+                "<>ก<A>ข</A>",
+            ),
+            (
+                "spaces and empty words",
+                [(" ", "B-A"), ("", "I-A"), (" ", "O")],
+                "<A> </A> ",
+            ),
+            (
+                "O with trailing space",
+                [("ก", "B-A"), ("ข", "O ")],
+                "<A>กข</A>",
+            ),
+        ]
+        for name, tagged, expected in cases:
+            with self.subTest(name):
+                self.assertEqual(_iob_to_markup(tagged), expected)
+
+    def test_iob_to_markup_long_input(self):
+        tagged = [("ก", "B-A")] + [("ก", "I-A")] * 10000
+        self.assertEqual(_iob_to_markup(tagged), "<A>" + "ก" * 10001 + "</A>")

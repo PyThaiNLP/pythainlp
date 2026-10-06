@@ -3,7 +3,28 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import Optional
+
 from pythainlp import thai_consonants
+
+# Consonant that follows nighit, by the first consonant of the next word.
+# The first matching row is used.
+_NIGHIT_ENDINGS: tuple[tuple[tuple[str, ...], str], ...] = (
+    (("ก", "ช", "ค", "ข", "ง"), "ง"),
+    (("จ", "ฉ", "ช", "ฌ"), "ญ"),
+    (("ฎ", "ฐ", "ฑ", "ณ"), "ณ"),
+    (("ด", "ถ", "ท", "ธ", "น"), "น"),
+    (("ป", "ผ", "พ", "ภ"), "ม"),
+    (("ย", "ร", "ล", "ฬ", "ว", "ศ", "ษ", "ส", "ห"), "ง"),
+)
+
+
+def _nighit_ending(consonant: str) -> Optional[str]:
+    """Return the consonant that follows nighit, or None if unsupported."""
+    for consonants, ending in _NIGHIT_ENDINGS:
+        if consonant in consonants:
+            return ending
+    return None
 
 
 def nighit(w1: str, w2: str) -> str:
@@ -55,21 +76,11 @@ def nighit(w1: str, w2: str) -> str:
     if not consonants_in_w2:
         raise ValueError(f"w2 {w2!r} contains no Thai consonants.")
     consonant_start = consonants_in_w2[0]
-    if consonant_start in ["ก", "ช", "ค", "ข", "ง"]:
-        newword.append("ง")
-    elif consonant_start in ["จ", "ฉ", "ช", "ฌ"]:
-        newword.append("ญ")
-    elif consonant_start in ["ฎ", "ฐ", "ฑ", "ณ"]:
-        newword.append("ณ")
-    elif consonant_start in ["ด", "ถ", "ท", "ธ", "น"]:
-        newword.append("น")
-    elif consonant_start in ["ป", "ผ", "พ", "ภ"]:
-        newword.append("ม")
-    elif consonant_start in ["ย", "ร", "ล", "ฬ", "ว", "ศ", "ษ", "ส", "ห"]:
-        newword.append("ง")
-    else:
+    ending = _nighit_ending(consonant_start)
+    if ending is None:
         raise NotImplementedError(f"""
         The function doesn't support {w1} and {w2}.
         """)
+    newword.append(ending)
     newword.extend(list_w2)
     return "".join(newword)

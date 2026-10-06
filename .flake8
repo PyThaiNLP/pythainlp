@@ -2,5 +2,5 @@
 # Used only for the cognitive complexity check (CCR001);
 # Ruff handles all other linting.
 select = CCR001
-# Current maximum in the codebase is 96. Lower this gradually to 15.
-max-cognitive-complexity = 96
+# The limit is 15. Unrefactored functions carry `# noqa: CCR001  # phase2-todo`.
+max-cognitive-complexity = 15

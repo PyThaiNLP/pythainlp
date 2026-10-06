@@ -298,6 +298,21 @@ def normalize(text: str) -> str:
     return text
 
 
+_MAIYAMOK: str = "ๆ"
+_RE_MAIYAMOK: Pattern[str] = re.compile(f"({_MAIYAMOK})")
+
+
+def _split_maiyamok(sent: list[str]) -> list[str]:
+    """Split Maiyamok that is attached to other text.
+
+    For example, "นกๆๆ", "นกๆ ๆ", and "นกๆคน".
+    """
+    tokens: list[str] = []
+    for token in sent:
+        tokens.extend(filter(None, _RE_MAIYAMOK.split(token)))
+    return tokens
+
+
 def expand_maiyamok(sent: Union[str, list[str]]) -> list[str]:
     """Expand Maiyamok.
 
@@ -319,40 +334,16 @@ def expand_maiyamok(sent: Union[str, list[str]]) -> list[str]:
     if isinstance(sent, str):
         sent = word_tokenize(sent)
 
-    yamok = "ๆ"
-
-    # Breaks Maiyamok that attached to others, e.g. "นกๆๆ", "นกๆ ๆ", "นกๆคน"
-    re_yamok = re.compile(rf"({yamok})")
-    temp_toks: list[str] = []
-    for token in sent:
-        toks = re_yamok.split(token)
-        toks = list(filter(None, toks))  # remove empty string ("")
-        temp_toks.extend(toks)
-    sent = temp_toks
-    del temp_toks
-
     output_toks: list[str] = []
     yamok_count = 0
-    len_sent = len(sent)
-    for i in range(len_sent - 1, -1, -1):  # do it backward
-        if yamok_count == 0 or (i + 1 >= len_sent):
-            if sent[i] == yamok:
-                yamok_count = yamok_count + 1
-            else:
-                output_toks.append(sent[i])
-            continue
-
-        if sent[i] == yamok:
-            yamok_count = yamok_count + 1
-        else:
-            if sent[i].isspace():
-                if yamok_count > 0:  # remove space before yamok
-                    continue
-                else:  # with preprocessing above, this should not happen
-                    output_toks.append(sent[i])
-            else:
-                output_toks.extend([sent[i]] * (yamok_count + 1))
-                yamok_count = 0
+    for tok in reversed(_split_maiyamok(sent)):  # do it backward
+        if tok == _MAIYAMOK:
+            yamok_count += 1
+        elif yamok_count == 0:
+            output_toks.append(tok)
+        elif not tok.isspace():  # drop space before Maiyamok
+            output_toks.extend([tok] * (yamok_count + 1))
+            yamok_count = 0
 
     return output_toks[::-1]
 

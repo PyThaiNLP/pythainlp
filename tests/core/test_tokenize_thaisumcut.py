@@ -260,3 +260,12 @@ class SplitIntoSentencesTestCase(unittest.TestCase):
             sent_tokenize("ผมไปโรงเรียนครับ วันนี้อากาศดีค่ะ", engine="thaisum"),
             ["ผมไปโรงเรียนครับ", "วันนี้อากาศดีค่ะ"],
         )
+
+    def test_placeholder_leak(self) -> None:
+        # BUG-LEDGER: thaisumcut-placeholder-leak
+        # Nested protection leaves a placeholder in the output.
+        # Expected: ["เขามีแต่หลังจากไป"].
+        self.assertEqual(
+            self.segmentor.split_into_sentences("เขามีแต่หลังจากไป"),
+            ["เขามีแต่<langjak>ไป"],
+        )

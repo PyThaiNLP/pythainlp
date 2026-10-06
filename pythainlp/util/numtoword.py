@@ -10,6 +10,7 @@ https://suksit.com/post/writing-bahttext-in-php/
 
 from __future__ import annotations
 
+import math
 from typing import Optional
 
 __all__: list[str] = ["bahttext", "num_to_thaiword", "num_to_thaiword_float"]
@@ -165,6 +166,24 @@ def num_to_thaiword(number: Optional[int]) -> str:
     return output
 
 
+def _expand_exponent(num_str: str) -> str:
+    """Rewrite scientific notation (e.g. "1e-05") as a plain decimal string."""
+    if "e" not in num_str.lower():
+        return num_str
+
+    mantissa, exp_str = num_str.lower().split("e", 1)
+    mant_int, _, mant_frac = mantissa.partition(".")
+    digits = mant_int + mant_frac
+    shift = int(exp_str) - len(mant_frac)
+    if shift >= 0:
+        return digits + ("0" * shift)
+
+    pos = len(digits) + shift
+    if pos > 0:
+        return digits[:pos] + "." + digits[pos:]
+    return "0." + ("0" * (-pos)) + digits
+
+
 def num_to_thaiword_float(number: float) -> str:
     """Converts a floating-point number to Thai text.
 
@@ -191,55 +210,18 @@ def num_to_thaiword_float(number: float) -> str:
         )
 
     # Reject non-finite floats early (nan/inf), since they cannot be rendered.
-    if isinstance(number, float):
-        import math
+    if isinstance(number, float) and not math.isfinite(number):
+        raise ValueError("number must be a finite float")
 
-        if not math.isfinite(number):
-            raise ValueError("number must be a finite float")
-
-    # Handle whole numbers (including integer types)
-    if isinstance(number, int) or (
-        isinstance(number, float) and number.is_integer()
-    ):
+    if isinstance(number, int) or number.is_integer():
         return num_to_thaiword(int(number))
 
-    # Capture sign for negative floats
-    is_negative: bool = number < 0
-    num_abs: float = abs(number)
-    num_str: str = str(num_abs)
-
-    # Handle scientific notation (e.g., "1e-05", "1.23e-10")
-    if "e" in num_str or "E" in num_str:
-        mantissa, exp_str = num_str.lower().split("e", 1)
-        exponent: int = int(exp_str)
-
-        if "." in mantissa:
-            mant_int, mant_frac = mantissa.split(".", 1)
-            digits = mant_int + mant_frac
-            decimal_places = len(mant_frac)
-        else:
-            digits = mantissa
-            decimal_places = 0
-
-        shift = exponent - decimal_places
-        if shift >= 0:
-            num_str = digits + ("0" * shift)
-        else:
-            pos = len(digits) + shift
-            if pos > 0:
-                num_str = digits[:pos] + "." + digits[pos:]
-            else:
-                num_str = "0." + ("0" * (-pos)) + digits
-    if "." not in num_str:
-        result = num_to_thaiword(int(num_str))
-    else:
+    num_str = _expand_exponent(str(abs(number)))
+    if "." in num_str:
         int_part, dec_part = num_str.split(".")
-        result = num_to_thaiword(int(int_part))
-        result += "จุด"
-        for digit in dec_part:
-            result += _DIGITS[int(digit)]
+        result = num_to_thaiword(int(int_part)) + "จุด"
+        result += "".join(_DIGITS[int(digit)] for digit in dec_part)
+    else:
+        result = num_to_thaiword(int(num_str))
 
-    if is_negative:
-        result = "ลบ" + result
-
-    return result
+    return "ลบ" + result if number < 0 else result

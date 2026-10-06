@@ -32,21 +32,22 @@ and this project adheres to
 - `check_klon()` and `get_corpus_db()` no longer swallow unexpected
   exceptions ([#1542])
 - `download()`: download and extract via temporary paths, so a failed
-  download keeps the installed corpus; handle empty `db.json` keys ([#NNNN])
-- `db.json` is written atomically and keeps its mode and symlink ([#NNNN])
+  download keeps the installed corpus; handle empty `db.json` keys ([#1546])
+- `db.json` is written atomically and keeps its mode and symlink ([#1546])
+- `remove()` no longer downloads a missing corpus before deleting it ([#1546])
 
 ### Security
 
 - Tar and zip extraction rejects absolute and escaping links; unsafe tar
-  members raise `ValueError` ([#NNNN])
+  members raise `ValueError` ([#1546])
 - Without `tarfile.data_filter`, tar extraction rejects all links and special
-  files and drops owners ([#NNNN])
+  files and drops owners ([#1546])
 
 [#1372]: https://github.com/PyThaiNLP/pythainlp/pull/1372
 [#1453]: https://github.com/PyThaiNLP/pythainlp/pull/1453
 [#1541]: https://github.com/PyThaiNLP/pythainlp/pull/1541
 [#1542]: https://github.com/PyThaiNLP/pythainlp/pull/1542
-[#NNNN]: https://github.com/PyThaiNLP/pythainlp/pull/NNNN
+[#1546]: https://github.com/PyThaiNLP/pythainlp/pull/1546
 
 ## [5.3.8] - 2026-09-25
 

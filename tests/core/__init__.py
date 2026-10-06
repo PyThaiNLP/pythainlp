@@ -26,6 +26,7 @@ test_packages: list[str] = [
     "tests.core.test_lm_text_util",
     "tests.core.test_morpheme",
     "tests.core.test_morpheme_word_formation",
+    "tests.core.test_phayathaibert_preprocess",
     "tests.core.test_security",
     "tests.core.test_soundex",
     "tests.core.test_soundex_engines",

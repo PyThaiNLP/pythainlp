@@ -204,6 +204,16 @@ class ThaiTextProcessor:
         pre_rules: Optional[list[Callable[..., str]]] = None,
         tok_func: Callable[..., list[str]] = word_tokenize,
     ) -> str:
+        """Preprocess text: apply the rules, then tokenize and join.
+
+        :param str text: text to preprocess
+        :param list[Callable[..., str]] pre_rules: rules applied in order
+            after lowercasing; the default is the text cleaning methods
+            of this class
+        :param Callable[..., list[str]] tok_func: tokenizer function
+        :return: preprocessed text
+        :rtype: str
+        """
         if pre_rules is None:
             pre_rules = [
                 self.rm_brackets,

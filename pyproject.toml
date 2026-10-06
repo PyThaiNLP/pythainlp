@@ -447,11 +447,11 @@ select = [
 ]
 # Some rules are ignored for now; we can consider enabling them in the future.
 # B905 (zip strict=) needs Python 3.10.
-# B010 (setattr) is for dynamic attributes that tests set on purpose.
 extend-ignore = ["B905", "E402", "E501", "E722", "S202", "S301", "S310"]
 
 [tool.ruff.lint.per-file-ignores]
 # S101 (assert) is not allowed in production code. Tests and notebooks may use it.
+# B010 (setattr) is for attributes that tests set on purpose.
 "tests/**" = ["B010", "S101"]
 "notebooks/**" = ["S101"]
 

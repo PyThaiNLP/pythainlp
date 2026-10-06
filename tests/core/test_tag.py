@@ -508,8 +508,28 @@ class PhayaThaiBERTHelperTestCase(unittest.TestCase):
 
         self.assertEqual(_chunk_spans([], 5), [])
 
-    def test_pos_tag_phayathaibert_empty_list(self):
-        self.assertEqual(pos_tag([], engine="phayathaibert"), [])
+    def test_chunk_spans_exact_fit(self):
+        from pythainlp.tag.phayathaibert_onnx import _chunk_spans
+
+        self.assertEqual(_chunk_spans([3, 4], 7), [(0, 2)])
+
+    def test_chunk_spans_zero_count_words(self):
+        from pythainlp.tag.phayathaibert_onnx import _chunk_spans
+
+        self.assertEqual(_chunk_spans([0, 3, 0, 4], 7), [(0, 4)])
+
+    def test_is_blank(self):
+        from pythainlp.tag.phayathaibert_onnx import _is_blank
+
+        for word in ("", " ", "\n", " ", "　", "​", "﻿"):
+            self.assertTrue(_is_blank(word), repr(word))
+        for word in ("แมว", " แมว ", "a", "1", "​แมว"):
+            self.assertFalse(_is_blank(word), repr(word))
+
+    def test_tag_empty_list(self):
+        from pythainlp.tag.phayathaibert_onnx import tag
+
+        self.assertEqual(tag([]), [])
 
     def test_missing_dependency_error_before_download(self):
         import sys
@@ -517,11 +537,57 @@ class PhayaThaiBERTHelperTestCase(unittest.TestCase):
 
         from pythainlp.tag import phayathaibert_onnx
 
-        with mock.patch.dict(sys.modules, {"onnxruntime": None}):
+        for module in ("onnxruntime", "tokenizers", "huggingface_hub"):
+            with mock.patch.dict(sys.modules, {module: None}):
+                with mock.patch(
+                    "pythainlp.tag.phayathaibert_onnx.get_hf_hub"
+                ) as get_hf_hub:
+                    with self.assertRaises(ImportError) as ctx:
+                        phayathaibert_onnx.PhayaThaiBERTTagger()
+                    self.assertIn(
+                        "pythainlp[phayathaibert_onnx]", str(ctx.exception)
+                    )
+                    get_hf_hub.assert_not_called()
+
+    def _first_download_revision(self, **kwargs: str) -> object:
+        """Return the revision PhayaThaiBERTTagger passes to get_hf_hub."""
+        import sys
+        from unittest import mock
+
+        from pythainlp.tag import phayathaibert_onnx
+
+        fake_modules = {
+            name: mock.MagicMock()
+            for name in (
+                "numpy",
+                "onnxruntime",
+                "tokenizers",
+                "huggingface_hub",
+            )
+        }
+        with mock.patch.dict(sys.modules, fake_modules):
             with mock.patch(
-                "pythainlp.tag.phayathaibert_onnx.get_hf_hub"
+                "pythainlp.tag.phayathaibert_onnx.get_hf_hub",
+                side_effect=RuntimeError("stop"),
             ) as get_hf_hub:
-                with self.assertRaises(ImportError) as ctx:
-                    phayathaibert_onnx.PhayaThaiBERTTagger()
-                self.assertIn("pip install", str(ctx.exception))
-                get_hf_hub.assert_not_called()
+                with self.assertRaises(RuntimeError):
+                    phayathaibert_onnx.PhayaThaiBERTTagger(**kwargs)
+        return get_hf_hub.call_args.kwargs["revision"]
+
+    def test_default_repo_is_pinned(self):
+        from pythainlp.tag import phayathaibert_onnx
+
+        self.assertEqual(
+            self._first_download_revision(), phayathaibert_onnx._REVISION
+        )
+
+    def test_custom_repo_is_not_pinned_to_default_revision(self):
+        self.assertIsNone(
+            self._first_download_revision(repo_id="someone/other-model")
+        )
+        self.assertEqual(
+            self._first_download_revision(
+                repo_id="someone/other-model", revision="abc123"
+            ),
+            "abc123",
+        )

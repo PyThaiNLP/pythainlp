@@ -4,7 +4,7 @@
 
 # Tests for POS tagging functions that require ONNX Runtime
 # These tests are NOT run in automated CI workflows due to:
-# - Large dependencies (onnxruntime)
+# - Large dependencies (onnxruntime, tokenizers, huggingface-hub)
 # - Platform-specific compatibility issues
 # - Version constraints
 
@@ -98,8 +98,31 @@ class TagPhayaThaiBERTONNXTestCaseN(unittest.TestCase):
 
         words = self.WORDS * 300  # well over the 510-token model limit
         result = pos_tag(words, engine="phayathaibert")
+        tags = [t for _, t in result]
         self.assertEqual([w for w, _ in result], words)
-        self.assertEqual([t for _, t in result[:3]], ["PRON", "VERB", "NOUN"])
+        # Every word, including those past the first 510 tokens, is tagged.
+        self.assertNotIn("X", tags)
+        self.assertEqual(tags[-5:], ["PRON", "VERB", "NOUN", "ADP", "NOUN"])
+
+    def test_pos_tag_phayathaibert_overlong_word(self):
+        from pythainlp.tag import pos_tag
+
+        # A single word of far more than 510 subwords, between normal words.
+        words = ["ฉัน", "กิน", "ก" * 5000, "ที่", "ร้านอาหาร"]
+        result = pos_tag(words, engine="phayathaibert")
+        tags = [t for _, t in result]
+        self.assertEqual(len(result), 5)
+        self.assertNotIn("X", tags)
+        self.assertEqual(tags[:2], ["PRON", "VERB"])
+        self.assertEqual(tags[3:], ["ADP", "NOUN"])
+
+    def test_pos_tag_phayathaibert_format_characters(self):
+        from pythainlp.tag import pos_tag
+
+        # Zero-width space, zero-width non-joiner and BOM carry no text.
+        for char in ("​", "‌", "﻿"):
+            result = pos_tag(["แมว", char, "กิน"], engine="phayathaibert")
+            self.assertEqual(result[1], (char, "PUNCT"))
 
     def test_pos_tag_sents_phayathaibert(self):
         from pythainlp.tag import pos_tag_sents

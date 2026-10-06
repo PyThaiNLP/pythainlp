@@ -12,6 +12,8 @@ fine-tuned on the UD Thai-TUD treebank. It tags words with Universal POS tags.
 from __future__ import annotations
 
 import json
+import threading
+import unicodedata
 from collections import Counter
 from typing import TYPE_CHECKING, Optional
 
@@ -28,7 +30,7 @@ _REPO_ID = "wiriyabot/phayathaibert-thai-pos-tagger-onnx"
 _REVISION = "ff55e2c66ef22deee18c423cee272f6e207171ae"
 
 # Maximum number of subword tokens the model accepts, including <s> and </s>.
-MAX_SEQUENCE_LENGTH = 510
+_MAX_SEQUENCE_LENGTH = 510
 
 # Tag for words the model never sees (whitespace-only words), matching
 # the perceptron tagger with Universal POS corpora.
@@ -36,6 +38,19 @@ _WHITESPACE_TAG = "PUNCT"
 
 # Universal POS tag for words that produce no subword token.
 _UNKNOWN_TAG = "X"
+
+
+def _is_blank(word: str) -> bool:
+    """Return True if a word has only whitespace or format characters.
+
+    Format characters (Unicode category Cf) include the zero-width space,
+    zero-width non-joiner and byte order mark, which carry no text.
+
+    :param str word: a word
+    :return: whether the word is empty, whitespace or format characters
+    :rtype: bool
+    """
+    return all(ch.isspace() or unicodedata.category(ch) == "Cf" for ch in word)
 
 
 def _first_subword_labels(
@@ -101,7 +116,8 @@ class PhayaThaiBERTTagger:
     the Hugging Face Hub on first use.
 
     :param str repo_id: Hugging Face Hub repository of the ONNX model
-    :param Optional[str] revision: git revision of the repository
+    :param Optional[str] revision: git revision of the repository.
+        The default repository is pinned to a commit when this is ``None``.
     """
 
     session: InferenceSession
@@ -109,9 +125,10 @@ class PhayaThaiBERTTagger:
     id2label: dict[int, str]
 
     def __init__(
-        self, repo_id: str = _REPO_ID, revision: Optional[str] = _REVISION
+        self, repo_id: str = _REPO_ID, revision: Optional[str] = None
     ) -> None:
         try:
+            import huggingface_hub  # noqa: F401
             import numpy  # noqa: F401
             from onnxruntime import InferenceSession
             from tokenizers import Tokenizer
@@ -122,6 +139,8 @@ class PhayaThaiBERTTagger:
                 ' Install them with: pip install "pythainlp[phayathaibert_onnx]"'
             ) from e
 
+        if revision is None and repo_id == _REPO_ID:
+            revision = _REVISION
         model_path = get_hf_hub(repo_id, "model.onnx", revision=revision)
         tokenizer_path = get_hf_hub(
             repo_id, "tokenizer.json", revision=revision
@@ -132,6 +151,10 @@ class PhayaThaiBERTTagger:
             model_path, providers=["CPUExecutionProvider"]
         )
         self.tokenizer = Tokenizer.from_file(tokenizer_path)
+        # tokenizer.json ships with truncation at 510 tokens, which would
+        # silently drop words; chunking is done here instead.
+        self.tokenizer.no_truncation()
+        self.tokenizer.no_padding()
         with open(config_path, encoding="utf-8") as f:
             self.id2label = {
                 int(k): v for k, v in json.load(f)["id2label"].items()
@@ -140,16 +163,17 @@ class PhayaThaiBERTTagger:
     def tag(self, words: list[str]) -> list[tuple[str, str]]:
         """Tag a list of words with Universal POS tags.
 
-        Whitespace-only words are tagged ``PUNCT`` without being passed
-        to the model. Input longer than the model limit is tagged in
-        consecutive chunks of whole words.
+        Words with only whitespace or format characters (such as the
+        zero-width space) are tagged ``PUNCT`` without being passed to the
+        model. Input longer than the model limit is tagged in consecutive
+        chunks of whole words.
 
         :param list[str] words: a list of tokenized words
         :return: a list of tuples (word, POS tag)
         :rtype: list[tuple[str, str]]
         """
         tags = [_WHITESPACE_TAG] * len(words)
-        positions = [i for i, word in enumerate(words) if word.strip()]
+        positions = [i for i, word in enumerate(words) if not _is_blank(word)]
         content = [words[i] for i in positions]
         if content:
             for position, tag in zip(positions, self._tag_content(content)):
@@ -158,7 +182,7 @@ class PhayaThaiBERTTagger:
 
     def _tag_content(self, words: list[str]) -> list[str]:
         encoding = self.tokenizer.encode(words, is_pretokenized=True)
-        if len(encoding.ids) <= MAX_SEQUENCE_LENGTH:
+        if len(encoding.ids) <= _MAX_SEQUENCE_LENGTH:
             return self._predict(encoding, len(words))
 
         counts = Counter(i for i in encoding.word_ids if i is not None)
@@ -166,7 +190,7 @@ class PhayaThaiBERTTagger:
         labels: list[str] = []
         # Two positions are taken by <s> and </s>.
         for start, end in _chunk_spans(
-            subword_counts, MAX_SEQUENCE_LENGTH - 2
+            subword_counts, _MAX_SEQUENCE_LENGTH - 2
         ):
             chunk = words[start:end]
             chunk_encoding = self.tokenizer.encode(chunk, is_pretokenized=True)
@@ -179,11 +203,11 @@ class PhayaThaiBERTTagger:
         ids = encoding.ids
         mask = encoding.attention_mask
         word_ids = encoding.word_ids
-        if len(ids) > MAX_SEQUENCE_LENGTH:
+        if len(ids) > _MAX_SEQUENCE_LENGTH:
             # Only a single over-long word gets here; its first subword stays.
-            ids = ids[: MAX_SEQUENCE_LENGTH - 1] + ids[-1:]
-            mask = mask[:MAX_SEQUENCE_LENGTH]
-            word_ids = word_ids[: MAX_SEQUENCE_LENGTH - 1] + [None]
+            ids = ids[: _MAX_SEQUENCE_LENGTH - 1] + ids[-1:]
+            mask = mask[:_MAX_SEQUENCE_LENGTH]
+            word_ids = word_ids[: _MAX_SEQUENCE_LENGTH - 1] + [None]
         logits = self.session.run(
             None,
             {
@@ -197,6 +221,7 @@ class PhayaThaiBERTTagger:
 
 
 _TAGGER: Optional[PhayaThaiBERTTagger] = None
+_TAGGER_LOCK = threading.Lock()
 
 
 def tag(words: list[str], corpus: str = "tud") -> list[tuple[str, str]]:
@@ -211,5 +236,7 @@ def tag(words: list[str], corpus: str = "tud") -> list[tuple[str, str]]:
     if not words:
         return []
     if _TAGGER is None:
-        _TAGGER = PhayaThaiBERTTagger()
+        with _TAGGER_LOCK:
+            if _TAGGER is None:
+                _TAGGER = PhayaThaiBERTTagger()
     return _TAGGER.tag(words)

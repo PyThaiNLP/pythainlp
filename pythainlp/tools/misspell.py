@@ -119,7 +119,7 @@ def misspell(sentence: str, ratio: float = 0.05) -> str:
     The ratio governs the number of misspelled locations.
 
     :param str sentence: sentence to be misspelled
-    :param float ratio: number of misspellings per 100 characters
+    :param float ratio: fraction of characters to misspell
         (default is 0.05)
     :return: sentence containing some misspelled words
     :rtype: str

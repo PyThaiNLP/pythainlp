@@ -234,6 +234,8 @@ the code disagree. The code was not changed. No test pins them.
   parameter names (`consonant`, `dictionary`, `segment`).
 - `util.keywords.find_keyword`: the parameter `min_len` means a minimum
   frequency.
+- `transliterate.transliterate`: the `:return:` says "phonetic alphabet",
+  but the *icu* and *iso_11940* engines return Latin transliteration.
 - `generate.thai2fit.gen_sentence`: the docstring lists `duplicate`, which
   is not a parameter.
 - `benchmarks.word_tokenization.preprocessing`: the docstring says `text`;

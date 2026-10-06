@@ -263,21 +263,22 @@ def thai_strftime(
 
     This function uses Thai names and the Thai Buddhist Era for these
     directives:
-        * **%a** - abbreviated weekday name
-          (such as "จ", "อ", "พ", "พฤ", "ศ", "ส", "อา")
-        * **%A** - full weekday name
-          (such as "วันจันทร์", "วันอังคาร", "วันเสาร์", "วันอาทิตย์")
-        * **%b** - abbreviated month name
-          (such as "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.",
-          "ธ.ค.")
-        * **%B** - full month name
-          (such as "มกราคม", "กุมภาพันธ์", "พฤศจิกายน", "ธันวาคม")
-        * **%y** - year without century (such as "56", "10")
-        * **%Y** - year with century (such as "2556", "2410")
-        * **%c** - date and time representation
-          (such as "พ   6 ต.ค. 01:40:00 2519")
-        * **%v** - short date representation
-          (such as " 6-ม.ค.-2562", "27-ก.พ.-2555")
+
+    * **%a** - abbreviated weekday name
+      (such as "จ", "อ", "พ", "พฤ", "ศ", "ส", "อา")
+    * **%A** - full weekday name
+      (such as "วันจันทร์", "วันอังคาร", "วันเสาร์", "วันอาทิตย์")
+    * **%b** - abbreviated month name
+      (such as "ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.",
+      "ธ.ค.")
+    * **%B** - full month name
+      (such as "มกราคม", "กุมภาพันธ์", "พฤศจิกายน", "ธันวาคม")
+    * **%y** - year without century (such as "56", "10")
+    * **%Y** - year with century (such as "2556", "2410")
+    * **%c** - date and time representation
+      (such as "พ   6 ต.ค. 01:40:00 2519")
+    * **%v** - short date representation
+      (such as " 6-ม.ค.-2562", "27-ก.พ.-2555")
 
     This function passes other directives to
     :meth:`datetime.datetime.strftime`.

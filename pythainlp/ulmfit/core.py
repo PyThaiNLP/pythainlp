@@ -125,7 +125,7 @@ def process_thai(
         apply before tokenization. If None, use the default sparse
         pre-rules.
     :param Optional[Callable[[str], list[str]]] tok_func: function to
-        tokenize text. If None, use the ``tokenize`` method of
+        tokenize text. If None, use the ``word_tokenize`` method of
         :func:`pythainlp.tokenize.thai2fit_tokenizer`.
     :param Optional[Collection[Callable[[list[str]], list[str]]]] post_rules:
         rules to apply after tokenization. If None, use the default sparse

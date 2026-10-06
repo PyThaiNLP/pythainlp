@@ -36,9 +36,7 @@ def get_transliteration_dict() -> defaultdict[
 
     :return: transliteration dictionary
     :rtype:
-        collections.defaultdict[
-            str, dict[str, list[Union[str, bool, None]]]
-        ]
+        collections.defaultdict[str, dict[str, list[Union[str, bool, None]]]]
     :raises FileNotFoundError: if the dictionary file is not found
     :raises ValueError: if the dictionary file cannot be parsed
     """

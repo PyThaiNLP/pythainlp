@@ -45,6 +45,8 @@ and this project adheres to
   set job timeouts and least-privilege `permissions`, and do not persist
   checkout credentials in read-only jobs. The `mypy` job no longer installs
   PyThaiNLP, and the `unittest` job installs `coverage` only where it is used.
+- Development: the release workflow attaches the wheel, sdist, and SBOM in
+  one job after the PyPI publish. The `dist` artifact is kept 60 days.
 - Development: `tox` has `ruff`, `flake8`, and `mypy` environments that
   match CI.
 - Development: update `dev` extra to the latest versions for each Python

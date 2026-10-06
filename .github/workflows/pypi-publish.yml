@@ -32,6 +32,11 @@ concurrency:
     }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
+# If attach_release or sign_and_attest fails after the PyPI publish, use
+# "Re-run failed jobs": it signs and attaches the same files that were
+# published. This works while the artifacts exist: "dist" is kept 60 days,
+# "sbom" for the repository's default retention. "Re-run all jobs" rebuilds a
+# different wheel, which PyPI rejects as a duplicate.
 jobs:
   echo_github_env:
     name: Echo env variables
@@ -147,7 +152,9 @@ jobs:
     - name: Store distributions
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
+        name: dist
         path: dist
+        retention-days: 60
 
   publish_pypi:
     name: Publish to PyPI
@@ -162,7 +169,7 @@ jobs:
     - name: Retrieve distributions
       uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
-        name: artifact
+        name: dist
         path: dist
     - name: Publish to PyPI
       uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
@@ -171,54 +178,36 @@ jobs:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
 
-  attach_release_sbom:
-    name: Attach SBOM to GitHub Release
+  # The jobs below run only after a successful PyPI publish, so the release
+  # page never carries files that were not published.
+  attach_release:
+    name: Attach files to GitHub Release
     needs: [build, publish_pypi]
-    # Only after PyPI publishing succeeded, so a release never carries an
-    # SBOM for a package that was not published.
     if: needs.build.result == 'success' && needs.publish_pypi.result == 'success' && needs.build.outputs.sbom-name != ''
     runs-on: ubuntu-latest
     permissions:
-      contents: write # gh release upload, for the standalone SBOM asset
+      contents: write # gh release upload, for the sdist, wheel, and SBOM assets
     steps:
+    - name: Download distribution artifacts
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+      with:
+        name: dist
+        path: dist
     - name: Download SBOM artifact
       uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         name: sbom
         path: sbom
-    - name: Attach SBOM to GitHub Release
+    - name: Attach sdist, wheel, and SBOM to GitHub Release
       env:
         GH_TOKEN: ${{ github.token }}
         RELEASE_TAG: ${{ github.event.release.tag_name }}
+        REPO: ${{ github.repository }}
         SBOM_NAME: ${{ needs.build.outputs.sbom-name }}
-        REPO: ${{ github.repository }}
-      run: |
-        set -euo pipefail
-        gh release upload "${RELEASE_TAG}" "sbom/${SBOM_NAME}" \
-          --clobber --repo "${REPO}"
-
-  attach_release_dist:
-    name: Attach distribution to GitHub Release
-    needs: [build, publish_pypi]
-    if: needs.build.result == 'success' && needs.publish_pypi.result == 'success'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write # gh release upload, for the sdist/wheel assets
-    steps:
-    - name: Download distribution artifacts
-      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-      with:
-        name: artifact
-        path: dist
-    - name: Attach sdist and wheel to GitHub Release
-      env:
-        GH_TOKEN: ${{ github.token }}
-        RELEASE_TAG: ${{ github.event.release.tag_name }}
-        REPO: ${{ github.repository }}
       run: |
         set -euo pipefail
         gh release upload "${RELEASE_TAG}" dist/*.whl dist/*.tar.gz \
-          --clobber --repo "${REPO}"
+          "sbom/${SBOM_NAME}" --clobber --repo "${REPO}"
 
   sign_and_attest:
     name: Sign distributions and SBOM, and attach provenance
@@ -233,7 +222,7 @@ jobs:
     - name: Download distribution artifacts
       uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
-        name: artifact
+        name: dist
         path: dist
     - name: Download SBOM artifact
       uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1

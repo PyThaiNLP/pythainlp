@@ -128,5 +128,5 @@ class App:
         )
 
     def path(self, argv: Sequence[str]) -> None:
-        """Print the path of a local dataset."""
+        """Print the path of the PyThaiNLP data directory."""
         print(get_pythainlp_data_path())

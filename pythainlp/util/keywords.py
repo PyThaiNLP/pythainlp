@@ -31,7 +31,7 @@ def rank(
 
     Include stopwords when counting word frequencies:
 
-        >>> from pythainlp.util import rank  # doctest: +SKIP
+        >>> from pythainlp.util import rank
 
         >>> words = [
         ...     "บันทึก",
@@ -39,48 +39,20 @@ def rank(
         ...     " ",
         ...     "มี",
         ...     "การ",
-        ...     "บันทึก",  # doctest: +SKIP
+        ...     "บันทึก",
         ...     "เป็น",
         ...     " ",
         ...     "ลายลักษณ์อักษร",
         ... ]
 
-        >>> rank(words)  # doctest: +SKIP
-        Counter(
-            {
-                ' ': 2,
-                'การ': 1,
-                'บันทึก': 2,
-                'มี': 1,
-                'ลายลักษณ์อักษร': 1,
-                'เป็น': 1,
-                'เหตุการณ์': 1
-            })
+        >>> rank(words)  # doctest: +NORMALIZE_WHITESPACE
+        Counter({'บันทึก': 2, ' ': 2, 'เหตุการณ์': 1, 'มี': 1, 'การ': 1,
+                 'เป็น': 1, 'ลายลักษณ์อักษร': 1})
 
     Exclude stopwords when counting word frequencies:
 
-        >>> from pythainlp.util import rank  # doctest: +SKIP
-
-        >>> words = [
-        ...     "บันทึก",
-        ...     "เหตุการณ์",
-        ...     " ",
-        ...     "มี",
-        ...     "การ",
-        ...     "บันทึก",  # doctest: +SKIP
-        ...     "เป็น",
-        ...     " ",
-        ...     "ลายลักษณ์อักษร",
-        ... ]
-
-        >>> rank(words)  # doctest: +SKIP
-        Counter(
-            {
-                ' ': 2,
-                'บันทึก': 2,
-                'ลายลักษณ์อักษร': 1,
-                'เหตุการณ์': 1
-            })
+        >>> rank(words, exclude_stopwords=True)
+        Counter({'บันทึก': 2, ' ': 2, 'เหตุการณ์': 1, 'ลายลักษณ์อักษร': 1})
     """
     if not words:
         return None
@@ -102,13 +74,13 @@ def find_keyword(word_list: list[str], min_len: int = 3) -> dict[str, int]:
 
     :Example:
 
-        >>> from pythainlp.util import find_keyword  # doctest: +SKIP
+        >>> from pythainlp.util import find_keyword
 
         >>> words = [
         ...     "บันทึก",
         ...     "เหตุการณ์",
         ...     "บันทึก",
-        ...     "เหตุการณ์",  # doctest: +SKIP
+        ...     "เหตุการณ์",
         ...     " ",
         ...     "มี",
         ...     "การ",
@@ -123,12 +95,12 @@ def find_keyword(word_list: list[str], min_len: int = 3) -> dict[str, int]:
         ...     "เหตุการณ์",
         ... ]
 
-        >>> find_keyword(words)  # doctest: +SKIP
+        >>> find_keyword(words)
         {'บันทึก': 4, 'เหตุการณ์': 3}
 
-        >>> find_keyword(words, min_len=1)  # doctest: +SKIP
-        {' ': 2, 'บันทึก': 4, 'ลายลักษณ์อักษรและ': 1,
-                 'เสียง': 1, 'เหตุการณ์': 3}
+        >>> find_keyword(words, min_len=1)  # doctest: +NORMALIZE_WHITESPACE
+        {'บันทึก': 4, 'เหตุการณ์': 3, ' ': 2, 'ลายลักษณ์อักษรและ': 1,
+         'เสียง': 1}
     """
     word_counter = rank(word_list, exclude_stopwords=True)
 

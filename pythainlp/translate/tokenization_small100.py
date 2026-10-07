@@ -485,7 +485,9 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         """
         Reset the special tokens to the target language setting.
 
-        There is no prefix, and the suffix is ``[eos, tgt_lang_code]``.
+        The prefix is ``[lang_code]`` and the suffix is ``[eos]``.
+
+        :param str src_lang: language code to set in the prefix
         """
         lang_token = self.get_lang_token(src_lang)
         self.cur_lang_id: int = self.lang_token_to_id[lang_token]

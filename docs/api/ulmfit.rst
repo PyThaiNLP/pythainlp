@@ -1,8 +1,14 @@
-.. currentmodule:: pythainlp.ulmfit
+.. currentmodule:: pythainlp.lm.ulmfit
 
-pythainlp.ulmfit
-====================================
-Welcome to the `pythainlp.ulmfit` module, where you'll find powerful tools for Universal Language Model Fine-tuning for Text Classification (ULMFiT). ULMFiT is a cutting-edge technique for training deep learning models on large text corpora and then fine-tuning them for specific text classification tasks.
+pythainlp.lm.ulmfit
+===================
+
+.. note::
+    :mod:`pythainlp.ulmfit` has moved to :mod:`pythainlp.lm.ulmfit`.
+    Importing from :mod:`pythainlp.ulmfit` still works but emits a
+    :class:`DeprecationWarning` and will be removed in 6.0.
+
+Welcome to the `pythainlp.lm.ulmfit` module, where you'll find powerful tools for Universal Language Model Fine-tuning for Text Classification (ULMFiT). ULMFiT is a cutting-edge technique for training deep learning models on large text corpora and then fine-tuning them for specific text classification tasks.
 
 Modules
 -------
@@ -86,5 +92,3 @@ Modules
    :noindex:
 
    The `ungroup_emoji` function is designed for ungrouping emojis in text data, which can be crucial for emoji recognition and classification tasks.
-
-.. The `pythainlp.ulmfit` module provides a comprehensive set of tools for ULMFiT-based text classification. Whether you need to preprocess Thai text, tokenize it, compute document vectors, or perform various text cleaning tasks, this module has the utilities you need. ULMFiT is a state-of-the-art technique in NLP, and these tools empower you to use it effectively for text classification.

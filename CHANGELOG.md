@@ -30,6 +30,9 @@ and this project adheres to
 
 ### Changed
 
+- Move `pythainlp.phayathaibert`, `pythainlp.wangchanberta`, and
+  `pythainlp.ulmfit` to `pythainlp.lm`; deprecate the old import paths
+  ([#1527])
 - `pythainlp.tokenize.deepcut`: built-in ONNX engine replaces the
   TensorFlow-based `deepcut`; `custom_dict` is no longer applied ([#1372])
 - Improve guardrails in `check_sara()` and `nighit()` ([#1453])
@@ -85,6 +88,7 @@ and this project adheres to
 [#1511]: https://github.com/PyThaiNLP/pythainlp/pull/1511
 [#1512]: https://github.com/PyThaiNLP/pythainlp/pull/1512
 [#1526]: https://github.com/PyThaiNLP/pythainlp/pull/1526
+[#1527]: https://github.com/PyThaiNLP/pythainlp/pull/1527
 [#1529]: https://github.com/PyThaiNLP/pythainlp/pull/1529
 [#1541]: https://github.com/PyThaiNLP/pythainlp/pull/1541
 [#1542]: https://github.com/PyThaiNLP/pythainlp/pull/1542

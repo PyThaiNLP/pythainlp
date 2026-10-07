@@ -77,11 +77,11 @@ SUBWORD_ENGINES: dict[str, tuple[str, str]] = {
     "tcc": ("pythainlp.tokenize.tcc", "segment"),
     "tcc_p": ("pythainlp.tokenize.tcc_p", "segment"),
     "etcc": ("pythainlp.tokenize.etcc", "segment"),
-    "wangchanberta": ("pythainlp.wangchanberta", "segment"),
+    "wangchanberta": ("pythainlp.lm.wangchanberta", "segment"),
     "ssg": ("pythainlp.tokenize.ssg", "segment"),
     "tltk": ("pythainlp.tokenize.tltk", "syllable_tokenize"),
     "han_solo": ("pythainlp.tokenize.han_solo", "segment"),
-    "phayathai": ("pythainlp.phayathaibert", "segment"),
+    "phayathai": ("pythainlp.lm.phayathaibert", "segment"),
 }
 
 # engine: model size passed to pythainlp.tokenize.wtsplit.tokenize

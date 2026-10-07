@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from transformers import AutoModelForMaskedLM, AutoTokenizer, Pipeline
 
-from pythainlp.phayathaibert.core import ThaiTextProcessor
+from pythainlp.lm.phayathaibert.core import ThaiTextProcessor
 
 _MODEL_NAME: str = "clicknext/phayathaibert"
 

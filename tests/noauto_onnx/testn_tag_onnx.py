@@ -54,8 +54,7 @@ class TagONNXTestCaseN(unittest.TestCase):
 
 
 class TagPhayaThaiBERTONNXTestCaseN(unittest.TestCase):
-    """Tests for the PhayaThaiBERT ONNX POS tagger
-    (requires onnxruntime, tokenizers, huggingface-hub)"""
+    """Test the PhayaThaiBERT ONNX POS tagger."""
 
     WORDS = ["ฉัน", "กิน", "ข้าว", "ที่", "ร้านอาหาร"]
 

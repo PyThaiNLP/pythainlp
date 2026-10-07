@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""PhayaThaiBERT part-of-speech tagger with ONNX Runtime backend.
+"""
+PhayaThaiBERT part-of-speech tagger with ONNX Runtime backend.
 
 The model is an ONNX export of
 `nlp-chula/phayathaibert-thai-pos-tagger
@@ -41,12 +42,13 @@ _UNKNOWN_TAG = "X"
 
 
 def _is_blank(word: str) -> bool:
-    """Return True if a word has only whitespace or format characters.
+    """
+    Return True if a word has only whitespace or format characters.
 
     Format characters (Unicode category Cf) include the zero-width space,
     zero-width non-joiner and byte order mark, which carry no text.
 
-    :param str word: a word
+    :param str word: word to check
     :return: whether the word is empty, whitespace or format characters
     :rtype: bool
     """
@@ -59,15 +61,16 @@ def _first_subword_labels(
     n_words: int,
     id2label: Mapping[int, str],
 ) -> list[str]:
-    """Pick each word's tag from the prediction for its first subword.
+    """
+    Pick each word's tag from the prediction for its first subword.
 
     This is the alignment the model was trained with.
 
-    :param word_ids: word index of each subword token; ``None`` for special
-        tokens
-    :param label_ids: predicted label id of each subword token
-    :param n_words: number of input words
-    :param id2label: mapping from label id to tag name
+    :param Sequence[Optional[int]] word_ids: word index of each subword
+        token; ``None`` for special tokens
+    :param Sequence[int] label_ids: predicted label id of each subword token
+    :param int n_words: number of input words
+    :param Mapping[int, str] id2label: mapping from label id to tag name
     :return: one tag per word; ``"X"`` for a word that produced no subword
     :rtype: list[str]
     """
@@ -84,13 +87,15 @@ def _first_subword_labels(
 def _chunk_spans(
     subword_counts: Sequence[int], max_subwords: int
 ) -> list[tuple[int, int]]:
-    """Group consecutive words into spans that fit the model's input length.
+    """
+    Group consecutive words into spans that fit the model's input length.
 
     A word longer than ``max_subwords`` gets a span of its own; its subwords
     are truncated at encoding time, which keeps its first subword.
 
-    :param subword_counts: number of subword tokens of each word
-    :param max_subwords: maximum number of subword tokens per span
+    :param Sequence[int] subword_counts: number of subword tokens of each
+        word
+    :param int max_subwords: maximum number of subword tokens per span
     :return: ``(start, end)`` word index pairs, end exclusive
     :rtype: list[tuple[int, int]]
     """
@@ -109,7 +114,8 @@ def _chunk_spans(
 
 
 class PhayaThaiBERTTagger:
-    """Universal POS tagger using PhayaThaiBERT with ONNX Runtime.
+    """
+    Universal POS tagger using PhayaThaiBERT with ONNX Runtime.
 
     Requires ``numpy``, ``onnxruntime``, ``tokenizers`` and
     ``huggingface-hub``. The model (about 530 MB) is downloaded from
@@ -127,6 +133,15 @@ class PhayaThaiBERTTagger:
     def __init__(
         self, repo_id: str = _REPO_ID, revision: Optional[str] = None
     ) -> None:
+        """
+        Download the model and load it with ONNX Runtime.
+
+        :param str repo_id: Hugging Face Hub repository of the ONNX model
+        :param Optional[str] revision: git revision of the repository.
+            The default repository is pinned to a commit when this is
+            ``None``.
+        :raises ImportError: if a required dependency is not installed
+        """
         try:
             import huggingface_hub  # noqa: F401
             import numpy  # noqa: F401
@@ -161,15 +176,16 @@ class PhayaThaiBERTTagger:
             }
 
     def tag(self, words: list[str]) -> list[tuple[str, str]]:
-        """Tag a list of words with Universal POS tags.
+        """
+        Tag a list of words with Universal POS tags.
 
         Words with only whitespace or format characters (such as the
         zero-width space) are tagged ``PUNCT`` without being passed to the
         model. Input longer than the model limit is tagged in consecutive
         chunks of whole words.
 
-        :param list[str] words: a list of tokenized words
-        :return: a list of tuples (word, POS tag)
+        :param list[str] words: list of words to be tagged
+        :return: list of tuples (word, POS tag)
         :rtype: list[tuple[str, str]]
         """
         tags = [_WHITESPACE_TAG] * len(words)
@@ -225,11 +241,12 @@ _TAGGER_LOCK = threading.Lock()
 
 
 def tag(words: list[str], corpus: str = "tud") -> list[tuple[str, str]]:
-    """Tag words with Universal POS tags using PhayaThaiBERT (ONNX).
+    """
+    Tag words with Universal POS tags using PhayaThaiBERT (ONNX).
 
-    :param list[str] words: a list of tokenized words
+    :param list[str] words: list of words to be tagged
     :param str corpus: ignored; the model is trained on UD Thai-TUD only
-    :return: a list of tuples (word, POS tag)
+    :return: list of tuples (word, POS tag)
     :rtype: list[tuple[str, str]]
     """
     global _TAGGER

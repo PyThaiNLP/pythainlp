@@ -1,9 +1,7 @@
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Security tests for path traversal protection and safe archive extraction.
-"""
+"""Security tests for path traversal protection and safe archive extraction."""
 
 import os
 import tarfile

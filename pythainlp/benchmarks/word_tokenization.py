@@ -149,21 +149,16 @@ def benchmark(ref_samples: list[str], samples: list[str]) -> "pd.DataFrame":
                 flat_stats["actual"] = s
                 results.append(flat_stats)
         except Exception as exc:
-            reason = """
+            reason = f"""
 [Error]
-Reason: %s
+Reason: {sys.exc_info()}
 
-Pair (i=%d)
+Pair (i={i})
 --- label
-%s
+{r}
 --- sample
-%s
-""" % (
-                sys.exc_info(),
-                i,
-                r,
-                s,
-            )
+{s}
+"""
             raise SystemExit(reason) from exc
 
     return pd.DataFrame(results)
@@ -301,7 +296,7 @@ def _binary_representation(
 
     if verbose:
         for c, m in zip(sample_wo_seps, bin_rept):
-            print("%s -- %d" % (c, m))
+            print(f"{c} -- {m}")
 
     return bin_rept
 

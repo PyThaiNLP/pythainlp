@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import re
-from functools import lru_cache
+from functools import cache, lru_cache
 
 from pythainlp import thai_consonants, thai_tonemarks
 from pythainlp.corpus import thai_words
@@ -17,7 +17,7 @@ from pythainlp.util import remove_tonemark
 kv: KhaveeVerifier = KhaveeVerifier()
 
 
-@lru_cache(maxsize=None)
+@cache
 def _single_syllable_thai_words() -> list[str]:
     """Return cached list of single-syllable Thai words."""
     return [i for i in thai_words() if len(syllable_tokenize(i)) == 1]
@@ -130,7 +130,7 @@ def tone_to_spelling(t: str) -> str:
     return t
 
 
-@lru_cache(maxsize=None)
+@cache
 def _spelling_tokenizer() -> Tokenizer:
     """Load and cache the vowel and consonant tokenizer for spelling."""
     return Tokenizer(

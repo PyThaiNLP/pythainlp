@@ -102,8 +102,8 @@ class WordTokenizationBenchmark:
             )
 
         safe_print(
-            "Benchmarking %s against %s with %d samples in total"
-            % (args.input_file, args.test_file, len(actual))
+            f"Benchmarking {args.input_file} against {args.test_file}"
+            f" with {len(actual)} samples in total"
         )
 
         try:
@@ -174,7 +174,7 @@ class WordTokenizationBenchmark:
             file_name = os.path.basename(args.input_file).split(".")[0]
 
             res_path = safe_path_join(dir_name, f"eval-{file_name}.yml")
-            safe_print("Evaluation result is saved to %s" % res_path)
+            safe_print(f"Evaluation result is saved to {res_path}")
 
             with open(res_path, "w", encoding="utf-8") as outfile:
                 yaml.dump(statistics, outfile, default_flow_style=False)
@@ -182,7 +182,7 @@ class WordTokenizationBenchmark:
             res_path = safe_path_join(
                 dir_name, f"eval-details-{file_name}.json"
             )
-            safe_print("Details of comparisons is saved to %s" % res_path)
+            safe_print(f"Details of comparisons is saved to {res_path}")
 
             with open(res_path, "w", encoding="utf-8") as f:
                 samples = []

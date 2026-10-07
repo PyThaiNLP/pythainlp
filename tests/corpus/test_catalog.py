@@ -58,7 +58,7 @@ class CorpusCatalogTestCase(unittest.TestCase):
         catalog = get_corpus_db(url)
 
         self.assertIsNotNone(catalog)
-        catalog_data = catalog.json()  # type: ignore
+        catalog_data = catalog.json()  # type: ignore[union-attr]
 
         self.assertIsInstance(
             catalog_data, dict, "Catalog should be a dictionary"
@@ -81,7 +81,7 @@ class CorpusCatalogTestCase(unittest.TestCase):
         catalog = get_corpus_db(url)
 
         self.assertIsNotNone(catalog)
-        catalog_data = catalog.json()  # type: ignore
+        catalog_data = catalog.json()  # type: ignore[union-attr]
 
         # Check for some known corpus entries
         # "test" is a standard test corpus that should always exist
@@ -154,7 +154,7 @@ class CorpusCatalogTestCase(unittest.TestCase):
         catalog = get_corpus_db(url)
 
         self.assertIsNotNone(catalog)
-        catalog_data = catalog.json()  # type: ignore
+        catalog_data = catalog.json()  # type: ignore[union-attr]
 
         # Check version information for test corpus
         if "test" in catalog_data:

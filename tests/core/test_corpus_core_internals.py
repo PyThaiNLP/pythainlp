@@ -103,7 +103,7 @@ def _zip_bytes(members: list[tuple[str, bytes, bool]]) -> bytes:
 
 
 def _md5(data: bytes) -> str:
-    return hashlib.md5(data, usedforsecurity=False).hexdigest()  # noqa: S324
+    return hashlib.md5(data, usedforsecurity=False).hexdigest()
 
 
 def _snapshot(root: Path) -> dict[str, bytes]:
@@ -281,7 +281,7 @@ _CV_CODES = {"T": True, "F": False, "E": _CV_ERROR}
 def _outcome(func: Any, *args: Any, **kwargs: Any) -> Any:
     try:
         return func(*args, **kwargs)
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         return (type(e).__name__, str(e))
 
 

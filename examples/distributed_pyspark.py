@@ -20,9 +20,7 @@ https://github.com/PyThaiNLP/pythainlp/issues/475
 
 # Example 1: Basic PySpark setup with PyThaiNLP
 def example_basic_spark():
-    """
-    Basic example showing how to tokenize Thai text in PySpark.
-    """
+    """Basic example showing how to tokenize Thai text in PySpark."""
     from pyspark import SparkContext
 
     sc = SparkContext("local[*]", "PyThaiNLP Example")
@@ -69,9 +67,7 @@ def example_basic_spark():
 
 # Example 2: Using DataFrame API
 def example_dataframe_api():
-    """
-    Example using PySpark DataFrame API with PyThaiNLP.
-    """
+    """Example using PySpark DataFrame API with PyThaiNLP."""
     from pyspark.sql import SparkSession
     from pyspark.sql.functions import udf
     from pyspark.sql.types import ArrayType, StringType
@@ -115,9 +111,7 @@ def example_dataframe_api():
 
 # Example 3: Advanced configuration with multiple PyThaiNLP features
 def example_advanced():
-    """
-    Advanced example using multiple PyThaiNLP features in PySpark.
-    """
+    """Advanced example using multiple PyThaiNLP features in PySpark."""
     from pyspark import SparkContext
 
     sc = SparkContext("local[*]", "PyThaiNLP Advanced Example")
@@ -130,9 +124,7 @@ def example_advanced():
     rdd = sc.parallelize(thai_texts)
 
     def process_thai_text(text):
-        """
-        Process Thai text with multiple PyThaiNLP features.
-        """
+        """Process Thai text with multiple PyThaiNLP features."""
         import os
 
         # Configure data directory
@@ -173,9 +165,7 @@ def example_advanced():
 
 # Example 4: Best practices for production environments
 def example_production_best_practices():
-    """
-    Production-ready example with error handling and logging.
-    """
+    """Production-ready example with error handling and logging."""
     from pyspark.sql import SparkSession
 
     spark = (
@@ -192,9 +182,7 @@ def example_production_best_practices():
     df = spark.createDataFrame(data, ["id", "text"])
 
     def safe_tokenize(text):
-        """
-        Tokenize with error handling for production use.
-        """
+        """Tokenize with error handling for production use."""
         import os
 
         try:

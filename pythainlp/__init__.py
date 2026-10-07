@@ -56,6 +56,7 @@ thai_pangram: str = """กีฬาบังลังก์ ฿๑,๒๓๔,๕
 ๑๒ กรกฎาคม ๒๕๕๘"""
 
 __all__: list[str] = [
+    "Tokenizer",
     "collate",
     "correct",
     "is_offline_mode",
@@ -63,13 +64,12 @@ __all__: list[str] = [
     "is_unsafe_pickle_allowed",
     "pos_tag",
     "romanize",
-    "spell",
     "sent_tokenize",
-    "subword_tokenize",
     "soundex",
+    "spell",
+    "subword_tokenize",
     "thai_strftime",
     "transliterate",
-    "Tokenizer",
     "word_tokenize",
 ]
 

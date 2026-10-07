@@ -10,7 +10,7 @@ https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&t
 
 from __future__ import annotations
 
-__all__: list[str] = ["word_freqs", "unigram_word_freqs"]
+__all__: list[str] = ["unigram_word_freqs", "word_freqs"]
 
 from collections import defaultdict
 

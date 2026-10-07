@@ -4,9 +4,9 @@
 """Language model utilities for Thai text."""
 
 __all__: list[str] = [
+    "Qwen3",
     "calculate_ngram_counts",
     "remove_repeated_ngrams",
-    "Qwen3",
 ]
 
 from pythainlp.lm.qwen3 import Qwen3

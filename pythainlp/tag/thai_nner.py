@@ -18,7 +18,7 @@ from pythainlp.corpus import get_corpus_path
 from pythainlp.tag.named_entity import EntitySpan  # noqa: TC001
 
 if TYPE_CHECKING:
-    from thai_nner import NNER  # noqa: F401
+    from thai_nner import NNER
 
 
 __all__: list[str] = ["ThaiNNER"]

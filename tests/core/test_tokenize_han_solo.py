@@ -1556,7 +1556,7 @@ class HanSoloFeaturizerTestCase(unittest.TestCase):
                         "ok",
                         featurizer.featurize(sentence, padding, indiv, rtype),
                     ]
-                except Exception as ex:  # noqa: BLE001
+                except Exception as ex:
                     got = ["exc", type(ex).__name__, str(ex)]
                 self.assertEqual(got, expected)
 

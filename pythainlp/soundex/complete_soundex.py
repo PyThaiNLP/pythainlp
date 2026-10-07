@@ -17,7 +17,7 @@ Note:
     Multi-syllable words are automatically tokenized internally when the
     syllable_tokenize dependency is available (python-crfsuite).
 
-    Example:
+Example:
         from pythainlp.soundex import complete_soundex
 
         # Single syllable

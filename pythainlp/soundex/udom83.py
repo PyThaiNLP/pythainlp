@@ -56,8 +56,9 @@ _TRANS2: dict[int, int] = str.maketrans(
 
 def udom83(text: str) -> str:
     """
-    Convert text into phonetic code with the Thai soundex algorithm
-    named **Udom83** [#udom83]_.
+    Convert text into a Udom83 phonetic code.
+
+    Udom83 [#udom83]_ is a Thai soundex algorithm.
 
     :param str text: Thai word to be encoded
     :return: Udom83 soundex code

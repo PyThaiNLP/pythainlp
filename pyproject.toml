@@ -433,8 +433,17 @@ skip-magic-trailing-comma = false
 # The limit is 10. Unrefactored functions carry a `# noqa: C901` marked
 # `# phase2-todo`.
 mccabe.max-complexity = 10
+# flake8 owns the CCR (cognitive complexity) codes; keep their `# noqa`.
+external = ["CCR"]
 select = [
     "D1",
+    "D200",
+    "D202",
+    "D205",
+    "D209",
+    "D213",
+    "D214",
+    "D300",
     "E",
     "F",
     "I",
@@ -445,9 +454,17 @@ select = [
     "C4",
     "FURB",
     "ISC",
+    "PGH003",
     "PIE",
+    "PLE",
     "RET",
+    "RUF022",
+    "RUF100",
+    "RUF102",
     "SIM",
+    "UP015",
+    "UP031",
+    "UP033",
     "C901",
     "F401",
     "F811",

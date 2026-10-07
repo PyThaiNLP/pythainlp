@@ -26,7 +26,8 @@ def load_tests(
     loader: TestLoader, standard_tests: TestSuite, pattern: str
 ) -> TestSuite:
     """
-    Load test protocol
+    Load test protocol.
+
     See: https://docs.python.org/3/library/unittest.html#id1
     """
     suite = TestSuite()

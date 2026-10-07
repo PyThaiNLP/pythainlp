@@ -1,9 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Romanization of Thai words using the "thai2rom" engine in ONNX runtime.
-"""
+"""Romanization of Thai words using the "thai2rom" engine in ONNX runtime."""
 
 from __future__ import annotations
 
@@ -151,9 +149,7 @@ class ThaiTransliterator_ONNX:
 
 
 class Seq2Seq_ONNX:
-    """
-    Sequence-to-sequence model that runs ONNX encoder and decoder sessions.
-    """
+    """Sequence-to-sequence model that runs ONNX encoder and decoder sessions."""
 
     encoder: InferenceSession
     decoder: InferenceSession

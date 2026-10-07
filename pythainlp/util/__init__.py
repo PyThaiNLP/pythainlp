@@ -6,6 +6,7 @@
 __all__: list[str] = [
     "Trie",
     "abbreviation_to_full_text",
+    "analyze_thai_text",
     "arabic_digit_to_thai_digit",
     "bahttext",
     "censor_profanity",
@@ -30,12 +31,12 @@ __all__: list[str] = [
     "isthai",
     "isthaichar",
     "longest_common_subsequence",
+    "maiyamok",
     "nectec_to_ipa",
     "normalize",
     "now_reign_year",
     "num_to_thaiword",
     "num_to_thaiword_float",
-    "maiyamok",
     "rank",
     "reign_year_to_ad",
     "remove_dangling",
@@ -51,8 +52,8 @@ __all__: list[str] = [
     "sound_syllable",
     "spell_syllable",
     "spell_word",
-    "spelling",
     "spell_words",
+    "spelling",
     "syllable_length",
     "syllable_open_close_detector",
     "text_to_arabic_digit",
@@ -62,8 +63,8 @@ __all__: list[str] = [
     "thai_consonant_to_spelling",
     "thai_digit_to_arabic_digit",
     "thai_keyboard_dist",
-    "thai_strptime",
     "thai_strftime",
+    "thai_strptime",
     "thai_to_eng",
     "thai_word_tone_detector",
     "thaiword_to_date",
@@ -76,7 +77,6 @@ __all__: list[str] = [
     "tone_detector",
     "tone_to_spelling",
     "words_to_num",
-    "analyze_thai_text",
 ]
 
 from pythainlp.util import spell_words  # noqa: I001 - keep block order to avoid circular imports
@@ -156,13 +156,13 @@ from pythainlp.util.wordtonum import text_to_num, thaiword_to_num, words_to_num
 # sound_syllable and pronounce have to be imported last,
 # to prevent circular import issues.
 # Other imports should be above this line, sorted.
-from pythainlp.util.syllable import (  # noqa: I001
+from pythainlp.util.syllable import (
     sound_syllable,
     syllable_length,
     syllable_open_close_detector,
     tone_detector,
 )
-from pythainlp.util.pronounce import (  # noqa: I001
+from pythainlp.util.pronounce import (
     rhyme,
     spelling,
     thai_consonant_to_spelling,

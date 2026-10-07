@@ -1,9 +1,7 @@
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Unit tests for profanity detection functions
-"""
+"""Unit tests for profanity detection functions"""
 
 import unittest
 

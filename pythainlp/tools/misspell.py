@@ -139,7 +139,7 @@ def misspell(sentence: str, ratio: float = 0.05) -> str:
     """
     num_misspells = math.floor(len(sentence) * ratio)
     # Non-cryptographic use, pseudo-random generator is acceptable here
-    positions = random.sample(range(len(sentence)), k=num_misspells)  # noqa: S311  # nosec B311  # NOSONAR
+    positions = random.sample(range(len(sentence)), k=num_misspells)  # nosec B311  # NOSONAR
 
     # convert strings to array of characters
     misspelled = list(sentence)

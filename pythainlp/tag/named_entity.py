@@ -113,7 +113,7 @@ class NER:
             elif engine == "wangchanberta":
                 from pythainlp.wangchanberta import (
                     ThaiNameTagger as WangchanbertaThaiNameTagger,
-                )  # noqa: I001,E501
+                )
 
                 self.engine = WangchanbertaThaiNameTagger(dataset_name=corpus)
         elif corpus == "thainer-v2":

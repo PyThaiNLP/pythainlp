@@ -2,8 +2,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
-Thai-English Cross-Language Transliterated Word Retrieval
-using Soundex Technique.
+Soundex for Thai-English cross-language transliterated word retrieval.
 
 References:
 Prayut Suwanvisat, Somchai Prasitjutrakul.
@@ -71,8 +70,9 @@ _REST_CODES: dict[str, str] = _build_table(
 
 def prayut_and_somchaip(text: str, length: int = 4) -> str:
     """
-    Convert a Thai-English cross-language transliterated word into
-    phonetic code with the matching technique called **Soundex**
+    Convert a Thai-English transliterated word into a phonetic code.
+
+    The code uses the Soundex matching technique
     [#prayut_and_somchaip]_.
 
     :param str text: English or Thai transliterated word to be encoded

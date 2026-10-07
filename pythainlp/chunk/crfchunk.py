@@ -119,7 +119,7 @@ class CRFChunkParser:
         :param str corpus: corpus for the CRF model
         """
         from pycrfsuite import (
-            Tagger as CRFTagger,  # noqa: PLC0415  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-module-attribute]
+            Tagger as CRFTagger,  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-module-attribute]
         )
 
         self.tagger = CRFTagger()

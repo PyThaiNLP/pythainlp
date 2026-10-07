@@ -278,7 +278,7 @@ class ThaiwordToTimeTestCase(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, _NO_AFFIX):
             thaiword_to_time("ก" * 10000)
         with self.assertRaisesRegex(ValueError, _NO_AFFIX):
-            thaiword_to_time("​😀|")
+            thaiword_to_time("\u200b😀|")
         with self.assertRaisesRegex(ValueError, _NO_HOUR):
             thaiword_to_time("นาฬิกาห้านาที")
 

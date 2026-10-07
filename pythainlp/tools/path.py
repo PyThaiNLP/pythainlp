@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 if sys.version_info >= (3, 11):
     from importlib.resources import files  # Available in Python 3.11+
 else:
-    from importlib_resources import files  # noqa: I001
+    from importlib_resources import files
 
 PYTHAINLP_DEFAULT_DATA_DIR: str = "pythainlp-data"
 

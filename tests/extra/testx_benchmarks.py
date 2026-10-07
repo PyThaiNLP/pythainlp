@@ -19,7 +19,7 @@ from pythainlp.benchmarks import (
     word_tokenization,
 )
 
-with open("./tests/data/sentences.yml", "r", encoding="utf8") as stream:
+with open("./tests/data/sentences.yml", encoding="utf8") as stream:
     TEST_DATA = yaml.safe_load(stream)
 
 

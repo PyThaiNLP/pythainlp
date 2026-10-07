@@ -1510,7 +1510,7 @@ class KhaveeCheckKlonCharacterizationTestCase(unittest.TestCase):
                     "ok",
                     self.kv.check_klon(text, k_type),
                 )
-            except Exception as exc:  # noqa: BLE001
+            except Exception as exc:
                 outcome = ("exc", type(exc).__name__, str(exc))
             digest.update(repr((text, k_type, outcome)).encode())
             count += 1

@@ -253,7 +253,7 @@ def _run(
             dt_obj = thai_strptime(text, fmt, year, add_year)
         else:
             dt_obj = thai_strptime(text, fmt, year, add_year, _TZ[tz])
-    except Exception as err:  # noqa: BLE001
+    except Exception as err:
         return (type(err).__name__, str(err))
     return (
         dt_obj.year,

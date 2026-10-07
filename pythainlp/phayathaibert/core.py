@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING, Optional, Union, cast
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from transformers import (  # noqa: F401
+    from transformers import (
         AutoModelForMaskedLM,
         AutoModelForTokenClassification,
         CamembertTokenizer,

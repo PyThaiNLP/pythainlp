@@ -8,9 +8,9 @@ __all__: list[str] = [
     "NorvigSpellChecker",
     "correct",
     "correct_sent",
+    "get_words_spell_suggestion",
     "spell",
     "spell_sent",
-    "get_words_spell_suggestion",
 ]
 
 from typing import Type

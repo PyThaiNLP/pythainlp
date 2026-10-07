@@ -905,7 +905,6 @@ class KhaveeVerifier:
             ... ))
             The poem is correct according to the principle.
         """
-
         try:
             __import__("ssg")
         except ImportError as exc:

@@ -16,7 +16,7 @@ import os
 from typing import TYPE_CHECKING, Optional, Union
 
 if TYPE_CHECKING:
-    from transformers import (  # noqa: F401
+    from transformers import (
         AutoModelForQuestionAnswering,
         AutoTokenizer,
         TokenClassificationPipeline,

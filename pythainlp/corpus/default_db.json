@@ -19,7 +19,7 @@
         "versions": {
             "1.0.0": {
                 "filename": "deepcut.onnx",
-                "md5": "f4662560dd9a706bfb1d7790ad6c667f",
+                "md5": "98396b6615dad8a94c8118cbd0bf027e",
                 "pythainlp_version": ">=5.4.0"
             }
         }
@@ -57,7 +57,7 @@
         "versions": {
             "1.0.0": {
                 "filename": "thai2rom_encoder.onnx",
-                "md5": "-",
+                "md5": "63b2edd990434cf259fea05deed9d4fa",
                 "pythainlp_version": ">=3.2.0"
             }
         }
@@ -75,7 +75,7 @@
         "versions": {
             "1.0.0": {
                 "filename": "thai2rom_decoder.onnx",
-                "md5": "-",
+                "md5": "c2c8628877eb80c6f5ac349130d88de6",
                 "pythainlp_version": ">=3.2.0"
             }
         }
@@ -93,7 +93,7 @@
         "versions": {
             "1.0.0": {
                 "filename": "thai2rom_loader_onnx.json",
-                "md5": "-",
+                "md5": "2365000618959912fb904bf97418b545",
                 "pythainlp_version": ">=3.2.0"
             }
         }

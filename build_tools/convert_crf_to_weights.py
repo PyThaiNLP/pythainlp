@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Convert python-crfsuite binary models to compressed JSON weights.
+"""
+Convert python-crfsuite binary models to compressed JSON weights.
 
 Usage:
     python build_tools/convert_crf_to_weights.py
@@ -13,85 +14,171 @@ import argparse
 import gzip
 import json
 import os
-import re
 import tempfile
-from typing import Dict, List, Optional, Tuple
+from typing import Optional
+
+_SECTIONS = {
+    "ATTRIBUTES",
+    "FILEHEADER",
+    "LABELS",
+    "STATE_FEATURES",
+    "TRANSITIONS",
+}
+
+
+def _parse_weight(weight: str) -> Optional[float]:
+    mantissa, exponent_separator, exponent = weight.lower().partition("e")
+    if exponent_separator:
+        if exponent[:1] in ("+", "-"):
+            exponent = exponent[1:]
+        if not exponent.isdecimal():
+            return None
+
+    if mantissa[:1] in ("+", "-"):
+        mantissa = mantissa[1:]
+    integer, decimal_separator, fraction = mantissa.partition(".")
+    if not integer.isdecimal() or (
+        decimal_separator and not fraction.isdecimal()
+    ):
+        return None
+    return float(weight)
+
+
+def _parse_section_header(line: str) -> Optional[str]:
+    section, separator, _ = line.partition(" = {")
+    if separator and section in _SECTIONS:
+        return section
+    return None
+
+
+def _parse_label_line(
+    line: str,
+    labels: dict[int, str],
+    current_id: Optional[int],
+    current_lines: list[str],
+) -> tuple[Optional[int], list[str]]:
+    label_id, separator, label = line.lstrip().partition(":")
+    if not separator or not label_id.isdecimal():
+        current_lines.append(line)
+        return current_id, current_lines
+
+    if current_id is not None:
+        labels[current_id] = "\n".join(current_lines)
+
+    if label[:1].isspace():
+        label = label[1:]
+    return int(label_id), [label]
+
+
+def _parse_weighted_row(
+    line: str, use_last_arrow: bool
+) -> Optional[tuple[str, str, float]]:
+    row_id, separator, row = line.lstrip().partition(")")
+    if (
+        not separator
+        or not row_id.startswith("(")
+        or not row_id[1:].isdecimal()
+        or not row[:1].isspace()
+    ):
+        return None
+
+    row, separator, weight = row.lstrip().rpartition(":")
+    if not separator or not weight[:1].isspace():
+        return None
+
+    parsed_weight = _parse_weight(weight.lstrip())
+    if parsed_weight is None:
+        return None
+
+    arrow_index = row.rfind("-->") if use_last_arrow else row.find("-->")
+    if arrow_index < 0:
+        return None
+
+    left, right = row[:arrow_index], row[arrow_index + 3 :]
+    if not left[-1:].isspace() or not right[:1].isspace():
+        return None
+
+    return left.rstrip(), right.lstrip(), parsed_weight
+
+
+def _finish_label_section(
+    section: str,
+    current_id: Optional[int],
+    labels: dict[int, str],
+    current_lines: list[str],
+) -> tuple[Optional[int], list[str]]:
+    if section == "LABELS" and current_id is not None:
+        labels[current_id] = "\n".join(current_lines)
+        return None, []
+    return current_id, current_lines
+
+
+def _store_weighted_row(
+    line: str,
+    section: str,
+    transitions: dict[str, float],
+    state_features: dict[str, dict[str, float]],
+) -> None:
+    weighted_row = _parse_weighted_row(line, section == "TRANSITIONS")
+    if weighted_row is None:
+        return
+
+    left, right, weight = weighted_row
+    if section == "TRANSITIONS":
+        transitions[f"{left}->{right}"] = weight
+    else:
+        state_features.setdefault(left, {})[right] = weight
 
 
 def parse_dump_file(
     dump_path: str,
-) -> Tuple[List[str], Dict[str, float], Dict[str, Dict[str, float]]]:
-    """Parse a crfsuite dump text file into model weights.
+) -> tuple[list[str], dict[str, float], dict[str, dict[str, float]]]:
+    """
+    Parse a CRFsuite dump text file into model weights.
 
     :param str dump_path: Path to dumped plain-text CRF model.
     :return: Tuple of (labels_list, transitions_dict, state_features_dict).
-    :rtype: Tuple[List[str], Dict[str, float], Dict[str, Dict[str, float]]]
+    :rtype: tuple[list[str], dict[str, float], dict[str, dict[str, float]]]
     """
-    labels: Dict[int, str] = {}
-    transitions: Dict[str, float] = {}
-    state_features: Dict[str, Dict[str, float]] = {}
+    labels: dict[int, str] = {}
+    transitions: dict[str, float] = {}
+    state_features: dict[str, dict[str, float]] = {}
 
     section: str = ""
     curr_id: Optional[int] = None
-    curr_str: List[str] = []
+    curr_str: list[str] = []
 
-    with open(dump_path, "r", encoding="utf-8", errors="replace") as file_obj:
+    with open(dump_path, encoding="utf-8", errors="replace") as file_obj:
         for line in file_obj:
             line_str = line.rstrip("\r\n")
-            match_sec = re.match(
-                r"^(FILEHEADER|LABELS|ATTRIBUTES|TRANSITIONS|STATE_FEATURES) = {",
-                line_str,
-            )
-            if match_sec:
-                section = match_sec.group(1)
+            next_section = _parse_section_header(line_str)
+            if next_section:
+                section = next_section
                 continue
+
             if line_str == "}":
-                if section == "LABELS" and curr_id is not None:
-                    labels[curr_id] = "\n".join(curr_str)
-                    curr_id = None
-                    curr_str = []
+                curr_id, curr_str = _finish_label_section(
+                    section, curr_id, labels, curr_str
+                )
                 section = ""
                 continue
 
             if section == "LABELS":
-                match_lbl = re.match(r"^\s*(\d+):\s?(.*)$", line_str)
-                if match_lbl:
-                    if curr_id is not None:
-                        labels[curr_id] = "\n".join(curr_str)
-                    curr_id = int(match_lbl.group(1))
-                    curr_str = [match_lbl.group(2)]
-                else:
-                    curr_str.append(line_str)
-            elif section == "TRANSITIONS":
-                match_tr = re.match(
-                    r"^\s*\(\d+\)\s+(.*)\s+-->\s+(.*):\s+([+-]?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)$",
-                    line_str,
+                curr_id, curr_str = _parse_label_line(
+                    line_str, labels, curr_id, curr_str
                 )
-                if match_tr:
-                    transitions[f"{match_tr.group(1)}->{match_tr.group(2)}"] = (
-                        float(match_tr.group(3))
-                    )
-            elif section == "STATE_FEATURES":
-                match_sf = re.match(
-                    r"^\s*\(\d+\)\s+(.*)\s+-->\s+(.*?):\s+([+-]?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)$",
-                    line_str,
+            elif section in ("TRANSITIONS", "STATE_FEATURES"):
+                _store_weighted_row(
+                    line_str, section, transitions, state_features
                 )
-                if match_sf:
-                    attr, lbl, weight = (
-                        match_sf.group(1),
-                        match_sf.group(2),
-                        float(match_sf.group(3)),
-                    )
-                    if attr not in state_features:
-                        state_features[attr] = {}
-                    state_features[attr][lbl] = weight
 
     label_list = [labels[i] for i in range(len(labels))]
     return label_list, transitions, state_features
 
 
 def convert_crfsuite_model(src_path: str, dst_path: str) -> None:
-    """Dump a CRFsuite binary model and save as compressed JSON weights.
+    """
+    Dump a CRFsuite binary model and save as compressed JSON weights.
 
     :param str src_path: Path to input .crfsuite / .model file.
     :param str dst_path: Path to output .json.gz file.

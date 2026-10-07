@@ -27,8 +27,8 @@ and this project adheres to
   ([#1509])
 - `evaluate_word_tokenization`, `word_eval_function`, `char_eval_function`,
   and `TokenizationScore` in `pythainlp.benchmarks` ([#1512])
-- PhayaThaiBERT POS tagger trained on TUD: `pos_tag()` engine `phayathaibert`
-  (ONNX, extra `phayathaibert_onnx`); `pos_tag_transformers()` with corpus `tud` ([#1536])
+- PhayaThaiBERT POS tagger: `pos_tag()` engine `phayathaibert` (ONNX) and
+  `pos_tag_transformers()` corpus `tud` ([#1550])
 
 ### Changed
 
@@ -88,12 +88,12 @@ and this project adheres to
 [#1512]: https://github.com/PyThaiNLP/pythainlp/pull/1512
 [#1526]: https://github.com/PyThaiNLP/pythainlp/pull/1526
 [#1529]: https://github.com/PyThaiNLP/pythainlp/pull/1529
-[#1536]: https://github.com/PyThaiNLP/pythainlp/issues/1536
 [#1541]: https://github.com/PyThaiNLP/pythainlp/pull/1541
 [#1542]: https://github.com/PyThaiNLP/pythainlp/pull/1542
 [#1546]: https://github.com/PyThaiNLP/pythainlp/pull/1546
 [#1547]: https://github.com/PyThaiNLP/pythainlp/pull/1547
 [#1548]: https://github.com/PyThaiNLP/pythainlp/pull/1548
+[#1550]: https://github.com/PyThaiNLP/pythainlp/pull/1550
 [#1551]: https://github.com/PyThaiNLP/pythainlp/pull/1551
 [#1552]: https://github.com/PyThaiNLP/pythainlp/pull/1552
 

@@ -25,8 +25,8 @@ _REPO_ID = "wiriyabot/phayathaibert-thai-pos-tagger-onnx"
 _REVISION = "59e3502bd06e2222d32f11b51b4fb9569235a020"
 
 # Maximum number of subword tokens per model call, including <s> and </s>.
-# The model accepts 512, but its accuracy drops sharply from position 415
-# on, which suggests it was pretrained on shorter sequences.
+# The model runs on up to 510 tokens, but its accuracy drops sharply from
+# position 415 on, which suggests it was pretrained on shorter sequences.
 _MAX_SEQUENCE_LENGTH = 415
 
 # Tag for words the model never sees (whitespace-only words), matching
@@ -194,8 +194,10 @@ class PhayaThaiBERTTagger:
         positions = [i for i, word in enumerate(words) if not _is_blank(word)]
         content = [words[i] for i in positions]
         if content:
-            for position, tag in zip(positions, self._tag_content(content)):
-                tags[position] = tag
+            for position, word_tag in zip(
+                positions, self._tag_content(content)
+            ):
+                tags[position] = word_tag
         return list(zip(words, tags))
 
     def _tag_content(self, words: list[str]) -> list[str]:

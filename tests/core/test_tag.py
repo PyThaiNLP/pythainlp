@@ -547,9 +547,9 @@ class PhayaThaiBERTHelperTestCase(unittest.TestCase):
     def test_is_blank(self):
         from pythainlp.tag.phayathaibert_onnx import _is_blank
 
-        for word in ("", " ", "\n", " ", "　", "​", "﻿"):
+        for word in ("", " ", "\n", "\u00a0", "\u3000", "\u200b", "\ufeff"):
             self.assertTrue(_is_blank(word), repr(word))
-        for word in ("แมว", " แมว ", "a", "1", "​แมว"):
+        for word in ("แมว", " แมว ", "a", "1", "\u200bแมว"):
             self.assertFalse(_is_blank(word), repr(word))
 
     def test_tag_empty_list(self):
@@ -683,11 +683,11 @@ class PhayaThaiBERTTaggerTestCase(unittest.TestCase):
             ("short", ["กา", "ขาว"], 20, ["NOUN", "VERB"]),
             (
                 "blank words skipped",
-                ["กา", " ", "ขา", "", "​"],
+                ["กา", " ", "ขา", "", "\u200b"],
                 20,
                 ["NOUN", "PUNCT", "VERB", "PUNCT", "PUNCT"],
             ),
-            ("all blank", [" ", "﻿"], 20, ["PUNCT", "PUNCT"]),
+            ("all blank", [" ", "\ufeff"], 20, ["PUNCT", "PUNCT"]),
             (
                 "chunked",
                 ["กา", "ขา", "ก", "ขาว", "กก", "ขข"],

@@ -99,7 +99,7 @@ class TagPhayaThaiBERTONNXTestCaseN(unittest.TestCase):
         # Far over the usable length of 415 tokens, so the input is chunked.
         result = pos_tag(self.WORDS * 300, engine="phayathaibert")
         # Words late in a chunk must be tagged as well as early ones; the
-        # model is unreliable past position 414 even though it accepts 512.
+        # model is unreliable past position 414 even though it runs on 510.
         self.assertEqual(result, sentence * 300)
 
     def test_pos_tag_phayathaibert_overlong_word(self):
@@ -118,7 +118,7 @@ class TagPhayaThaiBERTONNXTestCaseN(unittest.TestCase):
         from pythainlp.tag import pos_tag
 
         # Zero-width space, zero-width non-joiner and BOM carry no text.
-        for char in ("​", "‌", "﻿"):
+        for char in ("\u200b", "\u200c", "\ufeff"):
             result = pos_tag(["แมว", char, "กิน"], engine="phayathaibert")
             self.assertEqual(result[1], (char, "PUNCT"))
 

@@ -448,25 +448,33 @@ select = [
     "D401",
     "D413",
     "D415",
+    "A002",
     "E",
+    "EXE001",
     "F",
     "I",
+    "ICN001",
+    "INP001",
     "W",
     "S",
     "TC",
     "B",
     "C4",
+    "FA100",
+    "FLY002",
     "FURB",
     "ISC",
     "PGH003",
     "PIE",
     "PLE",
+    "PYI034",
     "RET",
     "RUF010",
     "RUF022",
     "RUF100",
     "RUF102",
     "SIM",
+    "SLOT000",
     "UP006",
     "UP015",
     "UP031",
@@ -500,7 +508,7 @@ extend-ignore = ["B905", "E501", "RET504", "SIM108", "SIM117"]
 # D1 (missing docstring) applies to the pythainlp package only.
 "tests/**" = ["B010", "D1", "S101"]
 "notebooks/**" = ["D1", "S101"]
-"examples/**" = ["D1"]
+"examples/**" = ["D1", "INP001"]
 "build_tools/**" = ["D1"]
 "docs/**" = ["D1"]
 

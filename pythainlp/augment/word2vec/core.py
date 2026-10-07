@@ -31,7 +31,7 @@ class Word2VecAug:
         self,
         model: Union[str, KeyedVectors],
         tokenize: Callable[[str], list[str]],
-        type: str = "file",
+        type: str = "file",  # noqa: A002
     ) -> None:
         """
         Initialize the word2vec augmenter.

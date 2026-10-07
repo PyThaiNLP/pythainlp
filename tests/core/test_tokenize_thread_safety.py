@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 """Thread-safety tests for word tokenization engines."""
 
+from __future__ import annotations
+
 import threading
 import unittest
 from typing import Optional

@@ -446,7 +446,7 @@ class SentTokenizeDispatchTestCase(unittest.TestCase):
 
     def test_string_subclass(self) -> None:
         class Text(str):
-            pass
+            __slots__ = ()
 
         result = sent_tokenize(Text("ก ข"), engine="whitespace")
         self.assertEqual(result, ["ก", "ข"])

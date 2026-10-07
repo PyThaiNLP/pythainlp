@@ -196,15 +196,15 @@ _BOUNDARY_RULES: tuple[tuple[re.Pattern[str], str], ...] = tuple(
 _MIDDLE_CUT_WORDS = 20
 
 
-def list_to_string(list: list[str]) -> str:
+def list_to_string(tokens: list[str]) -> str:
     """
     Join a list of strings and collapse the whitespace.
 
-    :param list[str] list: list of strings
+    :param list[str] tokens: list of strings
     :return: joined string
     :rtype: str
     """
-    string = "".join(list)
+    string = "".join(tokens)
     string = " ".join(string.split())
     return string
 

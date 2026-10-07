@@ -142,7 +142,7 @@ class CRFChunkParser:
         self.xseq = _extract_features(token_pos)
         return cast("list[str]", self.tagger.tag(self.xseq))
 
-    def __enter__(self) -> CRFChunkParser:
+    def __enter__(self) -> CRFChunkParser:  # noqa: PYI034
         """Enter the context manager."""
         return self
 

@@ -8,6 +8,8 @@ They use only the standard library and the bundled corpora. The mT5 and
 KeyBERT engines are replaced with fakes.
 """
 
+from __future__ import annotations
+
 import sys
 import types
 import unittest

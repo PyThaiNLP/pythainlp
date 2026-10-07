@@ -105,7 +105,7 @@ class Parse:
             lists of fields
         :rtype: Union[list[list[str]], str]
         """
-        import numpy
+        import numpy as np
         import torch
         import ufal.chu_liu_edmonds
 
@@ -119,7 +119,7 @@ class Parse:
         )
         r, m = (
             [text[s:e] for s, e, p in w],
-            numpy.full((n + 1, n + 1), numpy.nan),
+            np.full((n + 1, n + 1), np.nan),
         )
         v, c = self.tokenizer(r, add_special_tokens=False)["input_ids"], []
         for i, t in enumerate(v):
@@ -152,8 +152,8 @@ class Parse:
         h = ufal.chu_liu_edmonds.chu_liu_edmonds(m)[0]
         if [0 for i in h if i == 0] != [0]:
             i = ([p for s, e, p in w] + ["root"]).index("root")
-            j = i + 1 if i < n else int(numpy.nanargmax(m[:, 0]))
-            m[0:j, 0] = m[j + 1 :, 0] = numpy.nan
+            j = i + 1 if i < n else int(np.nanargmax(m[:, 0]))
+            m[0:j, 0] = m[j + 1 :, 0] = np.nan
             h = ufal.chu_liu_edmonds.chu_liu_edmonds(m)[0]
         u = ""
         if tag == "list":

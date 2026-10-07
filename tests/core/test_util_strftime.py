@@ -619,7 +619,7 @@ _GOLDEN_THAIDIGIT = [
 class _BadStrftime(datetime):
     """Datetime whose strftime() raises ValueError, as some platforms do."""
 
-    def strftime(self, format: str) -> str:
+    def strftime(self, format: str) -> str:  # noqa: A002
         raise ValueError(f"bad directive {format}")
 
 
@@ -628,7 +628,7 @@ class _FixedStrftime(datetime):
 
     result = ""
 
-    def strftime(self, format: str) -> str:
+    def strftime(self, format: str) -> str:  # noqa: A002
         return self.result
 
 

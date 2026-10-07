@@ -25,7 +25,7 @@ class FastCoref:
         model_name: str,
         nlp: Optional[Language] = None,
         device: str = "cpu",
-        type: str = "FCoref",
+        type: str = "FCoref",  # noqa: A002
     ) -> None:
         if type == "FCoref":
             from fastcoref import FCoref as _model

@@ -30,8 +30,10 @@ _REPO_ID = "wiriyabot/phayathaibert-thai-pos-tagger-onnx"
 # Pinned for reproducible and secure downloads.
 _REVISION = "ff55e2c66ef22deee18c423cee272f6e207171ae"
 
-# Maximum number of subword tokens the model accepts, including <s> and </s>.
-_MAX_SEQUENCE_LENGTH = 510
+# Maximum number of subword tokens per model call, including <s> and </s>.
+# The model accepts 512, but its accuracy drops sharply from position 415
+# on, which suggests it was pretrained on shorter sequences.
+_MAX_SEQUENCE_LENGTH = 415
 
 # Tag for words the model never sees (whitespace-only words), matching
 # the perceptron tagger with Universal POS corpora.

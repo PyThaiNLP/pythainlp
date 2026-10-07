@@ -95,18 +95,17 @@ class TagPhayaThaiBERTONNXTestCaseN(unittest.TestCase):
     def test_pos_tag_phayathaibert_long_input(self):
         from pythainlp.tag import pos_tag
 
-        words = self.WORDS * 300  # well over the 510-token model limit
-        result = pos_tag(words, engine="phayathaibert")
-        tags = [t for _, t in result]
-        self.assertEqual([w for w, _ in result], words)
-        # Every word, including those past the first 510 tokens, is tagged.
-        self.assertNotIn("X", tags)
-        self.assertEqual(tags[-5:], ["PRON", "VERB", "NOUN", "ADP", "NOUN"])
+        sentence = pos_tag(self.WORDS, engine="phayathaibert")
+        # Far over the usable length of 415 tokens, so the input is chunked.
+        result = pos_tag(self.WORDS * 300, engine="phayathaibert")
+        # Words late in a chunk must be tagged as well as early ones; the
+        # model is unreliable past position 414 even though it accepts 512.
+        self.assertEqual(result, sentence * 300)
 
     def test_pos_tag_phayathaibert_overlong_word(self):
         from pythainlp.tag import pos_tag
 
-        # A single word of far more than 510 subwords, between normal words.
+        # A single word of far more than 415 subwords, between normal words.
         words = ["ฉัน", "กิน", "ก" * 5000, "ที่", "ร้านอาหาร"]
         result = pos_tag(words, engine="phayathaibert")
         tags = [t for _, t in result]

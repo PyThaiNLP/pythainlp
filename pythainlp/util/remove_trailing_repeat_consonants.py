@@ -39,8 +39,8 @@ def remove_trailing_repeat_consonants(
     Use :func:`pythainlp.util.normalize` for better results.
 
     :param str text: text to be processed
-    :param Trie dictionary: dictionary to check the last word.
-        If None, :func:`pythainlp.corpus.thai_words` is used
+    :param Iterable[str] custom_dict: dictionary to check the last word.
+        If empty, :func:`pythainlp.corpus.thai_words` is used
     :param bool has_dictionary_updated: set to True if the dictionary
         is updated or used for the first time in the kernel,
         otherwise set to False to save time
@@ -169,8 +169,7 @@ def _update_consonant_repeaters(custom_dict: Iterable[str]) -> None:
     Search the dictionary for all words with more than one consonant
     repeating at the end, and store them in the global dictionary.
 
-    :param str consonant: consonant to be searched
-    :param Trie dictionary: dictionary to search
+    :param Iterable[str] custom_dict: dictionary to search
     :rtype: None
     """
     # initialize dictionary
@@ -211,7 +210,8 @@ def _find_longest_consonant_repeaters_match(
     Search the list of repeaters. Return the word and the number of
     times its last character is repeated correctly.
 
-    :param str segment: segment of text
+    :param str segment_head: segment of text without its last repeating
+        consonants
     :param list[str] repeaters: words with repeating consonants at the end
     :return: tuple of the word and the number of correct repetitions
         of its last character, or ``("", 0)`` if none is found

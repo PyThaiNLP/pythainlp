@@ -356,7 +356,7 @@ def get_words_spell_suggestion(
 
     It requires numpy and onnxruntime. Install them before use.
 
-    :param Union[str, list[str]] list_word: word, or list of words,
+    :param Union[str, list[str]] list_words: word, or list of words,
         to get suggestions for
     :return: spelling suggestions (at most 5 per word); a list of lists
         if the input is a list of words

@@ -169,7 +169,7 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
     """
     Clean up text before performing evaluation.
 
-    :param str text: text to preprocess
+    :param str txt: text to preprocess
     :param bool remove_space: remove white space
 
     :return: preprocessed text

@@ -1,9 +1,11 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Wrapper for PyICU word segmentation. This wrapper module uses
-:class:`icu.BreakIterator` with Thai as :class:`icu.Local`
-to locate boundaries between words in the text.
+"""
+Wrap PyICU word tokenization.
+
+This wrapper module uses :class:`icu.BreakIterator` with Thai as
+:class:`icu.Locale` to locate boundaries between words in the text.
 
 :See Also:
     * `GitHub repository <https://github.com/ovalhub/pyicu>`_
@@ -25,7 +27,7 @@ _thread_local: threading.local = threading.local()
 
 
 def _get_break_iterator() -> BreakIterator:
-    """Get a thread-local BreakIterator instance."""
+    """Get a thread-local :class:`icu.BreakIterator` instance."""
     if not hasattr(_thread_local, "bd"):
         _thread_local.bd = BreakIterator.createWordInstance(Locale("th"))
     return _thread_local.bd
@@ -41,13 +43,15 @@ def _gen_words(text: str) -> Iterator[str]:
 
 
 def segment(text: str) -> list[str]:
-    """Segment text into words using PyICU BreakIterator.
+    """
+    Tokenize text into words with PyICU.
 
     This function is thread-safe. It uses thread-local storage to ensure
-    each thread has its own BreakIterator instance.
+    each thread has its own :class:`icu.BreakIterator` instance.
 
-    :param str text: text to be tokenized into words
-    :return: list of words, tokenized from the text
+    :param str text: text to be tokenized
+    :return: list of words
+    :rtype: list[str]
     """
     if not text or not isinstance(text, str):
         return []

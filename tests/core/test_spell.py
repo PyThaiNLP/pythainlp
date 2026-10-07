@@ -17,7 +17,7 @@ SENT_TOKS = ["เด็", "อินอร์เน็ต", "แรง"]
 
 class SpellTestCase(unittest.TestCase):
     def test_spell(self):
-        self.assertEqual(spell(None), [""])  # type: ignore
+        self.assertEqual(spell(None), [""])  # type: ignore[arg-type]
         self.assertEqual(spell(""), [""])
 
         result = spell("เน้ร")
@@ -29,7 +29,7 @@ class SpellTestCase(unittest.TestCase):
         self.assertGreater(len(result), 0)
 
     def test_word_correct(self):
-        self.assertEqual(correct(None), "")  # type: ignore
+        self.assertEqual(correct(None), "")  # type: ignore[arg-type]
         self.assertEqual(correct(""), "")
         self.assertEqual(correct("1"), "1")
         self.assertEqual(correct("05"), "05")
@@ -47,11 +47,14 @@ class SpellTestCase(unittest.TestCase):
 
         # Verify default dictionary is filtered with thai_orst_words
         from pythainlp.corpus import thai_orst_words
+
         orst = thai_orst_words()
         # Check that dictionary size is reasonable (around ORST size)
         dict_size = len(checker.dictionary())
         self.assertGreater(dict_size, 30000)  # Should have substantial words
-        self.assertLess(dict_size, len(orst) + 1000)  # Should not exceed ORST by much
+        self.assertLess(
+            dict_size, len(orst) + 1000
+        )  # Should not exceed ORST by much
 
         user_list_tuple = [
             ("การงาน", 31),  # longer than max_len
@@ -97,7 +100,8 @@ class SpellTestCase(unittest.TestCase):
             _ = NorvigSpellChecker(custom_dict=user_list_int)  # type: ignore[arg-type]
 
     def test_issue_680_orst_filtering(self):
-        """Test for issue #680: Spell checker uses only ORST words.
+        """
+        Test for issue #680: Spell checker uses only ORST words.
 
         Issue #680 reported that the TNC dictionary contained misspelled words.
         The solution is to filter Phupha dataset by thai_orst_words.
@@ -115,8 +119,11 @@ class SpellTestCase(unittest.TestCase):
         # Check a sample of words from the dictionary
         dict_words = [word for word, _ in list(checker.dictionary())[:1000]]
         non_orst_words = [w for w in dict_words if w not in orst]
-        self.assertEqual(len(non_orst_words), 0,
-                        "All words in spell checker should be from ORST")
+        self.assertEqual(
+            len(non_orst_words),
+            0,
+            "All words in spell checker should be from ORST",
+        )
 
         # The specific case from issue #680
         # Both 'ปลาอินทรีย์' (misspelled) and 'ปลาอินทรี' (correct)

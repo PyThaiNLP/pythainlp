@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Preprocessing for ULMFiT"""
+"""Preprocessing functions for ULMFiT."""
 
 from __future__ import annotations
 
@@ -22,9 +22,10 @@ _TK_URL: str = "xxurl"
 
 
 def replace_url(text: str) -> str:
-    """Replace URL in `text` with TK_URL
+    """
+    Replace URLs in text with the **xxurl** token.
 
-    :param str text: text to replace URL in
+    :param str text: text to be processed
 
     :return: text with URLs replaced
     :rtype: str
@@ -40,9 +41,10 @@ def replace_url(text: str) -> str:
 
 
 def fix_html(text: str) -> str:
-    """Replace HTML strings in `test`. (codes from `fastai`)
+    """
+    Replace HTML strings in text (code from `fastai`).
 
-    :param str text: text to replace HTML strings in
+    :param str text: text to be processed
 
     :return: text with HTML strings replaced
     :rtype: str
@@ -74,26 +76,28 @@ def fix_html(text: str) -> str:
 
 
 def rm_useless_spaces(text: str) -> str:
-    """Remove multiple spaces in `text`. (codes from `fastai`)"""
+    """Collapse repeated spaces in text (code from `fastai`)."""
     return re.sub(" {2,}", " ", text)
 
 
 def spec_add_spaces(text: str) -> str:
-    """Add spaces around / and # in `text`. \n (codes from `fastai`)"""
+    """Add spaces around slashes, hash signs, and newlines in text."""
     return re.sub(r"([/#\n])", r" \1 ", text)
 
 
 def replace_rep_after(text: str) -> str:
-    """Replace repetitions at the character level in `text` after the repeated character.
-    This is to prevent cases such as 'น้อยยยยยยยย' becomes 'น้อ xxrep 8 ย'
-    ; instead it will retain the word as 'น้อย xxrep 8'
+    """
+    Replace character repetitions in text, after the repeated character.
 
-    :param str text: input text to replace character repetitions in
+    This prevents 'น้อยยยยยยยย' from becoming 'น้อ xxrep 8 ย'.
+    Instead, the word stays as 'น้อย xxrep 8'.
 
-    :return: text with repetitive token **xxrep** and the counter
-             after the repeated character
+    :param str text: text to be processed
 
+    :return: text with the **xxrep** token and the counter
+        after the repeated character
     :rtype: str
+
     :Example:
 
         >>> from pythainlp.ulmfit import replace_rep_after
@@ -113,13 +117,15 @@ def replace_rep_after(text: str) -> str:
 
 
 def replace_wrep_post(toks: Collection[str]) -> list[str]:
-    """Replace repetitive words after tokenization;
-    fastai `replace_wrep` does not work well with Thai.
+    """
+    Replace repeated words after tokenization.
 
-    :param list[str] toks: list of tokens
+    The `replace_wrep` function of `fastai` does not work well with Thai.
 
-    :return: list of tokens where **xxwrep** token and the counter
-             is added before repetitive words.
+    :param Collection[str] toks: list of words
+
+    :return: list of words with the **xxwrep** token and the counter
+        added before repeated words
     :rtype: list[str]
 
     :Example:
@@ -134,7 +140,7 @@ def replace_wrep_post(toks: Collection[str]) -> list[str]:
     previous_word: Optional[str] = None
     rep_count = 0
     res: list[Optional[str]] = []
-    for current_word in list(toks) + [_TK_END]:
+    for current_word in [*list(toks), _TK_END]:
         if current_word == previous_word:
             rep_count += 1
         elif (current_word != previous_word) & (rep_count > 0):
@@ -147,12 +153,12 @@ def replace_wrep_post(toks: Collection[str]) -> list[str]:
 
 
 def rm_useless_newlines(text: str) -> str:
-    """Remove multiple newlines in `text`."""
+    """Replace repeated newlines in text with a space."""
     return re.sub(r"[\n]{2,}", " ", text)
 
 
 def rm_brackets(text: str) -> str:
-    """Remove all empty brackets and artifacts within brackets from `text`."""
+    """Remove empty brackets and artifacts within brackets from text."""
     # remove empty brackets
     new_line = re.sub(r"\(\)", "", text)
     new_line = re.sub(r"\{\}", "", new_line)
@@ -185,9 +191,14 @@ def rm_brackets(text: str) -> str:
 
 
 def ungroup_emoji(toks: Collection[str]) -> list[str]:
-    """Ungroup Zero Width Joiner (ZVJ) Emojis
+    """
+    Ungroup emojis joined by Zero Width Joiner (ZWJ).
 
     See https://emojipedia.org/emoji-zwj-sequence/
+
+    :param Collection[str] toks: list of words
+    :return: list of words with ZWJ emoji sequences split
+    :rtype: list[str]
     """
     res = []
     for tok in toks:
@@ -199,21 +210,28 @@ def ungroup_emoji(toks: Collection[str]) -> list[str]:
 
 
 def lowercase_all(toks: Collection[str]) -> list[str]:
-    """Lowercase all English words;
-    English words in Thai texts don't usually have nuances of capitalization.
+    """
+    Lowercase all English words.
+
+    English words in Thai text usually do not carry capitalization nuances.
+
+    :param Collection[str] toks: list of words
+    :return: list of lowercased words
+    :rtype: list[str]
     """
     return list(map(str.lower, toks))
 
 
 def replace_rep_nonum(text: str) -> str:
-    """Replace repetitions at the character level in `text` after the repetition.
-    This is done to prevent such case as 'น้อยยยยยยยย' becoming 'น้อ xxrep ย';
-    instead it will retain the word as 'น้อย xxrep '
+    """
+    Replace character repetitions in text, without a counter.
 
-    :param str text: input text to replace character repetition
+    This prevents 'น้อยยยยยยยย' from becoming 'น้อ xxrep ย'.
+    Instead, the word stays as 'น้อย xxrep '.
 
-    :return: text with repetitive token **xxrep** after
-             character repetition
+    :param str text: text to be processed
+
+    :return: text with the **xxrep** token after the repeated character
     :rtype: str
 
     :Example:
@@ -235,13 +253,15 @@ def replace_rep_nonum(text: str) -> str:
 
 
 def replace_wrep_post_nonum(toks: Collection[str]) -> list[str]:
-    """Replace reptitive words post tokenization;
-    fastai `replace_wrep` does not work well with Thai.
+    """
+    Replace repeated words after tokenization, without a counter.
 
-    :param list[str] toks: list of tokens
+    The `replace_wrep` function of `fastai` does not work well with Thai.
 
-    :return: list of tokens where **xxwrep** token is added in front of
-             repetitive words.
+    :param Collection[str] toks: list of words
+
+    :return: list of words with the **xxwrep** token added before
+        repeated words
     :rtype: list[str]
 
     :Example:
@@ -256,7 +276,7 @@ def replace_wrep_post_nonum(toks: Collection[str]) -> list[str]:
     previous_word: Optional[str] = None
     rep_count = 0
     res: list[Optional[str]] = []
-    for current_word in list(toks) + [_TK_END]:
+    for current_word in [*list(toks), _TK_END]:
         if current_word == previous_word:
             rep_count += 1
         elif (current_word != previous_word) & (rep_count > 0):
@@ -269,16 +289,17 @@ def replace_wrep_post_nonum(toks: Collection[str]) -> list[str]:
 
 
 def remove_space(toks: Collection[str]) -> list[str]:
-    """Do not include space for bag-of-word models.
+    """
+    Remove spaces from a list of words, for bag-of-words models.
 
-    :param list[str] toks: list of tokens
+    :param Collection[str] toks: list of words
 
-    :return: list of tokens where space tokens (" ") are filtered out
+    :return: list of words with space tokens (" ") filtered out
     :rtype: list[str]
     """
     res = []
     for t in toks:
-        t = t.strip()
-        if t:
-            res.append(t)
+        stripped = t.strip()
+        if stripped:
+            res.append(stripped)
     return res

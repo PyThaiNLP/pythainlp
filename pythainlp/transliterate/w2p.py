@@ -1,13 +1,15 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai Word-to-Phoneme (Thai W2P)
-GitHub : https://github.com/wannaphong/Thai_W2P
+"""
+Thai Word-to-Phoneme (Thai W2P).
+
+GitHub: https://github.com/wannaphong/Thai_W2P
 """
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, cast
+from typing import TYPE_CHECKING, ClassVar, Optional, cast
 
 from pythainlp.corpus import get_corpus_path
 
@@ -32,8 +34,14 @@ class _Hparams:
     num_epochs: int = 50 * 2
     hidden_units: int = 64 * 8
     emb_units: int = 64 * 4
-    graphemes: list[str] = ["<pad>", "<unk>", "</s>"] + _GRAPHEMES
-    phonemes: list[str] = ["<pad>", "<unk>", "<s>", "</s>"] + _PHONEMES
+    graphemes: ClassVar[list[str]] = ["<pad>", "<unk>", "</s>", *_GRAPHEMES]
+    phonemes: ClassVar[list[str]] = [
+        "<pad>",
+        "<unk>",
+        "<s>",
+        "</s>",
+        *_PHONEMES,
+    ]
     lr: float = 0.001
 
 
@@ -53,6 +61,8 @@ def _load_vocab() -> tuple[
 
 
 class Thai_W2P:
+    """Convert Thai words to their pronunciation in Thai letters."""
+
     graphemes: list[str]
     phonemes: list[str]
     g2idx: dict[str, int]
@@ -60,21 +70,26 @@ class Thai_W2P:
     p2idx: dict[str, int]
     idx2p: dict[int, str]
     checkpoint: Optional[str]
-    enc_emb: "NDArray[np.float32]"
-    enc_w_ih: "NDArray[np.float32]"
-    enc_w_hh: "NDArray[np.float32]"
-    enc_b_ih: "NDArray[np.float32]"
-    enc_b_hh: "NDArray[np.float32]"
-    dec_emb: "NDArray[np.float32]"
-    dec_w_ih: "NDArray[np.float32]"
-    dec_w_hh: "NDArray[np.float32]"
-    dec_b_ih: "NDArray[np.float32]"
-    dec_b_hh: "NDArray[np.float32]"
-    fc_w: "NDArray[np.float32]"
-    fc_b: "NDArray[np.float32]"
+    enc_emb: NDArray[np.float32]
+    enc_w_ih: NDArray[np.float32]
+    enc_w_hh: NDArray[np.float32]
+    enc_b_ih: NDArray[np.float32]
+    enc_b_hh: NDArray[np.float32]
+    dec_emb: NDArray[np.float32]
+    dec_w_ih: NDArray[np.float32]
+    dec_w_hh: NDArray[np.float32]
+    dec_b_ih: NDArray[np.float32]
+    dec_b_hh: NDArray[np.float32]
+    fc_w: NDArray[np.float32]
+    fc_b: NDArray[np.float32]
     word: str
 
     def __init__(self) -> None:
+        """
+        Initialize the model and load its weights.
+
+        :raises FileNotFoundError: if the model corpus is not found
+        """
         super().__init__()
         self.graphemes: list[str] = hp.graphemes
         self.phonemes: list[str] = hp.phonemes
@@ -155,8 +170,9 @@ class Thai_W2P:
                 "NDArray[np.float32]", variables["decoder_fc_bias"]
             )
 
-    def _sigmoid(self, x: "NDArray[np.float32]") -> "NDArray[np.float32]":
-        """Apply the sigmoid function to a float32 array.
+    def _sigmoid(self, x: NDArray[np.float32]) -> NDArray[np.float32]:
+        """
+        Apply the sigmoid function to a float32 array.
 
         :param numpy.typing.NDArray[numpy.float32] x: input array
         :return: element-wise sigmoid values
@@ -168,14 +184,15 @@ class Thai_W2P:
 
     def _grucell(
         self,
-        x: "NDArray[np.float32]",
-        h: "NDArray[np.float32]",
-        w_ih: "NDArray[np.float32]",
-        w_hh: "NDArray[np.float32]",
-        b_ih: "NDArray[np.float32]",
-        b_hh: "NDArray[np.float32]",
-    ) -> "NDArray[np.float32]":
-        """Run one GRU cell step on float32 inputs.
+        x: NDArray[np.float32],
+        h: NDArray[np.float32],
+        w_ih: NDArray[np.float32],
+        w_hh: NDArray[np.float32],
+        b_ih: NDArray[np.float32],
+        b_hh: NDArray[np.float32],
+    ) -> NDArray[np.float32]:
+        """
+        Run one GRU cell step on float32 inputs.
 
         :param numpy.typing.NDArray[numpy.float32] x: input features
         :param numpy.typing.NDArray[numpy.float32] h: previous hidden state
@@ -210,15 +227,16 @@ class Thai_W2P:
 
     def _gru(
         self,
-        x: "NDArray[np.float32]",
+        x: NDArray[np.float32],
         steps: int,
-        w_ih: "NDArray[np.float32]",
-        w_hh: "NDArray[np.float32]",
-        b_ih: "NDArray[np.float32]",
-        b_hh: "NDArray[np.float32]",
-        h0: Optional["NDArray[np.float32]"] = None,
-    ) -> "NDArray[np.float32]":
-        """Run a GRU over multiple time steps.
+        w_ih: NDArray[np.float32],
+        w_hh: NDArray[np.float32],
+        b_ih: NDArray[np.float32],
+        b_hh: NDArray[np.float32],
+        h0: Optional[NDArray[np.float32]] = None,
+    ) -> NDArray[np.float32]:
+        """
+        Run a GRU over multiple time steps.
 
         :param numpy.typing.NDArray[numpy.float32] x: input sequence tensor
         :param int steps: number of decoding steps
@@ -244,8 +262,9 @@ class Thai_W2P:
 
         return outputs
 
-    def _encode(self, word: str) -> "NDArray[np.float32]":
-        """Encode a word into its embedding sequence tensor.
+    def _encode(self, word: str) -> NDArray[np.float32]:
+        """
+        Encode a word into its embedding sequence tensor.
 
         :param str word: input Thai word
         :return: float32 embedding sequence for the encoder
@@ -253,7 +272,7 @@ class Thai_W2P:
         """
         import numpy as np
 
-        chars = list(word) + ["</s>"]
+        chars = [*list(word), "</s>"]
         char_ids = [
             self.g2idx.get(char, self.g2idx["<unk>"]) for char in chars
         ]
@@ -315,6 +334,13 @@ class Thai_W2P:
         return "".join(preds_str)
 
     def __call__(self, word: str) -> str:
+        """
+        Convert a Thai word to its pronunciation in Thai letters.
+
+        :param str word: Thai word to be converted
+        :return: Thai letters indicating how the word is pronounced
+        :rtype: str
+        """
         if not any(letter in word for letter in self.graphemes):
             pron_result = word
         else:  # predict for oov
@@ -323,17 +349,17 @@ class Thai_W2P:
         return pron_result
 
 
-_THAI_W2P: "Thai_W2P" = Thai_W2P()
+_THAI_W2P: Thai_W2P = Thai_W2P()
 
 
 def pronunciate(text: str) -> str:
-    """Convert a Thai word to its pronunciation in Thai letters.
+    """
+    Convert a Thai word to its pronunciation in Thai letters.
 
-    Input should be one single word.
+    The input must be a single word.
 
-    :param str text: Thai text to be pronunciated
-
-    :return: A string of Thai letters indicating
-             how the input text should be pronounced.
+    :param str text: Thai word to be converted
+    :return: Thai letters indicating how the word is pronounced
+    :rtype: str
     """
     return _THAI_W2P(text)

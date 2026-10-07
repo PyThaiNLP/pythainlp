@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Cycle detection for greedy seq2seq decoding.
+"""
+Cycle detection for greedy seq2seq decoding.
 
 Greedy decoding (picking the highest-probability token at each step,
 with no repetition penalty or n-gram blocking) can get the decoder
@@ -16,18 +17,19 @@ See: https://github.com/PyThaiNLP/pythainlp/issues/1403
 
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import Optional
 
-__all__: List[str] = ["find_trailing_repeat_period"]
+__all__: list[str] = ["find_trailing_repeat_period"]
 
 
 def find_trailing_repeat_period(
-    tokens: List[int],
+    tokens: list[int],
     min_period: int = 1,
     max_period: int = 12,
     min_repeats: int = 3,
 ) -> Optional[int]:
-    """Detect a short cycle repeating at the end of a token sequence.
+    """
+    Detect a short cycle repeating at the end of a token sequence.
 
     Checks period lengths from ``min_period`` to ``max_period``
     (smallest first) and returns the first period whose last
@@ -38,7 +40,7 @@ def find_trailing_repeat_period(
     :param max_period: longest cycle length to check, in tokens
     :param min_repeats: number of consecutive copies of the cycle
         required at the end of ``tokens`` to count as a repetition loop
-    :return: the period of the detected cycle, or None if no trailing
+    :return: period of the detected cycle, or ``None`` if no trailing
         cycle of at least ``min_repeats`` copies is found
     :rtype: Optional[int]
     """

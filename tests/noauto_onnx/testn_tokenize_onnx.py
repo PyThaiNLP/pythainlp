@@ -22,7 +22,7 @@ from ..test_helpers import assert_segment_handles_none_and_empty
 
 
 class TokenizeDeepcutTestCaseN(unittest.TestCase):
-    """Tests for deepcut tokenizer numeric handling (requires onnxruntime)"""
+    """Tests for deepcut tokenizer numeric handling (requires onnxruntime)."""
 
     def test_numeric_data_format_deepcut(self):
         self.assertIn(
@@ -48,7 +48,7 @@ class TokenizeDeepcutTestCaseN(unittest.TestCase):
 
 
 class DetokenizeAttacutTestCaseN(unittest.TestCase):
-    """Tests for attacut tokenizer numeric handling (requires lekcut/onnx)"""
+    """Tests for attacut tokenizer numeric handling (requires lekcut/onnx)."""
 
     def test_numeric_data_format_attacut(self):
         self.assertIn(
@@ -92,7 +92,7 @@ class DetokenizeAttacutTestCaseN(unittest.TestCase):
 
 
 class WordTokenizeAttacutTestCaseN(unittest.TestCase):
-    """Tests for attacut tokenizer (requires lekcut/onnx)"""
+    """Tests for attacut tokenizer (requires lekcut/onnx)."""
 
     def test_word_tokenize_attacut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="attacut"))
@@ -120,7 +120,7 @@ class WordTokenizeAttacutTestCaseN(unittest.TestCase):
 
 
 class DetokenizeOskutTestCaseN(unittest.TestCase):
-    """Tests for oskut tokenizer numeric handling (requires lekcut/onnx)"""
+    """Tests for oskut tokenizer numeric handling (requires lekcut/onnx)."""
 
     def test_numeric_data_format_oskut(self):
         self.assertIn(
@@ -146,7 +146,7 @@ class DetokenizeOskutTestCaseN(unittest.TestCase):
 
 
 class WordTokenizeOskutTestCaseN(unittest.TestCase):
-    """Tests for oskut tokenizer (requires lekcut/onnx)"""
+    """Tests for oskut tokenizer (requires lekcut/onnx)."""
 
     def test_word_tokenize_oskut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="oskut"))
@@ -168,7 +168,7 @@ class WordTokenizeOskutTestCaseN(unittest.TestCase):
 
 
 class DetokenizeSefrCutTestCaseN(unittest.TestCase):
-    """Tests for sefr_cut tokenizer numeric handling (requires lekcut/onnx)"""
+    """Tests for sefr_cut tokenizer numeric handling (requires lekcut/onnx)."""
 
     def test_numeric_data_format_sefr_cut(self):
         self.assertIn(
@@ -196,7 +196,7 @@ class DetokenizeSefrCutTestCaseN(unittest.TestCase):
 
 
 class WordTokenizeSefrCutTestCaseN(unittest.TestCase):
-    """Tests for sefr_cut tokenizer (requires lekcut/onnx)"""
+    """Tests for sefr_cut tokenizer (requires lekcut/onnx)."""
 
     def test_word_tokenize_sefr_cut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="sefr_cut"))

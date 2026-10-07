@@ -29,26 +29,11 @@ class AncientTestCase(unittest.TestCase):
         self.assertEqual(aksonhan_to_current("กา"), "กา")  # two chars
 
     def test_convert_currency(self):
-        self.assertEqual(
-            convert_currency(80, "บาท")["ตำลึง"],
-            20.0
-        )
-        self.assertEqual(
-            convert_currency(80, "บาท")["ชั่ง"],
-            1.0
-        )
-        self.assertEqual(
-            convert_currency(80, "บาท")["บาท"],
-            80.0
-        )
-        self.assertEqual(
-            convert_currency(1,"ชั่ง")["บาท"],
-            80.0
-        )
-        self.assertEqual(
-            convert_currency(1,"ชั่ง")["ชั่ง"],
-            1.0
-        )
+        self.assertEqual(convert_currency(80, "บาท")["ตำลึง"], 20.0)
+        self.assertEqual(convert_currency(80, "บาท")["ชั่ง"], 1.0)
+        self.assertEqual(convert_currency(80, "บาท")["บาท"], 80.0)
+        self.assertEqual(convert_currency(1, "ชั่ง")["บาท"], 80.0)
+        self.assertEqual(convert_currency(1, "ชั่ง")["ชั่ง"], 1.0)
 
         # Test all supported units
         result = convert_currency(1, "บาท")

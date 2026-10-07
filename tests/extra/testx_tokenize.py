@@ -85,7 +85,7 @@ class WordTokenizeBudouxTestCaseX(unittest.TestCase):
 
 
 class SentTokenizeTLTKTestCaseX(unittest.TestCase):
-    """Tests for tltk engine sent tokenization"""
+    """Tests for tltk engine sent tokenization."""
 
     def test_sent_tokenize_tltk(self):
         self.assertIsNotNone(
@@ -109,14 +109,14 @@ class SentTokenizeTLTKTestCaseX(unittest.TestCase):
 
 
 class SubwordTokenizeTLTKTestCaseX(unittest.TestCase):
-    """Tests for tltk engine subword tokenization"""
+    """Tests for tltk engine subword tokenization."""
 
     def test_subword_tokenize_tltk(self):
         assert_subword_tokenize_basic(self, "tltk")
 
 
 class SyllableTokenizeTLTKTestCaseX(unittest.TestCase):
-    """Tests for tltk engine syllable tokenization"""
+    """Tests for tltk engine syllable tokenization."""
 
     def test_tltk(self):
         assert_segment_handles_none_and_empty(self, tltk.segment)
@@ -140,7 +140,7 @@ class SyllableTokenizeTLTKTestCaseX(unittest.TestCase):
 
 
 class WordTokenizeTLTKTestCaseX(unittest.TestCase):
-    """Tests for tltk engine word tokenization"""
+    """Tests for tltk engine word tokenization."""
 
     def test_word_tokenize_tltk(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="tltk"))

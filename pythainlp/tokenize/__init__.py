@@ -1,21 +1,21 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Tokenizers at different levels of linguistic analysis."""
+"""Tokenize Thai text at different levels of linguistic analysis."""
 
 from __future__ import annotations
 
 __all__: list[str] = [
-    "thai2fit_tokenizer",
     "Tokenizer",
     "Trie",
+    "display_cell_tokenize",
     "paragraph_tokenize",
     "sent_tokenize",
     "subword_tokenize",
     "syllable_tokenize",
+    "thai2fit_tokenizer",
     "word_detokenize",
     "word_tokenize",
-    "display_cell_tokenize",
 ]
 
 from functools import lru_cache
@@ -31,13 +31,13 @@ DEFAULT_SYLLABLE_TOKENIZE_ENGINE: str = "han_solo"
 
 @lru_cache
 def word_dict_trie() -> Trie:
-    """Lazy load default word dict trie with cache"""
+    """Return the default word trie, loaded lazily and cached."""
     return Trie(thai_words())
 
 
 @lru_cache
 def syllable_dict_trie() -> Trie:
-    """Lazy load default syllable dict trie with cache"""
+    """Return the default syllable trie, loaded lazily and cached."""
     return Trie(thai_syllables())
 
 

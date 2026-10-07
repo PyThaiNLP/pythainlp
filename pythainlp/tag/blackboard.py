@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Constants for the Blackboard treebank POS tag set."""
+
 from __future__ import annotations
 
 # defined strings for special characters
@@ -32,9 +34,14 @@ TO_UD: dict[str, str] = {
 
 
 def pre_process(words: list[str]) -> list[str]:
-    """Convert signs and symbols with their defined strings.
-    This function is to be used as a preprocessing step,
-    before the actual POS tagging.
+    """
+    Convert signs and symbols to their defined strings.
+
+    Use this function as a preprocessing step before POS tagging.
+
+    :param list[str] words: list of words to be converted
+    :return: list of words with signs and symbols replaced
+    :rtype: list[str]
     """
     keys = CHAR_TO_ESCAPE.keys()
     words = [CHAR_TO_ESCAPE[word] if word in keys else word for word in words]
@@ -44,9 +51,15 @@ def pre_process(words: list[str]) -> list[str]:
 def post_process(
     word_tags: list[tuple[str, str]], to_ud: bool = False
 ) -> list[tuple[str, str]]:
-    """Convert defined strings back to corresponding signs and symbols.
-    This function is to be used as a post-processing step,
-    after the POS tagging.
+    """
+    Convert defined strings back to signs and symbols.
+
+    Use this function as a post-processing step after POS tagging.
+
+    :param list[tuple[str, str]] word_tags: list of (word, POS tag) pairs
+    :param bool to_ud: map the POS tags to Universal POS tags
+    :return: list of (word, POS tag) pairs with signs and symbols restored
+    :rtype: list[tuple[str, str]]
     """
     keys = ESCAPE_TO_CHAR.keys()
 

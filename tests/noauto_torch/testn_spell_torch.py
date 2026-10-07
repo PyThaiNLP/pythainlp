@@ -19,7 +19,7 @@ from ..core.test_spell import SENT_TOKS
 
 
 class SpellWanchanbertaTestCaseN(unittest.TestCase):
-    """Tests for wanchanberta_thai_grammarly engine (requires torch and transformers)"""
+    """Tests for wanchanberta_thai_grammarly engine (requires torch and transformers)."""
 
     def test_word_correct_wanchanberta(self):
         result = correct("ทดสอง", engine="wanchanberta_thai_grammarly")

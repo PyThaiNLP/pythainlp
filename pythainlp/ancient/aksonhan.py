@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Convert AksonHan (อักษรหัน) words to current Thai spelling."""
+
 from __future__ import annotations
 
 from itertools import chain
@@ -27,15 +29,16 @@ _dict_thai: set[str] = set(thai_orst_words())  # call Thai words
 
 
 def aksonhan_to_current(word: str) -> str:
-    """Convert AksonHan words to current Thai words
+    """
+    Convert an AksonHan word to the current Thai word.
 
     AksonHan (อักษรหัน) writes two consonants to spell
     the short /a/ vowel (สระ อะ).
 
-    Today, รร is an aksonhan pattern still used in Thai.
+    Today, รร is an AksonHan pattern still used in Thai.
 
-    :param str word: Thai word
-    :return: Thai AksonHan to be converted to current Thai word
+    :param str word: Thai word in AksonHan spelling
+    :return: word in current Thai spelling
     :rtype: str
 
     :Example:
@@ -51,9 +54,9 @@ def aksonhan_to_current(word: str) -> str:
     """
     if len(word) < 3:
         return word
-    elif word in _set_aksonhan:
+    if word in _set_aksonhan:
         return _dict_aksonhan[word]
-    elif word in _dict_thai:  # word in Thai words
+    if word in _dict_thai:  # word in Thai words
         return word
 
     _seg = _tokenizer.word_tokenize(word)

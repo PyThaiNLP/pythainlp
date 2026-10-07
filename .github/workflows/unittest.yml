@@ -14,6 +14,7 @@ on:
   push:
     branches:
     - dev
+    - main
     paths:
       - ".github/workflows/unittest.yml"
       - "bin/**"
@@ -25,6 +26,7 @@ on:
   pull_request:
     branches:
       - dev
+      - main
     paths:
       - ".github/workflows/unittest.yml"
       - "bin/**"
@@ -47,6 +49,12 @@ concurrency:
       github.event.pull_request.head.repo.full_name || github.repository
     }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
 
 jobs:
   unittest:
@@ -73,6 +81,7 @@ jobs:
             python-version: "3.10"
 
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     env:
       PYICU_WIN_VER: 2.15 # 2.15 is the last version that supports Python 3.9
       INSTALL_FULL_DEPS: false
@@ -82,18 +91,19 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          # Full history of the "extra" job on pull requests,
+          # for the coverage check of new code (diff-cover).
+          fetch-depth: ${{ (github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2) && '0' || '1' }}
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v6.2.0
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
-
-      - name: Install build tools
-        run: |
-          pip install --upgrade pip
-          pip install coverage coveralls
+          cache-dependency-path: pyproject.toml
 
       - name: Install ICU (macOS)
         if: startsWith(matrix.os, 'macos-')
@@ -147,6 +157,7 @@ jobs:
           PYTHONIOENCODING: utf-8
         run: |
           pip install ".[compact,extra]"
+          pip install --only-binary :all: --no-binary docopt "coverage==7.16.2" "coveralls==4.1.0"
           coverage run -m unittest tests.core tests.compact tests.extra
 
       # Only submit a report from the "extra" run, to get maximum coverage
@@ -157,3 +168,28 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PYTHONIOENCODING: utf-8
         run: coveralls
+
+      # New and changed lines must be covered at least 95%, except in the
+      # noauto modules (tests/diff-cover-noauto.txt). CI cannot run those
+      # because their dependencies are not installed, so they are only
+      # reported. The expected overall coverage is 80%; see AGENTS.md.
+      - name: Coverage of new code
+        # Run even if the coverage report upload fails (for example, on forks).
+        if: ${{ !cancelled() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2 }}
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        shell: bash
+        run: |
+          git fetch --no-tags origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}"
+          pip install --only-binary :all: "diff-cover==10.6.0"
+          coverage xml
+          # diff-cover matches `**/<path>` for both --include and --exclude.
+          mapfile -t NOAUTO < <(grep -v -e '^#' -e '^$' tests/diff-cover-noauto.txt | sed 's|^|**/|')
+          echo "::group::Noauto code (report only)"
+          diff-cover coverage.xml --compare-branch="origin/${BASE_REF}" \
+            --include "${NOAUTO[@]}"
+          echo "::endgroup::"
+          echo "::group::Code that CI can run (gate: 95%)"
+          diff-cover coverage.xml --compare-branch="origin/${BASE_REF}" \
+            --exclude "${NOAUTO[@]}" --fail-under=95
+          echo "::endgroup::"

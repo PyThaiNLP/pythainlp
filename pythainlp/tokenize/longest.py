@@ -1,13 +1,14 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Dictionary-based longest-matching Thai word segmentation.
-Implementation based on code from Patorn Utenpattanun.
+"""
+Tokenize Thai text into words with dictionary-based longest matching.
+
+The implementation is based on code from Patorn Utenpattanun.
 
 :See Also:
-    * `GitHub Repository \
-       <https://github.com/patorn/thaitokenizer/blob/master/thaitokenizer/tokenizer.py>`_
-
+    * GitHub repository:
+      https://github.com/patorn/thaitokenizer/blob/master/thaitokenizer/tokenizer.py
 """
 
 from __future__ import annotations
@@ -47,10 +48,50 @@ _KNOWN: bool = True
 _UNKNOWN: bool = False
 
 
+def _include_trailing(text: str, word: str) -> str:
+    """Append a trailing character (such as "ๆ") that follows a word."""
+    len_word = len(word)
+    if len_word < len(text) and text[len_word] in _TRAILING_CHAR:
+        return text[0 : len_word + 1]
+    return word
+
+
+def _is_dependent_char(
+    text: str, begin_pos: int, token_statuses: list[int]
+) -> bool:
+    """Check if an unknown character joins the previous token."""
+    if begin_pos == 0 or text[begin_pos].isspace():
+        return False
+    return bool(
+        text[begin_pos] in _FRONT_DEP_CHAR
+        or text[begin_pos - 1] in _REAR_DEP_CHAR
+        or text[begin_pos] in thai_tonemarks
+        or (token_statuses and token_statuses[-1] == _UNKNOWN)
+    )
+
+
+def _group_spaces(tokens: list[str]) -> list[str]:
+    """Group consecutive space tokens into one token."""
+    grouped_tokens: list[str] = []
+    for token in tokens:
+        if token.isspace() and grouped_tokens and grouped_tokens[-1].isspace():
+            grouped_tokens[-1] += token
+        else:
+            grouped_tokens.append(token)
+    return grouped_tokens
+
+
 class LongestMatchTokenizer:
+    """Tokenize text into words with dictionary-based longest matching."""
+
     __trie: Trie
 
     def __init__(self, trie: Trie) -> None:
+        """
+        Initialize the tokenizer.
+
+        :param pythainlp.util.Trie trie: dictionary trie
+        """
         self.__trie: Trie = trie
 
     @staticmethod
@@ -72,11 +113,7 @@ class LongestMatchTokenizer:
         if match:
             return True
 
-        for pos in range(len(text) + 1):
-            if text[0:pos] in self.__trie:
-                return True
-
-        return False
+        return any(text[0:pos] in self.__trie for pos in range(len(text) + 1))
 
     def __longest_matching(self, text: str, begin_pos: int) -> str:
         text = text[begin_pos:]
@@ -95,20 +132,10 @@ class LongestMatchTokenizer:
                 if self.__is_next_word_valid(text, pos):
                     word_valid = w
 
-        if word:
-            if not word_valid:
-                word_valid = word
-
-            try:
-                len_word_valid = len(word_valid)
-                if text[len_word_valid] in _TRAILING_CHAR:
-                    return text[0 : len_word_valid + 1]
-                else:
-                    return word_valid
-            except IndexError:
-                return word_valid
-        else:
+        if not word:
             return ""
+
+        return _include_trailing(text, word_valid or word)
 
     def __segment(self, text: str) -> list[str]:
         begin_pos = 0
@@ -118,16 +145,7 @@ class LongestMatchTokenizer:
         while begin_pos < len_text:
             match = self.__longest_matching(text, begin_pos)
             if not match:
-                if (
-                    begin_pos != 0
-                    and not text[begin_pos].isspace()
-                    and (
-                        text[begin_pos] in _FRONT_DEP_CHAR
-                        or text[begin_pos - 1] in _REAR_DEP_CHAR
-                        or text[begin_pos] in thai_tonemarks
-                        or (token_statuses and token_statuses[-1] == _UNKNOWN)
-                    )
-                ):
+                if _is_dependent_char(text, begin_pos, token_statuses):
                     tokens[-1] += text[begin_pos]
                     token_statuses[-1] = _UNKNOWN
                 else:
@@ -142,21 +160,16 @@ class LongestMatchTokenizer:
                     token_statuses.append(_KNOWN)
                 begin_pos += len(match)
 
-        # Group consecutive spaces into one token
-        grouped_tokens: list[str] = []
-        for token in tokens:
-            if (
-                token.isspace()
-                and grouped_tokens
-                and grouped_tokens[-1].isspace()
-            ):
-                grouped_tokens[-1] += token
-            else:
-                grouped_tokens.append(token)
-
-        return grouped_tokens
+        return _group_spaces(tokens)
 
     def tokenize(self, text: str) -> list[str]:
+        """
+        Tokenize text into words.
+
+        :param str text: text to be tokenized
+        :return: list of words
+        :rtype: list[str]
+        """
         tokens = self.__segment(text)
         return tokens
 
@@ -166,14 +179,17 @@ _tokenizers_lock: threading.Lock = threading.Lock()
 
 
 def segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
-    """Dictionary-based longest matching word segmentation.
+    """
+    Tokenize text into words with dictionary-based longest matching.
 
     This function is thread-safe. It uses a lock to protect access to the
     internal tokenizer cache.
 
-    :param str text: text to be tokenized into words
-    :param pythainlp.util.Trie custom_dict: dictionary for tokenization
-    :return: list of words, tokenized from the text
+    :param str text: text to be tokenized
+    :param pythainlp.util.Trie custom_dict: dictionary trie
+        (default: the default word trie)
+    :return: list of words
+    :rtype: list[str]
     """
     if not text or not isinstance(text, str):
         return []

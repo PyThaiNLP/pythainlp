@@ -26,12 +26,13 @@ def _strip_lead_vowels(text: str) -> str:
 
 
 def check_khuap_klam(word: str) -> Optional[bool]:
-    """Check whether a Thai word is a consonant cluster (Kham Khuap Klam).
+    """
+    Check whether a Thai word is a consonant cluster (Kham Khuap Klam).
 
-    :param str word: Thai word to check.
+    :param str word: Thai word to check
     :return: ``True`` if the word is a *true* consonant cluster
         (คำควบกล้ำแท้), ``False`` if it is a *false* consonant cluster
-        (คำควบกล้ำไม่แท้), or ``None`` if it is not a consonant cluster.
+        (คำควบกล้ำไม่แท้), or ``None`` if it is not a consonant cluster
     :rtype: Optional[bool]
 
     :Example:

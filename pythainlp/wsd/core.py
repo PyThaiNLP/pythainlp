@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Thai word sense disambiguation."""
+
 from __future__ import annotations
 
 from typing import Optional, Union, cast
@@ -10,14 +12,10 @@ from pythainlp.tokenize import Tokenizer
 from pythainlp.util.trie import Trie
 
 _wsd_dict: dict[str, Union[list[str], list[list[str]]]] = thai_wsd_dict()
-_mean_all: dict[str, list[str]] = {}
 
 words: list[str] = cast("list[str]", _wsd_dict["word"])
 meanings: list[list[str]] = cast("list[list[str]]", _wsd_dict["meaning"])
-i_word: str
-i_meanings: list[str]
-for i_word, i_meanings in zip(words, meanings):
-    _mean_all[i_word] = i_meanings
+_mean_all: dict[str, list[str]] = dict(zip(words, meanings))
 
 _all_word: set[str] = cast("set[str]", set(_mean_all.keys()))
 _TRIE: Trie = Trie(_all_word)
@@ -36,7 +34,7 @@ class _SentenceTransformersModel:
 
         self.device: str = device
         self.model_name: str = model
-        self.model: "SentenceTransformer" = SentenceTransformer(
+        self.model: SentenceTransformer = SentenceTransformer(
             self.model_name, device=self.device
         )
 
@@ -63,42 +61,47 @@ def get_sense(
     custom_dict: Optional[dict[str, list[str]]] = None,
     custom_tokenizer: Tokenizer = _word_cut,
 ) -> list[tuple[str, float]]:
-    """Get word sense from the sentence.
-    Gets definition and distance from context in sentence.
+    """
+    Get the sense of a word in a sentence.
+
+    This function returns the definitions of the word and their distances
+    from the context in the sentence.
 
     :param str sentence: Thai sentence
     :param str word: Thai word
-    :param str device: device for running model on.
-    :param Optional[dict[str, list[str]]] custom_dict: Thai dictionary in the
-        form {"word": ["definition", ...]}
-    :param Tokenizer custom_tokenizer: Tokenizer used to tokenize words in \
-        sentence.
-    :return: a list of definitions and distances (1 - cos_sim) or \
-        an empty list (if word is not in the dictionary)
+    :param str device: device to run the model on
+    :param Optional[dict[str, list[str]]] custom_dict: Thai dictionary in
+        the form {"word": ["definition", ...]}
+    :param pythainlp.tokenize.Tokenizer custom_tokenizer: tokenizer to
+        tokenize the sentence
+    :return: list of definitions and distances (1 - cosine similarity),
+        or an empty list if the word is not in the dictionary
     :rtype: list[tuple[str, float]]
 
-    We get the ideas from `Context-Aware Semantic Similarity Measurement for \
-        Unsupervised Word Sense Disambiguation \
-        <https://arxiv.org/abs/2305.03520>`_ to build get_sense function.
+    This function is based on the ideas in `Context-Aware Semantic
+    Similarity Measurement for Unsupervised Word Sense Disambiguation
+    <https://arxiv.org/abs/2305.03520>`_.
 
-    Use Thai dictionary from wiktionary.
+    It uses the Thai dictionary from Wiktionary.
     See `thai_dict <https://pythainlp.org/pythainlp-corpus/thai_dict.html>`_.
 
-    Use sentence transformers model from \
-        `sentence-transformers/paraphrase-multilingual-mpnet-base-v2 \
-        <https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2>`_ \
-        for unsupervised word sense disambiguation.
+    It uses the sentence transformers model
+    `sentence-transformers/paraphrase-multilingual-mpnet-base-v2
+    <https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2>`_
+    for unsupervised word sense disambiguation.
 
     :Example:
 
         >>> from pythainlp.wsd import get_sense  # doctest: +SKIP
-        >>> print(get_sense("เขากำลังอบขนมคุกกี้","คุกกี้"))  # doctest: +SKIP
+        >>> print(get_sense("เขากำลังอบขนมคุกกี้", "คุกกี้"))  # doctest: +SKIP
         [('โปรแกรมคอมพิวเตอร์ใช้ในทางอินเทอร์เน็ตสำหรับเก็บข้อมูลของผู้ใช้งาน',
           0.0974416732788086),
          ('ชื่อขนมชนิดหนึ่งจำพวกขนมเค้ก แต่ทำเป็นชิ้นเล็ก ๆ แบน ๆ แล้วอบให้กรอบ',
           0.09319090843200684)]
 
-        >>> print(get_sense("เว็บนี้ต้องการคุกกี้ในการทำงาน","คุกกี้"))  # doctest: +SKIP
+        >>> print(
+        ...     get_sense("เว็บนี้ต้องการคุกกี้ในการทำงาน", "คุกกี้")
+        ... )  # doctest: +SKIP
         [('โปรแกรมคอมพิวเตอร์ใช้ในทางอินเทอร์เน็ตสำหรับเก็บข้อมูลของผู้ใช้งาน',
           0.1005704402923584),
          ('ชื่อขนมชนิดหนึ่งจำพวกขนมเค้ก แต่ทำเป็นชิ้นเล็ก ๆ แบน ๆ แล้วอบให้กรอบ',
@@ -121,14 +124,15 @@ def get_sense(
     for meaning in temp_mean:
         tokens_with_sense: list[str] = []
         for token in w:
+            sense_token = token
             if token == word:
-                token = (
+                sense_token = (
                     word
                     + f" ({word} ความหมาย '"
                     + meaning.replace("(", "").replace(")", "")
                     + "') "
                 )
-            tokens_with_sense.append(token)
+            tokens_with_sense.append(sense_token)
         temp.append(
             (meaning, model.get_score(sentence, "".join(tokens_with_sense)))
         )

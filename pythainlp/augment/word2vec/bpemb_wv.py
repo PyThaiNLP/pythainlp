@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Augment Thai text using word2vec from BPEmb."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, cast
@@ -13,7 +15,8 @@ if TYPE_CHECKING:
 
 
 class BPEmbAug:
-    """Thai Text Augment using word2vec from BPEmb
+    """
+    Augment Thai text using word2vec from BPEmb.
 
     BPEmb:
     `github.com/bheinzerling/bpemb <https://github.com/bheinzerling/bpemb>`_
@@ -30,6 +33,13 @@ class BPEmbAug:
     def __init__(
         self, lang: str = "th", vs: int = 100000, dim: int = 300
     ) -> None:
+        """
+        Initialize the BPEmb word2vec augmenter.
+
+        :param str lang: language code
+        :param int vs: vocabulary size
+        :param int dim: embedding dimension
+        """
         from bpemb import BPEmb
 
         self.bpemb_temp: BPEmb = BPEmb(lang=lang, dim=dim, vs=vs)
@@ -37,13 +47,17 @@ class BPEmbAug:
         self.load_w2v()
 
     def tokenizer(self, text: str) -> list[str]:
-        """:param str text: Thai text
-        :rtype: List[str]
         """
-        return cast(list[str], self.bpemb_temp.encode(text))
+        Tokenize text into a list of subword units.
+
+        :param str text: Thai text to tokenize
+        :return: list of subword units
+        :rtype: list[str]
+        """
+        return cast("list[str]", self.bpemb_temp.encode(text))
 
     def load_w2v(self) -> None:
-        """Load BPEmb model"""
+        """Load the BPEmb model."""
         self.aug: Word2VecAug = Word2VecAug(
             self.model, tokenize=self.tokenizer, type="model"
         )
@@ -51,17 +65,21 @@ class BPEmbAug:
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7
     ) -> list[str]:
-        """Text Augment using word2vec from BPEmb
+        """
+        Augment text using word2vec from BPEmb.
 
-        :param str sentence: Thai sentence
-        :param int n_sent: number of sentence
-        :param float p: probability of word
+        :param str sentence: Thai text to augment
+        :param int n_sent: number of augmented sentences
+        :param float p: minimum similarity score of a replacement word
 
-        :return: list of synonyms
+        :return: list of augmented sentences
         :rtype: list[str]
+
         :Example:
 
-            >>> from pythainlp.augment.word2vec.bpemb_wv import BPEmbAug  # doctest: +SKIP
+            >>> from pythainlp.augment.word2vec.bpemb_wv import (
+            ...     BPEmbAug,
+            ... )  # doctest: +SKIP
 
             >>> aug = BPEmbAug()  # doctest: +SKIP
             >>> aug.augment("ผมเรียน", n_sent=2, p=0.5)  # doctest: +SKIP

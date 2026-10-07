@@ -2,395 +2,359 @@
 
 ## PyThaiNLP specific
 
-- [ ] Follow test suite categorization and test matrix in
-      <https://github.com/PyThaiNLP/pythainlp/blob/dev/tests/README.md>.
-      The document list test categories, their dependency sets,
-      and test naming conventions.
-- [ ] Use reStructuredText for docstring (PEP 287), targeting Sphinx.
-- [ ] When possible, follow NLTK established convention of submodule
-      name (tend to be a verb or a generic noun), function name, and
-      configuration. Communicate this to the users during code review.
-      See <https://www.nltk.org/py-modindex.html>.
-- [ ] The type information analyzer at
-      <https://github.com/PyThaiNLP/pythainlp/blob/dev/build_tools/analysis/type-analyzer.py>
-      can generate information about annotation completeness of
-      variables, functions, methods, type aliases, decorators, and
-      classes in the PyThaiNLP repo.
-      Use it to assist the maintenance of 100% type completeness in
-      the repo. Read its usage and information it generates at
-      <https://github.com/PyThaiNLP/pythainlp/blob/dev/build_tools/analysis/README.md>.
-      Mind that the analyzer can create false positives,
-      please refer to Python type specification when in doubt.
-- [ ] Complete type annotations for function, method, class, variable, etc.
-      Maintain near-100% type annotation coverage.
-- [ ] Add tests for new functionality or behavior.
-      New PR must not drop the test coverage more than 0.1%.
-- [ ] Keep the test coverage high. Aim at least 70% test coverage.
-- [ ] Add test cases to cover all code branches and capture edge cases.
-- [ ] `# type: ignore[arg-type]` comment can be used in the test code,
-      only if that specific code want to explicitly test type handling
-      or TypeError raising.
-- [ ] Docstring and doctest must reflect the latest code.
-- [ ] All error messages and warning messages should be clear, concise,
-      and consistent in style. They should be parseable.
-- [ ] API documentation is in docs/api/.
-      There must be an .rst file for each module, so that the generated
-      module API documentation is visible publicly.
-- [ ] Major changes should be logged in the change log at
-      <https://github.com/PyThaiNLP/pythainlp/blob/dev/CHANGELOG.md>.
-      Provide issue number or PR number if available.
-- [ ] Do not use os.path.join();
-      always use pythainlp.tools.safe_path_join() instead,
-      to prevent path traversal vulnerabilities (CWE-22).
-- [ ] Naming conventions: Follows PEP 8. Concise. Use US spelling.
-      Align new modules, classes, public APIs, and environment
-      variables with NLTK conventions as the primary standard,
-      provided they suit the component's behavior.
-      If NLTK offers no clear precedent, defer to established NLP
-      frameworks in the following order of preference:
-      spaCy, CoreNLP/Stanza, LangPipe, and Hugging Face.
-- [ ] Noun number consistency: Maintain strict intentionality
-      regarding singular vs. plural forms. Use singular names for
-      classes representing a single entity and reserve plural
-      names only for collections, utility modules, or clear aggregates.
+- Follow the test categories, dependency sets, and test naming conventions in
+  <https://github.com/PyThaiNLP/pythainlp/blob/dev/tests/README.md>.
+- Follow NLTK conventions for submodule names (a verb or a generic noun),
+  function names, and configuration when possible, and tell the user about
+  it during code review. See <https://www.nltk.org/py-modindex.html>.
+- Naming: PEP 8, concise, US spelling. Align new modules, classes, public
+  APIs, and environment variables with NLTK first, if they suit the
+  component. If NLTK has no precedent, follow spaCy, CoreNLP/Stanza,
+  LangPipe, then Hugging Face.
+- Number: use singular names for a class that represents one entity.
+  Use plural names only for collections, utility modules, or aggregates.
+- Error and warning messages: clear, concise, consistent in style, and
+  parseable.
+- Do not use `os.path.join()`. Use `pythainlp.tools.safe_path_join()` to
+  prevent path traversal (CWE-22).
+- API documentation is in `docs/api/`. Each module needs an `.rst` file so
+  its API documentation is public.
+- Log major changes in
+  <https://github.com/PyThaiNLP/pythainlp/blob/dev/CHANGELOG.md>
+  (see "Change log" below).
+- Known issues and planned work are in
+  <https://github.com/PyThaiNLP/pythainlp/blob/dev/working-docs/ROADMAP.md>.
+  Other working notes are in `working-docs/`.
+  - Record each bug found while working on something else there, with a
+    test that pins the current behavior.
+  - Do not fix such a bug in an unrelated or behavior-preserving change.
+    Fix it in its own pull request.
 
-## Project contribution guidelines
+### Docstrings
 
-- [ ] Follow the project's established coding style and conventions.
-- [ ] Run Ruff and fix errors before committing code.
-  - [ ] New code should be written to pass all Ruff checks.
-  - [ ] McCabe complexity should be kept low;
-        refactor the new code that exceeds 10.
-  - [ ] Cognitive complexity should be kept low;
-        refactor the new code that exceeds 15.
-  - [ ] Existing code should be gradually improved to pass Ruff checks
-        when making changes.
-- [ ] Write clear and concise commit messages that accurately describe
-      the changes made.
-- [ ] For significant changes, update the CHANGELOG.md file
-      to document the changes.
-  - [ ] Follow "Keep a Changelog" style guide
-        <https://keepachangelog.com/en/1.1.0/>
-  - [ ] Use semantic versioning for version numbers
-        <https://semver.org/>
-  - [ ] If it is a breaking change, indicate it clearly in the changelog.
-    - [ ] Provide migration instructions if necessary.
-- [ ] Do not leave trailing whitespaces in the code or documentation files,
-      unless such a whitespace is explicitly necessary.
-- [ ] Metadata in pyproject.toml, codemeta.json, CITATION.cff, and other
-      project metadata files should be consistent and up-to-date.
-  - [ ] Project name
-  - [ ] Project version
-  - [ ] Author/contributor names
-  - [ ] License information
-  - [ ] Project description
-  - [ ] Repository URL
-  - [ ] Keywords/tags (in the same order if possible)
+Use reStructuredText (PEP 287) for Sphinx. The docstring and its doctest
+must match the latest code.
 
-## General language use
+- Layout (Codacy enforces pydocstyle D213; its settings cannot change):
+  - Use `"""`. A one-line docstring stays on one line.
+  - A multi-line docstring starts its summary on the second line.
+  - The summary is one sentence in the imperative mood ("Convert ...",
+    "Return ..."), ending with a period.
+  - Then a blank line, an optional description, a blank line, the fields,
+    a blank line, and `:Example:`.
+  - Keep every line within 79 characters, indent included. Exceptions: a
+    URL, and a doctest output line that cannot wrap.
+  - Do not end a docstring line with a backslash; it joins lines.
+- Fields, in this order: `:param <type> <name>:`, `:return:`, `:rtype:`,
+  `:raises <Exception>:`.
+  - Write the type as in the annotation, with built-in generics
+    (`list[str]`) and fully qualified names for non-stdlib types
+    (`numpy.ndarray`, `pandas.DataFrame`), so the module is clear.
+  - A field description is a phrase that starts in lowercase, with no final
+    period. A description of several sentences uses capitalized sentences
+    with periods.
+  - Indent the continuation of a field by 4 spaces.
+  - List options as `* *name* - description` under the field, indented by
+    4 spaces. Mark the default with `(default)`.
+- Wording: US spelling, active voice, parallel phrasing between similar
+  functions. Use the same terms everywhere: "text" (a `str` to process),
+  "word" (a token), "list of words", "engine" (an algorithm or model
+  option), "corpus", "tokenize", and "Thai" (capitalized).
 
-- [ ] Write short and simple comments. Do not state the obvious.
-- [ ] Prefer clear, concise, and unambiguous sentences.
-- [ ] Do not use jargon, slang, or idiomatic expressions
-      that may not be universally understood.
-- [ ] Use active voice whenever possible.
-- [ ] Use consistent terminology throughout the code and documentation.
-- [ ] Define acronyms and abbreviations on their first use.
-- [ ] Use technical terms accurately and appropriately.
-- [ ] Avoid unnecessary complexity and verbosity.
-- [ ] Use proper grammar, punctuation, and spelling.
-- [ ] Use consistent formatting for dates, times, numbers, and units of measure.
-- [ ] When using abbreviations for units of measure, follow the International
-      System of Units (SI) conventions.
-- [ ] When using code snippets, ensure they are properly formatted and
-      follow the conventions of the programming language being used.
-- [ ] Avoid words and phrases that may have more than one interpretation.
-- [ ] Avoid overly long paragraphs. Breaking up text into smaller paragraphs,
-      using bullet points, or creating numbered lists to improve readability.
-- [ ] Help readers' comprehension by separating distinct concepts, processes,
-      criteria, or categories.
-- [ ] Use parallel language structures in lists and documentation.
-- [ ] Use a uniform writing style, particularly when presenting similar or
-      related information, so the reader can compare easily.
-- [ ] If not specified otherwise, use Chicago style for reference/citation.
-- [ ] When writing on level of requirements, use the verbal forms consistently.
-      Use either ISO/IEC verbal form (ISO/IEC Directives, Part 2 --
-      Principles and rules for the structure and drafting of ISO and IEC
-      documents) or IETF verbal form (RFC 2119 and RFC 8174).
-      Try to detect the level of requirements from type/domain of the document.
-      IETF is default for internet/web/semantic web projects in general.
-      ISO is default for SPDX project.
-- [ ] Use American English spelling consistently.
+## Tests and quality
 
-## Naming conventions
+Leave every file you touch better than you found it.
 
-- [ ] Follow standard naming conventions for the programming language
-      and framework you are using.
-- [ ] Use only ASCII letters, digits, hyphen (-), and underscore (_)
-      in names.
-- [ ] For URLs/IRIs, use lowercase letters and hyphens to separate words
-      (e.g., `my-api-endpoint`) and follow W3C Cool URIs for the Semantic Web:
-      <https://www.w3.org/TR/cooluris/>
-- [ ] Consult Schema.org vocabularies when deciding about names.
-- [ ] Consult "Style Guidelines for Naming and Labeling Ontologies in the
-      Multilingual Web" <https://www.researchgate.net/publication/277224472>
+- Coverage:
+  - Expected overall coverage is at least 80%. A PR must not drop it by more
+    than 0.1%.
+  - New and changed code needs at least 95% coverage. CI (`diff-cover`)
+    gates it, except in the noauto modules listed in
+    `tests/diff-cover-noauto.txt`. CI cannot run those modules (their
+    dependencies, such as torch, are not installed), so it only reports
+    their coverage. Run the noauto test suites locally and meet the same
+    95%.
+  - Agents should aim for near 100% line and branch coverage of the code
+    they add or change, and cover every function they touch.
+- Add tests for new behavior, covering all branches and edge cases.
+- Write compact tests: use parameterized tests (`subTest` or table-driven
+  cases) instead of many near-identical methods.
+- Add characterization tests before refactoring, to record the current
+  behavior.
+- Add a regression test for every bug fix.
+- Add adversarial tests: empty input, `None`, wrong types, Unicode edge
+  cases, very long input, and boundary values.
+- Use `# type: ignore[arg-type]` in tests only when the test checks type
+  handling or `TypeError`.
+- Keep complexity within the limits: McCabe 10 and cognitive 15 (flake8 with
+  flake8-cognitive-complexity, see `.flake8`). Refactor a touched function
+  that exceeds them, or at least do not make it more complex. Functions not
+  yet refactored carry `# noqa: CCR001` (or `# noqa: C901` for McCabe) and
+  a `# phase2-todo` tag.
+- Keep code maintainable: small functions, lookup tables instead of long
+  `if` chains, shared helpers instead of copied blocks.
+- Prefer the smallest change. Keep refactoring behavior-preserving.
+- Follow the project's coding style. Run Ruff and `ruff format` (CI enforces
+  both) and fix the errors before committing. Write new code to pass all
+  Ruff checks, and improve existing code gradually when you change it.
+- After changes, review code and documentation for correctness,
+  consistency, and clarity. Comments, APIs, and documentation must match
+  the code, and documentation examples must run.
 
-## Tidy code and documentation
+## Change log
 
-- [ ] Ensure that the code is well-formatted and adheres to the style
-      guidelines of the programming language you are using.
-- [ ] Use linters and formatters where applicable.
-- [ ] Use "sentence case" for headings and titles in documentation.
-- [ ] Write clear and concise comments and documentation for your code.
-      For something obvious, avoid comments that just restate the code.
-- [ ] After making changes, review the code and documentation to ensure
-      up-to-dateness, correctness, consistency, and clarity.
-- [ ] Make sure that all code comments, APIs, and documentation are consistent
-      with the current state of the codebase.
-- [ ] Make sure that the examples in the documentation are runnable, up-to-date
-      and reflect the current behavior of the code.
+Update `CHANGELOG.md` for significant changes.
 
-## File header
+- Follow [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and
+  [semantic versioning](https://semver.org/).
+- Mark a breaking change clearly, and give migration instructions if needed.
+- Keep entries concise, without background or rationale (the PR has them).
+  Aim at about 140 characters; a complex PR may exceed it.
+- End each entry with its PR link, as in
+  <https://github.com/bact/pitloom/blob/main/CHANGELOG.md>: `([#123])`,
+  with the `[#123]: <PR URL>` definitions at the end of each release
+  section.
+- Merge related PRs into one entry: `([#1], [#2])`. Sort the entries in a
+  section by their lowest PR number.
+- Skip documentation-only, version bump, and CI-only changes.
 
-- [ ] When possible, put relevant SPDX File Tags at file header.
-      See <https://spdx.github.io/spdx-spec/v2.3/file-information/>
-  - [ ] SPDX-FileContributor
-  - [ ] SPDX-FileCopyrightText
-  - [ ] Default SPDX-FileType for code is "SOURCE"
-  - [ ] Default SPDX-FileType for documentation is "DOCUMENTATION"
-  - [ ] Default SPDX-License-Identifier for code is "Apache-2.0"
-  - [ ] Default SPDX-License-Identifier for documentation is "CC0-1.0"
-  - [ ] Sort SPDX metadata.
+## Language and style
+
+- Write short, simple comments. Do not state the obvious or restate the
+  code.
+- Use clear, concise, unambiguous sentences in the active voice, with
+  correct grammar, punctuation, and American English spelling.
+- Avoid jargon, slang, idioms, unnecessary complexity, and words with more
+  than one interpretation.
+- Use consistent terminology. Define acronyms on first use. Use technical
+  terms accurately.
+- Use consistent formats for dates, times, numbers, and units. Use SI
+  abbreviations for units.
+- Break long paragraphs into smaller ones, bullets, or numbered lists.
+  Separate distinct concepts, processes, criteria, and categories.
+- Use parallel structure in lists, and a uniform style for related
+  information, so readers can compare.
+- Use "sentence case" for headings and titles.
+- Format code snippets by the conventions of their language.
+- Use Chicago style for references, unless told otherwise.
+- Use the verbal forms of requirement levels consistently: IETF (RFC 2119,
+  RFC 8174) by default for internet, web, and semantic web projects; ISO/IEC
+  (ISO/IEC Directives, Part 2) for SPDX. Detect the level from the domain of
+  the document.
+- Names: follow the conventions of the language and framework. Use only
+  ASCII letters, digits, hyphen (-), and underscore (_).
+- URLs/IRIs: lowercase letters and hyphens (`my-api-endpoint`), following
+  [Cool URIs](https://www.w3.org/TR/cooluris/).
+- Consult Schema.org vocabularies and "Style Guidelines for Naming and
+  Labeling Ontologies in the Multilingual Web"
+  (<https://www.researchgate.net/publication/277224472>) when choosing
+  names.
+- Use linters and formatters where applicable.
+- Do not leave trailing whitespace, unless it is necessary.
+
+## Project metadata and file headers
+
+- Keep `pyproject.toml`, `codemeta.json`, `CITATION.cff`, and other
+  metadata files consistent and up to date: project name, version,
+  author/contributor names, license, description, repository URL, and
+  keywords (in the same order if possible).
+- Put SPDX file tags in file headers when possible, sorted:
+  `SPDX-FileContributor`, `SPDX-FileCopyrightText`, `SPDX-FileType`
+  (default `SOURCE` for code, `DOCUMENTATION` for documentation), and
+  `SPDX-License-Identifier` (default `Apache-2.0` for code, `CC0-1.0` for
+  documentation).
+  See <https://spdx.github.io/spdx-spec/v2.3/file-information/>.
+
+## Cross-platform support
+
+PyThaiNLP targets Windows, Linux, and macOS. CI tests all three.
+
+- Paths: use `pathlib` or `pythainlp.tools.safe_path_join()`. Do not
+  hardcode `/` or `\`, `/tmp`, a drive letter, or the home directory layout.
+  Windows paths have a length limit, reserved names (`NUL`), 8.3 short names
+  (`RUNNER~1`), and are case-insensitive. Compare paths after
+  `os.path.realpath()`.
+- Files: pass `encoding=` to `open()`. Close a file before replacing or
+  deleting it; Windows raises `PermissionError`. Symbolic links and
+  permission bits are limited on Windows.
+- Encoding: the default differs by platform (Windows uses a legacy code
+  page, such as cp874 or cp1252, until Python 3.15).
+  - Use UTF-8 for Thai text, source files, and data files. Use `utf-8-sig`
+    to read a file that may start with a BOM.
+  - Do not assume `print()` can write Thai: a Windows console or a
+    redirected stream may raise `UnicodeEncodeError`. Do not depend on
+    `sys.stdout.encoding` or `locale`.
+  - Do not compare Thai strings as bytes. Count and slice code points, not
+    bytes or user-perceived characters (a combining mark is its own code
+    point).
+  - macOS can normalize non-ASCII file names (NFD). Do not rely on an exact
+    round trip; keep file names in ASCII.
+- Signals: catch `KeyboardInterrupt`, not a signal number. Windows lacks
+  `SIGKILL`, `SIGHUP`, and `SIGALRM`.
+- Processes: `multiprocessing` uses `spawn` on Windows and macOS. Guard the
+  entry point and keep arguments picklable.
+- Environment variables are case-insensitive on Windows only. Use
+  `pathlib.Path.home()`, not `HOME`.
+- Prefer a feature check (`hasattr`, `try`/`except`) over a platform check.
+  Otherwise use `sys.platform` or `os.name`.
+- Keep optional native dependencies (ICU, PyTorch) out of the core install.
+- Tests:
+  - Do not record expected values on one platform only. For example,
+    Windows rejects `time.strftime()` directives such as `%-d`.
+  - Use `tempfile`; do not write to the working directory.
+  - Use `unittest.skipIf` with a reason for a platform-specific test.
 
 ## Shell scripts and command line
 
-- [ ] Mind the differences between GNU, BSD, macOS,
-      and other implementations of common Unix tools.
-- [ ] Be defensive on variable expansion.
-- [ ] Use quotes or other constructs to encapsulate paths, make it compatible
-      with different kinds of shells.
-- [ ] Be mindful about the semantics of different types of quotation marks.
+- Mind the differences between GNU, BSD, and macOS tools. For example,
+  `sed -i` needs an argument on BSD but not on GNU; `date`,
+  `readlink -f`, `xargs`, and `grep -P` also differ. Prefer POSIX options,
+  or write the step in Python.
+- Mind the differences between shells (bash, zsh, PowerShell, `cmd`):
+  quoting, escaping, unmatched globs (zsh fails), and variable syntax
+  (`$VAR`, `%VAR%`, `$env:VAR`). In GitHub Actions, set `shell:` when it
+  matters.
+- Be defensive on variable expansion. Quote paths. Mind the semantics of
+  different quotation marks.
 
-## Library imports and dependencies
+## Dependencies and imports
 
-- [ ] Check the correctness of library/module/package names.
-      Be very careful of slopsquatting and typosquatting attacks.
-- [ ] Use the most updated version of the library that is supported
-      by the OS/compiler/framework currently being used.
-- [ ] In source code, group and sort imports by the programming language
-      convention (e.g., in Python, typically by standard library first,
-      then by third-party libraries)
-      and then by alphabetical order whenever possible.
-      Be careful of specific order of import requirements of some dependencies,
-      as moving the order may break the code or create cyclic import issues.
-- [ ] Remove unused imports.
-- [ ] In build metadata (like pyproject.toml in Python) or
-      dependency list (like requirements.txt in Python), sort dependencies.
-- [ ] Warn users about abandoned dependencies with no maintenance
-      for a long time and suggest equivalent drop-in replacements.
+- Check library, module, and package names carefully: beware of
+  slopsquatting and typosquatting.
+- Use the latest library version that the OS, compiler, or framework
+  supports. Check that a suggested version exists and is compatible.
+  Prefer semantic versions.
+- Warn about abandoned dependencies and suggest drop-in replacements.
+- Sort dependencies in build metadata (such as `pyproject.toml`).
+- Group and sort imports by language convention (in Python: standard
+  library, then third-party, then alphabetical). Keep an order that a
+  dependency requires, and do not introduce circular imports; read the
+  comments near imports. Remove unused imports.
 
 ## Security
 
-- [ ] Follow the principle of least privilege.
-- [ ] Avoid using deprecated, obsolete, or insecure libraries,
-      frameworks, or APIs.
-- [ ] When handling sensitive data (like passwords, API keys, personal data),
-      follow best practices for data protection and privacy.
-- [ ] Avoid hardcoding sensitive information (like passwords, API keys)
-      directly in the codebase.
-- [ ] Validate and sanitize all user inputs to prevent security vulnerabilities
-      such as SQL injection, cross-site scripting (XSS), and buffer overflows.
-- [ ] Regularly update dependencies to their latest secure versions.
-- [ ] When suggesting code that involves cryptography,
-      use strong and well-established algorithms and key sizes.
-- [ ] When dealing with authentication and authorization,
-      follow best practices and standards like OAuth2, OpenID Connect, etc.
-- [ ] Avoid using eval() and similar functions that execute arbitrary code,
-      unless absolutely necessary and safe.
-- [ ] Avoid the deserialization of untrusted data (CWE-502).
-  - [ ] In Python, avoid using `pickle` module for
-        serialization/deserialization.
-- [ ] When handling files and paths, be careful of path traversal vulnerabilities
-      like CWE-22.
+- Follow the principle of least privilege.
+- Avoid deprecated, obsolete, or insecure libraries, frameworks, and APIs.
+- Protect sensitive data (passwords, API keys, personal data). Do not
+  hardcode secrets.
+- Validate and sanitize all user input (SQL injection, XSS, buffer
+  overflows).
+- Update dependencies to their latest secure versions regularly.
+- Use strong, well-established algorithms and key sizes for cryptography.
+- Follow standards such as OAuth2 and OpenID Connect for authentication and
+  authorization.
+- Avoid `eval()` and similar functions, unless necessary and safe.
+- Avoid deserializing untrusted data (CWE-502). In Python, avoid `pickle`.
+- Be careful of path traversal (CWE-22).
 
 ## API
 
-- [ ] The overall architecture, code, and API endpoints should follow the latest
-      version of OpenAPI specification at <https://spec.openapis.org/oas/>
-- [ ] API endpoints must use proper HTTP return codes.
-- [ ] Follow web best practices as recommended by OpenAPI, IETF, W3C, etc.
+- Follow the latest OpenAPI specification (<https://spec.openapis.org/oas/>)
+  and web best practices from OpenAPI, IETF, and W3C.
+- Use proper HTTP return codes.
 
 ## Git
 
-- [ ] Follow these guidelines for writing a good commit message:
-  - How to Write a Git Commit Message
-    <https://chris.beams.io/posts/git-commit/>
-  - Commit Verbs 101: why I like to use this and why you should also like it.
-    <https://chris.beams.io/posts/git-commit/>
+- Write commit messages by
+  [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/).
+- At the end of a set of file changes, or at any other good commit
+  opportunity, offer a commit message. Do not commit unless asked. Give two
+  versions, each in its own fenced code block, so each has a copy button:
+  - A one-line version: plain text, no Markdown, under 60 characters.
+  - A longer version: a subject line, a blank line, then a body that may
+    use Markdown, such as bullets and `code` spans.
+- When asked for a pull request (PR) title, summary, description, or change
+  log entry, give each in its own fenced Markdown code block, so it can be
+  copied. Default lengths when none is given:
+  - PR title: under 60 characters (usable as a commit message)
+  - PR summary: under 280 characters, as bullets
+  - PR description: under 1000 characters
+  - Change log entry: under 140 characters per entry
 
 ## Python
 
-- [ ] Maintain source code readability.
-- [ ] Use Idiomatic Python.
-- [ ] All configurations should be in one place, the `pyproject.toml`,
-      when possible. Use modern TOML syntax when is expressive enough.
-- [ ] Defensive coding: always check for None/empty and handle exceptions
-      when dealing with external inputs, like function arguments,
-      file I/O, network I/O, etc.
-- [ ] Complete type annotations for function, method, class, and variable,
-      as much as possible.
-  - [ ] Follow best practices and standard Python type hint patterns.
-  - [ ] Use mypy as an assistant.
-    - [ ] mypy is in "dev" optional dependency.
-    - [ ] Sometimes mypy may report errors wrongly due to cache issues.
-          Try to reset the cache if unexpected errors occured.
-  - [ ] Use pyright, pyrefly, and pytype for second opinions.
-  - [ ] When insert typing imports, put it in appropriate location and order.
-        Use "if TYPE_CHECKING import" block when possible.
-  - [ ] Minimize the use of `Any`. Try to find sources for type information
-        of external libraries:
-    - [ ] Check if type stub is available and install it.
-    - [ ] Check if source code is available and analyze it for correct types.
-          Open source library tend to have source code available on the
-          internet. For example, at GitHub, GitLab, Codeberg.
-          Try to find the source code repo from metadata in PyPI/pip.
-  - [ ] Recheck necessity of casting.
-  - [ ] Recheck necessity of `# noqa:` and `# type: ignore`.
-  - [ ] Recheck docstring and documentation consistency with the code;
-        They should match the updated type hints.
-  - [ ] In docstring, use full qualified name for non-standard library types.
-        For example, `numpy.ndarray` instead of `ndarray`;
-        `pandas.DataFrame` instead of `pd.DataFrame`.
-        So the user can know exactly which module the data type comes from.
-- [ ] Try to achieve type completeness, according to
-      <https://typing.python.org/en/latest/guides/libraries.html#type-completeness>.
-      Also refer to Python type specification at
-      <https://typing.python.org/en/latest/spec/>.
-- [ ] `requires-python` in pyproject.toml should reflect the minimum
-      Python version supported by the project.
-- [ ] Do not introduce syntax or features that are not supported
-      by the specified minimum Python version,
-      unless it is supported via `__future__` imports.
-- [ ] Do not use `A | B` union type syntax anywhere if minimum Python version is
-      below 3.10.
-- [ ] Make sure that the type annotations can be properly used by
-      runtime type inspection tools, documentation generators, and static
-      analysis tools. For example, `typing.get_type_hints()` and
-      `inspect` should work properly.
-- [ ] Do not allow the use of assert in production code
-      (it is only allowed for testing and debugging).
-- [ ] Do not use mutable default arguments in function/method definitions.
-- [ ] Do not use wildcard imports (from module import *).
-- [ ] When reordering the imports, be careful not to (re-)introduce circular
-      import. Read comments near imports to get more information.
-- [ ] Remove unused imports.
-- [ ] Remove any trailing whitespace in the Python file.
-- [ ] Make the package zip-safe if possible.
-- [ ] Be mindful about choice of data structures.
-      Prefer built-in data structures like list, dict, set, and tuple
-      unless there is a specific need for specialized data structures.
-      If specialized data structures are needed, consider using
-      appropriate collection types from `collections` and
-      `collections.abc` modules.
-      Use the most appropriate data structure for the specific use case
-      to optimize performance and memory usage.
-- [ ] Recheck formatting with Ruff.
-- [ ] Whem do packaging, the package metadata should follow
-      the Core metadata specifications
-      <https://packaging.python.org/en/latest/specifications/core-metadata/>.
+- Keep code readable and idiomatic.
+- Keep configuration in `pyproject.toml` when possible, in modern TOML.
+- Code defensively: check for `None` and empty values and handle exceptions
+  for external input (arguments, file I/O, network I/O).
+- Do not use `assert` in production code: Python removes it under `-O`.
+  Raise an exception (`ValueError`, `TypeError`, ...) instead. Ruff `S101`
+  enforces this; `assert` is fine in tests.
+- Do not use mutable default arguments or wildcard imports.
+- Make the package zip-safe if possible.
+- `requires-python` in `pyproject.toml` is the minimum supported version.
+  Do not use syntax or features it does not support, unless a `__future__`
+  import provides them. Do not use `A | B` union syntax below Python 3.10.
+- Sort the members of a collection literal (list, set, tuple, dict keys,
+  `__all__`) when possible, even for a set. Keep the order when it matters
+  at run time, including an order that gives an early exit or early hit for
+  common cases, and add a short comment.
+- Prefer built-in data structures (list, dict, set, tuple). Use `collections`
+  or `collections.abc` types when needed, and pick the structure that suits
+  the performance and memory needs.
+- Package metadata follows the
+  [Core metadata specifications](https://packaging.python.org/en/latest/specifications/core-metadata/).
 
-## Python type completeness
+### Type annotations
 
-The following are best practice recommendations for how to
-define “type complete”:
+- Annotate every function, method, class, and variable as completely as
+  possible, following standard type hint patterns, and keep near-100%
+  coverage. Annotations must work for runtime inspection and documentation
+  tools (`typing.get_type_hints()`, `inspect`).
+- Use mypy as an assistant (it is in the "dev" extra; reset its cache if it
+  reports unexpected errors). Use pyright, pyrefly, and pytype for second
+  opinions.
+- Use the type analyzer
+  <https://github.com/PyThaiNLP/pythainlp/blob/dev/build_tools/analysis/type-analyzer.py>
+  to check annotation completeness. See
+  <https://github.com/PyThaiNLP/pythainlp/blob/dev/build_tools/analysis/README.md>.
+  It can report false positives; check the
+  [Python type specification](https://typing.python.org/en/latest/spec/).
+- Put typing imports in an `if TYPE_CHECKING:` block when possible (Ruff
+  `TC` rules enforce this). If an import must stay at runtime, for example
+  to keep `typing.get_type_hints()` working, add `# noqa: TC00x` with the
+  reason.
+- Minimize `Any`. Look for type stubs or the library's source (GitHub,
+  GitLab, Codeberg; find the repository from PyPI metadata).
+- Recheck whether each cast, `# noqa:`, and `# type: ignore` is needed.
+- Keep docstrings consistent with the updated type hints.
 
-- [ ] Classes:
-  - [ ] All class variables, instance variables, and methods that
-        are “visible” (not overridden) are annotated and refer to
-        known types
-  - [ ] If a class is a subclass of a generic class, type arguments
-        are provided for each generic type parameter, and these type
-        arguments are known types
-- [ ] Functions and Methods:
-  - [ ] All input parameters have type annotations that refer to
-        known types
-  - [ ] The return parameter is annotated and refers to a known type
-  - [ ] The result of applying one or more decorators results in
-        a known type
-- [ ] Type Aliases:
-  - [ ] All of the types referenced by the type alias are known
-- [ ] Variables:
-  - [ ] All variables have type annotations that refer to known types
+Type completeness follows
+[the typing guide](https://typing.python.org/en/latest/guides/libraries.html#type-completeness):
 
-Type annotations can be omitted in a few specific cases
-where the type is obvious from the context:
+- Classes: annotate all visible (not overridden) class variables, instance
+  variables, and methods with known types. Give type arguments for each
+  generic parameter of a generic base class.
+- Functions and methods: annotate all parameters and the return value with
+  known types. A decorated function must still have a known type.
+- Type aliases: all referenced types are known.
+- Variables: all annotated with known types.
 
-- Constants that are assigned simple literal values
-  (e.g. `RED = '#F00'` or `MAX_TIMEOUT = 50` or
-  `room_temperature: Final = 20`).
-  A constant is a symbol that is assigned only once and is either
-  annotated with `Final` or is named in all-caps.
-  A constant that is not assigned a simple literal value requires
-  explicit annotations, preferably with a Final annotation
-  (e.g. `WOODWINDS: Final[list[str]] = ['Oboe', 'Bassoon']`).
-- Enum values within an `Enum` class do not require annotations
-  because they take on the type of the `Enum` class.
-- Type aliases do not require annotations.
-  A type alias is a symbol that is defined at a module level
-  with a single assignment where the assigned value is an
-  instantiable type, as opposed to a class instance
-  (e.g. `Foo = Callable[[Literal["a", "b"]], int | str]` or
-  `Bar = MyGenericClass[int] | None`).
-- The “self” parameter in an instance method and the “cls”
-  parameter in a class method do not require an explicit annotation.
-- The return type for an `__init__` method does not need
-  to be specified, since it is always `None`.
-- The following module-level symbols do not require type annotations:
-  `__all__`, `__author__`, `__copyright__`, `__email__`,
-  `__license__`, `__title__`, `__uri__`, `__version__`.
-- The following class-level symbols do not require type annotations:
+You may omit an annotation when the type is obvious:
+
+- A constant with a simple literal value (`MAX_TIMEOUT = 50`,
+  `room_temperature: Final = 20`). A constant is assigned once and is
+  annotated `Final` or named in all caps. A constant with a non-literal
+  value needs an annotation, preferably with `Final`
+  (`WOODWINDS: Final[list[str]] = ["Oboe", "Bassoon"]`).
+- `Enum` values.
+- A type alias: one module-level assignment of an instantiable type
+  (`Bar = MyGenericClass[int] | None`).
+- `self` and `cls`, and the `None` return of `__init__`.
+- Module-level `__all__`, `__author__`, `__copyright__`, `__email__`,
+  `__license__`, `__title__`, `__uri__`, `__version__`, and class-level
   `__class__`, `__dict__`, `__doc__`, `__module__`, `__slots__`.
 
-## JSON
+## JSON, Markdown, diagrams, HTML, and CSS
 
-- [ ] When serialize to JSON, always enclose decimal values
-      (for example, xs:decimal) in quotes to guarantee correct type
-      interpretation and preserve precision.
-- [ ] Make sure JSON is valid and well-formatted.
-
-## Markdown
-
-- [ ] When including metadata in Markdown file,
-      put them as YAML between triple-dashed lines,
-      as used by Hugo and Jekyll front matter.
-- [ ] Be strict on the Markdown formatting.
-      Be mindful that what works on GitHub may not work on MkDocs, for example.
-      Try to keep with the standard Markdown.
-- [ ] Use Markdownlint to detect and fix malformatted.
-
-## Diagram
-
-- [ ] When draw the diagram in ASCII/text, recheck if all the lines are well
-      aligned.
-      Count the characters and adjust the spaces so the lines align well.
-
-## HTML
-
-- [ ] Make sure HTML is valid and well-formatted.
-- [ ] Make sure there is no trailing whitespace in the HTML file.
-- [ ] Be conscious about accessibility. Consider to follow W3C web
-      accessibility recommendations when possible.
-- [ ] Use sensible and concise element IDs and names that allow code
-      readability, name grouping also helps.
-
-## CSS
-
-- [ ] Make sure there is no unused styles.
-- [ ] Use sensible and concise element IDs and names that allow code
-      readability, name grouping also helps.
-
-## Version
-
-- [ ] When suggest dependencies, recheck the version; if the version exists,
-      or if the version is compatible with the system or other dependencies.
-- [ ] Prefer a Semantic Version when applicable.
+- JSON: valid and well-formatted. Enclose decimal values (such as
+  `xs:decimal`) in quotes, to keep the type and precision.
+- Markdown: put metadata as YAML between triple-dashed lines (as Hugo and
+  Jekyll front matter). Be strict and use standard Markdown; what works on
+  GitHub may not work on MkDocs. Fix problems that Markdownlint reports.
+- ASCII/text diagrams: count characters and adjust spaces so the lines
+  align.
+- HTML: valid and well-formatted, with no trailing whitespace. Follow W3C
+  accessibility recommendations when possible.
+- HTML and CSS: use sensible, concise element IDs and names; grouping names
+  helps readability. CSS has no unused styles.

@@ -1,9 +1,7 @@
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Security tests for path traversal protection and safe archive extraction.
-"""
+"""Security tests for path traversal protection and safe archive extraction."""
 
 import os
 import tarfile
@@ -32,13 +30,17 @@ class SecurityTestCase(unittest.TestCase):
                 _is_within_directory(tmpdir, os.path.join(tmpdir, "file.txt"))
             )
             self.assertTrue(
-                _is_within_directory(tmpdir, os.path.join(tmpdir, "subdir", "file.txt"))
+                _is_within_directory(
+                    tmpdir, os.path.join(tmpdir, "subdir", "file.txt")
+                )
             )
             self.assertTrue(_is_within_directory(tmpdir, tmpdir))
 
             # Path traversal attempts - should return False
             self.assertFalse(
-                _is_within_directory(tmpdir, os.path.join(tmpdir, "..", "file.txt"))
+                _is_within_directory(
+                    tmpdir, os.path.join(tmpdir, "..", "file.txt")
+                )
             )
             self.assertFalse(
                 _is_within_directory(
@@ -209,7 +211,9 @@ class SecurityTestCase(unittest.TestCase):
     def test_get_full_data_path_safe(self):
         """Test that get_full_data_path returns a path within the data directory."""
         result = get_full_data_path("ttc_freq.txt")
-        self.assertTrue(_is_within_directory(get_pythainlp_data_path(), result))
+        self.assertTrue(
+            _is_within_directory(get_pythainlp_data_path(), result)
+        )
 
     def test_get_full_data_path_rejects_traversal(self):
         """Test that get_full_data_path rejects path traversal attempts."""

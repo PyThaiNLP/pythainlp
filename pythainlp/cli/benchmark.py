@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -12,7 +11,7 @@ import os
 from typing import TYPE_CHECKING
 
 from pythainlp import cli
-from pythainlp.tools import safe_print
+from pythainlp.tools import safe_path_join, safe_print
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -20,12 +19,18 @@ if TYPE_CHECKING:
 
 def _read_file(path: str) -> list[str]:
     with open(path, encoding="utf-8") as f:
-        lines = (r.strip() for r in f.readlines())
-    return list(lines)
+        return [r.strip() for r in f]
 
 
 class App:
+    """Parse and run the ``benchmark`` command."""
+
     def __init__(self, argv: Sequence[str]) -> None:
+        """
+        Initialize the command.
+
+        :param Sequence[str] argv: command line arguments
+        """
         parser = argparse.ArgumentParser(
             prog="benchmark",
             description=(
@@ -52,7 +57,15 @@ class App:
 
 
 class WordTokenizationBenchmark:
+    """Parse and run the word tokenization benchmark."""
+
     def __init__(self, name: str, argv: Sequence[str]) -> None:
+        """
+        Initialize the benchmark.
+
+        :param str name: task name
+        :param Sequence[str] argv: task options
+        """
         parser = argparse.ArgumentParser(**cli.make_usage("benchmark " + name))  # type: ignore[arg-type]
 
         parser.add_argument(
@@ -88,8 +101,8 @@ class WordTokenizationBenchmark:
             )
 
         safe_print(
-            "Benchmarking %s against %s with %d samples in total"
-            % (args.input_file, args.test_file, len(actual))
+            f"Benchmarking {args.input_file} against {args.test_file}"
+            f" with {len(actual)} samples in total"
         )
 
         try:
@@ -140,9 +153,9 @@ class WordTokenizationBenchmark:
         safe_print("============== Benchmark Result ==============")
 
         for c in ["tp", "fn", "tn", "fp", "precision", "recall"]:
-            c = f"char_level:{c}"
-            v = statistics[c]
-            safe_print(f"{c:>40s} {v:.4f}")
+            key = f"char_level:{c}"
+            v = statistics[key]
+            safe_print(f"{key:>40s} {v:.4f}")
 
         for c in [
             "total_words_in_sample",
@@ -151,22 +164,24 @@ class WordTokenizationBenchmark:
             "precision",
             "recall",
         ]:
-            c = f"word_level:{c}"
-            v = statistics[c]
-            safe_print(f"{c:>40s} {v:.4f}")
+            key = f"word_level:{c}"
+            v = statistics[key]
+            safe_print(f"{key:>40s} {v:.4f}")
 
         if args.save_details:
             dir_name = os.path.dirname(args.input_file)
-            file_name = args.input_file.split("/")[-1].split(".")[0]
+            file_name = os.path.basename(args.input_file).split(".")[0]
 
-            res_path = "%s/eval-%s.yml" % (dir_name, file_name)
-            safe_print("Evaluation result is saved to %s" % res_path)
+            res_path = safe_path_join(dir_name, f"eval-{file_name}.yml")
+            safe_print(f"Evaluation result is saved to {res_path}")
 
             with open(res_path, "w", encoding="utf-8") as outfile:
                 yaml.dump(statistics, outfile, default_flow_style=False)
 
-            res_path = "%s/eval-details-%s.json" % (dir_name, file_name)
-            safe_print("Details of comparisons is saved to %s" % res_path)
+            res_path = safe_path_join(
+                dir_name, f"eval-details-{file_name}.json"
+            )
+            safe_print(f"Details of comparisons is saved to {res_path}")
 
             with open(res_path, "w", encoding="utf-8") as f:
                 samples = []

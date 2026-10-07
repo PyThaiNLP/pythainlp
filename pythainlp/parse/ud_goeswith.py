@@ -1,8 +1,9 @@
-"""UDgoeswith
+"""
+UDgoeswith: POS tagger and dependency parser using ``goeswith``.
 
 Author: Prof. Koichi Yasuoka
 
-This tagger is provided under the terms of the apache-2.0 License.
+This tagger is provided under the terms of the Apache-2.0 License.
 
 The source: https://huggingface.co/KoichiYasuoka/deberta-base-thai-ud-goeswith
 
@@ -11,17 +12,27 @@ GitHub: https://github.com/KoichiYasuoka
 
 from __future__ import annotations
 
-from typing import List, Optional, Union
+from typing import Optional, Union
 
 from transformers import AutoModelForTokenClassification, AutoTokenizer
 
 
 class Parse:
+    """Dependency parser using UDgoeswith."""
+
     def __init__(
         self,
         model: Optional[str] = "KoichiYasuoka/deberta-base-thai-ud-goeswith",
         revision: Optional[str] = None,
     ) -> None:
+        """
+        Initialize the UDgoeswith model.
+
+        :param Optional[str] model: model name; the default model is used
+            if ``None``
+        :param Optional[str] revision: git revision id (branch, tag, or
+            commit hash)
+        """
         if model is None:
             model = "KoichiYasuoka/deberta-base-thai-ud-goeswith"
         self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(
@@ -33,9 +44,19 @@ class Parse:
             )
         )
 
-    def __call__(
+    def __call__(  # noqa: CCR001  # phase2-todo
         self, text: str, tag: str = "str"
-    ) -> Union[List[List[str]], str]:
+    ) -> Union[list[list[str]], str]:
+        """
+        Parse the dependency structure of a text.
+
+        :param str text: text to be parsed
+        :param str tag: output type, ``"str"`` (CoNLL-U text, default)
+            or ``"list"``
+        :return: CoNLL-U text if ``tag`` is ``"str"``, otherwise a list of
+            lists of fields
+        :rtype: Union[list[list[str]], str]
+        """
         import numpy as np
         import torch
         import ufal.chu_liu_edmonds
@@ -43,7 +64,7 @@ class Parse:
         w = self.tokenizer(text, return_offsets_mapping=True)
         v = w["input_ids"]
         x = [
-            v[0:i] + [self.tokenizer.mask_token_id] + v[i + 1 :] + [j]
+            [*v[0:i], self.tokenizer.mask_token_id, *v[i + 1 :], j]
             for i, j in enumerate(v[1:-1], 1)
         ]
         with torch.no_grad():
@@ -104,26 +125,23 @@ class Parse:
                     ]
                 )
             return _tag_data
-        else:
-            for i, (s, e) in enumerate(v, 1):
-                q = self.model.config.id2label[p[i, h[i]]].split("|")
-                u += (
-                    "\t".join(
-                        [
-                            str(i),
-                            text[s:e],
-                            "_",
-                            q[0],
-                            "_",
-                            "|".join(q[1:-1]),
-                            str(h[i]),
-                            q[-1],
-                            "_",
-                            "_"
-                            if i < len(v) and e < v[i][0]
-                            else "SpaceAfter=No",
-                        ]
-                    )
-                    + "\n"
+        for i, (s, e) in enumerate(v, 1):
+            q = self.model.config.id2label[p[i, h[i]]].split("|")
+            u += (
+                "\t".join(
+                    [
+                        str(i),
+                        text[s:e],
+                        "_",
+                        q[0],
+                        "_",
+                        "|".join(q[1:-1]),
+                        str(h[i]),
+                        q[-1],
+                        "_",
+                        "_" if i < len(v) and e < v[i][0] else "SpaceAfter=No",
+                    ]
                 )
-            return u + "\n"
+                + "\n"
+            )
+        return u + "\n"

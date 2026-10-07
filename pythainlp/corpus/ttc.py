@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai Textbook Corpus (TTC) word frequency
+"""
+Thai Textbook Corpus (TTC) word frequency.
 
 Credit: Korakot Chaovavanich
 https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&type=3&permPage=1
@@ -9,7 +10,7 @@ https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&t
 
 from __future__ import annotations
 
-__all__: list[str] = ["word_freqs", "unigram_word_freqs"]
+__all__: list[str] = ["unigram_word_freqs", "word_freqs"]
 
 from collections import defaultdict
 
@@ -19,9 +20,14 @@ _UNIGRAM_FILENAME: str = "ttc_freq.txt"
 
 
 def word_freqs() -> list[tuple[str, int]]:
-    """Get word frequency from Thai Textbook Corpus (TTC)
-    \n(See: `dev/pythainlp/corpus/ttc_freq.txt\
-    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/ttc_freq.txt>`_)
+    """
+    Get word frequency from the Thai Textbook Corpus (TTC).
+
+    See `dev/pythainlp/corpus/ttc_freq.txt
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/ttc_freq.txt>`_.
+
+    :return: list of tuples of word and frequency
+    :rtype: list[tuple[str, int]]
     """
     freqs: list[tuple[str, int]] = []
     for line in get_corpus(_UNIGRAM_FILENAME):
@@ -33,7 +39,12 @@ def word_freqs() -> list[tuple[str, int]]:
 
 
 def unigram_word_freqs() -> dict[str, int]:
-    """Get unigram word frequency from Thai Textbook Corpus (TTC)"""
+    """
+    Get unigram word frequency from the Thai Textbook Corpus (TTC).
+
+    :return: dict mapping words to their frequencies
+    :rtype: dict[str, int]
+    """
     freqs: dict[str, int] = defaultdict(int)
 
     for line in get_corpus(_UNIGRAM_FILENAME):

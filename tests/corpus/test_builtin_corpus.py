@@ -40,7 +40,13 @@ class BuiltinCorpusIntegrityTestCase(unittest.TestCase):
         self.assertIsInstance(result, frozenset)
         self.assertGreater(len(result), 0)
         # Verify it contains actual Thai content
-        self.assertTrue(any('\u0e00' <= char <= '\u0e7f' for item in result for char in item))
+        self.assertTrue(
+            any(
+                "\u0e00" <= char <= "\u0e7f"
+                for item in result
+                for char in item
+            )
+        )
 
     def test_stopwords(self):
         """Test thai_stopwords corpus can be loaded and is not empty."""
@@ -48,7 +54,13 @@ class BuiltinCorpusIntegrityTestCase(unittest.TestCase):
         self.assertIsInstance(result, frozenset)
         self.assertGreater(len(result), 0)
         # Verify it contains actual Thai content
-        self.assertTrue(any('\u0e00' <= char <= '\u0e7f' for item in result for char in item))
+        self.assertTrue(
+            any(
+                "\u0e00" <= char <= "\u0e7f"
+                for item in result
+                for char in item
+            )
+        )
 
     def test_syllables(self):
         """Test thai_syllables corpus can be loaded and is not empty."""
@@ -56,7 +68,13 @@ class BuiltinCorpusIntegrityTestCase(unittest.TestCase):
         self.assertIsInstance(result, frozenset)
         self.assertGreater(len(result), 0)
         # Verify it contains actual Thai content
-        self.assertTrue(any('\u0e00' <= char <= '\u0e7f' for item in result for char in item))
+        self.assertTrue(
+            any(
+                "\u0e00" <= char <= "\u0e7f"
+                for item in result
+                for char in item
+            )
+        )
 
     def test_words(self):
         """Test thai_words corpus can be loaded and is not empty."""
@@ -64,7 +82,13 @@ class BuiltinCorpusIntegrityTestCase(unittest.TestCase):
         self.assertIsInstance(result, frozenset)
         self.assertGreater(len(result), 0)
         # Verify it contains actual Thai content
-        self.assertTrue(any('\u0e00' <= char <= '\u0e7f' for item in result for char in item))
+        self.assertTrue(
+            any(
+                "\u0e00" <= char <= "\u0e7f"
+                for item in result
+                for char in item
+            )
+        )
 
     def test_synonyms(self):
         """Test thai_synonyms corpus can be loaded and parsed correctly."""
@@ -160,5 +184,5 @@ class BuiltinCorpusIntegrityTestCase(unittest.TestCase):
         self.assertGreater(len(result), 0)
         # Verify format: tab-separated word and frequency
         for line in list(result)[:10]:  # Check first 10 lines
-            parts = line.split('\t')
+            parts = line.split("\t")
             self.assertGreaterEqual(len(parts), 2)

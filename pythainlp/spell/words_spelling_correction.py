@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Word-level spelling correction using FastText-like embeddings."""
+
 from __future__ import annotations
 
 from importlib import import_module
@@ -16,9 +18,12 @@ if TYPE_CHECKING:
 
 
 class FastTextEncoder:
-    """A class to load pre-trained FastText-like word embeddings,
-    compute word and sentence vectors, and interact with an ONNX
-    model for nearest neighbor suggestions.
+    """
+    FastText-like word encoder with ONNX nearest neighbor suggestions.
+
+    This class loads pre-trained FastText-like word embeddings, computes
+    word and sentence vectors, and interacts with an ONNX model for
+    nearest neighbor suggestions.
     """
 
     model_dir: str
@@ -45,18 +50,23 @@ class FastTextEncoder:
         minn: int = 5,
         maxn: int = 5,
     ) -> None:
-        """Initializes the FastTextEncoder, loading embeddings, vocabulary,
-        nearest neighbor model, and suggestion words list.
+        """
+        Initialize the encoder.
 
-        Args:
-            model_dir (str): Directory containing 'embeddings.npy' and 'vocabulary.txt'.
-            nn_model_path (str): Path to the ONNX nearest neighbors model.
-            words_list (str): the list of words for suggestions.
-            bucket (int): The size of the hash bucket for subword hashing.
-            nb_words (int): The number of words in the vocabulary (used as an offset for subword indices).
-            minn (int): Minimum character length for subwords.
-            maxn (int): Maximum character length for subwords.
+        This method loads the embeddings, vocabulary, nearest neighbor
+        model, and suggestion words list.
 
+        :param str model_dir: directory containing ``embeddings.npy`` and
+            ``vocabulary.txt``
+        :param str nn_model_path: path to the ONNX nearest neighbor model
+        :param list[str] words_list: list of words for suggestions
+        :param int bucket: size of the hash bucket for subword hashing
+        :param int nb_words: number of words in the vocabulary (used as an
+            offset for subword indices)
+        :param int minn: minimum length (in characters) of a subword
+        :param int maxn: maximum length (in characters) of a subword
+        :raises ModuleNotFoundError: if numpy or onnxruntime is not
+            installed
         """
         try:
             import_module("numpy")
@@ -80,7 +90,8 @@ class FastTextEncoder:
         self.embedding_dim = self.embeddings.shape[1]
 
     def _load_embeddings(self) -> tuple[list[str], NDArray[np.float32]]:
-        """Load the embeddings matrix and vocabulary list.
+        """
+        Load the embeddings matrix and vocabulary list.
 
         :return: vocabulary entries and their float32 embedding matrix
         :rtype: tuple[list[str], numpy.typing.NDArray[numpy.float32]]
@@ -88,21 +99,21 @@ class FastTextEncoder:
         import numpy as np
 
         input_matrix = np.load(
-            safe_path_join(self.model_dir, "embeddings.npy"), allow_pickle=False
+            safe_path_join(self.model_dir, "embeddings.npy"),
+            allow_pickle=False,
         )
-        words = []
         vocab_path = safe_path_join(self.model_dir, "vocabulary.txt")
         with open(vocab_path, encoding="utf-8") as f:
-            for line in f.readlines():
-                words.append(line.rstrip())
+            words = [line.rstrip() for line in f]
         return words, input_matrix
 
     def _load_suggestion_words(
         self, words_list: list[str]
     ) -> NDArray[np.str_]:
-        """Load suggestion words into a NumPy string array.
+        """
+        Load suggestion words into a NumPy string array.
 
-        :param list[str] words_list: words used for nearest-neighbor lookup
+        :param list[str] words_list: words for nearest neighbor lookup
         :return: words as a NumPy string array
         :rtype: numpy.typing.NDArray[numpy.str_]
         """
@@ -112,7 +123,13 @@ class FastTextEncoder:
         return words
 
     def _load_onnx_session(self, onnx_path: str) -> InferenceSession:
-        """Loads the ONNX inference session."""
+        """
+        Load the ONNX inference session.
+
+        :param str onnx_path: path to the ONNX model
+        :return: ONNX inference session
+        :rtype: onnxruntime.InferenceSession
+        """
         # Note: Using providers=["CPUExecutionProvider"] for platform independence
         import onnxruntime as rt
 
@@ -124,7 +141,13 @@ class FastTextEncoder:
     # --- Helper Methods for Encoding ---
 
     def _get_hash(self, subword: str) -> int:
-        """Computes the FastText-like hash for a subword."""
+        """
+        Compute the FastText-like hash of a subword.
+
+        :param str subword: subword to be hashed
+        :return: hash value, offset by the number of words
+        :rtype: int
+        """
         h = 2166136261  # FNV-1a basis
         for c in subword:
             c_ord = ord(c) % 2**8
@@ -133,9 +156,10 @@ class FastTextEncoder:
         return h % self.bucket + self.nb_words
 
     def _get_subwords(self, word: str) -> tuple[list[str], NDArray[np.int_]]:
-        """Extract subwords and their corresponding integer indices.
+        """
+        Extract subwords and their corresponding integer indices.
 
-        :param str word: input word
+        :param str word: word to extract subwords from
         :return: extracted subwords and their NumPy index array
         :rtype: tuple[list[str], numpy.typing.NDArray[numpy.int_]]
         """
@@ -153,7 +177,7 @@ class FastTextEncoder:
                 return _subwords, np.array(_subword_ids)
 
         # 2. Extract n-grams (subwords) and get their hash indices
-        for ngram_start in range(0, len(_word)):
+        for ngram_start in range(len(_word)):
             for ngram_length in range(self.minn, self.maxn + 1):
                 if ngram_start + ngram_length <= len(_word):
                     _candidate_subword = _word[
@@ -169,9 +193,10 @@ class FastTextEncoder:
         return _subwords, np.array(_subword_ids)
 
     def get_word_vector(self, word: str) -> NDArray[np.float32]:
-        """Compute the normalized vector for a single word.
+        """
+        Compute the normalized vector for a single word.
 
-        :param str word: input word
+        :param str word: word to be encoded
         :return: normalized float32 embedding vector
         :rtype: numpy.typing.NDArray[numpy.float32]
         """
@@ -200,7 +225,13 @@ class FastTextEncoder:
         return cast("NDArray[np.float32]", vector)
 
     def _tokenize(self, sentence: str) -> list[str]:
-        """Tokenizes a sentence based on whitespace."""
+        """
+        Tokenize a sentence at whitespace.
+
+        :param str sentence: sentence to be tokenized
+        :return: list of words, with ``</s>`` added at each newline
+        :rtype: list[str]
+        """
         tokens = []
         word = ""
         for c in sentence:
@@ -217,9 +248,10 @@ class FastTextEncoder:
         return tokens
 
     def get_sentence_vector(self, line: str) -> NDArray[np.float32]:
-        """Compute the mean embedding vector for a sentence.
+        """
+        Compute the mean embedding vector for a sentence.
 
-        :param str line: input sentence
+        :param str line: sentence to be encoded
         :return: float32 sentence embedding vector
         :rtype: numpy.typing.NDArray[numpy.float32]
         """
@@ -246,17 +278,16 @@ class FastTextEncoder:
     def get_word_suggestion(
         self, list_word: Union[str, list[str]]
     ) -> Union[list[str], list[list[str]]]:
-        """Queries the ONNX model to find the nearest neighbor word(s)
-        for the given word or list of words.
+        """
+        Find the nearest neighbor words of a word or a list of words.
 
-        Args:
-            list_word (str or list of str): A single word or a list of words
-                                            to get suggestions for.
+        This method queries the ONNX model.
 
-        Returns:
-            str or list of str: The nearest neighbor word(s) from the
-                                pre-loaded suggestion list.
-
+        :param Union[str, list[str]] list_word: word, or list of words,
+            to get suggestions for
+        :return: nearest neighbor words from the suggestion list, one list
+            per input word; a single list if the input is a word
+        :rtype: Union[list[str], list[list[str]]]
         """
         if isinstance(list_word, str):
             input_words = [list_word]
@@ -290,7 +321,7 @@ class FastTextEncoder:
 
 
 class Words_Spelling_Correction(FastTextEncoder):
-    """Word-level Spell Checker and Correction using FastText"""
+    """Word-level spell checker and corrector using FastText."""
 
     model_name: str
     model_path: str
@@ -298,6 +329,7 @@ class Words_Spelling_Correction(FastTextEncoder):
     list_word: list[str]
 
     def __init__(self) -> None:
+        """Initialize the word spelling correction model."""
         self.model_name = "pythainlp/word-spelling-correction-char2vec"
         self.model_path = get_hf_hub(self.model_name)
         self.model_onnx = get_hf_hub(self.model_name, "nearest_neighbors.onnx")
@@ -317,25 +349,31 @@ _WSC_CACHE: dict[str, Words_Spelling_Correction] = {}
 def get_words_spell_suggestion(
     list_words: Union[str, list[str]],
 ) -> Union[list[str], list[list[str]]]:
-    """Get words spell suggestion
+    """
+    Get spelling suggestions for Thai words.
 
-    The function is designed to retrieve spelling suggestions \
-        for one or more input Thai words.
+    This function retrieves spelling suggestions for one or more words.
 
-    Requirements: numpy and onnxruntime (Install before use this function)
+    It requires numpy and onnxruntime. Install them before use.
 
-    :param Union[str, list[str]] list_word: list words or a word.
-    :return: List words spell suggestion (max 5 items per word)
+    :param Union[str, list[str]] list_words: word, or list of words,
+        to get suggestions for
+    :return: spelling suggestions (at most 5 per word); a list of lists
+        if the input is a list of words
     :rtype: Union[list[str], list[list[str]]]
 
     :Example:
 
-        >>> from pythainlp.spell import get_words_spell_suggestion  # doctest: +SKIP
+        >>> from pythainlp.spell import (
+        ...     get_words_spell_suggestion,
+        ... )  # doctest: +SKIP
 
         >>> print(get_words_spell_suggestion("คมดี"))  # doctest: +SKIP
         ['คนดีผีคุ้ม', 'มีดคอม้า', 'คดี', 'มีดสองคม', 'มูลคดี']
 
-        >>> print(get_words_spell_suggestion(["คมดี","กระเพาะ"]))  # doctest: +SKIP
+        >>> print(
+        ...     get_words_spell_suggestion(["คมดี", "กระเพาะ"])
+        ... )  # doctest: +SKIP
         [['คนดีผีคุ้ม', 'มีดคอม้า', 'คดี', 'มีดสองคม', 'มูลคดี'],
         ['กระเพาะ', 'กระพา', 'กะเพรา', 'กระเพาะปลา', 'พระประธาน']]
     """

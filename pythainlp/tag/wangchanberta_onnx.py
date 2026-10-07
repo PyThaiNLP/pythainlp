@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""WangchanBERTa named entity recognizer with ONNX Runtime."""
+
 from __future__ import annotations
 
 import json
@@ -16,18 +18,18 @@ from pythainlp.corpus import get_corpus_path
 from pythainlp.tools import safe_path_join
 
 
-class WngchanBerta_ONNX:
-    """WangchanBERTa NER engine with ONNX Runtime backend"""
+class WangchanBerta_ONNX:
+    """WangchanBERTa named entity recognizer with ONNX Runtime backend."""
 
     model_name: str
     model_version: str
-    options: "SessionOptions"
-    session: "InferenceSession"
+    options: SessionOptions
+    session: InferenceSession
     outputs_name: str
-    sp: "spm.SentencePieceProcessor"
+    sp: spm.SentencePieceProcessor
     _json: dict[str, Any]
     id2tag: dict[str, str]
-    _s: dict[str, "NDArray[np.int64]"]
+    _s: dict[str, NDArray[np.int64]]
 
     def __init__(
         self,
@@ -36,6 +38,16 @@ class WngchanBerta_ONNX:
         file_onnx: str,
         providers: Optional[list[str]] = None,
     ) -> None:
+        """
+        Initialize the ONNX session and the tokenizer.
+
+        :param str model_name: name of the corpus holding the model
+        :param str model_version: version of the model
+        :param str file_onnx: file name of the ONNX model
+        :param Optional[list[str]] providers: ONNX Runtime execution
+            providers; ``["CPUExecutionProvider"]`` if ``None``
+        :raises FileNotFoundError: if the model is not found
+        """
         import sentencepiece as spm
         from onnxruntime import (
             GraphOptimizationLevel,
@@ -70,10 +82,11 @@ class WngchanBerta_ONNX:
             self._json = json.load(fh)
             self.id2tag = self._json["id2label"]
 
-    def build_tokenizer(self, sent: str) -> dict[str, "NDArray[np.int64]"]:
-        """Build ONNX tokenizer inputs for a sentence.
+    def build_tokenizer(self, sent: str) -> dict[str, NDArray[np.int64]]:
+        """
+        Build ONNX tokenizer inputs for a sentence.
 
-        :param str sent: input sentence
+        :param str sent: sentence to be tokenized
         :return: model inputs containing int64 ``input_ids`` and
             ``attention_mask`` arrays
         :rtype: dict[str, numpy.typing.NDArray[numpy.int64]]
@@ -89,9 +102,10 @@ class WngchanBerta_ONNX:
         return model_inputs
 
     def postprocess(
-        self, logits_data: "NDArray[np.float32]"
-    ) -> "NDArray[np.float32]":
-        """Convert raw logits to probabilities.
+        self, logits_data: NDArray[np.float32]
+    ) -> NDArray[np.float32]:
+        """
+        Convert raw logits to probabilities.
 
         :param numpy.typing.NDArray[numpy.float32] logits_data: raw model
             logits
@@ -109,15 +123,30 @@ class WngchanBerta_ONNX:
     def clean_output(
         self, list_text: list[tuple[str, str]]
     ) -> list[tuple[str, str]]:
+        """
+        Return the list of tags unchanged.
+
+        :param list[tuple[str, str]] list_text: list of tuples (word, tag)
+        :return: list of tuples (word, tag)
+        :rtype: list[tuple[str, str]]
+        """
         return list_text
 
     def totag(
-        self, post: "NDArray[np.float32]", sent: str
+        self, post: NDArray[np.float32], sent: str
     ) -> list[tuple[str, str]]:
+        """
+        Map each token of a sentence to its most probable tag.
+
+        :param numpy.typing.NDArray[numpy.float32] post: probability scores
+        :param str sent: sentence to be tagged
+        :return: list of tuples (token, tag)
+        :rtype: list[tuple[str, str]]
+        """
         tag = []
         _s = self.sp.EncodeAsPieces(sent)
         for i in range(len(_s)):
-            tag.append(
+            tag.append(  # noqa: PERF401
                 (
                     _s[i],
                     self.id2tag[
@@ -132,9 +161,19 @@ class WngchanBerta_ONNX:
     ) -> list[tuple[str, str]]:
         return list_ner
 
-    def get_ner(
+    def get_ner(  # noqa: CCR001  # phase2-todo
         self, text: str, tag: bool = False
     ) -> Union[str, list[tuple[str, str]]]:
+        """
+        Tag named entities in text in IOB format.
+
+        :param str text: text to be tagged
+        :param bool tag: return HTML-like tags in a string instead of a
+            list of tuples
+        :return: list of tuples (token, named entity tag), or a string
+            with HTML-like tags if ``tag`` is ``True``
+        :rtype: Union[str, list[tuple[str, str]]]
+        """
         self._s = self.build_tokenizer(text)
         logits_raw = self.session.run(
             output_names=[self.outputs_name], input_feed=self._s
@@ -162,5 +201,4 @@ class WngchanBerta_ONNX:
                     sent += "</" + temp + ">"
 
             return sent
-        else:
-            return _tag
+        return _tag

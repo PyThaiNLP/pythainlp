@@ -2,6 +2,8 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
+import os
+import tempfile
 import unittest
 
 from pythainlp.classify import GzipModel
@@ -28,3 +30,23 @@ class ClsTestCaseC(unittest.TestCase):
         self.assertIsNotNone(model.predict("ฉันดีใจ", k=3))
         # Edge cases: k larger than number of classes
         self.assertIsNotNone(model.predict("ฉันดีใจ", k=10))
+
+    def test_GzipModel_save_and_load(self):
+        training_data = [
+            ("ดีนะครับ", "Positive"),
+            ("ลองแล้วรสนี้อร่อย... ชอบๆ", "Positive"),
+            ("ขับรถแย่มาก", "Negative"),
+            ("บริการแย่มากก เป็นหมอได้ไง😤", "Negative"),
+        ]
+        model = GzipModel(training_data)
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            path = os.path.join(tmp_dir, "model.json")
+            model.save(path)
+            loaded = GzipModel(model_path=path)
+        self.assertEqual(loaded.cx2_list, model.cx2_list)
+        self.assertEqual(
+            loaded.training_data.tolist(), model.training_data.tolist()
+        )
+        for text in ("ฉันดีใจ", "ขับรถแย่", ""):
+            with self.subTest(text=text):
+                self.assertEqual(loaded.predict(text), model.predict(text))

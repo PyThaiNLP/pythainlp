@@ -19,7 +19,9 @@ class ParseTestCaseX(unittest.TestCase):
         # self.assertIsNotNone(dependency_parsing("ผมเป็นคนดี", engine="spacy_thai", tag="list"))
         # self.assertIsNotNone(dependency_parsing("ผมเป็นคนดี", engine="ud_goeswith"))
         # self.assertIsNotNone(dependency_parsing("ผมเป็นคนดี", engine="ud_goeswith", tag="list"))
-        self.assertIsNotNone(dependency_parsing("ผมเป็นคนดี", engine="attaparse"))
+        self.assertIsNotNone(
+            dependency_parsing("ผมเป็นคนดี", engine="attaparse")
+        )
         self.assertIsNotNone(
             dependency_parsing("ผมเป็นคนดี", engine="attaparse", tag="list")
         )

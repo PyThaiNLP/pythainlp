@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Fuzzing harness for pythainlp.tokenize.word_tokenize()
+"""
+Fuzzing harness for pythainlp.tokenize.word_tokenize()
 
 This fuzzer tests the word_tokenize function with random Unicode input
 to discover edge cases, crashes, and potential security issues.
@@ -16,7 +17,8 @@ with atheris.instrument_imports():
 
 
 def test_one_input(data: bytes) -> None:
-    """Fuzz target for word_tokenize.
+    """
+    Fuzz target for word_tokenize.
 
     :param bytes data: Random input bytes from the fuzzer
     :rtype: None
@@ -42,7 +44,8 @@ def test_one_input(data: bytes) -> None:
 
 
 def main() -> None:
-    """Entry point for the fuzzer.
+    """
+    Entry point for the fuzzer.
 
     :rtype: None
     """

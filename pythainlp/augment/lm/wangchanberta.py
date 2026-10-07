@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Augment Thai text using WangchanBERTa."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
@@ -12,14 +14,17 @@ model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
 
 
 class Thai2transformersAug:
+    """Augment Thai text using WangchanBERTa."""
+
     model_name: str
-    target_tokenizer: type["CamembertTokenizer"]
-    tokenizer: "CamembertTokenizer"
-    fill_mask: "Pipeline"
+    target_tokenizer: type[CamembertTokenizer]
+    tokenizer: CamembertTokenizer
+    fill_mask: Pipeline
     MASK_TOKEN: str
     input_text: str
 
     def __init__(self) -> None:
+        """Initialize the WangchanBERTa tokenizer and fill-mask pipeline."""
         from transformers import (
             CamembertTokenizer,
             pipeline,
@@ -29,7 +34,8 @@ class Thai2transformersAug:
         self.target_tokenizer: type[CamembertTokenizer] = CamembertTokenizer
         self.tokenizer: CamembertTokenizer = (
             CamembertTokenizer.from_pretrained(
-                self.model_name, revision="main"  # nosec B615
+                self.model_name,
+                revision="main",  # nosec B615
             )
         )
         self.tokenizer.additional_special_tokens = [
@@ -48,6 +54,14 @@ class Thai2transformersAug:
     def generate(
         self, sentence: str, num_replace_tokens: int = 3
     ) -> list[str]:
+        """
+        Generate sentences by filling masked tokens.
+
+        :param str sentence: Thai text to augment
+        :param int num_replace_tokens: number of tokens to replace
+        :return: list of generated sentences
+        :rtype: list[str]
+        """
         sent2: list[str] = []
         self.input_text: str = sentence
         sent = [
@@ -56,7 +70,7 @@ class Thai2transformersAug:
         if len(sent) < num_replace_tokens:
             num_replace_tokens = len(sent)
         masked_text = self.input_text
-        for i in range(num_replace_tokens):
+        for _ in range(num_replace_tokens):
             masked_text = masked_text + self.MASK_TOKEN
             sent2 += [
                 str(j["sequence"]).replace("<s> ", "").replace("</s>", "")
@@ -67,17 +81,20 @@ class Thai2transformersAug:
         return sent2
 
     def augment(self, sentence: str, num_replace_tokens: int = 3) -> list[str]:
-        """Text augmentation from WangchanBERTa
+        """
+        Augment text using WangchanBERTa.
 
-        :param str sentence: Thai sentence
-        :param int num_replace_tokens: number replace tokens
+        :param str sentence: Thai text to augment
+        :param int num_replace_tokens: number of tokens to replace
 
-        :return: list of text augment
-        :rtype: List[str]
+        :return: list of augmented sentences
+        :rtype: list[str]
 
         :Example:
 
-            >>> from pythainlp.augment.lm import Thai2transformersAug  # doctest: +SKIP
+            >>> from pythainlp.augment.lm import (
+            ...     Thai2transformersAug,
+            ... )  # doctest: +SKIP
 
             >>> aug = Thai2transformersAug()  # doctest: +SKIP
 

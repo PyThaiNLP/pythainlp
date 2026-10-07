@@ -1,13 +1,13 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Transliterating Japanese/Korean/Mandarin/Vietnamese romanization text
-to Thai text
-By Wunsen
+"""
+Transliterate romanized East Asian text to Thai text with Wunsen.
+
+Supported: Japanese, Korean, Mandarin, and Vietnamese romanization.
 
 :See Also:
-    * `GitHub \
-        <https://github.com/cakimpei/wunsen>`_
+    * `GitHub <https://github.com/cakimpei/wunsen>`_
 """
 
 from __future__ import annotations
@@ -18,27 +18,66 @@ from wunsen import ThapSap
 
 
 class WunsenTransliterate:
-    """Transliterating Japanese/Korean/Mandarin/Vietnamese romanization text
-    to Thai text
-    by Wunsen
+    """
+    Transliterate romanized East Asian text to Thai text with Wunsen.
+
+    Supported: Japanese, Korean, Mandarin, and Vietnamese romanization.
 
     :See Also:
-        * `GitHub \
-            <https://github.com/cakimpei/wunsen>`_
+        * `GitHub <https://github.com/cakimpei/wunsen>`_
     """
 
-    thap_value: Optional["ThapSap"]
+    thap_value: Optional[ThapSap]
     lang: Optional[str]
     jp_input: Optional[str]
     zh_sandhi: Optional[bool]
     system: Optional[str]
 
     def __init__(self) -> None:
+        """Initialize the transliterator."""
         self.thap_value: Optional[ThapSap] = None
         self.lang: Optional[str] = None
         self.jp_input: Optional[str] = None
         self.zh_sandhi: Optional[bool] = None
         self.system: Optional[str] = None
+
+    def _set_options(
+        self,
+        lang: str,
+        jp_input: Optional[str],
+        zh_sandhi: Optional[bool],
+        system: Optional[str],
+    ) -> None:
+        """Store the options that apply to the language."""
+        if lang == "jp":
+            self.jp_input = jp_input
+            self.zh_sandhi = None
+            self.system = system
+        elif lang == "zh":
+            self.jp_input = None
+            self.zh_sandhi = zh_sandhi
+            self.system = system
+        elif lang in ("ko", "vi"):
+            self.jp_input = None
+            self.zh_sandhi = None
+            self.system = None
+        else:
+            raise NotImplementedError(
+                f"The {lang} language is not implemented."
+            )
+        self.lang = lang
+
+    def _create_thap_sap(self) -> ThapSap:
+        """Create a ThapSap object from the stored options."""
+        input_lang = "ja" if self.lang == "jp" else self.lang
+        setting: dict[str, Union[str, dict[str, bool]]] = {}
+        if self.jp_input is not None:
+            setting.update({"input": self.jp_input})
+        if self.zh_sandhi is not None:
+            setting.update({"option": {"sandhi": self.zh_sandhi}})
+        if self.system is not None:
+            setting.update({"system": self.system})
+        return ThapSap(input_lang, **setting)
 
     def transliterate(
         self,
@@ -48,18 +87,20 @@ class WunsenTransliterate:
         zh_sandhi: Optional[bool] = None,
         system: Optional[str] = None,
     ) -> str:
-        """Use Wunsen for transliteration
+        """
+        Transliterate romanization text to Thai text using Wunsen.
 
-        :param str text: text to be transliterated to Thai text.
-        :param str lang: source language
-        :param Optional[str] jp_input: Japanese input method (for Japanese only). Default is None.
-        :param Optional[bool] zh_sandhi: Mandarin third tone sandhi option
-            (for Mandarin only). Default is None.
-        :param Optional[str] system: transliteration system (for Japanese and
-            Mandarin only). Default is None.
-
+        :param str text: romanization text to be transliterated
+        :param str lang: source language (see the options below)
+        :param Optional[str] jp_input: Japanese input method, for Japanese
+            only (default is ``None``)
+        :param Optional[bool] zh_sandhi: Mandarin third tone sandhi option,
+            for Mandarin only (default is ``None``)
+        :param Optional[str] system: transliteration system, for Japanese
+            and Mandarin only (default is ``None``)
         :return: Thai text
         :rtype: str
+        :raises NotImplementedError: if the language is not supported
 
         :Options for lang:
             * *jp* - Japanese (from Hepburn romanization)
@@ -84,13 +125,19 @@ class WunsenTransliterate:
 
         :Example:
 
-            >>> from pythainlp.transliterate.wunsen import WunsenTransliterate  # doctest: +SKIP
+            >>> from pythainlp.transliterate.wunsen import (
+            ...     WunsenTransliterate,
+            ... )  # doctest: +SKIP
             >>> wt = WunsenTransliterate()  # doctest: +SKIP
             >>> wt.transliterate("ohayō", lang="jp")  # doctest: +SKIP
             'โอฮาโย'
-            >>> wt.transliterate("ohayou", lang="jp", jp_input="Hepburn-no diacritic")  # doctest: +SKIP
+            >>> wt.transliterate(
+            ...     "ohayou", lang="jp", jp_input="Hepburn-no diacritic"
+            ... )  # doctest: +SKIP
             'โอฮาโย'
-            >>> wt.transliterate("ohayō", lang="jp", system="RI35")  # doctest: +SKIP
+            >>> wt.transliterate(
+            ...     "ohayō", lang="jp", system="RI35"
+            ... )  # doctest: +SKIP
             'โอะฮะโย'
             >>> wt.transliterate("annyeonghaseyo", lang="ko")  # doctest: +SKIP
             'อันนย็องฮาเซโย'
@@ -98,47 +145,31 @@ class WunsenTransliterate:
             'ซีน จ่าว'
             >>> wt.transliterate("ni3 hao3", lang="zh")  # doctest: +SKIP
             'หนี เห่า'
-            >>> wt.transliterate("ni3 hao3", lang="zh", zh_sandhi=False)  # doctest: +SKIP
+            >>> wt.transliterate(
+            ...     "ni3 hao3", lang="zh", zh_sandhi=False
+            ... )  # doctest: +SKIP
             'หนี่ เห่า'
-            >>> wt.transliterate("ni3 hao3", lang="zh", system="RI49")  # doctest: +SKIP
+            >>> wt.transliterate(
+            ...     "ni3 hao3", lang="zh", system="RI49"
+            ... )  # doctest: +SKIP
             'หนี ห่าว'
         """
         if (
-            self.lang != lang
+            self.thap_value is None
+            or self.lang != lang
             or self.jp_input != jp_input
             or self.zh_sandhi != zh_sandhi
             or self.system != system
         ):
-            if lang == "jp":
-                self.jp_input = jp_input
-                self.zh_sandhi = None
-                self.system = system
-            elif lang == "zh":
-                self.jp_input = None
-                self.zh_sandhi = zh_sandhi
-                self.system = system
-            elif lang in ("ko", "vi"):
-                self.jp_input = None
-                self.zh_sandhi = None
-                self.system = None
-            else:
-                raise NotImplementedError(
-                    "The %s language is not implemented." % lang
+            previous = (self.lang, self.jp_input, self.zh_sandhi, self.system)
+            self._set_options(lang, jp_input, zh_sandhi, system)
+            try:
+                self.thap_value = self._create_thap_sap()
+            except BaseException:
+                # Keep the options in line with the model that is kept.
+                self.lang, self.jp_input, self.zh_sandhi, self.system = (
+                    previous
                 )
-            self.lang = lang
-            input_lang = lang
-            if input_lang == "jp":
-                input_lang = "ja"
-            setting: dict[str, Union[str, dict[str, bool]]] = {}
-            if self.jp_input is not None:
-                setting.update({"input": self.jp_input})
-            if self.zh_sandhi is not None:
-                setting.update({"option": {"sandhi": self.zh_sandhi}})
-            if self.system is not None:
-                setting.update({"system": self.system})
-            self.thap_value = ThapSap(input_lang, **setting)
+                raise
 
-        if self.thap_value is None:
-            raise RuntimeError("ThapSap model not initialized")
-
-        return cast(str, self.thap_value.thap(text))
+        return cast("str", self.thap_value.thap(text))

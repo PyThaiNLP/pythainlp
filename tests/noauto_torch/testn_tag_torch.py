@@ -17,7 +17,7 @@ from pythainlp.tag import (
 
 
 class TagTransformersTestCaseN(unittest.TestCase):
-    """Tests for transformers-based engines (requires transformers and torch)"""
+    """Tests for transformers-based engines (requires transformers and torch)."""
 
     def test_NER_class(self):
         with self.assertRaises(ValueError):

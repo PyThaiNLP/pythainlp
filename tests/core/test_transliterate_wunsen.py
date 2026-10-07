@@ -13,7 +13,7 @@ import sys
 import types
 import unittest
 from pathlib import Path
-from typing import Any
+from typing import Any, ClassVar
 from unittest import mock
 
 import pythainlp
@@ -24,7 +24,7 @@ MODULE_PATH = Path(pythainlp.__file__).parent / "transliterate" / "wunsen.py"
 class FakeThapSap:
     """Replacement for wunsen.ThapSap; records its arguments."""
 
-    created: list[tuple[str, dict[str, Any]]] = []
+    created: ClassVar[list[tuple[str, dict[str, Any]]]] = []
 
     def __init__(self, lang: str, **kwargs: Any) -> None:
         """Record the arguments."""
@@ -204,8 +204,8 @@ class WunsenTestCase(unittest.TestCase):
                     self.assertEqual(wt.transliterate("b", lang="vi"), "vi:b")
 
     def test_failed_creation_keeps_old_model(self) -> None:
-        # BUG-LEDGER: wunsen-stale-model
-        # Expected: the repeated call raises again, not reuse the zh model.
+        # Regression: after a failed creation, the new options were kept, so
+        # a repeated call reused the old model instead of raising again.
         class FailingThapSap(FakeThapSap):
             def __init__(self, lang: str, **kwargs: Any) -> None:
                 if kwargs.get("system") == "BAD":
@@ -215,11 +215,14 @@ class WunsenTestCase(unittest.TestCase):
         wt = self.wunsen.WunsenTransliterate()
         with mock.patch.object(self.wunsen, "ThapSap", FailingThapSap):
             self.assertEqual(wt.transliterate("a", lang="zh"), "zh:a")
-            with self.assertRaises(ValueError):
-                wt.transliterate("a", lang="jp", system="BAD")
-            self.assertEqual(
-                wt.transliterate("a", lang="jp", system="BAD"), "zh:a"
-            )
+            for _ in range(2):
+                with self.assertRaises(ValueError):
+                    wt.transliterate("a", lang="jp", system="BAD")
+                self.assertEqual(wt.lang, "zh")
+            # The kept model still works and is not created again.
+            before = len(FakeThapSap.created)
+            self.assertEqual(wt.transliterate("b", lang="zh"), "zh:b")
+            self.assertEqual(len(FakeThapSap.created), before)
 
     def test_recover_with_options_after_error(self) -> None:
         wt = self.wunsen.WunsenTransliterate()

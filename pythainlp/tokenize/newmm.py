@@ -74,10 +74,10 @@ def _bfs_paths_graph(
         (vertex, path) = queue.pop(0)
         for pos in graph[vertex]:
             if pos == goal:
-                yield path + [pos]
+                yield [*path, pos]
             elif pos not in visited:
                 visited.add(pos)
-                queue.append((pos, path + [pos]))
+                queue.append((pos, [*path, pos]))
 
 
 def _extend_graph(

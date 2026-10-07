@@ -266,7 +266,7 @@ def extract_keywords(
     else:
         # currently not supported
         raise ValueError(
-            f"Keyword extractor {repr(engine)} is currently not supported. "
+            f"Keyword extractor {engine!r} is currently not supported. "
             f"Use one of {engines}."
         )
 

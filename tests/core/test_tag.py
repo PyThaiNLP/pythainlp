@@ -22,7 +22,7 @@ TEST_TOKENS = ["ผม", "รัก", "คุณ"]
 
 
 class TagTestCase(unittest.TestCase):
-    """Test pythainlp.tag.pos_tag"""
+    """Test pythainlp.tag.pos_tag."""
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -116,7 +116,7 @@ class TagTestCase(unittest.TestCase):
 
 class PerceptronTaggerTestCase(unittest.TestCase):
     """
-    Test pythainlp.tag.PerceptronTagger
+    Test pythainlp.tag.PerceptronTagger.
 
     :param unittest: _description_
     :type unittest: _type_
@@ -165,7 +165,7 @@ class PerceptronTaggerTestCase(unittest.TestCase):
         )
 
     def test_perceptron_tagger_custom(self):
-        """Test pythainlp.tag.PerceptronTagger"""
+        """Test pythainlp.tag.PerceptronTagger."""
         tagger = PerceptronTagger()
         # train data, with "กิน" > 20 instances to trigger conditions
         # in _make_tagdict()
@@ -230,7 +230,7 @@ class PerceptronTaggerTestCase(unittest.TestCase):
 
 
 class TagLocationsTestCase(unittest.TestCase):
-    """Test pythainlp.tag.locations"""
+    """Test pythainlp.tag.locations."""
 
     def test_ner_locations(self):
         self.assertEqual(
@@ -240,7 +240,7 @@ class TagLocationsTestCase(unittest.TestCase):
 
 
 class BlackboardPreProcessTestCase(unittest.TestCase):
-    """Tests for pythainlp.tag.blackboard.pre_process"""
+    """Tests for pythainlp.tag.blackboard.pre_process."""
 
     def setUp(self):
         from pythainlp.tag.blackboard import pre_process
@@ -276,7 +276,7 @@ class BlackboardPreProcessTestCase(unittest.TestCase):
 
 
 class BlackboardPostProcessTestCase(unittest.TestCase):
-    """Tests for pythainlp.tag.blackboard.post_process"""
+    """Tests for pythainlp.tag.blackboard.post_process."""
 
     def setUp(self):
         from pythainlp.tag.blackboard import TO_UD, post_process
@@ -322,7 +322,7 @@ class BlackboardPostProcessTestCase(unittest.TestCase):
 
 
 class TagNNERTestCase(unittest.TestCase):
-    """Test pythainlp.tag.thai_nner"""
+    """Test pythainlp.tag.thai_nner."""
 
     def test_get_top_level_entities(self):
         from pythainlp.tag.thai_nner import get_top_level_entities

@@ -140,7 +140,7 @@ def replace_wrep_post(toks: Collection[str]) -> list[str]:
     previous_word: Optional[str] = None
     rep_count = 0
     res: list[Optional[str]] = []
-    for current_word in list(toks) + [_TK_END]:
+    for current_word in [*list(toks), _TK_END]:
         if current_word == previous_word:
             rep_count += 1
         elif (current_word != previous_word) & (rep_count > 0):
@@ -276,7 +276,7 @@ def replace_wrep_post_nonum(toks: Collection[str]) -> list[str]:
     previous_word: Optional[str] = None
     rep_count = 0
     res: list[Optional[str]] = []
-    for current_word in list(toks) + [_TK_END]:
+    for current_word in [*list(toks), _TK_END]:
         if current_word == previous_word:
             rep_count += 1
         elif (current_word != previous_word) & (rep_count > 0):
@@ -299,7 +299,7 @@ def remove_space(toks: Collection[str]) -> list[str]:
     """
     res = []
     for t in toks:
-        t = t.strip()
-        if t:
-            res.append(t)
+        stripped = t.strip()
+        if stripped:
+            res.append(stripped)
     return res

@@ -82,33 +82,24 @@ flake8 --isolated --select CCR001 --max-cognitive-complexity=1 pythainlp
 
 ### Lint tightening candidates
 
-Ranked by value for effort. Counts are from 2026-10-06, run with the project
+Ranked by value for effort. Counts are from 2026-10-06 (done: `D213`,
+`D300`, `D200`, `D205`, `D202`, `D209`, `D214`, `PLE`, `PGH003`, `RUF022`,
+`RUF100`, `RUF102`, `UP015`, `UP031`, `UP033`, `UP037`, `UP006`,
+`UP035`, `D400`, `D401`, `D413`, `D415`,
+`RUF010`, `A002`, `EXE001`, `FA100`, `FLY002`, `ICN001`, `INP001`,
+`PYI034`, `SLOT000`, `BLE001`, `PLW2901`, `RUF005`, `RUF012`,
+`PERF401`, `PERF402`, `PERF403`), run with the project
 config on `pythainlp`, `tests`, `examples`, and `notebooks`
 (`ruff check --select <rule> --config pyproject.toml ...`).
 Enable a rule in `[tool.ruff.lint]` in the same PR that fixes its findings.
 
 | # | Rule | Found | Fix | Note |
 |---|------|-------|-----|------|
-| 1 | `D213`, `D300`, `D2` subset (`D200`, `D205`, `D202`, `D209`, `D214`) | 0 + 42 | manual | `D213` is free now: it locks in the new docstring style. Keep `D203`, `D212` off. |
-| 2 | `PLE` | 1 | auto | A zero-width space in `tests/core/test_util_time.py:281`; write it as `\u200b`. |
-| 3 | `PGH003` | 12 | manual | Blanket `# type: ignore`; use `[code]`, as the style guide asks. |
-| 4 | `RUF100`, `RUF102` | 84 + 8 | auto | Unused and invalid `noqa`. Set `lint.external = ["CCR"]` first, so flake8's `CCR001` is kept. |
-| 5 | `UP015`, `UP031`, `UP033` | 4 + 6 + 5 | auto and manual | Redundant `open` mode, `%` formatting, `lru_cache(maxsize=None)`. |
-| 6 | `RUF022` | 17 | auto | Sort `__all__`, as the style guide asks. |
-| 7 | `UP037` | 140 | auto | Remove quotes from annotations. Needs `from __future__ import annotations` in each file. |
-| 8 | `D415`, `D400`, `D401`, `D413` | 76 + 76 + 4 + 2 | manual | Summary ends with a period, in the imperative mood. The first two flag the same lines. |
-| 9 | `EXE001`, `ICN001`, `INP001`, `SLOT000`, `PYI034`, `A002`, `FA100` | 13 | manual | One-off fixes, a few lines each. |
-| 10 | `RUF012` | 17 | manual | Mutable class attribute without `ClassVar`. Can hide shared-state bugs. |
-| 11 | `FLY002`, `RUF010`, `RUF015` | 22 | manual | Small readability fixes. |
-| 12 | `PLW2901` | 15 | manual | A loop variable is reassigned in the loop body. |
-| 13 | `BLE001` | 13 | manual | Blind `except`. Narrow it or add `# noqa: BLE001` with a reason. Related to PR 1542. |
-| 14 | `UP006`, `UP035` | 27 + 19 | manual | `typing.List` and similar. Safe with `from __future__ import annotations`. |
-| 15 | `RUF005` | 22 | manual | List concatenation; use unpacking. |
-| 16 | `PERF401`, `PERF402`, `PERF403` | 16 | manual | Loop to comprehension. Readability can get worse. |
-| 17 | `W505` (max 79) | 65 | manual | Doctest output and comment lines cannot always wrap. Needs `# noqa`. |
-| 18 | `TID252` | 27 | manual | Relative imports. The package uses them on purpose. Decide first. |
-| 19 | `T201`, `ERA001` | 75 + 132 | manual | `print` in the CLI and examples is intended. Many `ERA001` hits are false positives. |
-| 20 | `DTZ`, `PLW0603`, `PLR2004`, `PLR0913` | 17 + 49 + 86 + 22 | manual | Naive datetimes, `global` for lazy loading, magic numbers, and many arguments are intended in this code. Skip. |
+| 1 | `RUF015` | 6 | manual | `RUF015` changes behavior on empty input (`StopIteration`). |
+| 2 | `W505` (max 79) | 65 | manual | Doctest output and comment lines cannot always wrap. Needs `# noqa`. |
+| 3 | `TID252` | 27 | manual | Relative imports. The package uses them on purpose. Decide first. |
+| 4 | `T201`, `ERA001` | 75 + 132 | manual | `print` in the CLI and examples is intended. Many `ERA001` hits are false positives. |
+| 5 | `DTZ`, `PLW0603`, `PLR2004`, `PLR0913` | 17 + 49 + 86 + 22 | manual | Naive datetimes, `global` for lazy loading, magic numbers, and many arguments are intended in this code. Skip. |
 
 Do not enable `RUF001` and `RUF002` (256 findings). They flag Thai and
 look-alike characters on purpose. Skip `EM`, `TRY003`, and `N` rules:
@@ -201,12 +192,6 @@ Entry format:
 - **`wiktionary-ho-rule-unreachable`** `pythainlp/transliterate/wiktionary.py`:
   `_apply_ho_rule`. The `^ห.$` check never matches, so the re-splitting of
   "ห" plus a sonorant is dead code.
-- **`wunsen-stale-model`** `pythainlp/transliterate/wunsen.py`:
-  `WunsenTransliterate.transliterate`. `_set_options` stores the new options
-  before `ThapSap(...)` is created. If `ThapSap` raises, the old model stays
-  in `thap_value`, and a repeated call with the same options skips the
-  re-creation and silently uses the old model. Expected: keep the options and
-  the model consistent. Pinning test: `test_failed_creation_keeps_old_model`.
 
 #### Khavee
 
@@ -225,16 +210,6 @@ Entry format:
   `prayut_and_somchaip`. Keeps the last `length` characters of the code
   (`[-length:]`) instead of the first. `length=0` returns the whole code.
   Example: `("kingkong", 2)` returns "52"; the first two codes are "27".
-
-#### Corpus
-
-- **`download-last-version`** `pythainlp/corpus/core.py`: `download`.
-  With catalog versions 0.2, 0.3 (unsupported), 0.1 it installs 0.1, the
-  last compatible one. Expected: the highest compatible version.
-- **`version2int-single-component`** `pythainlp/corpus/core.py`:
-  `_version2int`. "9" becomes 900 but "9.0.0" becomes 90000, so
-  `_check_version(">=9")` is True on 5.4.0. A component with 3 or more
-  digits breaks the ordering the same way. Expected: compare version tuples.
 
 #### Benchmarks, generate, lm, augment, morpheme
 
@@ -370,15 +345,18 @@ the code disagree. The code was not changed. No test pins them.
 - `db.json` writes are atomic but not locked against concurrent writers;
   the last writer wins.
 - Concurrent downloads of one corpus: the last swap wins. If two swaps
-  race, one can fail and leave a hidden `.<folder>.<hex>.old` folder.
+  race, one can fail and leave a hidden `.<folder>.pythainlp-<hex>.old` folder.
 - `_swap_in_folder` renames the existing corpus folder aside. A folder
   that is a mount point (EBUSY) or busy on Windows cannot be re-extracted,
   and there is no retry.
 - A corpus folder that is a symlink is replaced by a real folder
   (intentional).
 - A crash, a failed cleanup, or a failed rollback in `_swap_in_folder` can
-  leave hidden `.<name>.<hex>.part`, `.tmp`, or `.old` entries in the data
-  directory. Nothing sweeps them.
+  leave hidden `.<name>.pythainlp-<hex>.part`, `.tmp`, or `.old` entries in
+  the data directory. `download()` removes them after 24 hours, except an
+  `.old` entry whose `<name>` is missing (the only copy of a failed swap).
+  Those stay until the user removes them. Leftovers from earlier versions
+  (names without the `pythainlp-` marker) are never swept.
 - `_is_within_directory` is used only by tests.
 
 ### Other observations
@@ -388,3 +366,25 @@ the code disagree. The code was not changed. No test pins them.
 - The `longest._tokenizers` cache is keyed by `id(custom_dict)` and never
   evicted.
 - `multi_cut` is exponential on lattices with many overlapping words.
+- `util.pronounce._spelling_impl`: the last `return` is unreachable. A word
+  that differs from `word_pre` always has a tone mark or "็", and both
+  return earlier. It carries `# pragma: no cover`; remove it in a
+  behavior-preserving change.
+- `pythainlp.augment.lm.fasttext` cannot be imported without `transformers`:
+  `pythainlp.augment.lm.__init__` imports `phayathaibert` first. CI never
+  covers it, so it is in the noauto list.
+
+### Test coverage
+
+Expected coverage: 80% overall, 95% for new and changed code. CI gates new
+and changed code at 95% in modules it can run. The non-noauto part of
+[#1551](https://github.com/PyThaiNLP/pythainlp/pull/1551) scored 98%.
+
+- The noauto list, `tests/diff-cover-noauto.txt`, is maintained by hand
+  (43 modules). A module with heavy dependencies must be added to it, or
+  CI fails the PR. A check that derives the list from imports would remove
+  that chore.
+- CI reports but does not gate noauto code. Authors must run the noauto
+  suites locally and meet the same 95%. Nothing verifies this.
+- Local `make diff-cover` needs the `[compact,extra]` dependencies. With
+  fewer, it reports many uncovered lines that CI covers.

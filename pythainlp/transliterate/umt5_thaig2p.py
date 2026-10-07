@@ -38,7 +38,7 @@ class Umt5ThaiG2P:
         """
         from transformers import pipeline
 
-        self.pipe: "Pipeline" = pipeline(
+        self.pipe: Pipeline = pipeline(
             "text2text-generation",
             model="B-K/umt5-thai-g2p-v2-0.5k",
             device=device,

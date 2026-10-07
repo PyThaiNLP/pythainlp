@@ -12,14 +12,10 @@ from pythainlp.tokenize import Tokenizer
 from pythainlp.util.trie import Trie
 
 _wsd_dict: dict[str, Union[list[str], list[list[str]]]] = thai_wsd_dict()
-_mean_all: dict[str, list[str]] = {}
 
 words: list[str] = cast("list[str]", _wsd_dict["word"])
 meanings: list[list[str]] = cast("list[list[str]]", _wsd_dict["meaning"])
-i_word: str
-i_meanings: list[str]
-for i_word, i_meanings in zip(words, meanings):
-    _mean_all[i_word] = i_meanings
+_mean_all: dict[str, list[str]] = dict(zip(words, meanings))
 
 _all_word: set[str] = cast("set[str]", set(_mean_all.keys()))
 _TRIE: Trie = Trie(_all_word)
@@ -38,7 +34,7 @@ class _SentenceTransformersModel:
 
         self.device: str = device
         self.model_name: str = model
-        self.model: "SentenceTransformer" = SentenceTransformer(
+        self.model: SentenceTransformer = SentenceTransformer(
             self.model_name, device=self.device
         )
 
@@ -128,14 +124,15 @@ def get_sense(
     for meaning in temp_mean:
         tokens_with_sense: list[str] = []
         for token in w:
+            sense_token = token
             if token == word:
-                token = (
+                sense_token = (
                     word
                     + f" ({word} ความหมาย '"
                     + meaning.replace("(", "").replace(")", "")
                     + "') "
                 )
-            tokens_with_sense.append(token)
+            tokens_with_sense.append(sense_token)
         temp.append(
             (meaning, model.get_score(sentence, "".join(tokens_with_sense)))
         )

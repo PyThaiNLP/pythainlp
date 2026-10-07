@@ -9,7 +9,7 @@ GitHub: https://github.com/nlp-chula/attaparse
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Union
+from typing import TYPE_CHECKING, Union
 
 try:
     from attaparse import depparse, load_model
@@ -31,7 +31,7 @@ class Parse:
 
     def __call__(  # noqa: CCR001  # phase2-todo
         self, text: str, tag: str = "str"
-    ) -> Union[List[List[str]], str]:
+    ) -> Union[list[list[str]], str]:
         """
         Parse the dependency structure of a text.
 
@@ -40,7 +40,7 @@ class Parse:
             or ``"list"``
         :return: CoNLL-U text if ``tag`` is ``"str"``, otherwise a list of
             lists of fields
-        :rtype: Union[List[List[str]], str]
+        :rtype: Union[list[list[str]], str]
         """
         doc = depparse(text, self.nlp)
         rows = []

@@ -6,16 +6,16 @@
 from __future__ import annotations
 
 __all__: list[str] = [
-    "thai2fit_tokenizer",
     "Tokenizer",
     "Trie",
+    "display_cell_tokenize",
     "paragraph_tokenize",
     "sent_tokenize",
     "subword_tokenize",
     "syllable_tokenize",
+    "thai2fit_tokenizer",
     "word_detokenize",
     "word_tokenize",
-    "display_cell_tokenize",
 ]
 
 from functools import lru_cache

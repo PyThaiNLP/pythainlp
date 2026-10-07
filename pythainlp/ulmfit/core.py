@@ -35,7 +35,7 @@ from pythainlp.ulmfit.preprocess import (
 )
 from pythainlp.util import reorder_vowels
 
-device: "torch.device" = torch.device(
+device: torch.device = torch.device(
     "cuda" if torch.cuda.is_available() else "cpu"
 )
 
@@ -97,16 +97,15 @@ post_rules_th: list[Callable[[Collection[str]], list[str]]] = [
 ]
 
 # sparse features
-pre_rules_th_sparse: list[Callable[[str], str]] = pre_rules_th[1:] + [
-    replace_rep_nonum
+pre_rules_th_sparse: list[Callable[[str], str]] = [
+    *pre_rules_th[1:],
+    replace_rep_nonum,
 ]
-post_rules_th_sparse: list[Callable[[Collection[str]], list[str]]] = (
-    post_rules_th[1:]
-    + [
-        replace_wrep_post_nonum,
-        remove_space,
-    ]
-)
+post_rules_th_sparse: list[Callable[[Collection[str]], list[str]]] = [
+    *post_rules_th[1:],
+    replace_wrep_post_nonum,
+    remove_space,
+]
 
 
 def process_thai(
@@ -200,7 +199,7 @@ def process_thai(
 
 def document_vector(
     text: str, learn: Any, data: Any, agg: str = "mean"
-) -> "NDArray[np.float32]":
+) -> NDArray[np.float32]:
     """
     Vectorize Thai text into a 400-dimension vector.
 

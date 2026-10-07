@@ -41,7 +41,7 @@ class SpellTestCaseX(unittest.TestCase):
 
 
 class SpellTLTKTestCaseX(unittest.TestCase):
-    """Tests for tltk engine spell checking"""
+    """Tests for tltk engine spell checking."""
 
     def test_spell_tltk(self):
         result = spell("เน้ร", engine="tltk")

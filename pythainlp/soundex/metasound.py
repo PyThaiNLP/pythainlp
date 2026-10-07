@@ -56,9 +56,10 @@ def _remove_karan(chars: list[str]) -> list[str]:
 
 def metasound(text: str, length: int = 4) -> str:
     """
-    Convert text into phonetic code with the matching technique called
-    **MetaSound** [#metasound]_ (a combination of the Soundex and
-    Metaphone algorithms).
+    Convert text into a MetaSound phonetic code.
+
+    MetaSound [#metasound]_ is a combination of the Soundex and
+    Metaphone algorithms.
 
     The MetaSound algorithm was developed specifically for Thai.
 

@@ -24,6 +24,7 @@ __all__: list[str] = [
     "get_corpus_default_db",
     "get_corpus_path",
     "get_hf_hub",
+    "make_safe_directory_name",
     "provinces",
     "remove",
     "thai_dict",
@@ -42,7 +43,6 @@ __all__: list[str] = [
     "thai_wikipedia_titles",
     "thai_words",
     "thai_wsd_dict",
-    "make_safe_directory_name",
 ]
 
 from pythainlp.tools import get_full_data_path, get_pythainlp_path

@@ -6,7 +6,8 @@
 from __future__ import annotations
 
 import re
-from typing import Pattern, Union
+from re import Pattern
+from typing import Union
 
 from pythainlp import thai_above_vowels as above_v
 from pythainlp import thai_below_vowels as below_v

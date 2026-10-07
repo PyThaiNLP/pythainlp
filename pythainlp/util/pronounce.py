@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import re
-from functools import lru_cache
+from functools import cache, lru_cache
 
 from pythainlp import thai_consonants, thai_tonemarks
 from pythainlp.corpus import thai_words
@@ -17,7 +17,7 @@ from pythainlp.util import remove_tonemark
 kv: KhaveeVerifier = KhaveeVerifier()
 
 
-@lru_cache(maxsize=None)
+@cache
 def _single_syllable_thai_words() -> list[str]:
     """Return cached list of single-syllable Thai words."""
     return [i for i in thai_words() if len(syllable_tokenize(i)) == 1]
@@ -45,11 +45,9 @@ def rhyme(word: str) -> list[str]:
     )
 
 
-_vowel_str: str = "".join(
-    (
-        "อะ,อา,อิ,อี,อึ,อื,อุ,อู,เอะ,เอ,แอะ,แอ,เอียะ,เอีย,เอือะ,เอือ,อัวะ,อัว,โอะ,",
-        "โอ,เอาะ,ออ,เออะ,เออ,อำ,ใอ,ไอ,เอา,ฤ,ฤๅ,ฦ,ฦๅ",
-    )
+_vowel_str: str = (
+    "อะ,อา,อิ,อี,อึ,อื,อุ,อู,เอะ,เอ,แอะ,แอ,เอียะ,เอีย,เอือะ,เอือ,อัวะ,อัว,โอะ,"
+    "โอ,เอาะ,ออ,เออะ,เออ,อำ,ใอ,ไอ,เอา,ฤ,ฤๅ,ฦ,ฦๅ"
 )
 thai_vowel: list[str] = _vowel_str.split(",")
 thai_vowel_all: list[tuple[str, str]] = [
@@ -130,7 +128,7 @@ def tone_to_spelling(t: str) -> str:
     return t
 
 
-@lru_cache(maxsize=None)
+@cache
 def _spelling_tokenizer() -> Tokenizer:
     """Load and cache the vowel and consonant tokenizer for spelling."""
     return Tokenizer(
@@ -140,7 +138,7 @@ def _spelling_tokenizer() -> Tokenizer:
 
 @lru_cache(maxsize=1024)
 def _spelling_impl(word: str) -> list[str]:
-    """Cached implementation of :func:`spelling` for valid text."""
+    """Return the cached result of :func:`spelling` for valid text."""
     thai_vowel_tokenizer = _spelling_tokenizer()
     word_pre = remove_tonemark(word).replace("็", "")
     tone = [tone_to_spelling(i) for i in word if i in thai_tonemarks]
@@ -159,12 +157,13 @@ def _spelling_impl(word: str) -> list[str]:
         if "์" not in i
     ]
     if word_pre == word:
-        return output + [word]
+        return [*output, word]
     if tone != []:
-        return output + [word_pre, tone[0], word]
+        return [*output, word_pre, tone[0], word]
     if "็" in word:
-        return output + [word]
-    return output + [word_pre, word]
+        return [*output, word]
+    # Unreachable: a word that differs from word_pre has a tone mark or "็".
+    return [*output, word_pre, word]  # pragma: no cover
 
 
 def spelling(word: str) -> list[str]:

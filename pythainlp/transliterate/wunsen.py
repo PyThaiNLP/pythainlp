@@ -2,8 +2,9 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
-Transliterate Japanese, Korean, Mandarin, and Vietnamese romanization
-text to Thai text, using Wunsen.
+Transliterate romanized East Asian text to Thai text with Wunsen.
+
+Supported: Japanese, Korean, Mandarin, and Vietnamese romanization.
 
 :See Also:
     * `GitHub <https://github.com/cakimpei/wunsen>`_
@@ -18,14 +19,15 @@ from wunsen import ThapSap
 
 class WunsenTransliterate:
     """
-    Transliterate Japanese, Korean, Mandarin, and Vietnamese romanization
-    text to Thai text, using Wunsen.
+    Transliterate romanized East Asian text to Thai text with Wunsen.
+
+    Supported: Japanese, Korean, Mandarin, and Vietnamese romanization.
 
     :See Also:
         * `GitHub <https://github.com/cakimpei/wunsen>`_
     """
 
-    thap_value: Optional["ThapSap"]
+    thap_value: Optional[ThapSap]
     lang: Optional[str]
     jp_input: Optional[str]
     zh_sandhi: Optional[bool]
@@ -61,7 +63,7 @@ class WunsenTransliterate:
             self.system = None
         else:
             raise NotImplementedError(
-                "The %s language is not implemented." % lang
+                f"The {lang} language is not implemented."
             )
         self.lang = lang
 
@@ -159,7 +161,15 @@ class WunsenTransliterate:
             or self.zh_sandhi != zh_sandhi
             or self.system != system
         ):
+            previous = (self.lang, self.jp_input, self.zh_sandhi, self.system)
             self._set_options(lang, jp_input, zh_sandhi, system)
-            self.thap_value = self._create_thap_sap()
+            try:
+                self.thap_value = self._create_thap_sap()
+            except BaseException:
+                # Keep the options in line with the model that is kept.
+                self.lang, self.jp_input, self.zh_sandhi, self.system = (
+                    previous
+                )
+                raise
 
         return cast("str", self.thap_value.thap(text))

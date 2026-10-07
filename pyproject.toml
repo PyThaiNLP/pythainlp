@@ -81,6 +81,7 @@ dev = [
     "bump-my-version>=1.5.1",
     "coverage>=7.10.7;python_version<'3.10'",
     "coverage>=7.16.2;python_version>='3.10'",
+    "diff-cover>=10.6.0",
     "flake8>=7.3.0;python_version<'3.10'",
     "flake8>=7.4.1;python_version>='3.10'",
     "flake8-cognitive-complexity>=0.1.0",
@@ -369,11 +370,14 @@ optional_value = "prod"
 first_value = "dev"
 values = ["dev", "beta", "prod"]
 
-# Test coverage targets:
-# - Overall: 95%.
-# - New and changed code: at least 75%, checked in CI by diff-cover
-#   (.github/workflows/unittest.yml).
-# - AI agents: aim at near 100% for the code they add or change.
+# Test coverage expectations:
+# - Overall: at least 80%.
+# - New and changed code: at least 95%. CI (diff-cover,
+#   .github/workflows/unittest.yml) gates it, except in the noauto modules
+#   listed in tests/diff-cover-noauto.txt. CI cannot run those, so it only
+#   reports them.
+# - AI agents: aim at near 100% line and branch coverage of the code they
+#   add or change, and cover every function they touch.
 [tool.coverage.run]
 source = ["pythainlp"]
 
@@ -428,21 +432,61 @@ skip-magic-trailing-comma = false
 # The limit is 10. Unrefactored functions carry a `# noqa: C901` marked
 # `# phase2-todo`.
 mccabe.max-complexity = 10
+# flake8 owns the CCR (cognitive complexity) codes; keep their `# noqa`.
+external = ["CCR"]
 select = [
     "D1",
+    "D200",
+    "D202",
+    "D205",
+    "D209",
+    "D213",
+    "D214",
+    "D300",
+    "D400",
+    "D401",
+    "D413",
+    "D415",
+    "A002",
     "E",
+    "EXE001",
     "F",
     "I",
+    "ICN001",
+    "INP001",
     "W",
     "S",
     "TC",
     "B",
+    "BLE001",
     "C4",
+    "FA100",
+    "FLY002",
     "FURB",
     "ISC",
+    "PGH003",
+    "PERF401",
+    "PERF402",
+    "PERF403",
     "PIE",
+    "PLE",
+    "PLW2901",
+    "PYI034",
     "RET",
+    "RUF005",
+    "RUF012",
+    "RUF010",
+    "RUF022",
+    "RUF100",
+    "RUF102",
     "SIM",
+    "SLOT000",
+    "UP006",
+    "UP015",
+    "UP031",
+    "UP033",
+    "UP035",
+    "UP037",
     "C901",
     "F401",
     "F811",
@@ -470,7 +514,7 @@ extend-ignore = ["B905", "E501", "RET504", "SIM108", "SIM117"]
 # D1 (missing docstring) applies to the pythainlp package only.
 "tests/**" = ["B010", "D1", "S101"]
 "notebooks/**" = ["D1", "S101"]
-"examples/**" = ["D1"]
+"examples/**" = ["D1", "INP001"]
 "build_tools/**" = ["D1"]
 "docs/**" = ["D1"]
 

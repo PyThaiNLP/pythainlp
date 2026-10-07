@@ -65,8 +65,9 @@ def _romanize(text: str, fallback_func: Callable[[str], str]) -> str:
 
 def romanize(text: str, fallback_func: Callable[[str], str]) -> str:
     """
-    Render Thai words in Latin alphabet by looking up
-    Thai-English transliteration dictionary.
+    Render Thai words in Latin alphabet with a lookup dictionary.
+
+    The dictionary maps Thai words to their English transliteration.
 
     :param str text: Thai text to be romanized
     :param Callable[[str], str] fallback_func: Callable

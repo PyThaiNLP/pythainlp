@@ -13,7 +13,8 @@ from __future__ import annotations
 
 import re
 from functools import lru_cache
-from typing import Optional, Pattern, Union
+from re import Pattern
+from typing import Optional, Union
 
 from pythainlp.corpus import thai_words
 from pythainlp.tokenize import Tokenizer

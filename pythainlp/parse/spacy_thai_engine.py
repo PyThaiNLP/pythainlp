@@ -8,7 +8,7 @@ GitHub: https://github.com/KoichiYasuoka/spacy-thai
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Union
+from typing import TYPE_CHECKING, Union
 
 import spacy_thai
 
@@ -29,7 +29,7 @@ class Parse:
 
     def __call__(
         self, text: str, tag: str = "str"
-    ) -> Union[List[List[str]], str]:
+    ) -> Union[list[list[str]], str]:
         """
         Parse the dependency structure of a text.
 
@@ -38,14 +38,14 @@ class Parse:
             or ``"list"``
         :return: CoNLL-U text if ``tag`` is ``"str"``, otherwise a list of
             lists of fields
-        :rtype: Union[List[List[str]], str]
+        :rtype: Union[list[list[str]], str]
         """
         doc = self.nlp(text)
         _text = []
         if tag == "list":
             _tag_data = []
             for t in doc:
-                _tag_data.append(
+                _tag_data.append(  # noqa: PERF401
                     [
                         str(t.i + 1),
                         t.orth_,
@@ -61,7 +61,7 @@ class Parse:
                 )
             return _tag_data
         for t in doc:
-            _text.append(
+            _text.append(  # noqa: PERF401
                 "\t".join(
                     [
                         str(t.i + 1),

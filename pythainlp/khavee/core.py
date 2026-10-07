@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import Optional, Union
+from typing import ClassVar, Optional, Union
 
 from pythainlp import thai_consonants
 from pythainlp.tokenize import subword_tokenize
@@ -171,7 +171,7 @@ class KhaveeVerifier:
 
     # check_sara: vowel sound of each vowel sign (สระเดี่ยว).
     # "ั" maps to "อัว" instead when the word ends with "ว".
-    _SARA_OF_SIGN: dict[str, str] = {
+    _SARA_OF_SIGN: ClassVar[dict[str, str]] = {
         "ะ": "อะ",
         "ั": "อะ",
         "ิ": "อิ",
@@ -227,9 +227,9 @@ class KhaveeVerifier:
 
     # check_marttra: last character -> vowel sign that makes the syllable open
     # (เสีย, เมีย; เรือ, เสือ; ตัว, ชั่ว, กลัว, อัว)
-    _SIGN_OF_FINAL: dict[str, str] = {"ย": "ี", "อ": "ื", "ว": "ั"}
+    _SIGN_OF_FINAL: ClassVar[dict[str, str]] = {"ย": "ี", "อ": "ื", "ว": "ั"}
     # check_marttra: spelling section (มาตราตัวสะกด) of each final consonant
-    _MARTTRA_OF_FINAL: dict[str, str] = {
+    _MARTTRA_OF_FINAL: ClassVar[dict[str, str]] = {
         char: marttra
         for marttra, chars in spelling_class.items()
         for char in chars
@@ -905,7 +905,6 @@ class KhaveeVerifier:
             ... ))
             The poem is correct according to the principle.
         """
-
         try:
             __import__("ssg")
         except ImportError as exc:

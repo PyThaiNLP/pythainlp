@@ -24,6 +24,7 @@ import stat
 import sys
 import tarfile
 import tempfile
+import time
 import types
 import unittest
 import warnings
@@ -103,7 +104,7 @@ def _zip_bytes(members: list[tuple[str, bytes, bool]]) -> bytes:
 
 
 def _md5(data: bytes) -> str:
-    return hashlib.md5(data, usedforsecurity=False).hexdigest()  # noqa: S324
+    return hashlib.md5(data, usedforsecurity=False).hexdigest()
 
 
 def _snapshot(root: Path) -> dict[str, bytes]:
@@ -125,7 +126,7 @@ _OLD_TREE = [
 ]
 _NEW_TREE_ZIP = ["c.zip", "c_1.0", "c_1.0/a.txt", "db.json"]
 # Temporary file of a download of "c.txt"
-_PART_FILE_RE = r"^\.c\.txt\.[0-9a-f]{32}\.part$"
+_PART_FILE_RE = r"^\.c\.txt\.pythainlp-[0-9a-f]{32}\.part$"
 
 
 def _tree(root: Path) -> list[str]:
@@ -225,7 +226,9 @@ class _IsolatedDataDirTestCase(unittest.TestCase):
             json.dump(db, f)
 
 
-# Golden data recorded from the code before the refactor.
+# Golden data recorded from the code before the refactor. Changed for the
+# fix of _version2int: ">=9" is False for 5.x, ">=9<x" does not parse the
+# upper bound after the lower bound fails, and 6.0 <= 6.
 # Rows: (pythainlp version, one outcome per cause in _CV_CAUSES).
 # Outcome: "T" True, "F" False, "E" ValueError from parsing "x".
 _CV_CAUSES = (
@@ -267,13 +270,13 @@ _CV_CAUSES = (
     ">=>=5.0",
     "==5.4.0==",
 )
-_CV_ERROR = ("ValueError", "invalid literal for int() with base 10: 'x00'")
+_CV_ERROR = ("ValueError", "invalid literal for int() with base 10: 'x'")
 _CV_ROWS = (
-    ("5.4.0", "TTTFFTFTFFTTFTFTFTFFFTEEEFTFTTFFFTETT"),
-    ("5.4.0dev1", "TTTFFTFTFFTTFTFTFTFFFTEEEFTFTTFFFTETT"),
-    ("5.4.0beta2", "TTTFFTFTFFTTFTFTFTFFFTEEEFTFTTFFFTETT"),
-    ("5.3.10", "TFFFFFFTFTTTFTFTTTTFFTEEEFTFTFFFFTETF"),
-    ("6.0", "TFFFFTTTTFFFFFFFFFFFFTEEEFTFFFFFFTETF"),
+    ("5.4.0", "TTTFFTFTFFTTFTFTFTFFFTFEEFTFTTFFFFETT"),
+    ("5.4.0dev1", "TTTFFTFTFFTTFTFTFTFFFTFEEFTFTTFFFFETT"),
+    ("5.4.0beta2", "TTTFFTFTFFTTFTFTFTFFFTFEEFTFTTFFFFETT"),
+    ("5.3.10", "TFFFFFFTFTTTFTFTTTTFFTFEEFTFTFFFFFETF"),
+    ("6.0", "TFFFFTTTTFFFTFFFFFFFFTFEEFTFFFFFFFETF"),
 )
 _CV_CODES = {"T": True, "F": False, "E": _CV_ERROR}
 
@@ -281,7 +284,7 @@ _CV_CODES = {"T": True, "F": False, "E": _CV_ERROR}
 def _outcome(func: Any, *args: Any, **kwargs: Any) -> Any:
     try:
         return func(*args, **kwargs)
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:  # noqa: BLE001 - golden test records any error
         return (type(e).__name__, str(e))
 
 
@@ -311,12 +314,45 @@ class CheckVersionTestCase(unittest.TestCase):
             with self.assertRaises(ValueError):
                 core._check_version("*")
 
-    def test_single_component_version_bug(self) -> None:
-        # BUG-LEDGER: version2int-single-component
-        # "9" becomes 900 instead of 90000, so ">=9" accepts 5.4.0.
-        self.assertEqual(core._version2int("9"), 900)
-        with patch.object(core, "__version__", "5.4.0"):
-            self.assertTrue(core._check_version(">=9"))
+    def test_version2int_sorts_like_the_version(self) -> None:
+        ordered = ["0", "0.1", "1", "1.0.1", "5.3.3", "5.4", "5.10", "5.100"]
+        ordered += ["6", "9", "9.0.1", "10", "10.0.0.1"]
+        values = [core._version2int(v) for v in ordered]
+        self.assertEqual(values, sorted(values))
+        # Equal versions
+        for same in (["9", "9.0", "9.0.0"], ["1.2", "1.2.*", "1.2.0-rc1"]):
+            with self.subTest(same=same):
+                self.assertEqual(len({core._version2int(v) for v in same}), 1)
+        for bad in ("", "x", "1.x", "1..2"):
+            with self.subTest(bad=bad):
+                with self.assertRaises(ValueError):
+                    core._version2int(bad)
+
+    def test_development_versions(self) -> None:
+        # Regression guard: "5.4.0.dev1" leaves a trailing dot after "dev".
+        for installed in ("5.4.0.dev1", "5.4.dev0", "5.4.0dev1", "5.4.0beta2"):
+            with self.subTest(installed=installed):
+                with patch.object(core, "__version__", installed):
+                    self.assertTrue(core._check_version(">=5.0"))
+                    self.assertFalse(core._check_version(">=5.5"))
+
+    def test_extra_version_components_are_ignored(self) -> None:
+        self.assertEqual(
+            core._version2int("1.2.3.4"), core._version2int("1.2.3.x-y")
+        )
+
+    def test_single_component_version(self) -> None:
+        # Regression: "9" was read as 900, so ">=9" accepted 5.4.0.
+        for installed, cause, expected in (
+            ("5.4.0", ">=9", False),
+            ("9.0.0", ">=9", True),
+            ("5.4.0", "<9", True),
+            ("5.100.0", ">=6", False),
+            ("5.100.0", "<6", True),
+        ):
+            with self.subTest(installed=installed, cause=cause):
+                with patch.object(core, "__version__", installed):
+                    self.assertIs(core._check_version(cause), expected)
 
 
 # Archives that both tar branches accept: (members, extracted tree)
@@ -1003,6 +1039,113 @@ class _DownloadTestBase(_IsolatedDataDirTestCase):
         return result, out.getvalue()
 
 
+_MARK = "pythainlp-" + "a" * 32
+_DAY = 24 * 60 * 60
+
+
+class SweepStaleTempPathsTestCase(_IsolatedDataDirTestCase):
+    def make(self, name: str, kind: str = "file") -> Path:
+        """Create an entry in the data directory."""
+        path = self.data_dir / name
+        if kind == "dir":
+            path.mkdir()
+            (path / "inner.txt").write_bytes(b"x")
+        else:
+            path.write_bytes(b"x")
+        return path
+
+    @staticmethod
+    def later(days: float = 2) -> float:
+        """Return a time that is *days* days from now."""
+        return time.time() + days * _DAY
+
+    def test_removes_stale_entries(self) -> None:
+        for name, kind in (
+            (f".c.txt.{_MARK}.part", "file"),
+            (f".c_1.0.{_MARK}.tmp", "dir"),
+            (f".db.json.{_MARK}.tmp", "file"),
+        ):
+            with self.subTest(name=name):
+                path = self.make(name, kind)
+                core._sweep_stale_temp_paths(now=self.later())
+                self.assertFalse(path.exists())
+
+    def test_keeps_fresh_entries(self) -> None:
+        # Another process may be downloading or extracting right now.
+        path = self.make(f".c.txt.{_MARK}.part")
+        core._sweep_stale_temp_paths()
+        self.assertTrue(path.exists())
+        core._sweep_stale_temp_paths(now=self.later(0.9))
+        self.assertTrue(path.exists())
+        core._sweep_stale_temp_paths(now=self.later(1.1))
+        self.assertFalse(path.exists())
+
+    def test_old_mtime_does_not_make_an_entry_stale(self) -> None:
+        # Extracting an archive can set the folder mtime to the archive time.
+        path = self.make(f".c_1.0.{_MARK}.tmp", "dir")
+        os.utime(path, (0, 0))
+        core._sweep_stale_temp_paths()
+        self.assertTrue(path.exists())
+
+    def test_old_folder_is_kept_without_its_corpus(self) -> None:
+        # It is then the only copy of a corpus that failed to swap in.
+        old = self.make(f".c_1.0.{_MARK}.old", "dir")
+        core._sweep_stale_temp_paths(now=self.later())
+        self.assertTrue(old.exists())
+        (self.data_dir / "c_1.0").mkdir()
+        core._sweep_stale_temp_paths(now=self.later())
+        self.assertFalse(old.exists())
+        self.assertTrue((self.data_dir / "c_1.0").exists())
+
+    def test_keeps_other_entries(self) -> None:
+        # Files of other programs, and names that are not ours.
+        names = [
+            ".hidden",
+            f"c.txt.{_MARK}.part",  # not hidden
+            f".c.txt.{_MARK}.bak",  # other suffix
+            f".c.txt.{_MARK.upper()}.part",  # upper case
+            f".c.txt.pythainlp-{'g' * 32}.part",  # not hex
+            f".c.txt.pythainlp-{'a' * 31}.part",  # too short
+            f".c.txt.{'a' * 32}.part",  # no marker: another program
+            f".c.txt.{_MARK}.part\n",  # trailing newline
+            "c.txt",
+        ]
+        created = []
+        for name in names:
+            try:
+                self.make(name)
+            except OSError:
+                continue  # not allowed on this file system
+            created.append(name)
+        core._sweep_stale_temp_paths(now=self.later(30))
+        self.assertEqual(_tree(self.data_dir), sorted(created))
+
+    def test_removes_a_link_not_its_target(self) -> None:
+        target = Path(tempfile.mkdtemp(prefix="pythainlp-target-"))
+        self.addCleanup(shutil.rmtree, target, ignore_errors=True)
+        (target / "keep.txt").write_bytes(b"x")
+        link = self.data_dir / f".c.{_MARK}.tmp"
+        try:
+            link.symlink_to(target, target_is_directory=True)
+        except (OSError, NotImplementedError):
+            self.skipTest("symbolic links are not available")
+        core._sweep_stale_temp_paths(now=self.later())
+        self.assertFalse(link.is_symlink())
+        self.assertTrue((target / "keep.txt").exists())
+
+    def test_ignores_errors(self) -> None:
+        path = self.make(f".c.txt.{_MARK}.part")
+        for target, error in (
+            ("os.listdir", OSError("denied")),
+            ("os.lstat", OSError("denied")),
+            ("pythainlp.corpus.core.get_pythainlp_data_path", ValueError("x")),
+        ):
+            with self.subTest(target=target):
+                with patch(target, side_effect=error):
+                    core._sweep_stale_temp_paths(now=self.later())  # no raise
+        self.assertTrue(path.exists())
+
+
 class DownloadTestCase(_DownloadTestBase):
     def test_read_only(self) -> None:
         with patch.dict(os.environ, {"PYTHAINLP_READ_ONLY": "1"}):
@@ -1012,6 +1155,26 @@ class DownloadTestCase(_DownloadTestBase):
             out, "PyThaiNLP is in read-only mode. It cannot download.\n"
         )
         self.assertEqual(self.net.requests, [])
+
+    def test_sweeps_stale_temp_paths(self) -> None:
+        stale = self.data_dir / f".old.txt.{_MARK}.part"
+        stale.write_bytes(b"x")
+        self.catalog["c"] = _catalog_entry(
+            "c", {"0.1": _version_entry("c.txt", b"hello")}
+        )
+        self.serve("c.txt", b"hello")
+        with patch.object(core, "_STALE_TEMP_SECONDS", 0):
+            result, _ = self.run_download("c")
+        self.assertIs(result, True)
+        self.assertFalse(stale.exists())
+
+    def test_read_only_does_not_sweep(self) -> None:
+        stale = self.data_dir / f".old.txt.{_MARK}.part"
+        stale.write_bytes(b"x")
+        with patch.object(core, "_STALE_TEMP_SECONDS", 0):
+            with patch.dict(os.environ, {"PYTHAINLP_READ_ONLY": "1"}):
+                self.run_download("x")
+        self.assertTrue(stale.exists())
 
     def test_default_catalog_url(self) -> None:
         self.net.routes[_CATALOG_URL] = b"{}"
@@ -1079,10 +1242,9 @@ class DownloadTestCase(_DownloadTestBase):
         self.assertIs(result, False)
         self.assertEqual(out, "Corpus: c\nCorpus version not supported.\n")
 
-    def test_last_matching_version_wins(self) -> None:
-        # BUG-LEDGER: download-last-version
-        # The last compatible version in catalog order is chosen,
-        # not the highest one.
+    def test_highest_compatible_version_wins(self) -> None:
+        # Regression: the last compatible version in catalog order was
+        # chosen (0.1 here), not the highest one.
         self.catalog["c"] = _catalog_entry(
             "c",
             {
@@ -1091,11 +1253,28 @@ class DownloadTestCase(_DownloadTestBase):
                 "0.1": _version_entry("c1.txt", b"1"),
             },
         )
-        self.serve("c1.txt", b"1")
+        self.serve("c2.txt", b"2")
         result, out = self.run_download("c")
         self.assertIs(result, True)
-        self.assertEqual(out, "Corpus: c\n- Downloading: c 0.1\nDone.\n")
-        self.assertEqual(self.read_db()["_default"]["1"]["version"], "0.1")
+        self.assertEqual(out, "Corpus: c\n- Downloading: c 0.2\nDone.\n")
+        self.assertEqual(self.read_db()["_default"]["1"]["version"], "0.2")
+
+    def test_highest_compatible_version(self) -> None:
+        def entry(*versions: str) -> dict[str, Any]:
+            return {v: {"pythainlp_version": "*"} for v in versions}
+
+        for versions, expected in (
+            ((), ""),
+            (("0.9", "0.10", "0.2"), "0.10"),
+            (("1.0", "1.0.0"), "1.0.0"),  # equal: the later one wins
+            (("a", "0.1", "b"), "0.1"),  # not a number: lowest
+            (("a", "b"), "b"),
+        ):
+            with self.subTest(versions=versions):
+                self.assertEqual(
+                    core._highest_compatible_version(entry(*versions)),
+                    expected,
+                )
 
     def test_fresh_download_creates_db(self) -> None:
         self.catalog["c"] = _catalog_entry(
@@ -1404,7 +1583,9 @@ class DownloadTestCase(_DownloadTestBase):
         self.assertEqual(
             Path(paths[0]).parent.resolve(), self.data_dir.resolve()
         )
-        self.assertRegex(Path(paths[0]).name, r"^\.c_1\.0\.[0-9a-f]{32}\.tmp$")
+        self.assertRegex(
+            Path(paths[0]).name, r"^\.c_1\.0\.pythainlp-[0-9a-f]{32}\.tmp$"
+        )
         self.assertEqual(_snapshot(self.data_dir / "c_1.0"), snapshot)
         self.assertEqual(_tree(self.data_dir), _OLD_TREE)
 
@@ -1512,7 +1693,9 @@ class DownloadTestCase(_DownloadTestBase):
         self.assertIs(ctx.exception, busy)
         old_path = calls[0][1]
         self.assertEqual(calls[2], (old_path, folder))
-        self.assertRegex(Path(old_path).name, r"^\.c_1\.0\.[0-9a-f]{32}\.old$")
+        self.assertRegex(
+            Path(old_path).name, r"^\.c_1\.0\.pythainlp-[0-9a-f]{32}\.old$"
+        )
         self.assertEqual(_snapshot(Path(old_path)), snapshot)
         self.assertFalse(os.path.exists(folder))
         if sys.version_info >= (3, 11):

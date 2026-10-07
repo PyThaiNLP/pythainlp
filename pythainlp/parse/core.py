@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import Any, List, Optional, Union
+from typing import Any, Optional, Union
 
 _tagger: Optional[Any] = None
 _tagger_name: str = ""
@@ -16,7 +16,7 @@ def dependency_parsing(
     model: Optional[str] = None,
     tag: str = "str",
     engine: str = "esupar",
-) -> Union[List[List[str]], str]:
+) -> Union[list[list[str]], str]:
     """
     Parse the dependency structure of a text.
 
@@ -42,7 +42,7 @@ def dependency_parsing(
           `GitHub <https://github.com/nlp-chula/attaparse>`_
     :return: CoNLL-U text if ``tag`` is ``"str"``, otherwise a list of
         lists of fields
-    :rtype: Union[List[List[str]], str]
+    :rtype: Union[list[list[str]], str]
     :raises NotImplementedError: if the engine is not supported
 
     Options for ``model`` with the esupar engine:
@@ -112,7 +112,7 @@ def dependency_parsing(
     """
     global _tagger, _tagger_name
 
-    if _tagger_name != engine:
+    if _tagger is None or _tagger_name != engine:
         if engine == "esupar":
             from pythainlp.parse.esupar_engine import Parse
 
@@ -142,4 +142,4 @@ def dependency_parsing(
 
     _tagger_name = engine
 
-    return _tagger(text, tag=tag)  # type: ignore[misc,no-any-return]
+    return _tagger(text, tag=tag)

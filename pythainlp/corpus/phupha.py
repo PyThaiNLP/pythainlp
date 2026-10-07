@@ -18,8 +18,8 @@ License:
 from __future__ import annotations
 
 __all__: list[str] = [
-    "word_freqs",
     "unigram_word_freqs",
+    "word_freqs",
 ]
 
 from collections import defaultdict

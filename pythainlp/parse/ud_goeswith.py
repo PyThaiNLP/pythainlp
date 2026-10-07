@@ -12,7 +12,7 @@ GitHub: https://github.com/KoichiYasuoka
 
 from __future__ import annotations
 
-from typing import List, Optional, Union
+from typing import Optional, Union
 
 from transformers import AutoModelForTokenClassification, AutoTokenizer
 
@@ -46,7 +46,7 @@ class Parse:
 
     def __call__(  # noqa: CCR001  # phase2-todo
         self, text: str, tag: str = "str"
-    ) -> Union[List[List[str]], str]:
+    ) -> Union[list[list[str]], str]:
         """
         Parse the dependency structure of a text.
 
@@ -55,7 +55,7 @@ class Parse:
             or ``"list"``
         :return: CoNLL-U text if ``tag`` is ``"str"``, otherwise a list of
             lists of fields
-        :rtype: Union[List[List[str]], str]
+        :rtype: Union[list[list[str]], str]
         """
         import numpy as np
         import torch
@@ -64,7 +64,7 @@ class Parse:
         w = self.tokenizer(text, return_offsets_mapping=True)
         v = w["input_ids"]
         x = [
-            v[0:i] + [self.tokenizer.mask_token_id] + v[i + 1 :] + [j]
+            [*v[0:i], self.tokenizer.mask_token_id, *v[i + 1 :], j]
             for i, j in enumerate(v[1:-1], 1)
         ]
         with torch.no_grad():

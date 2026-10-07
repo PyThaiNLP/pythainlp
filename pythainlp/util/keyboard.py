@@ -127,8 +127,9 @@ TIS_820_2531_MOD_SHIFT: list[list[str]] = [
 
 def eng_to_thai(text: str) -> str:
     """
-    Correct text typed with the English-US Qwerty keyboard layout
-    to the intended Thai Kedmanee keyboard layout.
+    Convert text typed in the wrong layout to Thai Kedmanee.
+
+    The text was typed with the English-US Qwerty keyboard layout.
 
     :param str text: text typed with the wrong layout
         (Thai typed using an English keyboard)
@@ -148,8 +149,9 @@ def eng_to_thai(text: str) -> str:
 
 def thai_to_eng(text: str) -> str:
     """
-    Correct text typed with the Thai Kedmanee keyboard layout
-    to the intended English-US Qwerty keyboard layout.
+    Convert text typed in the wrong layout to English-US Qwerty.
+
+    The text was typed with the Thai Kedmanee keyboard layout.
 
     :param str text: text typed with the wrong layout
         (English typed using a Thai keyboard)

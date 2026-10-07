@@ -18,7 +18,8 @@ https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8
 from __future__ import annotations
 
 import re
-from typing import Optional, Pattern
+from re import Pattern
+from typing import Optional
 
 from pythainlp.util import remove_tonemark
 
@@ -110,8 +111,9 @@ def _finish(res: list[str]) -> str:
 
 def lk82(text: str) -> str:
     """
-    Convert text into phonetic code with the Thai soundex algorithm
-    named **LK82** [#lk82]_.
+    Convert text into a LK82 phonetic code.
+
+    LK82 [#lk82]_ is a Thai soundex algorithm.
 
     :param str text: Thai word to be encoded
     :return: LK82 soundex code

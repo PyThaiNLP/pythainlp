@@ -34,6 +34,7 @@ test_packages: list[str] = [
     "tests.core.test_security",
     "tests.core.test_soundex",
     "tests.core.test_soundex_engines",
+    "tests.core.test_parse",
     "tests.core.test_spell",
     "tests.core.test_summarize_offline",
     "tests.core.test_tag",

@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import random
-from typing import TYPE_CHECKING, Optional, Tuple
+from typing import Optional
 
 import torch
 import torch.nn.functional as F
@@ -14,9 +14,6 @@ from torch import nn
 
 from pythainlp.corpus import get_corpus_path
 from pythainlp.transliterate._repetition import find_trailing_repeat_period
-
-if TYPE_CHECKING:
-    from typing import Dict
 
 device: torch.device = torch.device(
     "cuda:0" if torch.cuda.is_available() else "cpu"
@@ -35,13 +32,13 @@ class ThaiTransliterator:
 
     __model_filename: str
     _maxlength: int
-    _char_to_ix: Dict[str, int]
-    _ix_to_char: Dict[int, str]
-    _target_char_to_ix: Dict[str, int]
-    _ix_to_target_char: Dict[int, str]
-    _encoder: "Encoder"
-    _decoder: "AttentionDecoder"
-    _network: "Seq2Seq"
+    _char_to_ix: dict[str, int]
+    _ix_to_char: dict[int, str]
+    _target_char_to_ix: dict[str, int]
+    _ix_to_target_char: dict[int, str]
+    _encoder: Encoder
+    _decoder: AttentionDecoder
+    _network: Seq2Seq
 
     def __init__(self) -> None:
         """
@@ -163,7 +160,7 @@ class Encoder(nn.Module):  # type: ignore[misc]
 
     def forward(
         self, sequences: torch.Tensor, sequences_lengths: torch.Tensor
-    ) -> Tuple[torch.Tensor, Tuple[torch.Tensor, torch.Tensor]]:
+    ) -> tuple[torch.Tensor, tuple[torch.Tensor, torch.Tensor]]:
         """
         Compute the forward pass of the encoder.
 
@@ -207,7 +204,7 @@ class Encoder(nn.Module):  # type: ignore[misc]
 
     def init_hidden(
         self, batch_size: int
-    ) -> Tuple[torch.Tensor, torch.Tensor]:
+    ) -> tuple[torch.Tensor, torch.Tensor]:
         """
         Return a zero-filled initial hidden state.
 
@@ -344,7 +341,7 @@ class AttentionDecoder(nn.Module):  # type: ignore[misc]
         last_hidden: torch.Tensor,
         encoder_outputs: torch.Tensor,
         mask: torch.Tensor,
-    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """Compute the forward pass of the decoder."""
         # input_character: (batch_size, 1)
         # last_hidden: (batch_size, hidden_dim)

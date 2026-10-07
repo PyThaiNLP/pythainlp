@@ -16,7 +16,7 @@ import os
 from typing import TYPE_CHECKING, Optional, Union
 
 if TYPE_CHECKING:
-    from transformers import (  # noqa: F401
+    from transformers import (
         AutoModelForQuestionAnswering,
         AutoTokenizer,
         TokenClassificationPipeline,
@@ -105,7 +105,7 @@ class Parse:
             lists of fields
         :rtype: Union[list[list[str]], str]
         """
-        import numpy
+        import numpy as np
         import torch
         import ufal.chu_liu_edmonds
 
@@ -119,21 +119,19 @@ class Parse:
         )
         r, m = (
             [text[s:e] for s, e, p in w],
-            numpy.full((n + 1, n + 1), numpy.nan),
+            np.full((n + 1, n + 1), np.nan),
         )
         v, c = self.tokenizer(r, add_special_tokens=False)["input_ids"], []
         for i, t in enumerate(v):
-            q = (
-                [self.tokenizer.cls_token_id]
-                + t
-                + [self.tokenizer.sep_token_id]
-            )
+            q = [self.tokenizer.cls_token_id, *t, self.tokenizer.sep_token_id]
             c.append(
-                [q]
-                + v[0:i]
-                + [[self.tokenizer.mask_token_id]]
-                + v[i + 1 :]
-                + [[q[-1]]]
+                [
+                    q,
+                    *v[0:i],
+                    [self.tokenizer.mask_token_id],
+                    *v[i + 1 :],
+                    [q[-1]],
+                ]
             )
         b = [[len(sum(x[0 : j + 1], [])) for j in range(len(x))] for x in c]
         with torch.no_grad():
@@ -152,14 +150,14 @@ class Parse:
         h = ufal.chu_liu_edmonds.chu_liu_edmonds(m)[0]
         if [0 for i in h if i == 0] != [0]:
             i = ([p for s, e, p in w] + ["root"]).index("root")
-            j = i + 1 if i < n else int(numpy.nanargmax(m[:, 0]))
-            m[0:j, 0] = m[j + 1 :, 0] = numpy.nan
+            j = i + 1 if i < n else int(np.nanargmax(m[:, 0]))
+            m[0:j, 0] = m[j + 1 :, 0] = np.nan
             h = ufal.chu_liu_edmonds.chu_liu_edmonds(m)[0]
         u = ""
         if tag == "list":
             _tag_data = []
             for i, (s, e, p) in enumerate(w, 1):
-                p = "root" if h[i] == 0 else "dep" if p == "root" else p
+                rel = "root" if h[i] == 0 else "dep" if p == "root" else p
                 _tag_data.append(
                     [
                         str(i),
@@ -169,14 +167,14 @@ class Parse:
                         "_",
                         "|".join(z[s][1:]),
                         str(h[i]),
-                        p,
+                        rel,
                         "_",
                         "_" if i < n and e < w[i][0] else "SpaceAfter=No",
                     ]
                 )
             return _tag_data
         for i, (s, e, p) in enumerate(w, 1):
-            p = "root" if h[i] == 0 else "dep" if p == "root" else p
+            rel = "root" if h[i] == 0 else "dep" if p == "root" else p
             u += (
                 "\t".join(
                     [
@@ -187,7 +185,7 @@ class Parse:
                         "_",
                         "|".join(z[s][1:]),
                         str(h[i]),
-                        p,
+                        rel,
                         "_",
                         "_" if i < n and e < w[i][0] else "SpaceAfter=No",
                     ]

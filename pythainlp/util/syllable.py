@@ -7,7 +7,8 @@ from __future__ import annotations
 
 import itertools
 import re
-from typing import Optional, Pattern
+from re import Pattern
+from typing import Optional
 
 from pythainlp import thai_consonants, thai_tonemarks
 

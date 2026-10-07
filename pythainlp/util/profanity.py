@@ -105,12 +105,7 @@ def find_profanity(
 
     tokens = word_tokenize(text, custom_dict=custom_dict, engine=engine)
 
-    found_profanity = []
-    for token in tokens:
-        if token in profanity_set:
-            found_profanity.append(token)
-
-    return found_profanity
+    return [token for token in tokens if token in profanity_set]
 
 
 def censor_profanity(

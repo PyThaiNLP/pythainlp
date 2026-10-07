@@ -37,6 +37,8 @@ and this project adheres to
   not the PyTorch and TensorFlow packages ([#1511])
 - `bleu_score()` raises `ValueError` on unequal reference and hypothesis
   counts; `nighit()` requires `w1` to end with "ํ" ([#1548])
+- `download()` removes abandoned `.part`, `.tmp`, and `.old` entries from the
+  data directory after 24 hours ([#1552])
 
 ### Removed
 
@@ -64,6 +66,12 @@ and this project adheres to
 - `bleu_score()` gives 0.0 for an empty hypothesis; `WunsenTransliterate`
   raises `NotImplementedError` for `lang=None` ([#1548])
 - `nighit()`: map ช to ญ; add ฆ, ญ, ฏ, ฒ, ต, ม ([#1548])
+- `dependency_parsing()` raises `NotImplementedError`, not `TypeError`, for
+  `engine=""` ([#1551])
+- `download()` installs the highest compatible corpus version, not the last
+  one in the catalog; `_check_version()` compares versions correctly (`">=9"`
+  was true on 5.4.0); `WunsenTransliterate` no longer reuses an old model
+  after a failed `ThapSap` creation ([#1552])
 
 ### Security
 
@@ -83,6 +91,8 @@ and this project adheres to
 [#1546]: https://github.com/PyThaiNLP/pythainlp/pull/1546
 [#1547]: https://github.com/PyThaiNLP/pythainlp/pull/1547
 [#1548]: https://github.com/PyThaiNLP/pythainlp/pull/1548
+[#1551]: https://github.com/PyThaiNLP/pythainlp/pull/1551
+[#1552]: https://github.com/PyThaiNLP/pythainlp/pull/1552
 
 ## [5.3.8] - 2026-09-25
 

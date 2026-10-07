@@ -162,7 +162,8 @@ def _spelling_impl(word: str) -> list[str]:
         return [*output, word_pre, tone[0], word]
     if "็" in word:
         return [*output, word]
-    return [*output, word_pre, word]
+    # Unreachable: a word that differs from word_pre has a tone mark or "็".
+    return [*output, word_pre, word]  # pragma: no cover
 
 
 def spelling(word: str) -> list[str]:

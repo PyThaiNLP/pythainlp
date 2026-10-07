@@ -81,6 +81,7 @@ dev = [
     "bump-my-version>=1.5.1",
     "coverage>=7.10.7;python_version<'3.10'",
     "coverage>=7.16.2;python_version>='3.10'",
+    "diff-cover>=10.6.0",
     "flake8>=7.3.0;python_version<'3.10'",
     "flake8>=7.4.1;python_version>='3.10'",
     "flake8-cognitive-complexity>=0.1.0",
@@ -374,11 +375,14 @@ optional_value = "prod"
 first_value = "dev"
 values = ["dev", "beta", "prod"]
 
-# Test coverage targets:
-# - Overall: 95%.
-# - New and changed code: at least 75%, checked in CI by diff-cover
-#   (.github/workflows/unittest.yml).
-# - AI agents: aim at near 100% for the code they add or change.
+# Test coverage expectations:
+# - Overall: at least 80%.
+# - New and changed code: at least 95%. CI (diff-cover,
+#   .github/workflows/unittest.yml) gates it, except in the noauto modules
+#   listed in tests/diff-cover-noauto.txt. CI cannot run those, so it only
+#   reports them.
+# - AI agents: aim at near 100% line and branch coverage of the code they
+#   add or change, and cover every function they touch.
 [tool.coverage.run]
 source = ["pythainlp"]
 

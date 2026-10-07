@@ -2,7 +2,10 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
+import sys
+import types
 import unittest
+from unittest import mock
 
 from pythainlp.transliterate import pronunciate_pali, romanize, transliterate
 from pythainlp.transliterate._repetition import find_trailing_repeat_period
@@ -108,6 +111,27 @@ class TransliterateTestCase(unittest.TestCase):
         self.assertEqual(transliterate(""), "")
         self.assertIsNotNone(transliterate("คน", engine="iso_11940"))
         self.assertIsNotNone(transliterate("แมว", engine="iso_11940"))
+
+    def test_transliterate_engine_dispatch(self):
+        """Each engine loads its own module; fakes replace heavy ones."""
+        for engine, module in (
+            ("ipa", "ipa"),
+            ("thaig2p", "thaig2p"),
+            ("thaig2p_v2", "thaig2p_v2"),
+            ("umt5_thaig2p", "umt5_thaig2p"),
+            ("unknown", "thaig2p"),  # unknown engines use the default
+        ):
+            fake = types.ModuleType(f"pythainlp.transliterate.{module}")
+            setattr(
+                fake, "transliterate", lambda text, _m=module: f"{_m}:{text}"
+            )
+            with self.subTest(engine=engine):
+                with mock.patch.dict(
+                    sys.modules, {f"pythainlp.transliterate.{module}": fake}
+                ):
+                    self.assertEqual(
+                        transliterate("แมว", engine=engine), f"{module}:แมว"
+                    )
 
     def test_transliterate_iso11940(self):
         self.assertEqual(

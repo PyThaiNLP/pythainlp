@@ -1,4 +1,4 @@
-.PHONY: clean clean-test clean-pyc clean-build help
+.PHONY: clean clean-test clean-pyc clean-build diff-cover help
 .DEFAULT_GOAL := help
 define BROWSER_PYSCRIPT
 import os, webbrowser, sys
@@ -63,6 +63,21 @@ coverage: ## check code coverage quickly with the default Python
 	coverage report -m
 	coverage html
 	$(BROWSER) htmlcov/index.html
+
+# Base branch to compare against. Override it, for example:
+#   make diff-cover DIFF_BASE=upstream/main
+DIFF_BASE ?= origin/main
+DIFF_COVER_TESTS ?= tests.core tests.compact tests.extra
+# Noauto modules, quoted for the shell, as `**/<path>` globs.
+NOAUTO_GLOBS = $(shell grep -v -e '^\#' -e '^$$' tests/diff-cover-noauto.txt | sed "s|^|'**/|;s|$$|'|")
+
+diff-cover: ## check coverage of new code against DIFF_BASE, as in CI (gate: 95%, noauto modules: report only)
+	coverage run -m unittest $(DIFF_COVER_TESTS)
+	coverage xml
+	@echo "== Noauto code (report only)"
+	diff-cover coverage.xml --compare-branch=$(DIFF_BASE) --include $(NOAUTO_GLOBS)
+	@echo "== Code that CI can run (gate: 95%)"
+	diff-cover coverage.xml --compare-branch=$(DIFF_BASE) --exclude $(NOAUTO_GLOBS) --fail-under=95
 
 release: clean ## package and upload a release (deprecated - use GitHub Actions)
 	python -m build

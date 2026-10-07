@@ -169,15 +169,27 @@ jobs:
           PYTHONIOENCODING: utf-8
         run: coveralls
 
-      # New and changed lines must be covered at least 75%.
-      # The overall target is 95%; see pyproject.toml.
+      # New and changed lines must be covered at least 95%, except in the
+      # noauto modules (tests/diff-cover-noauto.txt). CI cannot run those
+      # because their dependencies are not installed, so they are only
+      # reported. The expected overall coverage is 80%; see AGENTS.md.
       - name: Coverage of new code
         # Run even if the coverage report upload fails (for example, on forks).
         if: ${{ !cancelled() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2 }}
         env:
           BASE_REF: ${{ github.base_ref }}
+        shell: bash
         run: |
           git fetch --no-tags origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}"
           pip install --only-binary :all: "diff-cover==10.6.0"
           coverage xml
-          diff-cover coverage.xml --compare-branch="origin/${BASE_REF}" --fail-under=75
+          # diff-cover matches `**/<path>` for both --include and --exclude.
+          mapfile -t NOAUTO < <(grep -v -e '^#' -e '^$' tests/diff-cover-noauto.txt | sed 's|^|**/|')
+          echo "::group::Noauto code (report only)"
+          diff-cover coverage.xml --compare-branch="origin/${BASE_REF}" \
+            --include "${NOAUTO[@]}"
+          echo "::endgroup::"
+          echo "::group::Code that CI can run (gate: 95%)"
+          diff-cover coverage.xml --compare-branch="origin/${BASE_REF}" \
+            --exclude "${NOAUTO[@]}" --fail-under=95
+          echo "::endgroup::"

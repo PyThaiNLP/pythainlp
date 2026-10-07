@@ -46,6 +46,8 @@ and this project adheres to
 - `bleu_score()` gives 0.0 for an empty hypothesis; `WunsenTransliterate`
   raises `NotImplementedError` for `lang=None` ([#1548])
 - `nighit()`: map ช to ญ; add ฆ, ญ, ฏ, ฒ, ต, ม ([#1548])
+- `dependency_parsing()` raises `NotImplementedError`, not `TypeError`, for
+  `engine=""` ([#1551])
 
 ### Security
 
@@ -60,6 +62,7 @@ and this project adheres to
 [#1546]: https://github.com/PyThaiNLP/pythainlp/pull/1546
 [#1547]: https://github.com/PyThaiNLP/pythainlp/pull/1547
 [#1548]: https://github.com/PyThaiNLP/pythainlp/pull/1548
+[#1551]: https://github.com/PyThaiNLP/pythainlp/pull/1551
 
 ## [5.3.8] - 2026-09-25
 

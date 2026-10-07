@@ -192,12 +192,6 @@ Entry format:
 - **`wiktionary-ho-rule-unreachable`** `pythainlp/transliterate/wiktionary.py`:
   `_apply_ho_rule`. The `^ห.$` check never matches, so the re-splitting of
   "ห" plus a sonorant is dead code.
-- **`wunsen-stale-model`** `pythainlp/transliterate/wunsen.py`:
-  `WunsenTransliterate.transliterate`. `_set_options` stores the new options
-  before `ThapSap(...)` is created. If `ThapSap` raises, the old model stays
-  in `thap_value`, and a repeated call with the same options skips the
-  re-creation and silently uses the old model. Expected: keep the options and
-  the model consistent. Pinning test: `test_failed_creation_keeps_old_model`.
 
 #### Khavee
 
@@ -216,16 +210,6 @@ Entry format:
   `prayut_and_somchaip`. Keeps the last `length` characters of the code
   (`[-length:]`) instead of the first. `length=0` returns the whole code.
   Example: `("kingkong", 2)` returns "52"; the first two codes are "27".
-
-#### Corpus
-
-- **`download-last-version`** `pythainlp/corpus/core.py`: `download`.
-  With catalog versions 0.2, 0.3 (unsupported), 0.1 it installs 0.1, the
-  last compatible one. Expected: the highest compatible version.
-- **`version2int-single-component`** `pythainlp/corpus/core.py`:
-  `_version2int`. "9" becomes 900 but "9.0.0" becomes 90000, so
-  `_check_version(">=9")` is True on 5.4.0. A component with 3 or more
-  digits breaks the ordering the same way. Expected: compare version tuples.
 
 #### Benchmarks, generate, lm, augment, morpheme
 
@@ -363,15 +347,18 @@ the code disagree. The code was not changed. No test pins them.
 - `db.json` writes are atomic but not locked against concurrent writers;
   the last writer wins.
 - Concurrent downloads of one corpus: the last swap wins. If two swaps
-  race, one can fail and leave a hidden `.<folder>.<hex>.old` folder.
+  race, one can fail and leave a hidden `.<folder>.pythainlp-<hex>.old` folder.
 - `_swap_in_folder` renames the existing corpus folder aside. A folder
   that is a mount point (EBUSY) or busy on Windows cannot be re-extracted,
   and there is no retry.
 - A corpus folder that is a symlink is replaced by a real folder
   (intentional).
 - A crash, a failed cleanup, or a failed rollback in `_swap_in_folder` can
-  leave hidden `.<name>.<hex>.part`, `.tmp`, or `.old` entries in the data
-  directory. Nothing sweeps them.
+  leave hidden `.<name>.pythainlp-<hex>.part`, `.tmp`, or `.old` entries in
+  the data directory. `download()` removes them after 24 hours, except an
+  `.old` entry whose `<name>` is missing (the only copy of a failed swap).
+  Those stay until the user removes them. Leftovers from earlier versions
+  (names without the `pythainlp-` marker) are never swept.
 - `_is_within_directory` is used only by tests.
 
 ### Other observations
@@ -381,3 +368,25 @@ the code disagree. The code was not changed. No test pins them.
 - The `longest._tokenizers` cache is keyed by `id(custom_dict)` and never
   evicted.
 - `multi_cut` is exponential on lattices with many overlapping words.
+- `util.pronounce._spelling_impl`: the last `return` is unreachable. A word
+  that differs from `word_pre` always has a tone mark or "็", and both
+  return earlier. It carries `# pragma: no cover`; remove it in a
+  behavior-preserving change.
+- `pythainlp.augment.lm.fasttext` cannot be imported without `transformers`:
+  `pythainlp.augment.lm.__init__` imports `phayathaibert` first. CI never
+  covers it, so it is in the noauto list.
+
+### Test coverage
+
+Expected coverage: 80% overall, 95% for new and changed code. CI gates new
+and changed code at 95% in modules it can run. The non-noauto part of
+[#1551](https://github.com/PyThaiNLP/pythainlp/pull/1551) scored 98%.
+
+- The noauto list, `tests/diff-cover-noauto.txt`, is maintained by hand
+  (44 modules). A module with heavy dependencies must be added to it, or
+  CI fails the PR. A check that derives the list from imports would remove
+  that chore.
+- CI reports but does not gate noauto code. Authors must run the noauto
+  suites locally and meet the same 95%. Nothing verifies this.
+- Local `make diff-cover` needs the `[compact,extra]` dependencies. With
+  fewer, it reports many uncovered lines that CI covers.

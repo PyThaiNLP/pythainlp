@@ -254,6 +254,13 @@ Generate code coverage test in HTML
 coverage html
 ```
 
+To check the coverage of your changes as CI does
+(compares with `DIFF_BASE`, default `origin/main`):
+
+```sh
+make diff-cover DIFF_BASE=upstream/main
+```
+
 Make sure the tests pass on GitHub Actions.
 
 See more in [tests/README.md](./tests/README.md)

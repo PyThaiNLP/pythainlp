@@ -46,7 +46,7 @@
     },
     "thai2rom_encoder_onnx": {
         "name": "thai2rom_encoder_onnx",
-        "latest_version": "1.0.0",
+        "latest_version": "1.0.1",
         "description": "Thai2Rom Encoder ONNX",
         "long_description": "Thai romanization ONNX model - Encoder",
         "url": "https://github.com/artificiala/thai-romanization/",
@@ -57,14 +57,19 @@
         "versions": {
             "1.0.0": {
                 "filename": "thai2rom_encoder.onnx",
-                "md5": "63b2edd990434cf259fea05deed9d4fa",
+                "md5": "5c2f857b1b0c33f96861fc56e2153c08",
                 "pythainlp_version": ">=3.2.0"
+            },
+            "1.0.1": {
+                "filename": "thai2rom_encoder.onnx",
+                "md5": "8bc89998e6bd25c7e1f9d5c0a44ac649",
+                "pythainlp_version": ">=5.4.0"
             }
         }
     },
     "thai2rom_decoder_onnx": {
         "name": "thai2rom_decoder_onnx",
-        "latest_version": "1.0.0",
+        "latest_version": "1.0.1",
         "description": "Thai2Rom Decoder ONNX",
         "long_description": "Thai romanization ONNX model - Decoder",
         "url": "https://github.com/artificiala/thai-romanization/",
@@ -75,8 +80,13 @@
         "versions": {
             "1.0.0": {
                 "filename": "thai2rom_decoder.onnx",
-                "md5": "c2c8628877eb80c6f5ac349130d88de6",
+                "md5": "09250e4ec610b2a77c3cee88aa6eaf59",
                 "pythainlp_version": ">=3.2.0"
+            },
+            "1.0.1": {
+                "filename": "thai2rom_decoder.onnx",
+                "md5": "21389dad232f23227b1d0a8c07c1a566",
+                "pythainlp_version": ">=5.4.0"
             }
         }
     },

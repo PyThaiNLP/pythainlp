@@ -19,7 +19,6 @@ def pos_tag(
 
         * *perceptron* - perceptron tagger (default)
         * *unigram* - unigram tagger
-        * *wangchanberta* - WangchanBERTa model
         * *tltk* - TLTK: Thai Language Toolkit (supports the TNC corpus
           only; other corpora are converted to the TNC corpus)
     :param str corpus: corpus used to train the tagger model. Options are:
@@ -205,7 +204,7 @@ def pos_tag_transformers(
         * *wangchanberta* - fine-tuned version of
           airesearch/wangchanberta-base-att-spm-uncased on the PUD corpus
           (supports the PUD corpus only)
-        * *phayathaibert* - fine-tuned version of clicknext/phayathaibert
+        * *phayathai* - fine-tuned version of clicknext/phayathaibert
           on the blackboard corpus (supports the blackboard corpus only)
         * *mdeberta* - mDeBERTa: Multilingual Decoding-enhanced BERT
           with disentangled attention (supports the PUD corpus only)

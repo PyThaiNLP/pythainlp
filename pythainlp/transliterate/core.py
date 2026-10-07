@@ -104,20 +104,21 @@ def transliterate(  # noqa: C901  # phase2-todo
     :param str text: Thai text to be transliterated
     :param str engine: transliteration engine
         (see the options below)
-    :return: text in a phonetic alphabet, indicating how the input text
-        is pronounced
+    :return: transliterated text: a phonetic alphabet (such as IPA)
+        for the phonetic engines, or Latin script for *icu* and
+        *iso_11940*
     :rtype: str
 
     :Options for engine:
         * *thaig2p* (default) - Thai Grapheme-to-Phoneme,
           output is IPA (requires PyTorch)
         * *icu* - pyicu, based on International Components for Unicode
-          (ICU)
+          (ICU), output is Latin script
         * *ipa* - epitran, output is International Phonetic Alphabet
           (IPA)
         * *tltk_g2p* - Thai Grapheme-to-Phoneme from
           `TLTK <https://pypi.org/project/tltk/>`_
-        * *iso_11940* - Thai text into Latin characters with ISO 11940
+        * *iso_11940* - Thai text into Latin script with ISO 11940
         * *tltk_ipa* - tltk, output is International Phonetic Alphabet
           (IPA)
         * *thaig2p_v2* - Thai Grapheme-to-Phoneme, output is IPA.

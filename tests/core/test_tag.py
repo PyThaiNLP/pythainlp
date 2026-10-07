@@ -2,9 +2,13 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
 import unittest
 from importlib.util import find_spec
 from os import path
+from typing import TYPE_CHECKING, Any, Optional
+from unittest import mock
 
 from pythainlp.corpus import download
 from pythainlp.tag import (
@@ -19,6 +23,9 @@ from pythainlp.tag import (
 )
 from pythainlp.tag._utils import _iob_to_markup
 
+if TYPE_CHECKING:
+    from pythainlp.tag.phayathaibert_onnx import PhayaThaiBERTTagger
+
 TEST_TOKENS = ["ผม", "รัก", "คุณ"]
 
 _PHAYATHAIBERT_DEPENDENCIES = (
@@ -29,10 +36,9 @@ _PHAYATHAIBERT_DEPENDENCIES = (
 )
 
 
-def _fake_module(name):
+def _fake_module(name: str) -> mock.MagicMock:
     """Return a stand-in for an installed module, for patching sys.modules."""
     from importlib.machinery import ModuleSpec
-    from unittest import mock
 
     module = mock.MagicMock()
     # importlib.util.find_spec() reads __spec__ of modules in sys.modules.
@@ -561,7 +567,7 @@ class PhayaThaiBERTHelperTestCase(unittest.TestCase):
             with self.subTest(module):
                 # Fake every dependency, so none is really imported (and
                 # then unloaded) inside patch.dict.
-                modules = {
+                modules: dict[str, Optional[mock.MagicMock]] = {
                     m: _fake_module(m) for m in _PHAYATHAIBERT_DEPENDENCIES
                 }
                 modules[module] = None
@@ -623,9 +629,9 @@ class _FakeEncoding:
     subword but the first gives the wrong tag.
     """
 
-    def __init__(self, words):
-        self.ids = [0]
-        self.word_ids = [None]
+    def __init__(self, words: list[str]) -> None:
+        self.ids: list[int] = [0]
+        self.word_ids: list[Optional[int]] = [None]
         for i, word in enumerate(words):
             label_id = 1 if word.startswith("ก") else 2
             self.ids += [label_id] + [0] * (len(word) - 1)
@@ -636,17 +642,21 @@ class _FakeEncoding:
 
 
 class _FakeTokenizer:
-    def encode(self, words, is_pretokenized=False):
+    def encode(
+        self, words: list[str], is_pretokenized: bool = False
+    ) -> _FakeEncoding:
         return _FakeEncoding(words)
 
 
 class _FakeSession:
     """Predict the label id equal to each input id (one-hot logits)."""
 
-    def __init__(self):
-        self.lengths = []
+    def __init__(self) -> None:
+        self.lengths: list[int] = []
 
-    def run(self, output_names, feeds):
+    def run(
+        self, output_names: Optional[list[str]], feeds: dict[str, Any]
+    ) -> list[Any]:
         import numpy as np
 
         ids = feeds["input_ids"]
@@ -657,7 +667,7 @@ class _FakeSession:
 class PhayaThaiBERTTaggerTestCase(unittest.TestCase):
     """Test pythainlp.tag.phayathaibert_onnx with a fake model."""
 
-    def _tagger(self):
+    def _tagger(self) -> PhayaThaiBERTTagger:
         from pythainlp.tag.phayathaibert_onnx import PhayaThaiBERTTagger
 
         tagger = PhayaThaiBERTTagger.__new__(PhayaThaiBERTTagger)

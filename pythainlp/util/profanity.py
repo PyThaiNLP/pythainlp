@@ -1,9 +1,7 @@
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Profanity detection for Thai language
-"""
+"""Profanity detection for Thai."""
 
 from __future__ import annotations
 
@@ -18,12 +16,13 @@ def contains_profanity(
     text: str, custom_words: Optional[set[str]] = None, engine: str = "newmm"
 ) -> bool:
     """
-    Check if the given text contains profanity words.
+    Check whether text contains profanity words.
 
     :param str text: Thai text to check
-    :param set custom_words: additional profanity words to check (default: None)
-    :param str engine: tokenization engine (default: "newmm")
-    :return: True if text contains profanity, False otherwise
+    :param Optional[set[str]] custom_words: additional profanity words
+        (default is None)
+    :param str engine: word tokenization engine (default is *newmm*)
+    :return: True if the text contains profanity, False otherwise
     :rtype: bool
 
     :Example:
@@ -37,7 +36,9 @@ def contains_profanity(
         True if the word is in the profanity list
 
         >>> # Add custom profanity words
-        >>> print(contains_profanity("คำใหม่", custom_words={"คำใหม่"}))  # doctest: +SKIP
+        >>> print(
+        ...     contains_profanity("คำใหม่", custom_words={"คำใหม่"})
+        ... )  # doctest: +SKIP
         True
     """
     if not text:
@@ -55,22 +56,19 @@ def contains_profanity(
 
     tokens = word_tokenize(text, custom_dict=custom_dict, engine=engine)
 
-    for token in tokens:
-        if token in profanity_set:
-            return True
-
-    return False
+    return any(token in profanity_set for token in tokens)
 
 
 def find_profanity(
     text: str, custom_words: Optional[set[str]] = None, engine: str = "newmm"
 ) -> list[str]:
     """
-    Find all profanity words in the given text.
+    Find all profanity words in text.
 
     :param str text: Thai text to check
-    :param set custom_words: additional profanity words to check (default: None)
-    :param str engine: tokenization engine (default: "newmm")
+    :param Optional[set[str]] custom_words: additional profanity words
+        (default is None)
+    :param str engine: word tokenization engine (default is *newmm*)
     :return: list of profanity words found in the text
     :rtype: list[str]
 
@@ -81,11 +79,15 @@ def find_profanity(
         >>> print(find_profanity("สวัสดีครับ"))  # doctest: +SKIP
         []
 
-        >>> print(find_profanity("text with profanity words"))  # doctest: +SKIP
+        >>> print(
+        ...     find_profanity("text with profanity words")
+        ... )  # doctest: +SKIP
         ['profanity_word1', 'profanity_word2']
 
         >>> # Add custom profanity words
-        >>> print(find_profanity("คำใหม่", custom_words={"คำใหม่"}))  # doctest: +SKIP
+        >>> print(
+        ...     find_profanity("คำใหม่", custom_words={"คำใหม่"})
+        ... )  # doctest: +SKIP
         ['คำใหม่']
     """
     if not text:
@@ -103,12 +105,7 @@ def find_profanity(
 
     tokens = word_tokenize(text, custom_dict=custom_dict, engine=engine)
 
-    found_profanity = []
-    for token in tokens:
-        if token in profanity_set:
-            found_profanity.append(token)
-
-    return found_profanity
+    return [token for token in tokens if token in profanity_set]
 
 
 def censor_profanity(
@@ -118,13 +115,15 @@ def censor_profanity(
     engine: str = "newmm",
 ) -> str:
     """
-    Replace profanity words in the text with a replacement character.
+    Replace profanity words in text with a replacement character.
 
     :param str text: Thai text to censor
-    :param str replacement: character to replace profanity with (default: "*")
-    :param set custom_words: additional profanity words to censor (default: None)
-    :param str engine: tokenization engine (default: "newmm")
-    :return: Text with profanity words censored
+    :param str replacement: character to replace profanity with
+        (default is ``"*"``)
+    :param Optional[set[str]] custom_words: additional profanity words
+        (default is None)
+    :param str engine: word tokenization engine (default is *newmm*)
+    :return: text with profanity words censored
     :rtype: str
 
     :Example:
@@ -134,11 +133,15 @@ def censor_profanity(
         >>> print(censor_profanity("สวัสดีครับ"))  # doctest: +SKIP
         สวัสดีครับ
 
-        >>> print(censor_profanity("text with profanity word"))  # doctest: +SKIP
+        >>> print(
+        ...     censor_profanity("text with profanity word")
+        ... )  # doctest: +SKIP
         text with *** word
 
         >>> # Add custom profanity words
-        >>> print(censor_profanity("คำใหม่", custom_words={"คำใหม่"}))  # doctest: +SKIP
+        >>> print(
+        ...     censor_profanity("คำใหม่", custom_words={"คำใหม่"})
+        ... )  # doctest: +SKIP
         ******
     """
     if not text:

@@ -1,9 +1,9 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Word2Vec"""
+"""Thai text augmentation using word2vec."""
 
-__all__: list[str] = ["Word2VecAug", "Thai2fitAug", "LTW2VAug"]
+__all__: list[str] = ["LTW2VAug", "Thai2fitAug", "Word2VecAug"]
 
 from pythainlp.augment.word2vec.core import Word2VecAug
 from pythainlp.augment.word2vec.ltw2v import LTW2VAug

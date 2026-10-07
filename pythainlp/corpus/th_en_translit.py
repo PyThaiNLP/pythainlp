@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai-English Transliteration Dictionary v1.4
+"""
+Thai-English transliteration dictionary v1.4.
 
 Wannaphong Phatthiyaphaibun. (2022).
 wannaphong/thai-english-transliteration-dictionary: v1.4 (v1.4).
@@ -15,9 +16,9 @@ from importlib.resources import files
 from typing import Union
 
 __all__: list[str] = [
-    "get_transliteration_dict",
     "TRANSLITERATE_EN",
     "TRANSLITERATE_FOLLOW_RTSG",
+    "get_transliteration_dict",
 ]
 
 _FILE_NAME: str = "th_en_transliteration_v1.4.tsv"
@@ -28,9 +29,16 @@ TRANSLITERATE_FOLLOW_RTSG: str = "follow_rtsg"
 def get_transliteration_dict() -> defaultdict[
     str, dict[str, list[Union[str, bool, None]]]
 ]:
-    """Get Thai to English transliteration dictionary.
+    """
+    Get the Thai to English transliteration dictionary.
 
-    The returned dict is in dict[str, dict[List[str], List[Optional[bool]]]] format.
+    The format is ``dict[str, dict[str, list[Union[str, bool, None]]]]``.
+
+    :return: transliteration dictionary
+    :rtype:
+        collections.defaultdict[str, dict[str, list[Union[str, bool, None]]]]
+    :raises FileNotFoundError: if the dictionary file is not found
+    :raises ValueError: if the dictionary file cannot be parsed
     """
     corpus_files = files("pythainlp.corpus")
     corpus_file = corpus_files.joinpath(_FILE_NAME)

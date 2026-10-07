@@ -1,11 +1,14 @@
-"""esupar: Tokenizer, POS tagger and dependency parser with BERT/RoBERTa/DeBERTa models for Japanese and other languages
+"""
+esupar: tokenizer, POS tagger, and dependency parser.
+
+esupar uses BERT/RoBERTa/DeBERTa models for Japanese and other languages.
 
 GitHub: https://github.com/KoichiYasuoka/esupar
 """
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Optional, Union
+from typing import TYPE_CHECKING, Optional, Union
 
 try:
     import esupar
@@ -19,19 +22,33 @@ if TYPE_CHECKING:
 
 
 class Parse:
+    """Dependency parser using esupar."""
+
     def __init__(self, model: Optional[str] = "th") -> None:
+        """
+        Initialize the esupar model.
+
+        :param Optional[str] model: model to load; ``"th"`` if ``None``
+        """
         if model is None:
             model = "th"
         self.nlp: Model = esupar.load(model)
 
     def __call__(
         self, text: str, tag: str = "str"
-    ) -> Union[List[List[str]], str]:
+    ) -> Union[list[list[str]], str]:
+        """
+        Parse the dependency structure of a text.
+
+        :param str text: text to be parsed
+        :param str tag: output type, ``"str"`` (CoNLL-U text, default)
+            or ``"list"``
+        :return: CoNLL-U text if ``tag`` is ``"str"``, otherwise a list of
+            lists of fields
+        :rtype: Union[list[list[str]], str]
+        """
         _data = str(self.nlp(text))
         if tag == "list":
             _temp = _data.splitlines()
-            _tag_data = []
-            for i in _temp:
-                _tag_data.append(i.split())
-            return _tag_data
+            return [i.split() for i in _temp]
         return _data

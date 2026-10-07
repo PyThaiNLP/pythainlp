@@ -21,7 +21,7 @@ from ..core.test_spell import SENT_TOKS
 
 
 class SpellPhunspellTestCaseN(unittest.TestCase):
-    """Tests for phunspell engine (requires Cython compilation)"""
+    """Tests for phunspell engine (requires Cython compilation)."""
 
     def test_spell_phunspell(self):
         result = spell("เน้ร", engine="phunspell")

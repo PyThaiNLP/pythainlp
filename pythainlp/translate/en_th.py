@@ -1,9 +1,11 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""English-Thai Machine Translation
+"""
+Translate between English and Thai using VISTEC-depa models.
 
-from VISTEC-depa Thailand Artificial Intelligence Research Institute
+The models are from the VISTEC-depa Thailand Artificial Intelligence
+Research Institute.
 
 Website: https://airesearch.in.th/releases/machine-translation-models/
 """
@@ -54,22 +56,29 @@ def _download_install(name: str) -> None:
 
 
 def download_model_all() -> None:
-    """Download all translation models in advance"""
+    """Download all translation models in advance."""
     _download_install(_EN_TH_MODEL_NAME)
     _download_install(_TH_EN_MODEL_NAME)
 
 
 class EnThTranslator:
-    """English-Thai Machine Translation
+    """
+    Translate English to Thai.
 
-    from VISTEC-depa Thailand Artificial Intelligence Research Institute
+    The model is from the VISTEC-depa Thailand Artificial Intelligence
+    Research Institute.
 
     Website: https://airesearch.in.th/releases/machine-translation-models/
 
-    :param bool use_gpu : load model using GPU (Default is False)
+    :param bool use_gpu: load the model on a GPU (default: False)
     """
 
     def __init__(self, use_gpu: bool = False) -> None:
+        """
+        Initialize the English-to-Thai translator.
+
+        :param bool use_gpu: load the model on a GPU
+        """
         self._tokenizer: MosesTokenizer = MosesTokenizer("en")
 
         self._model_name: str = _EN_TH_MODEL_NAME
@@ -94,19 +103,22 @@ class EnThTranslator:
     def translate(
         self, text: str, exclude_words: Optional[list[str]] = None
     ) -> str:
-        """Translate text from English to Thai
+        """
+        Translate text from English to Thai.
 
-        :param str text: input text in source language
-        :param list[str] exclude_words: words to exclude from translation
-                                        (optional)
-        :return: translated text in target language
+        :param str text: text to translate
+        :param Optional[list[str]] exclude_words: words to exclude from
+            translation
+        :return: translated text
         :rtype: str
 
         :Example:
 
         Translate text from English to Thai:
 
-            >>> from pythainlp.translate import EnThTranslator  # doctest: +SKIP
+            >>> from pythainlp.translate import (
+            ...     EnThTranslator,
+            ... )  # doctest: +SKIP
 
             >>> enth = EnThTranslator()  # doctest: +SKIP
 
@@ -115,7 +127,9 @@ class EnThTranslator:
 
         Translate text from English to Thai with excluded words:
 
-            >>> enth.translate("I love cat.", exclude_words=["cat"])  # doctest: +SKIP
+            >>> enth.translate(
+            ...     "I love cat.", exclude_words=["cat"]
+            ... )  # doctest: +SKIP
             ฉันรัก cat
 
         """
@@ -134,16 +148,23 @@ class EnThTranslator:
 
 
 class ThEnTranslator:
-    """Thai-English Machine Translation
+    """
+    Translate Thai to English.
 
-    from VISTEC-depa Thailand Artificial Intelligence Research Institute
+    The model is from the VISTEC-depa Thailand Artificial Intelligence
+    Research Institute.
 
     Website: https://airesearch.in.th/releases/machine-translation-models/
 
-    :param bool use_gpu : load model using GPU (Default is False)
+    :param bool use_gpu: load the model on a GPU (default: False)
     """
 
     def __init__(self, use_gpu: bool = False) -> None:
+        """
+        Initialize the Thai-to-English translator.
+
+        :param bool use_gpu: load the model on a GPU
+        """
         self._model_name: str = _TH_EN_MODEL_NAME
 
         _download_install(self._model_name)
@@ -180,19 +201,22 @@ class ThEnTranslator:
     def translate(
         self, text: str, exclude_words: Optional[list[str]] = None
     ) -> str:
-        """Translate text from Thai to English
+        """
+        Translate text from Thai to English.
 
-        :param str text: input text in source language
-        :param list[str] exclude_words: words to exclude from translation
-                                        (optional)
-        :return: translated text in target language
+        :param str text: text to translate
+        :param Optional[list[str]] exclude_words: words to exclude from
+            translation
+        :return: translated text
         :rtype: str
 
         :Example:
 
         Translate text from Thai to English:
 
-            >>> from pythainlp.translate import ThEnTranslator  # doctest: +SKIP
+            >>> from pythainlp.translate import (
+            ...     ThEnTranslator,
+            ... )  # doctest: +SKIP
 
             >>> then = ThEnTranslator()  # doctest: +SKIP
 
@@ -201,7 +225,9 @@ class ThEnTranslator:
 
         Translate text from Thai to English with excluded words:
 
-            >>> then.translate("ฉันรักแมว", exclude_words=["แมว"])  # doctest: +SKIP
+            >>> then.translate(
+            ...     "ฉันรักแมว", exclude_words=["แมว"]
+            ... )  # doctest: +SKIP
             I love แมว.
 
         """

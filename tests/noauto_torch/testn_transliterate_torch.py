@@ -11,7 +11,7 @@ import unittest
 
 
 class TransliterateTestCaseN(unittest.TestCase):
-    """Tests for transliteration functions (requires torch)"""
+    """Tests for transliteration functions (requires torch)."""
 
     def test_thai2rom_returns_string(self):
         from pythainlp.transliterate.thai2rom import romanize

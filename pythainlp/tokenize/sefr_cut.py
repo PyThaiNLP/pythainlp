@@ -1,9 +1,11 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Wrapper for SEFR CUT Thai word segmentation.
+"""
+Wrap SEFR CUT, a Thai word tokenizer.
 
-SEFR CUT is a Thai Word Segmentation Model using Stacked Ensemble.
+SEFR CUT is a set of Thai word segmentation models that use a stacked
+ensemble.
 SEFR CUT is ported to ONNX model using LEKCut.
 
 :See Also:
@@ -23,14 +25,16 @@ _tokenizers_lock: threading.Lock = threading.Lock()
 
 
 def segment(text: str, engine: str = "ws1000") -> list[str]:
-    """Segment text using SEFR CUT (via LEKCut ONNX).
+    """
+    Tokenize text into words with SEFR CUT.
 
-    The wrapper uses a lock to protect access to the internal tokenizer cache.
-    The model runs on ONNX runtime via LEKCut.
+    The wrapper uses a lock to protect access to the internal tokenizer
+    cache. The model runs on ONNX Runtime via LEKCut.
 
     :param str text: text to be tokenized
-    :param str engine: model engine to use ("ws1000", "tnhc", or "best")
-    :return: list of tokens
+    :param str engine: name of the SEFR CUT model engine ("ws1000", "tnhc",
+        or "best")
+    :return: list of words
     :rtype: list[str]
     """
     if not text or not isinstance(text, str):

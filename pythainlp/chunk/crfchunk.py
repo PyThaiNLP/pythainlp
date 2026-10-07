@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+from contextlib import suppress
 from importlib.resources import as_file, files
 from typing import TYPE_CHECKING, Any, Optional, Union
 
@@ -23,12 +24,13 @@ def _is_stopword(word: str) -> bool:
 def _doc2features(
     tokens: list[tuple[str, str]], index: int
 ) -> dict[str, Union[str, bool]]:
-    """Extract features for a single token in a POS-tagged sentence.
+    """
+    Extract features for a single word in a POS-tagged sentence.
 
     :param list[tuple[str, str]] tokens: POS-tagged sentence,
-        a list of (word, POS-tag) pairs.
-    :param int index: index of the token to extract features for.
-    :return: feature dictionary for the token.
+        a list of (word, POS tag) pairs
+    :param int index: index of the word to extract features for
+    :return: feature dictionary for the word
     :rtype: dict[str, Union[str, bool]]
     """
     word, pos = tokens[index]
@@ -72,11 +74,11 @@ def _extract_features(
 
 
 class CRFChunkParser:
-    """CRF-based chunk parser for Thai text.
+    """
+    Parse a POS-tagged Thai sentence into chunks with a CRF model.
 
-    Parses a POS-tagged sentence into phrase-structure chunks
-    (IOB format), following the NLTK :class:`nltk.chunk.ChunkParserI`
-    convention.
+    The chunks are phrase-structure chunks in IOB format, following the
+    NLTK :class:`nltk.chunk.ChunkParserI` convention.
 
     This class supports the context manager protocol for deterministic
     resource cleanup:
@@ -88,8 +90,8 @@ class CRFChunkParser:
         with CRFChunkParser() as parser:
             result = parser.parse(tokens_pos)
 
-    :param str corpus: corpus name for the CRF model
-        (default: ``"orchidpp"``).
+    :param str corpus: corpus for the CRF model
+        (default: ``"orchidpp"``)
     """
 
     corpus: str
@@ -98,14 +100,20 @@ class CRFChunkParser:
     xseq: list[dict[str, Union[str, bool]]]
 
     def __init__(self, corpus: str = "orchidpp") -> None:
+        """
+        Initialize the chunker.
+
+        :param str corpus: corpus for the CRF model
+        """
         self.corpus = corpus
         self._model_file_ctx = None
         self.load_model(self.corpus)
 
     def load_model(self, corpus: str) -> None:
-        """Load the CRF model for the given corpus.
+        """
+        Load the CRF model for a corpus.
 
-        :param str corpus: corpus name.
+        :param str corpus: corpus for the CRF model
         """
         self.tagger = CRFTagger()
         if corpus == "orchidpp":
@@ -116,18 +124,19 @@ class CRFChunkParser:
             self.tagger.open(str(model_path))
 
     def parse(self, token_pos: list[tuple[str, str]]) -> list[str]:
-        """Parse a POS-tagged sentence into IOB chunk labels.
+        """
+        Parse a POS-tagged sentence into IOB chunk labels.
 
-        :param list[tuple[str, str]] token_pos: list of (word, POS-tag)
-            pairs.
-        :return: list of IOB chunk labels, one per token.
+        :param list[tuple[str, str]] token_pos: list of (word, POS tag)
+            pairs
+        :return: list of IOB chunk labels, one per word
         :rtype: list[str]
         """
         self.xseq = _extract_features(token_pos)
         return self.tagger.tag(self.xseq)
 
-    def __enter__(self) -> CRFChunkParser:
-        """Context manager entry."""
+    def __enter__(self) -> CRFChunkParser:  # noqa: PYI034
+        """Enter the context manager."""
         return self
 
     def __exit__(
@@ -136,23 +145,22 @@ class CRFChunkParser:
         exc_val: Optional[BaseException],
         exc_tb: Optional[types.TracebackType],
     ) -> None:
-        """Context manager exit — clean up resources."""
+        """Exit the context manager and release resources."""
         if self._model_file_ctx is not None:
             try:
                 self._model_file_ctx.__exit__(exc_type, exc_val, exc_tb)
                 self._model_file_ctx = None
-            except Exception:  # noqa: S110
+            except Exception:  # noqa: BLE001, S110 - cleanup must not raise
                 pass
 
     def __del__(self) -> None:
-        """Attempt resource cleanup on garbage collection.
+        """
+        Release resources on garbage collection.
 
         .. note::
             :meth:`__del__` is not guaranteed to be called.
             Use the context manager protocol for reliable cleanup.
         """
         if self._model_file_ctx is not None:
-            try:
+            with suppress(Exception):
                 self._model_file_ctx.__exit__(None, None, None)
-            except Exception:  # noqa: S110
-                pass

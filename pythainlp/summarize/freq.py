@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Summarization by frequency of words"""
+"""Summarize text by word frequency."""
 
 from __future__ import annotations
 
@@ -17,12 +17,20 @@ _STOPWORDS: frozenset[str] = thai_stopwords()
 
 
 class FrequencySummarizer:
+    """Summarize text by word frequency."""
+
     __min_cut: float
     __max_cut: float
     __stopwords: set[str]
     __freq: dict[str, float]
 
     def __init__(self, min_cut: float = 0.1, max_cut: float = 0.9) -> None:
+        """
+        Initialize the frequency summarizer.
+
+        :param float min_cut: minimum normalized word frequency to count
+        :param float max_cut: maximum normalized word frequency to count
+        """
         self.__min_cut: float = min_cut
         self.__max_cut: float = max_cut
         self.__stopwords: set[str] = set(punctuation).union(_STOPWORDS)
@@ -50,6 +58,15 @@ class FrequencySummarizer:
     def summarize(
         self, text: str, n: int, tokenizer: str = "newmm"
     ) -> list[str]:
+        """
+        Summarize text by selecting the highest scoring sentences.
+
+        :param str text: text to summarize
+        :param int n: number of sentences in the summary
+        :param str tokenizer: engine to tokenize text with
+        :return: list of selected sentences
+        :rtype: list[str]
+        """
         # sent_tokenize with str input returns list[str]
         sents = cast(
             "list[str]", sent_tokenize(text, engine="whitespace+newline")

@@ -1,11 +1,11 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Transliterating Thai text using ISO 11940
+"""
+Transliterate Thai text using ISO 11940.
 
 :See Also:
-    * `Wikipedia \
-        <https://en.wikipedia.org/wiki/ISO_11940>`_
+    * `Wikipedia <https://en.wikipedia.org/wiki/ISO_11940>`_
 """
 
 from __future__ import annotations
@@ -129,11 +129,11 @@ _keys_set: set[str] = set(_all_dict.keys())
 
 
 def transliterate(word: str) -> str:
-    """Transliterate Thai text using ISO 11940.
+    """
+    Transliterate Thai text using ISO 11940.
 
-    :param str word: Thai text to be transliterated.
-    :return: A string of the text rendered in Latin characters
-        according to ISO 11940.
+    :param str word: Thai text to be transliterated
+    :return: text rendered in Latin characters according to ISO 11940
     :rtype: str
     """
     _str = ""

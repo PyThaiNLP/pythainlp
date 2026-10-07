@@ -1,13 +1,14 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Two-stage Thai Misspelling Correction based on Pre-trained Language Models
+"""
+Two-stage Thai misspelling correction based on pre-trained language models.
 
 :See Also:
-    * Paper: \
-        https://ieeexplore.ieee.org/abstract/document/10202006
-    * GitHub: \
-        https://github.com/bookpanda/Two-stage-Thai-Misspelling-Correction-Based-on-Pre-trained-Language-Models
+    * Paper:
+      https://ieeexplore.ieee.org/abstract/document/10202006
+    * GitHub:
+      https://github.com/bookpanda/Two-stage-Thai-Misspelling-Correction-Based-on-Pre-trained-Language-Models
 """
 
 from __future__ import annotations
@@ -26,13 +27,16 @@ if TYPE_CHECKING:
 
 use_cuda: bool = torch.cuda.is_available()
 device: torch.device = torch.device("cuda" if use_cuda else "cpu")
-tokenizer: "PreTrainedTokenizer" = AutoTokenizer.from_pretrained(
+tokenizer: PreTrainedTokenizer = AutoTokenizer.from_pretrained(
     "airesearch/wangchanberta-base-att-spm-uncased"  # nosec B615
 )
 
 
 class BertModel(torch.nn.Module):  # type: ignore[misc]
+    """Tag misspelled tokens with the WangchanBERTa token classifier."""
+
     def __init__(self) -> None:
+        """Initialize the WangchanBERTa token classification model."""
         super().__init__()
         self.bert: BertForTokenClassification = (
             BertForTokenClassification.from_pretrained(
@@ -46,6 +50,16 @@ class BertModel(torch.nn.Module):  # type: ignore[misc]
         mask: torch.Tensor,
         label: Optional[torch.Tensor],
     ) -> Any:
+        """
+        Compute the forward pass of the token classification model.
+
+        :param torch.Tensor input_id: token ids
+        :param torch.Tensor mask: attention mask
+        :param Optional[torch.Tensor] label: token labels
+        :return: model output, which is a tuple that starts with the logits
+            (and the loss if ``label`` is given)
+        :rtype: Any
+        """
         output = self.bert(
             input_ids=input_id,
             attention_mask=mask,
@@ -62,6 +76,14 @@ ids_to_labels: dict[int, str] = {0: "f", 1: "i"}
 
 
 def align_word_ids(texts: str) -> list[int]:
+    """
+    Create the label ids of a text for token classification.
+
+    :param str texts: text to tokenize
+    :return: list of label ids, ``-100`` for a special or padding token
+        and ``2`` for others
+    :rtype: list[int]
+    """
     tokenized_inputs = tokenizer(
         texts, padding="max_length", max_length=512, truncation=True
     )
@@ -77,6 +99,16 @@ def align_word_ids(texts: str) -> list[int]:
 
 
 def evaluate_one_text(model: BertModel, sentence: str) -> list[str]:
+    """
+    Predict the label of each token in a sentence.
+
+    :param BertModel model: token classification model (not used, the
+        module-level tagging model is always used)
+    :param str sentence: sentence to tag
+    :return: list of labels, ``"i"`` for a misspelled token and ``"f"``
+        for a correct one
+    :rtype: list[str]
+    """
     text = tokenizer(
         sentence,
         padding="max_length",
@@ -96,7 +128,7 @@ def evaluate_one_text(model: BertModel, sentence: str) -> list[str]:
     return prediction_label
 
 
-mlm_model: "AutoModelForMaskedLM" = AutoModelForMaskedLM.from_pretrained(
+mlm_model: AutoModelForMaskedLM = AutoModelForMaskedLM.from_pretrained(
     "bookpanda/wangchanberta-base-att-spm-uncased-masking"  # nosec B615
 )
 if use_cuda:
@@ -104,6 +136,13 @@ if use_cuda:
 
 
 def correct(text: str) -> str:
+    """
+    Correct the spelling of a text.
+
+    :param str text: text to be corrected
+    :return: corrected text
+    :rtype: str
+    """
     ans = []
     i_f = evaluate_one_text(tagging_model, text)
     a = tokenizer(text)

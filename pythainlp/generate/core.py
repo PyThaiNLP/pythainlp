@@ -1,16 +1,20 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Text generator using n-gram language model
+"""
+Generate text using an n-gram language model.
 
-codes are from
+The code is from
 https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058
 """
 
 from __future__ import annotations
 
 import random
-from typing import Union
+from typing import TYPE_CHECKING, Optional, TypeVar, Union
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 from pythainlp.corpus.oscar import (
     unigram_word_freqs as oscar_word_freqs_unigram,
@@ -20,11 +24,37 @@ from pythainlp.corpus.tnc import trigram_word_freqs as tnc_word_freqs_trigram
 from pythainlp.corpus.tnc import unigram_word_freqs as tnc_word_freqs_unigram
 from pythainlp.corpus.ttc import unigram_word_freqs as ttc_word_freqs_unigram
 
+_T = TypeVar("_T")
+
+
+def _pick_next(
+    candidates: Sequence[_T], probs: Sequence[float], prob: float
+) -> Optional[_T]:
+    """
+    Pick a random candidate whose probability is at least ``prob``.
+
+    The pick is by probability value, so candidates with equal
+    probability resolve to the first of them.
+
+    :param Sequence[_T] candidates: candidates, parallel to ``probs``
+    :param Sequence[float] probs: probability of each candidate
+    :param float prob: minimum probability
+    :return: picked candidate, or None if no probability passes
+    :rtype: Optional[_T]
+    """
+    passed = [j for j in probs if j >= prob]
+    if not passed:
+        return None
+    # Non-cryptographic use, pseudo-random generator is acceptable here
+    return candidates[probs.index(random.choice(passed))]  # noqa: S311  # nosec B311  # NOSONAR
+
 
 class Unigram:
-    """Text generator using Unigram
+    """
+    Generate text using the unigram model.
 
     :param str name: corpus name
+
         * *tnc* - Thai National Corpus (default)
         * *ttc* - Thai Textbook Corpus (TTC)
         * *oscar* - OSCAR Corpus
@@ -37,6 +67,7 @@ class Unigram:
     _word_prob: dict[str, float]
 
     def __init__(self, name: str = "tnc") -> None:
+        """Initialize the unigram model."""
         if name == "tnc":
             self.counts: dict[str, int] = tnc_word_freqs_unigram()
         elif name == "ttc":
@@ -60,15 +91,16 @@ class Unigram:
         output_str: bool = True,
         duplicate: bool = False,
     ) -> Union[list[str], str]:
-        """Generate a sentence using the unigram model.
+        """
+        Generate a sentence using the unigram model.
 
-        :param str start_seq: word to begin sentence with
+        :param str start_seq: word to begin the sentence with
         :param int N: number of words
-        :param float prob: minimum word probability threshold
-        :param bool output_str: output as string
-        :param bool duplicate: allow duplicate words in sentence
+        :param float prob: minimum word probability
+        :param bool output_str: return a string instead of a list of words
+        :param bool duplicate: allow duplicate words in the sentence
 
-        :return: list of words or a word string
+        :return: generated sentence as a string or a list of words
         :rtype: Union[list[str], str]
 
         :Example:
@@ -104,7 +136,7 @@ class Unigram:
         words = []
         words.append(text)
         word_list = list(self._word_prob.keys())
-        if N > len(word_list):
+        if len(word_list) < N:
             N = len(word_list)
         for _ in range(N):
             # Non-cryptographic use, pseudo-random generator is acceptable here
@@ -120,9 +152,11 @@ class Unigram:
 
 
 class Bigram:
-    """Text generator using Bigram
+    """
+    Generate text using the bigram model.
 
     :param str name: corpus name
+
         * *tnc* - Thai National Corpus (default)
     """
 
@@ -133,6 +167,7 @@ class Bigram:
     words: list[str]
 
     def __init__(self, name: str = "tnc") -> None:
+        """Initialize the bigram model."""
         if name == "tnc":
             self.uni: dict[str, int] = tnc_word_freqs_unigram()
             self.bi: dict[tuple[str, str], int] = tnc_word_freqs_bigram()
@@ -141,7 +176,8 @@ class Bigram:
         self.words: list[str] = [i[-1] for i in self.bi_keys]
 
     def prob(self, t1: str, t2: str) -> float:
-        """Compute bigram probability P(t2 | t1).
+        """
+        Compute bigram probability P(t2 | t1).
 
         :param str t1: first word
         :param str t2: second word
@@ -163,15 +199,16 @@ class Bigram:
         output_str: bool = True,
         duplicate: bool = False,
     ) -> Union[list[str], str]:
-        """Generate a sentence using the bigram model.
+        """
+        Generate a sentence using the bigram model.
 
-        :param str start_seq: word to begin sentence with
+        :param str start_seq: word to begin the sentence with
         :param int N: number of words
-        :param float prob: minimum word probability threshold
-        :param bool output_str: output as string
-        :param bool duplicate: allow duplicate words in sentence
+        :param float prob: minimum word probability
+        :param bool output_str: return a string instead of a list of words
+        :param bool duplicate: allow duplicate words in the sentence
 
-        :return: list of words or a word string
+        :return: generated sentence as a string or a list of words
         :rtype: Union[list[str], str]
 
         :Example:
@@ -200,11 +237,9 @@ class Bigram:
                     if j[0] == late_word and j[1] not in list_word
                 ]
             probs = [self.prob(late_word, next_word[-1]) for next_word in temp]
-            p2 = [j for j in probs if j >= prob]
-            if len(p2) == 0:
+            items = _pick_next(temp, probs, prob)
+            if items is None:
                 break
-            # Non-cryptographic use, pseudo-random generator is acceptable here
-            items = temp[probs.index(random.choice(p2))]  # noqa: S311  # nosec B311  # NOSONAR
             late_word = items[-1]
             list_word.append(late_word)
 
@@ -215,9 +250,11 @@ class Bigram:
 
 
 class Trigram:
-    """Text generator using Trigram
+    """
+    Generate text using the trigram model.
 
     :param str name: corpus name
+
         * *tnc* - Thai National Corpus (default)
     """
 
@@ -230,6 +267,7 @@ class Trigram:
     words: list[str]
 
     def __init__(self, name: str = "tnc") -> None:
+        """Initialize the trigram model."""
         if name == "tnc":
             self.uni: dict[str, int] = tnc_word_freqs_unigram()
             self.bi: dict[tuple[str, str], int] = tnc_word_freqs_bigram()
@@ -240,7 +278,8 @@ class Trigram:
         self.words: list[str] = [i[-1] for i in self.bi_keys]
 
     def prob(self, t1: str, t2: str, t3: str) -> float:
-        """Compute trigram probability P(t3 | t1, t2).
+        """
+        Compute trigram probability P(t3 | t1, t2).
 
         :param str t1: first word
         :param str t2: second word
@@ -264,16 +303,17 @@ class Trigram:
         output_str: bool = True,
         duplicate: bool = False,
     ) -> Union[list[str], str]:
-        """Generate a sentence using the trigram model.
+        """
+        Generate a sentence using the trigram model.
 
-        :param start_seq: word or bigram to begin sentence with
+        :param start_seq: word or bigram to begin the sentence with
         :type start_seq: Union[str, tuple[str, str]]
         :param int N: number of words
-        :param float prob: minimum word probability threshold
-        :param bool output_str: output as string
-        :param bool duplicate: allow duplicate words in sentence
+        :param float prob: minimum word probability
+        :param bool output_str: return a string instead of a list of words
+        :param bool duplicate: allow duplicate words in the sentence
 
-        :return: list of words or a word string
+        :return: generated sentence as a string or a list of words
         :rtype: Union[list[str], str]
 
         :Example:
@@ -294,33 +334,48 @@ class Trigram:
         list_word.append(start_seq)
 
         for _ in range(N):
-            if duplicate:
-                temp = [j for j in self.ti_keys if j[:2] == late_word]
-            else:
-                temp = [
-                    j
-                    for j in self.ti_keys
-                    if j[:2] == late_word and j[1:] not in list_word
-                ]
+            temp = self._candidates(late_word, list_word, duplicate)
             probs = [self.prob(word[0], word[1], word[2]) for word in temp]
-            p2 = [j for j in probs if j >= prob]
-            if len(p2) == 0:
+            items = _pick_next(temp, probs, prob)
+            if items is None:
                 break
-            # Non-cryptographic use, pseudo-random generator is acceptable here
-            items = temp[probs.index(random.choice(p2))]  # noqa: S311  # nosec B311  # NOSONAR
             late_word = items[1:]
             list_word.append(late_word)
 
-        listdata: list[str] = []
-        for item in list_word:
-            if isinstance(item, tuple):
-                for j in item:
-                    if j not in listdata:
-                        listdata.append(j)
-            elif isinstance(item, str) and item not in listdata:
-                listdata.append(item)
+        listdata = _flatten_unique(list_word)
 
         if output_str:
             return "".join(listdata)
 
         return listdata
+
+    def _candidates(
+        self,
+        late_word: Union[str, tuple[str, str]],
+        list_word: list[Union[str, tuple[str, str]]],
+        duplicate: bool,
+    ) -> list[tuple[str, str, str]]:
+        """Return the trigrams that can follow ``late_word``."""
+        if duplicate:
+            return [j for j in self.ti_keys if j[:2] == late_word]
+        return [
+            j
+            for j in self.ti_keys
+            if j[:2] == late_word and j[1:] not in list_word
+        ]
+
+
+def _flatten_unique(items: Sequence[object]) -> list[str]:
+    """Flatten words and word tuples into a list without repeated words."""
+    listdata: list[str] = []
+    for item in items:
+        if isinstance(item, tuple):
+            words: tuple[str, ...] = item
+        elif isinstance(item, str):
+            words = (item,)
+        else:
+            continue
+        for word in words:
+            if word not in listdata:
+                listdata.append(word)
+    return listdata

@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Romanization, transliteration, and pronunciation of Thai text."""
+
 from __future__ import annotations
 
 from typing import Callable
@@ -15,31 +17,35 @@ def romanize(
     engine: str = DEFAULT_ROMANIZE_ENGINE,
     fallback_engine: str = DEFAULT_ROMANIZE_ENGINE,
 ) -> str:
-    """Renders Thai words in the Latin alphabet or "romanization",
-    using the Royal Thai General System of Transcription (RTGS)
-    [#rtgs_transcription]_. RTGS is the official system published
-    by the Royal Institute of Thailand. (Thai: ถอดเสียงภาษาไทยเป็นอักษรละติน)
+    """
+    Render Thai words in the Latin alphabet ("romanization").
 
-    :param str text: A Thai word to be romanized. \
-        The input should not include whitespace because \
-        the function is support subwords by splitting whitespace.
-    :param str engine: One of 'royin' (default), 'thai2rom', 'thai2rom_onnx',
-        'tltk', and 'lookup'. See more in options for engine section.
-    :param str fallback_engine: If engine equals 'lookup',
-        use `fallback_engine` for words that are not in the lookup dictionary.
-        No effect on other engines. Default to 'royin'.
+    The default engine uses the Royal Thai General System of
+    Transcription (RTGS) [#rtgs_transcription]_.
 
-    :return: A string of a Thai word rendered in the Latin alphabet.
+    RTGS is the official system published by the Royal Institute of
+    Thailand. (Thai: ถอดเสียงภาษาไทยเป็นอักษรละติน)
+
+    :param str text: Thai text to be romanized. Words separated by
+        whitespace are romanized one by one
+    :param str engine: romanization engine
+        (see the options below)
+    :param str fallback_engine: engine for words that are not in the
+        lookup dictionary, used only if ``engine`` is "lookup"
+        (default is "royin")
+    :return: text rendered in the Latin alphabet
     :rtype: str
 
-    :Options for engines:
-        * *royin* - (default) based on the Royal Thai General System of
-          Transcription issued by Royal Institute of Thailand.
-        * *thai2rom* - a deep learning-based Thai romanization engine
-          (require PyTorch).
-        * *thai2rom_onnx* - a deep learning-based Thai romanization engine with ONNX runtime
+    :Options for engine:
+        * *royin* (default) - based on the Royal Thai General System of
+          Transcription issued by the Royal Institute of Thailand
+        * *thai2rom* - deep learning-based Thai romanization engine
+          (requires PyTorch)
+        * *thai2rom_onnx* - deep learning-based Thai romanization engine
+          with ONNX runtime
         * *tltk* - TLTK: Thai Language Toolkit
-        * *lookup* - Look up on Thai-English Transliteration dictionary v1.4 compiled by Wannaphong.
+        * *lookup* - look up in the Thai-English Transliteration
+          dictionary v1.4 compiled by Wannaphong
 
     :Example:
 
@@ -83,45 +89,47 @@ def romanize(
 
         fallback = select_romanize_engine(fallback_engine)
         return romanize(text, fallback_func=fallback)
-    else:
-        rom_engine = select_romanize_engine(engine)
-        trans_word = []
-        for subword in text.split(" "):
-            trans_word.append(rom_engine(subword))
-        new_word = " ".join(trans_word)
-        return new_word
+    rom_engine = select_romanize_engine(engine)
+    trans_word = [rom_engine(subword) for subword in text.split(" ")]
+    new_word = " ".join(trans_word)
+    return new_word
 
 
-def transliterate(
+def transliterate(  # noqa: C901  # phase2-todo
     text: str, engine: str = DEFAULT_TRANSLITERATE_ENGINE
 ) -> str:
-    """Transliterates Thai text.
+    """
+    Transliterate Thai text.
 
     :param str text: Thai text to be transliterated
-    :param str engine: 'icu', 'ipa', or 'thaig2p' (default)
-
-    :return: A string of phonetic alphabets indicating
-             how the input text should be pronounced.
+    :param str engine: transliteration engine
+        (see the options below)
+    :return: transliterated text: a phonetic alphabet (such as IPA)
+        for the phonetic engines, or Latin script for *icu* and
+        *iso_11940*
     :rtype: str
 
-    :Options for engines:
-        * *thaig2p* - (default) Thai Grapheme-to-Phoneme,
-          output is IPA (require PyTorch)
-        * *icu* - pyicu, based on International Components for Unicode (ICU)
-        * *ipa* - epitran, output is International Phonetic Alphabet (IPA)
-        * *tltk_g2p* - Thai Grapheme-to-Phoneme from\
-            `TLTK <https://pypi.org/project/tltk/>`_.,
-        * *iso_11940* - Thai text into Latin characters with ISO 11940.
-        * *tltk_ipa* - tltk, output is International Phonetic Alphabet (IPA)
-        * *thaig2p_v2* - Thai Grapheme-to-Phoneme,
-          output is IPA. https://huggingface.co/pythainlp/thaig2p-v2.0
-        * *thaig2p_v4* - Thai Grapheme-to-Phoneme (v4),
-          output is IPA. https://huggingface.co/pythainlp/thaig2p-v4
-        * *umt5_thaig2p* - Thai Grapheme-to-Phoneme,
-          output is IPA, powered by UMT5.\
-          https://huggingface.co/B-K/umt5-thai-g2p-v2-0.5k
-        * *fastthaig2p* - FastThaiG2P, output is IPA (pure Python dictionary
-          lookup with text normalization and fallback)
+    :Options for engine:
+        * *thaig2p* (default) - Thai Grapheme-to-Phoneme,
+          output is IPA (requires PyTorch)
+        * *icu* - pyicu, based on International Components for Unicode
+          (ICU), output is Latin script
+        * *ipa* - epitran, output is International Phonetic Alphabet
+          (IPA)
+        * *tltk_g2p* - Thai Grapheme-to-Phoneme from
+          `TLTK <https://pypi.org/project/tltk/>`_
+        * *iso_11940* - Thai text into Latin script with ISO 11940
+        * *tltk_ipa* - tltk, output is International Phonetic Alphabet
+          (IPA)
+        * *thaig2p_v2* - Thai Grapheme-to-Phoneme, output is IPA.
+          See https://huggingface.co/pythainlp/thaig2p-v2.0
+        * *thaig2p_v4* - Thai Grapheme-to-Phoneme (v4), output is IPA.
+          See https://huggingface.co/pythainlp/thaig2p-v4
+        * *umt5_thaig2p* - Thai Grapheme-to-Phoneme, output is IPA,
+          powered by UMT5.
+          See https://huggingface.co/B-K/umt5-thai-g2p-v2-0.5k
+        * *fastthaig2p* - FastThaiG2P, output is IPA (pure Python
+          dictionary lookup with text normalization and fallback)
 
     :Example:
 
@@ -155,7 +163,7 @@ def transliterate(
     if engine in ("icu", "pyicu"):
         from pythainlp.transliterate.pyicu import transliterate
     elif engine == "ipa":
-        from pythainlp.transliterate.ipa import transliterate  # noqa: I001
+        from pythainlp.transliterate.ipa import transliterate
     elif engine == "tltk_g2p":
         from pythainlp.transliterate.tltk import tltk_g2p as transliterate  # noqa: I001
     elif engine == "tltk_ipa":
@@ -171,23 +179,23 @@ def transliterate(
     elif engine == "fastthaig2p":
         from pythainlp.transliterate.fastthaig2p import transliterate  # noqa: I001
     else:  # use default engine: "thaig2p"
-        from pythainlp.transliterate.thaig2p import transliterate  # noqa: I001
+        from pythainlp.transliterate.thaig2p import transliterate
 
     return transliterate(text)
 
 
 def pronunciate(word: str, engine: str = DEFAULT_PRONUNCIATE_ENGINE) -> str:
-    """Pronunciates Thai words.
+    """
+    Convert a Thai word to its pronunciation in Thai letters.
 
-    :param str word: Thai text to be pronunciated
-    :param str engine: 'w2p' (default)
-
-    :return: A string of Thai letters indicating
-             how the input text should be pronounced.
+    :param str word: Thai word to be converted
+    :param str engine: pronunciation engine
+        (see the options below)
+    :return: Thai letters indicating how the word is pronounced
     :rtype: str
 
-    :Options for engines:
-        * *w2p* - Thai Word-to-Phoneme
+    :Options for engine:
+        * *w2p* (default) - Thai Word-to-Phoneme
 
     :Example:
 

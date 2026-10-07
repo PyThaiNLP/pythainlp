@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: Copyright 2019 Ponrawee Prasertsom
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Syllable segmentation using SSG (CRF model).
+"""Syllable segmentation using bundled SSG CRF weights.
 
 GitHub: https://github.com/ponrawee/ssg
 License: Apache-2.0
@@ -51,10 +51,11 @@ def _decode(text: str, tags: list[str]) -> list[str]:
 
 
 def segment(text: str) -> list[str]:
-    """Syllable tokenizer using SSG.
+    """
+    Tokenize text into syllables using bundled SSG weights.
 
     :param str text: Thai text to be tokenized into syllables.
-    :return: List of syllables.
+    :return: list of syllables
     :rtype: list[str]
     """
     if not text or not isinstance(text, str):

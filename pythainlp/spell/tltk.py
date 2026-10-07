@@ -1,13 +1,13 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""TLTK
+"""
+TLTK spell checker.
 
-Thai Language Toolkit
+TLTK is the Thai Language Toolkit.
 
 :See Also:
-    * \
-        https://pypi.org/project/tltk/
+    * https://pypi.org/project/tltk/
 """
 
 from __future__ import annotations
@@ -23,4 +23,11 @@ except ImportError as e:
 
 
 def spell(text: str) -> list[str]:
-    return cast(list[str], spell_candidates(text))
+    """
+    Return possible correct spellings of a word.
+
+    :param str text: word to be checked
+    :return: list of suggested spellings
+    :rtype: list[str]
+    """
+    return cast("list[str]", spell_candidates(text))

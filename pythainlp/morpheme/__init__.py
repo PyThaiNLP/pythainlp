@@ -2,8 +2,8 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-"""PyThaiNLP morpheme"""
+"""PyThaiNLP morpheme."""
 
-__all__: list[str] = ["nighit", "is_native_thai"]
+__all__: list[str] = ["is_native_thai", "nighit"]
 from pythainlp.morpheme.thaiwordcheck import is_native_thai
 from pythainlp.morpheme.word_formation import nighit

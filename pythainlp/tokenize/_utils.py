@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Utility functions for tokenize module."""
+"""Utility functions for the tokenize module."""
 
 from __future__ import annotations
 
@@ -18,7 +18,15 @@ def apply_postprocessors(
     segments: list[str],
     postprocessors: Sequence[Callable[[list[str]], list[str]]],
 ) -> list[str]:
-    """A list of callables to apply to a raw segmentation result."""
+    """
+    Apply postprocessors, in order, to a raw tokenization result.
+
+    :param list[str] segments: raw result from a word tokenizer
+    :param Sequence[Callable[[list[str]], list[str]]] postprocessors:
+        callables to apply, each taking and returning a list of words
+    :return: list of words after all postprocessors
+    :rtype: list[str]
+    """
     for func in postprocessors:
         segments = func(segments)
 
@@ -26,22 +34,61 @@ def apply_postprocessors(
 
 
 def rejoin_formatted_num(segments: list[str]) -> list[str]:
-    """Rejoin well-known formatted numeric that are over-tokenized.
-    The formatted numeric are numbers separated by ":", ",", or ".",
-    such as time, decimal numbers, comma-added numbers, and IP addresses.
+    """
+    Rejoin formatted numbers that a tokenizer split into several words.
 
-    :param list[str] segments: result from word tokenizer
-    :return: a list of fixed tokens
+    Formatted numbers are numbers separated by ":", ",", or ".",
+    such as times, decimal numbers, comma-separated numbers, and
+    IP addresses.
+
+    :param list[str] segments: result from a word tokenizer
+    :return: list of words with formatted numbers rejoined
     :rtype: list[str]
 
     :Example:
 
         >>> from pythainlp.tokenize._utils import rejoin_formatted_num
-        >>> tokens = ['ขณะ', 'นี้', 'เวลา', ' ', '12', ':', '00น', ' ', 'อัตรา',
-        ...         'แลกเปลี่ยน', ' ', '1', ',', '234', '.', '5', ' ', 'baht/zeny']
+        >>> tokens = [
+        ...     "ขณะ",
+        ...     "นี้",
+        ...     "เวลา",
+        ...     " ",
+        ...     "12",
+        ...     ":",
+        ...     "00น",
+        ...     " ",
+        ...     "อัตรา",
+        ...     "แลกเปลี่ยน",
+        ...     " ",
+        ...     "1",
+        ...     ",",
+        ...     "234",
+        ...     ".",
+        ...     "5",
+        ...     " ",
+        ...     "baht/zeny",
+        ... ]
         >>> rejoin_formatted_num(tokens)
         ['ขณะ', 'นี้', 'เวลา', ' ', '12:00น', ' ', 'อัตรา', 'แลกเปลี่ยน', ' ', '1,234.5', ' ', 'baht/zeny']
-        >>> tokens = ['IP', ' ', 'address', ' ', 'ของ', 'คุณ', 'คือ', ' ', '127', '.', '0', '.', '0', '.', '1', ' ', 'ครับ']
+        >>> tokens = [
+        ...     "IP",
+        ...     " ",
+        ...     "address",
+        ...     " ",
+        ...     "ของ",
+        ...     "คุณ",
+        ...     "คือ",
+        ...     " ",
+        ...     "127",
+        ...     ".",
+        ...     "0",
+        ...     ".",
+        ...     "0",
+        ...     ".",
+        ...     "1",
+        ...     " ",
+        ...     "ครับ",
+        ... ]
         >>> rejoin_formatted_num(tokens)
         ['IP', ' ', 'address', ' ', 'ของ', 'คุณ', 'คือ', ' ', '127.0.0.1', ' ', 'ครับ']
     """
@@ -73,9 +120,11 @@ def rejoin_formatted_num(segments: list[str]) -> list[str]:
 
 
 def strip_whitespace(segments: list[str]) -> list[str]:
-    """Strip whitespace(s) off each token and remove whitespace tokens.
-    :param list[str] segments: result from word tokenizer
-    :return: a list of tokens
+    """
+    Strip whitespace from each word and remove whitespace-only words.
+
+    :param list[str] segments: result from a word tokenizer
+    :return: list of words without whitespace
     :rtype: list[str]
 
     :Example:

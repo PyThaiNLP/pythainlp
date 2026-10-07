@@ -165,6 +165,31 @@ By separating tests by dependency group, we can:
 - Requires: Internet connection, may involve large downloads
 - Test case class suffix: `TestCaseN`
 
+## Test coverage
+
+Expected coverage: at least 80% overall, and at least 95% for new and
+changed code.
+
+CI runs `diff-cover` on pull requests, in the job that runs the core,
+compact, and extra tests:
+
+- Modules listed in `tests/diff-cover-noauto.txt` need dependencies (such as
+  torch) that CI does not install. CI reports their coverage but does not
+  gate on it. Run the noauto suites locally and meet the same 95%.
+- New and changed code in all other modules must reach 95%.
+- Add a module to the list when it needs a heavy dependency that CI cannot
+  install. Keep the list sorted, one path per line.
+
+To run the same check locally (needs `pip install -e ".[compact,extra,dev]"`):
+
+```sh
+make diff-cover DIFF_BASE=upstream/main
+```
+
+`DIFF_BASE` is the branch to compare against (default: `origin/main`).
+`DIFF_COVER_TESTS` sets the test suites to run
+(default: `tests.core tests.compact tests.extra`).
+
 ## Robustness tests (test_robustness.py)
 
 A comprehensive test suite within core tests that tests edge cases important

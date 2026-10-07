@@ -170,4 +170,3 @@ and released under **Apache License 2.0**
 
 Original data and repository:
 <https://github.com/ponrawee/ssg>
-

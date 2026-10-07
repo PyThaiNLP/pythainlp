@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Minimal re-implementation of KeyBERT.
+"""
+Re-implement KeyBERT in a minimal form.
 
 KeyBERT is a minimal and easy-to-use keyword extraction technique
 that leverages BERT embeddings to create keywords and keyphrases
@@ -27,14 +28,21 @@ if TYPE_CHECKING:
 
 
 class KeyBERT:
-    ft_pipeline: "Pipeline"
+    """Extract keywords and keyphrases with the KeyBERT algorithm."""
+
+    ft_pipeline: Pipeline
 
     def __init__(
         self, model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
     ) -> None:
+        """
+        Initialize the KeyBERT feature extraction pipeline.
+
+        :param str model_name: name of the model to extract features with
+        """
         from transformers import pipeline
 
-        self.ft_pipeline: "Pipeline" = pipeline(
+        self.ft_pipeline: Pipeline = pipeline(
             "feature-extraction",
             tokenizer=model_name,
             model=model_name,
@@ -51,28 +59,40 @@ class KeyBERT:
         return_similarity: bool = False,
         stop_words: Optional[Iterable[str]] = None,
     ) -> Union[list[str], list[tuple[str, float]]]:
-        """Extract Thai keywords and/or keyphrases with KeyBERT algorithm.
+        """
+        Extract Thai keywords and keyphrases with the KeyBERT algorithm.
+
         See https://github.com/MaartenGr/KeyBERT.
 
-        :param str text: text to be summarized
-        :param Tuple[int, int] keyphrase_ngram_range: Number of token units to be defined as keyword.
-                                The token unit varies w.r.t. `tokenizer_engine`.
-                                For instance, (1, 1) means each token (unigram) can be a keyword (e.g. "เสา", "ไฟฟ้า"),
-                                (1, 2) means one and two consecutive tokens (unigram and bigram) can be keywords
-                                (e.g. "เสา", "ไฟฟ้า", "เสาไฟฟ้า")  (default: (1, 2))
-        :param int max_keywords: Number of maximum keywords to be returned. (default: 5)
-        :param int min_df: Minimum frequency required to be a keyword. (default: 1)
-        :param str tokenizer: Name of tokenizer engine to use.
-                                Refer to options in :func: `pythainlp.tokenize.word_tokenizer() (default: 'newmm')
-        :param bool return_similarity: If `True`, return keyword scores. (default: False)
-        :param Optional[Iterable[str]] stop_words: A list of stop words (a.k.a words to be ignored).
-                                If not specified, :func:`pythainlp.corpus.thai_stopwords` is used. (default: None)
+        :param str text: text to extract keywords from
+        :param tuple[int, int] keyphrase_ngram_range: range of words per
+            keyword. The word unit depends on the ``tokenizer`` engine.
+            For example, ``(1, 1)`` means each word (unigram) can be a
+            keyword (e.g. "เสา", "ไฟฟ้า"), and ``(1, 2)`` means one or two
+            consecutive words (unigram and bigram) can be keywords
+            (e.g. "เสา", "ไฟฟ้า", "เสาไฟฟ้า") (default is ``(1, 2)``)
+        :param int max_keywords: maximum number of keywords to return
+            (default is 5)
+        :param int min_df: minimum word frequency to qualify as a keyword
+            (default is 1)
+        :param str tokenizer: engine to tokenize text with. See
+            :func:`pythainlp.tokenize.word_tokenize` for available engines
+            (default is ``"newmm"``)
+        :param bool return_similarity: return keywords with their
+            similarity scores (default is False)
+        :param Optional[collections.abc.Iterable[str]] stop_words: words to
+            ignore. If None, use :func:`pythainlp.corpus.thai_stopwords`
+            (default is None)
 
-        :return: list of keywords with score
+        :return: list of keywords, or list of (keyword, score) tuples if
+            ``return_similarity`` is True
+        :rtype: Union[list[str], list[tuple[str, float]]]
 
         :Example:
 
-            >>> from pythainlp.summarize.keybert import KeyBERT  # doctest: +SKIP
+            >>> from pythainlp.summarize.keybert import (
+            ...     KeyBERT,
+            ... )  # doctest: +SKIP
 
             >>> text = '''  # doctest: +SKIP
             ...     อาหาร หมายถึง ของแข็งหรือของเหลว
@@ -122,7 +142,7 @@ class KeyBERT:
             return []
 
         # generate all lists of keywords / keyphrases
-        stop_words_ = stop_words if stop_words else thai_stopwords()
+        stop_words_ = stop_words or thai_stopwords()
         kw_candidates = _generate_ngrams(
             text, keyphrase_ngram_range, min_df, tokenizer, stop_words_
         )
@@ -138,14 +158,14 @@ class KeyBERT:
 
         if return_similarity:
             return keywords
-        else:
-            return [kw for kw, _ in keywords]
+        return [kw for kw, _ in keywords]
 
-    def embed(self, docs: Union[str, list[str]]) -> "NDArray[np.float32]":
-        """Create embeddings by averaging vectors from the last hidden layer.
+    def embed(self, docs: Union[str, list[str]]) -> NDArray[np.float32]:
+        """
+        Create embeddings by averaging vectors from the last hidden layer.
 
-        :param Union[str, list[str]] docs: input document or documents
-        :return: embeddings as a float32 array with one row per input document
+        :param Union[str, list[str]] docs: document or list of documents
+        :return: embeddings as a float32 array, one row per document
         :rtype: numpy.typing.NDArray[numpy.float32]
         """
         import numpy as np
@@ -217,14 +237,14 @@ def _generate_ngrams(
 
 
 def _rank_keywords(
-    doc_vector: "NDArray[np.float32]",
-    word_vectors: "NDArray[np.float32]",
+    doc_vector: NDArray[np.float32],
+    word_vectors: NDArray[np.float32],
     keywords: list[str],
     max_keywords: int,
 ) -> list[tuple[str, float]]:
     import numpy as np
 
-    def l2_norm(v: "NDArray[np.float32]") -> "NDArray[np.float32]":
+    def l2_norm(v: NDArray[np.float32]) -> NDArray[np.float32]:
         vec_size = v.shape[1]
         result = np.divide(
             v,
@@ -236,11 +256,13 @@ def _rank_keywords(
         return cast("NDArray[np.float32]", result)
 
     def cosine_sim(
-        a: "NDArray[np.float32]", b: "NDArray[np.float32]"
-    ) -> "NDArray[np.float32]":
+        a: NDArray[np.float32], b: NDArray[np.float32]
+    ) -> NDArray[np.float32]:
         # `a` has one row (document embedding), so flatten to get 1-D scores.
         scores = np.matmul(a, b.T).reshape(-1)
-        return cast("NDArray[np.float32]", scores.astype(np.float32, copy=False))
+        return cast(
+            "NDArray[np.float32]", scores.astype(np.float32, copy=False)
+        )
 
     doc_vector = l2_norm(doc_vector)
     word_vectors = l2_norm(word_vectors)

@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Unit test suite for PyTorch-based functionalities.
+"""
+Unit test suite for PyTorch-based functionalities.
 
 Test functions that require PyTorch and its ecosystem dependencies:
 - torch
@@ -36,7 +37,9 @@ test_packages: list[str] = [
 def load_tests(
     loader: TestLoader, standard_tests: TestSuite, pattern: str
 ) -> TestSuite:
-    """Load test protocol
+    """
+    Load test protocol.
+
     See: https://docs.python.org/3/library/unittest.html#id1
     """
     suite = TestSuite()

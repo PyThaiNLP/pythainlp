@@ -24,7 +24,8 @@ Please refer to our
 
 ## Code guidelines
 
-- Follow [PEP8][pep8], use [black][black] with `--line-length` = 79;
+- Follow [PEP8][pep8], use [Ruff][ruff] for linting and formatting
+  (line length 79);
 - Name identifiers (variables, classes, functions, module names)
   with meaningful and pronounceable names (`x` is always wrong);
   - Please follow this [naming convention][naming].
@@ -45,7 +46,7 @@ Please refer to our
   [to keep up with POSIX standard][posix].
 
 [pep8]: https://peps.python.org/pep-0008/
-[black]: https://github.com/ambv/black
+[ruff]: https://docs.astral.sh/ruff/
 [naming]: https://namingconvention.org/python/
 [pep0498]: https://www.python.org/dev/peps/pep-0498/
 [dead-codes]: https://blog.codinghorror.com/coding-without-comments/
@@ -225,6 +226,13 @@ Always supply `category` explicitly for clarity and greppability.
 We use standard Python `unittest`.
 The test suite is in `tests/` directory.
 
+Coverage expectations: at least 80% overall and at least 95% for new and
+changed code. CI gates new and changed code at 95%, except in the noauto
+modules (see `tests/diff-cover-noauto.txt`), which it reports only. Run
+the noauto test suites locally for those. AI agents should aim for near
+100% line and branch coverage of the code they add or change, and cover
+every function they touch. See [AGENTS.md](AGENTS.md).
+
 To run unit tests locally together with code coverage test:
 
 (from main `pythainlp/` directory)
@@ -244,6 +252,13 @@ Generate code coverage test in HTML
 
 ```sh
 coverage html
+```
+
+To check the coverage of your changes as CI does
+(compares with `DIFF_BASE`, default `origin/main`):
+
+```sh
+make diff-cover DIFF_BASE=upstream/main
 ```
 
 Make sure the tests pass on GitHub Actions.

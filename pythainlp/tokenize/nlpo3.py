@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Wrap nlpo3, a Rust implementation of the Thai word tokenizer."""
+
 from __future__ import annotations
 
 import threading
@@ -26,14 +28,15 @@ _load_lock: threading.Lock = threading.Lock()  # Thread safety for lazy loading
 
 
 def _ensure_default_dict_loaded() -> None:
-    """Ensure the default dictionary is loaded.
+    """
+    Ensure the default dictionary is loaded.
 
     This function uses a lock to ensure thread-safe initialization.
     The context manager is kept alive for the lifetime of the program
     to prevent cleanup of temporary files while the dictionary is in use.
 
-    :raises ImportError: If nlpo3 is not installed.
-    :raises RuntimeError: If dictionary loading fails.
+    :raises ImportError: if nlpo3 is not installed
+    :raises RuntimeError: if dictionary loading fails
     """
     try:
         from nlpo3 import load_dict as nlpo3_load_dict
@@ -62,21 +65,20 @@ def _ensure_default_dict_loaded() -> None:
 
 
 def load_dict(file_path: str, dict_name: str) -> bool:
-    """Load a dictionary file into an in-memory dictionary collection.
+    """
+    Load a dictionary file into an in-memory dictionary collection.
 
-    The loaded dictionary will be accessible through the assigned dict_name.
-    **Note: This function will not override an existing dict name.**
+    The loaded dictionary is accessible through the assigned ``dict_name``.
+    This function does not override an existing dictionary name.
 
-    :param file_path: Path to a dictionary file
-    :type file_path: str
-    :param dict_name: A unique dictionary name, used for reference.
-    :type dict_name: str
-    :return success: True if loaded successfully, False otherwise.
+    :param str file_path: path to a dictionary file
+    :param str dict_name: unique dictionary name, used for reference
+    :return: True if the dictionary loaded successfully, False otherwise
     :rtype: bool
+    :raises ImportError: if nlpo3 is not installed
 
     :See Also:
-        * \
-            https://github.com/PyThaiNLP/nlpo3
+        * https://github.com/PyThaiNLP/nlpo3
     """
     try:
         from nlpo3 import load_dict as nlpo3_load_dict
@@ -99,23 +101,27 @@ def segment(
     safe_mode: bool = False,
     parallel_mode: bool = False,
 ) -> list[str]:
-    """Break text into tokens.
+    """
+    Tokenize text into words with nlpO3.
 
-    Python binding for nlpO3. It is newmm engine in Rust.
+    This function is the Python binding for nlpO3, a Rust implementation
+    of the newmm engine.
 
     :param str text: text to be tokenized
-    :param str custom_dict: dictionary name, as assigned with load_dict(),\
-        defaults to pythainlp/corpus/common/words_th.txt
-    :param bool safe_mode: reduce chance for long processing time for long text\
-        with many ambiguous breaking points, defaults to False
-    :param bool parallel_mode: Use multithread mode, defaults to False
-
-    :return: list of tokens
+    :param str custom_dict: dictionary name, as assigned with
+        :func:`load_dict` (default: the dictionary from
+        ``pythainlp/corpus/words_th.txt``)
+    :param bool safe_mode: True to reduce the chance of long processing
+        time for long text with many ambiguous breaking points
+        (default: False)
+    :param bool parallel_mode: True to use multithread mode
+        (default: False)
+    :return: list of words
     :rtype: list[str]
+    :raises ImportError: if nlpo3 is not installed
 
     :See Also:
-        * \
-            https://github.com/PyThaiNLP/nlpo3
+        * https://github.com/PyThaiNLP/nlpo3
     """
     try:
         from nlpo3 import segment as nlpo3_segment

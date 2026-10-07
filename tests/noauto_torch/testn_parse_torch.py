@@ -11,7 +11,7 @@ import unittest
 
 
 class ParseTestCaseN(unittest.TestCase):
-    """Tests for parsing functions (requires torch and transformers)"""
+    """Tests for parsing functions (requires torch and transformers)."""
 
     def test_dependency_parsing_returns_list(self):
         from pythainlp.parse import dependency_parsing

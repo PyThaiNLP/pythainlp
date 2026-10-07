@@ -27,6 +27,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
 """
 
 from __future__ import annotations
@@ -34,19 +35,20 @@ from __future__ import annotations
 import json
 import re
 from importlib.resources import files
-from typing import Dict, Final, List, Optional, Pattern, Set, Tuple
+from re import Pattern
+from typing import Final, Optional
 
 from pythainlp.tokenize import Tokenizer
 from pythainlp.util import expand_maiyamok as _expand_maiyamok_pythainlp
 
-__all__: Final[List[str]] = [
+__all__: Final[list[str]] = [
     "FastThaiG2P",
     "fallback_g2p",
     "normalize",
     "transliterate",
 ]
 
-THAI_DIGITS: Final[Dict[str, str]] = {
+THAI_DIGITS: Final[dict[str, str]] = {
     "0": "ศูนย์",
     "1": "หนึ่ง",
     "2": "สอง",
@@ -59,7 +61,7 @@ THAI_DIGITS: Final[Dict[str, str]] = {
     "9": "เก้า",
 }
 
-THAI_NUMERAL_MAP: Final[Dict[str, str]] = {
+THAI_NUMERAL_MAP: Final[dict[str, str]] = {
     "๐": "0",
     "๑": "1",
     "๒": "2",
@@ -72,7 +74,7 @@ THAI_NUMERAL_MAP: Final[Dict[str, str]] = {
     "๙": "9",
 }
 
-LETTER_TO_THAI: Final[Dict[str, str]] = {
+LETTER_TO_THAI: Final[dict[str, str]] = {
     "A": "เอ",
     "B": "บี",
     "C": "ซี",
@@ -101,7 +103,7 @@ LETTER_TO_THAI: Final[Dict[str, str]] = {
     "Z": "แซด",
 }
 
-ABBREVIATIONS: Final[Dict[str, str]] = {
+ABBREVIATIONS: Final[dict[str, str]] = {
     # Months
     "ม.ค.": "มกราคม",
     "ก.พ.": "กุมภาพันธ์",
@@ -197,7 +199,7 @@ ABBREVIATIONS: Final[Dict[str, str]] = {
     "ฯลฯ": "เป็นต้น",
 }
 
-SYMBOLS: Final[Dict[str, str]] = {
+SYMBOLS: Final[dict[str, str]] = {
     "%": "เปอร์เซ็นต์",
     "°C": "องศาเซลเซียส",
     "°F": "องศาฟาเรนไฮต์",
@@ -206,7 +208,7 @@ SYMBOLS: Final[Dict[str, str]] = {
     "/": " ทับ ",
 }
 
-ENGLISH_ABBREVS: Final[Dict[str, str]] = {
+ENGLISH_ABBREVS: Final[dict[str, str]] = {
     # Finance
     "thb": "บาท",
     "usd": "ดอลลาร์",
@@ -246,7 +248,7 @@ ENGLISH_ABBREVS: Final[Dict[str, str]] = {
     "truemoney": "ทรูมันนี่",
 }
 
-UNITS: Final[Dict[str, str]] = {
+UNITS: Final[dict[str, str]] = {
     "km": "กิโลเมตร",
     "cm": "เซนติเมตร",
     "mm": "มิลลิเมตร",
@@ -276,14 +278,14 @@ UNITS: Final[Dict[str, str]] = {
     "mg": "มิลลิกรัม",
 }
 
-_EMAIL_SEPARATORS: Final[Dict[str, str]] = {
+_EMAIL_SEPARATORS: Final[dict[str, str]] = {
     "@": " แอท ",
     ".": " ดอท ",
     "-": " ขีด ",
     "_": " ขีดล่าง ",
 }
 
-_EMAIL_WORDS: Final[Dict[str, str]] = {
+_EMAIL_WORDS: Final[dict[str, str]] = {
     "gmail": "จีเมล",
     "hotmail": "ฮอตเมล",
     "yahoo": "ยาฮู",
@@ -295,7 +297,7 @@ _EMAIL_WORDS: Final[Dict[str, str]] = {
     "email": "อีเมล",
 }
 
-_PLACE_UNITS: Final[Dict[int, str]] = {
+_PLACE_UNITS: Final[dict[int, str]] = {
     100000: "แสน",
     10000: "หมื่น",
     1000: "พัน",
@@ -349,7 +351,7 @@ _LATIN_RESIDUE_PATTERN: Final[Pattern[str]] = re.compile(r"[A-Za-z]+")
 
 _TLTK_PHON_RE: Final[Pattern[str]] = re.compile(r"<tr/>(.+?)\|<s/>")
 
-_TONE_MAP: Final[Dict[str, str]] = {
+_TONE_MAP: Final[dict[str, str]] = {
     "0": "˧",
     "1": "˨˩",
     "2": "˥˩",
@@ -357,7 +359,7 @@ _TONE_MAP: Final[Dict[str, str]] = {
     "4": "˩˩˦",
 }
 
-_CONSONANT_MAP: Final[List[Tuple[str, str]]] = [
+_CONSONANT_MAP: Final[list[tuple[str, str]]] = [
     ("kh", "kʰ"),
     ("ph", "pʰ"),
     ("th", "tʰ"),
@@ -367,7 +369,7 @@ _CONSONANT_MAP: Final[List[Tuple[str, str]]] = [
     ("?", "ʔ"),
 ]
 
-_VOWEL_MAP: Final[List[Tuple[str, str]]] = [
+_VOWEL_MAP: Final[list[tuple[str, str]]] = [
     ("UUa", "ɯa̯"),
     ("Ua", "ɯa̯"),
     ("iia", "ia̯"),
@@ -394,13 +396,13 @@ _VOWEL_MAP: Final[List[Tuple[str, str]]] = [
     ("U", "ɯ"),
 ]
 
-_VOWEL_CHARS: Final[Set[str]] = set("aeiouɔɛɯɤː̯")
+_VOWEL_CHARS: Final[set[str]] = set("aeiouɔɛɯɤː̯")
 
 
 def _number_group_to_thai(n: int) -> str:
     if n == 0:
         return ""
-    parts: List[str] = []
+    parts: list[str] = []
     remaining = n
     for place in (100000, 10000, 1000, 100, 10, 1):
         digit = remaining // place
@@ -429,7 +431,7 @@ def _integer_to_thai(n: int) -> str:
         return "ศูนย์"
     if n < 0:
         return "ลบ" + _integer_to_thai(-n)
-    parts: List[str] = []
+    parts: list[str] = []
     million_count = 0
     while n > 0:
         group = n % 1000000
@@ -469,7 +471,7 @@ def _email_token_to_thai(token: str) -> str:
 
 
 def _email_to_thai(match: re.Match[str]) -> str:
-    out: List[str] = []
+    out: list[str] = []
     chunk = ""
     for char in match.group(0):
         if char in _EMAIL_SEPARATORS:
@@ -500,7 +502,7 @@ def _phone_number_to_thai(match: re.Match[str]) -> str:
 
 def _alphanum_to_thai(match: re.Match[str]) -> str:
     token = match.group(0)
-    result: List[str] = []
+    result: list[str] = []
     for char in token:
         if char.isdigit():
             result.append(THAI_DIGITS[char])
@@ -577,8 +579,11 @@ def _thai_numerals_to_arabic(text: str) -> str:
 
 
 def normalize(text: str) -> str:
-    """Normalize text for Thai TTS/G2P: convert numbers, abbreviations, and
-    special characters to speakable Thai words.
+    """
+    Normalize text for Thai TTS/G2P.
+
+    Convert numbers, abbreviations, and special characters to speakable
+    Thai words.
 
     :param str text: Thai text to normalize
     :return: Normalized speakable Thai text
@@ -627,15 +632,19 @@ def _tltk_syllable_to_ipa(syl: str) -> str:
     for old, new in _VOWEL_MAP:
         result = result.replace(old, new)
 
-    if result and result[-1] in "ktp":
-        if any(c in _VOWEL_CHARS for c in result[:-1]):
-            result = result[:-1] + result[-1] + "̚"
+    if (
+        result
+        and result[-1] in "ktp"
+        and any(c in _VOWEL_CHARS for c in result[:-1])
+    ):
+        result = result[:-1] + result[-1] + "̚"
 
     return result + tone
 
 
 def fallback_g2p(word: str) -> str:
-    """Generate IPA for a word using rule-based G2P fallback.
+    """
+    Generate IPA for a word using rule-based G2P fallback.
 
     Uses TLTK if installed to generate syllable phonemes and converts
     them to Wiktionary IPA format. When TLTK is not available, returns
@@ -657,22 +666,23 @@ def fallback_g2p(word: str) -> str:
             return word
 
         tltk_phon = match.group(1)
-        syllables: List[str] = []
+        syllables: list[str] = []
         for part in re.split(r"[|~^]", tltk_phon):
             for sp in part.split("'"):
-                sp = sp.strip()
-                if sp:
-                    syllables.append(_tltk_syllable_to_ipa(sp))
+                stripped = sp.strip()
+                if stripped:
+                    syllables.append(_tltk_syllable_to_ipa(stripped))
 
         if syllables:
             return "/" + ".".join(syllables) + "/"
         return word
-    except (ImportError, Exception):
+    except Exception:  # noqa: BLE001 - fall back to the word on any error
         return word
 
 
 class FastThaiG2P:
-    """FastThaiG2P: Lightning-fast Thai grapheme-to-phoneme conversion.
+    """
+    FastThaiG2P: Lightning-fast Thai grapheme-to-phoneme conversion.
 
     Uses a 4-stage pipeline:
     1. Text normalization: expands numbers, units, abbreviations, emails, etc.
@@ -681,11 +691,12 @@ class FastThaiG2P:
     4. Fallback G2P: handles out-of-vocabulary words using rule-based fallback.
     """
 
-    _ipa: Dict[str, str]
+    _ipa: dict[str, str]
     _tokenizer: Tokenizer
 
     def __init__(self, ipa_dict_path: Optional[str] = None) -> None:
-        """Initialize FastThaiG2P engine.
+        """
+        Initialize FastThaiG2P engine.
 
         :param Optional[str] ipa_dict_path: Optional path to custom IPA dictionary JSON.
             If None, loads the default dictionary from pythainlp.corpus.
@@ -695,7 +706,7 @@ class FastThaiG2P:
             corpus_file = corpus_files.joinpath("fastthaig2p_ipa.json")
             text = corpus_file.read_text(encoding="utf-8")
         else:
-            with open(ipa_dict_path, "r", encoding="utf-8") as f:
+            with open(ipa_dict_path, encoding="utf-8") as f:
                 text = f.read()
 
         self._ipa = json.loads(text)
@@ -704,7 +715,8 @@ class FastThaiG2P:
         )
 
     def convert(self, text: str) -> str:
-        """Convert Thai text to IPA phonemes.
+        """
+        Convert Thai text to IPA phonemes.
 
         :param str text: Thai text to convert.
         :return: String of IPA phonemes separated by spaces.
@@ -722,7 +734,7 @@ class FastThaiG2P:
 
         normalized = normalize(text)
         tokens = self._tokenizer.word_tokenize(normalized)
-        phonemes: List[str] = []
+        phonemes: list[str] = []
         for token in tokens:
             cleaned = token.strip()
             if not cleaned:
@@ -739,7 +751,8 @@ _FAST_THAI_G2P: Optional[FastThaiG2P] = None
 
 
 def transliterate(text: str) -> str:
-    """Transliterate Thai text to IPA phonemes using FastThaiG2P.
+    """
+    Transliterate Thai text to IPA phonemes using FastThaiG2P.
 
     :param str text: Thai text to transliterate
     :return: IPA phonemes

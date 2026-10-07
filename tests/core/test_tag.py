@@ -17,12 +17,13 @@ from pythainlp.tag import (
     tag_provinces,
     unigram,
 )
+from pythainlp.tag._utils import _iob_to_markup
 
 TEST_TOKENS = ["ผม", "รัก", "คุณ"]
 
 
 class TagTestCase(unittest.TestCase):
-    """Test pythainlp.tag.pos_tag"""
+    """Test pythainlp.tag.pos_tag."""
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -99,7 +100,9 @@ class TagTestCase(unittest.TestCase):
 
     def test_pos_tag_error_handling(self):
         with self.assertRaises(ValueError):
-            pos_tag(["ทดสอบ"], engine="invalid_engine", corpus="invalid_corpus")
+            pos_tag(
+                ["ทดสอบ"], engine="invalid_engine", corpus="invalid_corpus"
+            )
         with self.assertRaises(ValueError):
             pos_tag(["ทดสอบ"], engine="unigram", corpus="invalid_corpus")
 
@@ -113,7 +116,8 @@ class TagTestCase(unittest.TestCase):
 
 
 class PerceptronTaggerTestCase(unittest.TestCase):
-    """Test pythainlp.tag.PerceptronTagger
+    """
+    Test pythainlp.tag.PerceptronTagger.
 
     :param unittest: _description_
     :type unittest: _type_
@@ -162,7 +166,7 @@ class PerceptronTaggerTestCase(unittest.TestCase):
         )
 
     def test_perceptron_tagger_custom(self):
-        """Test pythainlp.tag.PerceptronTagger"""
+        """Test pythainlp.tag.PerceptronTagger."""
         tagger = PerceptronTagger()
         # train data, with "กิน" > 20 instances to trigger conditions
         # in _make_tagdict()
@@ -227,7 +231,7 @@ class PerceptronTaggerTestCase(unittest.TestCase):
 
 
 class TagLocationsTestCase(unittest.TestCase):
-    """Test pythainlp.tag.locations"""
+    """Test pythainlp.tag.locations."""
 
     def test_ner_locations(self):
         self.assertEqual(
@@ -237,7 +241,7 @@ class TagLocationsTestCase(unittest.TestCase):
 
 
 class BlackboardPreProcessTestCase(unittest.TestCase):
-    """Tests for pythainlp.tag.blackboard.pre_process"""
+    """Tests for pythainlp.tag.blackboard.pre_process."""
 
     def setUp(self):
         from pythainlp.tag.blackboard import pre_process
@@ -248,10 +252,14 @@ class BlackboardPreProcessTestCase(unittest.TestCase):
         self.assertEqual(self.pre_process([" "]), ["_"])
 
     def test_regular_words_unchanged(self):
-        self.assertEqual(self.pre_process(["ผม", "รัก", "คุณ"]), ["ผม", "รัก", "คุณ"])
+        self.assertEqual(
+            self.pre_process(["ผม", "รัก", "คุณ"]), ["ผม", "รัก", "คุณ"]
+        )
 
     def test_mixed_space_and_words(self):
-        self.assertEqual(self.pre_process(["ผม", " ", "คุณ"]), ["ผม", "_", "คุณ"])
+        self.assertEqual(
+            self.pre_process(["ผม", " ", "คุณ"]), ["ผม", "_", "คุณ"]
+        )
 
     def test_multiple_spaces(self):
         self.assertEqual(self.pre_process([" ", " "]), ["_", "_"])
@@ -260,14 +268,16 @@ class BlackboardPreProcessTestCase(unittest.TestCase):
         self.assertEqual(self.pre_process([]), [])
 
     def test_non_space_special_chars_unchanged(self):
-        self.assertEqual(self.pre_process(["_"]), ["_"])  # already escaped form
+        self.assertEqual(
+            self.pre_process(["_"]), ["_"]
+        )  # already escaped form
 
     def test_single_thai_word(self):
         self.assertEqual(self.pre_process(["สวัสดี"]), ["สวัสดี"])
 
 
 class BlackboardPostProcessTestCase(unittest.TestCase):
-    """Tests for pythainlp.tag.blackboard.post_process"""
+    """Tests for pythainlp.tag.blackboard.post_process."""
 
     def setUp(self):
         from pythainlp.tag.blackboard import TO_UD, post_process
@@ -313,7 +323,7 @@ class BlackboardPostProcessTestCase(unittest.TestCase):
 
 
 class TagNNERTestCase(unittest.TestCase):
-    """Test pythainlp.tag.thai_nner"""
+    """Test pythainlp.tag.thai_nner."""
 
     def test_get_top_level_entities(self):
         from pythainlp.tag.thai_nner import get_top_level_entities
@@ -354,7 +364,9 @@ class TagNNERTestCase(unittest.TestCase):
         # Test basic IOB conversion
         tokens = ["วัน", "ที่", " ", "5", " ", "เมษายน"]
         entities = [
-            EntitySpan(text=["5", " ", "เมษายน"], span=[3, 6], entity_type="date")
+            EntitySpan(
+                text=["5", " ", "เมษายน"], span=[3, 6], entity_type="date"
+            )
         ]
         result = _entities_to_iob(tokens, entities)
 
@@ -373,7 +385,9 @@ class TagNNERTestCase(unittest.TestCase):
         # Test basic HTML conversion
         tokens = ["วัน", "ที่", " ", "5", " ", "เมษายน"]
         entities = [
-            EntitySpan(text=["5", " ", "เมษายน"], span=[3, 6], entity_type="date")
+            EntitySpan(
+                text=["5", " ", "เมษายน"], span=[3, 6], entity_type="date"
+            )
         ]
         result = _entities_to_html(tokens, entities)
 
@@ -384,7 +398,9 @@ class TagNNERTestCase(unittest.TestCase):
         # Test with multiple entities
         tokens = ["นาย", "สมชาย", " ", "อยู่", "ที่", "กรุงเทพ"]
         entities = [
-            EntitySpan(text=["นาย", "สมชาย"], span=[0, 2], entity_type="person"),
+            EntitySpan(
+                text=["นาย", "สมชาย"], span=[0, 2], entity_type="person"
+            ),
             EntitySpan(text=["กรุงเทพ"], span=[5, 6], entity_type="location"),
         ]
         result = _entities_to_html(tokens, entities)
@@ -452,3 +468,55 @@ class CRFTaggerTestCase(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             tagger.open("non_existent_model_file_xyz123.json.gz")
 
+class IobToMarkupTestCase(unittest.TestCase):
+    """Test pythainlp.tag._utils._iob_to_markup."""
+
+    def test_iob_to_markup(self):
+        cases = [
+            ("empty", [], ""),
+            ("no entity", [("ก", "O"), ("ข", "O")], "กข"),
+            ("single", [("ก", "B-A")], "<A>ก</A>"),
+            ("entity then O", [("ก", "B-A"), ("ข", "O")], "<A>ก</A>ข"),
+            ("inside", [("ก", "B-A"), ("ข", "I-A")], "<A>กข</A>"),
+            (
+                "adjacent entities",
+                [("ก", "B-A"), ("ข", "B-B")],
+                "<A>ก</A><B>ข</B>",
+            ),
+            (
+                "leading O",
+                [("ก", "O"), ("ข", "B-A"), ("ค", "I-A"), ("ง", "O")],
+                "ก<A>ขค</A>ง",
+            ),
+            # Quirks kept from the original loops
+            ("I without B", [("ก", "I-A"), ("ข", "O")], "กข"),
+            (
+                "I with other type",
+                [("ก", "B-A"), ("ข", "I-B")],
+                "<A>กข</A>",
+            ),
+            ("unknown tag", [("ก", "B-A"), ("ข", "X")], "<A>กข</A>"),
+            ("empty type", [("ก", "B-")], "<>ก"),
+            (
+                "empty type reopened",
+                [("ก", "B-"), ("ข", "B-A")],
+                "<>ก<A>ข</A>",
+            ),
+            (
+                "spaces and empty words",
+                [(" ", "B-A"), ("", "I-A"), (" ", "O")],
+                "<A> </A> ",
+            ),
+            (
+                "O with trailing space",
+                [("ก", "B-A"), ("ข", "O ")],
+                "<A>กข</A>",
+            ),
+        ]
+        for name, tagged, expected in cases:
+            with self.subTest(name):
+                self.assertEqual(_iob_to_markup(tagged), expected)
+
+    def test_iob_to_markup_long_input(self):
+        tagged = [("ก", "B-A")] + [("ก", "I-A")] * 10000
+        self.assertEqual(_iob_to_markup(tagged), "<A>" + "ก" * 10001 + "</A>")

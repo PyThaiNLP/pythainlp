@@ -1,11 +1,12 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Language model utilities for Thai text."""
 
 __all__: list[str] = [
+    "Qwen3",
     "calculate_ngram_counts",
     "remove_repeated_ngrams",
-    "Qwen3",
 ]
 
 from pythainlp.lm.qwen3 import Qwen3

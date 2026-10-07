@@ -3,7 +3,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import importlib
+import sys
+import types
 import unittest
+from unittest import mock
 from unittest.mock import patch
 
 from pythainlp.transliterate import pronunciate_pali, romanize, transliterate
@@ -124,6 +127,27 @@ class TransliterateTestCase(unittest.TestCase):
             )
             mock_g2p.assert_called_once_with("คน")
 
+    def test_transliterate_engine_dispatch(self):
+        """Each engine loads its own module; fakes replace heavy ones."""
+        for engine, module in (
+            ("ipa", "ipa"),
+            ("thaig2p", "thaig2p"),
+            ("thaig2p_v2", "thaig2p_v2"),
+            ("umt5_thaig2p", "umt5_thaig2p"),
+            ("unknown", "thaig2p"),  # unknown engines use the default
+        ):
+            fake = types.ModuleType(f"pythainlp.transliterate.{module}")
+            setattr(
+                fake, "transliterate", lambda text, _m=module: f"{_m}:{text}"
+            )
+            with self.subTest(engine=engine):
+                with mock.patch.dict(
+                    sys.modules, {f"pythainlp.transliterate.{module}": fake}
+                ):
+                    self.assertEqual(
+                        transliterate("แมว", engine=engine), f"{module}:แมว"
+                    )
+
     def test_transliterate_iso11940(self):
         self.assertEqual(
             transliterate("เชียงใหม่", engine="iso_11940"), "echīyngıh̄m̀"
@@ -134,81 +158,37 @@ class TransliterateTestCase(unittest.TestCase):
 
     def test_pronunciate_pali(self):
         # rule 1
-        self.assertEqual(
-            pronunciate_pali("ติสรเณนสห"), "ติสะระเณนะสะหะ"
-        )
-        self.assertEqual(
-            pronunciate_pali("สีลานิ ยาจาม"), "สีลานิ ยาจามะ"
-        )
-        self.assertEqual(
-            pronunciate_pali("ภควา"), "ภะคะวา"
-        )
-        self.assertEqual(
-            pronunciate_pali("อรหโต"), "อะระหะโต"
-        )
-        self.assertEqual(
-            pronunciate_pali("โลกวิทู"), "โลกะวิทู"
-        )
-        self.assertEqual(
-            pronunciate_pali("นมามิ"), "นะมามิ"
-        )
+        self.assertEqual(pronunciate_pali("ติสรเณนสห"), "ติสะระเณนะสะหะ")
+        self.assertEqual(pronunciate_pali("สีลานิ ยาจาม"), "สีลานิ ยาจามะ")
+        self.assertEqual(pronunciate_pali("ภควา"), "ภะคะวา")
+        self.assertEqual(pronunciate_pali("อรหโต"), "อะระหะโต")
+        self.assertEqual(pronunciate_pali("โลกวิทู"), "โลกะวิทู")
+        self.assertEqual(pronunciate_pali("นมามิ"), "นะมามิ")
         # rule 2
-        self.assertEqual(
-            pronunciate_pali("สมฺมา"), "สัมมา"
-        )
-        self.assertEqual(
-            pronunciate_pali("สงฺโฆ"), "สังโฆ"
-        )
-        self.assertEqual(
-            pronunciate_pali("พุทฺโธ"), "พุทโธ"
-        )
-        self.assertEqual(
-            pronunciate_pali("พุทฺธสฺส"), "พุทธัสสะ"
-        )
-        self.assertEqual(
-            pronunciate_pali("สนฺทิฏฺฐิโก"), "สันทิฏฐิโก"
-        )
-        self.assertEqual(
-            pronunciate_pali("ปาหุเนยฺโย"), "ปาหุเนยโย"
-        )
+        self.assertEqual(pronunciate_pali("สมฺมา"), "สัมมา")
+        self.assertEqual(pronunciate_pali("สงฺโฆ"), "สังโฆ")
+        self.assertEqual(pronunciate_pali("พุทฺโธ"), "พุทโธ")
+        self.assertEqual(pronunciate_pali("พุทฺธสฺส"), "พุทธัสสะ")
+        self.assertEqual(pronunciate_pali("สนฺทิฏฺฐิโก"), "สันทิฏฐิโก")
+        self.assertEqual(pronunciate_pali("ปาหุเนยฺโย"), "ปาหุเนยโย")
         # rule 3
-        self.assertEqual(
-            pronunciate_pali("มยํ"), "มะยัง"
-        )
-        self.assertEqual(
-            pronunciate_pali("วิสุ ํ"), "วิสุง"
-        )
-        self.assertEqual(
-            pronunciate_pali("อรหํ"), "อะระหัง"
-        )
-        self.assertEqual(
-            pronunciate_pali("สงฺฆํ"), "สังฆัง"
-        )
-        self.assertEqual(
-            pronunciate_pali("ธมฺมํ"), "ธัมมัง"
-        )
-        self.assertEqual(
-            pronunciate_pali("สรณํ"), "สะระณัง"
-        )
-        self.assertEqual(
-            pronunciate_pali("สีล ํ"), "สีลัง"
-        )
-        self.assertEqual(
-            pronunciate_pali("พาหุ ํ"), "พาหุง"
-        )
+        self.assertEqual(pronunciate_pali("มยํ"), "มะยัง")
+        self.assertEqual(pronunciate_pali("วิสุ ํ"), "วิสุง")
+        self.assertEqual(pronunciate_pali("อรหํ"), "อะระหัง")
+        self.assertEqual(pronunciate_pali("สงฺฆํ"), "สังฆัง")
+        self.assertEqual(pronunciate_pali("ธมฺมํ"), "ธัมมัง")
+        self.assertEqual(pronunciate_pali("สรณํ"), "สะระณัง")
+        self.assertEqual(pronunciate_pali("สีล ํ"), "สีลัง")
+        self.assertEqual(pronunciate_pali("พาหุ ํ"), "พาหุง")
         # rule 4,5
-        self.assertEqual(
-            pronunciate_pali("สฺวากฺขาโต"), "สวากขาโต"
-        )
-        self.assertEqual(
-            pronunciate_pali("พฺยาธิ"), "พยาธิ"
-        )
-        self.assertEqual(
-            pronunciate_pali("พฺราหฺมณ"), "พราหมะณะ"
-        )
+        self.assertEqual(pronunciate_pali("สฺวากฺขาโต"), "สวากขาโต")
+        self.assertEqual(pronunciate_pali("พฺยาธิ"), "พยาธิ")
+        self.assertEqual(pronunciate_pali("พฺราหฺมณ"), "พราหมะณะ")
+
 
 class RepetitionCycleTestCase(unittest.TestCase):
-    """Tests for the greedy-decoding cycle detector.
+    """
+    Tests for the greedy-decoding cycle detector.
 
     See: https://github.com/PyThaiNLP/pythainlp/issues/1403
     """

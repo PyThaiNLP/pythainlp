@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai abbreviation tools"""
+"""Thai abbreviation tools."""
 
 from __future__ import annotations
 
@@ -11,19 +11,22 @@ from typing import Optional, cast
 def abbreviation_to_full_text(
     text: str, top_k: int = 2
 ) -> list[tuple[str, Optional[float]]]:
-    """Converts Thai text (with abbreviations) to full text.
+    """
+    Convert Thai text with abbreviations to full text.
 
     Uses KhamYo to handle abbreviations.
     See more: `KhamYo <https://github.com/wannaphong/KhamYo>`_.
 
-    :param str text: Thai text
-    :param int top_k: Top K
-    :return: list of ``(full_text, cosine_similarity)`` tuples.
+    :param str text: Thai text with abbreviations
+    :param int top_k: number of top candidates to return
+    :return: list of ``(full_text, cosine_similarity)`` tuples
     :rtype: list[tuple[str, Optional[float]]]
 
     :Example:
 
-        >>> from pythainlp.util import abbreviation_to_full_text  # doctest: +SKIP
+        >>> from pythainlp.util import (
+        ...     abbreviation_to_full_text,
+        ... )  # doctest: +SKIP
 
         >>> text = "รร.ของเราน่าอยู่"  # doctest: +SKIP
 
@@ -41,4 +44,6 @@ def abbreviation_to_full_text(
             " Install it with: pip install khamyo"
             " or pip install pythainlp[abbreviation]"
         ) from e
-    return cast(list[tuple[str, Optional[float]]], _replace(text, top_k=top_k))
+    return cast(
+        "list[tuple[str, Optional[float]]]", _replace(text, top_k=top_k)
+    )

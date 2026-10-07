@@ -44,7 +44,8 @@ class CorpusDownloadTestCaseC(unittest.TestCase):
         self.assertFalse(download(name="test", version="0.0.1"))
 
     def test_download_ignores_offline_mode(self):
-        """download() must work even when PYTHAINLP_OFFLINE=1.
+        """
+        download() must work even when PYTHAINLP_OFFLINE=1.
 
         Explicit calls to download() are deliberate user actions and must
         not be blocked by the PYTHAINLP_OFFLINE environment variable.
@@ -69,13 +70,15 @@ class CorpusDownloadTestCaseC(unittest.TestCase):
 
 
 class ReadOnlyModeExplicitSaveTestCaseC(unittest.TestCase):
-    """Test that user-initiated saves are allowed in read-only mode.
+    """
+    Test that user-initiated saves are allowed in read-only mode.
 
     Uses numpy (in the compact dependency set).
     """
 
     def test_explicit_save_allowed_in_read_only(self):
-        """Read-only mode must not block saves to a user-specified path.
+        """
+        Read-only mode must not block saves to a user-specified path.
 
         Read-only mode only blocks implicit background writes to PyThaiNLP's
         internal data directory.  Operations where the user explicitly

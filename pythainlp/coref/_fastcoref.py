@@ -25,7 +25,7 @@ class FastCoref:
         model_name: str,
         nlp: Optional[Language] = None,
         device: str = "cpu",
-        type: str = "FCoref",
+        type: str = "FCoref",  # noqa: A002
     ) -> None:
         if type == "FCoref":
             from fastcoref import FCoref as _model
@@ -43,7 +43,7 @@ class FastCoref:
             self.model_name, device=device, nlp=self.nlp
         )
 
-    def _to_json(self, _predict: "FastCorefResult") -> CorefResult:
+    def _to_json(self, _predict: FastCorefResult) -> CorefResult:
         return {
             "text": _predict.text,
             "clusters_string": _predict.get_clusters(as_strings=True),

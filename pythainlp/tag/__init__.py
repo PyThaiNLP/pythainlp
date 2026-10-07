@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Linguistic and other taggers.
+"""
+Linguistic and other taggers.
 
 Tagging each token in a sentence with supplementary information,
 such as its part-of-speech (POS) tag, and named entity (NE) tag.
@@ -14,9 +15,9 @@ such as its part-of-speech (POS) tag, and named entity (NE) tag.
 
 __all__: list[str] = [
     "CRFTagger",
-    "EntitySpan",
     "NER",
     "NNER",
+    "EntitySpan",
     "PerceptronTagger",
     "chunk_parse",
     "pos_tag",
@@ -31,4 +32,3 @@ from pythainlp.tag.crf import CRFTagger
 from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.named_entity import NER, NNER, EntitySpan
 from pythainlp.tag.pos_tag import pos_tag, pos_tag_sents, pos_tag_transformers
-

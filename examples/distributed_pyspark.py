@@ -2,7 +2,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
-Example: Using PyThaiNLP in PySpark Distributed Environment
+Example: Using PyThaiNLP in PySpark Distributed Environment.
 
 This example demonstrates how to use PyThaiNLP in a distributed environment
 like Apache Spark. The key is to set the PYTHAINLP_DATA environment
@@ -20,9 +20,7 @@ https://github.com/PyThaiNLP/pythainlp/issues/475
 
 # Example 1: Basic PySpark setup with PyThaiNLP
 def example_basic_spark():
-    """
-    Basic example showing how to tokenize Thai text in PySpark.
-    """
+    """Show how to tokenize Thai text in PySpark."""
     from pyspark import SparkContext
 
     sc = SparkContext("local[*]", "PyThaiNLP Example")
@@ -69,14 +67,14 @@ def example_basic_spark():
 
 # Example 2: Using DataFrame API
 def example_dataframe_api():
-    """
-    Example using PySpark DataFrame API with PyThaiNLP.
-    """
+    """Show the PySpark DataFrame API with PyThaiNLP."""
     from pyspark.sql import SparkSession
     from pyspark.sql.functions import udf
     from pyspark.sql.types import ArrayType, StringType
 
-    spark = SparkSession.builder.appName("PyThaiNLP DataFrame Example").getOrCreate()
+    spark = SparkSession.builder.appName(
+        "PyThaiNLP DataFrame Example"
+    ).getOrCreate()
 
     # Create sample DataFrame
     data = [
@@ -113,9 +111,7 @@ def example_dataframe_api():
 
 # Example 3: Advanced configuration with multiple PyThaiNLP features
 def example_advanced():
-    """
-    Advanced example using multiple PyThaiNLP features in PySpark.
-    """
+    """Advanced example using multiple PyThaiNLP features in PySpark."""
     from pyspark import SparkContext
 
     sc = SparkContext("local[*]", "PyThaiNLP Advanced Example")
@@ -128,9 +124,7 @@ def example_advanced():
     rdd = sc.parallelize(thai_texts)
 
     def process_thai_text(text):
-        """
-        Process Thai text with multiple PyThaiNLP features.
-        """
+        """Process Thai text with multiple PyThaiNLP features."""
         import os
 
         # Configure data directory
@@ -171,9 +165,7 @@ def example_advanced():
 
 # Example 4: Best practices for production environments
 def example_production_best_practices():
-    """
-    Production-ready example with error handling and logging.
-    """
+    """Production-ready example with error handling and logging."""
     from pyspark.sql import SparkSession
 
     spark = (
@@ -190,9 +182,7 @@ def example_production_best_practices():
     df = spark.createDataFrame(data, ["id", "text"])
 
     def safe_tokenize(text):
-        """
-        Tokenize with error handling for production use.
-        """
+        """Tokenize with error handling for production use."""
         import os
 
         try:
@@ -208,9 +198,9 @@ def example_production_best_practices():
 
             return word_tokenize(text)
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 - UDF must not fail a job
             # Log error (in production, use proper logging)
-            print(f"Error tokenizing text: {text}, Error: {str(e)}")
+            print(f"Error tokenizing text: {text}, Error: {e!s}")
             return []
 
     # Register UDF
@@ -237,7 +227,9 @@ if __name__ == "__main__":
     print("2. DataFrame API example")
     print("3. Advanced features example")
     print("4. Production best practices example")
-    print("\nTo run a specific example, uncomment the corresponding line below:")
+    print(
+        "\nTo run a specific example, uncomment the corresponding line below:"
+    )
     print("=" * 70)
 
     # Uncomment one of these to run:

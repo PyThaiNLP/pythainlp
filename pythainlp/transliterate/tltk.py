@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Romanization and phoneme conversion of Thai text, using tltk."""
+
 from __future__ import annotations
 
 from typing import cast
@@ -14,23 +16,31 @@ except ImportError as e:
 
 
 def romanize(text: str) -> str:
-    """Transliterating thai text to the Latin alphabet using tltk.
+    """
+    Romanize Thai text to the Latin alphabet using tltk.
 
     :param str text: Thai text to be romanized
-    :return: A string of Thai words rendered in the Latin alphabet.
+    :return: text rendered in the Latin alphabet
     :rtype: str
     """
     # Replace ฅ with ค to avoid KeyError in tltk (out-of-vocabulary issue)
     text = text.replace("ฅ", "ค")
-    _temp = cast(str, th2roman(text))
+    _temp = cast("str", th2roman(text))
     return _temp[: _temp.rfind(" <s/>")].replace("<s/>", "")
 
 
 def tltk_g2p(text: str) -> str:
+    """
+    Convert Thai text to phonemes using tltk.
+
+    :param str text: Thai text to be converted
+    :return: phonemes of the text
+    :rtype: str
+    """
     # Replace ฅ with ค to avoid KeyError in tltk (out-of-vocabulary issue)
     text = text.replace("ฅ", "ค")
     _temp = (
-        cast(str, g2p(text))
+        cast("str", g2p(text))
         .split("<tr/>")[1]
         .replace("|<s/>", "")
         .replace("|", " ")
@@ -39,7 +49,14 @@ def tltk_g2p(text: str) -> str:
 
 
 def tltk_ipa(text: str) -> str:
+    """
+    Convert Thai text to IPA using tltk.
+
+    :param str text: Thai text to be converted
+    :return: IPA text
+    :rtype: str
+    """
     # Replace ฅ with ค to avoid KeyError in tltk (out-of-vocabulary issue)
     text = text.replace("ฅ", "ค")
-    _temp = cast(str, th2ipa(text))
+    _temp = cast("str", th2ipa(text))
     return _temp[: _temp.rfind(" <s/>")].replace("<s/>", "")

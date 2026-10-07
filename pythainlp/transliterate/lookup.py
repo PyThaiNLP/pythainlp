@@ -1,7 +1,10 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Look up romanized Thai words in a predefined dictionary compiled by Wannaphong, 2022.
+"""
+Look up romanized Thai words in a predefined dictionary.
+
+The dictionary is compiled by Wannaphong, 2022.
 
 Wannaphong Phatthiyaphaibun. (2022).
 wannaphong/thai-english-transliteration-dictionary: v1.4 (v1.4).
@@ -25,12 +28,15 @@ _TRANSLITERATE_IDX: int = 0
 
 
 def follow_rtgs(text: str) -> Optional[bool]:
-    """Check if *text* follows Royal Thai General System of Transcription (RTGS).
+    """
+    Check if a word follows the Royal Thai General System of Transcription.
 
-    :param str text: text to look up; must be a self-contained word.
-    :return: ``True`` if *text* follows the RTGS definition,
-        ``False`` otherwise.
-        ``None`` means unverified or unknown word.
+    The system is abbreviated as RTGS.
+
+    :param str text: word to look up; must be a self-contained word
+    :return: ``True`` if ``text`` follows the RTGS definition,
+        ``False`` if it does not, or ``None`` if the word is unverified
+        or unknown
     :rtype: Optional[bool]
     """
     try:
@@ -40,7 +46,7 @@ def follow_rtgs(text: str) -> Optional[bool]:
     except IndexError:
         return None
     else:
-        return cast(bool, follow)
+        return cast("bool", follow)
 
 
 def _romanize(text: str, fallback_func: Callable[[str], str]) -> str:
@@ -54,12 +60,14 @@ def _romanize(text: str, fallback_func: Callable[[str], str]) -> str:
     except TypeError as e:
         raise TypeError(f"`fallback_engine` is not callable. {e}") from e
     else:
-        return cast(str, lookup)
+        return cast("str", lookup)
 
 
 def romanize(text: str, fallback_func: Callable[[str], str]) -> str:
-    """Render Thai words in Latin alphabet by looking up
-    Thai-English transliteration dictionary.
+    """
+    Render Thai words in Latin alphabet with a lookup dictionary.
+
+    The dictionary maps Thai words to their English transliteration.
 
     :param str text: Thai text to be romanized
     :param Callable[[str], str] fallback_func: Callable

@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Summarization by mT5 model"""
+"""Summarize text using the mT5 model."""
 
 from __future__ import annotations
 
@@ -11,6 +11,8 @@ from pythainlp.summarize import CPE_KMUTT_THAI_SENTENCE_SUM
 
 
 class mT5Summarizer:
+    """Summarize text using the mT5 model."""
+
     def __init__(
         self,
         model_size: str = "small",
@@ -22,22 +24,23 @@ class mT5Summarizer:
         pretrained_mt5_model_name: str = "",
         revision: Optional[str] = None,
     ) -> None:
-        """Initialize mT5 Summarizer.
+        """
+        Initialize the mT5 summarizer.
 
-        :param str model_size: Size of the model ("small", "base", "large",
-            "xl", "xxl"). Default is "small".
-        :param int num_beams: Number of beams for beam search. Default is 4.
-        :param int no_repeat_ngram_size: Size of n-grams to avoid repeating.
-            Default is 2.
-        :param int min_length: Minimum length of generated summary.
-            Default is 30.
-        :param int max_length: Maximum length of generated summary.
-            Default is 100.
-        :param bool skip_special_tokens: Whether to skip special tokens in
-            output. Default is True.
-        :param str pretrained_mt5_model_name: Name of pretrained model.
-            If empty (default), uses google/mt5-{model_size}.
-        :param Optional[str] revision: a git revision id (branch, tag, or
+        :param str model_size: model size, one of ``"small"``, ``"base"``,
+            ``"large"``, ``"xl"``, or ``"xxl"`` (default is ``"small"``)
+        :param int num_beams: number of beams for beam search (default is 4)
+        :param int no_repeat_ngram_size: size of n-grams that must not
+            repeat (default is 2)
+        :param int min_length: minimum length of the generated summary
+            (default is 30)
+        :param int max_length: maximum length of the generated summary
+            (default is 100)
+        :param bool skip_special_tokens: skip special tokens in the output
+            (default is True)
+        :param str pretrained_mt5_model_name: name of the pretrained model.
+            If empty (default), use ``google/mt5-{model_size}``.
+        :param Optional[str] revision: git revision id (branch, tag, or
             commit hash). Pin to a full commit hash for secure downloads.
         """
         from transformers import MT5ForConditionalGeneration, T5Tokenizer
@@ -71,6 +74,13 @@ class mT5Summarizer:
         self.skip_special_tokens: bool = skip_special_tokens
 
     def summarize(self, text: str) -> list[str]:
+        """
+        Summarize text.
+
+        :param str text: text to summarize
+        :return: list that contains the summary
+        :rtype: list[str]
+        """
         preprocess_text = text.strip().replace("\n", "")
         if self.model_name == f"thanathorn/{CPE_KMUTT_THAI_SENTENCE_SUM}":
             t5_prepared_Text = "simplify: " + preprocess_text

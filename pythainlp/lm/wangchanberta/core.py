@@ -97,7 +97,7 @@ class ThaiNameTagger:
             grouped_entities=self.grouped_entities,
         )
 
-    def _IOB(self, tag: str) -> str:
+    def _iob(self, tag: str) -> str:
         if tag != "O":
             return "B-" + tag
         return "O"
@@ -112,7 +112,7 @@ class ThaiNameTagger:
             return [
                 (
                     item["word"].replace("<_>", " ").replace("▁", ""),
-                    self._IOB(item["entity_group"]),
+                    self._iob(item["entity_group"]),
                 )
                 for item in entities
             ]

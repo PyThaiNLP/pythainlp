@@ -23,7 +23,10 @@ if TYPE_CHECKING:
 
 from pythainlp.tokenize import word_tokenize
 
-_PAT_URL: str = r"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
+_PAT_URL: str = (
+    r"(?:https?|ftp)://[\w-]+(?:\.[\w-]+)+"
+    r"(?:[\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
+)
 
 _model_name: str = "clicknext/phayathaibert"
 _tokenizer: Optional[CamembertTokenizer] = None
@@ -84,9 +87,7 @@ class ThaiTextProcessor:
             'hey whats up man(hey)'
         """
         # remove empty brackets
-        new_line = re.sub(r"\(\)", "", text)
-        new_line = re.sub(r"\{\}", "", new_line)
-        new_line = re.sub(r"\[\]", "", new_line)
+        new_line = text.replace("()", "").replace("{}", "").replace("[]", "")
         # brackets with only punctuations
         new_line = re.sub(r"\([^a-zA-Z0-9ก-๙]+\)", "", new_line)
         new_line = re.sub(r"\{[^a-zA-Z0-9ก-๙]+\}", "", new_line)
@@ -170,7 +171,7 @@ class ThaiTextProcessor:
         """
 
         def _replace_rep(m: re.Match[str]) -> str:
-            c, cc = m.groups()
+            c, _ = m.groups()
             return f"{c}"
 
         re_rep = re.compile(r"(\S)(\1{3,})")

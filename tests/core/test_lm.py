@@ -37,6 +37,16 @@ class LMTestCase(unittest.TestCase):
         self.assertEqual(segment(""), [])
         self.assertEqual(segment(None), [])  # type: ignore[arg-type]
 
+    def test_lm_phayathaibert_normalization(self):
+        from pythainlp.lm.phayathaibert.core import ThaiTextProcessor
+
+        processor = ThaiTextProcessor()
+        self.assertEqual(
+            processor.replace_url("https://github.com ftp://a-b.example.org"),
+            "<url> <url>",
+        )
+        self.assertEqual(processor.rm_brackets("a()b{}c[]d"), "abcd")
+
     def test_lm_wangchanberta_segment_empty(self):
         from pythainlp.lm.wangchanberta import segment
 
@@ -61,6 +71,8 @@ class LMTestCase(unittest.TestCase):
         from pythainlp.lm.wangchanberta.core import ThaiNameTagger
 
         tagger = object.__new__(ThaiNameTagger)
+        self.assertEqual(tagger._iob("O"), "O")
+        self.assertEqual(tagger._iob("PER"), "B-PER")
         tagger.dataset_name = "thainer"
         tagger.grouped_entities = True
         self.assertEqual(

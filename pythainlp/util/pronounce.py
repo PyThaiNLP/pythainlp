@@ -157,12 +157,12 @@ def _spelling_impl(word: str) -> list[str]:
         if "์" not in i
     ]
     if word_pre == word:
-        return output + [word]
+        return [*output, word]
     if tone != []:
-        return output + [word_pre, tone[0], word]
+        return [*output, word_pre, tone[0], word]
     if "็" in word:
-        return output + [word]
-    return output + [word_pre, word]
+        return [*output, word]
+    return [*output, word_pre, word]
 
 
 def spelling(word: str) -> list[str]:

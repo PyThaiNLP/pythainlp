@@ -141,7 +141,7 @@ def benchmark(ref_samples: list[str], samples: list[str]) -> pd.DataFrame:
     results = []
     for i, (r, s) in enumerate(zip(ref_samples, samples)):
         try:
-            r, s = preprocessing(r), preprocessing(s)
+            r, s = preprocessing(r), preprocessing(s)  # noqa: PLW2901
             if r and s:
                 stats = compute_stats(r, s)
                 flat_stats: dict[str, Union[int, str]] = _flatten_result(stats)
@@ -283,7 +283,7 @@ def _binary_representation(
     boundary = boundary - np.array(range(boundary.shape[0]))
 
     bin_rept = np.zeros(len(txt) - boundary.shape[0], dtype=np.int8)
-    bin_rept[list(boundary) + [0]] = 1
+    bin_rept[[*list(boundary), 0]] = 1
 
     sample_wo_seps = list(txt.replace(SEPARATOR, ""))
 
@@ -317,7 +317,7 @@ def _find_word_boundaries(
 
     boundary = np.argwhere(bin_reps == 1).reshape(-1)
     start_idx = boundary
-    end_idx = boundary[1:].tolist() + [bin_reps.shape[0]]
+    end_idx = [*boundary[1:].tolist(), bin_reps.shape[0]]
 
     return list(zip(start_idx, end_idx))
 

@@ -87,23 +87,19 @@ Ranked by value for effort. Counts are from 2026-10-06 (done: `D213`,
 `RUF100`, `RUF102`, `UP015`, `UP031`, `UP033`, `UP037`, `UP006`,
 `UP035`, `D400`, `D401`, `D413`, `D415`,
 `RUF010`, `A002`, `EXE001`, `FA100`, `FLY002`, `ICN001`, `INP001`,
-`PYI034`, `SLOT000`), run with the project
+`PYI034`, `SLOT000`, `BLE001`, `PLW2901`, `RUF005`, `RUF012`), run with the project
 config on `pythainlp`, `tests`, `examples`, and `notebooks`
 (`ruff check --select <rule> --config pyproject.toml ...`).
 Enable a rule in `[tool.ruff.lint]` in the same PR that fixes its findings.
 
 | # | Rule | Found | Fix | Note |
 |---|------|-------|-----|------|
-| 1 | `RUF012` | 17 | manual | Mutable class attribute without `ClassVar`. Can hide shared-state bugs. |
-| 2 | `RUF015` | 6 | manual | `RUF015` changes behavior on empty input (`StopIteration`). |
-| 3 | `PLW2901` | 15 | manual | A loop variable is reassigned in the loop body. |
-| 4 | `BLE001` | 19 | manual | Blind `except`. Narrow it or add `# noqa: BLE001` with a reason. Related to PR 1542. |
-| 5 | `RUF005` | 22 | manual | List concatenation; use unpacking. |
-| 6 | `PERF401`, `PERF402`, `PERF403` | 16 | manual | Loop to comprehension. Readability can get worse. |
-| 7 | `W505` (max 79) | 65 | manual | Doctest output and comment lines cannot always wrap. Needs `# noqa`. |
-| 8 | `TID252` | 27 | manual | Relative imports. The package uses them on purpose. Decide first. |
-| 9 | `T201`, `ERA001` | 75 + 132 | manual | `print` in the CLI and examples is intended. Many `ERA001` hits are false positives. |
-| 10 | `DTZ`, `PLW0603`, `PLR2004`, `PLR0913` | 17 + 49 + 86 + 22 | manual | Naive datetimes, `global` for lazy loading, magic numbers, and many arguments are intended in this code. Skip. |
+| 1 | `RUF015` | 6 | manual | `RUF015` changes behavior on empty input (`StopIteration`). |
+| 2 | `PERF401`, `PERF402`, `PERF403` | 16 | manual | Loop to comprehension. Readability can get worse. |
+| 3 | `W505` (max 79) | 65 | manual | Doctest output and comment lines cannot always wrap. Needs `# noqa`. |
+| 4 | `TID252` | 27 | manual | Relative imports. The package uses them on purpose. Decide first. |
+| 5 | `T201`, `ERA001` | 75 + 132 | manual | `print` in the CLI and examples is intended. Many `ERA001` hits are false positives. |
+| 6 | `DTZ`, `PLW0603`, `PLR2004`, `PLR0913` | 17 + 49 + 86 + 22 | manual | Naive datetimes, `global` for lazy loading, magic numbers, and many arguments are intended in this code. Skip. |
 
 Do not enable `RUF001` and `RUF002` (256 findings). They flag Thai and
 look-alike characters on purpose. Skip `EM`, `TRY003`, and `N` rules:

@@ -198,7 +198,7 @@ def example_production_best_practices():
 
             return word_tokenize(text)
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 - UDF must not fail a job
             # Log error (in production, use proper logging)
             print(f"Error tokenizing text: {text}, Error: {e!s}")
             return []

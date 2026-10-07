@@ -9,7 +9,7 @@ GitHub: https://github.com/wannaphong/Thai_W2P
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, cast
+from typing import TYPE_CHECKING, ClassVar, Optional, cast
 
 from pythainlp.corpus import get_corpus_path
 
@@ -34,8 +34,14 @@ class _Hparams:
     num_epochs: int = 50 * 2
     hidden_units: int = 64 * 8
     emb_units: int = 64 * 4
-    graphemes: list[str] = ["<pad>", "<unk>", "</s>"] + _GRAPHEMES
-    phonemes: list[str] = ["<pad>", "<unk>", "<s>", "</s>"] + _PHONEMES
+    graphemes: ClassVar[list[str]] = ["<pad>", "<unk>", "</s>", *_GRAPHEMES]
+    phonemes: ClassVar[list[str]] = [
+        "<pad>",
+        "<unk>",
+        "<s>",
+        "</s>",
+        *_PHONEMES,
+    ]
     lr: float = 0.001
 
 
@@ -266,7 +272,7 @@ class Thai_W2P:
         """
         import numpy as np
 
-        chars = list(word) + ["</s>"]
+        chars = [*list(word), "</s>"]
         char_ids = [
             self.g2idx.get(char, self.g2idx["<unk>"]) for char in chars
         ]

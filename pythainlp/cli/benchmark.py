@@ -153,9 +153,9 @@ class WordTokenizationBenchmark:
         safe_print("============== Benchmark Result ==============")
 
         for c in ["tp", "fn", "tn", "fp", "precision", "recall"]:
-            c = f"char_level:{c}"
-            v = statistics[c]
-            safe_print(f"{c:>40s} {v:.4f}")
+            key = f"char_level:{c}"
+            v = statistics[key]
+            safe_print(f"{key:>40s} {v:.4f}")
 
         for c in [
             "total_words_in_sample",
@@ -164,9 +164,9 @@ class WordTokenizationBenchmark:
             "precision",
             "recall",
         ]:
-            c = f"word_level:{c}"
-            v = statistics[c]
-            safe_print(f"{c:>40s} {v:.4f}")
+            key = f"word_level:{c}"
+            v = statistics[key]
+            safe_print(f"{key:>40s} {v:.4f}")
 
         if args.save_details:
             dir_name = os.path.dirname(args.input_file)

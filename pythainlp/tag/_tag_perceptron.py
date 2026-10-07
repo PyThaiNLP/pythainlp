@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import json
 from collections import defaultdict
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any, ClassVar, Optional
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -138,8 +138,8 @@ class PerceptronTagger:
     [('นก', 'N'), ('เดิน', 'V')]
     """
 
-    START: list[str] = ["-START-", "-START2-"]
-    END: list[str] = ["-END-", "-END2-"]
+    START: ClassVar[list[str]] = ["-START-", "-START2-"]
+    END: ClassVar[list[str]] = ["-END-", "-END2-"]
     AP_MODEL_LOC: str = ""
 
     model: AveragedPerceptron
@@ -294,7 +294,7 @@ class PerceptronTagger:
         """
 
         def add(name: str, *args: str) -> None:
-            features[" ".join((name,) + tuple(args))] += 1
+            features[" ".join((name, *tuple(args)))] += 1
 
         i += len(self.START)
         features: dict[str, float] = defaultdict(int)

@@ -59,13 +59,7 @@ _FIRST_GROUPS: tuple[tuple[str, str], ...] = (
 _FIRST_CODES: dict[str, str] = _build_table(_FIRST_GROUPS)
 # Codes for the other characters
 _REST_CODES: dict[str, str] = _build_table(
-    _FIRST_GROUPS[1:]
-    + (
-        (_C7, "7"),
-        (_C8, "8"),
-        (_C1_1, "1"),
-        (_C9, "9"),
-    )
+    (*_FIRST_GROUPS[1:], (_C7, "7"), (_C8, "8"), (_C1_1, "1"), (_C9, "9"))
 )
 
 

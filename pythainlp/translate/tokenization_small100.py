@@ -27,7 +27,7 @@ import json
 import os
 from pathlib import Path
 from shutil import copyfile
-from typing import TYPE_CHECKING, Any, Optional, Union, cast
+from typing import TYPE_CHECKING, Any, ClassVar, Optional, Union, cast
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -131,10 +131,11 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
     pretrained_vocab_files_map: dict[str, dict[str, str]] = (
         PRETRAINED_VOCAB_FILES_MAP
     )
-    model_input_names: list[str] = ["input_ids", "attention_mask"]
+    model_input_names: ClassVar[list[str]] = ["input_ids", "attention_mask"]
 
-    prefix_tokens: Optional[list[int]] = []
-    suffix_tokens: list[int] = []
+    # Rebound per instance by set_*_lang_special_tokens; never mutated.
+    prefix_tokens: Optional[list[int]] = []  # noqa: RUF012
+    suffix_tokens: list[int] = []  # noqa: RUF012
 
     sp_model_kwargs: dict[str, str]
     language_codes: str

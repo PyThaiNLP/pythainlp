@@ -194,7 +194,7 @@ GRID_DIGEST = (
 def _outcome(w1: str, w2: str) -> tuple[Any, ...]:
     try:
         return ("ok", nighit(w1, w2))
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - golden test records any error
         return ("exc", type(exc).__name__, str(exc))
 
 

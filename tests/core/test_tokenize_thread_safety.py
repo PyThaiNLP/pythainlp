@@ -48,7 +48,7 @@ class TestThreadSafety(unittest.TestCase):
                 elif results[index] != tokens:
                     # Different results indicate a thread-safety issue
                     results[index] = "INCONSISTENT"
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 - collect any thread error
             results[index] = f"ERROR: {e!s}"
 
     def test_newmm_thread_safety(self):

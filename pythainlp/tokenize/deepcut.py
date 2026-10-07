@@ -347,7 +347,7 @@ def segment(
     x_char, x_type = _create_feature_array(text)
     outputs = session.run(None, {"input_1": x_char, "input_2": x_type})
     y_predict = (outputs[0].ravel() > _THRESHOLD).astype(int)
-    word_end = y_predict[1:].tolist() + [1]
+    word_end = [*y_predict[1:].tolist(), 1]
 
     tokens: list[str] = []
     word = ""

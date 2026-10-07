@@ -281,7 +281,7 @@ _CV_CODES = {"T": True, "F": False, "E": _CV_ERROR}
 def _outcome(func: Any, *args: Any, **kwargs: Any) -> Any:
     try:
         return func(*args, **kwargs)
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - golden test records any error
         return (type(e).__name__, str(e))
 
 

@@ -252,11 +252,11 @@ def middle_cut(sentences: list[str]) -> list[str]:
     result_parts = []
     for sentence in sentences:
         sentence_size = len(word_tokenize(sentence, keep_whitespace=False))
-        sentence = _remove_digit_spaces(sentence)
+        cleaned = _remove_digit_spaces(sentence)
         if sentence_size > _MIDDLE_CUT_WORDS:
-            result_parts.append(_mark_middle_cuts(sentence, sentence_size))
+            result_parts.append(_mark_middle_cuts(cleaned, sentence_size))
         else:
-            result_parts.append(sentence)
+            result_parts.append(cleaned)
 
     all_sentences = (
         s.strip() for part in result_parts for s in part.split("<stop>")

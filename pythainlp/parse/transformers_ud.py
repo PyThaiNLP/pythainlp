@@ -123,17 +123,15 @@ class Parse:
         )
         v, c = self.tokenizer(r, add_special_tokens=False)["input_ids"], []
         for i, t in enumerate(v):
-            q = (
-                [self.tokenizer.cls_token_id]
-                + t
-                + [self.tokenizer.sep_token_id]
-            )
+            q = [self.tokenizer.cls_token_id, *t, self.tokenizer.sep_token_id]
             c.append(
-                [q]
-                + v[0:i]
-                + [[self.tokenizer.mask_token_id]]
-                + v[i + 1 :]
-                + [[q[-1]]]
+                [
+                    q,
+                    *v[0:i],
+                    [self.tokenizer.mask_token_id],
+                    *v[i + 1 :],
+                    [q[-1]],
+                ]
             )
         b = [[len(sum(x[0 : j + 1], [])) for j in range(len(x))] for x in c]
         with torch.no_grad():
@@ -159,7 +157,7 @@ class Parse:
         if tag == "list":
             _tag_data = []
             for i, (s, e, p) in enumerate(w, 1):
-                p = "root" if h[i] == 0 else "dep" if p == "root" else p
+                rel = "root" if h[i] == 0 else "dep" if p == "root" else p
                 _tag_data.append(
                     [
                         str(i),
@@ -169,14 +167,14 @@ class Parse:
                         "_",
                         "|".join(z[s][1:]),
                         str(h[i]),
-                        p,
+                        rel,
                         "_",
                         "_" if i < n and e < w[i][0] else "SpaceAfter=No",
                     ]
                 )
             return _tag_data
         for i, (s, e, p) in enumerate(w, 1):
-            p = "root" if h[i] == 0 else "dep" if p == "root" else p
+            rel = "root" if h[i] == 0 else "dep" if p == "root" else p
             u += (
                 "\t".join(
                     [
@@ -187,7 +185,7 @@ class Parse:
                         "_",
                         "|".join(z[s][1:]),
                         str(h[i]),
-                        p,
+                        rel,
                         "_",
                         "_" if i < n and e < w[i][0] else "SpaceAfter=No",
                     ]

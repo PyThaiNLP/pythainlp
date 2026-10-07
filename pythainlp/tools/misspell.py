@@ -92,7 +92,10 @@ def find_misspell_candidates(
 
     for language_ix, is_shift, row, pos, char in valid_neighbours:
         try:
-            char = ALL_CHARACTERS[language_ix][is_shift * 4 + row][pos]
+            # Keep the name: the error message below prints it.
+            char = ALL_CHARACTERS[language_ix][  # noqa: PLW2901
+                is_shift * 4 + row
+            ][pos]
             chars.append(char)
             kernel = (row - loc[1], pos - loc[2])
 

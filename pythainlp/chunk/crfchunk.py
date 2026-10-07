@@ -157,7 +157,7 @@ class CRFChunkParser:
             try:
                 self._model_file_ctx.__exit__(exc_type, exc_val, exc_tb)
                 self._model_file_ctx = None
-            except Exception:  # noqa: S110
+            except Exception:  # noqa: BLE001, S110 - cleanup must not raise
                 pass
 
     def __del__(self) -> None:

@@ -99,16 +99,15 @@ post_rules_th: list[Callable[[Collection[str]], list[str]]] = [
 ]
 
 # sparse features
-pre_rules_th_sparse: list[Callable[[str], str]] = pre_rules_th[1:] + [
-    replace_rep_nonum
+pre_rules_th_sparse: list[Callable[[str], str]] = [
+    *pre_rules_th[1:],
+    replace_rep_nonum,
 ]
-post_rules_th_sparse: list[Callable[[Collection[str]], list[str]]] = (
-    post_rules_th[1:]
-    + [
-        replace_wrep_post_nonum,
-        remove_space,
-    ]
-)
+post_rules_th_sparse: list[Callable[[Collection[str]], list[str]]] = [
+    *post_rules_th[1:],
+    replace_wrep_post_nonum,
+    remove_space,
+]
 
 
 def process_thai(

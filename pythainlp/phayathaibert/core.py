@@ -197,7 +197,7 @@ class ThaiTextProcessor:
         previous_word = ""
         rep_count = 0
         res = []
-        for current_word in toks + [self._TK_END]:
+        for current_word in [*toks, self._TK_END]:
             if current_word == previous_word:
                 rep_count += 1
             elif (current_word != previous_word) & (rep_count > 0):
@@ -225,9 +225,9 @@ class ThaiTextProcessor:
         """
         res = []
         for t in toks:
-            t = t.strip()
-            if t:
-                res.append(t)
+            stripped = t.strip()
+            if stripped:
+                res.append(stripped)
 
         return res
 

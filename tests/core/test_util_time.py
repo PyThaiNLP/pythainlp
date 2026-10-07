@@ -186,7 +186,7 @@ def _fuzz_inputs() -> list[str]:
 def _time_outcome(text: str, padding: bool) -> str:
     try:
         return thaiword_to_time(text, padding)
-    except Exception as err:
+    except Exception as err:  # noqa: BLE001 - golden test records any error
         return "!" + type(err).__name__ + ":" + str(err)
 
 

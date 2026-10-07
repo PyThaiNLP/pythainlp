@@ -344,13 +344,14 @@ class WordVector:
             return vec
 
         for word in words:
+            token = word
             if word == " " and self.model_name == "thai2fit_wv":
-                word = _TK_SP
+                token = _TK_SP
             elif word == "\n" and self.model_name == "thai2fit_wv":
-                word = _TK_EOL
+                token = _TK_EOL
 
-            if word in self.model.index_to_key:
-                vec += self.model.get_vector(word)
+            if token in self.model.index_to_key:
+                vec += self.model.get_vector(token)
 
         if use_mean:
             vec /= len_words

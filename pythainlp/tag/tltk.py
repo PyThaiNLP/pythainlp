@@ -79,9 +79,7 @@ def get_ner(
         return []
     list_word = []
     for i in word_tokenize(text, engine="tltk"):
-        if i == " ":
-            i = "<s/>"
-        list_word.append(i)
+        list_word.append("<s/>" if i == " " else i)
     _pos = nlp.pos_tag_wordlist(list_word)
     sent_ner = [
         (_post_process(word), pos, ner) for word, pos, ner in nlp.ner(_pos)

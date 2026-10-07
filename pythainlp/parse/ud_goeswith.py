@@ -64,7 +64,7 @@ class Parse:
         w = self.tokenizer(text, return_offsets_mapping=True)
         v = w["input_ids"]
         x = [
-            v[0:i] + [self.tokenizer.mask_token_id] + v[i + 1 :] + [j]
+            [*v[0:i], self.tokenizer.mask_token_id, *v[i + 1 :], j]
             for i, j in enumerate(v[1:-1], 1)
         ]
         with torch.no_grad():

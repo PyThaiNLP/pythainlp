@@ -128,14 +128,15 @@ def get_sense(
     for meaning in temp_mean:
         tokens_with_sense: list[str] = []
         for token in w:
+            sense_token = token
             if token == word:
-                token = (
+                sense_token = (
                     word
                     + f" ({word} ความหมาย '"
                     + meaning.replace("(", "").replace(")", "")
                     + "') "
                 )
-            tokens_with_sense.append(token)
+            tokens_with_sense.append(sense_token)
         temp.append(
             (meaning, model.get_score(sentence, "".join(tokens_with_sense)))
         )

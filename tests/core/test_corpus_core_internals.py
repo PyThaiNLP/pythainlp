@@ -24,6 +24,7 @@ import stat
 import sys
 import tarfile
 import tempfile
+import time
 import types
 import unittest
 import warnings
@@ -125,7 +126,7 @@ _OLD_TREE = [
 ]
 _NEW_TREE_ZIP = ["c.zip", "c_1.0", "c_1.0/a.txt", "db.json"]
 # Temporary file of a download of "c.txt"
-_PART_FILE_RE = r"^\.c\.txt\.[0-9a-f]{32}\.part$"
+_PART_FILE_RE = r"^\.c\.txt\.pythainlp-[0-9a-f]{32}\.part$"
 
 
 def _tree(root: Path) -> list[str]:
@@ -326,6 +327,19 @@ class CheckVersionTestCase(unittest.TestCase):
             with self.subTest(bad=bad):
                 with self.assertRaises(ValueError):
                     core._version2int(bad)
+
+    def test_development_versions(self) -> None:
+        # Regression guard: "5.4.0.dev1" leaves a trailing dot after "dev".
+        for installed in ("5.4.0.dev1", "5.4.dev0", "5.4.0dev1", "5.4.0beta2"):
+            with self.subTest(installed=installed):
+                with patch.object(core, "__version__", installed):
+                    self.assertTrue(core._check_version(">=5.0"))
+                    self.assertFalse(core._check_version(">=5.5"))
+
+    def test_extra_version_components_are_ignored(self) -> None:
+        self.assertEqual(
+            core._version2int("1.2.3.4"), core._version2int("1.2.3.x-y")
+        )
 
     def test_single_component_version(self) -> None:
         # Regression: "9" was read as 900, so ">=9" accepted 5.4.0.
@@ -1025,90 +1039,110 @@ class _DownloadTestBase(_IsolatedDataDirTestCase):
         return result, out.getvalue()
 
 
-_HEX = "a" * 32
+_MARK = "pythainlp-" + "a" * 32
 _DAY = 24 * 60 * 60
 
 
 class SweepStaleTempPathsTestCase(_IsolatedDataDirTestCase):
-    def make(
-        self, name: str, kind: str = "file", age: float = 2 * _DAY
-    ) -> Path:
-        """Create an entry in the data directory, *age* seconds old."""
+    def make(self, name: str, kind: str = "file") -> Path:
+        """Create an entry in the data directory."""
         path = self.data_dir / name
         if kind == "dir":
             path.mkdir()
             (path / "inner.txt").write_bytes(b"x")
         else:
             path.write_bytes(b"x")
-        old = path.stat().st_mtime - age
-        os.utime(path, (old, old))
         return path
+
+    @staticmethod
+    def later(days: float = 2) -> float:
+        """Return a time that is *days* days from now."""
+        return time.time() + days * _DAY
 
     def test_removes_stale_entries(self) -> None:
         for name, kind in (
-            (f".c.txt.{_HEX}.part", "file"),
-            (f".c_1.0.{_HEX}.tmp", "dir"),
-            (f".db.json.{_HEX}.tmp", "file"),
+            (f".c.txt.{_MARK}.part", "file"),
+            (f".c_1.0.{_MARK}.tmp", "dir"),
+            (f".db.json.{_MARK}.tmp", "file"),
         ):
             with self.subTest(name=name):
                 path = self.make(name, kind)
-                core._sweep_stale_temp_paths()
+                core._sweep_stale_temp_paths(now=self.later())
                 self.assertFalse(path.exists())
 
     def test_keeps_fresh_entries(self) -> None:
         # Another process may be downloading or extracting right now.
-        path = self.make(f".c.txt.{_HEX}.part", age=_DAY - 60)
+        path = self.make(f".c.txt.{_MARK}.part")
         core._sweep_stale_temp_paths()
         self.assertTrue(path.exists())
-        core._sweep_stale_temp_paths(now=path.stat().st_mtime + _DAY)
+        core._sweep_stale_temp_paths(now=self.later(0.9))
+        self.assertTrue(path.exists())
+        core._sweep_stale_temp_paths(now=self.later(1.1))
         self.assertFalse(path.exists())
+
+    def test_old_mtime_does_not_make_an_entry_stale(self) -> None:
+        # Extracting an archive can set the folder mtime to the archive time.
+        path = self.make(f".c_1.0.{_MARK}.tmp", "dir")
+        os.utime(path, (0, 0))
+        core._sweep_stale_temp_paths()
+        self.assertTrue(path.exists())
 
     def test_old_folder_is_kept_without_its_corpus(self) -> None:
         # It is then the only copy of a corpus that failed to swap in.
-        old = self.make(f".c_1.0.{_HEX}.old", "dir")
-        core._sweep_stale_temp_paths()
+        old = self.make(f".c_1.0.{_MARK}.old", "dir")
+        core._sweep_stale_temp_paths(now=self.later())
         self.assertTrue(old.exists())
         (self.data_dir / "c_1.0").mkdir()
-        core._sweep_stale_temp_paths()
+        core._sweep_stale_temp_paths(now=self.later())
         self.assertFalse(old.exists())
         self.assertTrue((self.data_dir / "c_1.0").exists())
 
     def test_keeps_other_entries(self) -> None:
+        # Files of other programs, and names that are not ours.
         names = [
             ".hidden",
-            f"c.txt.{_HEX}.part",  # not hidden
-            f".c.txt.{_HEX}.bak",  # other suffix
-            f".c.txt.{'g' * 32}.part",  # not hex
-            f".c.txt.{_HEX[:31]}.part",  # too short
-            f".c.txt.{_HEX.upper()}.part",  # upper case
+            f"c.txt.{_MARK}.part",  # not hidden
+            f".c.txt.{_MARK}.bak",  # other suffix
+            f".c.txt.{_MARK.upper()}.part",  # upper case
+            f".c.txt.pythainlp-{'g' * 32}.part",  # not hex
+            f".c.txt.pythainlp-{'a' * 31}.part",  # too short
+            f".c.txt.{'a' * 32}.part",  # no marker: another program
+            f".c.txt.{_MARK}.part\n",  # trailing newline
             "c.txt",
         ]
+        created = []
         for name in names:
-            self.make(name)
-        core._sweep_stale_temp_paths()
-        self.assertEqual(_tree(self.data_dir), sorted(names))
+            try:
+                self.make(name)
+            except OSError:
+                continue  # not allowed on this file system
+            created.append(name)
+        core._sweep_stale_temp_paths(now=self.later(30))
+        self.assertEqual(_tree(self.data_dir), sorted(created))
 
     def test_removes_a_link_not_its_target(self) -> None:
         target = Path(tempfile.mkdtemp(prefix="pythainlp-target-"))
         self.addCleanup(shutil.rmtree, target, ignore_errors=True)
         (target / "keep.txt").write_bytes(b"x")
-        link = self.data_dir / f".c.{_HEX}.tmp"
+        link = self.data_dir / f".c.{_MARK}.tmp"
         try:
             link.symlink_to(target, target_is_directory=True)
         except (OSError, NotImplementedError):
             self.skipTest("symbolic links are not available")
-        old = link.lstat().st_mtime - 2 * _DAY
-        os.utime(link, (old, old), follow_symlinks=False)
-        core._sweep_stale_temp_paths()
+        core._sweep_stale_temp_paths(now=self.later())
         self.assertFalse(link.is_symlink())
         self.assertTrue((target / "keep.txt").exists())
 
     def test_ignores_errors(self) -> None:
-        path = self.make(f".c.txt.{_HEX}.part")
-        with patch("os.listdir", side_effect=OSError("denied")):
-            core._sweep_stale_temp_paths()  # must not raise
-        with patch("os.lstat", side_effect=OSError("denied")):
-            core._sweep_stale_temp_paths()
+        path = self.make(f".c.txt.{_MARK}.part")
+        for target, error in (
+            ("os.listdir", OSError("denied")),
+            ("os.lstat", OSError("denied")),
+            ("pythainlp.corpus.core.get_pythainlp_data_path", ValueError("x")),
+        ):
+            with self.subTest(target=target):
+                with patch(target, side_effect=error):
+                    core._sweep_stale_temp_paths(now=self.later())  # no raise
         self.assertTrue(path.exists())
 
 
@@ -1123,25 +1157,23 @@ class DownloadTestCase(_DownloadTestBase):
         self.assertEqual(self.net.requests, [])
 
     def test_sweeps_stale_temp_paths(self) -> None:
-        stale = self.data_dir / f".old.txt.{_HEX}.part"
+        stale = self.data_dir / f".old.txt.{_MARK}.part"
         stale.write_bytes(b"x")
-        old = stale.stat().st_mtime - 2 * _DAY
-        os.utime(stale, (old, old))
         self.catalog["c"] = _catalog_entry(
             "c", {"0.1": _version_entry("c.txt", b"hello")}
         )
         self.serve("c.txt", b"hello")
-        result, _ = self.run_download("c")
+        with patch.object(core, "_STALE_TEMP_SECONDS", 0):
+            result, _ = self.run_download("c")
         self.assertIs(result, True)
         self.assertFalse(stale.exists())
 
     def test_read_only_does_not_sweep(self) -> None:
-        stale = self.data_dir / f".old.txt.{_HEX}.part"
+        stale = self.data_dir / f".old.txt.{_MARK}.part"
         stale.write_bytes(b"x")
-        old = stale.stat().st_mtime - 2 * _DAY
-        os.utime(stale, (old, old))
-        with patch.dict(os.environ, {"PYTHAINLP_READ_ONLY": "1"}):
-            self.run_download("x")
+        with patch.object(core, "_STALE_TEMP_SECONDS", 0):
+            with patch.dict(os.environ, {"PYTHAINLP_READ_ONLY": "1"}):
+                self.run_download("x")
         self.assertTrue(stale.exists())
 
     def test_default_catalog_url(self) -> None:
@@ -1551,7 +1583,9 @@ class DownloadTestCase(_DownloadTestBase):
         self.assertEqual(
             Path(paths[0]).parent.resolve(), self.data_dir.resolve()
         )
-        self.assertRegex(Path(paths[0]).name, r"^\.c_1\.0\.[0-9a-f]{32}\.tmp$")
+        self.assertRegex(
+            Path(paths[0]).name, r"^\.c_1\.0\.pythainlp-[0-9a-f]{32}\.tmp$"
+        )
         self.assertEqual(_snapshot(self.data_dir / "c_1.0"), snapshot)
         self.assertEqual(_tree(self.data_dir), _OLD_TREE)
 
@@ -1659,7 +1693,9 @@ class DownloadTestCase(_DownloadTestBase):
         self.assertIs(ctx.exception, busy)
         old_path = calls[0][1]
         self.assertEqual(calls[2], (old_path, folder))
-        self.assertRegex(Path(old_path).name, r"^\.c_1\.0\.[0-9a-f]{32}\.old$")
+        self.assertRegex(
+            Path(old_path).name, r"^\.c_1\.0\.pythainlp-[0-9a-f]{32}\.old$"
+        )
         self.assertEqual(_snapshot(Path(old_path)), snapshot)
         self.assertFalse(os.path.exists(folder))
         if sys.version_info >= (3, 11):

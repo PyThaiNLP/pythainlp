@@ -165,7 +165,7 @@ class WunsenTransliterate:
             self._set_options(lang, jp_input, zh_sandhi, system)
             try:
                 self.thap_value = self._create_thap_sap()
-            except Exception:
+            except BaseException:
                 # Keep the options in line with the model that is kept.
                 self.lang, self.jp_input, self.zh_sandhi, self.system = (
                     previous

@@ -709,7 +709,8 @@ def _version2int(v: str) -> int:
     :raises ValueError: if a component is not a number
     """
     v = v.split("-")[0].removesuffix(".*")  # X.X.* => X.X
-    major, minor, patch = ([int(x) for x in v.split(".")] + [0, 0])[:3]
+    parts = [int(x) for x in v.split(".")[:3]]
+    major, minor, patch = [*parts, 0, 0][:3]
     return major * 10**8 + minor * 10**4 + patch
 
 
@@ -727,7 +728,8 @@ def _installed_version_int() -> int:
         version = version.split("dev", maxsplit=1)[0]
     elif "beta" in version:
         version = version.split("beta", maxsplit=1)[0]
-    return _version2int(version)
+    # "5.4.0.dev1" and "5.4.dev0" leave a trailing dot
+    return _version2int(version.rstrip("."))
 
 
 def _check_lower_bound(cause: str, v: int) -> bool:
@@ -915,11 +917,13 @@ def _sibling_temp_path(path: str, suffix: str) -> str:
     """
     Return a unique hidden path in the directory of *path*.
 
-    The name is ``.<name>.<random hex>.<suffix>``.
+    The name is ``.<name>.pythainlp-<random hex>.<suffix>``. The marker
+    lets :func:`_sweep_stale_temp_paths` tell these entries from the files of
+    other programs.
     """
     return safe_path_join(
         os.path.dirname(os.path.abspath(path)),
-        f".{os.path.basename(path)}.{uuid.uuid4().hex}.{suffix}",
+        f".{os.path.basename(path)}.pythainlp-{uuid.uuid4().hex}.{suffix}",
     )
 
 
@@ -961,9 +965,9 @@ def _swap_in_folder(new_path: str, folder_path: str) -> None:
     _remove_path(old_path)
 
 
-# A hidden temporary entry: ``.<name>.<32 hex digits>.<suffix>``.
+# A hidden temporary entry: ``.<name>.pythainlp-<32 hex digits>.<suffix>``.
 _TEMP_ENTRY = re.compile(
-    r"^\.(?P<name>.+)\.[0-9a-f]{32}\.(?P<suffix>part|tmp|old)$"
+    r"\.(?P<name>.+)\.pythainlp-[0-9a-f]{32}\.(?P<suffix>part|tmp|old)"
 )
 
 # Age after which a hidden temporary entry counts as abandoned.
@@ -971,35 +975,42 @@ _STALE_TEMP_SECONDS: int = 24 * 60 * 60
 
 
 def _sweep_stale_temp_paths(
-    max_age: float = _STALE_TEMP_SECONDS, now: Optional[float] = None
+    max_age: Optional[float] = None, now: Optional[float] = None
 ) -> None:
     """
     Remove abandoned hidden temporary entries from the data directory.
 
-    A crash or a failed cleanup can leave ``.<name>.<hex>.part``, ``.tmp``,
-    or ``.old`` entries (see :func:`_sibling_temp_path`). An entry is
-    removed only if it has not changed for *max_age* seconds, so a
-    download in another process is not disturbed. An ``.old`` entry is also
-    kept if there is no ``<name>`` next to it: it is then the only copy of
-    a corpus that failed to swap in. Errors are ignored.
+    A crash or a failed cleanup can leave ``.<name>.pythainlp-<hex>.part``,
+    ``.tmp``, or ``.old`` entries (see :func:`_sibling_temp_path`). An entry
+    is removed only if neither its modification time nor its status change
+    time is newer than *max_age* seconds, so a download in another process
+    is not disturbed. An ``.old`` entry is also kept if there is no
+    ``<name>`` next to it: it is then the only copy of a corpus that failed
+    to swap in. Errors are ignored.
 
-    :param float max_age: age in seconds after which an entry is stale
+    :param Optional[float] max_age: age in seconds after which an entry is
+        stale (default: 24 hours)
     :param Optional[float] now: current time in seconds
         (default: ``time.time()``)
     """
+    max_age = _STALE_TEMP_SECONDS if max_age is None else max_age
     now = time.time() if now is None else now
     try:
         data_dir = get_pythainlp_data_path()
         names = os.listdir(data_dir)
-    except OSError:
+    except (OSError, ValueError):
         return
     for entry in names:
-        match = _TEMP_ENTRY.match(entry)
+        match = _TEMP_ENTRY.fullmatch(entry)
         if match is None:
             continue
         try:
             path = safe_path_join(data_dir, entry)
-            if now - os.lstat(path).st_mtime < max_age:
+            stat_result = os.lstat(path)
+            # An archive can set an old mtime; a rename or extraction
+            # always sets the ctime to now.
+            age = now - max(stat_result.st_mtime, stat_result.st_ctime)
+            if age < max_age:
                 continue
             if match["suffix"] == "old" and not os.path.lexists(
                 safe_path_join(data_dir, match["name"])

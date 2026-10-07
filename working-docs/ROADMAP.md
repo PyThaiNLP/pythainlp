@@ -347,17 +347,18 @@ the code disagree. The code was not changed. No test pins them.
 - `db.json` writes are atomic but not locked against concurrent writers;
   the last writer wins.
 - Concurrent downloads of one corpus: the last swap wins. If two swaps
-  race, one can fail and leave a hidden `.<folder>.<hex>.old` folder.
+  race, one can fail and leave a hidden `.<folder>.pythainlp-<hex>.old` folder.
 - `_swap_in_folder` renames the existing corpus folder aside. A folder
   that is a mount point (EBUSY) or busy on Windows cannot be re-extracted,
   and there is no retry.
 - A corpus folder that is a symlink is replaced by a real folder
   (intentional).
 - A crash, a failed cleanup, or a failed rollback in `_swap_in_folder` can
-  leave hidden `.<name>.<hex>.part`, `.tmp`, or `.old` entries in the data
-  directory. `download()` removes them after 24 hours, except an `.old`
-  entry whose `<name>` is missing (the only copy of a failed swap). Those
-  stay until the user removes them.
+  leave hidden `.<name>.pythainlp-<hex>.part`, `.tmp`, or `.old` entries in
+  the data directory. `download()` removes them after 24 hours, except an
+  `.old` entry whose `<name>` is missing (the only copy of a failed swap).
+  Those stay until the user removes them. Leftovers from earlier versions
+  (names without the `pythainlp-` marker) are never swept.
 - `_is_within_directory` is used only by tests.
 
 ### Other observations

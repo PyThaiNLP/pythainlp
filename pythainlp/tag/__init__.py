@@ -14,9 +14,9 @@ such as its part-of-speech (POS) tag, and named entity (NE) tag.
 """
 
 __all__: list[str] = [
-    "CRFTagger",
     "NER",
     "NNER",
+    "CRFTagger",
     "EntitySpan",
     "PerceptronTagger",
     "chunk_parse",

@@ -409,7 +409,7 @@ class TagNNERTestCase(unittest.TestCase):
 
 
 class CRFTaggerTestCase(unittest.TestCase):
-    """Test pythainlp.tag.crf.CRFTagger"""
+    """Test pythainlp.tag.crf.CRFTagger."""
 
     def test_empty_input(self):
         tagger = CRFTagger()
@@ -435,7 +435,9 @@ class CRFTaggerTestCase(unittest.TestCase):
             },
         }
 
-        with tempfile.NamedTemporaryFile("w+", suffix=".json.gz", delete=False) as f:
+        with tempfile.NamedTemporaryFile(
+            "w+", suffix=".json.gz", delete=False
+        ) as f:
             temp_path = f.name
 
         try:
@@ -467,6 +469,7 @@ class CRFTaggerTestCase(unittest.TestCase):
         tagger = CRFTagger()
         with self.assertRaises(FileNotFoundError):
             tagger.open("non_existent_model_file_xyz123.json.gz")
+
 
 class IobToMarkupTestCase(unittest.TestCase):
     """Test pythainlp.tag._utils._iob_to_markup."""

@@ -15,14 +15,13 @@ from __future__ import annotations
 import gzip
 import json
 import os
+from collections.abc import (
+    Sequence,  # noqa: TC003 - resolve runtime type hints
+)
 from typing import (
     TYPE_CHECKING,
     Any,
-    Dict,
-    List,
     Optional,
-    Sequence,
-    Tuple,
     Union,
     cast,
 )
@@ -32,9 +31,10 @@ if TYPE_CHECKING:
 
 
 def _extract_item_features(
-    item: Union[Sequence[str], Dict[str, Any]],
-) -> List[Tuple[str, float]]:
-    """Extract (feature_name, feature_value) pairs from an observation.
+    item: Union[Sequence[str], dict[str, Any]],
+) -> list[tuple[str, float]]:
+    """
+    Extract (feature_name, feature_value) pairs from an observation.
 
     :param item: Observation features, either as a sequence of feature names
         or as a dictionary mapping feature names to values.
@@ -45,21 +45,21 @@ def _extract_item_features(
     if not isinstance(item, dict):
         return [(str(feat), 1.0) for feat in item]
 
-    features: List[Tuple[str, float]] = []
+    features: list[tuple[str, float]] = []
     for key, val in item.items():
         if isinstance(val, str):
             features.append((f"{key}:{val}", 1.0))
         elif isinstance(val, bool):
             if val:
                 features.append((key, 1.0))
-        elif isinstance(val, (int, float)):
-            if val != 0:
-                features.append((key, float(val)))
+        elif isinstance(val, (int, float)) and val != 0:
+            features.append((key, float(val)))
     return features
 
 
 class CRFTagger:
-    """Linear-Chain Conditional Random Field (CRF) tagger.
+    """
+    Linear-Chain Conditional Random Field (CRF) tagger.
 
     Uses pure-Python Viterbi decoding to predict optimal label sequences
     from pre-trained CRF weights without requiring external C libraries.
@@ -68,14 +68,15 @@ class CRFTagger:
         (`.json` or `.json.gz`).
     """
 
-    labels: List[str]
+    labels: list[str]
     _num_labels: int
-    _label_to_idx: Dict[str, int]
-    _trans_mat: List[List[float]]
-    _state_features: Dict[str, List[Tuple[int, float]]]
+    _label_to_idx: dict[str, int]
+    _trans_mat: list[list[float]]
+    _state_features: dict[str, list[tuple[int, float]]]
 
     def __init__(self, model_path: Optional[str] = None) -> None:
-        """Initialize the CRF tagger.
+        """
+        Initialize the CRF tagger.
 
         :param Optional[str] model_path: Path to model weights file.
         """
@@ -88,7 +89,8 @@ class CRFTagger:
             self.open(model_path)
 
     def open(self, model_path: str) -> None:
-        """Load model weights from a JSON or gzipped JSON file.
+        """
+        Load model weights from a JSON or gzipped JSON file.
 
         :param str model_path: Path to the model weights file.
         :raises FileNotFoundError: If the model file cannot be found.
@@ -99,7 +101,8 @@ class CRFTagger:
 
     @staticmethod
     def _resolve_model_path(model_path: str) -> str:
-        """Resolve legacy .crfsuite / .model paths to .json.gz if available.
+        """
+        Resolve legacy .crfsuite / .model paths to .json.gz if available.
 
         :param str model_path: Original path to model.
         :return: Resolved path to weight file.
@@ -107,7 +110,7 @@ class CRFTagger:
         """
         if os.path.exists(model_path):
             return model_path
-        if not (model_path.endswith(".gz") or model_path.endswith(".json")):
+        if not (model_path.endswith((".gz", ".json"))):
             gz_candidate = model_path.rsplit(".", 1)[0] + ".json.gz"
             if os.path.exists(gz_candidate):
                 return gz_candidate
@@ -117,8 +120,9 @@ class CRFTagger:
         return model_path
 
     @staticmethod
-    def _read_weights_file(file_path: str) -> Dict[str, Any]:
-        """Read weights dictionary from JSON or gzip-compressed JSON.
+    def _read_weights_file(file_path: str) -> dict[str, Any]:
+        """
+        Read weights dictionary from JSON or gzip-compressed JSON.
 
         :param str file_path: Path to weights file.
         :return: Parsed weights dictionary.
@@ -129,7 +133,7 @@ class CRFTagger:
 
         if magic.startswith(b"\x1f\x8b"):
             with gzip.open(file_path, "rt", encoding="utf-8") as file_handle:
-                return cast(Dict[str, Any], json.load(file_handle))
+                return cast("dict[str, Any]", json.load(file_handle))
 
         if magic == b"lCRF":
             candidates = [
@@ -138,8 +142,10 @@ class CRFTagger:
             ]
             for cand in candidates:
                 if os.path.exists(cand):
-                    with gzip.open(cand, "rt", encoding="utf-8") as file_handle:
-                        return cast(Dict[str, Any], json.load(file_handle))
+                    with gzip.open(
+                        cand, "rt", encoding="utf-8"
+                    ) as file_handle:
+                        return cast("dict[str, Any]", json.load(file_handle))
 
             from pythainlp.corpus import corpus_path
             from pythainlp.tools.path import safe_path_join
@@ -152,18 +158,19 @@ class CRFTagger:
                     with gzip.open(
                         bundled_thainer, "rt", encoding="utf-8"
                     ) as file_handle:
-                        return cast(Dict[str, Any], json.load(file_handle))
+                        return cast("dict[str, Any]", json.load(file_handle))
 
             raise ValueError(
                 f"Model file '{file_path}' is in binary CRFsuite format. "
                 "Please use converted .json.gz weights instead."
             )
 
-        with open(file_path, "r", encoding="utf-8") as file_handle:
-            return cast(Dict[str, Any], json.load(file_handle))
+        with open(file_path, encoding="utf-8") as file_handle:
+            return cast("dict[str, Any]", json.load(file_handle))
 
-    def _load_data(self, data: Dict[str, Any]) -> None:
-        """Initialize internal structures from weights data.
+    def _load_data(self, data: dict[str, Any]) -> None:
+        """
+        Initialize internal structures from weights data.
 
         :param Dict[str, Any] data: Parsed model dictionary.
         """
@@ -191,9 +198,10 @@ class CRFTagger:
         }
 
     def _compute_state_scores(
-        self, item: Union[Sequence[str], Dict[str, Any]]
-    ) -> List[float]:
-        """Compute state scores for all labels at a single sequence position.
+        self, item: Union[Sequence[str], dict[str, Any]]
+    ) -> list[float]:
+        """
+        Compute state scores for all labels at a single sequence position.
 
         :param item: Observation features at current position.
         :type item: Union[Sequence[str], Dict[str, Any]]
@@ -209,9 +217,10 @@ class CRFTagger:
         return scores
 
     def tag(
-        self, xseq: Sequence[Union[Sequence[str], Dict[str, Any]]]
-    ) -> List[str]:
-        """Predict the optimal label sequence for an item sequence.
+        self, xseq: Sequence[Union[Sequence[str], dict[str, Any]]]
+    ) -> list[str]:
+        """
+        Predict the optimal label sequence for an item sequence.
 
         :param xseq: Sequence of item features, where each item is either
             a sequence of string feature names or a dictionary of features.
@@ -224,7 +233,7 @@ class CRFTagger:
             return []
 
         dp_scores = self._compute_state_scores(xseq[0])
-        backpointers: List[List[int]] = []
+        backpointers: list[list[int]] = []
 
         for step in range(1, seq_len):
             state_scores = self._compute_state_scores(xseq[step])
@@ -264,7 +273,7 @@ class CRFTagger:
         self._trans_mat.clear()
         self._state_features.clear()
 
-    def __enter__(self) -> CRFTagger:
+    def __enter__(self) -> CRFTagger:  # noqa: PYI034
         """Context manager entry."""
         return self
 

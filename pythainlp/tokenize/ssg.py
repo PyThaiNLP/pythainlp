@@ -2,7 +2,8 @@
 # SPDX-FileCopyrightText: Copyright 2019 Ponrawee Prasertsom
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Syllable segmentation using bundled SSG CRF weights.
+"""
+Syllable segmentation using bundled SSG CRF weights.
 
 GitHub: https://github.com/ponrawee/ssg
 License: Apache-2.0
@@ -70,7 +71,8 @@ def segment(text: str) -> list[str]:
 
 
 def syllable_tokenize(text: str) -> list[str]:
-    """Alias for segment to match the upstream ssg API.
+    """
+    Alias for segment to match the upstream ssg API.
 
     :param str text: Thai text to be tokenized into syllables.
     :return: List of syllables.

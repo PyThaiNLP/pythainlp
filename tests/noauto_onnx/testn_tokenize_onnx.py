@@ -16,7 +16,7 @@ from pythainlp.tokenize import (
 
 
 class tokenizeDeepcutTestCaseN(unittest.TestCase):
-    """Tests for deepcut tokenizer numeric handling (requires onnxruntime)"""
+    """Tests for deepcut tokenizer numeric handling (requires onnxruntime)."""
 
     def test_numeric_data_format_deepcut(self):
         self.assertIn(

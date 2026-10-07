@@ -208,7 +208,7 @@ SENT_4 = ["ผม", "กิน", "ข้าว", " ", "\n", "เธอ", "เล
 
 
 class DetokenizeTestCase(unittest.TestCase):
-    """Detokenize and regrouping test cases"""
+    """Detokenize and regrouping test cases."""
 
     def test_word_detokenize(self):
         self.assertIsInstance(word_detokenize(["ผม", "5"]), str)
@@ -454,7 +454,7 @@ class TokenizeTestCase(unittest.TestCase):
         )
 
     def test_longest_custom_dict(self):
-        """Test switching the custom dict on longest segment function"""
+        """Test switching the custom dict on longest segment function."""
         self.assertEqual(
             word_tokenize("ทดสอบ  ทดสอบ", engine="longest"),
             ["ทดสอบ", "  ", "ทดสอบ"],

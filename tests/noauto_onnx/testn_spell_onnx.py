@@ -12,7 +12,7 @@ import unittest
 
 
 class SpellONNXTestCaseN(unittest.TestCase):
-    """Tests for ONNX-based spell correction (requires onnxruntime)"""
+    """Tests for ONNX-based spell correction (requires onnxruntime)."""
 
     def test_words_spelling_correction_returns_list(self):
         from pythainlp.spell.words_spelling_correction import (

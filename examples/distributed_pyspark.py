@@ -2,7 +2,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
-Example: Using PyThaiNLP in PySpark Distributed Environment
+Example: Using PyThaiNLP in PySpark Distributed Environment.
 
 This example demonstrates how to use PyThaiNLP in a distributed environment
 like Apache Spark. The key is to set the PYTHAINLP_DATA environment

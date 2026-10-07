@@ -11,7 +11,7 @@ import unittest
 
 
 class SummarizeTestCaseN(unittest.TestCase):
-    """Tests for summarization functions (requires transformers)"""
+    """Tests for summarization functions (requires transformers)."""
 
     def test_summarize_keybert_returns_list(self):
         from pythainlp.summarize.keybert import KeyBERT

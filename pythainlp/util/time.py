@@ -199,6 +199,10 @@ def time_to_thaiword(
 
     :return: time spelled out as Thai words
     :rtype: str
+    :raises TypeError: if time_data is not a datetime.time,
+        datetime.datetime, or str
+    :raises ValueError: if time_data is an empty string or does not
+        match the H:M or H:M:S format
 
     :Example:
 

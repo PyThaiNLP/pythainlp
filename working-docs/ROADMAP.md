@@ -297,8 +297,6 @@ the code disagree. The code was not changed. No test pins them.
   word and ignores the POS-filtered `list_synsets`.
 - `parse.spacy_thai_engine.Parse.__init__`: `model` is ignored; the code
   always calls `spacy_thai.load()`. `parse.dependency_parsing` lists it.
-- Missing `:raises:` for `TypeError` in `thai_digit_to_arabic_digit` and
-  similar functions.
 - `phayathaibert.core.replace_newlines` and some other docstrings with `\n`
   in a non-raw string (pydocstyle D301); making them raw strings changes
   the doctest source.

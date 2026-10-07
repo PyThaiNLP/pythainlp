@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Pure-Python Linear-Chain Conditional Random Field (CRF) tagger.
+"""
+Pure-Python Linear-Chain Conditional Random Field (CRF) tagger.
 
 This module provides a lightweight, pure-Python inference engine
 for First-Order Markov Chain (FOMC) CRF models using Viterbi decoding.

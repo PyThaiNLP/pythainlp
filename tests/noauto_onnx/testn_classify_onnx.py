@@ -7,14 +7,19 @@
 # - Large dependencies (onnxruntime, huggingface-hub, tokenizers)
 # - Model download size (~650 MB)
 
+from __future__ import annotations
+
 import os
 import unittest
+from typing import Any, ClassVar, Union, cast
+
 import numpy as np
 
 from pythainlp.classify import Laya, LayaModel
 from pythainlp.classify.laya import (
     _clamp_temperature,
     _confidence_from_probs,
+    _normalize_choice_criteria,
     _render_criterion,
     _render_options,
     _serialize_state,
@@ -22,8 +27,37 @@ from pythainlp.classify.laya import (
 )
 
 
+class ChoiceCriteriaTestCase(unittest.TestCase):
+    """Tests for choice criteria validation."""
+
+    def test_normalize_choice_criteria(self) -> None:
+        self.assertEqual(
+            _normalize_choice_criteria(["A", "B"]), {"A": None, "B": None}
+        )
+        self.assertEqual(
+            _normalize_choice_criteria({"A": "first", "B": "second"}),
+            {"A": "first", "B": "second"},
+        )
+
+    def test_invalid_choice_criteria(self) -> None:
+        cases: tuple[tuple[Any, str], ...] = (
+            ([], "Choice criteria list must not be empty."),
+            ([1], "Choice labels must be strings."),
+            (["A", "A"], "Choice labels must be unique."),
+            ({}, "Choice criteria must be a non-empty dictionary or list."),
+            ({1: "choice"}, "Choice labels must be strings."),
+            (None, "Choice criteria must be a non-empty dictionary or list."),
+        )
+        for criteria, message in cases:
+            with self.subTest(criteria=criteria):
+                with self.assertRaisesRegex(ValueError, message):
+                    _normalize_choice_criteria(criteria)
+
+
 class ClassifyONNXTestCaseN(unittest.TestCase):
     """Tests for ONNX-based Laya classification (requires onnxruntime)."""
+
+    model: ClassVar[LayaModel]
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -55,10 +89,8 @@ class ClassifyONNXTestCaseN(unittest.TestCase):
             "Positive": "ข้อความแสดงความสุข ดีใจ ชมเชย",
             "Negative": "ข้อความแสดงความทุกข์ เสียใจ ตำหนิ",
         }
-        res = self.model.classify(
-            text, choices=choices, return_details=True
-        )
-        self.assertIsInstance(res, dict)
+        res = self.model.classify(text, choices=choices, return_details=True)
+        assert isinstance(res, dict)
         self.assertEqual(res["type"], "choice")
         self.assertEqual(res["choice"], "Positive")
         self.assertIn("confidence", res)
@@ -67,7 +99,7 @@ class ClassifyONNXTestCaseN(unittest.TestCase):
         self.assertGreater(res["probabilities"]["Positive"], 0.5)
 
     def test_classify_batch(self) -> None:
-        texts = [
+        texts: list[Union[str, dict[str, Any], list[Any]]] = [
             "อาหารอร่อยมาก บรรยากาศดี",
             "บริการแย่มาก อาหารไม่อร่อย",
         ]
@@ -127,15 +159,11 @@ class ClassifyONNXTestCaseN(unittest.TestCase):
 
     def test_structured_state_input(self) -> None:
         state_dict = {"body": "อาหารอร่อยมาก", "author": "ลูกค้า"}
-        res = self.model.classify(
-            state_dict, choices=["Positive", "Negative"]
-        )
+        res = self.model.classify(state_dict, choices=["Positive", "Negative"])
         self.assertEqual(res, "Positive")
 
         state_list = ["อาหารอร่อยมาก", "บริการดี"]
-        res = self.model.classify(
-            state_list, choices=["Positive", "Negative"]
-        )
+        res = self.model.classify(state_list, choices=["Positive", "Negative"])
         self.assertEqual(res, "Positive")
 
     def test_local_model_path_and_chunking(self) -> None:
@@ -188,7 +216,9 @@ class ClassifyONNXTestCaseN(unittest.TestCase):
         # _render_options
         self.assertEqual(_render_options({"t": "choice", "crit": None}), [])
         self.assertEqual(_render_options({"t": "score", "crit": None}), [])
-        noul_opts = _render_options({"t": "noul", "crit": {"false": "no", "true": "yes"}})
+        noul_opts = _render_options(
+            {"t": "noul", "crit": {"false": "no", "true": "yes"}}
+        )
         self.assertEqual(len(noul_opts), 2)
 
     def test_invalid_parameters(self) -> None:
@@ -199,7 +229,7 @@ class ClassifyONNXTestCaseN(unittest.TestCase):
             self.model.classify("test", choices=["A", "A"])
 
         with self.assertRaises(ValueError):
-            self.model.classify("test", choices=[1, 2])  # type: ignore[arg-type]
+            self.model.classify("test", choices=cast("list[str]", [1, 2]))
 
         with self.assertRaises(ValueError):
             self.model.predict("test")
@@ -210,15 +240,13 @@ class ClassifyONNXTestCaseN(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.model.system_one(
                 "test",
-                questions={
-                    "q": {"type": "unknown", "instructions": "test"}
-                },
+                questions={"q": {"type": "unknown", "instructions": "test"}},
             )
 
         with self.assertRaises(ValueError):
             self.model.system_one(
                 "test",
-                questions={"q": "not a dictionary"},  # type: ignore[dict-item]
+                questions={"q": "not a dictionary"},
             )
 
         with self.assertRaises(ValueError):
@@ -230,19 +258,37 @@ class ClassifyONNXTestCaseN(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.model.system_one(
                 "test",
-                questions={"q": {"type": "score", "instructions": "test", "criteria": []}},
+                questions={
+                    "q": {
+                        "type": "score",
+                        "instructions": "test",
+                        "criteria": [],
+                    }
+                },
             )
 
         with self.assertRaises(ValueError):
             self.model.system_one(
                 "test",
-                questions={"q": {"type": "score", "instructions": "test", "criteria": "not a list"}},  # type: ignore[dict-item]
+                questions={
+                    "q": {
+                        "type": "score",
+                        "instructions": "test",
+                        "criteria": "not a list",
+                    }
+                },
             )
 
         with self.assertRaises(ValueError):
             self.model.system_one(
                 "test",
-                questions={"q": {"type": "noul", "instructions": "test", "criteria": "not a dict"}},  # type: ignore[dict-item]
+                questions={
+                    "q": {
+                        "type": "noul",
+                        "instructions": "test",
+                        "criteria": "not a dict",
+                    }
+                },
             )
 
         with self.assertRaises(ValueError):

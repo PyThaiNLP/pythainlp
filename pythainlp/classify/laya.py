@@ -14,15 +14,15 @@ from __future__ import annotations
 import json
 import math
 import os
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 from pythainlp.corpus import get_hf_hub
 from pythainlp.tools import safe_path_join
 
 _DEFAULT_REPO_ID = "pythainlp/laya-multilingual-onnx"
 
-_QTYPES: Dict[str, int] = {"choice": 0, "score": 1, "noul": 2}
-_QTYPE_NAMES: Dict[int, str] = {0: "choice", 1: "score", 2: "noul"}
+_QTYPES: dict[str, int] = {"choice": 0, "score": 1, "noul": 2}
+_QTYPE_NAMES: dict[int, str] = {0: "choice", 1: "score", 2: "noul"}
 
 _TEMP_MIN: float = 0.5
 _TEMP_MAX: float = 5.0
@@ -130,9 +130,7 @@ def _render_options(q: dict[str, Any]) -> list[str]:
         if not isinstance(criteria, dict):
             return []
         return [
-            k
-            if v is None or v == ""
-            else f"{k}: {_render_criterion(v)}"
+            k if v is None or v == "" else f"{k}: {_render_criterion(v)}"
             for k, v in criteria.items()
         ]
     if q_type == "score":
@@ -184,7 +182,9 @@ class _TokenizerWrapper:
                 from transformers import AutoTokenizer
 
                 tok_dir = os.path.dirname(tok_json_path)
-                self._backend = AutoTokenizer.from_pretrained(tok_dir)
+                self._backend = AutoTokenizer.from_pretrained(  # nosec B615
+                    tok_dir, local_files_only=True
+                )
                 self._is_hf_tokenizer = True
             except ModuleNotFoundError as exc:
                 raise ModuleNotFoundError(
@@ -192,7 +192,7 @@ class _TokenizerWrapper:
                     "'pip install tokenizers' or 'pip install transformers'."
                 ) from exc
 
-        with open(tok_config_path, "r", encoding="utf-8") as f:
+        with open(tok_config_path, encoding="utf-8") as f:
             config = json.load(f)
 
         for name in ("cls_token", "sep_token", "pad_token", "mask_token"):
@@ -249,7 +249,7 @@ def _build_prefix(
             " " + opt_text.replace(tok.mask_token, " "),
             add_special_tokens=False,
         )["input_ids"][:48]
-        opt_ids.append([tok.mask_token_id] + encoded_opt)
+        opt_ids.append([tok.mask_token_id, *encoded_opt])
 
     opt_budget = head_max_len - sum(len(o) for o in opt_ids)
     if opt_budget < 16:
@@ -258,7 +258,7 @@ def _build_prefix(
         opt_budget = head_max_len - sum(len(o) for o in opt_ids)
 
     head_ids = head_ids[: max(8, opt_budget)]
-    ids = [tok.cls_token_id] + head_ids + [tok.sep_token_id]
+    ids = [tok.cls_token_id, *head_ids, tok.sep_token_id]
     markers: list[int] = []
     for opt in opt_ids:
         markers.append(len(ids))
@@ -275,8 +275,8 @@ def _build_sequence(
     head_max_len: int = 256,
     truncate_left: bool = False,
 ) -> tuple[list[int], list[int]]:
-    ""
-    "Build token sequence: [CLS] <type> ins [SEP] [MASK] opt0 ... [SEP] state [SEP].
+    """
+    Build token sequence: [CLS] <type> ins [SEP] [MASK] opt0 ... [SEP] state [SEP].
 
     :param _TokenizerWrapper tok: Tokenizer instance.
     :param Union[str, dict[str, Any], list[Any]] state: Input state/text.
@@ -296,9 +296,7 @@ def _build_sequence(
     return ids[:max_len], [m for m in markers if m < max_len]
 
 
-def _collate_items(
-    items: list[dict[str, Any]], pad_id: int
-) -> dict[str, Any]:
+def _collate_items(items: list[dict[str, Any]], pad_id: int) -> dict[str, Any]:
     """
     Collate sequence items into numpy batch feed dict for ONNX Runtime.
 
@@ -330,6 +328,25 @@ def _collate_items(
         batch["marker_pos"][i, :item_cnt] = item["markers"]
         batch["marker_mask"][i, :item_cnt] = True
     return batch
+
+
+def _normalize_choice_criteria(criteria: Any) -> dict[str, Any]:
+    """Validate and normalize choice criteria."""
+    if isinstance(criteria, list):
+        if not criteria:
+            raise ValueError("Choice criteria list must not be empty.")
+        if not all(isinstance(choice, str) for choice in criteria):
+            raise ValueError("Choice labels must be strings.")
+        if len(set(criteria)) != len(criteria):
+            raise ValueError("Choice labels must be unique.")
+        criteria = dict.fromkeys(criteria)
+    if not isinstance(criteria, dict) or not criteria:
+        raise ValueError(
+            "Choice criteria must be a non-empty dictionary or list."
+        )
+    if not all(isinstance(label, str) for label in criteria):
+        raise ValueError("Choice labels must be strings.")
+    return criteria
 
 
 class LayaModel:
@@ -379,6 +396,7 @@ class LayaModel:
         max_length: Optional[int] = None,
         head_max_length: Optional[int] = None,
     ) -> None:
+        """Initialize the Laya ONNX model and tokenizer."""
         try:
             import numpy as np  # noqa: F401
             import onnxruntime as ort
@@ -409,13 +427,15 @@ class LayaModel:
         cfg: dict[str, Any] = {}
         if rl_cfg_file and os.path.isfile(rl_cfg_file):
             try:
-                with open(rl_cfg_file, "r", encoding="utf-8") as f:
+                with open(rl_cfg_file, encoding="utf-8") as f:
                     cfg = json.load(f)
-            except Exception:
+            except (OSError, UnicodeDecodeError, json.JSONDecodeError):
                 cfg = {}
 
         self._max_len: int = (
-            max_length if max_length is not None else int(cfg.get("max_len", 1024))
+            max_length
+            if max_length is not None
+            else int(cfg.get("max_len", 1024))
         )
         self._head_max_len: int = (
             head_max_length
@@ -442,7 +462,7 @@ class LayaModel:
             rl_cfg_file: Optional[str] = safe_path_join(
                 model_path, "rl_agent_config.json"
             )
-            if not os.path.isfile(rl_cfg_file):
+            if rl_cfg_file is not None and not os.path.isfile(rl_cfg_file):
                 rl_cfg_file = None
 
             tok_dir = safe_path_join(model_path, "tokenizer")
@@ -456,15 +476,15 @@ class LayaModel:
                 )
             return model_file, rl_cfg_file, tok_file, tok_cfg_file
 
-        repo_id = (
-            model_path if model_path is not None else _DEFAULT_REPO_ID
-        )
+        repo_id = model_path if model_path is not None else _DEFAULT_REPO_ID
         model_file = get_hf_hub(repo_id, "model.onnx", revision=revision)
+        from huggingface_hub.utils import EntryNotFoundError
+
         try:
             rl_cfg_file = get_hf_hub(
                 repo_id, "rl_agent_config.json", revision=revision
             )
-        except Exception:
+        except EntryNotFoundError:
             rl_cfg_file = None
 
         tok_file = get_hf_hub(
@@ -490,20 +510,7 @@ class LayaModel:
 
         criteria = qdef.get("criteria")
         if qtype == "choice":
-            if isinstance(criteria, list):
-                if not criteria:
-                    raise ValueError("Choice criteria list must not be empty.")
-                if not all(isinstance(c, str) for c in criteria):
-                    raise ValueError("Choice labels must be strings.")
-                if len(set(criteria)) != len(criteria):
-                    raise ValueError("Choice labels must be unique.")
-                criteria = dict.fromkeys(criteria)
-            if not isinstance(criteria, dict) or not criteria:
-                raise ValueError(
-                    "Choice criteria must be a non-empty dictionary or list."
-                )
-            if not all(isinstance(k, str) for k in criteria):
-                raise ValueError("Choice labels must be strings.")
+            criteria = _normalize_choice_criteria(criteria)
         elif qtype == "score":
             if not isinstance(criteria, list) or not criteria:
                 raise ValueError("Score criteria must be a non-empty list.")
@@ -611,8 +618,7 @@ class LayaModel:
                             str(i): value for i, value in enumerate(q["crit"])
                         },
                         probabilities={
-                            str(i): round(float(v), 4)
-                            for i, v in enumerate(p)
+                            str(i): round(float(v), 4) for i, v in enumerate(p)
                         },
                     )
                 else:
@@ -661,7 +667,7 @@ class LayaModel:
             }
         }
         res = self.system_one(text, questions)
-        ans = res["answers"]["classification"]
+        ans: dict[str, Any] = res["answers"]["classification"]
         if return_details:
             return ans
         return str(ans["choice"])
@@ -728,9 +734,7 @@ class LayaModel:
                 prompt=prompt,
                 return_details=return_details,
             )
-        raise ValueError(
-            "Either 'choices' or 'questions' must be specified."
-        )
+        raise ValueError("Either 'choices' or 'questions' must be specified.")
 
 
 Laya = LayaModel

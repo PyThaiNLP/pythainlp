@@ -275,8 +275,8 @@ def pos_tag_transformers(
             "phayathai": "lunarlist/pos_thai_phayathai",
         },
         "pud": {
-            "wangchanberta": "Pavarissy/wangchanberta-ud-thai-pud-upos",
             "mdeberta": "Pavarissy/mdeberta-v3-ud-thai-pud-upos",
+            "wangchanberta": "Pavarissy/wangchanberta-ud-thai-pud-upos",
         },
         "tud": {
             "phayathaibert": "nlp-chula/phayathaibert-thai-pos-tagger",

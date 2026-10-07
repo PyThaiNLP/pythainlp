@@ -43,7 +43,7 @@ class FastCoref:
             self.model_name, device=device, nlp=self.nlp
         )
 
-    def _to_json(self, _predict: "FastCorefResult") -> CorefResult:
+    def _to_json(self, _predict: FastCorefResult) -> CorefResult:
         return {
             "text": _predict.text,
             "clusters_string": _predict.get_clusters(as_strings=True),

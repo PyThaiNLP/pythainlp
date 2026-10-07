@@ -17,13 +17,13 @@ See: https://github.com/PyThaiNLP/pythainlp/issues/1403
 
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import Optional
 
-__all__: List[str] = ["find_trailing_repeat_period"]
+__all__: list[str] = ["find_trailing_repeat_period"]
 
 
 def find_trailing_repeat_period(
-    tokens: List[int],
+    tokens: list[int],
     min_period: int = 1,
     max_period: int = 12,
     min_repeats: int = 3,

@@ -47,7 +47,7 @@ class TestThreadSafety(unittest.TestCase):
                     # Different results indicate a thread-safety issue
                     results[index] = "INCONSISTENT"
         except Exception as e:
-            results[index] = f"ERROR: {str(e)}"
+            results[index] = f"ERROR: {e!s}"
 
     def test_newmm_thread_safety(self):
         """Test thread safety of newmm engine."""

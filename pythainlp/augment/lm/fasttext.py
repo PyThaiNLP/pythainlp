@@ -37,7 +37,7 @@ class FastTextAug:
         from gensim.models.keyedvectors import KeyedVectors
 
         if model_path.endswith(".bin"):
-            self.model: Union["FastText", "KeyedVectors"] = (
+            self.model: Union[FastText, KeyedVectors] = (
                 FastText_gensim.load_facebook_vectors(model_path)
             )
         elif model_path.endswith(".vec"):

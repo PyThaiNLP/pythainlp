@@ -30,7 +30,7 @@ from pythainlp.tokenize import word_tokenize
 _PAT_URL: str = r"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
 
 _model_name: str = "clicknext/phayathaibert"
-_tokenizer: "CamembertTokenizer" = CamembertTokenizer.from_pretrained(
+_tokenizer: CamembertTokenizer = CamembertTokenizer.from_pretrained(
     _model_name  # nosec B615
 )
 
@@ -277,13 +277,13 @@ class ThaiTextAugmenter:
             pipeline,
         )
 
-        self.tokenizer: "PreTrainedTokenizerBase" = (
+        self.tokenizer: PreTrainedTokenizerBase = (
             AutoTokenizer.from_pretrained(_model_name)  # nosec B615
         )
-        self.model_for_masked_lm: "AutoModelForMaskedLM" = (
+        self.model_for_masked_lm: AutoModelForMaskedLM = (
             AutoModelForMaskedLM.from_pretrained(_model_name)  # nosec B615
         )
-        self.model: "Pipeline" = pipeline(  # transformers.Pipeline
+        self.model: Pipeline = pipeline(  # transformers.Pipeline
             "fill-mask",
             tokenizer=self.tokenizer,
             model=self.model_for_masked_lm,
@@ -401,10 +401,10 @@ class PartOfSpeechTagger:
             AutoTokenizer,
         )
 
-        self.tokenizer: "PreTrainedTokenizerBase" = (
+        self.tokenizer: PreTrainedTokenizerBase = (
             AutoTokenizer.from_pretrained(model, revision=revision)
         )
-        self.model: "AutoModelForTokenClassification" = (
+        self.model: AutoModelForTokenClassification = (
             AutoModelForTokenClassification.from_pretrained(
                 model, revision=revision
             )
@@ -467,10 +467,10 @@ class NamedEntityTagger:
             AutoTokenizer,
         )
 
-        self.tokenizer: "PreTrainedTokenizerBase" = (
+        self.tokenizer: PreTrainedTokenizerBase = (
             AutoTokenizer.from_pretrained(model, revision=revision)
         )
-        self.model: "AutoModelForTokenClassification" = (
+        self.model: AutoModelForTokenClassification = (
             AutoModelForTokenClassification.from_pretrained(
                 model, revision=revision
             )

@@ -10,6 +10,7 @@ Thai-English Cross-Language Transliterated Word Retrieval using Soundex
 Technique. In 1998 [cited 2022 Sep 8].
 Available from:
 https://www.cp.eng.chula.ac.th/~somchai/spj/papers/ThaiText/ncsec98-clir.pdf
+
 """
 
 from __future__ import annotations

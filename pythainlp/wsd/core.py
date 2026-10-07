@@ -38,7 +38,7 @@ class _SentenceTransformersModel:
 
         self.device: str = device
         self.model_name: str = model
-        self.model: "SentenceTransformer" = SentenceTransformer(
+        self.model: SentenceTransformer = SentenceTransformer(
             self.model_name, device=self.device
         )
 

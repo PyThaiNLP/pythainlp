@@ -123,7 +123,7 @@ def _flatten_result(
     }
 
 
-def benchmark(ref_samples: list[str], samples: list[str]) -> "pd.DataFrame":
+def benchmark(ref_samples: list[str], samples: list[str]) -> pd.DataFrame:
     """
     Benchmark tokenized samples against reference samples.
 
@@ -262,7 +262,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> TokenizationStat:
 
 def _binary_representation(
     txt: str, verbose: bool = False
-) -> "NDArray[np.int8]":
+) -> NDArray[np.int8]:
     """
     Transform text into a {0, 1} sequence.
 
@@ -302,7 +302,7 @@ def _binary_representation(
 
 
 def _find_word_boundaries(
-    bin_reps: "NDArray[np.int8]",
+    bin_reps: NDArray[np.int8],
 ) -> list[tuple[int, int]]:
     """
     Find the starting and ending location of each word.

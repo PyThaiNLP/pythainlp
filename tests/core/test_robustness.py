@@ -124,7 +124,7 @@ class RobustnessTestCase(unittest.TestCase):
                     except Exception as e:
                         self.fail(
                             f"word_tokenize (engine={engine}) failed with "
-                            f"whitespace case {repr(s)}: {e}"
+                            f"whitespace case {s!r}: {e}"
                         )
 
     def test_word_tokenize_special_chars(self):
@@ -143,7 +143,7 @@ class RobustnessTestCase(unittest.TestCase):
                     except Exception as e:
                         self.fail(
                             f"word_tokenize (engine={engine}) failed with "
-                            f"special char {repr(s)}: {e}"
+                            f"special char {s!r}: {e}"
                         )
 
     def test_word_tokenize_truncated_unicode(self):
@@ -163,7 +163,7 @@ class RobustnessTestCase(unittest.TestCase):
                         # Truncated unicode might cause issues, but shouldn't crash
                         self.fail(
                             f"word_tokenize (engine={engine}) failed with "
-                            f"truncated unicode {repr(s)}: {e}"
+                            f"truncated unicode {s!r}: {e}"
                         )
 
     def test_word_tokenize_emoji(self):
@@ -184,7 +184,7 @@ class RobustnessTestCase(unittest.TestCase):
                     except Exception as e:
                         self.fail(
                             f"word_tokenize (engine={engine}) failed with "
-                            f"emoji {repr(s)}: {e}"
+                            f"emoji {s!r}: {e}"
                         )
 
     def test_word_tokenize_control_and_hidden(self):
@@ -203,7 +203,7 @@ class RobustnessTestCase(unittest.TestCase):
                     except Exception as e:
                         self.fail(
                             f"word_tokenize (engine={engine}) failed with "
-                            f"control/hidden char {repr(s)}: {e}"
+                            f"control/hidden char {s!r}: {e}"
                         )
 
     def test_word_tokenize_thai_edge_cases_multi_engine(self):
@@ -226,7 +226,7 @@ class RobustnessTestCase(unittest.TestCase):
                     except Exception as e:
                         self.fail(
                             f"word_tokenize (engine={engine}) failed with "
-                            f"Thai edge case {repr(s)}: {e}"
+                            f"Thai edge case {s!r}: {e}"
                         )
 
     def test_word_tokenize_with_very_long_strings(self):

@@ -285,7 +285,7 @@ def _get_session() -> InferenceSession:
 
 def _create_feature_array(
     text: str, n_pad: int = _N_PAD
-) -> tuple["NDArray[np.float32]", "NDArray[np.float32]"]:
+) -> tuple[NDArray[np.float32], NDArray[np.float32]]:
     """
     Create character and type feature arrays for ONNX model input.
 

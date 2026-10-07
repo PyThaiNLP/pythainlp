@@ -30,7 +30,7 @@ if TYPE_CHECKING:
 class KeyBERT:
     """Extract keywords and keyphrases with the KeyBERT algorithm."""
 
-    ft_pipeline: "Pipeline"
+    ft_pipeline: Pipeline
 
     def __init__(
         self, model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
@@ -42,7 +42,7 @@ class KeyBERT:
         """
         from transformers import pipeline
 
-        self.ft_pipeline: "Pipeline" = pipeline(
+        self.ft_pipeline: Pipeline = pipeline(
             "feature-extraction",
             tokenizer=model_name,
             model=model_name,
@@ -160,7 +160,7 @@ class KeyBERT:
             return keywords
         return [kw for kw, _ in keywords]
 
-    def embed(self, docs: Union[str, list[str]]) -> "NDArray[np.float32]":
+    def embed(self, docs: Union[str, list[str]]) -> NDArray[np.float32]:
         """
         Create embeddings by averaging vectors from the last hidden layer.
 
@@ -237,14 +237,14 @@ def _generate_ngrams(
 
 
 def _rank_keywords(
-    doc_vector: "NDArray[np.float32]",
-    word_vectors: "NDArray[np.float32]",
+    doc_vector: NDArray[np.float32],
+    word_vectors: NDArray[np.float32],
     keywords: list[str],
     max_keywords: int,
 ) -> list[tuple[str, float]]:
     import numpy as np
 
-    def l2_norm(v: "NDArray[np.float32]") -> "NDArray[np.float32]":
+    def l2_norm(v: NDArray[np.float32]) -> NDArray[np.float32]:
         vec_size = v.shape[1]
         result = np.divide(
             v,
@@ -256,8 +256,8 @@ def _rank_keywords(
         return cast("NDArray[np.float32]", result)
 
     def cosine_sim(
-        a: "NDArray[np.float32]", b: "NDArray[np.float32]"
-    ) -> "NDArray[np.float32]":
+        a: NDArray[np.float32], b: NDArray[np.float32]
+    ) -> NDArray[np.float32]:
         # `a` has one row (document embedding), so flatten to get 1-D scores.
         scores = np.matmul(a, b.T).reshape(-1)
         return cast(

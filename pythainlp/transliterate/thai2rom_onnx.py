@@ -14,8 +14,6 @@ from pythainlp.corpus import get_corpus_path
 from pythainlp.transliterate._repetition import find_trailing_repeat_period
 
 if TYPE_CHECKING:
-    from typing import Dict, List
-
     import numpy as np
     from numpy.typing import NDArray
 
@@ -75,13 +73,13 @@ class ThaiTransliterator_ONNX:
 
         self._maxlength: int = 100
 
-        self._char_to_ix: Dict[str, int] = loader["char_to_ix"]
-        self._target_char_to_ix: Dict[str, int] = loader["target_char_to_ix"]
+        self._char_to_ix: dict[str, int] = loader["char_to_ix"]
+        self._target_char_to_ix: dict[str, int] = loader["target_char_to_ix"]
         # JSON keys are always strings; convert to int for index-based lookup.
-        self._ix_to_char: Dict[int, str] = {
+        self._ix_to_char: dict[int, str] = {
             int(k): v for k, v in loader["ix_to_char"].items()
         }
-        self._ix_to_target_char: Dict[int, str] = {
+        self._ix_to_target_char: dict[int, str] = {
             int(k): v for k, v in loader["ix_to_target_char"].items()
         }
 
@@ -104,7 +102,7 @@ class ThaiTransliterator_ONNX:
             target_vocab_size=OUTPUT_DIM,
         )
 
-    def _prepare_sequence_in(self, text: str) -> "NDArray[np.int64]":
+    def _prepare_sequence_in(self, text: str) -> NDArray[np.int64]:
         """
         Prepare an int64 input sequence for the ONNX encoder.
 
@@ -180,8 +178,8 @@ class Seq2Seq_ONNX:
         """
         super().__init__()
 
-        self.encoder: "InferenceSession" = encoder
-        self.decoder: "InferenceSession" = decoder
+        self.encoder: InferenceSession = encoder
+        self.decoder: InferenceSession = decoder
         self.pad_idx: int = 0
         self.target_start_token: int = target_start_token
         self.target_end_token: int = target_end_token
@@ -189,9 +187,7 @@ class Seq2Seq_ONNX:
 
         self.target_vocab_size: int = target_vocab_size
 
-    def create_mask(
-        self, source_seq: "NDArray[np.int64]"
-    ) -> "NDArray[np.bool_]":
+    def create_mask(self, source_seq: NDArray[np.int64]) -> NDArray[np.bool_]:
         """
         Create a boolean mask for non-padding positions.
 
@@ -204,14 +200,14 @@ class Seq2Seq_ONNX:
         return cast("NDArray[np.bool_]", mask)
 
     def run(
-        self, source_seq: "NDArray[np.int64]", source_seq_len: List[int]
-    ) -> "NDArray[np.float32]":
+        self, source_seq: NDArray[np.int64], source_seq_len: list[int]
+    ) -> NDArray[np.float32]:
         """
         Run ONNX seq2seq decoding and return logits.
 
         :param numpy.typing.NDArray[numpy.int64] source_seq: encoded source
             sequence with shape ``(batch_size, sequence_length)``
-        :param List[int] source_seq_len: unpadded source lengths
+        :param list[int] source_seq_len: unpadded source lengths
         :return: decoder logits as a float32 array with shape
             ``(decoded_length, batch_size, target_vocab_size)``
         :rtype: numpy.typing.NDArray[numpy.float32]
@@ -227,7 +223,7 @@ class Seq2Seq_ONNX:
         max_len = self.max_length
         # target_vocab_size = self.decoder.vocabulary_size
 
-        outputs: "NDArray[np.float32]" = np.zeros(
+        outputs: NDArray[np.float32] = np.zeros(
             (max_len, batch_size, self.target_vocab_size), dtype=np.float32
         )
 
@@ -258,7 +254,7 @@ class Seq2Seq_ONNX:
         max_source_len = encoder_outputs.shape[1]
         mask = self.create_mask(source_seq[:, 0:max_source_len])
 
-        generated_tokens: List[int] = []
+        generated_tokens: list[int] = []
         for di in range(max_len):
             decoder_output_raw, decoder_hidden = self.decoder.run(
                 input_feed={

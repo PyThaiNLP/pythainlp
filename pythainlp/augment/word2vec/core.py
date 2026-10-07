@@ -24,12 +24,12 @@ class Word2VecAug:
     """Augment text using word2vec word vectors."""
 
     tokenizer: Callable[[str], list[str]]
-    model: "KeyedVectors"
+    model: KeyedVectors
     dict_wv: list[str]
 
     def __init__(
         self,
-        model: Union[str, "KeyedVectors"],
+        model: Union[str, KeyedVectors],
         tokenize: Callable[[str], list[str]],
         type: str = "file",
     ) -> None:

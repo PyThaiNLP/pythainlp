@@ -13,11 +13,10 @@ __all__: list[str] = [
     "spell_sent",
 ]
 
-from typing import Type
 
 from pythainlp.spell.pn import NorvigSpellChecker
 
-DEFAULT_SPELL_CHECKER: Type[NorvigSpellChecker] = NorvigSpellChecker
+DEFAULT_SPELL_CHECKER: type[NorvigSpellChecker] = NorvigSpellChecker
 
 # these imports are placed here to avoid circular imports
 from pythainlp.spell.core import correct, correct_sent, spell, spell_sent

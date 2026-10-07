@@ -52,9 +52,9 @@ class ThaiG2P:
     _ix_to_char: dict[int, str]
     _target_char_to_ix: dict[str, int]
     _ix_to_target_char: dict[int, str]
-    _encoder: "Encoder"
-    _decoder: "AttentionDecoder"
-    _network: "Seq2Seq"
+    _encoder: Encoder
+    _decoder: AttentionDecoder
+    _network: Seq2Seq
 
     def __init__(self) -> None:
         """Initialize the Thai G2P model."""
@@ -81,15 +81,15 @@ class ThaiG2P:
 
         # encoder/ decoder
         # Restore the model and construct the encoder and decoder.
-        self._encoder: "Encoder" = Encoder(
+        self._encoder: Encoder = Encoder(
             INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT
         )
 
-        self._decoder: "AttentionDecoder" = AttentionDecoder(
+        self._decoder: AttentionDecoder = AttentionDecoder(
             OUTPUT_DIM, D_EMB_DIM, D_HID_DIM, D_DROPOUT
         )
 
-        self._network: "Seq2Seq" = Seq2Seq(
+        self._network: Seq2Seq = Seq2Seq(
             self._encoder,
             self._decoder,
             self._target_char_to_ix["<start>"],

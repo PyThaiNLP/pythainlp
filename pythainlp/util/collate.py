@@ -10,7 +10,8 @@ Simple implementation using regular expressions.
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Pattern
+from re import Pattern
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from collections.abc import Iterable

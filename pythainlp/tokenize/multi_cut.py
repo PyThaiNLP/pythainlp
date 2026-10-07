@@ -39,7 +39,7 @@ class LatticeString(str):
         value: str,
         multi: Optional[list[str]] = None,
         in_dict: bool = True,
-    ) -> "LatticeString":
+    ) -> LatticeString:
         """Create a new lattice string from a value."""
         return str.__new__(cls, value)
 

@@ -54,7 +54,7 @@ class WordVector:
         :param str model_name: name of the word vector model
         """
         self.model_name: str
-        self.model: "Word2VecKeyedVectors"
+        self.model: Word2VecKeyedVectors
         self.WV_DIM: int
         self.tokenize: Callable[[str], list[str]]
         self.load_wordvector(model_name)
@@ -292,7 +292,7 @@ class WordVector:
 
     def sentence_vectorizer(
         self, text: str, use_mean: bool = True
-    ) -> "NDArray[np.float32]":
+    ) -> NDArray[np.float32]:
         """
         Convert Thai text into a vector.
 

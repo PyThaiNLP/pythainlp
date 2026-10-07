@@ -27,9 +27,11 @@ import json
 import os
 from pathlib import Path
 from shutil import copyfile
-from typing import TYPE_CHECKING, Any, Mapping, Optional, Union, cast
+from typing import TYPE_CHECKING, Any, Optional, Union, cast
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping
+
     from sentencepiece import SentencePieceProcessor
 
 from transformers.tokenization_utils import BatchEncoding, PreTrainedTokenizer

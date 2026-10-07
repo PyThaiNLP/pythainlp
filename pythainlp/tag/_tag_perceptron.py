@@ -142,7 +142,7 @@ class PerceptronTagger:
     END: list[str] = ["-END-", "-END2-"]
     AP_MODEL_LOC: str = ""
 
-    model: "AveragedPerceptron"
+    model: AveragedPerceptron
     tagdict: dict[str, str]
     classes: set[str]
 
@@ -152,7 +152,7 @@ class PerceptronTagger:
 
         :param str path: path to the model file
         """
-        self.model: "AveragedPerceptron" = AveragedPerceptron()
+        self.model: AveragedPerceptron = AveragedPerceptron()
         self.tagdict: dict[str, str] = {}
         self.classes: set[str] = set()
         if path != "":

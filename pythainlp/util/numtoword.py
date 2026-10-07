@@ -86,13 +86,13 @@ def bahttext(number: float) -> str:
 
         baht = num_to_thaiword(num_int)
         if baht:
-            ret = "".join([ret, baht, "บาท"])
+            ret = f"{ret}{baht}บาท"
 
         satang = num_to_thaiword(num_dec)
         if satang and satang != "ศูนย์":
-            ret = "".join([ret, satang, "สตางค์"])
+            ret = f"{ret}{satang}สตางค์"
         else:
-            ret = "".join([ret, "ถ้วน"])
+            ret = f"{ret}ถ้วน"
 
     return ret
 

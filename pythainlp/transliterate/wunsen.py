@@ -27,7 +27,7 @@ class WunsenTransliterate:
         * `GitHub <https://github.com/cakimpei/wunsen>`_
     """
 
-    thap_value: Optional["ThapSap"]
+    thap_value: Optional[ThapSap]
     lang: Optional[str]
     jp_input: Optional[str]
     zh_sandhi: Optional[bool]

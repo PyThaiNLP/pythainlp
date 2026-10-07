@@ -19,7 +19,7 @@ https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8
 from __future__ import annotations
 
 import re
-from typing import Pattern
+from re import Pattern
 
 from pythainlp import thai_consonants
 

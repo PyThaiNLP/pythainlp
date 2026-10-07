@@ -23,13 +23,13 @@ class WngchanBerta_ONNX:
 
     model_name: str
     model_version: str
-    options: "SessionOptions"
-    session: "InferenceSession"
+    options: SessionOptions
+    session: InferenceSession
     outputs_name: str
-    sp: "spm.SentencePieceProcessor"
+    sp: spm.SentencePieceProcessor
     _json: dict[str, Any]
     id2tag: dict[str, str]
-    _s: dict[str, "NDArray[np.int64]"]
+    _s: dict[str, NDArray[np.int64]]
 
     def __init__(
         self,
@@ -82,7 +82,7 @@ class WngchanBerta_ONNX:
             self._json = json.load(fh)
             self.id2tag = self._json["id2label"]
 
-    def build_tokenizer(self, sent: str) -> dict[str, "NDArray[np.int64]"]:
+    def build_tokenizer(self, sent: str) -> dict[str, NDArray[np.int64]]:
         """
         Build ONNX tokenizer inputs for a sentence.
 
@@ -102,8 +102,8 @@ class WngchanBerta_ONNX:
         return model_inputs
 
     def postprocess(
-        self, logits_data: "NDArray[np.float32]"
-    ) -> "NDArray[np.float32]":
+        self, logits_data: NDArray[np.float32]
+    ) -> NDArray[np.float32]:
         """
         Convert raw logits to probabilities.
 
@@ -133,7 +133,7 @@ class WngchanBerta_ONNX:
         return list_text
 
     def totag(
-        self, post: "NDArray[np.float32]", sent: str
+        self, post: NDArray[np.float32], sent: str
     ) -> list[tuple[str, str]]:
         """
         Map each token of a sentence to its most probable tag.

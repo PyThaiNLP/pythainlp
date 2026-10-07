@@ -37,7 +37,7 @@ from pythainlp.ulmfit.preprocess import (
 )
 from pythainlp.util import reorder_vowels
 
-device: "torch.device" = torch.device(
+device: torch.device = torch.device(
     "cuda" if torch.cuda.is_available() else "cpu"
 )
 
@@ -202,7 +202,7 @@ def process_thai(
 
 def document_vector(
     text: str, learn: Learner, data: DataBunch, agg: str = "mean"
-) -> "NDArray[np.float32]":
+) -> NDArray[np.float32]:
     """
     Vectorize Thai text into a 400-dimension vector.
 

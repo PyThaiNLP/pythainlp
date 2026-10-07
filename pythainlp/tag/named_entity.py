@@ -175,7 +175,7 @@ class NNER:
     :param str corpus: corpus used to train the engine model
     """
 
-    engine: "ThaiNNER"
+    engine: ThaiNNER
 
     def __init__(self, engine: str = "thai_nner") -> None:
         """

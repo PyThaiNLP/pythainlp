@@ -115,7 +115,7 @@ class ThaiNameTagger:
             Tagger as CRFTagger,  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-module-attribute]
         )
 
-        self.crf: "CRFTagger" = CRFTagger()
+        self.crf: CRFTagger = CRFTagger()
 
         if version == "1.4":
             model_path = get_corpus_path("thainer-1.4", version="1.4")

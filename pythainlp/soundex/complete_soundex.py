@@ -26,6 +26,7 @@ Example:
         # Multi-syllable (automatically handled)
         complete_soundex("ปุญญา")  # 'ปป1B0น-*'
         complete_soundex("สวรรค์")  # 'ซศ1A-0-วว1Aน0-'
+
 """
 
 from __future__ import annotations
@@ -420,7 +421,7 @@ class CompleteSoundex:
         syl: str,
         implicit_rule: Optional[str],
     ) -> str:
-        """Special adjustments for ส (so sua) mapping."""
+        """Apply special adjustments for ส (so sua) mapping."""
         # Not for implicit splits
         if (
             init_char == "ส"
@@ -590,7 +591,7 @@ class CompleteSoundex:
 
 
 # Shared instance for the module-level function
-_complete_soundex_instance: "Optional[CompleteSoundex]" = None
+_complete_soundex_instance: Optional[CompleteSoundex] = None
 
 
 def complete_soundex(text: str) -> str:

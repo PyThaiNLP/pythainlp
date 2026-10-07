@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 
 @lru_cache
-def default_spell_checker() -> "NorvigSpellChecker":
+def default_spell_checker() -> NorvigSpellChecker:
     """Load the default spell checker lazily and cache it."""
     return DEFAULT_SPELL_CHECKER()
 

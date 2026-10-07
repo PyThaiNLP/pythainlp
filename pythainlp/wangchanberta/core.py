@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 from pythainlp.tokenize import word_tokenize
 
 _model_name: str = "wangchanberta-base-att-spm-uncased"
-_tokenizer: Optional["CamembertTokenizer"] = None
+_tokenizer: Optional[CamembertTokenizer] = None
 
 
 def _get_tokenizer() -> CamembertTokenizer:

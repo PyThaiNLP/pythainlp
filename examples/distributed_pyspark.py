@@ -20,7 +20,7 @@ https://github.com/PyThaiNLP/pythainlp/issues/475
 
 # Example 1: Basic PySpark setup with PyThaiNLP
 def example_basic_spark():
-    """Basic example showing how to tokenize Thai text in PySpark."""
+    """Show how to tokenize Thai text in PySpark."""
     from pyspark import SparkContext
 
     sc = SparkContext("local[*]", "PyThaiNLP Example")
@@ -67,7 +67,7 @@ def example_basic_spark():
 
 # Example 2: Using DataFrame API
 def example_dataframe_api():
-    """Example using PySpark DataFrame API with PyThaiNLP."""
+    """Show the PySpark DataFrame API with PyThaiNLP."""
     from pyspark.sql import SparkSession
     from pyspark.sql.functions import udf
     from pyspark.sql.types import ArrayType, StringType
@@ -200,7 +200,7 @@ def example_production_best_practices():
 
         except Exception as e:
             # Log error (in production, use proper logging)
-            print(f"Error tokenizing text: {text}, Error: {str(e)}")
+            print(f"Error tokenizing text: {text}, Error: {e!s}")
             return []
 
     # Register UDF

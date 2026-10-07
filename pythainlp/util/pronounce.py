@@ -140,7 +140,7 @@ def _spelling_tokenizer() -> Tokenizer:
 
 @lru_cache(maxsize=1024)
 def _spelling_impl(word: str) -> list[str]:
-    """Cached implementation of :func:`spelling` for valid text."""
+    """Return the cached result of :func:`spelling` for valid text."""
     thai_vowel_tokenizer = _spelling_tokenizer()
     word_pre = remove_tonemark(word).replace("็", "")
     tone = [tone_to_spelling(i) for i in word if i in thai_tonemarks]

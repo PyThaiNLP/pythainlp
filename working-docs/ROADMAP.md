@@ -84,27 +84,26 @@ flake8 --isolated --select CCR001 --max-cognitive-complexity=1 pythainlp
 
 Ranked by value for effort. Counts are from 2026-10-06 (done: `D213`,
 `D300`, `D200`, `D205`, `D202`, `D209`, `D214`, `PLE`, `PGH003`, `RUF022`,
-`RUF100`, `RUF102`, `UP015`, `UP031`, `UP033`), run with the project
+`RUF100`, `RUF102`, `UP015`, `UP031`, `UP033`, `UP037`, `UP006`,
+`UP035`, `D401`, `D413`, `RUF010`), run with the project
 config on `pythainlp`, `tests`, `examples`, and `notebooks`
 (`ruff check --select <rule> --config pyproject.toml ...`).
 Enable a rule in `[tool.ruff.lint]` in the same PR that fixes its findings.
 
 | # | Rule | Found | Fix | Note |
 |---|------|-------|-----|------|
-| 1 | `UP037` | 140 | auto | Remove quotes from annotations. Needs `from __future__ import annotations` in each file. |
-| 2 | `D415`, `D400`, `D401`, `D413` | 76 + 76 + 4 + 2 | manual | Summary ends with a period, in the imperative mood. The first two flag the same lines. |
-| 3 | `EXE001`, `ICN001`, `INP001`, `SLOT000`, `PYI034`, `A002`, `FA100` | 13 | manual | One-off fixes, a few lines each. |
-| 4 | `RUF012` | 17 | manual | Mutable class attribute without `ClassVar`. Can hide shared-state bugs. |
-| 5 | `FLY002`, `RUF010`, `RUF015` | 22 | manual | Small readability fixes. |
-| 6 | `PLW2901` | 15 | manual | A loop variable is reassigned in the loop body. |
-| 7 | `BLE001` | 13 | manual | Blind `except`. Narrow it or add `# noqa: BLE001` with a reason. Related to PR 1542. |
-| 8 | `UP006`, `UP035` | 27 + 19 | manual | `typing.List` and similar. Safe with `from __future__ import annotations`. |
-| 9 | `RUF005` | 22 | manual | List concatenation; use unpacking. |
-| 10 | `PERF401`, `PERF402`, `PERF403` | 16 | manual | Loop to comprehension. Readability can get worse. |
-| 11 | `W505` (max 79) | 65 | manual | Doctest output and comment lines cannot always wrap. Needs `# noqa`. |
-| 12 | `TID252` | 27 | manual | Relative imports. The package uses them on purpose. Decide first. |
-| 13 | `T201`, `ERA001` | 75 + 132 | manual | `print` in the CLI and examples is intended. Many `ERA001` hits are false positives. |
-| 14 | `DTZ`, `PLW0603`, `PLR2004`, `PLR0913` | 17 + 49 + 86 + 22 | manual | Naive datetimes, `global` for lazy loading, magic numbers, and many arguments are intended in this code. Skip. |
+| 1 | `D415`, `D400` | 65 + 65 | manual | Summary ends with a period. Both flag the same lines. |
+| 2 | `EXE001`, `ICN001`, `INP001`, `SLOT000`, `PYI034`, `A002`, `FA100` | 13 | manual | One-off fixes, a few lines each. |
+| 3 | `RUF012` | 17 | manual | Mutable class attribute without `ClassVar`. Can hide shared-state bugs. |
+| 4 | `FLY002`, `RUF015` | 3 + 6 | manual | `RUF015` changes behavior on empty input (`StopIteration`). |
+| 5 | `PLW2901` | 15 | manual | A loop variable is reassigned in the loop body. |
+| 6 | `BLE001` | 13 | manual | Blind `except`. Narrow it or add `# noqa: BLE001` with a reason. Related to PR 1542. |
+| 7 | `RUF005` | 22 | manual | List concatenation; use unpacking. |
+| 8 | `PERF401`, `PERF402`, `PERF403` | 16 | manual | Loop to comprehension. Readability can get worse. |
+| 9 | `W505` (max 79) | 65 | manual | Doctest output and comment lines cannot always wrap. Needs `# noqa`. |
+| 10 | `TID252` | 27 | manual | Relative imports. The package uses them on purpose. Decide first. |
+| 11 | `T201`, `ERA001` | 75 + 132 | manual | `print` in the CLI and examples is intended. Many `ERA001` hits are false positives. |
+| 12 | `DTZ`, `PLW0603`, `PLR2004`, `PLR0913` | 17 + 49 + 86 + 22 | manual | Naive datetimes, `global` for lazy loading, magic numbers, and many arguments are intended in this code. Skip. |
 
 Do not enable `RUF001` and `RUF002` (256 findings). They flag Thai and
 look-alike characters on purpose. Skip `EM`, `TRY003`, and `N` rules:

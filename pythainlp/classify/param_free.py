@@ -29,7 +29,7 @@ class GzipModel:
     """
 
     cx2_list: list[int]
-    training_data: "NDArray[Any]"
+    training_data: NDArray[Any]
 
     def __init__(
         self,
@@ -100,7 +100,7 @@ class GzipModel:
         for i in range(len(self.cx2_list)):
             x2 = self.training_data[i][0]
             cx2 = self.cx2_list[i]
-            x1x2 = "".join([x1, x2])
+            x1x2 = f"{x1}{x2}"
             cx1x2 = len(gzip.compress(x1x2.encode("utf-8")))
             # normalized compression distance
             ncd = (cx1x2 - min(cx1, cx2)) / max(cx1, cx2)

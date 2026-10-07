@@ -64,18 +64,18 @@ class Thai_W2P:
     p2idx: dict[str, int]
     idx2p: dict[int, str]
     checkpoint: Optional[str]
-    enc_emb: "NDArray[np.float32]"
-    enc_w_ih: "NDArray[np.float32]"
-    enc_w_hh: "NDArray[np.float32]"
-    enc_b_ih: "NDArray[np.float32]"
-    enc_b_hh: "NDArray[np.float32]"
-    dec_emb: "NDArray[np.float32]"
-    dec_w_ih: "NDArray[np.float32]"
-    dec_w_hh: "NDArray[np.float32]"
-    dec_b_ih: "NDArray[np.float32]"
-    dec_b_hh: "NDArray[np.float32]"
-    fc_w: "NDArray[np.float32]"
-    fc_b: "NDArray[np.float32]"
+    enc_emb: NDArray[np.float32]
+    enc_w_ih: NDArray[np.float32]
+    enc_w_hh: NDArray[np.float32]
+    enc_b_ih: NDArray[np.float32]
+    enc_b_hh: NDArray[np.float32]
+    dec_emb: NDArray[np.float32]
+    dec_w_ih: NDArray[np.float32]
+    dec_w_hh: NDArray[np.float32]
+    dec_b_ih: NDArray[np.float32]
+    dec_b_hh: NDArray[np.float32]
+    fc_w: NDArray[np.float32]
+    fc_b: NDArray[np.float32]
     word: str
 
     def __init__(self) -> None:
@@ -164,7 +164,7 @@ class Thai_W2P:
                 "NDArray[np.float32]", variables["decoder_fc_bias"]
             )
 
-    def _sigmoid(self, x: "NDArray[np.float32]") -> "NDArray[np.float32]":
+    def _sigmoid(self, x: NDArray[np.float32]) -> NDArray[np.float32]:
         """
         Apply the sigmoid function to a float32 array.
 
@@ -178,13 +178,13 @@ class Thai_W2P:
 
     def _grucell(
         self,
-        x: "NDArray[np.float32]",
-        h: "NDArray[np.float32]",
-        w_ih: "NDArray[np.float32]",
-        w_hh: "NDArray[np.float32]",
-        b_ih: "NDArray[np.float32]",
-        b_hh: "NDArray[np.float32]",
-    ) -> "NDArray[np.float32]":
+        x: NDArray[np.float32],
+        h: NDArray[np.float32],
+        w_ih: NDArray[np.float32],
+        w_hh: NDArray[np.float32],
+        b_ih: NDArray[np.float32],
+        b_hh: NDArray[np.float32],
+    ) -> NDArray[np.float32]:
         """
         Run one GRU cell step on float32 inputs.
 
@@ -221,14 +221,14 @@ class Thai_W2P:
 
     def _gru(
         self,
-        x: "NDArray[np.float32]",
+        x: NDArray[np.float32],
         steps: int,
-        w_ih: "NDArray[np.float32]",
-        w_hh: "NDArray[np.float32]",
-        b_ih: "NDArray[np.float32]",
-        b_hh: "NDArray[np.float32]",
-        h0: Optional["NDArray[np.float32]"] = None,
-    ) -> "NDArray[np.float32]":
+        w_ih: NDArray[np.float32],
+        w_hh: NDArray[np.float32],
+        b_ih: NDArray[np.float32],
+        b_hh: NDArray[np.float32],
+        h0: Optional[NDArray[np.float32]] = None,
+    ) -> NDArray[np.float32]:
         """
         Run a GRU over multiple time steps.
 
@@ -256,7 +256,7 @@ class Thai_W2P:
 
         return outputs
 
-    def _encode(self, word: str) -> "NDArray[np.float32]":
+    def _encode(self, word: str) -> NDArray[np.float32]:
         """
         Encode a word into its embedding sequence tensor.
 
@@ -343,7 +343,7 @@ class Thai_W2P:
         return pron_result
 
 
-_THAI_W2P: "Thai_W2P" = Thai_W2P()
+_THAI_W2P: Thai_W2P = Thai_W2P()
 
 
 def pronunciate(text: str) -> str:

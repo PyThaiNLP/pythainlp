@@ -18,7 +18,7 @@ from pythainlp.corpus import get_corpus_path
 from pythainlp.tools import safe_path_join
 
 
-class WngchanBerta_ONNX:
+class WangchanBerta_ONNX:
     """WangchanBERTa named entity recognizer with ONNX Runtime backend."""
 
     model_name: str

@@ -358,9 +358,15 @@ def thaiword_to_date(
 
     :Example:
 
-        thaiword_to_date("พรุ่งนี้")
-        # output:
-        # datetime of tomorrow
+        >>> from datetime import datetime
+        >>> from pythainlp.util import thaiword_to_date
+
+        >>> thaiword_to_date("พรุ่งนี้", datetime(2024, 1, 31))
+        datetime.datetime(2024, 2, 1, 0, 0)
+        >>> thaiword_to_date("เมื่อวาน", datetime(2024, 1, 31))
+        datetime.datetime(2024, 1, 30, 0, 0)
+        >>> print(thaiword_to_date("ไม่มีคำนี้"))
+        None
     """
     if text not in _DAY:
         return None

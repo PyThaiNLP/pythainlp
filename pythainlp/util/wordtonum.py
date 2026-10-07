@@ -94,6 +94,8 @@ def thaiword_to_num(word: str) -> int:
     :param str word: numeral spelled out in Thai
     :return: integer value of the numeral
     :rtype: int
+    :raises TypeError: if word is not a str
+    :raises ValueError: if word is empty or is not a valid Thai numeral
 
     :Example:
 

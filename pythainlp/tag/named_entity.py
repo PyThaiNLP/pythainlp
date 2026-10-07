@@ -172,7 +172,6 @@ class NNER:
     :param str engine: engine to use for recognition. Options are:
 
         * *thai_nner* - Thai nested NER engine (default)
-    :param str corpus: corpus used to train the engine model
     """
 
     engine: ThaiNNER

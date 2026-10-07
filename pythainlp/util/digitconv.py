@@ -80,6 +80,7 @@ def thai_digit_to_arabic_digit(text: str) -> str:
     :return: text with Thai digits converted to Arabic digits
         such as '1', '2', '3'
     :rtype: str
+    :raises TypeError: if text is not a str
 
     :Example:
 
@@ -106,6 +107,7 @@ def arabic_digit_to_thai_digit(text: str) -> str:
     :return: text with Arabic digits converted to Thai digits
         such as '๑', '๒', '๓'
     :rtype: str
+    :raises TypeError: if text is not a str
 
     :Example:
 
@@ -130,6 +132,7 @@ def digit_to_text(text: str) -> str:
     :param str text: text with digits such as '1', '2', '๓', '๔'
     :return: text with digits spelled out in Thai
     :rtype: str
+    :raises TypeError: if text is not a str
 
     :Example:
 
@@ -162,6 +165,7 @@ def text_to_arabic_digit(text: str) -> str:
         spelled out in Thai (ศูนย์, หนึ่ง, สอง, ..., เก้า),
         otherwise an empty string
     :rtype: str
+    :raises TypeError: if text is not a str
 
     :Example:
 
@@ -199,6 +203,7 @@ def text_to_thai_digit(text: str) -> str:
         spelled out in Thai (ศูนย์, หนึ่ง, สอง, ..., เก้า),
         otherwise an empty string
     :rtype: str
+    :raises TypeError: if text is not a str
 
     :Example:
 

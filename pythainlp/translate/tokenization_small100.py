@@ -174,10 +174,17 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         :param str vocab_file: path to the vocabulary file
         :param str spm_file: path to the SentencePiece model file
         :param Optional[str] tgt_lang: target language code
+        :param str bos_token: beginning-of-sequence token
+        :param str eos_token: end-of-sequence token
+        :param str sep_token: separator token
+        :param str pad_token: padding token
+        :param str unk_token: unknown token
         :param str language_codes: language code set (m2m100)
         :param Optional[dict[str, str]] sp_model_kwargs: keyword arguments for
             the SentencePiece processor
         :param int num_madeup_words: number of made-up words
+        :param Any kwargs: additional arguments passed to the base
+            tokenizer
         """
         self.sp_model_kwargs: dict[str, str] = (
             {} if sp_model_kwargs is None else sp_model_kwargs
@@ -439,6 +446,8 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         :param list[str] src_texts: list of source texts
         :param Optional[list[str]] tgt_texts: list of target texts
         :param str tgt_lang: target language code
+        :param Any kwargs: additional arguments passed to the base
+            method
         :return: encoded batch
         :rtype: transformers.BatchEncoding
         """
@@ -476,7 +485,9 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         """
         Reset the special tokens to the target language setting.
 
-        There is no prefix, and the suffix is ``[eos, tgt_lang_code]``.
+        The prefix is ``[lang_code]`` and the suffix is ``[eos]``.
+
+        :param str src_lang: language code to set in the prefix
         """
         lang_token = self.get_lang_token(src_lang)
         self.cur_lang_id: int = self.lang_token_to_id[lang_token]

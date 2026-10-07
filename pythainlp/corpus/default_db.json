@@ -48,7 +48,7 @@
         "name": "thai2rom_encoder_onnx",
         "latest_version": "1.0.0",
         "description": "Thai2Rom Encoder ONNX",
-        "long_description": "Thai to Roman in ONNX model - Encoder",
+        "long_description": "Thai romanization ONNX model - Encoder",
         "url": "https://github.com/artificiala/thai-romanization/",
         "authors": [
             "Chakri Lowphansirikul"
@@ -66,7 +66,7 @@
         "name": "thai2rom_decoder_onnx",
         "latest_version": "1.0.0",
         "description": "Thai2Rom Decoder ONNX",
-        "long_description": "Thai to Roman in ONNX model - Decoder",
+        "long_description": "Thai romanization ONNX model - Decoder",
         "url": "https://github.com/artificiala/thai-romanization/",
         "authors": [
             "Chakri Lowphansirikul"
@@ -84,7 +84,7 @@
         "name": "thai2rom_config_onnx",
         "latest_version": "1.0.0",
         "description": "Thai2Rom Config ONNX",
-        "long_description": "Thai to Roman in ONNX model - Config",
+        "long_description": "Thai romanization ONNX model - Config",
         "url": "https://github.com/artificiala/thai-romanization/",
         "authors": [
             "Chakri Lowphansirikul"

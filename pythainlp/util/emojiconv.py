@@ -2,12 +2,12 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Convert emojis"""
+"""Emoji conversion."""
 
 from __future__ import annotations
 
 import re
-from typing import Pattern
+from re import Pattern
 
 _emoji_th: dict[str, str] = {
     "😀": "หน้ายิ้มยิงฟัน",
@@ -1836,10 +1836,13 @@ _delimiter: str = ":"
 def emoji_to_thai(
     text: str, delimiters: tuple[str, str] = (_delimiter, _delimiter)
 ) -> str:
-    """Converts emojis to their Thai meanings.
+    """
+    Convert emojis to their Thai meanings.
 
-    :param str text: Text with emojis
-    :return: Text with emojis converted to their Thai meanings
+    :param str text: text with emojis
+    :param tuple[str, str] delimiters: strings placed before and after
+        each Thai meaning (default is a colon for both)
+    :return: text with emojis converted to their Thai meanings
     :rtype: str
 
     :Example:

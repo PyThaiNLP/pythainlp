@@ -12,7 +12,7 @@ import unittest
 
 
 class TagONNXTestCaseN(unittest.TestCase):
-    """Tests for ONNX-based POS tagging (requires onnxruntime)"""
+    """Tests for ONNX-based POS tagging (requires onnxruntime)."""
 
     def test_pos_tag_wangchanberta_onnx_returns_list(self):
         from pythainlp.tag import pos_tag

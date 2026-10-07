@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+
+"""Run the PyThaiNLP command line with ``python -m pythainlp``."""
+
 from __future__ import annotations
 
 import argparse
@@ -11,7 +14,7 @@ from pythainlp import cli
 
 
 def main(argv: Optional[list[str]] = None) -> None:
-    """ThaiNLP command line."""
+    """Run the PyThaiNLP command line."""
     if not argv:
         argv = sys.argv
 

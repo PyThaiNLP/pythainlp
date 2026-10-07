@@ -15,7 +15,7 @@ from pythainlp.spell import get_words_spell_suggestion
 
 
 class SpellHuggingFaceTestCaseN(unittest.TestCase):
-    """Tests for get_words_spell_suggestion (requires HuggingFace Hub network access)"""
+    """Tests for get_words_spell_suggestion (requires HuggingFace Hub network access)."""
 
     def test_get_words_spell_suggestion(self):
         self.assertIsNotNone(get_words_spell_suggestion("คมดี"))

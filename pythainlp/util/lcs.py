@@ -1,15 +1,42 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Longest common subsequence functions."""
+
 from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+
+def _lcs_lengths(str1: Sequence[str], str2: Sequence[str]) -> list[list[int]]:
+    """
+    Build the table of longest common subsequence lengths.
+
+    ``table[i][j]`` is the length for ``str1[:i]`` and ``str2[:j]``.
+    Each argument is a string or another sequence of strings.
+    """
+    m = len(str1)
+    n = len(str2)
+    table = [[0] * (n + 1) for _ in range(m + 1)]
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if str1[i - 1] == str2[j - 1]:
+                table[i][j] = table[i - 1][j - 1] + 1
+            else:
+                table[i][j] = max(table[i - 1][j], table[i][j - 1])
+    return table
 
 
 def longest_common_subsequence(str1: str, str2: str) -> str:
-    """Find the longest common subsequence between two strings.
+    """
+    Return the longest common subsequence of two strings.
 
-    :param str str1: The first string.
-    :param str str2: The second string.
-    :return: The longest common subsequence.
+    :param str str1: first string
+    :param str str2: second string
+    :return: longest common subsequence
     :rtype: str
 
     :Example:
@@ -18,47 +45,20 @@ def longest_common_subsequence(str1: str, str2: str) -> str:
         >>> longest_common_subsequence("ABCBDAB", "BDCAB")
         'BDAB'
     """
-    m = len(str1)
-    n = len(str2)
+    table = _lcs_lengths(str1, str2)
 
-    # Create a 2D array to store lengths of longest common subsequence.
-    dp = [[0] * (n + 1) for _ in range(m + 1)]
-
-    # Build the dp array from bottom up.
-    for i in range(m + 1):
-        for j in range(n + 1):
-            if i == 0 or j == 0:
-                dp[i][j] = 0
-            elif str1[i - 1] == str2[j - 1]:
-                dp[i][j] = dp[i - 1][j - 1] + 1
-            else:
-                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
-
-    # Following code is used to print LCS
-    index = dp[m][n]
-
-    # Create a character array to store the lcs string
-    lcs = [""] * (index + 1)
-    lcs[index] = ""
-
-    # Start from the right-most-bottom-most corner and
-    # one by one store characters in lcs[]
-    i = m
-    j = n
+    # Walk back from the bottom-right corner and collect the matches.
+    chars: list[str] = []
+    i = len(str1)
+    j = len(str2)
     while i > 0 and j > 0:
-        # If current character in str1 and str2 are same, then
-        # current character is part of LCS
         if str1[i - 1] == str2[j - 1]:
-            lcs[index - 1] = str1[i - 1]
+            chars.append(str1[i - 1])
             i -= 1
             j -= 1
-            index -= 1
-
-        # If not same, then find the larger of two and
-        # go in the direction of larger value
-        elif dp[i - 1][j] > dp[i][j - 1]:
+        elif table[i - 1][j] > table[i][j - 1]:
             i -= 1
         else:
             j -= 1
 
-    return "".join(lcs)
+    return "".join(reversed(chars))

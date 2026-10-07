@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai National Corpus word frequency"""
+"""Thai National Corpus (TNC) word frequency."""
 
 from __future__ import annotations
 
@@ -22,10 +22,14 @@ _TRIGRAM_CORPUS_NAME: str = "tnc_trigram_word_freqs"
 
 
 def word_freqs() -> list[tuple[str, int]]:
-    """Get word frequency from Thai National Corpus (TNC).
+    """
+    Get word frequency from the Thai National Corpus (TNC).
 
-    (See: `dev/pythainlp/corpus/tnc_freq.txt
-    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/tnc_freq.txt>`_)
+    See `dev/pythainlp/corpus/tnc_freq.txt
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/tnc_freq.txt>`_.
+
+    :return: list of tuples of word and frequency
+    :rtype: list[tuple[str, int]]
 
     :See Also:
         * Korakot Chaovavanich.
@@ -41,7 +45,12 @@ def word_freqs() -> list[tuple[str, int]]:
 
 
 def unigram_word_freqs() -> dict[str, int]:
-    """Get unigram word frequency from Thai National Corpus (TNC)"""
+    """
+    Get unigram word frequency from the Thai National Corpus (TNC).
+
+    :return: dict mapping words to their frequencies
+    :rtype: dict[str, int]
+    """
     freqs: dict[str, int] = defaultdict(int)
     for line in get_corpus(_UNIGRAM_FILENAME):
         _temp = line.strip().split("	")
@@ -52,7 +61,12 @@ def unigram_word_freqs() -> dict[str, int]:
 
 
 def bigram_word_freqs() -> dict[tuple[str, str], int]:
-    """Get bigram word frequency from Thai National Corpus (TNC)"""
+    """
+    Get bigram word frequency from the Thai National Corpus (TNC).
+
+    :return: dict mapping word pairs to their frequencies
+    :rtype: dict[tuple[str, str], int]
+    """
     freqs: dict[tuple[str, str], int] = defaultdict(int)
     path = get_corpus_path(_BIGRAM_CORPUS_NAME)
     if not path:
@@ -72,7 +86,12 @@ def bigram_word_freqs() -> dict[tuple[str, str], int]:
 
 
 def trigram_word_freqs() -> dict[tuple[str, str, str], int]:
-    """Get trigram word frequency from Thai National Corpus (TNC)"""
+    """
+    Get trigram word frequency from the Thai National Corpus (TNC).
+
+    :return: dict mapping word triples to their frequencies
+    :rtype: dict[tuple[str, str, str], int]
+    """
     freqs: dict[tuple[str, str, str], int] = defaultdict(int)
     path = get_corpus_path(_TRIGRAM_CORPUS_NAME)
     if not path:

@@ -29,6 +29,8 @@ DEFAULT_WORD_TOKEN_SEPARATOR: str = "|"  # noqa: S105
 
 
 class SubAppBase:
+    """Base class of tokenization commands."""
+
     separator: str
     algorithm: str
     run: Callable[..., Any]
@@ -36,6 +38,12 @@ class SubAppBase:
     args: argparse.Namespace
 
     def __init__(self, name: str, argv: Sequence[str]) -> None:
+        """
+        Initialize the tokenization command.
+
+        :param str name: tokenization type name
+        :param Sequence[str] argv: command line arguments
+        """
         parser = argparse.ArgumentParser(**cli.make_usage("tokenize " + name))  # type: ignore[arg-type]
         parser.add_argument(
             "text",
@@ -86,7 +94,10 @@ class SubAppBase:
 
 
 class WordTokenizationApp(SubAppBase):
+    """Parse and run the word tokenization command."""
+
     def __init__(self, *args: str, **kwargs: str) -> None:
+        """Initialize the command."""
         self.keep_whitespace: bool = True
         self.algorithm: str = DEFAULT_WORD_TOKENIZE_ENGINE
         self.separator: str = DEFAULT_WORD_TOKEN_SEPARATOR
@@ -95,7 +106,10 @@ class WordTokenizationApp(SubAppBase):
 
 
 class SentenceTokenizationApp(SubAppBase):
+    """Parse and run the sentence tokenization command."""
+
     def __init__(self, *args: str, **kwargs: str) -> None:
+        """Initialize the command."""
         self.keep_whitespace: bool = True
         self.algorithm: str = DEFAULT_SENT_TOKENIZE_ENGINE
         self.separator: str = DEFAULT_SENT_TOKEN_SEPARATOR
@@ -104,7 +118,10 @@ class SentenceTokenizationApp(SubAppBase):
 
 
 class SubwordTokenizationApp(SubAppBase):
+    """Parse and run the subword tokenization command."""
+
     def __init__(self, *args: str, **kwargs: str) -> None:
+        """Initialize the command."""
         self.keep_whitespace: bool = True
         self.algorithm: str = DEFAULT_SUBWORD_TOKENIZE_ENGINE
         self.separator: str = DEFAULT_SUBWORD_TOKEN_SEPARATOR
@@ -113,7 +130,14 @@ class SubwordTokenizationApp(SubAppBase):
 
 
 class App:
+    """Parse and run the ``tokenize`` command."""
+
     def __init__(self, argv: Sequence[str]) -> None:
+        """
+        Initialize the command.
+
+        :param Sequence[str] argv: command line arguments
+        """
         parser = argparse.ArgumentParser(
             prog="tokenize",
             description="Break a text into small units (tokens).",

@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai unigram word frequency from OSCAR Corpus (words tokenized using ICU)
+"""
+Thai unigram word frequency from OSCAR Corpus (words tokenized using ICU).
 
 Credit: Korakot Chaovavanich
 https://web.facebook.com/groups/colab.thailand/permalink/1524070061101680/
@@ -9,7 +10,7 @@ https://web.facebook.com/groups/colab.thailand/permalink/1524070061101680/
 
 from __future__ import annotations
 
-__all__: list[str] = ["word_freqs", "unigram_word_freqs"]
+__all__: list[str] = ["unigram_word_freqs", "word_freqs"]
 
 from collections import defaultdict
 
@@ -19,7 +20,12 @@ _OSCAR_FILENAME: str = "oscar_icu"
 
 
 def word_freqs() -> list[tuple[str, int]]:
-    """Get word frequency from OSCAR Corpus (words tokenized using ICU)"""
+    """
+    Get word frequency from OSCAR Corpus (words tokenized using ICU).
+
+    :return: list of tuples of word and frequency
+    :rtype: list[tuple[str, int]]
+    """
     freqs: list[tuple[str, int]] = []
     path = get_corpus_path(_OSCAR_FILENAME)
     if not path:
@@ -40,7 +46,12 @@ def word_freqs() -> list[tuple[str, int]]:
 
 
 def unigram_word_freqs() -> dict[str, int]:
-    """Get unigram word frequency from OSCAR Corpus (words tokenized using ICU)"""
+    """
+    Get unigram word frequency from OSCAR Corpus (words tokenized using ICU).
+
+    :return: dict mapping words to their frequencies
+    :rtype: dict[str, int]
+    """
     freqs: dict[str, int] = defaultdict(int)
     path = get_corpus_path(_OSCAR_FILENAME)
     if not path:

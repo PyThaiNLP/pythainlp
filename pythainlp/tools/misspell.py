@@ -1,6 +1,9 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+
+"""Generate misspelled Thai and English text from keyboard layouts."""
+
 from __future__ import annotations
 
 import math
@@ -45,6 +48,7 @@ ALL_CHARACTERS: list[list[str]] = [
 def search_location_of_character(
     char: str,
 ) -> Optional[tuple[int, int, int, int]]:
+    """Find the location of a character on the keyboard layouts."""
     for language_ix in [0, 1]:
         for ix, row in enumerate(ALL_CHARACTERS[language_ix]):
             if char in row:
@@ -55,15 +59,11 @@ def search_location_of_character(
 def find_neighbour_locations(
     loc: tuple[int, int, int, int],
     char: str,
-    kernel: list[tuple[int, int]] = [
-        (-1, -1),
-        (-1, 0),
-        (1, 1),
-        (0, 1),
-        (0, -1),
-        (1, 0),
-    ],
+    kernel: Optional[list[tuple[int, int]]] = None,
 ) -> list[tuple[int, int, int, int, str]]:
+    """Find the keyboard neighbors of a character location."""
+    if kernel is None:
+        kernel = [(-1, -1), (-1, 0), (1, 1), (0, 1), (0, -1), (1, 0)]
     language_ix, is_shift, row, pos = loc
 
     valid_neighbours = []
@@ -80,6 +80,7 @@ def find_neighbour_locations(
 def find_misspell_candidates(
     char: str, verbose: bool = False
 ) -> Optional[list[str]]:
+    """Find characters that are neighbors of a character on the keyboard."""
     loc = search_location_of_character(char)
     if loc is None:
         return None
@@ -91,7 +92,10 @@ def find_misspell_candidates(
 
     for language_ix, is_shift, row, pos, char in valid_neighbours:
         try:
-            char = ALL_CHARACTERS[language_ix][is_shift * 4 + row][pos]
+            # Keep the name: the error message below prints it.
+            char = ALL_CHARACTERS[language_ix][  # noqa: PLW2901
+                is_shift * 4 + row
+            ][pos]
             chars.append(char)
             kernel = (row - loc[1], pos - loc[2])
 
@@ -118,12 +122,14 @@ def find_misspell_candidates(
 
 
 def misspell(sentence: str, ratio: float = 0.05) -> str:
-    """Simulate some misspellings of the input sentence.
-    The number of misspelled locations is governed by ratio.
+    """
+    Simulate some misspellings of a sentence.
 
-    :params str sentence: sentence to be misspelled
-    :params float ratio: number of misspells per 100 chars. Defaults to 0.5.
+    The ratio governs the number of misspelled locations.
 
+    :param str sentence: sentence to be misspelled
+    :param float ratio: fraction of characters to misspell
+        (default is 0.05)
     :return: sentence containing some misspelled words
     :rtype: str
 
@@ -136,7 +142,7 @@ def misspell(sentence: str, ratio: float = 0.05) -> str:
     """
     num_misspells = math.floor(len(sentence) * ratio)
     # Non-cryptographic use, pseudo-random generator is acceptable here
-    positions = random.sample(range(len(sentence)), k=num_misspells)  # noqa: S311  # nosec B311  # NOSONAR
+    positions = random.sample(range(len(sentence)), k=num_misspells)  # nosec B311  # NOSONAR
 
     # convert strings to array of characters
     misspelled = list(sentence)

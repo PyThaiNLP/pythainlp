@@ -23,7 +23,7 @@ from ..test_helpers import (
 
 
 class ParagraphTokenizeTestCaseN(unittest.TestCase):
-    """Tests for paragraph tokenization (requires transformers)"""
+    """Tests for paragraph tokenization (requires transformers)."""
 
     def test_paragraph_tokenize(self):
         sent = (
@@ -40,7 +40,7 @@ class ParagraphTokenizeTestCaseN(unittest.TestCase):
 
 
 class SentTokenizeWTPTestCaseN(unittest.TestCase):
-    """Tests for WTP sentence tokenizer (requires transformers and torch)"""
+    """Tests for WTP sentence tokenizer (requires transformers and torch)."""
 
     def test_sent_tokenize_wtp(self):
         self.assertIsNotNone(
@@ -60,14 +60,14 @@ class SentTokenizeWTPTestCaseN(unittest.TestCase):
 
 
 class SubwordTokenizePhayathaiTestCaseN(unittest.TestCase):
-    """Tests for phayathai subword tokenizer (requires transformers)"""
+    """Tests for phayathai subword tokenizer (requires transformers)."""
 
     def test_subword_tokenize_phayathai(self):
         assert_subword_tokenize_basic(self, "phayathai")
 
 
 class SubwordTokenizeWangchanbertaTestCaseN(unittest.TestCase):
-    """Tests for wangchanberta subword tokenizer (requires transformers)"""
+    """Tests for wangchanberta subword tokenizer (requires transformers)."""
 
     def test_subword_tokenize_wangchanberta(self):
         assert_subword_tokenize_basic(self, "wangchanberta")

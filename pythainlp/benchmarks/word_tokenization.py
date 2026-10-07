@@ -1,14 +1,27 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+
+"""Benchmark metrics for word tokenization."""
+
 from __future__ import annotations
 
 import operator
 import re
 import sys
-from collections.abc import Mapping
+
+# Runtime import keeps typing.get_type_hints() working on this module.
+from collections.abc import Mapping  # noqa: TC003
 from itertools import accumulate
-from typing import TYPE_CHECKING, Any, NamedTuple, TypedDict, Union, overload
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    NamedTuple,
+    TypedDict,
+    Union,
+    cast,
+    overload,
+)
 
 if TYPE_CHECKING:
     import numpy as np
@@ -25,7 +38,6 @@ __all__: list[str] = [
     "char_eval_function",
     "compute_stats",
     "evaluate_word_tokenization",
-    "evaluation",
     "preprocessing",
     "word_eval_function",
 ]
@@ -86,12 +98,13 @@ class TokenizationScore(NamedTuple):
 
 
 def _f1(precision: float, recall: float) -> float:
-    """Compute f1.
+    """
+    Compute the F1 score.
 
-    :param float precision
-    :param float recall
+    :param float precision: precision value
+    :param float recall: recall value
 
-    :return: f1
+    :return: F1 score
     :rtype: float
     """
     if precision == recall == 0:
@@ -115,7 +128,8 @@ def _flatten_result(
     my_dict: Any,
     sep: str = ":",
 ) -> dict[str, Union[int, str]]:
-    """Flatten a two-level dictionary.
+    """
+    Flatten a two-level dictionary.
 
     Uses keys from the first level as a prefix for keys in the second level.
     For example::
@@ -124,13 +138,13 @@ def _flatten_result(
         _flatten_result(my_dict)
         # {"a:b": 7}
 
-    :param my_dict: dictionary containing stats
+    :param my_dict: dictionary containing statistics
     :type my_dict: TokenizationStat or
         collections.abc.Mapping[str,
         collections.abc.Mapping[str, Union[int, str]]]
-    :param str sep: separator between the two keys (default: ``":"``)
+    :param str sep: separator between the two keys (default is ``":"``)
 
-    :return: a flat dictionary with combined keys
+    :return: flat dictionary with combined keys
     :rtype: dict[str, Union[int, str]]
     """
     return {
@@ -140,13 +154,14 @@ def _flatten_result(
     }
 
 
-def benchmark(ref_samples: list[str], samples: list[str]) -> "pd.DataFrame":
-    """Performance benchmarking for samples.
+def benchmark(ref_samples: list[str], samples: list[str]) -> pd.DataFrame:
+    """
+    Benchmark tokenized samples against reference samples.
 
     See :func:`pythainlp.benchmarks.word_tokenization.compute_stats`
     for computed metrics.
 
-    :param list[str] ref_samples: ground truth
+    :param list[str] ref_samples: reference (ground truth) samples
     :param list[str] samples: samples to evaluate
 
     :return: dataframe with shape ``len(samples) × len(metrics)``
@@ -157,7 +172,7 @@ def benchmark(ref_samples: list[str], samples: list[str]) -> "pd.DataFrame":
     results = []
     for i, (r, s) in enumerate(zip(ref_samples, samples)):
         try:
-            r, s = preprocessing(r), preprocessing(s)
+            r, s = preprocessing(r), preprocessing(s)  # noqa: PLW2901
             if r and s:
                 stats = compute_stats(r, s)
                 flat_stats: dict[str, Union[int, str]] = _flatten_result(stats)
@@ -165,31 +180,28 @@ def benchmark(ref_samples: list[str], samples: list[str]) -> "pd.DataFrame":
                 flat_stats["actual"] = s
                 results.append(flat_stats)
         except Exception as exc:
-            reason = """
+            reason = f"""
 [Error]
-Reason: %s
+Reason: {sys.exc_info()}
 
-Pair (i=%d)
+Pair (i={i})
 --- label
-%s
+{r}
 --- sample
-%s
-""" % (
-                sys.exc_info(),
-                i,
-                r,
-                s,
-            )
+{s}
+"""
             raise SystemExit(reason) from exc
 
     return pd.DataFrame(results)
 
 
 def preprocessing(txt: str, remove_space: bool = True) -> str:
-    """Clean up text before performing evaluation.
+    # TODO: docstring names ``text``, but the parameter is ``txt``
+    """
+    Clean up text before performing evaluation.
 
-    :param str text: text to be preprocessed
-    :param bool remove_space: whether to remove white space
+    :param str txt: text to preprocess
+    :param bool remove_space: remove white space
 
     :return: preprocessed text
     :rtype: str
@@ -209,19 +221,18 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
 
 
 def compute_stats(ref_sample: str, raw_sample: str) -> TokenizationStat:
-    """Compute statistics for tokenization quality.
+    """
+    Compute statistics for tokenization quality.
 
     These statistics include:
 
-    **Character-level**:
-      True Positive, False Positive, True Negative, False Negative
-    **Word-level**:
-      Precision, Recall, and F1
-    **Global**:
-      A ``{0, 1}`` sequence indicating whether each word
-      is tokenized correctly.
+    * *Character-level* - true positive, false positive, true negative,
+      false negative
+    * *Word-level* - precision, recall, and F1
+    * *Global* - a ``{0, 1}`` sequence indicating whether each word
+      is tokenized correctly
 
-    :param str ref_sample: ground truth sample
+    :param str ref_sample: reference (ground truth) sample
     :param str raw_sample: sample to evaluate
 
     :return: character-level, word-level, and global tokenization metrics
@@ -282,14 +293,15 @@ def compute_stats(ref_sample: str, raw_sample: str) -> TokenizationStat:
 
 def _binary_representation(
     txt: str, verbose: bool = False
-) -> "NDArray[np.int8]":
-    """Transform text into {0, 1} sequence.
+) -> NDArray[np.int8]:
+    """
+    Transform text into a {0, 1} sequence.
 
-    where (1) indicates that the corresponding character is the beginning of
+    A 1 indicates that the corresponding character is the beginning of
     a word. For example, ผม|ไม่|ชอบ|กิน|ผัก -> 10100...
 
-    :param str txt: input text that we want to transform
-    :param bool verbose: for debugging purposes
+    :param str txt: text to transform
+    :param bool verbose: print each character with its value, for debugging
 
     :return: {0, 1} sequence
     :rtype: numpy.typing.NDArray[numpy.int8]
@@ -302,7 +314,7 @@ def _binary_representation(
     boundary = boundary - np.array(range(boundary.shape[0]))
 
     bin_rept = np.zeros(len(txt) - boundary.shape[0], dtype=np.int8)
-    bin_rept[list(boundary) + [0]] = 1
+    bin_rept[[*list(boundary), 0]] = 1
 
     sample_wo_seps = list(txt.replace(SEPARATOR, ""))
 
@@ -315,15 +327,16 @@ def _binary_representation(
 
     if verbose:
         for c, m in zip(sample_wo_seps, bin_rept):
-            print("%s -- %d" % (c, m))
+            print(f"{c} -- {m}")
 
     return bin_rept
 
 
 def _find_word_boundaries(
-    bin_reps: "NDArray[np.int8]",
+    bin_reps: NDArray[np.int8],
 ) -> list[tuple[int, int]]:
-    """Find the starting and ending location of each word.
+    """
+    Find the starting and ending location of each word.
 
     :param numpy.typing.NDArray[numpy.int8] bin_reps: binary representation
         of a text
@@ -335,7 +348,7 @@ def _find_word_boundaries(
 
     boundary = np.argwhere(bin_reps == 1).reshape(-1)
     start_idx = boundary
-    end_idx = boundary[1:].tolist() + [bin_reps.shape[0]]
+    end_idx = [*boundary[1:].tolist(), bin_reps.shape[0]]
 
     return list(zip(start_idx, end_idx))
 
@@ -344,7 +357,8 @@ def _find_words_correctly_tokenized(
     ref_boundaries: list[tuple[int, int]],
     predicted_boundaries: list[tuple[int, int]],
 ) -> tuple[int, ...]:
-    """Find whether each word is correctly tokenized.
+    """
+    Find whether each word is correctly tokenized.
 
     :param list[tuple[int, int]] ref_boundaries: word boundaries of
         the reference tokenization
@@ -364,13 +378,14 @@ def char_eval_function(
     y_true: Union[list[int], tuple[int, ...]],
     y_pred: Union[list[int], tuple[int, ...]],
 ) -> float:
-    """Compute character-level F1 score for boundary indicators.
+    """
+    Compute the character-level F1 score for boundary indicators.
 
-    Calculates precision, recall, and binary F1 score for boundary (1)
-    labels between true and predicted character boundary sequences.
+    Calculate precision, recall, and binary F1 score for boundary (1)
+    labels between reference and predicted character boundary sequences.
     Ported from SEFR CUT (``sefr_cut.evaluation``).
 
-    :param y_true: ground truth binary boundary sequence
+    :param y_true: reference (ground truth) binary boundary sequence
     :type y_true: Union[list[int], tuple[int, ...]]
     :param y_pred: predicted binary boundary sequence
     :type y_pred: Union[list[int], tuple[int, ...]]
@@ -400,14 +415,15 @@ def word_eval_function(
     train: list[str],
     test: list[str],
 ) -> float:
-    """Compute word-level F1 score for tokenized word lists.
+    """
+    Compute the word-level F1 score for lists of words.
 
-    Calculates the F1 score based on word boundary span overlap between
-    the ground truth word tokens and predicted word tokens.
+    Calculate the F1 score based on word boundary span overlap between
+    the reference (ground truth) words and the predicted words.
     Ported from SEFR CUT (``sefr_cut.evaluation``).
 
-    :param list[str] train: ground truth word tokens
-    :param list[str] test: predicted word tokens
+    :param list[str] train: reference (ground truth) list of words
+    :param list[str] test: predicted list of words
 
     :return: word-level F1 score
     :rtype: float
@@ -432,25 +448,26 @@ def word_eval_function(
 def _preprocess_attacut(
     sentence_lines: list[str],
 ) -> tuple[list[str], list[list[int]]]:
-    """Convert segmented sentences to raw text and binary boundary indicators.
+    """
+    Convert segmented sentences to text and binary boundary indicators.
 
     Adapted from SEFR CUT preprocessing.
 
     :param list[str] sentence_lines: list of segmented sentences
         containing separators (``"|"``)
 
-    :return: a tuple of (raw_text_list, binary_labels_list)
+    :return: tuple of (list of texts, list of binary label lists)
     :rtype: tuple[list[str], list[list[int]]]
     """
     x: list[str] = []
     y: list[list[int]] = []
     for sentence in sentence_lines:
         x.append(sentence.replace(SEPARATOR, ""))
-        sentence = SEPARATOR + sentence
+        padded = SEPARATOR + sentence
         y_char: list[int] = []
-        for idx in range(1, len(sentence)):
-            current_char = sentence[idx]
-            before_char = sentence[idx - 1]
+        for idx in range(1, len(padded)):
+            current_char = padded[idx]
+            before_char = padded[idx - 1]
 
             if current_char == SEPARATOR:
                 continue
@@ -466,16 +483,19 @@ def _normalize_evaluation_input(
     x: Union[str, list[str], list[list[str]]],
     sep: str = "",
 ) -> list[str]:
-    """Normalize evaluation input into a 1D list containing a single string.
+    """
+    Normalize evaluation input into a list containing a single string.
 
-    Handles string, list of strings, or list of list of strings.
+    Handle a string, a list of strings, or a list of lists of strings.
 
-    :param x: input text or tokens
+    :param x: text or tokens
     :type x: Union[str, list[str], list[list[str]]]
-    :param str sep: separator to join tokens or sentences (default: ``""``)
+    :param str sep: separator to join tokens or sentences
+        (default is ``""``)
 
     :return: list containing a single concatenated string
     :rtype: list[str]
+    :raises TypeError: if ``x`` is not a string or a list
     """
     if isinstance(x, str):
         return [x]
@@ -489,17 +509,20 @@ def _normalize_evaluation_input(
     if len(x) == 0:
         return [""]
 
-    if len(x) == 1 and isinstance(x[0], str):
-        return x
-
     if isinstance(x[0], list):
-        flat: list[str] = [j for sub in x for j in sub]
+        nested = cast("list[list[str]]", x)
+        flat: list[str] = [j for sub in nested for j in sub]
         return [f"{sep}".join(flat)]
 
-    if sep:
-        return [f"{sep}".join(x)]
+    tokens = cast("list[str]", x)
 
-    return ["".join(x)]
+    if len(tokens) == 1 and isinstance(tokens[0], str):
+        return tokens
+
+    if sep:
+        return [f"{sep}".join(tokens)]
+
+    return ["".join(tokens)]
 
 
 def evaluate_word_tokenization(
@@ -507,25 +530,28 @@ def evaluate_word_tokenization(
     x_pred: Union[str, list[str], list[list[str]]],
     sep: str = "",
 ) -> TokenizationScore:
-    """Evaluate word tokenization performance at character and word levels.
+    """
+    Evaluate word tokenization at character and word levels.
 
-    Computes character-level F1 score and word-level F1 score between
-    the ground truth (``x_true``) and predicted segmentation (``x_pred``).
-    Ported from SEFR CUT (``sefr_cut.evaluation``).
+    Compute the character-level F1 score and the word-level F1 score
+    between the reference (``x_true``) and predicted (``x_pred``)
+    segmentation. Ported from SEFR CUT (``sefr_cut.evaluation``).
 
-    Supports multiple input representations:
+    Supported input representations:
 
-    - Strings delimited by ``"|"`` (e.g., ``"สวัสดี|ประเทศไทย"``)
-    - Single-element lists of delimited strings (e.g., ``["สวัสดี|ประเทศไทย"]``)
-    - 2D lists of strings (e.g., ``[["สวัสดี|"], ["ประเทศไทย"]]``)
-    - 1D lists of token strings with ``sep="|"`` (e.g., ``["สวัสดี", "ประเทศไทย"]``)
+    * strings delimited by ``"|"``, such as ``"สวัสดี|ประเทศไทย"``
+    * single-element lists of delimited strings, such as
+      ``["สวัสดี|ประเทศไทย"]``
+    * 2D lists of strings, such as ``[["สวัสดี|"], ["ประเทศไทย"]]``
+    * 1D lists of tokens with ``sep="|"``, such as
+      ``["สวัสดี", "ประเทศไทย"]``
 
-    :param x_true: ground truth text or tokens
+    :param x_true: reference (ground truth) text or tokens
     :type x_true: Union[str, list[str], list[list[str]]]
     :param x_pred: predicted text or tokens
     :type x_pred: Union[str, list[str], list[list[str]]]
-    :param str sep: separator to join sub-elements when input is a list of
-        tokens without boundaries (default: ``""``)
+    :param str sep: separator to join sub-elements when the input is a
+        list of tokens without boundaries (default is ``""``)
 
     :return: tokenization score containing character score and word score
     :rtype: TokenizationScore

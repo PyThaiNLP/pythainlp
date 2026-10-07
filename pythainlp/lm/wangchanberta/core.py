@@ -195,13 +195,12 @@ class NamedEntityRecognition:
         _new_tag = []
         for i, j in zip(words, _ner):
             i_decoded = self.tokenizer.decode(i)
-            if i_decoded.isspace() and j.startswith("B-"):
-                j = "O"
+            tag = "O" if i_decoded.isspace() and j.startswith("B-") else j
             if i_decoded in ("", "<s>", "</s>"):
                 continue
             if i_decoded == "<_>":
                 i_decoded = " "
-            _new_tag.append((i_decoded, j))
+            _new_tag.append((i_decoded, tag))
         return _new_tag
 
     def get_ner(

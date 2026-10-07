@@ -58,29 +58,41 @@ class CliTestCase(unittest.TestCase):
                 "test": {"latest_version": "0.1", "versions": {}},
             }
 
-            with patch("pythainlp.corpus.get_corpus_db", return_value=mock_response):
+            with patch(
+                "pythainlp.corpus.get_corpus_db", return_value=mock_response
+            ):
                 self.assertIsNotNone(DataApp(["thainlp", "data", "catalog"]))
 
             self.assertIsNotNone(DataApp(["thainlp", "data", "path"]))
 
             # Mock download to avoid network
             with patch("pythainlp.corpus.download", return_value=True):
-                self.assertIsNotNone(DataApp(["thainlp", "data", "get", "test"]))
+                self.assertIsNotNone(
+                    DataApp(["thainlp", "data", "get", "test"])
+                )
 
             self.assertIsNotNone(DataApp(["thainlp", "data", "info", "test"]))
 
             # Mock remove to avoid side effects
             with patch("pythainlp.corpus.remove", return_value=True):
-                self.assertIsNotNone(DataApp(["thainlp", "data", "rm", "test"]))
+                self.assertIsNotNone(
+                    DataApp(["thainlp", "data", "rm", "test"])
+                )
 
             # Test with non-existing corpus
             with patch("pythainlp.corpus.download", return_value=False):
-                self.assertIsNotNone(DataApp(["thainlp", "data", "get", "NOT_EXIST"]))
+                self.assertIsNotNone(
+                    DataApp(["thainlp", "data", "get", "NOT_EXIST"])
+                )
 
-            self.assertIsNotNone(DataApp(["thainlp", "data", "info", "NOT_EXIST"]))
+            self.assertIsNotNone(
+                DataApp(["thainlp", "data", "info", "NOT_EXIST"])
+            )
 
             with patch("pythainlp.corpus.remove", return_value=False):
-                self.assertIsNotNone(DataApp(["thainlp", "data", "rm", "NOT_EXIST"]))
+                self.assertIsNotNone(
+                    DataApp(["thainlp", "data", "rm", "NOT_EXIST"])
+                )
 
     def test_cli_misspell(self):
         self.assertTrue(hasattr(cli, "misspell"))

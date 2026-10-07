@@ -1,14 +1,15 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Attaparse: Thai dependency parser based on Stanza and PhayaThaiBERT.
+"""
+Attaparse: Thai dependency parser based on Stanza and PhayaThaiBERT.
 
 GitHub: https://github.com/nlp-chula/attaparse
 """
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Union
+from typing import TYPE_CHECKING, Union
 
 try:
     from attaparse import depparse, load_model
@@ -22,12 +23,25 @@ if TYPE_CHECKING:
 
 
 class Parse:
+    """Dependency parser using Attaparse."""
+
     def __init__(self) -> None:
+        """Initialize the Attaparse model."""
         self.nlp: Pipeline = load_model()
 
-    def __call__(
+    def __call__(  # noqa: CCR001  # phase2-todo
         self, text: str, tag: str = "str"
-    ) -> Union[List[List[str]], str]:
+    ) -> Union[list[list[str]], str]:
+        """
+        Parse the dependency structure of a text.
+
+        :param str text: text to be parsed
+        :param str tag: output type, ``"str"`` (CoNLL-U text, default)
+            or ``"list"``
+        :return: CoNLL-U text if ``tag`` is ``"str"``, otherwise a list of
+            lists of fields
+        :rtype: Union[list[list[str]], str]
+        """
         doc = depparse(text, self.nlp)
         rows = []
         for sent in doc.sentences:
@@ -35,12 +49,12 @@ class Parse:
                 row = [
                     str(word.id),
                     word.text,
-                    word.lemma if word.lemma else "_",
-                    word.upos if word.upos else "_",
-                    word.xpos if word.xpos else "_",
-                    word.feats if word.feats else "_",
+                    word.lemma or "_",
+                    word.upos or "_",
+                    word.xpos or "_",
+                    word.feats or "_",
                     str(word.head),
-                    word.deprel if word.deprel else "_",
+                    word.deprel or "_",
                     "_",  # DEPS (enhanced dependencies, not provided)
                     "SpaceAfter=No",  # MISC: Thai text has no inter-word spaces
                 ]

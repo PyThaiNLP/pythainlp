@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Convert digits"""
+"""Digit conversion."""
 
 from __future__ import annotations
 
@@ -71,13 +71,16 @@ _digit_spell_translate_table: dict[int, Union[int, str, None]] = str.maketrans(
 
 
 def thai_digit_to_arabic_digit(text: str) -> str:
-    """Converts Thai digits (i.e. ๑, ๓, ๑๐) to Arabic digits
-    (i.e. 1, 3, 10).
+    """
+    Convert Thai digits to Arabic digits.
 
-    :param str text: Text with Thai digits such as '๑', '๒', '๓'
-    :return: Text with Thai digits converted to Arabic digits
-             such as '1', '2', '3'
+    For example, ๑, ๓, ๑๐ become 1, 3, 10.
+
+    :param str text: text with Thai digits such as '๑', '๒', '๓'
+    :return: text with Thai digits converted to Arabic digits
+        such as '1', '2', '3'
     :rtype: str
+    :raises TypeError: if text is not a str
 
     :Example:
 
@@ -95,13 +98,16 @@ def thai_digit_to_arabic_digit(text: str) -> str:
 
 
 def arabic_digit_to_thai_digit(text: str) -> str:
-    """Converts Arabic digits (i.e. 1, 3, 10) to Thai digits
-    (i.e. ๑, ๓, ๑๐).
+    """
+    Convert Arabic digits to Thai digits.
 
-    :param str text: Text with Arabic digits such as '1', '2', '3'
-    :return: Text with Arabic digits converted to Thai digits
-             such as '๑', '๒', '๓'
+    For example, 1, 3, 10 become ๑, ๓, ๑๐.
+
+    :param str text: text with Arabic digits such as '1', '2', '3'
+    :return: text with Arabic digits converted to Thai digits
+        such as '๑', '๒', '๓'
     :rtype: str
+    :raises TypeError: if text is not a str
 
     :Example:
 
@@ -120,11 +126,13 @@ def arabic_digit_to_thai_digit(text: str) -> str:
 
 
 def digit_to_text(text: str) -> str:
-    """Spell out digits in Thai.
+    """
+    Spell out digits in Thai.
 
     :param str text: text with digits such as '1', '2', '๓', '๔'
     :return: text with digits spelled out in Thai
     :rtype: str
+    :raises TypeError: if text is not a str
 
     :Example:
 
@@ -149,13 +157,15 @@ def digit_to_text(text: str) -> str:
 
 
 def text_to_arabic_digit(text: str) -> str:
-    """Converts spelled out digits in Thai to Arabic digits.
+    """
+    Convert a digit spelled out in Thai to an Arabic digit.
 
-    :param text: A digit spelled out in Thai
-    :return: An Arabic digit such as '1', '2', '3' if the text is
-             digit spelled out in Thai (ศูนย์, หนึ่ง, สอง, ..., เก้า).
-             Otherwise, it returns an empty string.
+    :param str text: digit spelled out in Thai
+    :return: Arabic digit such as '1', '2', '3' if the text is a digit
+        spelled out in Thai (ศูนย์, หนึ่ง, สอง, ..., เก้า),
+        otherwise an empty string
     :rtype: str
+    :raises TypeError: if text is not a str
 
     :Example:
 
@@ -185,13 +195,15 @@ def text_to_arabic_digit(text: str) -> str:
 
 
 def text_to_thai_digit(text: str) -> str:
-    """Converts spelled out digits in Thai to Thai digits.
+    """
+    Convert a digit spelled out in Thai to a Thai digit.
 
-    :param text: A digit spelled out in Thai
-    :return: A Thai digit such as '๑', '๒', '๓' if the text is digit
-             spelled out in Thai (ศูนย์, หนึ่ง, สอง, ..., เก้า).
-             Otherwise, it returns an empty string.
+    :param str text: digit spelled out in Thai
+    :return: Thai digit such as '๑', '๒', '๓' if the text is a digit
+        spelled out in Thai (ศูนย์, หนึ่ง, สอง, ..., เก้า),
+        otherwise an empty string
     :rtype: str
+    :raises TypeError: if text is not a str
 
     :Example:
 

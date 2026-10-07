@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai phrase structure (chunking) module.
+"""
+Parse Thai text into phrase-structure chunks.
 
 This module provides chunk parsing for Thai text, following the
 NLTK :mod:`nltk.chunk` naming convention.
@@ -41,14 +42,16 @@ def chunk_parse(
     engine: str = "crf",
     corpus: str = "orchidpp",
 ) -> list[str]:
-    """Parse a Thai sentence into phrase-structure chunks (IOB format).
+    """
+    Parse a Thai sentence into phrase-structure chunks (IOB format).
 
-    :param list[tuple[str, str]] sent: list of (word, POS-tag) pairs.
+    :param list[tuple[str, str]] sent: list of (word, part-of-speech
+        (POS) tag) pairs
     :param str engine: chunking engine; currently only ``"crf"`` is
-        supported.
-    :param str corpus: corpus name for the CRF model; currently only
-        ``"orchidpp"`` is supported.
-    :return: list of IOB chunk labels, one per token.
+        supported
+    :param str corpus: corpus for the CRF model; currently only
+        ``"orchidpp"`` is supported
+    :return: list of IOB chunk labels, one per word
     :rtype: list[str]
 
     :Example:

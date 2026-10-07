@@ -1,8 +1,9 @@
-"""TransformersUD
+"""
+TransformersUD: dependency parser using transformer models.
 
 Author: Prof. Koichi Yasuoka
 
-This tagger is provided under the terms of the apache-2.0 License.
+This tagger is provided under the terms of the Apache-2.0 License.
 
 The source: https://huggingface.co/KoichiYasuoka/deberta-base-thai-ud-head
 
@@ -15,7 +16,7 @@ import os
 from typing import TYPE_CHECKING, Optional, Union
 
 if TYPE_CHECKING:
-    from transformers import (  # noqa: F401
+    from transformers import (
         AutoModelForQuestionAnswering,
         AutoTokenizer,
         TokenClassificationPipeline,
@@ -25,11 +26,21 @@ from pythainlp.tools.path import safe_path_join
 
 
 class Parse:
+    """Dependency parser using TransformersUD."""
+
     def __init__(
         self,
         model: Optional[str] = "KoichiYasuoka/deberta-base-thai-ud-head",
         revision: Optional[str] = None,
     ) -> None:
+        """
+        Initialize the TransformersUD models.
+
+        :param Optional[str] model: model name or path; the default model
+            is used if ``None``
+        :param Optional[str] revision: git revision id (branch, tag, or
+            commit hash)
+        """
         from transformers import (
             AutoConfig,
             AutoModelForQuestionAnswering,
@@ -59,11 +70,21 @@ class Parse:
             c = AutoConfig.from_pretrained(  # nosec B615
                 cached_file(model, "deprel/config.json", revision=revision),
             )
-            d = x(cached_file(model, "deprel/pytorch_model.bin", revision=revision), config=c)
+            d = x(
+                cached_file(
+                    model, "deprel/pytorch_model.bin", revision=revision
+                ),
+                config=c,
+            )
             s = AutoConfig.from_pretrained(  # nosec B615
                 cached_file(model, "tagger/config.json", revision=revision),
             )
-            t = x(cached_file(model, "tagger/pytorch_model.bin", revision=revision), config=s)
+            t = x(
+                cached_file(
+                    model, "tagger/pytorch_model.bin", revision=revision
+                ),
+                config=s,
+            )
         self.deprel: TokenClassificationPipeline = TokenClassificationPipeline(
             model=d, tokenizer=self.tokenizer, aggregation_strategy="simple"
         )
@@ -71,10 +92,20 @@ class Parse:
             model=t, tokenizer=self.tokenizer
         )
 
-    def __call__(
+    def __call__(  # noqa: CCR001  # phase2-todo
         self, text: str, tag: str = "str"
     ) -> Union[list[list[str]], str]:
-        import numpy
+        """
+        Parse the dependency structure of a text.
+
+        :param str text: text to be parsed
+        :param str tag: output type, ``"str"`` (CoNLL-U text, default)
+            or ``"list"``
+        :return: CoNLL-U text if ``tag`` is ``"str"``, otherwise a list of
+            lists of fields
+        :rtype: Union[list[list[str]], str]
+        """
+        import numpy as np
         import torch
         import ufal.chu_liu_edmonds
 
@@ -88,21 +119,19 @@ class Parse:
         )
         r, m = (
             [text[s:e] for s, e, p in w],
-            numpy.full((n + 1, n + 1), numpy.nan),
+            np.full((n + 1, n + 1), np.nan),
         )
         v, c = self.tokenizer(r, add_special_tokens=False)["input_ids"], []
         for i, t in enumerate(v):
-            q = (
-                [self.tokenizer.cls_token_id]
-                + t
-                + [self.tokenizer.sep_token_id]
-            )
+            q = [self.tokenizer.cls_token_id, *t, self.tokenizer.sep_token_id]
             c.append(
-                [q]
-                + v[0:i]
-                + [[self.tokenizer.mask_token_id]]
-                + v[i + 1 :]
-                + [[q[-1]]]
+                [
+                    q,
+                    *v[0:i],
+                    [self.tokenizer.mask_token_id],
+                    *v[i + 1 :],
+                    [q[-1]],
+                ]
             )
         b = [[len(sum(x[0 : j + 1], [])) for j in range(len(x))] for x in c]
         with torch.no_grad():
@@ -121,14 +150,14 @@ class Parse:
         h = ufal.chu_liu_edmonds.chu_liu_edmonds(m)[0]
         if [0 for i in h if i == 0] != [0]:
             i = ([p for s, e, p in w] + ["root"]).index("root")
-            j = i + 1 if i < n else int(numpy.nanargmax(m[:, 0]))
-            m[0:j, 0] = m[j + 1 :, 0] = numpy.nan
+            j = i + 1 if i < n else int(np.nanargmax(m[:, 0]))
+            m[0:j, 0] = m[j + 1 :, 0] = np.nan
             h = ufal.chu_liu_edmonds.chu_liu_edmonds(m)[0]
         u = ""
         if tag == "list":
             _tag_data = []
             for i, (s, e, p) in enumerate(w, 1):
-                p = "root" if h[i] == 0 else "dep" if p == "root" else p
+                rel = "root" if h[i] == 0 else "dep" if p == "root" else p
                 _tag_data.append(
                     [
                         str(i),
@@ -138,14 +167,14 @@ class Parse:
                         "_",
                         "|".join(z[s][1:]),
                         str(h[i]),
-                        p,
+                        rel,
                         "_",
                         "_" if i < n and e < w[i][0] else "SpaceAfter=No",
                     ]
                 )
             return _tag_data
         for i, (s, e, p) in enumerate(w, 1):
-            p = "root" if h[i] == 0 else "dep" if p == "root" else p
+            rel = "root" if h[i] == 0 else "dep" if p == "root" else p
             u += (
                 "\t".join(
                     [
@@ -156,7 +185,7 @@ class Parse:
                         "_",
                         "|".join(z[s][1:]),
                         str(h[i]),
-                        p,
+                        rel,
                         "_",
                         "_" if i < n and e < w[i][0] else "SpaceAfter=No",
                     ]

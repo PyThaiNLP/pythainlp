@@ -1,13 +1,6 @@
 [flake8]
-max-line-length = 120
-extend-ignore =
-    # Whitespace before ':' — conflicts with Black slice formatting
-    E203,
-    # Module level import not at top of file — needed for optional/lazy imports
-    E402,
-    # Line too long — ruff already handles style; E501 in ruff extend-ignore too
-    E501,
-    # Line break before binary operator — Black compatibility
-    W503,
-    # Redefinition of unused name — intentional lazy-import pattern
-    F811,
+# Used only for the cognitive complexity check (CCR001);
+# Ruff handles all other linting.
+select = CCR001
+# The limit is 15. Unrefactored functions carry `# noqa: CCR001  # phase2-todo`.
+max-cognitive-complexity = 15

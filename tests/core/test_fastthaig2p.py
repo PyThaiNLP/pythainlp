@@ -10,6 +10,8 @@ from pythainlp.transliterate import FastThaiG2P, transliterate
 from pythainlp.transliterate.fastthaig2p import (
     fallback_g2p,
     normalize,
+)
+from pythainlp.transliterate.fastthaig2p import (
     transliterate as fastthaig2p_transliterate,
 )
 
@@ -121,7 +123,7 @@ class FastThaiG2PTestCase(unittest.TestCase):
         with tempfile.NamedTemporaryFile(
             mode="w", suffix=".json", delete=False, encoding="utf-8"
         ) as f:
-            f.write("{\"ทดสอบ\": \"/tʰot̚˦˥.sɔːp̚˨˩/\"}")
+            f.write('{"ทดสอบ": "/tʰot̚˦˥.sɔːp̚˨˩/"}')
             tmp_path = f.name
 
         try:

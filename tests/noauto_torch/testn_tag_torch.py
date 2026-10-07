@@ -17,7 +17,7 @@ from pythainlp.tag import (
 
 
 class TagTransformersTestCaseN(unittest.TestCase):
-    """Tests for transformers-based engines (requires transformers and torch)"""
+    """Tests for transformers-based engines (requires transformers and torch)."""
 
     def test_NER_class(self):
         with self.assertRaises(ValueError):
@@ -59,7 +59,9 @@ class TagTransformersTestCaseN(unittest.TestCase):
         self.assertIsInstance(tokens, list)
         self.assertIsInstance(entities, list)
 
-        tokens_top, entities_top = nner.tag("แมวทำอะไรตอนห้าโมงเช้า", top_level_only=True)
+        tokens_top, entities_top = nner.tag(
+            "แมวทำอะไรตอนห้าโมงเช้า", top_level_only=True
+        )
         self.assertIsInstance(tokens_top, list)
         self.assertIsInstance(entities_top, list)
         # Top-level entities should be less than or equal to all entities

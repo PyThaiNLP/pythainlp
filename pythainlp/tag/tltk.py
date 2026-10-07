@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Thai NLP functions using TLTK."""
+
 from __future__ import annotations
 
 from typing import Union, cast
@@ -11,6 +13,7 @@ except ImportError as e:
     raise ImportError(
         "tltk is not installed. Install it with: pip install tltk"
     ) from e
+from pythainlp.tag._utils import _iob_to_markup
 from pythainlp.tokenize import word_tokenize
 
 nlp.pos_load()
@@ -18,9 +21,19 @@ nlp.ner_load()
 
 
 def pos_tag(words: list[str], corpus: str = "tnc") -> list[tuple[str, str]]:
+    """
+    Tag part-of-speech (POS) in a list of words using **TLTK**.
+
+    :param list[str] words: list of words
+    :param str corpus: corpus used to train the tagger; only
+        ``"tnc"`` is supported
+    :return: list of tuples (word, POS tag)
+    :rtype: list[tuple[str, str]]
+    :raises ValueError: if the corpus is not supported
+    """
     if corpus != "tnc":
         raise ValueError(f"tltk not support {corpus!r} corpus.")
-    return cast(list[tuple[str, str]], nlp.pos_tag_wordlist(words))
+    return cast("list[tuple[str, str]]", nlp.pos_tag_wordlist(words))
 
 
 def _post_process(text: str) -> str:
@@ -30,22 +43,20 @@ def _post_process(text: str) -> str:
 def get_ner(
     text: str, pos: bool = True, tag: bool = False
 ) -> Union[list[tuple[str, str]], list[tuple[str, str, str]], str]:
-    """Named-entity recognizer from **TLTK**
+    """
+    Tag named entities in text using **TLTK**.
 
-    This function tags named-entities in text in IOB format.
+    This function tags named entities in text in IOB format.
 
-    :param str text: text in Thai to be tagged
-    :param bool pos: To include POS tags in the results (`True`) or
-        exclude (`False`). The default value is `True`
-    :param bool tag: output HTML-like tag.
-    :return: a list of tuples associated with tokenized words, NER tags,
-        POS tags (if the parameter `pos` is specified as `True`),
-        and output HTML-like tags (if the parameter `tag` is
-        specified as `True`).
-        Otherwise, return a list of tuples associated with tokenized
-        words and NER tags
+    :param str text: Thai text to be tagged
+    :param bool pos: include POS tags in the results (``True``, default)
+        or exclude them (``False``)
+    :param bool tag: return the text with HTML-like tags
+        instead of a list of tuples
+    :return: list of tuples of word, POS tag (if ``pos`` is ``True``),
+        and named entity tag; or the text with HTML-like tags
+        (if ``tag`` is ``True``)
     :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]], str]
-
     :Example:
 
         >>> from pythainlp.tag.tltk import get_ner
@@ -66,35 +77,15 @@ def get_ner(
     """
     if not text:
         return []
-    list_word = []
-    for i in word_tokenize(text, engine="tltk"):
-        if i == " ":
-            i = "<s/>"
-        list_word.append(i)
+    list_word = [
+        "<s/>" if i == " " else i for i in word_tokenize(text, engine="tltk")
+    ]
     _pos = nlp.pos_tag_wordlist(list_word)
     sent_ner = [
         (_post_process(word), pos, ner) for word, pos, ner in nlp.ner(_pos)
     ]
     if tag:
-        temp = ""
-        sent = ""
-        for idx, (word, pos, ner) in enumerate(sent_ner):
-            if ner.startswith("B-") and temp != "":
-                sent += "</" + temp + ">"
-                temp = ner[2:]
-                sent += "<" + temp + ">"
-            elif ner.startswith("B-"):
-                temp = ner[2:]
-                sent += "<" + temp + ">"
-            elif ner == "O" and temp != "":
-                sent += "</" + temp + ">"
-                temp = ""
-            sent += word
-
-            if idx == len(sent_ner) - 1 and temp != "":
-                sent += "</" + temp + ">"
-
-        return sent
+        return _iob_to_markup([(word, ner) for word, _, ner in sent_ner])
     if pos is False:
         return [(word, ner) for word, pos, ner in sent_ner]
     return sent_ner

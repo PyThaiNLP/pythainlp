@@ -160,4 +160,3 @@ and released under **Apache License 2.0**
 
 Original data:
 <https://github.com/awslabs/FastThaiG2P>
-

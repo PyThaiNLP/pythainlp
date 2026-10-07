@@ -1,18 +1,21 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""CRFCut - Thai sentence segmenter.
+"""
+Segment Thai text into sentences with CRFCut.
 
-Thai sentence segmentation using conditional random field,
-with default model trained on TED dataset
+CRFCut uses a conditional random field (CRF). The default model is trained
+on the TED dataset.
 
 Performance:
-- ORCHID - space-correct accuracy 87% vs 95% state-of-the-art
-  (Zhou et al, 2016; https://www.aclweb.org/anthology/C16-1031.pdf)
-- TED dataset - space-correct accuracy 82%
 
-See development notebooks at https://github.com/vistec-AI/ted_crawler;
-POS features are not used due to unreliable POS tagging available
+* ORCHID - space-correct accuracy 87% vs 95% state-of-the-art
+  (Zhou et al, 2016; https://www.aclweb.org/anthology/C16-1031.pdf)
+* TED dataset - space-correct accuracy 82%
+
+See the development notebooks at https://github.com/vistec-AI/ted_crawler;
+the model does not use part-of-speech (POS) features, because the available
+POS tagging is unreliable.
 """
 
 from __future__ import annotations
@@ -128,14 +131,18 @@ _STARTERS: set[str] = {
 def _extract_features(
     doc: list[str], window: int = 2, max_n_gram: int = 3
 ) -> list[list[str]]:
-    """Extract features for CRF by sliding `max_n_gram` of tokens
-    for +/- `window` from the current token
+    """
+    Extract CRF features from a list of words.
 
-    :param List[str] doc: tokens from which features are to be extracted
-    :param int window: size of window before and after the current token
-    :param int max_n_gram: create n_grams from 1-gram to `max_n_gram`-gram \
-    within the `window`
-    :return: list of lists of features to be fed to CRF
+    The function slides n-grams of up to ``max_n_gram`` words over a window
+    of ``window`` words before and after each word.
+
+    :param list[str] doc: list of words to extract features from
+    :param int window: size of the window before and after each word
+    :param int max_n_gram: maximum n-gram size; create n-grams from
+        1-gram to ``max_n_gram``-gram within the window
+    :return: list of feature lists, one per word, to feed to the CRF
+    :rtype: list[list[str]]
     """
     if not doc:
         return []
@@ -179,10 +186,12 @@ _tagger.open(safe_path_join(corpus_path(), _CRFCUT_DATA_FILENAME))
 
 
 def segment(text: str) -> list[str]:
-    """CRF-based sentence segmentation.
+    """
+    Tokenize text into sentences with a CRF model.
 
-    :param str text: text to be tokenized into sentences
-    :return: list of words, tokenized from the text
+    :param str text: text to be tokenized
+    :return: list of sentences
+    :rtype: list[str]
     """
     toks = word_tokenize(text)
     feat = _extract_features(toks)

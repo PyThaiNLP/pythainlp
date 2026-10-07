@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 """Thread-safety tests for word tokenization engines."""
 
+from __future__ import annotations
+
 import threading
 import unittest
 from typing import Optional
@@ -46,8 +48,8 @@ class TestThreadSafety(unittest.TestCase):
                 elif results[index] != tokens:
                     # Different results indicate a thread-safety issue
                     results[index] = "INCONSISTENT"
-        except Exception as e:
-            results[index] = f"ERROR: {str(e)}"
+        except Exception as e:  # noqa: BLE001 - collect any thread error
+            results[index] = f"ERROR: {e!s}"
 
     def test_newmm_thread_safety(self):
         """Test thread safety of newmm engine."""

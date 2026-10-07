@@ -8,16 +8,15 @@ __all__: list[str] = [
     "NorvigSpellChecker",
     "correct",
     "correct_sent",
+    "get_words_spell_suggestion",
     "spell",
     "spell_sent",
-    "get_words_spell_suggestion",
 ]
 
-from typing import Type
 
 from pythainlp.spell.pn import NorvigSpellChecker
 
-DEFAULT_SPELL_CHECKER: Type[NorvigSpellChecker] = NorvigSpellChecker
+DEFAULT_SPELL_CHECKER: type[NorvigSpellChecker] = NorvigSpellChecker
 
 # these imports are placed here to avoid circular imports
 from pythainlp.spell.core import correct, correct_sent, spell, spell_sent

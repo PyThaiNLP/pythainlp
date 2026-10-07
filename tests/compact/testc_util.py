@@ -34,6 +34,7 @@ class SpellWordTestCaseC(unittest.TestCase):
         result_multi = spell_word("คนดี")
         self.assertEqual(result_multi[-1], "คนดี")
 
+
 class UtilTestCaseC(unittest.TestCase):
     def test_rhyme(self):
         self.assertIsInstance(rhyme("แมว"), list)

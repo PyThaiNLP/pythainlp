@@ -78,7 +78,9 @@ class SummarizeTestCaseX(unittest.TestCase):
 
             for kw in keywords:
                 kw_text = kw[0] if isinstance(kw, tuple) else kw
-                self.assertTrue(ng_min <= len(word_tokenize(kw_text)) <= ng_max)
+                self.assertTrue(
+                    ng_min <= len(word_tokenize(kw_text)) <= ng_max
+                )
 
         # test max_keywords
         max_kws = 10

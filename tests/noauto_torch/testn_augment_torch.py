@@ -11,7 +11,7 @@ import unittest
 
 
 class AugmentTestCaseN(unittest.TestCase):
-    """Tests for augmentation functions (requires transformers)"""
+    """Tests for augmentation functions (requires transformers)."""
 
     def test_augment_wangchanberta_returns_list(self):
         from pythainlp.augment.lm import Thai2transformersAug

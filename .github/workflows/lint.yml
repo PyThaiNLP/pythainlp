@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+      - main
     paths-ignore:
       - '**.cff'
       - '**.json'
@@ -15,6 +16,7 @@ on:
   pull_request:
     branches:
       - dev
+      - main
     paths-ignore:
       - '**.cff'
       - '**.json'
@@ -38,14 +40,50 @@ concurrency:
     }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+
 jobs:
   ruff:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
     - name: Checkout
-      uses: actions/checkout@v7.0.1
-    - name: Ruff
-      uses: astral-sh/ruff-action@v4.1.0
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
-        src: "./pythainlp ./tests ./examples"
+        persist-credentials: false
+    - name: Ruff
+      uses: astral-sh/ruff-action@278981a28ce3188b1e39527901f38254bf3aac89 # v4.1.0
+      with:
+        src: "./pythainlp ./tests ./examples ./notebooks"
+        version: "0.16.10"
         args: check --verbose --config pyproject.toml
+    - name: Ruff format
+      uses: astral-sh/ruff-action@278981a28ce3188b1e39527901f38254bf3aac89 # v4.1.0
+      with:
+        src: "./pythainlp ./tests ./examples ./notebooks"
+        version: "0.16.10"
+        args: format --check --verbose --config pyproject.toml
+
+  cognitive-complexity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Checkout
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - name: Set up Python
+      uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      with:
+        python-version: "3.14"
+        cache: "pip"
+        cache-dependency-path: pyproject.toml
+    - name: Install flake8
+      run: |
+        pip install --only-binary :all: --no-binary flake8-cognitive-complexity,cognitive_complexity "flake8==7.4.1" "flake8-cognitive-complexity==0.1.0"
+    - name: Check cognitive complexity
+      run: flake8 pythainlp

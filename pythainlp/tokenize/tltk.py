@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Wrap tltk, a Thai language toolkit."""
+
 from __future__ import annotations
 
 try:
@@ -13,6 +15,13 @@ except ImportError as e:
 
 
 def segment(text: str) -> list[str]:
+    """
+    Tokenize text into words with tltk.
+
+    :param str text: text to be tokenized
+    :return: list of words
+    :rtype: list[str]
+    """
     if not text or not isinstance(text, str):
         return []
     text = text.replace(" ", "<u/>")
@@ -24,6 +33,13 @@ def segment(text: str) -> list[str]:
 
 
 def syllable_tokenize(text: str) -> list[str]:
+    """
+    Tokenize text into syllables with tltk.
+
+    :param str text: text to be tokenized
+    :return: list of syllables
+    :rtype: list[str]
+    """
     if not text or not isinstance(text, str):
         return []
     _temp: str = syl_segment(text)
@@ -34,6 +50,13 @@ def syllable_tokenize(text: str) -> list[str]:
 
 
 def sent_tokenize(text: str) -> list[str]:
+    """
+    Tokenize text into sentences with tltk.
+
+    :param str text: text to be tokenized
+    :return: list of sentences
+    :rtype: list[str]
+    """
     text = text.replace(" ", "<u/>")
     _temp: str = tltk_segment(text).replace("<u/>", " ").replace("|", "")
     _temp_list = _temp.split("<s/>")

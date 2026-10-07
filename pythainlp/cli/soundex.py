@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Command line for PyThaiNLP's soundex.
+"""
+Command line for PyThaiNLP's Soundex.
 
 It takes input text from the command line.
 """
@@ -19,7 +20,14 @@ if TYPE_CHECKING:
 
 
 class App:
+    """Parse and run the ``soundex`` command."""
+
     def __init__(self, argv: Sequence[str]) -> None:
+        """
+        Initialize the command.
+
+        :param Sequence[str] argv: command line arguments
+        """
         parser = argparse.ArgumentParser(
             prog="soundex",
             description="Convert a text to its sound-based index.",

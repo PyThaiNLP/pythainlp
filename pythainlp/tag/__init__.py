@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Linguistic and other taggers.
+"""
+Linguistic and other taggers.
 
 Tagging each token in a sentence with supplementary information,
 such as its part-of-speech (POS) tag, and named entity (NE) tag.
@@ -13,9 +14,9 @@ such as its part-of-speech (POS) tag, and named entity (NE) tag.
 """
 
 __all__: list[str] = [
-    "EntitySpan",
     "NER",
     "NNER",
+    "EntitySpan",
     "PerceptronTagger",
     "chunk_parse",
     "pos_tag",

@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Perceptron part-of-speech tagger"""
+"""Perceptron part-of-speech tagger."""
 
 from __future__ import annotations
 
@@ -76,9 +76,13 @@ def _tud_tagger() -> PerceptronTagger:
 
 
 def tag(words: list[str], corpus: str = "pud") -> list[tuple[str, str]]:
-    """:param list words: a list of tokenized words
-    :param str corpus: corpus name (orchid, pud)
-    :return: a list of tuples (word, POS tag)
+    """
+    Tag words with part-of-speech (POS) tags using the perceptron tagger.
+
+    :param list[str] words: list of words to be tagged
+    :param str corpus: corpus used to train the tagger model
+        (orchid, orchid_ud, blackboard, blackboard_ud, pud, tdtb, tud)
+    :return: list of tuples (word, POS tag)
     :rtype: list[tuple[str, str]]
     """
     if not words:

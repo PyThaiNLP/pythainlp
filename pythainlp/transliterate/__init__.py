@@ -7,11 +7,11 @@ __all__: list[str] = [
     "FastThaiG2P",
     "get_word_dict",
     "pronunciate",
+    "pronunciate_pali",
     "puan",
     "romanize",
     "transliterate",
     "transliterate_wiktionary",
-    "pronunciate_pali",
 ]
 
 from pythainlp.transliterate.core import pronunciate, romanize, transliterate

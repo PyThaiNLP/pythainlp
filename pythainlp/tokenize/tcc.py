@@ -1,15 +1,19 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""The implementation of tokenizer according to Thai Character Clusters (TCCs)
-rules proposed by `Theeramunkong et al. 2000. \
-    <https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548>`_
+"""
+Tokenize text into Thai Character Clusters (TCCs).
+
+The implementation follows the TCC rules proposed by Theeramunkong et al.
+2000:
+https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548
 
 Credits:
-    * TCC: Jakkrit TeCho
-    * Grammar: Wittawat Jitkrittum (`link to the source file \
-      <https://github.com/wittawatj/jtcc/blob/master/TCC.g>`_)
-    * Python code: Korakot Chaovavanich
+
+* TCC: Jakkrit TeCho
+* Grammar: Wittawat Jitkrittum
+  (https://github.com/wittawatj/jtcc/blob/master/TCC.g)
+* Python code: Korakot Chaovavanich
 """
 
 from __future__ import annotations
@@ -63,11 +67,12 @@ _PAT_TCC: re.Pattern[str] = re.compile("|".join(_RE_TCC))
 
 
 def tcc(text: str) -> Iterator[str]:
-    """TCC generator which generates Thai Character Clusters
+    """
+    Generate Thai Character Clusters (TCCs) from text.
 
-    :param str text: text to be tokenized into character clusters
-    :return: subwords (character clusters)
-    :rtype: Iterator[str]
+    :param str text: text to be tokenized
+    :return: iterator of character clusters
+    :rtype: collections.abc.Iterator[str]
     """
     if not text or not isinstance(text, str):
         return
@@ -85,10 +90,11 @@ def tcc(text: str) -> Iterator[str]:
 
 
 def tcc_pos(text: str) -> set[int]:
-    """TCC positions
+    """
+    Get the ending positions of Thai Character Clusters (TCCs) in text.
 
-    :param str text: text to be tokenized into character clusters
-    :return: set of the ending positions of character clusters
+    :param str text: text to be tokenized
+    :return: set of ending positions of character clusters
     :rtype: set[int]
     """
     if not text or not isinstance(text, str):
@@ -104,11 +110,11 @@ def tcc_pos(text: str) -> set[int]:
 
 
 def segment(text: str) -> list[str]:
-    """Subword segmentation
+    """
+    Tokenize text into Thai Character Clusters (TCCs).
 
-    :param str text: text to be tokenized into character clusters
-    :return: list of subwords (character clusters), tokenized from the text
+    :param str text: text to be tokenized
+    :return: list of character clusters
     :rtype: list[str]
-
     """
     return list(tcc(text))

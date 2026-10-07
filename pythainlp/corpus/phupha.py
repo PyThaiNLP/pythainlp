@@ -1,23 +1,25 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Phupha: Thai Word Frequency Dataset
+"""
+Phupha: Thai word frequency dataset.
 
-Phupha is a Thai Word Frequency Dataset from Common Crawl Corpus.
+Phupha is a Thai word frequency dataset from the Common Crawl corpus.
 
 Dataset:
     Phatthiyaphaibun, W. (2026). Phupha: Thai Word Frequency Dataset
     [Data set]. Zenodo. https://doi.org/10.5281/zenodo.18490474
 
 License:
-    Creative Commons Zero 1.0 Universal Public Domain Dedication License (CC0)
+    Creative Commons Zero 1.0 Universal Public Domain Dedication License
+    (CC0)
 """
 
 from __future__ import annotations
 
 __all__: list[str] = [
-    "word_freqs",
     "unigram_word_freqs",
+    "word_freqs",
 ]
 
 from collections import defaultdict
@@ -28,11 +30,12 @@ _UNIGRAM_FILENAME: str = "phupha_word_freqs.txt"
 
 
 def word_freqs() -> list[tuple[str, int]]:
-    """Get word frequency from Phupha dataset
+    """
+    Get word frequency from the Phupha dataset.
 
-    Phupha is a Thai Word Frequency Dataset from Common Crawl Corpus.
+    Phupha is a Thai word frequency dataset from the Common Crawl corpus.
 
-    :return: List of tuples (word, frequency)
+    :return: list of tuples of word and frequency
     :rtype: list[tuple[str, int]]
 
     :Example:
@@ -42,7 +45,7 @@ def word_freqs() -> list[tuple[str, int]]:
         >>> print(freqs[:5])  # doctest: +SKIP
         [('น', 1119315948), ('ร', 1066483406), ...]
 
-    **Dataset Citation:**
+    **Dataset citation:**
 
     Phatthiyaphaibun, W. (2026). *Phupha: Thai Word Frequency Dataset*
     [Data set]. Zenodo. https://doi.org/10.5281/zenodo.18490474
@@ -57,11 +60,12 @@ def word_freqs() -> list[tuple[str, int]]:
 
 
 def unigram_word_freqs() -> dict[str, int]:
-    """Get unigram word frequency from Phupha dataset
+    """
+    Get unigram word frequency from the Phupha dataset.
 
-    Phupha is a Thai Word Frequency Dataset from Common Crawl Corpus.
+    Phupha is a Thai word frequency dataset from the Common Crawl corpus.
 
-    :return: Dictionary mapping words to their frequencies
+    :return: dict mapping words to their frequencies
     :rtype: dict[str, int]
 
     :Example:
@@ -70,7 +74,7 @@ def unigram_word_freqs() -> dict[str, int]:
         >>> freqs = phupha.unigram_word_freqs()  # doctest: +SKIP
         >>> freqs.get("ไทย", 0)  # doctest: +SKIP
 
-    **Dataset Citation:**
+    **Dataset citation:**
 
     Phatthiyaphaibun, W. (2026). *Phupha: Thai Word Frequency Dataset*
     [Data set]. Zenodo. https://doi.org/10.5281/zenodo.18490474

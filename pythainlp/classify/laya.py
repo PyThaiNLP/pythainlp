@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Laya Multilingual model for zero-shot text classification and decision making.
+"""
+Laya Multilingual model for zero-shot text classification and decision making.
 
 Laya is a non-autoregressive decision model designed for System 1 thinking
 that performs typed choices, scoring, and binary decisions over text
@@ -30,7 +31,8 @@ _TEMP_MAX: float = 5.0
 def _clamp_temperature(
     temperature: Any, lo: float = _TEMP_MIN, hi: float = _TEMP_MAX
 ) -> float:
-    """Clamp temperature to a valid range [lo, hi].
+    """
+    Clamp temperature to a valid range [lo, hi].
 
     :param Any temperature: Temperature value to clamp.
     :param float lo: Minimum allowed temperature.
@@ -48,7 +50,8 @@ def _clamp_temperature(
 
 
 def _confidence_from_probs(probs: Any, num_options: int) -> float:
-    """Calculate normalized Shannon entropy confidence: 1 - H(p) / log(k).
+    """
+    Calculate normalized Shannon entropy confidence: 1 - H(p) / log(k).
 
     :param Any probs: 1D probability array.
     :param int num_options: Number of active options.
@@ -66,7 +69,8 @@ def _confidence_from_probs(probs: Any, num_options: int) -> float:
 
 
 def _temp_bucket(qtype: int, num_options: int) -> str:
-    """Return temperature bucket string for given question type and option count.
+    """
+    Return temperature bucket string for given question type and option count.
 
     :param int qtype: Question type integer (0: choice, 1: score, 2: noul).
     :param int num_options: Number of options.
@@ -85,7 +89,8 @@ def _temp_bucket(qtype: int, num_options: int) -> str:
 
 
 def _serialize_state(state: Union[str, dict[str, Any], list[Any]]) -> str:
-    """Serialize text or structured state to string.
+    """
+    Serialize text or structured state to string.
 
     :param Union[str, dict[str, Any], list[Any]] state: State to serialize.
     :return: String representation.
@@ -97,7 +102,8 @@ def _serialize_state(state: Union[str, dict[str, Any], list[Any]]) -> str:
 
 
 def _render_criterion(value: Any) -> str:
-    """Render one criterion value as a clean string.
+    """
+    Render one criterion value as a clean string.
 
     :param Any value: Criterion text, dictionary, list, or number.
     :return: Rendered text representation.
@@ -111,7 +117,8 @@ def _render_criterion(value: Any) -> str:
 
 
 def _render_options(q: dict[str, Any]) -> list[str]:
-    """Render option texts for a question definition.
+    """
+    Render option texts for a question definition.
 
     :param dict[str, Any] q: Question dictionary with keys 't' and 'crit'.
     :return: List of rendered option strings.
@@ -222,7 +229,8 @@ def _build_prefix(
     q: dict[str, Any],
     head_max_len: int = 256,
 ) -> tuple[list[int], list[int]]:
-    """Build question prefix tokens and marker positions.
+    """
+    Build question prefix tokens and marker positions.
 
     :param _TokenizerWrapper tok: Tokenizer wrapper.
     :param dict[str, Any] q: Internal question definition.
@@ -267,7 +275,8 @@ def _build_sequence(
     head_max_len: int = 256,
     truncate_left: bool = False,
 ) -> tuple[list[int], list[int]]:
-    """Build token sequence: [CLS] <type> ins [SEP] [MASK] opt0 ... [SEP] state [SEP].
+    ""
+    "Build token sequence: [CLS] <type> ins [SEP] [MASK] opt0 ... [SEP] state [SEP].
 
     :param _TokenizerWrapper tok: Tokenizer instance.
     :param Union[str, dict[str, Any], list[Any]] state: Input state/text.
@@ -290,7 +299,8 @@ def _build_sequence(
 def _collate_items(
     items: list[dict[str, Any]], pad_id: int
 ) -> dict[str, Any]:
-    """Collate sequence items into numpy batch feed dict for ONNX Runtime.
+    """
+    Collate sequence items into numpy batch feed dict for ONNX Runtime.
 
     :param list[dict[str, Any]] items: List of prepared items.
     :param int pad_id: Padding token ID.
@@ -323,7 +333,8 @@ def _collate_items(
 
 
 class LayaModel:
-    """Laya Multilingual model for zero-shot text classification and decision making.
+    """
+    Laya Multilingual model for zero-shot text classification and decision making.
 
     Laya is a non-autoregressive decision model designed for fast, calibrated,
     and reliable decision making. It supports over 100 languages including Thai,
@@ -512,7 +523,8 @@ class LayaModel:
         state: Union[str, dict[str, Any], list[Any]],
         questions: dict[str, Any],
     ) -> dict[str, Any]:
-        """Execute typed-decision questions over state (upstream Laya System 1 interface).
+        """
+        Execute typed-decision questions over state (upstream Laya System 1 interface).
 
         Supports question types:
         - ``choice``: Select best option among criteria.
@@ -627,7 +639,8 @@ class LayaModel:
         prompt: str = "Select the best choice for the given text.",
         return_details: bool = False,
     ) -> Union[str, dict[str, Any]]:
-        """Classify text into one of candidate choices using prompt guidance.
+        """
+        Classify text into one of candidate choices using prompt guidance.
 
         :param Union[str, dict[str, Any], list[Any]] text: Input text or structured state.
         :param Union[list[str], dict[str, Any]] choices: List of candidate choice labels
@@ -660,7 +673,8 @@ class LayaModel:
         prompt: str = "Select the best choice for the given text.",
         return_details: bool = False,
     ) -> list[Union[str, dict[str, Any]]]:
-        """Classify multiple texts in batches.
+        """
+        Classify multiple texts in batches.
 
         :param list[Union[str, dict[str, Any], list[Any]]] texts: List of texts or states.
         :param Union[list[str], dict[str, Any]] choices: Candidate choices.
@@ -691,7 +705,8 @@ class LayaModel:
         questions: Optional[dict[str, Any]] = None,
         return_details: bool = False,
     ) -> Any:
-        """Predict classification choice or structured decisions.
+        """
+        Predict classification choice or structured decisions.
 
         If ``choices`` is provided, executes choice classification.
         If ``questions`` is provided, executes structured decision tasks.

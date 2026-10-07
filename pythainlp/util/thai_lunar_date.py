@@ -254,7 +254,7 @@ def athikamas(year: int) -> bool:
     """
     Check if a year is a leap month year (อธิกมาส).
 
-    :param int year: year in the Buddhist Era or Common Era
+    :param int year: year in the Common Era (Gregorian)
     :return: True if the year has an extra month
     :rtype: bool
     """
@@ -266,7 +266,7 @@ def athikavar(year: int) -> bool:
     """
     Check if a year is a leap day year (อธิกวาร).
 
-    :param int year: year in the Buddhist Era or Common Era
+    :param int year: year in the Common Era (Gregorian)
     :return: True if the year has an extra day
     :rtype: bool
     """
@@ -284,7 +284,7 @@ def deviation(year: int) -> float:
     """
     Return the deviation of a year from the lunar calendar.
 
-    :param int year: year in the Buddhist Era or Common Era
+    :param int year: year in the Common Era (Gregorian)
     :return: deviation value of the year
     :rtype: float
     """
@@ -315,7 +315,7 @@ def last_day_in_year(year: int) -> int:
     """
     Return the number of days in a lunar year.
 
-    :param int year: year in the Buddhist Era or Common Era
+    :param int year: year in the Common Era (Gregorian)
     :return: number of days (354, 355, or 384)
     :rtype: int
     """

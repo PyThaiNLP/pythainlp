@@ -131,7 +131,6 @@ def gen_sentence(
     prob: float = 0.001,
     output_str: bool = True,
 ) -> Union[list[str], str]:
-    # TODO: docstring lists ``duplicate``, which is not a parameter
     """
     Generate text using the Thai2fit model.
 
@@ -139,7 +138,6 @@ def gen_sentence(
     :param int N: number of words
     :param float prob: minimum word probability
     :param bool output_str: return a string instead of a list of words
-    :param bool duplicate: allow duplicate words in the sentence
 
     :return: generated sentence as a string or a list of words
     :rtype: Union[list[str], str]

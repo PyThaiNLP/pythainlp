@@ -268,11 +268,6 @@ the code disagree. The code was not changed. No test pins them.
   probably do not match a real run.
 - `summarize.keybert`: the doctest calls `kb.extract_keyword(...)`. The
   method is `extract_keywords`.
-- `util.keywords.rank`: the "Exclude stopwords" example calls `rank(words)`
-  without `exclude_stopwords=True`, and the output is not what a plain call
-  returns.
-- `util.date.thaiword_to_date`: the example has no `>>>`, so it is not a
-  doctest.
 - `transliterate.pali.pronunciate_pali("สฺวากฺขา")`: the doctest expects
   "สวากขาโต" and gets "สวากขา".
 - `transliterate.romanize("ก็อปปี้", engine="lookup")`: the doctest expects
@@ -280,40 +275,17 @@ the code disagree. The code was not changed. No test pins them.
 
 #### Docstring does not match the code
 
-- `util.remove_trailing_repeat_consonants`: documents `dictionary`; the
-  parameter is `custom_dict`. The private helpers
-  `_remove_repeat_trailing_consonants_from_segment`,
-  `_update_consonant_repeaters`, and
-  `_find_longest_consonant_repeaters_match` have the same kind of wrong
-  parameter names (`consonant`, `dictionary`, `segment`).
-- `util.keywords.find_keyword`: the parameter `min_len` means a minimum
-  frequency.
-- `transliterate.transliterate`: the `:return:` says "phonetic alphabet",
-  but the *icu* and *iso_11940* engines return Latin transliteration.
-- `generate.thai2fit.gen_sentence`: the docstring lists `duplicate`, which
-  is not a parameter.
-- `benchmarks.word_tokenization.preprocessing`: the docstring says `text`;
-  the parameter is `txt`.
-- `translate.tokenization_small100.set_lang_special_tokens`: the docstring
-  says there is no prefix; the code sets `prefix_tokens=[cur_lang_id]`.
 - `tokenize.core._sent_tokenize_words` (`crfcut`) and
   `_split_at_separators`: the behavior in their code comments is not in
   the docstrings.
-- `transliterate.transliterate`: the options list `icu` as a phonetic
-  engine. It returns Latin script.
-- `spell.get_words_spell_suggestion`: the docstring parameter is
-  `list_word`; the code parameter is `list_words`.
-- `tag.NNER`: the class docstring lists `corpus`; `__init__` has only
-  `engine`. `load_engine` ignores its `engine` argument.
-- `tag.pos_tag`: the docstring lists the *wangchanberta* engine, but the code
-  raises `ValueError` for it. `pos_tag_sents` lists corpus *tnc*, which is
-  not in the supported list. `pos_tag_transformers` names *phayathaibert*;
-  the engine key is `"phayathai"`, and its `sentence` is a string.
+- `tag.NNER.load_engine` ignores its `engine` argument.
+- `tag.pos_tag_sents` lists corpus *tnc* and not *tdtb* or *tud*. The
+  *tnc* corpus works with the *tltk* engine only.
+- `util.keywords.find_keyword`: the parameter `min_len` is a minimum
+  frequency, not a minimum length. The name is misleading.
 - `tag.thainer.ThaiNameTagger`: an unknown `version` does not raise. The CRF
   model is left unopened. `tag.tltk.get_ner` and `ThaiNameTagger.get_ner`
   ignore `pos` when `tag=True`.
-- `cli.data.App.path`: the docstring says "print the path of a local
-  dataset"; the code prints the PyThaiNLP data directory.
 - `wsd.get_score` returns `1 - cos_sim`, a distance, not a similarity.
 - `spell.wanchanberta_thai_grammarly.evaluate_one_text`: the `model`
   parameter is unused; the function calls the module-level `tagging_model`.
@@ -325,12 +297,6 @@ the code disagree. The code was not changed. No test pins them.
   word and ignores the POS-filtered `list_synsets`.
 - `parse.spacy_thai_engine.Parse.__init__`: `model` is ignored; the code
   always calls `spacy_thai.load()`. `parse.dependency_parsing` lists it.
-- `tag.wangchanberta_onnx.WngchanBerta_ONNX`: the class name has a typo.
-- `util.thai_lunar_date`: `athikamas`, `athikavar`, `deviation`, and
-  `last_day_in_year` do not state the era of `year` (the code uses
-  `year - 78`).
-- Missing `:raises:` for `TypeError` in `thai_digit_to_arabic_digit` and
-  similar functions.
 - `phayathaibert.core.replace_newlines` and some other docstrings with `\n`
   in a non-raw string (pydocstyle D301); making them raw strings changes
   the doctest source.

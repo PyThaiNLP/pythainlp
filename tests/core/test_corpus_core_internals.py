@@ -1146,6 +1146,11 @@ class SweepStaleTempPathsTestCase(_IsolatedDataDirTestCase):
         self.assertTrue(path.exists())
 
 
+# Negative: a file timestamp can be a few ms ahead of time.time()
+# (Windows clock resolution), so an age of 0 is not enough.
+_ANY_AGE = -1
+
+
 class DownloadTestCase(_DownloadTestBase):
     def test_read_only(self) -> None:
         with patch.dict(os.environ, {"PYTHAINLP_READ_ONLY": "1"}):
@@ -1163,7 +1168,7 @@ class DownloadTestCase(_DownloadTestBase):
             "c", {"0.1": _version_entry("c.txt", b"hello")}
         )
         self.serve("c.txt", b"hello")
-        with patch.object(core, "_STALE_TEMP_SECONDS", 0):
+        with patch.object(core, "_STALE_TEMP_SECONDS", _ANY_AGE):
             result, _ = self.run_download("c")
         self.assertIs(result, True)
         self.assertFalse(stale.exists())
@@ -1171,7 +1176,7 @@ class DownloadTestCase(_DownloadTestBase):
     def test_read_only_does_not_sweep(self) -> None:
         stale = self.data_dir / f".old.txt.{_MARK}.part"
         stale.write_bytes(b"x")
-        with patch.object(core, "_STALE_TEMP_SECONDS", 0):
+        with patch.object(core, "_STALE_TEMP_SECONDS", _ANY_AGE):
             with patch.dict(os.environ, {"PYTHAINLP_READ_ONLY": "1"}):
                 self.run_download("x")
         self.assertTrue(stale.exists())

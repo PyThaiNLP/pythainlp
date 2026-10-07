@@ -34,7 +34,7 @@
             "Wannaphong Phatthiyaphaibun"
         ],
         "author_email": "wannaphong@pythainlp.org",
-        "license": "cc-by-4.0",
+        "license": "CC-BY-4.0",
         "versions": {
             "1.5.1": {
                 "filename": "thainer_crf_1_5_1.model",
@@ -48,12 +48,12 @@
         "name": "thai2rom_encoder_onnx",
         "latest_version": "1.0.0",
         "description": "Thai2Rom Encoder ONNX",
-        "long_description": "Thai to Romanian in ONNX model - Encoder",
+        "long_description": "Thai to Roman in ONNX model - Encoder",
         "url": "https://github.com/artificiala/thai-romanization/",
         "authors": [
             "Chakri Lowphansirikul"
         ],
-        "license": "Apache-2.0 license",
+        "license": "Apache-2.0",
         "versions": {
             "1.0.0": {
                 "filename": "thai2rom_encoder.onnx",
@@ -65,13 +65,13 @@
     "thai2rom_decoder_onnx": {
         "name": "thai2rom_decoder_onnx",
         "latest_version": "1.0.0",
-        "description": "Thai2Rom Decoder ONNX - Decoder",
-        "long_description": "Thai to Romanian in ONNX model",
+        "description": "Thai2Rom Decoder ONNX",
+        "long_description": "Thai to Roman in ONNX model - Decoder",
         "url": "https://github.com/artificiala/thai-romanization/",
         "authors": [
             "Chakri Lowphansirikul"
         ],
-        "license": "Apache-2.0 license",
+        "license": "Apache-2.0",
         "versions": {
             "1.0.0": {
                 "filename": "thai2rom_decoder.onnx",
@@ -83,13 +83,13 @@
     "thai2rom_config_onnx": {
         "name": "thai2rom_config_onnx",
         "latest_version": "1.0.0",
-        "description": "Thai2Rom ONNX Config",
-        "long_description": "Thai to Romanian in ONNX model -- Config",
+        "description": "Thai2Rom Config ONNX",
+        "long_description": "Thai to Roman in ONNX model - Config",
         "url": "https://github.com/artificiala/thai-romanization/",
         "authors": [
             "Chakri Lowphansirikul"
         ],
-        "license": "Apache-2.0 license",
+        "license": "Apache-2.0",
         "versions": {
             "1.0.0": {
                 "filename": "thai2rom_loader_onnx.json",

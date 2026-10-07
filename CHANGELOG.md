@@ -26,6 +26,8 @@ and this project adheres to
 - Improve guardrails in `check_sara()` and `nighit()` ([#1453])
 - `bleu_score()` raises `ValueError` on unequal reference and hypothesis
   counts; `nighit()` requires `w1` to end with "ํ" ([#1548])
+- `download()` removes abandoned `.part`, `.tmp`, and `.old` entries from the
+  data directory after 24 hours
 
 ### Fixed
 
@@ -48,6 +50,11 @@ and this project adheres to
 - `nighit()`: map ช to ญ; add ฆ, ญ, ฏ, ฒ, ต, ม ([#1548])
 - `dependency_parsing()` raises `NotImplementedError`, not `TypeError`, for
   `engine=""` ([#1551])
+- `download()` installs the highest compatible corpus version, not the last
+  one in the catalog; `_check_version()` compares versions correctly (`">=9"`
+  was true on 5.4.0)
+- `WunsenTransliterate` no longer reuses an old model after a failed
+  `ThapSap` creation
 
 ### Security
 

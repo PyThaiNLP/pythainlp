@@ -225,7 +225,9 @@ class _IsolatedDataDirTestCase(unittest.TestCase):
             json.dump(db, f)
 
 
-# Golden data recorded from the code before the refactor.
+# Golden data recorded from the code before the refactor. Changed for the
+# fix of _version2int: ">=9" is False for 5.x, ">=9<x" does not parse the
+# upper bound after the lower bound fails, and 6.0 <= 6.
 # Rows: (pythainlp version, one outcome per cause in _CV_CAUSES).
 # Outcome: "T" True, "F" False, "E" ValueError from parsing "x".
 _CV_CAUSES = (
@@ -267,13 +269,13 @@ _CV_CAUSES = (
     ">=>=5.0",
     "==5.4.0==",
 )
-_CV_ERROR = ("ValueError", "invalid literal for int() with base 10: 'x00'")
+_CV_ERROR = ("ValueError", "invalid literal for int() with base 10: 'x'")
 _CV_ROWS = (
-    ("5.4.0", "TTTFFTFTFFTTFTFTFTFFFTEEEFTFTTFFFTETT"),
-    ("5.4.0dev1", "TTTFFTFTFFTTFTFTFTFFFTEEEFTFTTFFFTETT"),
-    ("5.4.0beta2", "TTTFFTFTFFTTFTFTFTFFFTEEEFTFTTFFFTETT"),
-    ("5.3.10", "TFFFFFFTFTTTFTFTTTTFFTEEEFTFTFFFFTETF"),
-    ("6.0", "TFFFFTTTTFFFFFFFFFFFFTEEEFTFFFFFFTETF"),
+    ("5.4.0", "TTTFFTFTFFTTFTFTFTFFFTFEEFTFTTFFFFETT"),
+    ("5.4.0dev1", "TTTFFTFTFFTTFTFTFTFFFTFEEFTFTTFFFFETT"),
+    ("5.4.0beta2", "TTTFFTFTFFTTFTFTFTFFFTFEEFTFTTFFFFETT"),
+    ("5.3.10", "TFFFFFFTFTTTFTFTTTTFFTFEEFTFTFFFFFETF"),
+    ("6.0", "TFFFFTTTTFFFTFFFFFFFFTFEEFTFFFFFFFETF"),
 )
 _CV_CODES = {"T": True, "F": False, "E": _CV_ERROR}
 
@@ -311,12 +313,32 @@ class CheckVersionTestCase(unittest.TestCase):
             with self.assertRaises(ValueError):
                 core._check_version("*")
 
-    def test_single_component_version_bug(self) -> None:
-        # BUG-LEDGER: version2int-single-component
-        # "9" becomes 900 instead of 90000, so ">=9" accepts 5.4.0.
-        self.assertEqual(core._version2int("9"), 900)
-        with patch.object(core, "__version__", "5.4.0"):
-            self.assertTrue(core._check_version(">=9"))
+    def test_version2int_sorts_like_the_version(self) -> None:
+        ordered = ["0", "0.1", "1", "1.0.1", "5.3.3", "5.4", "5.10", "5.100"]
+        ordered += ["6", "9", "9.0.1", "10", "10.0.0.1"]
+        values = [core._version2int(v) for v in ordered]
+        self.assertEqual(values, sorted(values))
+        # Equal versions
+        for same in (["9", "9.0", "9.0.0"], ["1.2", "1.2.*", "1.2.0-rc1"]):
+            with self.subTest(same=same):
+                self.assertEqual(len({core._version2int(v) for v in same}), 1)
+        for bad in ("", "x", "1.x", "1..2"):
+            with self.subTest(bad=bad):
+                with self.assertRaises(ValueError):
+                    core._version2int(bad)
+
+    def test_single_component_version(self) -> None:
+        # Regression: "9" was read as 900, so ">=9" accepted 5.4.0.
+        for installed, cause, expected in (
+            ("5.4.0", ">=9", False),
+            ("9.0.0", ">=9", True),
+            ("5.4.0", "<9", True),
+            ("5.100.0", ">=6", False),
+            ("5.100.0", "<6", True),
+        ):
+            with self.subTest(installed=installed, cause=cause):
+                with patch.object(core, "__version__", installed):
+                    self.assertIs(core._check_version(cause), expected)
 
 
 # Archives that both tar branches accept: (members, extracted tree)
@@ -1003,6 +1025,93 @@ class _DownloadTestBase(_IsolatedDataDirTestCase):
         return result, out.getvalue()
 
 
+_HEX = "a" * 32
+_DAY = 24 * 60 * 60
+
+
+class SweepStaleTempPathsTestCase(_IsolatedDataDirTestCase):
+    def make(
+        self, name: str, kind: str = "file", age: float = 2 * _DAY
+    ) -> Path:
+        """Create an entry in the data directory, *age* seconds old."""
+        path = self.data_dir / name
+        if kind == "dir":
+            path.mkdir()
+            (path / "inner.txt").write_bytes(b"x")
+        else:
+            path.write_bytes(b"x")
+        old = path.stat().st_mtime - age
+        os.utime(path, (old, old))
+        return path
+
+    def test_removes_stale_entries(self) -> None:
+        for name, kind in (
+            (f".c.txt.{_HEX}.part", "file"),
+            (f".c_1.0.{_HEX}.tmp", "dir"),
+            (f".db.json.{_HEX}.tmp", "file"),
+        ):
+            with self.subTest(name=name):
+                path = self.make(name, kind)
+                core._sweep_stale_temp_paths()
+                self.assertFalse(path.exists())
+
+    def test_keeps_fresh_entries(self) -> None:
+        # Another process may be downloading or extracting right now.
+        path = self.make(f".c.txt.{_HEX}.part", age=_DAY - 60)
+        core._sweep_stale_temp_paths()
+        self.assertTrue(path.exists())
+        core._sweep_stale_temp_paths(now=path.stat().st_mtime + _DAY)
+        self.assertFalse(path.exists())
+
+    def test_old_folder_is_kept_without_its_corpus(self) -> None:
+        # It is then the only copy of a corpus that failed to swap in.
+        old = self.make(f".c_1.0.{_HEX}.old", "dir")
+        core._sweep_stale_temp_paths()
+        self.assertTrue(old.exists())
+        (self.data_dir / "c_1.0").mkdir()
+        core._sweep_stale_temp_paths()
+        self.assertFalse(old.exists())
+        self.assertTrue((self.data_dir / "c_1.0").exists())
+
+    def test_keeps_other_entries(self) -> None:
+        names = [
+            ".hidden",
+            f"c.txt.{_HEX}.part",  # not hidden
+            f".c.txt.{_HEX}.bak",  # other suffix
+            f".c.txt.{'g' * 32}.part",  # not hex
+            f".c.txt.{_HEX[:31]}.part",  # too short
+            f".c.txt.{_HEX.upper()}.part",  # upper case
+            "c.txt",
+        ]
+        for name in names:
+            self.make(name)
+        core._sweep_stale_temp_paths()
+        self.assertEqual(_tree(self.data_dir), sorted(names))
+
+    def test_removes_a_link_not_its_target(self) -> None:
+        target = Path(tempfile.mkdtemp(prefix="pythainlp-target-"))
+        self.addCleanup(shutil.rmtree, target, ignore_errors=True)
+        (target / "keep.txt").write_bytes(b"x")
+        link = self.data_dir / f".c.{_HEX}.tmp"
+        try:
+            link.symlink_to(target, target_is_directory=True)
+        except (OSError, NotImplementedError):
+            self.skipTest("symbolic links are not available")
+        old = link.lstat().st_mtime - 2 * _DAY
+        os.utime(link, (old, old), follow_symlinks=False)
+        core._sweep_stale_temp_paths()
+        self.assertFalse(link.is_symlink())
+        self.assertTrue((target / "keep.txt").exists())
+
+    def test_ignores_errors(self) -> None:
+        path = self.make(f".c.txt.{_HEX}.part")
+        with patch("os.listdir", side_effect=OSError("denied")):
+            core._sweep_stale_temp_paths()  # must not raise
+        with patch("os.lstat", side_effect=OSError("denied")):
+            core._sweep_stale_temp_paths()
+        self.assertTrue(path.exists())
+
+
 class DownloadTestCase(_DownloadTestBase):
     def test_read_only(self) -> None:
         with patch.dict(os.environ, {"PYTHAINLP_READ_ONLY": "1"}):
@@ -1012,6 +1121,28 @@ class DownloadTestCase(_DownloadTestBase):
             out, "PyThaiNLP is in read-only mode. It cannot download.\n"
         )
         self.assertEqual(self.net.requests, [])
+
+    def test_sweeps_stale_temp_paths(self) -> None:
+        stale = self.data_dir / f".old.txt.{_HEX}.part"
+        stale.write_bytes(b"x")
+        old = stale.stat().st_mtime - 2 * _DAY
+        os.utime(stale, (old, old))
+        self.catalog["c"] = _catalog_entry(
+            "c", {"0.1": _version_entry("c.txt", b"hello")}
+        )
+        self.serve("c.txt", b"hello")
+        result, _ = self.run_download("c")
+        self.assertIs(result, True)
+        self.assertFalse(stale.exists())
+
+    def test_read_only_does_not_sweep(self) -> None:
+        stale = self.data_dir / f".old.txt.{_HEX}.part"
+        stale.write_bytes(b"x")
+        old = stale.stat().st_mtime - 2 * _DAY
+        os.utime(stale, (old, old))
+        with patch.dict(os.environ, {"PYTHAINLP_READ_ONLY": "1"}):
+            self.run_download("x")
+        self.assertTrue(stale.exists())
 
     def test_default_catalog_url(self) -> None:
         self.net.routes[_CATALOG_URL] = b"{}"
@@ -1079,10 +1210,9 @@ class DownloadTestCase(_DownloadTestBase):
         self.assertIs(result, False)
         self.assertEqual(out, "Corpus: c\nCorpus version not supported.\n")
 
-    def test_last_matching_version_wins(self) -> None:
-        # BUG-LEDGER: download-last-version
-        # The last compatible version in catalog order is chosen,
-        # not the highest one.
+    def test_highest_compatible_version_wins(self) -> None:
+        # Regression: the last compatible version in catalog order was
+        # chosen (0.1 here), not the highest one.
         self.catalog["c"] = _catalog_entry(
             "c",
             {
@@ -1091,11 +1221,28 @@ class DownloadTestCase(_DownloadTestBase):
                 "0.1": _version_entry("c1.txt", b"1"),
             },
         )
-        self.serve("c1.txt", b"1")
+        self.serve("c2.txt", b"2")
         result, out = self.run_download("c")
         self.assertIs(result, True)
-        self.assertEqual(out, "Corpus: c\n- Downloading: c 0.1\nDone.\n")
-        self.assertEqual(self.read_db()["_default"]["1"]["version"], "0.1")
+        self.assertEqual(out, "Corpus: c\n- Downloading: c 0.2\nDone.\n")
+        self.assertEqual(self.read_db()["_default"]["1"]["version"], "0.2")
+
+    def test_highest_compatible_version(self) -> None:
+        def entry(*versions: str) -> dict[str, Any]:
+            return {v: {"pythainlp_version": "*"} for v in versions}
+
+        for versions, expected in (
+            ((), ""),
+            (("0.9", "0.10", "0.2"), "0.10"),
+            (("1.0", "1.0.0"), "1.0.0"),  # equal: the later one wins
+            (("a", "0.1", "b"), "0.1"),  # not a number: lowest
+            (("a", "b"), "b"),
+        ):
+            with self.subTest(versions=versions):
+                self.assertEqual(
+                    core._highest_compatible_version(entry(*versions)),
+                    expected,
+                )
 
     def test_fresh_download_creates_db(self) -> None:
         self.catalog["c"] = _catalog_entry(

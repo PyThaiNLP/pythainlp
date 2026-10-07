@@ -26,6 +26,7 @@ from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
 from pythainlp.tools.path import (
+    get_pythainlp_data_path,
     is_offline_mode,
     is_read_only_mode,
     safe_path_join,
@@ -694,24 +695,22 @@ def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
 
 
 def _version2int(v: str) -> int:
-    """Convert a version string X.X.X to an integer X0X0X."""
-    if "-" in v:
-        v = v.split("-")[0]
-    if v.endswith(".*"):
-        v = v.replace(".*", ".0")  # X.X.* => X.X.0
-    v_list = v.split(".")
-    if len(v_list) < 3:
-        v_list.append("0")
-    v_new = ""
-    for i, value in enumerate(v_list):
-        if i != 0:
-            if len(value) < 2:
-                v_new += "0" + value
-            else:
-                v_new += value
-        else:
-            v_new += value
-    return int(v_new)
+    """
+    Convert a version string X.Y.Z to an integer that sorts like the version.
+
+    A missing minor or patch number counts as 0, so ``"9"``, ``"9.0"``, and
+    ``"9.0.0"`` give the same integer. The minor and patch numbers each have
+    4 digits (up to 9999). A part after a "-" and components after the third
+    are ignored.
+
+    :param str v: version string, such as ``"5.3"`` or ``"5.3.*"``
+    :return: version as an integer
+    :rtype: int
+    :raises ValueError: if a component is not a number
+    """
+    v = v.split("-")[0].removesuffix(".*")  # X.X.* => X.X
+    major, minor, patch = ([int(x) for x in v.split(".")] + [0, 0])[:3]
+    return major * 10**8 + minor * 10**4 + patch
 
 
 def _installed_version_int() -> int:
@@ -791,11 +790,34 @@ def _load_local_db() -> dict[str, Any]:
     return local_db
 
 
+def _highest_compatible_version(versions: dict[str, Any]) -> str:
+    """
+    Return the highest corpus version that works with this PyThaiNLP.
+
+    :param dict[str, Any] versions: ``versions`` of a catalog entry
+    :return: the version, or an empty string if none is compatible
+    :rtype: str
+    """
+    best = ""
+    best_key = -1
+    for v, file in versions.items():
+        if not _check_version(file["pythainlp_version"]):
+            continue
+        try:
+            key = _version2int(v)
+        except ValueError:
+            key = -1  # not a number: lowest, but still usable
+        if key >= best_key:
+            best, best_key = v, key
+    return best
+
+
 def _select_version(corpus: dict[str, Any], version: str) -> Optional[str]:
     """
     Select the corpus version to download and check that it is supported.
 
-    Without *version*, the last compatible version in catalog order wins.
+    Without *version*, the highest compatible version wins. If two versions
+    are equal, the later one in catalog order wins.
 
     :param dict[str, Any] corpus: corpus entry from the remote catalog
     :param str version: requested version (empty string means any)
@@ -805,9 +827,7 @@ def _select_version(corpus: dict[str, Any], version: str) -> Optional[str]:
     """
     versions = corpus["versions"]
     if not version:
-        for v, file in versions.items():
-            if _check_version(file["pythainlp_version"]):
-                version = v
+        version = _highest_compatible_version(versions)
 
     if version not in versions:
         print("Corpus not found.")
@@ -939,6 +959,55 @@ def _swap_in_folder(new_path: str, folder_path: str) -> None:
             _add_note(e, f"The old folder is kept at: {old_path}")
         raise
     _remove_path(old_path)
+
+
+# A hidden temporary entry: ``.<name>.<32 hex digits>.<suffix>``.
+_TEMP_ENTRY = re.compile(
+    r"^\.(?P<name>.+)\.[0-9a-f]{32}\.(?P<suffix>part|tmp|old)$"
+)
+
+# Age after which a hidden temporary entry counts as abandoned.
+_STALE_TEMP_SECONDS: int = 24 * 60 * 60
+
+
+def _sweep_stale_temp_paths(
+    max_age: float = _STALE_TEMP_SECONDS, now: Optional[float] = None
+) -> None:
+    """
+    Remove abandoned hidden temporary entries from the data directory.
+
+    A crash or a failed cleanup can leave ``.<name>.<hex>.part``, ``.tmp``,
+    or ``.old`` entries (see :func:`_sibling_temp_path`). An entry is
+    removed only if it has not changed for *max_age* seconds, so a
+    download in another process is not disturbed. An ``.old`` entry is also
+    kept if there is no ``<name>`` next to it: it is then the only copy of
+    a corpus that failed to swap in. Errors are ignored.
+
+    :param float max_age: age in seconds after which an entry is stale
+    :param Optional[float] now: current time in seconds
+        (default: ``time.time()``)
+    """
+    now = time.time() if now is None else now
+    try:
+        data_dir = get_pythainlp_data_path()
+        names = os.listdir(data_dir)
+    except OSError:
+        return
+    for entry in names:
+        match = _TEMP_ENTRY.match(entry)
+        if match is None:
+            continue
+        try:
+            path = safe_path_join(data_dir, entry)
+            if now - os.lstat(path).st_mtime < max_age:
+                continue
+            if match["suffix"] == "old" and not os.path.lexists(
+                safe_path_join(data_dir, match["name"])
+            ):
+                continue
+        except (OSError, ValueError):
+            continue
+        _remove_path(path)
 
 
 def _add_note(error: BaseException, note: str) -> None:
@@ -1098,6 +1167,8 @@ def download(
     if is_read_only_mode():
         print("PyThaiNLP is in read-only mode. It cannot download.")
         return False
+
+    _sweep_stale_temp_paths()
 
     if not url:
         url = corpus_db_url()

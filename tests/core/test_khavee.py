@@ -12,14 +12,19 @@ kv = KhaveeVerifier()
 
 class KhaveeTestCase(unittest.TestCase):
     """
-    Tests for KhaveeVerifier.check_sara, check_marttra, is_sumpus, and check_aek_too methods.
-    check_klon method is tested in KhaveeCheckKlonTestCaseX class in tests/extra/testx_khavee.py.
+    Test KhaveeVerifier methods.
+
+    Covers check_sara, check_marttra, is_sumpus, and check_aek_too.
+    check_klon is tested in KhaveeCheckKlonTestCaseX
+    in tests/extra/testx_khavee.py.
     """
 
     def test_check_sara(self):
         """
-        Test check_sara with basic, reduced, complex, embedded,
-        and standalone character vowels.
+        Test check_sara with several vowel forms.
+
+        Covers basic, reduced, complex, embedded, and standalone
+        character vowels.
         """
         # Basic Vowels
         self.assertEqual(kv.check_sara("ฉะ"), "อะ")
@@ -691,8 +696,9 @@ class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
 
     def test_invalid_karu_lahu_words(self):
         """
-        Test that invalid words are not identified as karu or lahu and should return False.
-        This includes empty strings.
+        Test that invalid words are not karu or lahu.
+
+        Each invalid word, including an empty string, returns False.
         """
         invalid_karu_lahu_words = [""]
         for word in invalid_karu_lahu_words:
@@ -733,8 +739,9 @@ class KhaveeHandleKarunTestCase(unittest.TestCase):
 
     def test_complex_karun_stripped(self):
         """
-        Test complex karun stripping with single, multi-consonant,
-        and vowel-embedded patterns.
+        Test complex karun stripping.
+
+        Covers single, multi-consonant, and vowel-embedded patterns.
         """
         # Explicit evaluation of single, multi-consonant, and vowel-embedded Karun rules
         self.assertEqual(self.kv.handle_karun_sound_silence("จันทร์"), "จัน")

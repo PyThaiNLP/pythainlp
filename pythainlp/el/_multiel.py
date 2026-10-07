@@ -26,7 +26,7 @@ class MultiEL:
             raise ImportError(
                 "Can't import multiel package, you can install by pip install multiel."
             ) from exc
-        self._bela_run: "BELA" = BELA(device=self.device)
+        self._bela_run: BELA = BELA(device=self.device)
 
     def process_batch(
         self, list_text: Union[list[str], str]

@@ -92,7 +92,10 @@ def find_misspell_candidates(
 
     for language_ix, is_shift, row, pos, char in valid_neighbours:
         try:
-            char = ALL_CHARACTERS[language_ix][is_shift * 4 + row][pos]
+            # Keep the name: the error message below prints it.
+            char = ALL_CHARACTERS[language_ix][  # noqa: PLW2901
+                is_shift * 4 + row
+            ][pos]
             chars.append(char)
             kernel = (row - loc[1], pos - loc[2])
 
@@ -139,7 +142,7 @@ def misspell(sentence: str, ratio: float = 0.05) -> str:
     """
     num_misspells = math.floor(len(sentence) * ratio)
     # Non-cryptographic use, pseudo-random generator is acceptable here
-    positions = random.sample(range(len(sentence)), k=num_misspells)  # noqa: S311  # nosec B311  # NOSONAR
+    positions = random.sample(range(len(sentence)), k=num_misspells)  # nosec B311  # NOSONAR
 
     # convert strings to array of characters
     misspelled = list(sentence)

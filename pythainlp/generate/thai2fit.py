@@ -54,8 +54,8 @@ from pythainlp.ulmfit import (
 )
 
 # get dummy data
-imdb: "Path" = untar_data(URLs.IMDB_SAMPLE)
-dummy_df: "pd.DataFrame" = pd.read_csv(imdb / "texts.csv")
+imdb: Path = untar_data(URLs.IMDB_SAMPLE)
+dummy_df: pd.DataFrame = pd.read_csv(imdb / "texts.csv")
 
 # get vocab
 thwiki: dict[str, Any] = THWIKI_LSTM
@@ -71,12 +71,12 @@ if thwiki["json_itos_fname"] is None or thwiki["wgts_fname"] is None:
         "    CLI:    thainlp data get json_itos_fname"
     )
 
-with open(thwiki["json_itos_fname"], "r") as f:
+with open(thwiki["json_itos_fname"]) as f:
     thwiki_itos: list[str] = json.load(f)
-thwiki_vocab: "Vocab" = fastai.text.transform.Vocab(thwiki_itos)
+thwiki_vocab: Vocab = fastai.text.transform.Vocab(thwiki_itos)
 
 # dummy databunch
-tt: "Tokenizer" = Tokenizer(
+tt: Tokenizer = Tokenizer(
     tok_func=ThaiTokenizer,
     lang="th",
     pre_rules=pre_rules_th,
@@ -86,7 +86,7 @@ processor: list[Any] = [
     TokenizeProcessor(tokenizer=tt, chunksize=10000, mark_fields=False),
     NumericalizeProcessor(vocab=thwiki_vocab, max_vocab=60000, min_freq=3),
 ]
-data_lm: "LMDataBunch" = (
+data_lm: LMDataBunch = (
     TextList.from_df(dummy_df, imdb, cols=["text"], processor=processor)
     .split_by_rand_pct(0.2)
     .label_for_lm()
@@ -117,7 +117,7 @@ trn_args: dict[str, Any] = {
     "beta": 1,
 }
 
-learn: "Learner" = language_model_learner(
+learn: Learner = language_model_learner(
     data_lm, AWD_LSTM, config=config, pretrained=False, **trn_args
 )
 

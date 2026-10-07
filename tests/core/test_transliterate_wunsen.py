@@ -13,7 +13,7 @@ import sys
 import types
 import unittest
 from pathlib import Path
-from typing import Any
+from typing import Any, ClassVar
 from unittest import mock
 
 import pythainlp
@@ -24,7 +24,7 @@ MODULE_PATH = Path(pythainlp.__file__).parent / "transliterate" / "wunsen.py"
 class FakeThapSap:
     """Replacement for wunsen.ThapSap; records its arguments."""
 
-    created: list[tuple[str, dict[str, Any]]] = []
+    created: ClassVar[list[tuple[str, dict[str, Any]]]] = []
 
     def __init__(self, lang: str, **kwargs: Any) -> None:
         """Record the arguments."""

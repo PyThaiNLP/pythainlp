@@ -123,11 +123,11 @@ ENGLISH_MORSE_CODE: dict[str, str] = {
     "(": "-.--.-",
 }
 
-decodingeng: dict[str, str] = {}
+decodingeng: dict[str, str] = {
+    val: key for key, val in ENGLISH_MORSE_CODE.items()
+}
 key: str
 val: str
-for key, val in ENGLISH_MORSE_CODE.items():
-    decodingeng[val] = key
 
 decodingthai: dict[str, str] = {}
 for key, val in THAI_MORSE_CODE.items():

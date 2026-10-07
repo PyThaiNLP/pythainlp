@@ -20,10 +20,10 @@ _MODEL_NAME: str = "clicknext/phayathaibert"
 class ThaiTextAugmenter:
     """Augment Thai text using PhayaThaiBERT."""
 
-    tokenizer: "AutoTokenizer"
-    model_for_masked_lm: "AutoModelForMaskedLM"
-    model: "Pipeline"
-    processor: "ThaiTextProcessor"
+    tokenizer: AutoTokenizer
+    model_for_masked_lm: AutoModelForMaskedLM
+    model: Pipeline
+    processor: ThaiTextProcessor
 
     def __init__(self) -> None:
         """Initialize the PhayaThaiBERT fill-mask pipeline."""

@@ -29,7 +29,7 @@ class GzipModel:
     """
 
     cx2_list: list[int]
-    training_data: "NDArray[Any]"
+    training_data: NDArray[Any]
 
     def __init__(
         self,
@@ -58,12 +58,10 @@ class GzipModel:
         :return: compressed length of each training text
         :rtype: list[int]
         """
-        temp_list = []
-        for i in range(len(self.training_data)):
-            temp_list.append(
-                len(gzip.compress(self.training_data[i][0].encode("utf-8")))
-            )
-        return temp_list
+        return [
+            len(gzip.compress(row[0].encode("utf-8")))
+            for row in self.training_data
+        ]
 
     def predict(self, x1: str, k: int = 1) -> str:
         """
@@ -100,7 +98,7 @@ class GzipModel:
         for i in range(len(self.cx2_list)):
             x2 = self.training_data[i][0]
             cx2 = self.cx2_list[i]
-            x1x2 = "".join([x1, x2])
+            x1x2 = f"{x1}{x2}"
             cx1x2 = len(gzip.compress(x1x2.encode("utf-8")))
             # normalized compression distance
             ncd = (cx1x2 - min(cx1, cx2)) / max(cx1, cx2)
@@ -137,7 +135,7 @@ class GzipModel:
         """
         import numpy as np
 
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             data = json.load(f)
             self.cx2_list = data["cx2_list"]
             self.training_data = np.array(data["training_data"])

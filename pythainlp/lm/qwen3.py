@@ -23,17 +23,17 @@ class Qwen3:
 
     def __init__(self) -> None:
         """Initialize Qwen3 without a loaded model."""
-        self.model: Optional["PreTrainedModel"] = None
-        self.tokenizer: Optional["PreTrainedTokenizerBase"] = None
+        self.model: Optional[PreTrainedModel] = None
+        self.tokenizer: Optional[PreTrainedTokenizerBase] = None
         self.device: Optional[str] = None
-        self.torch_dtype: Optional["torch.dtype"] = None
+        self.torch_dtype: Optional[torch.dtype] = None
         self.model_path: Optional[str] = None
 
     def load_model(
         self,
         model_path: str = "Qwen/Qwen3-0.6B",
         device: str = "cuda",
-        torch_dtype: Optional["torch.dtype"] = None,
+        torch_dtype: Optional[torch.dtype] = None,
         low_cpu_mem_usage: bool = True,
         revision: Optional[str] = None,
     ) -> None:

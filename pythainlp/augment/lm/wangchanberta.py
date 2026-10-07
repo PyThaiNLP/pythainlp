@@ -17,9 +17,9 @@ class Thai2transformersAug:
     """Augment Thai text using WangchanBERTa."""
 
     model_name: str
-    target_tokenizer: type["CamembertTokenizer"]
-    tokenizer: "CamembertTokenizer"
-    fill_mask: "Pipeline"
+    target_tokenizer: type[CamembertTokenizer]
+    tokenizer: CamembertTokenizer
+    fill_mask: Pipeline
     MASK_TOKEN: str
     input_text: str
 

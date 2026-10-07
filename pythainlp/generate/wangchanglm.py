@@ -19,15 +19,15 @@ if TYPE_CHECKING:
 class WangChanGLM:
     """Generate Thai text using the WangChanGLM model."""
 
-    exclude_pattern: "re.Pattern[str]"
+    exclude_pattern: re.Pattern[str]
     stop_token: str
     PROMPT_DICT: dict[str, str]
     device: str
-    torch_dtype: "torch.dtype"
+    torch_dtype: torch.dtype
     model_path: str
-    model: "PreTrainedModel"
-    tokenizer: "PreTrainedTokenizerBase"
-    df: "pd.DataFrame"
+    model: PreTrainedModel
+    tokenizer: PreTrainedTokenizerBase
+    df: pd.DataFrame
     exclude_ids: list[int]
 
     def __init__(self) -> None:
@@ -37,7 +37,7 @@ class WangChanGLM:
             deprecated_version="5.3.8",
             removal_version="6.0.0",
         )
-        self.exclude_pattern: "re.Pattern[str]" = re.compile(r"[^ก-๙]+")
+        self.exclude_pattern: re.Pattern[str] = re.compile(r"[^ก-๙]+")
         self.stop_token: str = "\n"  # noqa: S105
         self.PROMPT_DICT: dict[str, str] = {
             "prompt_input": (
@@ -64,7 +64,7 @@ class WangChanGLM:
         return_dict: bool = True,
         load_in_8bit: bool = False,
         device: str = "cuda",
-        torch_dtype: Optional["torch.dtype"] = None,
+        torch_dtype: Optional[torch.dtype] = None,
         offload_folder: str = "./",
         low_cpu_mem_usage: bool = True,
         revision: Optional[str] = None,
@@ -86,9 +86,9 @@ class WangChanGLM:
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
         self.device: str = device
-        self.torch_dtype: "torch.dtype" = torch_dtype
+        self.torch_dtype: torch.dtype = torch_dtype
         self.model_path: str = model_path
-        self.model: "PreTrainedModel" = AutoModelForCausalLM.from_pretrained(
+        self.model: PreTrainedModel = AutoModelForCausalLM.from_pretrained(
             self.model_path,
             return_dict=return_dict,
             load_in_8bit=load_in_8bit,
@@ -98,10 +98,10 @@ class WangChanGLM:
             low_cpu_mem_usage=low_cpu_mem_usage,
             revision=revision,
         )
-        self.tokenizer: "PreTrainedTokenizerBase" = (
+        self.tokenizer: PreTrainedTokenizerBase = (
             AutoTokenizer.from_pretrained(self.model_path, revision=revision)
         )
-        self.df: "pd.DataFrame" = pd.DataFrame(
+        self.df: pd.DataFrame = pd.DataFrame(
             self.tokenizer.vocab.items(), columns=["text", "idx"]
         )
         self.df["is_exclude"] = self.df.text.map(self.is_exclude)

@@ -285,7 +285,7 @@ def _get_session() -> InferenceSession:
 
 def _create_feature_array(
     text: str, n_pad: int = _N_PAD
-) -> tuple["NDArray[np.float32]", "NDArray[np.float32]"]:
+) -> tuple[NDArray[np.float32], NDArray[np.float32]]:
     """
     Create character and type feature arrays for ONNX model input.
 
@@ -347,7 +347,7 @@ def segment(
     x_char, x_type = _create_feature_array(text)
     outputs = session.run(None, {"input_1": x_char, "input_2": x_type})
     y_predict = (outputs[0].ravel() > _THRESHOLD).astype(int)
-    word_end = y_predict[1:].tolist() + [1]
+    word_end = [*y_predict[1:].tolist(), 1]
 
     tokens: list[str] = []
     word = ""

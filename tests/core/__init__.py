@@ -33,6 +33,7 @@ test_packages: list[str] = [
     "tests.core.test_security",
     "tests.core.test_soundex",
     "tests.core.test_soundex_engines",
+    "tests.core.test_parse",
     "tests.core.test_spell",
     "tests.core.test_summarize_offline",
     "tests.core.test_tag",
@@ -67,7 +68,8 @@ def load_tests(
     loader: TestLoader, standard_tests: TestSuite, pattern: str
 ) -> TestSuite:
     """
-    Load test protocol
+    Load test protocol.
+
     See: https://docs.python.org/3/library/unittest.html#id1
     """
     suite = TestSuite()

@@ -119,7 +119,7 @@ class CRFChunkParser:
         :param str corpus: corpus for the CRF model
         """
         from pycrfsuite import (
-            Tagger as CRFTagger,  # noqa: PLC0415  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-module-attribute]
+            Tagger as CRFTagger,  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-module-attribute]
         )
 
         self.tagger = CRFTagger()
@@ -142,7 +142,7 @@ class CRFChunkParser:
         self.xseq = _extract_features(token_pos)
         return cast("list[str]", self.tagger.tag(self.xseq))
 
-    def __enter__(self) -> CRFChunkParser:
+    def __enter__(self) -> CRFChunkParser:  # noqa: PYI034
         """Enter the context manager."""
         return self
 
@@ -157,7 +157,7 @@ class CRFChunkParser:
             try:
                 self._model_file_ctx.__exit__(exc_type, exc_val, exc_tb)
                 self._model_file_ctx = None
-            except Exception:  # noqa: S110
+            except Exception:  # noqa: BLE001, S110 - cleanup must not raise
                 pass
 
     def __del__(self) -> None:

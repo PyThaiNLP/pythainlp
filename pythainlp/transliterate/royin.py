@@ -2,9 +2,10 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
-The Royal Thai General System of Transcription (RTGS)
-is the official system for rendering Thai words in the Latin alphabet.
-It was published by the Royal Institute of Thailand.
+Royal Thai General System of Transcription (RTGS).
+
+RTGS is the official system for rendering Thai words in the Latin
+alphabet. It was published by the Royal Institute of Thailand.
 
 :See Also:
     * `Wikipedia`_

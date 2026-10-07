@@ -66,9 +66,15 @@ must match the latest code.
 Leave every file you touch better than you found it.
 
 - Coverage:
-  - The overall target is 95%. A PR must not drop it by more than 0.1%.
-  - New and changed code needs at least 75% coverage (CI `diff-cover`).
-    Agents should aim for near 100% line and branch coverage of the code
+  - Expected overall coverage is at least 80%. A PR must not drop it by more
+    than 0.1%.
+  - New and changed code needs at least 95% coverage. CI (`diff-cover`)
+    gates it, except in the noauto modules listed in
+    `tests/diff-cover-noauto.txt`. CI cannot run those modules (their
+    dependencies, such as torch, are not installed), so it only reports
+    their coverage. Run the noauto test suites locally and meet the same
+    95%.
+  - Agents should aim for near 100% line and branch coverage of the code
     they add or change, and cover every function they touch.
 - Add tests for new behavior, covering all branches and edge cases.
 - Write compact tests: use parameterized tests (`subTest` or table-driven

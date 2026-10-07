@@ -37,7 +37,7 @@ class FastTextAug:
         from gensim.models.keyedvectors import KeyedVectors
 
         if model_path.endswith(".bin"):
-            self.model: Union["FastText", "KeyedVectors"] = (
+            self.model: Union[FastText, KeyedVectors] = (
                 FastText_gensim.load_facebook_vectors(model_path)
             )
         elif model_path.endswith(".vec"):
@@ -99,7 +99,4 @@ class FastTextAug:
         self.list_synonym: list[list[str]] = self.modify_sent(
             self.sentence, p=p
         )
-        new_sentences = []
-        for x in list(itertools.product(*self.list_synonym))[0:n_sent]:
-            new_sentences.append(x)
-        return new_sentences
+        return list(itertools.product(*self.list_synonym))[0:n_sent]

@@ -27,19 +27,19 @@ if TYPE_CHECKING:
 from pythainlp.tokenize import word_dict_trie
 
 
-class LatticeString(str):
+class LatticeString(str):  # noqa: SLOT000
     """Keep the possible tokenizations of a string."""
 
     unique: bool
     multi: list[str]
     in_dict: bool
 
-    def __new__(
+    def __new__(  # noqa: PYI034
         cls,
         value: str,
         multi: Optional[list[str]] = None,
         in_dict: bool = True,
-    ) -> "LatticeString":
+    ) -> LatticeString:
         """Create a new lattice string from a value."""
         return str.__new__(cls, value)
 

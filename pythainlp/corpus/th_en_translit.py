@@ -16,9 +16,9 @@ from importlib.resources import files
 from typing import Union
 
 __all__: list[str] = [
-    "get_transliteration_dict",
     "TRANSLITERATE_EN",
     "TRANSLITERATE_FOLLOW_RTSG",
+    "get_transliteration_dict",
 ]
 
 _FILE_NAME: str = "th_en_transliteration_v1.4.tsv"

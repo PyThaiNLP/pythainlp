@@ -12,7 +12,7 @@ import unittest
 
 
 class TransliterateONNXTestCaseN(unittest.TestCase):
-    """Tests for ONNX-based transliteration (requires onnxruntime)"""
+    """Tests for ONNX-based transliteration (requires onnxruntime)."""
 
     def test_thai2rom_onnx_returns_string(self):
         from pythainlp.transliterate.thai2rom_onnx import romanize

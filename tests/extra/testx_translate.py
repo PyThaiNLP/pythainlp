@@ -17,7 +17,7 @@ class TranslateTestCaseX(unittest.TestCase):
         # remove("scb_1m_th-en_spm")
         try:
             download_model_all()
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 - test reports any error
             self.fail(f"download_model_all() raised {e}")
         th_en_translator = ThEnTranslator()
         self.assertIsNotNone(

@@ -19,7 +19,7 @@ class ChatBotModel:
     """Chat with the WangChanGLM model."""
 
     history: list[tuple[str, str]]
-    model: "WangChanGLM"
+    model: WangChanGLM
 
     def __init__(self) -> None:
         """Initialize the chatbot with an empty chat history."""
@@ -35,7 +35,7 @@ class ChatBotModel:
         return_dict: bool = True,
         load_in_8bit: bool = False,
         device: str = "cuda",
-        torch_dtype: Optional["torch.dtype"] = None,
+        torch_dtype: Optional[torch.dtype] = None,
         offload_folder: str = "./",
         low_cpu_mem_usage: bool = True,
     ) -> None:

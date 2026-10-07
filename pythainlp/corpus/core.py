@@ -18,7 +18,7 @@ import uuid
 import warnings
 import zipfile
 from contextlib import suppress
-from functools import lru_cache
+from functools import cache
 from importlib.resources import files
 from typing import TYPE_CHECKING, Any, BinaryIO, Optional
 
@@ -118,7 +118,7 @@ def get_corpus_db_detail(name: str, version: str = "") -> dict[str, Any]:
     return {}
 
 
-@lru_cache(maxsize=None)
+@cache
 def get_corpus(filename: str, comments: bool = True) -> frozenset[str]:
     r"""
     Read corpus data from a file and return a frozenset.
@@ -158,7 +158,7 @@ def get_corpus(filename: str, comments: bool = True) -> frozenset[str]:
     return frozenset(filter(None, lines))
 
 
-@lru_cache(maxsize=None)
+@cache
 def get_corpus_as_is(filename: str) -> list[str]:
     """
     Read corpus data from a file as it is and return a list.
@@ -185,7 +185,7 @@ def get_corpus_as_is(filename: str) -> list[str]:
     return lines
 
 
-@lru_cache(maxsize=None)
+@cache
 def _load_default_db() -> dict[str, Any]:
     """Load and cache the bundled default_db.json corpus catalog."""
     corpus_files = files("pythainlp.corpus")
@@ -451,7 +451,7 @@ def _check_hash(file_path: str, md5: str) -> None:
 
     with open(file_path, "rb") as f:
         # MD5 only detects a damaged download; the catalog supplies it
-        file_md5 = hashlib.md5(  # noqa: S324  # nosec B324  # NOSONAR
+        file_md5 = hashlib.md5(  # nosec B324  # NOSONAR
             f.read(), usedforsecurity=False
         ).hexdigest()
     if md5 != file_md5:

@@ -115,7 +115,7 @@ class TagTestCaseX(unittest.TestCase):
 
 
 class TagTLTKTestCaseX(unittest.TestCase):
-    """Tests for tltk engine POS tagging and NER"""
+    """Tests for tltk engine POS tagging and NER."""
 
     def test_pos_tag_tltk(self):
         tokens = ["ผม", "รัก", "คุณ"]

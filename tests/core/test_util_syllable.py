@@ -583,7 +583,7 @@ def _grid() -> Iterator[str]:
 def _outcome(func: Callable[[str], str], text: str) -> str:
     try:
         return func(text)
-    except Exception as err:
+    except Exception as err:  # noqa: BLE001 - golden test records any error
         return "!" + type(err).__name__
 
 

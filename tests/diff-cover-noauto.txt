@@ -1,0 +1,56 @@
+# SPDX-FileCopyrightText: 2026 PyThaiNLP Project
+# SPDX-FileType: SOURCE
+# SPDX-License-Identifier: Apache-2.0
+#
+# Noauto modules: the CI "extra" job does not install their dependencies
+# (torch, transformers, ONNX Runtime, and others), so it cannot run them.
+# The "Coverage of new code" step in unittest.yml and "make diff-cover"
+# report their coverage but do not gate on it. New and changed code in all
+# other modules must reach 95%.
+#
+# One glob per line, relative to the repository root, sorted.
+# Blank lines and lines that start with "#" are ignored.
+pythainlp/augment/lm/fasttext.py
+pythainlp/augment/lm/phayathaibert.py
+pythainlp/augment/lm/wangchanberta.py
+pythainlp/chat/core.py
+pythainlp/coref/_fastcoref.py
+pythainlp/coref/han_coref.py
+pythainlp/el/_multiel.py
+pythainlp/generate/thai2fit.py
+pythainlp/generate/wangchanglm.py
+pythainlp/lm/qwen3.py
+pythainlp/parse/attaparse_engine.py
+pythainlp/parse/esupar_engine.py
+pythainlp/parse/spacy_thai_engine.py
+pythainlp/parse/transformers_ud.py
+pythainlp/parse/ud_goeswith.py
+pythainlp/phayathaibert/core.py
+pythainlp/soundex/sound.py
+pythainlp/spell/phunspell.py
+pythainlp/spell/wanchanberta_thai_grammarly.py
+pythainlp/summarize/keybert.py
+pythainlp/summarize/mt5.py
+pythainlp/tag/thai_nner.py
+pythainlp/tag/wangchanberta_onnx.py
+pythainlp/tokenize/attacut.py
+pythainlp/tokenize/deepcut.py
+pythainlp/tokenize/oskut.py
+pythainlp/tokenize/sefr_cut.py
+pythainlp/tokenize/wtsplit.py
+pythainlp/translate/en_th.py
+pythainlp/translate/small100.py
+pythainlp/translate/th_fr.py
+pythainlp/translate/tokenization_small100.py
+pythainlp/translate/word2word_translate.py
+pythainlp/translate/zh_th.py
+pythainlp/transliterate/ipa.py
+pythainlp/transliterate/thai2rom.py
+pythainlp/transliterate/thai2rom_onnx.py
+pythainlp/transliterate/thaig2p.py
+pythainlp/transliterate/thaig2p_v2.py
+pythainlp/transliterate/umt5_thaig2p.py
+pythainlp/ulmfit/core.py
+pythainlp/ulmfit/preprocess.py
+pythainlp/wangchanberta/core.py
+pythainlp/wsd/core.py

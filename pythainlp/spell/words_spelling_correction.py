@@ -102,11 +102,9 @@ class FastTextEncoder:
             safe_path_join(self.model_dir, "embeddings.npy"),
             allow_pickle=False,
         )
-        words = []
         vocab_path = safe_path_join(self.model_dir, "vocabulary.txt")
         with open(vocab_path, encoding="utf-8") as f:
-            for line in f:
-                words.append(line.rstrip())
+            words = [line.rstrip() for line in f]
         return words, input_matrix
 
     def _load_suggestion_words(

@@ -2,8 +2,9 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
-Transliterate Japanese, Korean, Mandarin, and Vietnamese romanization
-text to Thai text, using Wunsen.
+Transliterate romanized East Asian text to Thai text with Wunsen.
+
+Supported: Japanese, Korean, Mandarin, and Vietnamese romanization.
 
 :See Also:
     * `GitHub <https://github.com/cakimpei/wunsen>`_
@@ -18,14 +19,15 @@ from wunsen import ThapSap
 
 class WunsenTransliterate:
     """
-    Transliterate Japanese, Korean, Mandarin, and Vietnamese romanization
-    text to Thai text, using Wunsen.
+    Transliterate romanized East Asian text to Thai text with Wunsen.
+
+    Supported: Japanese, Korean, Mandarin, and Vietnamese romanization.
 
     :See Also:
         * `GitHub <https://github.com/cakimpei/wunsen>`_
     """
 
-    thap_value: Optional["ThapSap"]
+    thap_value: Optional[ThapSap]
     lang: Optional[str]
     jp_input: Optional[str]
     zh_sandhi: Optional[bool]
@@ -61,7 +63,7 @@ class WunsenTransliterate:
             self.system = None
         else:
             raise NotImplementedError(
-                "The %s language is not implemented." % lang
+                f"The {lang} language is not implemented."
             )
         self.lang = lang
 

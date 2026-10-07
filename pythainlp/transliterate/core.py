@@ -18,9 +18,10 @@ def romanize(
     fallback_engine: str = DEFAULT_ROMANIZE_ENGINE,
 ) -> str:
     """
-    Render Thai words in the Latin alphabet ("romanization"),
-    using the Royal Thai General System of Transcription (RTGS)
-    [#rtgs_transcription]_.
+    Render Thai words in the Latin alphabet ("romanization").
+
+    The default engine uses the Royal Thai General System of
+    Transcription (RTGS) [#rtgs_transcription]_.
 
     RTGS is the official system published by the Royal Institute of
     Thailand. (Thai: ถอดเสียงภาษาไทยเป็นอักษรละติน)
@@ -89,9 +90,7 @@ def romanize(
         fallback = select_romanize_engine(fallback_engine)
         return romanize(text, fallback_func=fallback)
     rom_engine = select_romanize_engine(engine)
-    trans_word = []
-    for subword in text.split(" "):
-        trans_word.append(rom_engine(subword))
+    trans_word = [rom_engine(subword) for subword in text.split(" ")]
     new_word = " ".join(trans_word)
     return new_word
 
@@ -157,7 +156,7 @@ def transliterate(
     if engine in ("icu", "pyicu"):
         from pythainlp.transliterate.pyicu import transliterate
     elif engine == "ipa":
-        from pythainlp.transliterate.ipa import transliterate  # noqa: I001
+        from pythainlp.transliterate.ipa import transliterate
     elif engine == "tltk_g2p":
         from pythainlp.transliterate.tltk import tltk_g2p as transliterate  # noqa: I001
     elif engine == "tltk_ipa":
@@ -169,7 +168,7 @@ def transliterate(
     elif engine == "umt5_thaig2p":
         from pythainlp.transliterate.umt5_thaig2p import transliterate  # noqa: I001
     else:  # use default engine: "thaig2p"
-        from pythainlp.transliterate.thaig2p import transliterate  # noqa: I001
+        from pythainlp.transliterate.thaig2p import transliterate
 
     return transliterate(text)
 

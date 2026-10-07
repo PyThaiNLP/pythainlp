@@ -24,7 +24,7 @@ except ImportError as e:
         "phunspell is not installed. Install it with: pip install phunspell"
     ) from e
 
-pspell: "phunspell.Phunspell" = phunspell.Phunspell("th_TH")
+pspell: phunspell.Phunspell = phunspell.Phunspell("th_TH")
 
 
 def spell(text: str) -> list[str]:

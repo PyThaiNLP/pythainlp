@@ -32,7 +32,7 @@ from pythainlp.corpus import get_corpus_path
 _UNIGRAM_FILENAME: str = "tnc_freq.txt"
 _BIGRAM_CORPUS_NAME: str = "tnc_bigram_word_freqs"
 
-_sym_spell: Optional["SymSpell"] = None
+_sym_spell: Optional[SymSpell] = None
 _unigram_file_ctx: Optional[Any] = (
     None  # File context manager kept alive for program lifetime
 )
@@ -143,11 +143,7 @@ def spell_sent(
             )
         )
     ]
-    list_new = []
-    for i in temp:
-        list_new.append(i)
-
-    return list_new
+    return list(temp)
 
 
 def correct_sent(

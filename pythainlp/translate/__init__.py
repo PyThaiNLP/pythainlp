@@ -4,8 +4,8 @@
 """Language translation."""
 
 __all__: list[str] = [
-    "Translate",
     "ThZhTranslator",
+    "Translate",
     "ZhThTranslator",
     "word_translate",
 ]

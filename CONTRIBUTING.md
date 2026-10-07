@@ -226,8 +226,12 @@ Always supply `category` explicitly for clarity and greppability.
 We use standard Python `unittest`.
 The test suite is in `tests/` directory.
 
-Coverage targets: 95% overall; at least 75% for new and changed code
-(checked in CI). See [AGENTS.md](AGENTS.md).
+Coverage expectations: at least 80% overall and at least 95% for new and
+changed code. CI gates new and changed code at 95%, except in the noauto
+modules (see `tests/diff-cover-noauto.txt`), which it reports only. Run
+the noauto test suites locally for those. AI agents should aim for near
+100% line and branch coverage of the code they add or change, and cover
+every function they touch. See [AGENTS.md](AGENTS.md).
 
 To run unit tests locally together with code coverage test:
 

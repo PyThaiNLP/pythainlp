@@ -24,14 +24,14 @@ class Word2VecAug:
     """Augment text using word2vec word vectors."""
 
     tokenizer: Callable[[str], list[str]]
-    model: "KeyedVectors"
+    model: KeyedVectors
     dict_wv: list[str]
 
     def __init__(
         self,
-        model: Union[str, "KeyedVectors"],
+        model: Union[str, KeyedVectors],
         tokenize: Callable[[str], list[str]],
-        type: str = "file",
+        type: str = "file",  # noqa: A002
     ) -> None:
         """
         Initialize the word2vec augmenter.
@@ -105,7 +105,4 @@ class Word2VecAug:
         """
         _sentence = self.tokenizer(sentence)
         _list_synonym = self.modify_sent(_sentence, p=p)
-        new_sentences = []
-        for x in list(itertools.product(*_list_synonym))[0:n_sent]:
-            new_sentences.append(x)
-        return new_sentences
+        return list(itertools.product(*_list_synonym))[0:n_sent]

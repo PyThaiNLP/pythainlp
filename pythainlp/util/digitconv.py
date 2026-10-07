@@ -72,8 +72,9 @@ _digit_spell_translate_table: dict[int, Union[int, str, None]] = str.maketrans(
 
 def thai_digit_to_arabic_digit(text: str) -> str:
     """
-    Convert Thai digits (such as ๑, ๓, ๑๐) to Arabic digits
-    (such as 1, 3, 10).
+    Convert Thai digits to Arabic digits.
+
+    For example, ๑, ๓, ๑๐ become 1, 3, 10.
 
     :param str text: text with Thai digits such as '๑', '๒', '๓'
     :return: text with Thai digits converted to Arabic digits
@@ -97,8 +98,9 @@ def thai_digit_to_arabic_digit(text: str) -> str:
 
 def arabic_digit_to_thai_digit(text: str) -> str:
     """
-    Convert Arabic digits (such as 1, 3, 10) to Thai digits
-    (such as ๑, ๓, ๑๐).
+    Convert Arabic digits to Thai digits.
+
+    For example, 1, 3, 10 become ๑, ๓, ๑๐.
 
     :param str text: text with Arabic digits such as '1', '2', '3'
     :return: text with Arabic digits converted to Thai digits

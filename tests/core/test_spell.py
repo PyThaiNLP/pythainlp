@@ -17,7 +17,7 @@ SENT_TOKS = ["เด็", "อินอร์เน็ต", "แรง"]
 
 class SpellTestCase(unittest.TestCase):
     def test_spell(self):
-        self.assertEqual(spell(None), [""])  # type: ignore
+        self.assertEqual(spell(None), [""])  # type: ignore[arg-type]
         self.assertEqual(spell(""), [""])
 
         result = spell("เน้ร")
@@ -29,7 +29,7 @@ class SpellTestCase(unittest.TestCase):
         self.assertGreater(len(result), 0)
 
     def test_word_correct(self):
-        self.assertEqual(correct(None), "")  # type: ignore
+        self.assertEqual(correct(None), "")  # type: ignore[arg-type]
         self.assertEqual(correct(""), "")
         self.assertEqual(correct("1"), "1")
         self.assertEqual(correct("05"), "05")

@@ -26,9 +26,9 @@ thai_tonemarks: str = "\u0e48\u0e49\u0e4a\u0e4b"  # 4
 thai_signs: str = "\u0e2f\u0e3a\u0e46\u0e4c\u0e4d\u0e4e"  # 6 chars
 
 # Any Thai character that can be part of a word
-thai_letters: str = "".join(
-    [thai_consonants, thai_vowels, thai_tonemarks, thai_signs]
-)  # 74
+thai_letters: str = (
+    f"{thai_consonants}{thai_vowels}{thai_tonemarks}{thai_signs}"  # 74
+)
 
 # Fongman, Angkhankhu, Khomut:
 # These characters are section markers
@@ -38,8 +38,8 @@ thai_digits: str = "๐๑๒๓๔๕๖๗๘๙"  # 10
 thai_symbols: str = "\u0e3f"  # Thai Bath ฿
 
 # All Thai characters that are presented in Unicode
-thai_characters: str = "".join(
-    [thai_letters, thai_punctuations, thai_digits, thai_symbols]
+thai_characters: str = (
+    f"{thai_letters}{thai_punctuations}{thai_digits}{thai_symbols}"
 )
 # Thai pangram by Sungsit Sawaiwan
 # CC BY-SA License
@@ -56,6 +56,7 @@ thai_pangram: str = """กีฬาบังลังก์ ฿๑,๒๓๔,๕
 ๑๒ กรกฎาคม ๒๕๕๘"""
 
 __all__: list[str] = [
+    "Tokenizer",
     "collate",
     "correct",
     "is_offline_mode",
@@ -63,13 +64,12 @@ __all__: list[str] = [
     "is_unsafe_pickle_allowed",
     "pos_tag",
     "romanize",
-    "spell",
     "sent_tokenize",
-    "subword_tokenize",
     "soundex",
+    "spell",
+    "subword_tokenize",
     "thai_strftime",
     "transliterate",
-    "Tokenizer",
     "word_tokenize",
 ]
 

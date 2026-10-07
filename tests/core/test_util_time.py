@@ -186,7 +186,7 @@ def _fuzz_inputs() -> list[str]:
 def _time_outcome(text: str, padding: bool) -> str:
     try:
         return thaiword_to_time(text, padding)
-    except Exception as err:
+    except Exception as err:  # noqa: BLE001 - golden test records any error
         return "!" + type(err).__name__ + ":" + str(err)
 
 
@@ -278,7 +278,7 @@ class ThaiwordToTimeTestCase(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, _NO_AFFIX):
             thaiword_to_time("ก" * 10000)
         with self.assertRaisesRegex(ValueError, _NO_AFFIX):
-            thaiword_to_time("​😀|")
+            thaiword_to_time("\u200b😀|")
         with self.assertRaisesRegex(ValueError, _NO_HOUR):
             thaiword_to_time("นาฬิกาห้านาที")
 

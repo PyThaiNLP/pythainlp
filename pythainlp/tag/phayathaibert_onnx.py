@@ -28,7 +28,7 @@ if TYPE_CHECKING:
 
 _REPO_ID = "wiriyabot/phayathaibert-thai-pos-tagger-onnx"
 # Pinned for reproducible and secure downloads.
-_REVISION = "ff55e2c66ef22deee18c423cee272f6e207171ae"
+_REVISION = "59e3502bd06e2222d32f11b51b4fb9569235a020"
 
 # Maximum number of subword tokens per model call, including <s> and </s>.
 # The model accepts 512, but its accuracy drops sharply from position 415

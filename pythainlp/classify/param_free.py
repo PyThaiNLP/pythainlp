@@ -58,12 +58,10 @@ class GzipModel:
         :return: compressed length of each training text
         :rtype: list[int]
         """
-        temp_list = []
-        for i in range(len(self.training_data)):
-            temp_list.append(
-                len(gzip.compress(self.training_data[i][0].encode("utf-8")))
-            )
-        return temp_list
+        return [
+            len(gzip.compress(row[0].encode("utf-8")))
+            for row in self.training_data
+        ]
 
     def predict(self, x1: str, k: int = 1) -> str:
         """

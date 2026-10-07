@@ -143,11 +143,7 @@ def spell_sent(
             )
         )
     ]
-    list_new = []
-    for i in temp:
-        list_new.append(i)
-
-    return list_new
+    return list(temp)
 
 
 def correct_sent(

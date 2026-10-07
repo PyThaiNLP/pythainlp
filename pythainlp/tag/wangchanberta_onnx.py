@@ -146,7 +146,7 @@ class WngchanBerta_ONNX:
         tag = []
         _s = self.sp.EncodeAsPieces(sent)
         for i in range(len(_s)):
-            tag.append(
+            tag.append(  # noqa: PERF401
                 (
                     _s[i],
                     self.id2tag[

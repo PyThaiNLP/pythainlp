@@ -169,12 +169,7 @@ def spell_sent(list_words: list[str], engine: str = "pn") -> list[list[str]]:
         _temp = list(
             itertools.product(*[spell(i, engine=engine) for i in list_words])
         )
-        list_new = []
-        for i in _temp:
-            _temp2 = []
-            for j in i:
-                _temp2.append(j)
-            list_new.append(_temp2)
+        list_new = [list(i) for i in _temp]
 
     return list_new
 

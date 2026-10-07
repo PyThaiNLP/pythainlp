@@ -207,9 +207,11 @@ def thai_word_braille(word: str) -> str:
     for token in word_tokenize(word, custom_dict=char_trie, engine="mm"):
         if token.isspace() and len(token) > 1:
             # Handle multiple spaces by converting each space individually
-            for char in token:
-                if char in thai_braille_mapping_dict:
-                    _temp.append(thai_braille_mapping_dict[char])
+            _temp.extend(
+                thai_braille_mapping_dict[char]
+                for char in token
+                if char in thai_braille_mapping_dict
+            )
         elif token in thai_braille_mapping_dict:
             _temp.append(thai_braille_mapping_dict[token])
     if not _temp:
@@ -232,10 +234,7 @@ def thai_text_braille(text: str) -> list[str]:
         >>> thai_text_braille("สวัสดี ครับ")
         ['⠎⠺⠜⠎⠙⠆', ' ', '⠥⠗⠜⠧']
     """
-    _list_braille: list[str] = []
-    for token in word_tokenize(text):
-        _list_braille.append(thai_word_braille(token))
-    return _list_braille
+    return [thai_word_braille(token) for token in word_tokenize(text)]
 
 
 class Braille:

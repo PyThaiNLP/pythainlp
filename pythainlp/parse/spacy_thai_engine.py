@@ -45,7 +45,7 @@ class Parse:
         if tag == "list":
             _tag_data = []
             for t in doc:
-                _tag_data.append(
+                _tag_data.append(  # noqa: PERF401
                     [
                         str(t.i + 1),
                         t.orth_,
@@ -61,7 +61,7 @@ class Parse:
                 )
             return _tag_data
         for t in doc:
-            _text.append(
+            _text.append(  # noqa: PERF401
                 "\t".join(
                     [
                         str(t.i + 1),

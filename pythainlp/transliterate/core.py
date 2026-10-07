@@ -90,9 +90,7 @@ def romanize(
         fallback = select_romanize_engine(fallback_engine)
         return romanize(text, fallback_func=fallback)
     rom_engine = select_romanize_engine(engine)
-    trans_word = []
-    for subword in text.split(" "):
-        trans_word.append(rom_engine(subword))
+    trans_word = [rom_engine(subword) for subword in text.split(" ")]
     new_word = " ".join(trans_word)
     return new_word
 

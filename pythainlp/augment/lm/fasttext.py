@@ -99,7 +99,4 @@ class FastTextAug:
         self.list_synonym: list[list[str]] = self.modify_sent(
             self.sentence, p=p
         )
-        new_sentences = []
-        for x in list(itertools.product(*self.list_synonym))[0:n_sent]:
-            new_sentences.append(x)
-        return new_sentences
+        return list(itertools.product(*self.list_synonym))[0:n_sent]

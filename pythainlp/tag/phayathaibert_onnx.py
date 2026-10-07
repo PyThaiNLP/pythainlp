@@ -227,7 +227,7 @@ class PhayaThaiBERTTagger:
             # Only a single over-long word gets here; its first subword stays.
             ids = ids[: _MAX_SEQUENCE_LENGTH - 1] + ids[-1:]
             mask = mask[:_MAX_SEQUENCE_LENGTH]
-            word_ids = word_ids[: _MAX_SEQUENCE_LENGTH - 1] + [None]
+            word_ids = [*word_ids[: _MAX_SEQUENCE_LENGTH - 1], None]
         logits = self.session.run(
             None,
             {

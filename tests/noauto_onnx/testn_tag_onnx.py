@@ -9,6 +9,7 @@
 # - Version constraints
 
 import unittest
+from typing import ClassVar
 
 
 class TagONNXTestCaseN(unittest.TestCase):
@@ -56,7 +57,7 @@ class TagONNXTestCaseN(unittest.TestCase):
 class TagPhayaThaiBERTONNXTestCaseN(unittest.TestCase):
     """Test the PhayaThaiBERT ONNX POS tagger."""
 
-    WORDS = ["ฉัน", "กิน", "ข้าว", "ที่", "ร้านอาหาร"]
+    WORDS: ClassVar[list[str]] = ["ฉัน", "กิน", "ข้าว", "ที่", "ร้านอาหาร"]
 
     def test_pos_tag_phayathaibert(self):
         from pythainlp.tag import pos_tag

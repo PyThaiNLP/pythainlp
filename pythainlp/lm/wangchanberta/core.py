@@ -1,9 +1,10 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Recognize named entities and tokenize subwords with WangchanBERTa."""
+
 from __future__ import annotations
 
-import re
 import warnings
 from typing import TYPE_CHECKING, Optional, Union, cast
 
@@ -18,7 +19,7 @@ if TYPE_CHECKING:
 from pythainlp.tokenize import word_tokenize
 
 _model_name: str = "wangchanberta-base-att-spm-uncased"
-_tokenizer: Optional["CamembertTokenizer"] = None
+_tokenizer: Optional[CamembertTokenizer] = None
 
 
 def _get_tokenizer() -> CamembertTokenizer:
@@ -28,7 +29,8 @@ def _get_tokenizer() -> CamembertTokenizer:
         from transformers import CamembertTokenizer
 
         _tokenizer = CamembertTokenizer.from_pretrained(
-            f"airesearch/{_model_name}", revision="main"  # nosec B615
+            f"airesearch/{_model_name}",
+            revision="main",  # nosec B615
         )
         if _model_name == "wangchanberta-base-att-spm-uncased":
             _tokenizer.additional_special_tokens = [
@@ -39,7 +41,28 @@ def _get_tokenizer() -> CamembertTokenizer:
     return _tokenizer
 
 
+def _format_ner_tags(entities: list[tuple[str, str]]) -> str:
+    """Wrap named entities in HTML-like tags."""
+    tagged_text = []
+    active_entity = ""
+    for word, ner in entities:
+        if ner.startswith("B-"):
+            if active_entity:
+                tagged_text.append(f"</{active_entity}>")
+            active_entity = ner[2:]
+            tagged_text.append(f"<{active_entity}>")
+        elif ner == "O" and active_entity:
+            tagged_text.append(f"</{active_entity}>")
+            active_entity = ""
+        tagged_text.append(word)
+    if active_entity:
+        tagged_text.append(f"</{active_entity}>")
+    return "".join(tagged_text)
+
+
 class ThaiNameTagger:
+    """Tag named entities with the WangchanBERTa pipeline."""
+
     dataset_name: str
     grouped_entities: bool
     classify_tokens: TokenClassificationPipeline
@@ -50,14 +73,16 @@ class ThaiNameTagger:
     def __init__(
         self, dataset_name: str = "thainer", grouped_entities: bool = True
     ) -> None:
-        """This function tags named entities in text in IOB format.
+        """
+        Initialize a named entity tagger in IOB format.
 
-        Powered by wangchanberta from VISTEC-depa\
-             AI Research Institute of Thailand
+        Use WangchanBERTa from the VISTEC-depa AI Research Institute
+        of Thailand.
 
-        :param str dataset_name:
-            * *thainer* - ThaiNER dataset
-        :param bool grouped_entities: grouped entities
+        :param str dataset_name: dataset the model is fine-tuned on
+            * *thainer* - ThaiNER dataset (default)
+        :param bool grouped_entities: whether to group word pieces of the
+            same entity
         """
         from transformers import pipeline
 
@@ -80,21 +105,58 @@ class ThaiNameTagger:
     def _clear_tag(self, tag: str) -> str:
         return tag.replace("B-", "").replace("I-", "")
 
+    def _prepare_ner(
+        self, entities: list[dict[str, str]]
+    ) -> list[tuple[str, str]]:
+        if self.grouped_entities and self.dataset_name == "thainer":
+            return [
+                (
+                    item["word"].replace("<_>", " ").replace("▁", ""),
+                    self._IOB(item["entity_group"]),
+                )
+                for item in entities
+            ]
+        if self.dataset_name == "thainer":
+            return [
+                (
+                    item["word"].replace("<_>", " ").replace("▁", ""),
+                    item["entity"],
+                )
+                for item in entities
+                if item["word"] != "▁"
+            ]
+        return [
+            (
+                item["word"].replace("<_>", " ").replace("▁", ""),
+                item["entity"].replace("_", "-").replace("E-", "I-"),
+            )
+            for item in entities
+        ]
+
+    def _fix_consecutive_begin_tags(self) -> None:
+        for idx in range(1, len(self.sent_ner)):
+            word, ner = self.sent_ner[idx]
+            previous_ner = self.sent_ner[idx - 1][1]
+            if ner.startswith("B-") and self._clear_tag(
+                ner
+            ) == self._clear_tag(previous_ner):
+                self.sent_ner[idx] = (word, ner.replace("B-", "I-"))
+
     def get_ner(
         self, text: str, pos: bool = False, tag: bool = False
     ) -> Union[list[tuple[str, str]], str]:
-        """This function tags named entities in text in IOB format.
-        Powered by wangchanberta from VISTEC-depa\
-             AI Research Institute of Thailand
+        """
+        Tag named entities in Thai text.
 
-        :param str text: text in Thai to be tagged
-        :param bool tag: output HTML-like tags.
-        :return: a list of tuples associated with tokenized word groups,\
-            NER tags, and output HTML-like tags (if the parameter `tag` is \
-            specified as `True`). \
-            Otherwise, return a list of tuples associated with tokenized \
-            words and NER tags
-        :rtype: Union[list[tuple[str, str]]], str
+        Use WangchanBERTa from the VISTEC-depa AI Research Institute
+        of Thailand.
+
+        :param str text: Thai text to be tagged
+        :param bool pos: whether to request part-of-speech output; the
+            model does not support it, so a warning is raised
+        :param bool tag: whether to return HTML-like tags instead of tuples
+        :return: tagged words, or an HTML-like tagged string if *tag* is True
+        :rtype: Union[list[tuple[str, str]], str]
         """
         if pos:
             warnings.warn(
@@ -102,64 +164,25 @@ class ThaiNameTagger:
                 UserWarning,
                 stacklevel=2,
             )
-        text = re.sub(" ", "<_>", text)
+        text = text.replace(" ", "<_>")
         self.json_ner: list[dict[str, str]] = self.classify_tokens(text)
         self.output: str = ""
-        if self.grouped_entities and self.dataset_name == "thainer":
-            self.sent_ner: list[tuple[str, str]] = [
-                (
-                    i["word"].replace("<_>", " ").replace("▁", ""),
-                    self._IOB(i["entity_group"]),
-                )
-                for i in self.json_ner
-            ]
-        elif self.dataset_name == "thainer":
-            self.sent_ner = [
-                (i["word"].replace("<_>", " ").replace("▁", ""), i["entity"])
-                for i in self.json_ner
-                if i["word"] != "▁"
-            ]
-        else:
-            self.sent_ner = [
-                (
-                    i["word"].replace("<_>", " ").replace("▁", ""),
-                    i["entity"].replace("_", "-").replace("E-", "I-"),
-                )
-                for i in self.json_ner
-            ]
-        if self.sent_ner[0][0] == "" and len(self.sent_ner) > 1:
+        self.sent_ner = self._prepare_ner(self.json_ner)
+        if (
+            self.sent_ner
+            and self.sent_ner[0][0] == ""
+            and len(self.sent_ner) > 1
+        ):
             self.sent_ner = self.sent_ner[1:]
-        for idx, (word, ner) in enumerate(self.sent_ner):
-            if idx > 0 and ner.startswith("B-"):
-                if self._clear_tag(ner) == self._clear_tag(
-                    self.sent_ner[idx - 1][1]
-                ):
-                    self.sent_ner[idx] = (word, ner.replace("B-", "I-"))
+        self._fix_consecutive_begin_tags()
         if tag:
-            temp = ""
-            sent = ""
-            for idx, (word, ner) in enumerate(self.sent_ner):
-                if ner.startswith("B-") and temp != "":
-                    sent += "</" + temp + ">"
-                    temp = ner[2:]
-                    sent += "<" + temp + ">"
-                elif ner.startswith("B-"):
-                    temp = ner[2:]
-                    sent += "<" + temp + ">"
-                elif ner == "O" and temp != "":
-                    sent += "</" + temp + ">"
-                    temp = ""
-                sent += word
-
-                if idx == len(self.sent_ner) - 1 and temp != "":
-                    sent += "</" + temp + ">"
-
-            return sent
-        else:
-            return self.sent_ner
+            return _format_ner_tags(self.sent_ner)
+        return self.sent_ner
 
 
 class NamedEntityRecognition:
+    """Recognize Thai named entities with a WangchanBERTa model."""
+
     tokenizer: PreTrainedTokenizerBase
     model: PreTrainedModel
 
@@ -168,12 +191,13 @@ class NamedEntityRecognition:
         model: str = "pythainlp/thainer-corpus-v2-base-model",
         revision: Optional[str] = None,
     ) -> None:
-        """This function tags named entities in text in IOB format.
+        """
+        Initialize a named entity recognizer.
 
-        Powered by wangchanberta from VISTEC-depa\
-             AI Research Institute of Thailand
-        :param str model: The model that use wangchanberta pretrained.
-        :param Optional[str] revision: a git revision id (branch, tag, or
+        Use a model pretrained with WangchanBERTa.
+
+        :param str model: pretrained model name
+        :param Optional[str] revision: git revision ID (branch, tag, or
             commit hash). Pin to a full commit hash for secure downloads.
         """
         from transformers import AutoModelForTokenClassification, AutoTokenizer
@@ -206,18 +230,15 @@ class NamedEntityRecognition:
     def get_ner(
         self, text: str, pos: bool = False, tag: bool = False
     ) -> Union[list[tuple[str, str]], str]:
-        """This function tags named entities in text in IOB format.
-        Powered by wangchanberta from VISTEC-depa\
-             AI Research Institute of Thailand
+        """
+        Tag named entities in Thai text.
 
-        :param str text: text in Thai to be tagged
-        :param bool tag: output HTML-like tags.
-        :return: a list of tuples associated with tokenized word groups, NER tags, \
-                 and output HTML-like tags (if the parameter `tag` is \
-                 specified as `True`). \
-                 Otherwise, return a list of tuples associated with tokenized \
-                 words and NER tags
-        :rtype: Union[list[tuple[str, str]]], str
+        :param str text: Thai text to be tagged
+        :param bool pos: whether to request part-of-speech output; the
+            model does not support it, so a warning is raised
+        :param bool tag: whether to return HTML-like tags instead of tuples
+        :return: tagged words, or an HTML-like tagged string if *tag* is True
+        :rtype: Union[list[tuple[str, str]], str]
         """
         import torch
 
@@ -244,30 +265,13 @@ class NamedEntityRecognition:
             inputs["input_ids"][0], predicted_token_class
         )
         if tag:
-            temp = ""
-            sent = ""
-            for idx, (word, ner) in enumerate(ner_tag):
-                if ner.startswith("B-") and temp != "":
-                    sent += "</" + temp + ">"
-                    temp = ner[2:]
-                    sent += "<" + temp + ">"
-                elif ner.startswith("B-"):
-                    temp = ner[2:]
-                    sent += "<" + temp + ">"
-                elif ner == "O" and temp != "":
-                    sent += "</" + temp + ">"
-                    temp = ""
-                sent += word
-
-                if idx == len(ner_tag) - 1 and temp != "":
-                    sent += "</" + temp + ">"
-
-            return sent
+            return _format_ner_tags(ner_tag)
         return ner_tag
 
 
 def segment(text: str) -> list[str]:
-    """Subword tokenize. SentencePiece from wangchanberta model.
+    """
+    Tokenize text into subwords with the WangchanBERTa tokenizer.
 
     :param str text: text to be tokenized
     :return: list of subwords
@@ -276,4 +280,4 @@ def segment(text: str) -> list[str]:
     if not text or not isinstance(text, str):
         return []
 
-    return cast(list[str], _get_tokenizer().tokenize(text))
+    return cast("list[str]", _get_tokenizer().tokenize(text))

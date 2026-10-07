@@ -29,10 +29,15 @@ class WangchanbertaTestCaseX(unittest.TestCase):
 
     def test_deprecated_wangchanberta(self):
         import importlib
+
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
             import pythainlp.wangchanberta
+
             importlib.reload(pythainlp.wangchanberta)
         self.assertTrue(
-            any(issubclass(warning.category, DeprecationWarning) for warning in w)
+            any(
+                issubclass(warning.category, DeprecationWarning)
+                for warning in w
+            )
         )

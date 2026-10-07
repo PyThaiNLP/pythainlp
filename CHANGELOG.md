@@ -29,6 +29,7 @@ and this project adheres to
   and `TokenizationScore` in `pythainlp.benchmarks` ([#1512])
 
 ### Changed
+
 - Move `pythainlp.phayathaibert`, `pythainlp.wangchanberta`, and
   `pythainlp.ulmfit` to `pythainlp.lm`; deprecate the old import paths
   ([#1527])

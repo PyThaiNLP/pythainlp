@@ -288,10 +288,15 @@ class UlmfitTestCaseX(unittest.TestCase):
     def test_deprecated_ulmfit(self):
         import importlib
         import warnings
+
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
             import pythainlp.ulmfit
+
             importlib.reload(pythainlp.ulmfit)
         self.assertTrue(
-            any(issubclass(warning.category, DeprecationWarning) for warning in w)
+            any(
+                issubclass(warning.category, DeprecationWarning)
+                for warning in w
+            )
         )

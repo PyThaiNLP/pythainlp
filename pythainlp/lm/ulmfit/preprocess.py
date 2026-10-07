@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Preprocessing for ULMFiT"""
+"""Preprocessing for ULMFiT."""
 
 from __future__ import annotations
 
@@ -22,7 +22,8 @@ _TK_URL: str = "xxurl"
 
 
 def replace_url(text: str) -> str:
-    """Replace URL in `text` with TK_URL
+    """
+    Replace URL in `text` with TK_URL.
 
     :param str text: text to replace URL in
 
@@ -40,7 +41,8 @@ def replace_url(text: str) -> str:
 
 
 def fix_html(text: str) -> str:
-    """Replace HTML strings in `test`. (codes from `fastai`)
+    """
+    Replace HTML strings in `test`. (codes from `fastai`).
 
     :param str text: text to replace HTML strings in
 
@@ -74,19 +76,21 @@ def fix_html(text: str) -> str:
 
 
 def rm_useless_spaces(text: str) -> str:
-    """Remove multiple spaces in `text`. (codes from `fastai`)"""
+    """Remove multiple spaces in `text`. (codes from `fastai`)."""
     return re.sub(" {2,}", " ", text)
 
 
 def spec_add_spaces(text: str) -> str:
-    """Add spaces around / and # in `text`. \n (codes from `fastai`)"""
+    """Add spaces around / and # in `text`. \n (codes from `fastai`)."""
     return re.sub(r"([/#\n])", r" \1 ", text)
 
 
 def replace_rep_after(text: str) -> str:
-    """Replace repetitions at the character level in `text` after the repeated character.
+    """
+    Replace repetitions at the character level in `text` after the repeated character.
+
     This is to prevent cases such as 'น้อยยยยยยยย' becomes 'น้อ xxrep 8 ย'
-    ; instead it will retain the word as 'น้อย xxrep 8'
+    ; instead it will retain the word as 'น้อย xxrep 8'.
 
     :param str text: input text to replace character repetitions in
 
@@ -113,7 +117,9 @@ def replace_rep_after(text: str) -> str:
 
 
 def replace_wrep_post(toks: Collection[str]) -> list[str]:
-    """Replace repetitive words after tokenization;
+    """
+    Replace repetitive words after tokenization.
+
     fastai `replace_wrep` does not work well with Thai.
 
     :param list[str] toks: list of tokens
@@ -134,7 +140,7 @@ def replace_wrep_post(toks: Collection[str]) -> list[str]:
     previous_word: Optional[str] = None
     rep_count = 0
     res: list[Optional[str]] = []
-    for current_word in list(toks) + [_TK_END]:
+    for current_word in [*list(toks), _TK_END]:
         if current_word == previous_word:
             rep_count += 1
         elif (current_word != previous_word) & (rep_count > 0):
@@ -185,7 +191,8 @@ def rm_brackets(text: str) -> str:
 
 
 def ungroup_emoji(toks: Collection[str]) -> list[str]:
-    """Ungroup Zero Width Joiner (ZVJ) Emojis
+    """
+    Ungroup Zero Width Joiner (ZVJ) Emojis.
 
     See https://emojipedia.org/emoji-zwj-sequence/
     """
@@ -199,16 +206,20 @@ def ungroup_emoji(toks: Collection[str]) -> list[str]:
 
 
 def lowercase_all(toks: Collection[str]) -> list[str]:
-    """Lowercase all English words;
+    """
+    Lowercase all English words.
+
     English words in Thai texts don't usually have nuances of capitalization.
     """
     return list(map(str.lower, toks))
 
 
 def replace_rep_nonum(text: str) -> str:
-    """Replace repetitions at the character level in `text` after the repetition.
+    """
+    Replace repetitions at the character level in `text` after the repetition.
+
     This is done to prevent such case as 'น้อยยยยยยยย' becoming 'น้อ xxrep ย';
-    instead it will retain the word as 'น้อย xxrep '
+    instead it will retain the word as 'น้อย xxrep '.
 
     :param str text: input text to replace character repetition
 
@@ -235,7 +246,9 @@ def replace_rep_nonum(text: str) -> str:
 
 
 def replace_wrep_post_nonum(toks: Collection[str]) -> list[str]:
-    """Replace reptitive words post tokenization;
+    """
+    Replace repeated words after tokenization.
+
     fastai `replace_wrep` does not work well with Thai.
 
     :param list[str] toks: list of tokens
@@ -256,7 +269,7 @@ def replace_wrep_post_nonum(toks: Collection[str]) -> list[str]:
     previous_word: Optional[str] = None
     rep_count = 0
     res: list[Optional[str]] = []
-    for current_word in list(toks) + [_TK_END]:
+    for current_word in [*list(toks), _TK_END]:
         if current_word == previous_word:
             rep_count += 1
         elif (current_word != previous_word) & (rep_count > 0):
@@ -269,7 +282,8 @@ def replace_wrep_post_nonum(toks: Collection[str]) -> list[str]:
 
 
 def remove_space(toks: Collection[str]) -> list[str]:
-    """Do not include space for bag-of-word models.
+    """
+    Do not include space for bag-of-word models.
 
     :param list[str] toks: list of tokens
 
@@ -277,8 +291,8 @@ def remove_space(toks: Collection[str]) -> list[str]:
     :rtype: list[str]
     """
     res = []
-    for t in toks:
-        t = t.strip()
-        if t:
-            res.append(t)
+    for token in toks:
+        stripped = token.strip()
+        if stripped:
+            res.append(stripped)
     return res

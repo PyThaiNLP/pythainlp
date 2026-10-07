@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Deprecated. Use :mod:`pythainlp.lm.ulmfit` instead.
+"""
+Deprecated. Use :mod:`pythainlp.lm.ulmfit` instead.
 
 .. deprecated:: 5.3.9
     :mod:`pythainlp.ulmfit` has moved to :mod:`pythainlp.lm.ulmfit`.
@@ -47,15 +48,15 @@ __all__: list[str] = [
     "THWIKI_LSTM",
     "ThaiTokenizer",
     "document_vector",
+    "fix_html",
     "get_thwiki_lstm",
+    "lowercase_all",
     "merge_wgts",
     "post_rules_th",
     "post_rules_th_sparse",
     "pre_rules_th",
     "pre_rules_th_sparse",
     "process_thai",
-    "fix_html",
-    "lowercase_all",
     "remove_space",
     "replace_rep_after",
     "replace_rep_nonum",

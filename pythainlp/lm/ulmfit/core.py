@@ -35,7 +35,7 @@ from pythainlp.lm.ulmfit.preprocess import (
 from pythainlp.tokenize import thai2fit_tokenizer
 from pythainlp.util import reorder_vowels
 
-device: "torch.device" = torch.device(
+device: torch.device = torch.device(
     "cuda" if torch.cuda.is_available() else "cpu"
 )
 
@@ -55,7 +55,8 @@ THWIKI_LSTM: dict[str, Optional[str]] = {
 
 
 def get_thwiki_lstm() -> dict[str, str]:
-    """Get THWIKI LSTM model paths with validation.
+    """
+    Get THWIKI LSTM model paths with validation.
 
     :return: dictionary with ``wgts_fname`` and ``itos_fname`` keys
     :rtype: dict[str, str]
@@ -96,16 +97,15 @@ post_rules_th: list[Callable[[Collection[str]], list[str]]] = [
 ]
 
 # sparse features
-pre_rules_th_sparse: list[Callable[[str], str]] = pre_rules_th[1:] + [
-    replace_rep_nonum
+pre_rules_th_sparse: list[Callable[[str], str]] = [
+    *pre_rules_th[1:],
+    replace_rep_nonum,
 ]
-post_rules_th_sparse: list[Callable[[Collection[str]], list[str]]] = (
-    post_rules_th[1:]
-    + [
-        replace_wrep_post_nonum,
-        remove_space,
-    ]
-)
+post_rules_th_sparse: list[Callable[[Collection[str]], list[str]]] = [
+    *post_rules_th[1:],
+    replace_wrep_post_nonum,
+    remove_space,
+]
 
 
 def process_thai(
@@ -114,7 +114,8 @@ def process_thai(
     tok_func: Optional[Callable[[str], list[str]]] = None,
     post_rules: Optional[Collection[Callable[[list[str]], list[str]]]] = None,
 ) -> list[str]:
-    """Process Thai texts for models (with sparse features as default)
+    """
+    Process Thai text for models, with sparse features by default.
 
     :param str text: text to be cleaned
     :param Optional[Collection[Callable[[str], str]]] pre_rules: rules to
@@ -182,7 +183,7 @@ def process_thai(
         pre_rules = pre_rules_th_sparse
     if post_rules is None:
         post_rules = cast(
-            Collection[Callable[[list[str]], list[str]]],
+            "Collection[Callable[[list[str]], list[str]]]",
             post_rules_th_sparse,
         )
 
@@ -200,8 +201,9 @@ def process_thai(
 
 def document_vector(
     text: str, learn: Any, data: Any, agg: str = "mean"
-) -> "NDArray[np.float32]":
-    """Vectorize a Thai sentence into a 400-dimension vector.
+) -> NDArray[np.float32]:
+    """
+    Vectorize a Thai sentence into a 400-dimension vector.
 
     Uses a :class:`fastai` language model and data bunch.
     Word vectors are aggregated by mean or summation.
@@ -259,7 +261,8 @@ def merge_wgts(
     itos_pre: list[str],
     itos_new: list[str],
 ) -> dict[str, torch.Tensor]:
-    """Insert new vocab into an existing model and update weights.
+    """
+    Insert new vocab into an existing model and update weights.
 
     New vocab weights are initialised with the average embedding
     when not found in the pretrained vocab.

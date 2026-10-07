@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Tokenzier classes for ULMFiT"""
+"""Provide tokenizer classes for ULMFiT."""
 
 from __future__ import annotations
 
@@ -14,34 +14,42 @@ from pythainlp.tokenize import thai2fit_tokenizer
 
 
 class BaseTokenizer:
-    """Basic class for a tokenizer function. (codes from `fastai`)"""
+    """Provide a basic tokenizer interface (code from `fastai`)."""
 
     lang: str
 
     def __init__(self, lang: str) -> None:
+        """Initialize tokenizer with a language code."""
         self.lang: str = lang
 
     def tokenizer(self, t: str) -> list[str]:
+        """Split text on spaces."""
         return t.split(" ")
 
     def add_special_cases(self, toks: Collection[str]) -> None:
-        pass
+        """
+        Accept special cases without changing this tokenizer.
+
+        The fastai interface requires this hook, but this tokenizer has
+        no custom special cases.
+        """
+        # The fastai interface requires this hook, but this tokenizer has
+        # no custom special cases.
 
 
 class ThaiTokenizer(BaseTokenizer):
-    """Wrapper around a frozen newmm tokenizer to make it a
-    :class:`fastai.BaseTokenizer`.
-    (see: https://docs.fast.ai/text.transform#BaseTokenizer)
-    """
+    """Wrap the newmm tokenizer as a fastai tokenizer."""
 
     lang: str
 
     def __init__(self, lang: str = "th") -> None:
+        """Initialize the tokenizer with a language code."""
         self.lang: str = lang
 
     @staticmethod
     def tokenizer(text: str) -> list[str]:
-        """Tokenize text using the newmm engine and the thai2fit dictionary.
+        """
+        Tokenize text using the newmm engine and the thai2fit dictionary.
 
         :param str text: text to tokenize
         :return: tokenized text
@@ -61,12 +69,9 @@ class ThaiTokenizer(BaseTokenizer):
             ['อาภรณ์', ',', ' ', 'จิน', 'ตม', 'ย', 'ปัญญา',
              ' ', 'ภาวนามยปัญญา']
             >>>
-            >>> word_tokenize(text, engine='ulmfit')
+            >>> word_tokenize(text, engine="ulmfit")
             ['อาภรณ์', ',', ' ', 'จิน', 'ตม', 'ย', 'ปัญญา',
              ' ', 'ภาวนามยปัญญา']
 
         """
         return thai2fit_tokenizer().word_tokenize(text)
-
-    def add_special_cases(self, toks: Collection[str]) -> None:
-        pass

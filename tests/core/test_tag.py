@@ -559,7 +559,6 @@ class PhayaThaiBERTHelperTestCase(unittest.TestCase):
 
     def test_missing_dependency_error_before_download(self):
         import sys
-        from unittest import mock
 
         from pythainlp.tag import phayathaibert_onnx
 
@@ -585,7 +584,6 @@ class PhayaThaiBERTHelperTestCase(unittest.TestCase):
     def _first_download_revision(self, **kwargs: str) -> object:
         """Return the revision PhayaThaiBERTTagger passes to get_hf_hub."""
         import sys
-        from unittest import mock
 
         from pythainlp.tag import phayathaibert_onnx
 
@@ -678,7 +676,6 @@ class PhayaThaiBERTTaggerTestCase(unittest.TestCase):
 
     @unittest.skipUnless(find_spec("numpy"), "numpy is not installed")
     def test_tag(self):
-        from unittest import mock
 
         from pythainlp.tag import phayathaibert_onnx
 
@@ -716,7 +713,6 @@ class PhayaThaiBERTTaggerTestCase(unittest.TestCase):
         import json
         import sys
         import tempfile
-        from unittest import mock
 
         from pythainlp.tag import phayathaibert_onnx
 
@@ -748,7 +744,6 @@ class PhayaThaiBERTTaggerTestCase(unittest.TestCase):
         tagger.tokenizer.no_padding.assert_called_once_with()
 
     def test_tag_function_loads_tagger_once(self):
-        from unittest import mock
 
         from pythainlp.tag import phayathaibert_onnx
 
@@ -765,7 +760,6 @@ class PhayaThaiBERTTaggerTestCase(unittest.TestCase):
                 tagger_class.assert_called_once_with()
 
     def test_pos_tag_phayathaibert_uses_tud(self):
-        from unittest import mock
 
         with mock.patch(
             "pythainlp.tag.phayathaibert_onnx.tag",
@@ -779,7 +773,6 @@ class PhayaThaiBERTTaggerTestCase(unittest.TestCase):
 
     def test_pos_tag_transformers_engine_lookup(self):
         import sys
-        from unittest import mock
 
         from pythainlp.tag import pos_tag_transformers
 

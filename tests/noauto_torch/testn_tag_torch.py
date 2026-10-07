@@ -126,7 +126,7 @@ class TagTransformersTestCaseN(unittest.TestCase):
         self.assertEqual(len(result), 1)
         self.assertGreater(len(result[0]), 0)
         tags = {tag for _, tag in result[0]}
-        self.assertTrue(tags <= upos, tags - upos)
+        self.assertLessEqual(tags, upos, tags - upos)
         self.assertIn("VERB", tags)
 
         with self.assertRaises(ValueError):

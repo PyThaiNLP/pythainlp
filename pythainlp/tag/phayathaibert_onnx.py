@@ -1,14 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-PhayaThaiBERT part-of-speech tagger with ONNX Runtime backend.
-
-The model is an ONNX export of
-`nlp-chula/phayathaibert-thai-pos-tagger
-<https://huggingface.co/nlp-chula/phayathaibert-thai-pos-tagger>`_,
-fine-tuned on the UD Thai-TUD treebank. It tags words with Universal POS tags.
-"""
+"""PhayaThaiBERT part-of-speech tagger with ONNX Runtime backend."""
 
 from __future__ import annotations
 
@@ -16,6 +9,7 @@ import json
 import threading
 import unicodedata
 from collections import Counter
+from importlib.util import find_spec
 from typing import TYPE_CHECKING, Optional
 
 from pythainlp.corpus import get_hf_hub
@@ -41,6 +35,9 @@ _WHITESPACE_TAG = "PUNCT"
 
 # Universal POS tag for words that produce no subword token.
 _UNKNOWN_TAG = "X"
+
+# Modules the tagger needs at run time.
+_DEPENDENCIES = ("huggingface_hub", "numpy", "onnxruntime", "tokenizers")
 
 
 def _is_blank(word: str) -> bool:
@@ -119,6 +116,11 @@ class PhayaThaiBERTTagger:
     """
     Universal POS tagger using PhayaThaiBERT with ONNX Runtime.
 
+    The model is an ONNX export of
+    `nlp-chula/phayathaibert-thai-pos-tagger
+    <https://huggingface.co/nlp-chula/phayathaibert-thai-pos-tagger>`_,
+    fine-tuned on the UD Thai-TUD treebank.
+
     Requires ``numpy``, ``onnxruntime``, ``tokenizers`` and
     ``huggingface-hub``. The model (about 530 MB) is downloaded from
     the Hugging Face Hub on first use.
@@ -144,17 +146,15 @@ class PhayaThaiBERTTagger:
             ``None``.
         :raises ImportError: if a required dependency is not installed
         """
-        try:
-            import huggingface_hub  # noqa: F401
-            import numpy  # noqa: F401
-            from onnxruntime import InferenceSession
-            from tokenizers import Tokenizer
-        except ImportError as e:
+        # Check every dependency before the download starts.
+        if any(find_spec(name) is None for name in _DEPENDENCIES):
             raise ImportError(
                 "PhayaThaiBERT POS tagger requires numpy, onnxruntime,"
                 " tokenizers and huggingface-hub."
                 ' Install them with: pip install "pythainlp[phayathaibert_onnx]"'
-            ) from e
+            )
+        from onnxruntime import InferenceSession
+        from tokenizers import Tokenizer
 
         if revision is None and repo_id == _REPO_ID:
             revision = _REVISION
@@ -242,7 +242,10 @@ _TAGGER: Optional[PhayaThaiBERTTagger] = None
 _TAGGER_LOCK = threading.Lock()
 
 
-def tag(words: list[str], corpus: str = "tud") -> list[tuple[str, str]]:
+def tag(
+    words: list[str],
+    corpus: str = "tud",  # NOSONAR: unused, kept for the pos_tag interface
+) -> list[tuple[str, str]]:
     """
     Tag words with Universal POS tags using PhayaThaiBERT (ONNX).
 

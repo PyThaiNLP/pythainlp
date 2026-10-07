@@ -29,6 +29,17 @@ _PHAYATHAIBERT_DEPENDENCIES = (
 )
 
 
+def _fake_module(name):
+    """Return a stand-in for an installed module, for patching sys.modules."""
+    from importlib.machinery import ModuleSpec
+    from unittest import mock
+
+    module = mock.MagicMock()
+    # importlib.util.find_spec() reads __spec__ of modules in sys.modules.
+    module.__spec__ = ModuleSpec(name, None)
+    return module
+
+
 class TagTestCase(unittest.TestCase):
     """Test pythainlp.tag.pos_tag."""
 
@@ -470,7 +481,7 @@ class IobToMarkupTestCase(unittest.TestCase):
 
 
 class PhayaThaiBERTHelperTestCase(unittest.TestCase):
-    """Test the pure-Python helpers of pythainlp.tag.phayathaibert_onnx"""
+    """Test the pure-Python helpers of pythainlp.tag.phayathaibert_onnx."""
 
     def test_first_subword_labels(self):
         from pythainlp.tag.phayathaibert_onnx import _first_subword_labels
@@ -551,7 +562,7 @@ class PhayaThaiBERTHelperTestCase(unittest.TestCase):
                 # Fake every dependency, so none is really imported (and
                 # then unloaded) inside patch.dict.
                 modules = {
-                    m: mock.MagicMock() for m in _PHAYATHAIBERT_DEPENDENCIES
+                    m: _fake_module(m) for m in _PHAYATHAIBERT_DEPENDENCIES
                 }
                 modules[module] = None
                 with mock.patch.dict(sys.modules, modules):
@@ -573,7 +584,7 @@ class PhayaThaiBERTHelperTestCase(unittest.TestCase):
         from pythainlp.tag import phayathaibert_onnx
 
         fake_modules = {
-            m: mock.MagicMock() for m in _PHAYATHAIBERT_DEPENDENCIES
+            m: _fake_module(m) for m in _PHAYATHAIBERT_DEPENDENCIES
         }
         with mock.patch.dict(sys.modules, fake_modules):
             with mock.patch(
@@ -700,7 +711,7 @@ class PhayaThaiBERTTaggerTestCase(unittest.TestCase):
         from pythainlp.tag import phayathaibert_onnx
 
         fake_modules = {
-            m: mock.MagicMock() for m in _PHAYATHAIBERT_DEPENDENCIES
+            m: _fake_module(m) for m in _PHAYATHAIBERT_DEPENDENCIES
         }
         with tempfile.TemporaryDirectory() as tmp:
             config_path = path.join(tmp, "config.json")

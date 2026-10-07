@@ -88,8 +88,8 @@ class TagPhayaThaiBERTONNXTestCaseN(unittest.TestCase):
         self.assertEqual(result[1], (" ", "PUNCT"))
         self.assertEqual(result[3], ("", "PUNCT"))
         self.assertEqual(
-            [result[0], result[2]],
             pos_tag(["แมว", "กิน"], engine="phayathaibert"),
+            [result[0], result[2]],
         )
 
     def test_pos_tag_phayathaibert_long_input(self):

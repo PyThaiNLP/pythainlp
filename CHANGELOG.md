@@ -19,6 +19,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- `build_tools/onnx_metadata.py`: maintainer tool to show and set ONNX model
+  metadata, with SPDX license check ([#1565])
+
 ### Changed
 
 - `pythainlp.tokenize.deepcut`: built-in ONNX engine replaces the
@@ -70,6 +75,7 @@ and this project adheres to
 [#1548]: https://github.com/PyThaiNLP/pythainlp/pull/1548
 [#1551]: https://github.com/PyThaiNLP/pythainlp/pull/1551
 [#1552]: https://github.com/PyThaiNLP/pythainlp/pull/1552
+[#1565]: https://github.com/PyThaiNLP/pythainlp/pull/1565
 
 ## [5.3.8] - 2026-09-25
 

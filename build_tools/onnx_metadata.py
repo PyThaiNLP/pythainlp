@@ -53,12 +53,15 @@ import re
 import shutil
 import sys
 import tempfile
+import unicodedata
+import urllib.request
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Optional
 
 if TYPE_CHECKING:
     from collections.abc import Mapping, Sequence
-    from typing import NoReturn
+    from http.client import HTTPMessage
+    from typing import IO, NoReturn
 
     from onnx import ModelProto
 
@@ -76,7 +79,7 @@ _MAX_PATCH = (1 << 32) - 1
 SPDX_LIST_URL = "https://spdx.org/licenses/licenses.json"
 _FETCH_TIMEOUT = 10  # seconds
 _MAX_LIST_BYTES = 10_000_000
-_LICENSE_SUFFIXES = ("-license", "-licence")
+_LICENSE_WORDS = ("licence", "license", "version")
 
 _LICENSE_KEY = "model_license"
 _AUTHOR_KEY = "model_author"
@@ -138,6 +141,23 @@ def parse_prop(text: str) -> tuple[str, str]:
     return key, value
 
 
+class _HttpsOnlyRedirectHandler(urllib.request.HTTPRedirectHandler):
+    """Follow a redirect only if it leads to an ``https`` URL."""
+
+    def redirect_request(
+        self,
+        req: urllib.request.Request,
+        fp: IO[bytes],
+        code: int,
+        msg: str,
+        headers: HTTPMessage,
+        newurl: str,
+    ) -> Optional[urllib.request.Request]:
+        if not newurl.startswith("https://"):
+            raise ValueError(f"Redirect to a URL that is not https: {newurl}")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
 def load_licenses(source: str) -> dict[str, bool]:
     """
     Read the license IDs of an SPDX License List (``licenses.json``).
@@ -147,15 +167,12 @@ def load_licenses(source: str) -> dict[str, bool]:
         list marks it as deprecated (``isDeprecatedLicenseId``)
     :rtype: dict[str, bool]
     :raises OSError: if the file or URL cannot be read
-    :raises ValueError: if the source is not an ``https`` URL or a file, or
-        the content is not an SPDX License List
+    :raises ValueError: if the source is not an ``https`` URL or a file, a
+        redirect leaves ``https``, or the content is not an SPDX License List
     """
     if source.startswith("https://"):
-        import urllib.request
-
-        with urllib.request.urlopen(  # noqa: S310  # nosec B310  # https only
-            source, timeout=_FETCH_TIMEOUT
-        ) as response:
+        opener = urllib.request.build_opener(_HttpsOnlyRedirectHandler)
+        with opener.open(source, timeout=_FETCH_TIMEOUT) as response:
             raw = response.read(_MAX_LIST_BYTES)
     elif "://" in source:
         raise ValueError(f"Only https URLs and files are supported: {source}")
@@ -180,14 +197,20 @@ def normalize_license(text: str) -> str:
     """
     Make license text comparable with an SPDX license ID.
 
-    The text loses leading and trailing whitespace, each run of whitespace
-    becomes one dash, and the result is in lower case.
+    Each punctuation mark (Unicode category P) becomes a space, each run of
+    whitespace becomes one dash, and the result is in lower case. Leading
+    and trailing whitespace is dropped. The plus sign is a symbol, not
+    punctuation, so ``GPL-2.0+`` stays different from ``GPL-2.0``.
 
-    :param str text: license text such as ``" Apache 2.0  License "``
-    :return: normalized text such as ``"apache-2.0-license"``
+    :param str text: license text such as ``" Apache Licence, 2.0 "``
+    :return: normalized text such as ``"apache-licence-2-0"``
     :rtype: str
     """
-    return "-".join(text.split()).lower()
+    spaced = "".join(
+        " " if unicodedata.category(char).startswith("P") else char
+        for char in text
+    )
+    return "-".join(spaced.split()).lower()
 
 
 def resolve_license(
@@ -196,11 +219,11 @@ def resolve_license(
     """
     Find the SPDX license ID for the license text that a user gave.
 
-    An exact match is recorded as is. Otherwise the normalized text is
-    searched in the list without regard to case, then again without a
-    ``-license`` or ``-licence`` ending. The first match gives the ID, in the
-    case of the list. Text without a match is recorded as given, without
-    leading and trailing whitespace.
+    An exact match is recorded as is. Otherwise the normalized text (see
+    :func:`normalize_license`) is searched among the normalized IDs of the
+    list, then again without the words "license", "licence", and "version".
+    The first match gives the ID, in the case of the list. Text without a
+    match is recorded as given, without leading and trailing whitespace.
 
     :param str given: license text from the user
     :param Mapping[str, bool] licenses: ``licenseId`` values of the SPDX
@@ -235,19 +258,15 @@ def _match_license(
     if given in licenses:
         return given, False
 
-    by_lower: dict[str, str] = {}
+    by_key: dict[str, str] = {}
     for license_id in licenses:
-        by_lower.setdefault(license_id.lower(), license_id)
+        by_key.setdefault(normalize_license(license_id), license_id)
 
     key = normalize_license(given)
-    candidates = [key]
-    for suffix in _LICENSE_SUFFIXES:
-        if key.endswith(suffix):
-            candidates.append(key[: -len(suffix)])
-            break
-    for candidate in candidates:
-        if candidate in by_lower:
-            return by_lower[candidate], True
+    words = [word for word in key.split("-") if word not in _LICENSE_WORDS]
+    for candidate in (key, "-".join(words)):
+        if candidate in by_key:
+            return by_key[candidate], True
     return None, False
 
 
@@ -311,6 +330,10 @@ def requested_changes(
         semver_to_int(fields["model_version"])  # reject early
 
     pairs = [parse_prop(text) for text in args.prop]
+    if args.license is not None and not args.license.strip():
+        raise ValueError(
+            "The license is empty; to remove it, use --prop model_license="
+        )
     if args.license is not None:
         pairs.append((_LICENSE_KEY, args.license))
     if args.author is not None:
@@ -328,41 +351,34 @@ def requested_changes(
 
 
 def apply_changes(
-    model: ModelProto, args: argparse.Namespace
+    model: ModelProto, fields: Mapping[str, str], props: Mapping[str, str]
 ) -> tuple[dict[str, tuple[str, str]], dict[str, Any]]:
     """
     Set the requested fields on a model.
 
     :param onnx.ModelProto model: loaded model, changed in place
-    :param argparse.Namespace args: parsed ``set`` arguments
+    :param Mapping[str, str] fields: values to set, from
+        :func:`requested_changes`
+    :param Mapping[str, str] props: ``metadata_props`` entries to set
     :return: changed fields as ``{field: (old, new)}``, and the metadata
         that must be read back from the saved file (see
         :func:`read_metadata`)
     :rtype: tuple[dict[str, tuple[str, str]], dict[str, Any]]
-    :raises ValueError: if the version or a property cannot be stored, or
-        the model has duplicate ``metadata_props`` keys
     """
     from onnx import helper
 
-    duplicates = duplicate_keys(model)
-    if duplicates:
-        raise ValueError(
-            f"metadata_props has duplicate keys {duplicates}; "
-            "the file is not rewritten"
-        )
-    fields, wanted_props = requested_changes(args)
     before = read_metadata(model)
     expected = {
         **before,
         **fields,
-        "metadata_props": {**before["metadata_props"], **wanted_props},
+        "metadata_props": {**before["metadata_props"], **props},
     }
     if "model_version" in fields:
         expected["model_version_raw"] = semver_to_int(fields["model_version"])
 
     changes = {
         key: (before["metadata_props"].get(key, ""), value)
-        for key, value in wanted_props.items()
+        for key, value in props.items()
         if before["metadata_props"].get(key) != value
     }
     changes.update(
@@ -542,12 +558,23 @@ def _checked_license(given: str, source: str) -> str:
     return recorded
 
 
+def _refuse_duplicate_keys(model: ModelProto) -> None:
+    duplicates = duplicate_keys(model)
+    if duplicates:
+        raise ValueError(
+            f"metadata_props has duplicate keys {duplicates}; "
+            "the file is not rewritten"
+        )
+
+
 def _set(args: argparse.Namespace) -> int:
     path = Path(args.path)
+    fields, props = requested_changes(args)  # check the arguments first
     model = _load(path)
+    _refuse_duplicate_keys(model)
     if args.license is not None:
-        args.license = _checked_license(args.license, args.spdx_list)
-    changes, expected = apply_changes(model, args)
+        props[_LICENSE_KEY] = _checked_license(args.license, args.spdx_list)
+    changes, expected = apply_changes(model, fields, props)
     print(_display(path))
     if not changes:
         print("  no change")

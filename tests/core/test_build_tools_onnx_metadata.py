@@ -110,6 +110,7 @@ LICENSE_IDS = {
     "BSD-3-Clause": False,
     "CC-BY-4.0": False,
     "GPL-2.0": True,
+    "GPL-2.0+": True,
     "GPL-2.0-only": False,
     "MIT": False,
 }
@@ -122,6 +123,18 @@ LICENSE_CASES = (
     ("APACHE-2.0", "Apache-2.0", True),
     ("apache 2.0  license ", "Apache-2.0", True),
     ("Apache-2.0 License", "Apache-2.0", True),
+    ("Apache License 2.0", "Apache-2.0", True),
+    ("Apache Licence, 2.0", "Apache-2.0", True),
+    ("Apache License, Version 2.0", "Apache-2.0", True),
+    ("GNU GPL version 3.0 only", "GNU GPL version 3.0 only", True),
+    ("Apache_2.0", "Apache-2.0", True),
+    ("apache-2-0", "Apache-2.0", True),
+    ("(MIT)", "MIT", True),
+    ("\u201cMIT License.\u201d", "MIT", True),  # curly quotes
+    ("GPL-2.0+", "GPL-2.0+", True),  # exact, deprecated
+    ("gpl 2.0+ licence", "GPL-2.0+", True),
+    ("CC license BY 4.0", "CC-BY-4.0", True),
+    ("license MIT", "MIT", True),
     ("BSD 3-Clause Licence", "BSD-3-Clause", True),
     ("  mit", "MIT", True),
     ("MIT\t\n", "MIT", True),
@@ -146,7 +159,12 @@ class LicenseTestCase(unittest.TestCase):
     def test_normalize(self) -> None:
         cases = (
             ("", ""),
-            ("  Apache 2.0  License ", "apache-2.0-license"),
+            ("  Apache 2.0  License ", "apache-2-0-license"),
+            ("Apache Licence, 2.0", "apache-licence-2-0"),
+            ("a.b_c/d", "a-b-c-d"),
+            ("\u201cMIT\u201d", "mit"),
+            ("GPL-2.0+", "gpl-2-0+"),  # + is a symbol, not punctuation
+            ("!?...", ""),
             ("MIT", "mit"),
             ("a\u00a0b\tc\nd", "a-b-c-d"),
         )
@@ -252,13 +270,37 @@ class LicenseTestCase(unittest.TestCase):
         response = mock.MagicMock()
         response.__enter__.return_value = response
         response.read.return_value = b'{"licenses": [{"licenseId": "MIT"}]}'
-        with mock.patch("urllib.request.urlopen", return_value=response) as op:
+        opener = mock.MagicMock()
+        opener.open.return_value = response
+        with mock.patch(
+            "urllib.request.build_opener", return_value=opener
+        ) as build:
             ids = tool.load_licenses("https://example.org/licenses.json")
         self.assertEqual(ids, {"MIT": False})
         self.assertEqual(
-            op.call_args.args, ("https://example.org/licenses.json",)
+            build.call_args.args, (tool._HttpsOnlyRedirectHandler,)
         )
-        self.assertIn("timeout", op.call_args.kwargs)
+        self.assertEqual(
+            opener.open.call_args.args, ("https://example.org/licenses.json",)
+        )
+        self.assertIn("timeout", opener.open.call_args.kwargs)
+
+    def test_redirect_only_to_https(self) -> None:
+        import urllib.request
+
+        handler = tool._HttpsOnlyRedirectHandler()
+        request = urllib.request.Request("https://example.org/a")
+
+        def redirect(url: str) -> object:
+            return handler.redirect_request(
+                request, None, 302, "Found", {}, url
+            )
+
+        self.assertIsNotNone(redirect("https://example.org/b"))
+        for url in ("http://example.org/b", "ftp://example.org/b", "/b"):
+            with self.subTest(url=url):
+                with self.assertRaises(ValueError):
+                    redirect(url)
 
     def test_default_list_is_the_spdx_url(self) -> None:
         args = tool.build_parser().parse_args(["set", "m.onnx", "--doc", "x"])
@@ -416,6 +458,56 @@ class FileTestCase(unittest.TestCase):
         )
         self.assertEqual(status, 0)
         self.assertEqual(err, "")
+
+    def test_empty_license_is_refused(self) -> None:
+        before = self.path.read_bytes()
+        for text in ("", " ", "\t\n"):
+            with self.subTest(text=text):
+                status, _, err = self.run_tool(
+                    "set", str(self.path), "--license", text
+                )
+                self.assertEqual(status, 1)
+                self.assertIn("The license is empty", err)
+                self.assertIn("--prop model_license=", err)
+        self.assertEqual(self.path.read_bytes(), before)
+        # the documented way to clear the license still works
+        status, _, _ = self.run_tool(
+            "set", str(self.path), "--prop", "model_license="
+        )
+        self.assertEqual(status, 0)
+        self.assertEqual(self.show()["metadata_props"]["model_license"], "")
+
+    def test_arguments_are_checked_before_the_license_list(self) -> None:
+        for argv in (
+            ("--version", "1.0"),
+            ("--prop", "novalue"),
+            ("--prop", "model_license=B"),
+        ):
+            with self.subTest(argv=argv):
+                with mock.patch.object(
+                    tool, "load_licenses", side_effect=AssertionError("read")
+                ):
+                    status, _, err = self.run_tool(
+                        "set", str(self.path), "--license", "MIT", *argv
+                    )
+                self.assertEqual(status, 1)
+                self.assertTrue(err.startswith("Error:"), err)
+
+    def test_duplicate_keys_are_refused_before_the_license_list(self) -> None:
+        import onnx
+
+        model = onnx.load(str(self.path))
+        model.metadata_props.add(key="keep", value="again")
+        path = self.path.with_name("duplicate.onnx")
+        onnx.save(model, str(path))
+        with mock.patch.object(
+            tool, "load_licenses", side_effect=AssertionError("read")
+        ):
+            status, _, err = self.run_tool(
+                "set", str(path), "--license", "MIT"
+            )
+        self.assertEqual(status, 1)
+        self.assertIn("duplicate keys", err)
 
     def test_deprecated_license_is_recorded_with_a_warning(self) -> None:
         status, _, err = self.run_tool(

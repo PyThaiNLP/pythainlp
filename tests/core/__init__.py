@@ -19,6 +19,7 @@ test_packages: list[str] = [
     "tests.core.test_cli",
     "tests.core.test_cli_benchmark",
     "tests.core.test_branches_offline",
+    "tests.core.test_build_tools_onnx_metadata",
     "tests.core.test_corpus",
     "tests.core.test_corpus_core_internals",
     "tests.core.test_generate",

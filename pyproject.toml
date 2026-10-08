@@ -614,6 +614,7 @@ module = [
     "nltk.*",
     "nlpo3.*",
     "numpy.*",
+    "onnx.*",
     "onnxruntime.*",
     "oskut.*",
     "pandas.*",

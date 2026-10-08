@@ -104,6 +104,169 @@ class VersionTestCase(unittest.TestCase):
                     tool.semver_to_int(value)
 
 
+# licenseId -> isDeprecatedLicenseId
+LICENSE_IDS = {
+    "Apache-2.0": False,
+    "BSD-3-Clause": False,
+    "CC-BY-4.0": False,
+    "GPL-2.0": True,
+    "GPL-2.0-only": False,
+    "MIT": False,
+}
+
+# (given, recorded, warning is expected)
+LICENSE_CASES = (
+    ("Apache-2.0", "Apache-2.0", False),
+    ("GPL-2.0-only", "GPL-2.0-only", False),
+    ("apache-2.0", "Apache-2.0", True),
+    ("APACHE-2.0", "Apache-2.0", True),
+    ("apache 2.0  license ", "Apache-2.0", True),
+    ("Apache-2.0 License", "Apache-2.0", True),
+    ("BSD 3-Clause Licence", "BSD-3-Clause", True),
+    ("  mit", "MIT", True),
+    ("MIT\t\n", "MIT", True),
+    ("mit LICENSE", "MIT", True),
+    ("gpl-2.0-only license", "GPL-2.0-only", True),
+    ("GPL-2.0", "GPL-2.0", True),  # deprecated
+    ("gpl 2.0 licence", "GPL-2.0", True),  # normalized and deprecated
+    ("cc by 4.0", "CC-BY-4.0", True),
+    ("CC License ", "CC License", True),
+    ("Apache 2", "Apache 2", True),
+    ("Apache-2.0 OR MIT", "Apache-2.0 OR MIT", True),
+    ("license", "license", True),
+    ("-license", "-license", True),
+    ("", "", True),
+    ("   ", "", True),
+    ("ไทย", "ไทย", True),
+)
+
+
+@skip_without_script
+class LicenseTestCase(unittest.TestCase):
+    def test_normalize(self) -> None:
+        cases = (
+            ("", ""),
+            ("  Apache 2.0  License ", "apache-2.0-license"),
+            ("MIT", "mit"),
+            ("a\u00a0b\tc\nd", "a-b-c-d"),
+        )
+        for text, expected in cases:
+            with self.subTest(text=text):
+                self.assertEqual(tool.normalize_license(text), expected)
+
+    def test_resolve(self) -> None:
+        for given, recorded, warned in LICENSE_CASES:
+            with self.subTest(given=given):
+                result, warning = tool.resolve_license(given, LICENSE_IDS)
+                self.assertEqual(result, recorded)
+                self.assertEqual(warning is not None, warned)
+
+    def test_warning_text(self) -> None:
+        _, warning = tool.resolve_license("apache 2.0  license ", LICENSE_IDS)
+        self.assertIn("'apache 2.0  license '", warning)  # given
+        self.assertIn("'Apache-2.0'", warning)  # recorded
+        _, warning = tool.resolve_license("CC License ", LICENSE_IDS)
+        self.assertIn("'CC License'", warning)
+        self.assertIn("not found in the SPDX License List", warning)
+
+    def test_deprecated_id(self) -> None:
+        recorded, warning = tool.resolve_license("GPL-2.0", LICENSE_IDS)
+        self.assertEqual(recorded, "GPL-2.0")
+        self.assertEqual(warning, "'GPL-2.0' is a deprecated SPDX license ID")
+        _, warning = tool.resolve_license("gpl 2.0", LICENSE_IDS)
+        self.assertIn("was normalized", warning)
+        self.assertIn("'GPL-2.0' is a deprecated SPDX license ID", warning)
+        for given in ("MIT", "GPL-2.0-only"):
+            warning = tool.resolve_license(given, LICENSE_IDS)[1]
+            self.assertNotIn("deprecated", warning or "")
+
+    def test_exact_match_wins_over_normalization(self) -> None:
+        ids = {"mit": False, "MIT": False}
+        self.assertEqual(tool.resolve_license("mit", ids), ("mit", None))
+        self.assertEqual(tool.resolve_license("MIT", ids), ("MIT", None))
+
+    def test_first_of_ids_with_the_same_lower_case(self) -> None:
+        recorded, _ = tool.resolve_license("Mit", {"MIT": False, "mit": False})
+        self.assertEqual(recorded, "MIT")
+
+    def test_empty_list(self) -> None:
+        recorded, warning = tool.resolve_license("MIT", {})
+        self.assertEqual(recorded, "MIT")
+        self.assertIn("not found", warning)
+
+    def test_load_licenses(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "licenses.json"
+            path.write_text(
+                json.dumps(
+                    {
+                        "licenses": [
+                            {"licenseId": "MIT"},
+                            {"licenseId": 7},
+                            {"name": "no id"},
+                            "text",
+                            {
+                                "licenseId": "GPL-2.0",
+                                "isDeprecatedLicenseId": True,
+                            },
+                            {"licenseId": "A", "isDeprecatedLicenseId": "yes"},
+                            {"licenseId": "B", "isDeprecatedLicenseId": False},
+                        ]
+                    }
+                ),
+                encoding="utf-8-sig",
+            )
+            licenses = tool.load_licenses(str(path))
+            self.assertEqual(
+                licenses,
+                {"MIT": False, "GPL-2.0": True, "A": False, "B": False},
+            )
+            self.assertEqual(list(licenses), ["MIT", "GPL-2.0", "A", "B"])
+
+    def test_load_licenses_errors(self) -> None:
+        contents = (
+            "not json",
+            "[]",
+            "{}",
+            '{"licenses": "MIT"}',
+            '{"licenses": []}',
+            '{"licenses": [{"name": "x"}]}',
+        )
+        with tempfile.TemporaryDirectory() as directory:
+            for content in contents:
+                with self.subTest(content=content):
+                    path = Path(directory) / "licenses.json"
+                    path.write_text(content, encoding="utf-8")
+                    with self.assertRaises(ValueError):
+                        tool.load_licenses(str(path))
+            with self.assertRaises(OSError):
+                tool.load_licenses(str(Path(directory) / "missing.json"))
+
+    def test_only_https_urls(self) -> None:
+        for source in ("http://x/y.json", "ftp://x/y.json", "file:///x.json"):
+            with self.subTest(source=source):
+                with self.assertRaises(ValueError):
+                    tool.load_licenses(source)
+
+    def test_https_download(self) -> None:
+        response = mock.MagicMock()
+        response.__enter__.return_value = response
+        response.read.return_value = b'{"licenses": [{"licenseId": "MIT"}]}'
+        with mock.patch("urllib.request.urlopen", return_value=response) as op:
+            ids = tool.load_licenses("https://example.org/licenses.json")
+        self.assertEqual(ids, {"MIT": False})
+        self.assertEqual(
+            op.call_args.args, ("https://example.org/licenses.json",)
+        )
+        self.assertIn("timeout", op.call_args.kwargs)
+
+    def test_default_list_is_the_spdx_url(self) -> None:
+        args = tool.build_parser().parse_args(["set", "m.onnx", "--doc", "x"])
+        self.assertEqual(
+            args.spdx_list, "https://spdx.org/licenses/licenses.json"
+        )
+
+
 @skip_without_script
 class PropTestCase(unittest.TestCase):
     def test_parse_prop(self) -> None:
@@ -151,6 +314,25 @@ class FileTestCase(unittest.TestCase):
         self.addCleanup(self._dir.cleanup)
         self.path = Path(self._dir.name) / "tiny.onnx"
         onnx.save(model, str(self.path))
+
+        # Use a local SPDX License List: the tests must not need a network.
+        self._list_dir = tempfile.TemporaryDirectory()
+        self.addCleanup(self._list_dir.cleanup)
+        self.spdx_list = Path(self._list_dir.name) / "licenses.json"
+        self.spdx_list.write_text(
+            json.dumps(
+                {
+                    "licenses": [
+                        {"licenseId": i, "isDeprecatedLicenseId": d}
+                        for i, d in LICENSE_IDS.items()
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
+        patcher = mock.patch.object(tool, "SPDX_LIST_URL", str(self.spdx_list))
+        patcher.start()
+        self.addCleanup(patcher.stop)
 
     def run_tool(self, *argv: str) -> tuple[int, str, str]:
         out, err = io.StringIO(), io.StringIO()
@@ -214,6 +396,74 @@ class FileTestCase(unittest.TestCase):
                 "source": "https://example.org",
             },
         )
+
+    def test_license_is_normalized_with_a_warning(self) -> None:
+        status, out, err = self.run_tool(
+            "set", str(self.path), "--license", "apache 2.0  license "
+        )
+        self.assertEqual(status, 0)
+        self.assertIn("warning: license was normalized", err)
+        self.assertIn("'apache 2.0  license '", err)
+        self.assertIn("'Apache-2.0'", err)
+        self.assertIn("verified", out)
+        self.assertEqual(
+            self.show()["metadata_props"]["model_license"], "Apache-2.0"
+        )
+
+    def test_exact_license_has_no_warning(self) -> None:
+        status, _, err = self.run_tool(
+            "set", str(self.path), "--license", "Apache-2.0"
+        )
+        self.assertEqual(status, 0)
+        self.assertEqual(err, "")
+
+    def test_deprecated_license_is_recorded_with_a_warning(self) -> None:
+        status, _, err = self.run_tool(
+            "set", str(self.path), "--license", "GPL-2.0"
+        )
+        self.assertEqual(status, 0)
+        self.assertIn("'GPL-2.0' is a deprecated SPDX license ID", err)
+        self.assertEqual(
+            self.show()["metadata_props"]["model_license"], "GPL-2.0"
+        )
+
+    def test_unknown_license_is_kept_with_a_warning(self) -> None:
+        status, _, err = self.run_tool(
+            "set", str(self.path), "--license", "CC License "
+        )
+        self.assertEqual(status, 0)
+        self.assertIn("'CC License'", err)
+        self.assertIn("not found in the SPDX License List", err)
+        self.assertEqual(
+            self.show()["metadata_props"]["model_license"], "CC License"
+        )
+
+    def test_license_with_a_list_that_cannot_be_read(self) -> None:
+        missing = str(self.spdx_list.with_name("missing.json"))
+        for source in (missing, "http://example.org/licenses.json"):
+            with self.subTest(source=source):
+                status, _, err = self.run_tool(
+                    "set",
+                    str(self.path),
+                    "--license",
+                    " Apache 2 ",
+                    "--spdx-list",
+                    source,
+                    "--dry-run",
+                )
+                self.assertEqual(status, 0)
+                self.assertIn("SPDX License List is not available", err)
+                self.assertIn("'Apache 2'", err)
+
+    def test_license_warning_is_ascii_and_shown_in_a_dry_run(self) -> None:
+        before = self.path.read_bytes()
+        status, _, err = self.run_tool(
+            "set", str(self.path), "--license", "ไทย", "--dry-run"
+        )
+        self.assertEqual(status, 0)
+        self.assertTrue(err.isascii(), err)
+        self.assertIn("\\u0e44", err)
+        self.assertEqual(self.path.read_bytes(), before)
 
     def test_set_license_replaces(self) -> None:
         self.run_tool("set", str(self.path), "--license", "Apache-2.0")

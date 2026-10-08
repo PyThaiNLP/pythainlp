@@ -21,10 +21,17 @@ Fields of ``set``, and the ONNX metadata each one is written to:
 * ``--name`` - name of the model: ``graph.name`` (ONNX has no separate
   model name)
 * ``--doc`` - description of the model: ``doc_string``
-* ``--domain`` - reverse-domain namespace of the model: ``domain``
-* ``--version`` - version as ``MAJOR.MINOR.PATCH``: ``model_version``,
-  packed into one integer
-* ``--license`` - license: ``metadata_props["model_license"]``
+* ``--domain`` - reverse domain name, such as ``org.pythainlp``:
+  ``domain``
+* ``--version`` - version as ``MAJOR.MINOR.PATCH``, such as ``1.0.1``:
+  ``model_version``, packed into one integer
+* ``--license`` - SPDX license ID, such as ``Apache-2.0``:
+  ``metadata_props["model_license"]``. It is checked against the SPDX
+  License List (``--spdx-list``): a close spelling is normalized to the
+  listed ID, and any other text is recorded as given. Both cases, and a
+  deprecated ID, print a warning; nothing is enforced.
+* ``--spdx-list`` - SPDX License List used by ``--license``: a file or an
+  ``https`` URL (default: https://spdx.org/licenses/licenses.json)
 * ``--author`` - comma-separated authors:
   ``metadata_props["model_author"]``
 * ``--prop KEY=VALUE`` - any other entry: ``metadata_props[KEY]``
@@ -50,7 +57,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Optional
 
 if TYPE_CHECKING:
-    from collections.abc import Sequence
+    from collections.abc import Mapping, Sequence
     from typing import NoReturn
 
     from onnx import ModelProto
@@ -65,6 +72,11 @@ _SEMVER = re.compile(rf"{_NUMBER}\.{_NUMBER}\.{_NUMBER}")
 _MAX_MAJOR = (1 << 15) - 1
 _MAX_MINOR = (1 << 16) - 1
 _MAX_PATCH = (1 << 32) - 1
+
+SPDX_LIST_URL = "https://spdx.org/licenses/licenses.json"
+_FETCH_TIMEOUT = 10  # seconds
+_MAX_LIST_BYTES = 10_000_000
+_LICENSE_SUFFIXES = ("-license", "-licence")
 
 _LICENSE_KEY = "model_license"
 _AUTHOR_KEY = "model_author"
@@ -124,6 +136,119 @@ def parse_prop(text: str) -> tuple[str, str]:
     if not sep or not key:
         raise ValueError(f"Property must be KEY=VALUE: {text!r}")
     return key, value
+
+
+def load_licenses(source: str) -> dict[str, bool]:
+    """
+    Read the license IDs of an SPDX License List (``licenses.json``).
+
+    :param str source: path of a file, or an ``https`` URL
+    :return: values of ``licenseId`` in file order, each with True if the
+        list marks it as deprecated (``isDeprecatedLicenseId``)
+    :rtype: dict[str, bool]
+    :raises OSError: if the file or URL cannot be read
+    :raises ValueError: if the source is not an ``https`` URL or a file, or
+        the content is not an SPDX License List
+    """
+    if source.startswith("https://"):
+        import urllib.request
+
+        with urllib.request.urlopen(  # noqa: S310  # nosec B310  # https only
+            source, timeout=_FETCH_TIMEOUT
+        ) as response:
+            raw = response.read(_MAX_LIST_BYTES)
+    elif "://" in source:
+        raise ValueError(f"Only https URLs and files are supported: {source}")
+    else:
+        raw = Path(source).read_bytes()
+
+    data = json.loads(raw.decode("utf-8-sig"))
+    licenses = data.get("licenses") if isinstance(data, dict) else None
+    if not isinstance(licenses, list):
+        raise ValueError("Not an SPDX License List: no 'licenses' list")
+    ids = {
+        item["licenseId"]: item.get("isDeprecatedLicenseId") is True
+        for item in licenses
+        if isinstance(item, dict) and isinstance(item.get("licenseId"), str)
+    }
+    if not ids:
+        raise ValueError("Not an SPDX License List: no 'licenseId' values")
+    return ids
+
+
+def normalize_license(text: str) -> str:
+    """
+    Make license text comparable with an SPDX license ID.
+
+    The text loses leading and trailing whitespace, each run of whitespace
+    becomes one dash, and the result is in lower case.
+
+    :param str text: license text such as ``" Apache 2.0  License "``
+    :return: normalized text such as ``"apache-2.0-license"``
+    :rtype: str
+    """
+    return "-".join(text.split()).lower()
+
+
+def resolve_license(
+    given: str, licenses: Mapping[str, bool]
+) -> tuple[str, Optional[str]]:
+    """
+    Find the SPDX license ID for the license text that a user gave.
+
+    An exact match is recorded as is. Otherwise the normalized text is
+    searched in the list without regard to case, then again without a
+    ``-license`` or ``-licence`` ending. The first match gives the ID, in the
+    case of the list. Text without a match is recorded as given, without
+    leading and trailing whitespace.
+
+    :param str given: license text from the user
+    :param Mapping[str, bool] licenses: ``licenseId`` values of the SPDX
+        list, each with True if the ID is deprecated
+    :return: text to record, and a warning (None for an exact match of an
+        ID that is not deprecated)
+    :rtype: tuple[str, Optional[str]]
+    """
+    recorded, normalized = _match_license(given, licenses)
+    if recorded is None:
+        text = given.strip()
+        return text, (
+            f"license {text!r} is not found in the SPDX License List and is "
+            "recorded as given (license expressions are not checked)"
+        )
+
+    warnings = []
+    if normalized:
+        warnings.append(
+            "license was normalized to an SPDX license ID: "
+            f"given {given!r}, recorded {recorded!r}"
+        )
+    if licenses[recorded]:
+        warnings.append(f"{recorded!r} is a deprecated SPDX license ID")
+    return recorded, "; ".join(warnings) or None
+
+
+def _match_license(
+    given: str, licenses: Mapping[str, bool]
+) -> tuple[Optional[str], bool]:
+    """Return the matching license ID (or None) and if it was normalized."""
+    if given in licenses:
+        return given, False
+
+    by_lower: dict[str, str] = {}
+    for license_id in licenses:
+        by_lower.setdefault(license_id.lower(), license_id)
+
+    key = normalize_license(given)
+    candidates = [key]
+    for suffix in _LICENSE_SUFFIXES:
+        if key.endswith(suffix):
+            candidates.append(key[: -len(suffix)])
+            break
+    for candidate in candidates:
+        if candidate in by_lower:
+            return by_lower[candidate], True
+    return None, False
 
 
 def duplicate_keys(model: ModelProto) -> list[str]:
@@ -396,9 +521,32 @@ def _show(args: argparse.Namespace) -> int:
     return 0
 
 
+def _warn(message: str) -> None:
+    print(_ascii(f"warning: {message}"), file=sys.stderr)
+
+
+def _checked_license(given: str, source: str) -> str:
+    """Return the text to record for ``--license``, and print warnings."""
+    try:
+        licenses = load_licenses(source)
+    except (OSError, ValueError) as err:
+        recorded = given.strip()
+        _warn(
+            f"the SPDX License List is not available ({err}); "
+            f"license {recorded!r} is recorded as given"
+        )
+        return recorded
+    recorded, warning = resolve_license(given, licenses)
+    if warning is not None:
+        _warn(warning)
+    return recorded
+
+
 def _set(args: argparse.Namespace) -> int:
     path = Path(args.path)
     model = _load(path)
+    if args.license is not None:
+        args.license = _checked_license(args.license, args.spdx_list)
     changes, expected = apply_changes(model, args)
     print(_display(path))
     if not changes:
@@ -440,13 +588,25 @@ def build_parser() -> argparse.ArgumentParser:
     edit.add_argument("path", help="model file")
     edit.add_argument("--name", help="name of the model -> graph.name")
     edit.add_argument("--doc", help="description of the model -> doc_string")
-    edit.add_argument("--domain", help="reverse-domain namespace -> domain")
     edit.add_argument(
-        "--version",
-        help="version as MAJOR.MINOR.PATCH -> model_version (packed integer)",
+        "--domain", help="reverse domain name, e.g. org.pythainlp -> domain"
     )
     edit.add_argument(
-        "--license", help='license -> metadata_props["model_license"]'
+        "--version",
+        help="MAJOR.MINOR.PATCH, e.g. 1.0.1 -> model_version (packed integer)",
+    )
+    edit.add_argument(
+        "--license",
+        help="SPDX license ID, e.g. Apache-2.0 "
+        '-> metadata_props["model_license"] '
+        "(other spellings are normalized, with a warning)",
+    )
+    edit.add_argument(
+        "--spdx-list",
+        default=SPDX_LIST_URL,
+        metavar="FILE_OR_URL",
+        help="SPDX License List (licenses.json) for --license "
+        "(default: %(default)s)",
     )
     edit.add_argument(
         "--author",

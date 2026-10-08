@@ -9,8 +9,6 @@ import unittest
 from pythainlp.tokenize import (
     nercut,
     sent_tokenize,
-    ssg,
-    subword_tokenize,
     tltk,
     word_tokenize,
 )
@@ -52,17 +50,6 @@ class SentTokenizeThaiSumTestCaseX(unittest.TestCase):
             sent_tokenize(SENT_4, engine="thaisum"),
             [["ผม", "กิน", "ข้าว", " ", " ", "เธอ", "เล่น", "เกม"]],
         )
-
-
-class SubwordTokenizeSSGTestCaseX(unittest.TestCase):
-    def test_subword_tokenize_ssg(self):
-        assert_segment_handles_none_and_empty(self, ssg.segment)
-        self.assertEqual(subword_tokenize(None, engine="ssg"), [])  # type: ignore[arg-type]
-        self.assertEqual(
-            subword_tokenize("แมวกินปลา", engine="ssg"), ["แมว", "กิน", "ปลา"]
-        )
-        self.assertIn("ดาว", subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
-        self.assertNotIn("า", subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
 
 
 class WordTokenizeNERCutTestCaseX(unittest.TestCase):

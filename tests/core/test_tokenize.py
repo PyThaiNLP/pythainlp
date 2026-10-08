@@ -14,6 +14,7 @@ from pythainlp.tokenize import (
     newmm,
     paragraph_tokenize,
     sent_tokenize,
+    ssg,
     subword_tokenize,
     syllable_tokenize,
     tcc,
@@ -377,6 +378,13 @@ class TokenizeTestCase(unittest.TestCase):
         self.assertNotIn(
             " ", subword_tokenize("พันธมิตร ชา นม", keep_whitespace=False)
         )
+        assert_segment_handles_none_and_empty(self, ssg.segment)
+        self.assertEqual(
+            subword_tokenize("แมวกินปลา", engine="ssg"),
+            ["แมว", "กิน", "ปลา"],
+        )
+        self.assertIn("ดาว", subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
+        self.assertNotIn("า", subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
         with self.assertRaises(ValueError):
             subword_tokenize("นกแก้ว", engine="XX")  # engine does not exist
 

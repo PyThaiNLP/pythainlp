@@ -8,18 +8,14 @@ from __future__ import annotations
 __all__: list[str] = ["ThaiNameTagger"]
 
 
-from typing import TYPE_CHECKING, Union
+from typing import Union
 
 from pythainlp.corpus import get_corpus_path, thai_stopwords
 from pythainlp.tag._utils import _iob_to_markup
+from pythainlp.tag.crf import CRFTagger
 from pythainlp.tag.pos_tag import pos_tag
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import is_thai
-
-if TYPE_CHECKING:
-    from pycrfsuite import (
-        Tagger as CRFTagger,  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-module-attribute]
-    )
 
 _TOKENIZER_ENGINE: str = "mm"
 
@@ -111,10 +107,6 @@ class ThaiNameTagger:
         :param str version: Thai NER version, ``"1.4"`` (default)
             or ``"1.5"``
         """
-        from pycrfsuite import (
-            Tagger as CRFTagger,  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-module-attribute]
-        )
-
         self.crf: CRFTagger = CRFTagger()
 
         if version == "1.4":
@@ -128,8 +120,10 @@ class ThaiNameTagger:
                 )
             self.crf.open(model_path)
             self.pos_tag_name: str = "orchid_ud"
-        elif version == "1.5":
-            model_path = get_corpus_path("thainer", version="1.5")
+        elif version in ("1.5", "1.5.1"):
+            model_path = get_corpus_path("thainer", version="1.5.1")
+            if not model_path:
+                model_path = get_corpus_path("thainer", version="1.5")
             if not model_path:
                 raise FileNotFoundError(
                     "corpus-not-found name='thainer'\n"

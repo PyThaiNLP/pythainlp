@@ -5,13 +5,10 @@
 Characterization tests for pythainlp.tokenize.han_solo.
 
 Golden data was recorded from the pre-refactor implementation.
-A stand-in for python-crfsuite is used when the package is not installed,
-so the feature extraction is tested without the optional dependency.
 """
 
 import importlib.util
 import sys
-import types
 import unittest
 from pathlib import Path
 from typing import Any
@@ -25,19 +22,14 @@ def _load_han_solo() -> Any:
     Load han_solo.py under a private name.
 
     Neither ``sys.modules`` nor the ``pythainlp.tokenize`` package
-    attribute is changed. ``pycrfsuite`` is faked if it is not installed.
+    attribute is changed.
     """
     path = Path(pythainlp.__file__).parent / "tokenize" / "han_solo.py"
     spec = importlib.util.spec_from_file_location("han_solo_under_test", path)
     if spec is None or spec.loader is None:
         raise ImportError(f"Cannot load {path}")
     module = importlib.util.module_from_spec(spec)
-    try:
-        spec.loader.exec_module(module)
-    except ImportError:  # python-crfsuite is not installed
-        fake = {"pycrfsuite": types.ModuleType("pycrfsuite")}
-        with mock.patch.dict(sys.modules, fake):
-            spec.loader.exec_module(module)
+    spec.loader.exec_module(module)
     return module
 
 
@@ -1587,18 +1579,18 @@ class HanSoloTaggerTestCase(unittest.TestCase):
             han_solo,
             _tagger=None,
             _model_file_ctx=None,
-            pycrfsuite=mock.DEFAULT,
+            CRFTagger=mock.DEFAULT,
             as_file=mock.DEFAULT,
         ) as mocks:
-            crf, as_file = mocks["pycrfsuite"], mocks["as_file"]
+            crf, as_file = mocks["CRFTagger"], mocks["as_file"]
             as_file.return_value.__enter__.return_value = "/model/path"
             tagger = han_solo._get_tagger()
-            self.assertIs(tagger, crf.Tagger.return_value)
+            self.assertIs(tagger, crf.return_value)
             tagger.open.assert_called_once_with("/model/path")
             self.assertIs(han_solo._get_tagger(), tagger)
-            crf.Tagger.assert_called_once_with()
+            crf.assert_called_once_with()
 
-    def test_import_error_without_pycrfsuite(self) -> None:
+    def test_import_without_pycrfsuite(self) -> None:
         spec = importlib.util.spec_from_file_location(
             "han_solo_no_crf", str(han_solo.__file__)
         )
@@ -1606,9 +1598,8 @@ class HanSoloTaggerTestCase(unittest.TestCase):
             self.fail("cannot load han_solo.py")
         module = importlib.util.module_from_spec(spec)
         with mock.patch.dict(sys.modules, {"pycrfsuite": None}):
-            with self.assertRaises(ImportError) as ctx:
-                spec.loader.exec_module(module)
-        self.assertIn("python-crfsuite", str(ctx.exception))
+            spec.loader.exec_module(module)
+        self.assertIs(module.CRFTagger, han_solo.CRFTagger)
 
 
 if __name__ == "__main__":

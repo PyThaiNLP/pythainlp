@@ -150,8 +150,6 @@ spacy_thai = ["spacy_thai>=0.7.1"]
 
 spell = ["phunspell>=0.1.6", "symspellpy>=6.7.6"]
 
-ssg = ["ssg>=0.0.8"]
-
 textaugment = ["bpemb>=0.3.2", "gensim>=4.0.0"]
 
 thai_nner = ["thai_nner>=0.3"]
@@ -195,7 +193,6 @@ compact = [
     "nlpo3>=1.4.0",
     "numpy>=1.26.0",
     "pyicu>=2.3",
-    "python-crfsuite>=0.9.7",
     "PyYAML>=5.4.1",
 ]
 
@@ -206,7 +203,6 @@ extra = [
     "gensim>=4.0.0",
     "nltk>=3.3",
     "pandas>=0.24",
-    "ssg>=0.0.8",
     "symspellpy>=6.7.6",
     # tltk 1.11 pins scikit-learn~=1.2.0, which has no wheel for Python 3.13+
     "tltk>=1.10,!=1.11",
@@ -274,14 +270,12 @@ full = [
     "panphon==0.22.2",
     "phunspell==0.1.6",
     "pyicu>=2.15.2,<3",
-    "python-crfsuite==0.9.12",
     "PyYAML>=5.4.1,<6.0.2",
     "sacremoses==0.1.1",
     "sentence-transformers>=2.7.0,<3",
     "sentencepiece==0.2.2",
     "spacy==3.8.7,<4",
     "spacy_thai==0.7.8",
-    "ssg==0.0.8",
     "symspellpy==6.10.0",
     "thai-nner==0.3",
     # tltk 1.11 pins scikit-learn~=1.2.0, which has no wheel for Python 3.13+
@@ -623,7 +617,6 @@ module = [
     "sentence_transformers.*",
     "spacy.*",
     "spacy_thai.*",
-    "ssg.*",
     "stanza.*",
     "symspellpy.*",
     "thai_nner.*",

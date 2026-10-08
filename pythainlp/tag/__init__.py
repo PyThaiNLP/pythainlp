@@ -16,6 +16,7 @@ such as its part-of-speech (POS) tag, and named entity (NE) tag.
 __all__: list[str] = [
     "NER",
     "NNER",
+    "CRFTagger",
     "EntitySpan",
     "PerceptronTagger",
     "chunk_parse",
@@ -27,6 +28,7 @@ __all__: list[str] = [
 
 from pythainlp.tag._tag_perceptron import PerceptronTagger
 from pythainlp.tag.chunk import chunk_parse
+from pythainlp.tag.crf import CRFTagger
 from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.named_entity import NER, NNER, EntitySpan
 from pythainlp.tag.pos_tag import pos_tag, pos_tag_sents, pos_tag_transformers

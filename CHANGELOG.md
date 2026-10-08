@@ -21,12 +21,11 @@ and this project adheres to
 
 ### Added
 
-- `fastthaig2p` engine in `pythainlp.transliterate`: native FastThaiG2P, with
-  text normalization and a 62k-word IPA dictionary ([#1499])
-- `thaig2p_v4` engine in `pythainlp.transliterate`, using ONNX Runtime
-  ([#1509])
+- `fastthaig2p` and `thaig2p_v4` transliteration engines
+  ([#1499], [#1509])
 - `evaluate_word_tokenization`, `word_eval_function`, `char_eval_function`,
   and `TokenizationScore` in `pythainlp.benchmarks` ([#1512])
+- `CRFTagger`, CRF weight conversion, and bundled SSG weights ([#1538])
 
 ### Changed
 
@@ -35,6 +34,8 @@ and this project adheres to
 - Improve guardrails in `check_sara()` and `nighit()` ([#1453])
 - `attacut`, `oskut`, and `sefr_cut` tokenizers use ONNX models via LEKCut,
   not the PyTorch and TensorFlow packages ([#1511])
+- Migrate CRF models to bundled `.json.gz` weights; remove runtime
+  `python-crfsuite` and `ssg` dependencies ([#1538])
 - `bleu_score()` raises `ValueError` on unequal reference and hypothesis
   counts; `nighit()` requires `w1` to end with "ํ" ([#1548])
 - `download()` removes abandoned `.part`, `.tmp`, and `.old` entries from the
@@ -86,6 +87,7 @@ and this project adheres to
 [#1512]: https://github.com/PyThaiNLP/pythainlp/pull/1512
 [#1526]: https://github.com/PyThaiNLP/pythainlp/pull/1526
 [#1529]: https://github.com/PyThaiNLP/pythainlp/pull/1529
+[#1538]: https://github.com/PyThaiNLP/pythainlp/pull/1538
 [#1541]: https://github.com/PyThaiNLP/pythainlp/pull/1541
 [#1542]: https://github.com/PyThaiNLP/pythainlp/pull/1542
 [#1546]: https://github.com/PyThaiNLP/pythainlp/pull/1546

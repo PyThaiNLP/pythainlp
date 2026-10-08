@@ -1365,10 +1365,10 @@ class KhaveeCheckKlonCharacterizationTestCase(unittest.TestCase):
             "The poem is correct according to the principle.",
         )
 
-    def test_missing_ssg_raises(self) -> None:
+    def test_check_klon_does_not_require_ssg_package(self) -> None:
         with mock.patch.dict(sys.modules, {"ssg": None}):
-            with self.assertRaisesRegex(ImportError, "pip install ssg"):
-                self.kv.check_klon("ก ข ค ง")
+            result = self.kv.check_klon("ก ข ค ง")
+        self.assertIsInstance(result, (list, str))
 
     def test_empty_previous_wak4(self) -> None:
         """Regression: the inter-stanza check is skipped, not crashed."""

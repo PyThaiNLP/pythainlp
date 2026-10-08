@@ -8,6 +8,7 @@ from os import path
 from pythainlp.corpus import download
 from pythainlp.tag import (
     NER,
+    CRFTagger,
     EntitySpan,
     PerceptronTagger,
     perceptron,
@@ -405,6 +406,69 @@ class TagNNERTestCase(unittest.TestCase):
         result = _entities_to_html(tokens, entities)
         expected = "<PERSON>นายสมชาย</PERSON> อยู่ที่<LOCATION>กรุงเทพ</LOCATION>"
         self.assertEqual(result, expected)
+
+
+class CRFTaggerTestCase(unittest.TestCase):
+    """Test pythainlp.tag.crf.CRFTagger."""
+
+    def test_empty_input(self):
+        tagger = CRFTagger()
+        self.assertEqual(tagger.tag([]), [])
+
+    def test_crf_tagger_inference(self):
+        import gzip
+        import json
+        import tempfile
+
+        model_data = {
+            "labels": ["O", "B-ITEM"],
+            "transitions": {
+                "O->O": 0.5,
+                "O->B-ITEM": 1.0,
+                "B-ITEM->O": 0.2,
+                "B-ITEM->B-ITEM": -0.5,
+            },
+            "state_features": {
+                "item_name": {"B-ITEM": 2.5, "O": -2.5},
+                "punct": {"O": 1.5, "B-ITEM": -1.5},
+                "pos:NCMN": {"B-ITEM": 1.0, "O": -0.5},
+            },
+        }
+
+        with tempfile.NamedTemporaryFile(
+            "w+", suffix=".json.gz", delete=False
+        ) as f:
+            temp_path = f.name
+
+        try:
+            with gzip.open(temp_path, "wt", encoding="utf-8") as gf:
+                json.dump(model_data, gf)
+
+            with CRFTagger(temp_path) as tagger:
+                self.assertEqual(tagger.labels, ["O", "B-ITEM"])
+
+                # Test list-of-strings features
+                res_list = tagger.tag([["item_name"], ["punct"]])
+                self.assertEqual(res_list, ["B-ITEM", "O"])
+
+                # Test dictionary features
+                res_dict = tagger.tag(
+                    [
+                        {"item_name": True, "pos": "NCMN"},
+                        {"punct": True},
+                    ]
+                )
+                self.assertEqual(res_dict, ["B-ITEM", "O"])
+        finally:
+            import os
+
+            if os.path.exists(temp_path):
+                os.unlink(temp_path)
+
+    def test_nonexistent_model(self):
+        tagger = CRFTagger()
+        with self.assertRaises(FileNotFoundError):
+            tagger.open("non_existent_model_file_xyz123.json.gz")
 
 
 class IobToMarkupTestCase(unittest.TestCase):

@@ -228,8 +228,12 @@ class ClassifyONNXTestCaseN(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.model.classify("test", choices=["A", "A"])
 
-        with self.assertRaises(ValueError):
-            self.model.classify("test", choices=cast("list[str]", [1, 2]))
+        self.assertRaises(
+            ValueError,
+            self.model.classify,
+            "test",
+            choices=cast("list[str]", [1, 2]),
+        )
 
         with self.assertRaises(ValueError):
             self.model.predict("test")

@@ -76,6 +76,13 @@ Leave every file you touch better than you found it.
     95%.
   - Agents should aim for near 100% line and branch coverage of the code
     they add or change, and cover every function they touch.
+  - When CI cannot run a module's tests because its dependencies are
+    unavailable, add its source path to `tests/diff-cover-noauto.txt`.
+    Keep paths relative to the repository root and sorted. These files are
+    reported by diff-cover but excluded from the 95% coverage gate.
+  - Recheck that each listed path exists and remove stale entries. For a
+    stacked pull request based on `dev`, run
+    `make diff-cover DIFF_BASE=origin/dev`.
 - Add tests for new behavior, covering all branches and edge cases.
 - Write compact tests: use parameterized tests (`subTest` or table-driven
   cases) instead of many near-identical methods.

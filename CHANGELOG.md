@@ -10,12 +10,13 @@ SPDX-License-Identifier: CC0-1.0
 
 All notable changes to this project are documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+The format is based on
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
-- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.8...dev>
+- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.4.0...dev>
 
 ## [Unreleased]
 
@@ -30,15 +31,8 @@ and this project adheres to
 
 ### Changed
 
-- `pythainlp.tokenize.deepcut`: built-in ONNX engine replaces the
-  TensorFlow-based `deepcut`; `custom_dict` is no longer applied ([#1372])
-- Improve guardrails in `check_sara()` and `nighit()` ([#1453])
 - `attacut`, `oskut`, and `sefr_cut` tokenizers use ONNX models via LEKCut,
   not the PyTorch and TensorFlow packages ([#1511])
-- `bleu_score()` raises `ValueError` on unequal reference and hypothesis
-  counts; `nighit()` requires `w1` to end with "ํ" ([#1548])
-- `download()` removes abandoned `.part`, `.tmp`, and `.old` entries from the
-  data directory after 24 hours ([#1552])
 
 ### Removed
 
@@ -49,43 +43,67 @@ and this project adheres to
 
 - `tcc_p.tcc` matches in place, not on `text[p:]`: about 15x faster on long
   text, same output ([#1529])
-- `pythainlp.corpus.wordnet`: Thai WordNet with NLTK 3.10+; `all_synsets()`
-  `NameError`; `langs()` missing `tha` ([#1541])
-- `check_klon()` and `get_corpus_db()` no longer swallow unexpected
-  exceptions ([#1542])
-- `download()` uses temporary paths, so a failed download keeps the installed
-  corpus; `remove()` no longer downloads a missing corpus ([#1546])
-- `db.json` is written atomically and keeps its mode and symlink; handle
-  empty keys ([#1546])
-- `ThaiTextProcessor.preprocess()` no longer raises `TypeError` when
-  `pre_rules` is not given ([#1547])
-- `sound_syllable()`, `tone_detector()`, `puan()`, `check_klon()`,
-  `thaiword_to_time()`: no `IndexError` or `KeyError` on valid input ([#1548])
-- `thaiword_to_time()` accepts "ตีหก"; `convert_years()` accepts the same
-  source and target era ([#1548])
-- `bleu_score()` gives 0.0 for an empty hypothesis; `WunsenTransliterate`
-  raises `NotImplementedError` for `lang=None` ([#1548])
-- `nighit()`: map ช to ญ; add ฆ, ญ, ฏ, ฒ, ต, ม ([#1548])
-- `dependency_parsing()` raises `NotImplementedError`, not `TypeError`, for
-  `engine=""` ([#1551])
-- `download()` installs the highest compatible corpus version, not the last
-  one in the catalog; `_check_version()` compares versions correctly (`">=9"`
-  was true on 5.4.0); `WunsenTransliterate` no longer reuses an old model
-  after a failed `ThapSap` creation ([#1552])
 
-### Security
-
-- Tar and zip extraction rejects absolute and escaping links; tar extraction
-  without `data_filter` also rejects special files ([#1546])
-
-[#1372]: https://github.com/PyThaiNLP/pythainlp/pull/1372
-[#1453]: https://github.com/PyThaiNLP/pythainlp/pull/1453
 [#1499]: https://github.com/PyThaiNLP/pythainlp/pull/1499
 [#1509]: https://github.com/PyThaiNLP/pythainlp/pull/1509
 [#1511]: https://github.com/PyThaiNLP/pythainlp/pull/1511
 [#1512]: https://github.com/PyThaiNLP/pythainlp/pull/1512
 [#1526]: https://github.com/PyThaiNLP/pythainlp/pull/1526
 [#1529]: https://github.com/PyThaiNLP/pythainlp/pull/1529
+
+## [5.4.0] - 2026-10-09
+
+### Added
+
+- `transliterate.pronunciate_pali()` and `transliterate_wiktionary()`
+  ([#1411], [#1437])
+- `revision` argument for model classes that load from Hugging Face Hub and
+  for `get_hf_hub()` ([#1431])
+- `build_tools/onnx_metadata.py`: tool to show and set ONNX model metadata
+  ([#1565])
+
+### Changed
+
+- `tokenize.deepcut`: built-in ONNX engine replaces TensorFlow-based
+  `deepcut`; `custom_dict` is no longer applied ([#1372])
+- Stronger guardrails in `check_sara()` and `nighit()` ([#1453])
+- `bleu_score()` raises `ValueError` on unequal counts; `nighit()` requires
+  `w1` to end with "ํ" ([#1548])
+- `download()` removes abandoned `.part`, `.tmp`, and `.old` entries after
+  24 hours ([#1552])
+
+### Fixed
+
+- `corpus.wordnet`: works with NLTK 3.10+; `all_synsets()` `NameError`;
+  `langs()` missing `tha` ([#1541])
+- `check_klon()` and `get_corpus_db()` no longer swallow unexpected
+  exceptions ([#1542])
+- `download()` keeps the installed corpus on failure; `remove()` no longer
+  downloads; `db.json` is written atomically ([#1546])
+- `ThaiTextProcessor.preprocess()` no `TypeError` without `pre_rules`
+  ([#1547])
+- No `IndexError` or `KeyError` on valid input in `sound_syllable()`,
+  `tone_detector()`, `puan()`, `check_klon()`, `thaiword_to_time()`;
+  `thaiword_to_time()` accepts "ตีหก"; `convert_years()` accepts same
+  source and target era; `bleu_score()` gives 0.0 for an empty hypothesis;
+  `nighit()` maps ช to ญ and adds ฆ, ญ, ฏ, ฒ, ต, ม ([#1548])
+- `WunsenTransliterate`: `NotImplementedError` for `lang=None`; no stale
+  model after a failed `ThapSap` creation ([#1548], [#1552])
+- `dependency_parsing()` raises `NotImplementedError`, not `TypeError`, for
+  `engine=""` ([#1551])
+- `download()` installs the highest compatible corpus version; version
+  comparison fixed (`">=9"` was true on 5.4.0) ([#1552])
+
+### Security
+
+- Tar and zip extraction rejects absolute and escaping links; tar without
+  `tarfile.data_filter` also rejects special files and drops owners ([#1546])
+
+[#1372]: https://github.com/PyThaiNLP/pythainlp/pull/1372
+[#1411]: https://github.com/PyThaiNLP/pythainlp/pull/1411
+[#1431]: https://github.com/PyThaiNLP/pythainlp/pull/1431
+[#1437]: https://github.com/PyThaiNLP/pythainlp/pull/1437
+[#1453]: https://github.com/PyThaiNLP/pythainlp/pull/1453
 [#1541]: https://github.com/PyThaiNLP/pythainlp/pull/1541
 [#1542]: https://github.com/PyThaiNLP/pythainlp/pull/1542
 [#1546]: https://github.com/PyThaiNLP/pythainlp/pull/1546
@@ -93,6 +111,7 @@ and this project adheres to
 [#1548]: https://github.com/PyThaiNLP/pythainlp/pull/1548
 [#1551]: https://github.com/PyThaiNLP/pythainlp/pull/1551
 [#1552]: https://github.com/PyThaiNLP/pythainlp/pull/1552
+[#1565]: https://github.com/PyThaiNLP/pythainlp/pull/1565
 
 ## [5.3.8] - 2026-09-25
 
@@ -117,6 +136,10 @@ and this project adheres to
 Same as 5.3.6, with the release problem fixed.
 
 ## [5.3.6] - 2026-08-14
+
+### Added
+
+- `util.num_to_thaiword_float()` ([#1461])
 
 ### Fixed
 
@@ -458,6 +481,7 @@ The minimum Python version is now 3.9.
 
 ---
 
+[5.4.0]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.8...v5.4.0
 [5.3.8]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.7...v5.3.8
 [5.3.7]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.6...v5.3.7
 [5.3.6]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.5...v5.3.6

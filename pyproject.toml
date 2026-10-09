@@ -8,7 +8,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pythainlp"
-version = "5.3.8"
+version = "5.4.0"
 description = "Thai Natural Language Processing library"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -255,7 +255,7 @@ noauto-network = [
 full = [
     "attaparse==1.0.0",
     "bpemb>=0.3.6,<0.4",
-    "budoux==0.9.2",
+    "budoux==0.9.3",
     "epitran==1.35.2",
     "esupar>=1.3.9,<2",
     'fairseq>=0.10.0,<0.13;python_version<"3.11"',
@@ -287,7 +287,7 @@ full = [
     # tltk 1.11 pins scikit-learn~=1.2.0, which has no wheel for Python 3.13+
     "tltk>=1.10,!=1.11,<2",
     "torch>=1.13.1,<3",
-    "transformers==5.17.0",
+    "transformers==5.18.0",
     "ufal.chu-liu-edmonds==1.0.3",
     "word2word>=1.0.0,<2",
     "wtpsplit==1.3.0",
@@ -324,9 +324,10 @@ include = [
 skips = ["B110"]
 
 [tool.bumpversion]
-current_version = "5.3.8"
+current_version = "5.4.0"
 commit = true
-tag = true
+# Tag the merged commit on main by hand (see release.md).
+tag = false
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)(\\-(?P<release>[a-z]+)(?P<build>\\d+))?"
 serialize = [
     "{major}.{minor}.{patch}-{release}{build}",
@@ -364,6 +365,26 @@ filename = "codemeta.json"
 regex = true
 search = '"dateModified": "\d{{4}}-\d{{2}}-\d{{2}}"'
 replace = '"dateModified": "{now:%Y-%m-%d}"'
+
+[[tool.bumpversion.files]]
+filename = "README.md"
+search = '[{current_version}](https://github.com/PyThaiNLP/pythainlp/releases)'
+replace = '[{new_version}](https://github.com/PyThaiNLP/pythainlp/releases)'
+
+[[tool.bumpversion.files]]
+filename = "README.md"
+search = 'compare/v{current_version}...HEAD'
+replace = 'compare/v{new_version}...HEAD'
+
+[[tool.bumpversion.files]]
+filename = "README_TH.md"
+search = '[{current_version}](https://github.com/PyThaiNLP/pythainlp/releases)'
+replace = '[{new_version}](https://github.com/PyThaiNLP/pythainlp/releases)'
+
+[[tool.bumpversion.files]]
+filename = "README_TH.md"
+search = 'compare/v{current_version}...HEAD'
+replace = 'compare/v{new_version}...HEAD'
 
 [tool.bumpversion.parts.release]
 optional_value = "prod"
@@ -610,6 +631,7 @@ module = [
     "nltk.*",
     "nlpo3.*",
     "numpy.*",
+    "onnx.*",
     "onnxruntime.*",
     "oskut.*",
     "pandas.*",

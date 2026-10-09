@@ -31,9 +31,11 @@ pip install -e ".[dev]"
 
 2. **Update CHANGELOG.md**
 
-   Update `CHANGELOG.md` with a short summary of important changes since
-   the previous stable release. For example, deprecation or termination
-   of support. Follow the [Keep a Changelog][keepachangelog] format.
+   On a branch from `main`, rename `[Unreleased]` to
+   `[MAJOR.MINOR.PATCH] - YYYY-MM-DD`, with a new empty `[Unreleased]`
+   above it. Update the "Commit history" link at the top and the link
+   definitions at the bottom. Follow the [Keep a Changelog][keepachangelog]
+   format.
 
 3. **Update version using bump-my-version**
 
@@ -46,14 +48,12 @@ pip install -e ".[dev]"
    **To bump the version:**
 
    ```sh
-   # For a patch release (e.g., 5.2.0 -> 5.2.1-dev0)
-   bump-my-version bump patch
+   # Go straight to a production version (e.g., 5.3.8 -> 5.4.0)
+   bump-my-version bump --new-version 5.4.0
 
-   # For a minor release (e.g., 5.2.0 -> 5.3.0-dev0)
-   bump-my-version bump minor
-
-   # For a major release (e.g., 5.2.0 -> 6.0.0-dev0)
-   bump-my-version bump major
+   # Or step through the parts
+   # (e.g., 5.2.0 -> 5.2.1-dev0, 5.3.0-dev0, or 6.0.0-dev0)
+   bump-my-version bump patch   # or minor, or major
 
    # To move from dev to beta (e.g., 5.2.1-dev0 -> 5.2.1-beta0)
    bump-my-version bump release
@@ -70,23 +70,31 @@ pip install -e ".[dev]"
    - `pythainlp/__init__.py` - version number
    - `CITATION.cff` - version number and `date-released` field
    - `codemeta.json` - version number and `dateModified` field
+   - `README.md` and `README_TH.md` - version row and `dev` compare link
 
    The release dates are automatically set to the current date when you run
    the bump command.
 
-   It will also create a git commit and tag by default.
+   It also creates a git commit, but no tag (`tag = false`): the tag must
+   point to the commit that lands on `main`, which a pull request can change
+   (step 5).
 
-4. **Update README files if needed**
+   Bump to a production version on the release branch. A dev or beta version
+   would also go into the README files.
 
-   If the release introduces significant changes, update:
-   - `README.md`
-   - `README_TH.md`
+4. **Update the other version references by hand**
 
-5. **Push changes and tag**
+   - `SECURITY.md`: the supported versions table
+
+5. **Merge to main, then tag**
+
+   Open a pull request from the branch to `main` (the default branch for
+   releases), and wait for CI. After the merge:
 
    ```sh
-   git push origin dev
-   git push origin --tags
+   git fetch upstream
+   git tag vX.Y.Z upstream/main    # check that this is the merged commit
+   git push upstream vX.Y.Z
    ```
 
 6. **Create GitHub Release**
@@ -97,8 +105,8 @@ pip install -e ".[dev]"
 
 7. **Select the tag**
 
-   In the "Choose a tag" dropdown, select the tag that was created by
-   `bump-my-version` (e.g., `v5.2.1`). Tags follow the format `vMAJOR.MINOR.PATCH`.
+   In the "Choose a tag" dropdown, select the tag that you pushed in step 5
+   (e.g., `v5.2.1`). Tags follow the format `vMAJOR.MINOR.PATCH`.
 
 8. **Set release title**
 
@@ -126,6 +134,19 @@ pip install -e ".[dev]"
     If [the CI][ci] run is [successful][actions],
     then the release will be published on both
     the GitHub release page and the [Python Package Index][pypi].
+
+13. **Create the maintenance branch**
+
+    For a new minor or major version, create a branch named `MAJOR.MINOR`
+    from the tag (e.g., `5.4` from `v5.4.0`) before `main` moves on.
+    Later patch releases of that line (`5.4.x`) are cut from this branch.
+
+14. **Sync main into dev**
+
+    Merge `main` into `dev` with a merge commit, through a pull request
+    from a branch that does not track `upstream`. Do this last, so `dev`
+    gets the version bump, the change log, and the tag. Keep the `dev`
+    version string if it differs.
 
 [semver]: https://semver.org/
 [keepachangelog]: https://keepachangelog.com/en/1.0.0/

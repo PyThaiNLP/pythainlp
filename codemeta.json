@@ -26,7 +26,7 @@
             "@type": "Person",
             "affiliation": {
                 "@type": "Organization",
-                "name": "ADAPT Centre, Trinity College Dublin"
+                "name": "Trinity College Dublin"
             },
             "familyName": "Suriyawongkul",
             "givenName": "Arthit"
@@ -47,8 +47,8 @@
     "codeRepository": "https://github.com/PyThaiNLP/pythainlp",
     "copyrightYear": 2026,
     "dateCreated": "2016-06-27",
-    "dateModified": "2026-09-25",
-    "datePublished": "2016-06-27",
+    "dateModified": "2026-10-09",
+    "datePublished": "2026-10-09",
     "description": "PyThaiNLP is a Thai natural language processing library for Python. It provides standard linguistic analysis for the Thai language, including tokenization and part-of-speech tagging. Additionally, it offers standard Thai locale utility functions, such as Thai Buddhist Era date formatting and the conversion of numbers into Thai text.",
     "developmentStatus": "active",
     "downloadUrl": "https://github.com/PyThaiNLP/pythainlp/releases",
@@ -81,7 +81,7 @@
             "@type": "Person",
             "affiliation": {
                 "@type": "Organization",
-                "name": "ADAPT Centre, Trinity College Dublin"
+                "name": "Trinity College Dublin"
             },
             "familyName": "Suriyawongkul",
             "givenName": "Arthit"
@@ -197,5 +197,5 @@
         "https://pythainlp.org/Model-Cards/"
     ],
     "url": "https://pythainlp.org/",
-    "version": "5.3.8"
+    "version": "5.4.0"
 }

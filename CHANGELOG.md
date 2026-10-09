@@ -441,7 +441,6 @@ The minimum Python version is now 3.9.
 
 ---
 
-[Unreleased]: https://github.com/PyThaiNLP/pythainlp/compare/v5.4.0...dev
 [5.4.0]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.8...v5.4.0
 [5.3.8]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.7...v5.3.8
 [5.3.7]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.6...v5.3.7

@@ -21,8 +21,7 @@ and this project adheres to
 
 ### Added
 
-- `transliterate.pronunciate_pali()`, `transliterate_wiktionary()`, and
-  `util.num_to_thaiword_float()` ([#1411], [#1437], [#1461])
+- `transliterate.pronunciate_pali()` and `transliterate_wiktionary()`
 - `revision` argument for model classes that load from Hugging Face Hub and
   for `get_hf_hub()` ([#1431])
 - `build_tools/onnx_metadata.py`: tool to show and set ONNX model metadata
@@ -70,7 +69,6 @@ and this project adheres to
 [#1431]: https://github.com/PyThaiNLP/pythainlp/pull/1431
 [#1437]: https://github.com/PyThaiNLP/pythainlp/pull/1437
 [#1453]: https://github.com/PyThaiNLP/pythainlp/pull/1453
-[#1461]: https://github.com/PyThaiNLP/pythainlp/pull/1461
 [#1541]: https://github.com/PyThaiNLP/pythainlp/pull/1541
 [#1542]: https://github.com/PyThaiNLP/pythainlp/pull/1542
 [#1546]: https://github.com/PyThaiNLP/pythainlp/pull/1546
@@ -103,6 +101,10 @@ and this project adheres to
 Same as 5.3.6, with the release problem fixed.
 
 ## [5.3.6] - 2026-08-14
+
+### Added
+
+- `util.num_to_thaiword_float()` ([#1461])
 
 ### Fixed
 

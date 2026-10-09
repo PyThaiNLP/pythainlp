@@ -13,6 +13,7 @@
 pythainlp/augment/lm/fasttext.py
 pythainlp/augment/lm/phayathaibert.py
 pythainlp/augment/lm/wangchanberta.py
+pythainlp/classify/laya.py
 pythainlp/coref/_fastcoref.py
 pythainlp/coref/han_coref.py
 pythainlp/el/_multiel.py

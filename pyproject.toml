@@ -8,7 +8,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pythainlp"
-version = "5.4.0"
+version = "6.0.0-dev0"
 description = "Thai Natural Language Processing library"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -324,7 +324,7 @@ include = [
 skips = ["B110"]
 
 [tool.bumpversion]
-current_version = "5.4.0"
+current_version = "6.0.0-dev0"
 commit = true
 # Tag the merged commit on main by hand (see release.md).
 tag = false
@@ -368,21 +368,25 @@ replace = '"dateModified": "{now:%Y-%m-%d}"'
 
 [[tool.bumpversion.files]]
 filename = "README.md"
+ignore_missing_version = true
 search = '[{current_version}](https://github.com/PyThaiNLP/pythainlp/releases)'
 replace = '[{new_version}](https://github.com/PyThaiNLP/pythainlp/releases)'
 
 [[tool.bumpversion.files]]
 filename = "README.md"
+ignore_missing_version = true
 search = 'compare/v{current_version}...HEAD'
 replace = 'compare/v{new_version}...HEAD'
 
 [[tool.bumpversion.files]]
 filename = "README_TH.md"
+ignore_missing_version = true
 search = '[{current_version}](https://github.com/PyThaiNLP/pythainlp/releases)'
 replace = '[{new_version}](https://github.com/PyThaiNLP/pythainlp/releases)'
 
 [[tool.bumpversion.files]]
 filename = "README_TH.md"
+ignore_missing_version = true
 search = 'compare/v{current_version}...HEAD'
 replace = 'compare/v{new_version}...HEAD'
 

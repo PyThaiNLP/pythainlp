@@ -2,8 +2,13 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
 import unittest
+from importlib.util import find_spec
 from os import path
+from typing import TYPE_CHECKING, Any, Optional
+from unittest import mock
 
 from pythainlp.corpus import download
 from pythainlp.tag import (
@@ -18,7 +23,27 @@ from pythainlp.tag import (
 )
 from pythainlp.tag._utils import _iob_to_markup
 
+if TYPE_CHECKING:
+    from pythainlp.tag.phayathaibert_onnx import PhayaThaiBERTTagger
+
 TEST_TOKENS = ["ผม", "รัก", "คุณ"]
+
+_PHAYATHAIBERT_DEPENDENCIES = (
+    "huggingface_hub",
+    "numpy",
+    "onnxruntime",
+    "tokenizers",
+)
+
+
+def _fake_module(name: str) -> mock.MagicMock:
+    """Return a stand-in for an installed module, for patching sys.modules."""
+    from importlib.machinery import ModuleSpec
+
+    module = mock.MagicMock()
+    # importlib.util.find_spec() reads __spec__ of modules in sys.modules.
+    module.__spec__ = ModuleSpec(name, None)
+    return module
 
 
 class TagTestCase(unittest.TestCase):
@@ -459,3 +484,337 @@ class IobToMarkupTestCase(unittest.TestCase):
     def test_iob_to_markup_long_input(self):
         tagged = [("ก", "B-A")] + [("ก", "I-A")] * 10000
         self.assertEqual(_iob_to_markup(tagged), "<A>" + "ก" * 10001 + "</A>")
+
+
+class PhayaThaiBERTHelperTestCase(unittest.TestCase):
+    """Test the pure-Python helpers of pythainlp.tag.phayathaibert_onnx."""
+
+    def test_first_subword_labels(self):
+        from pythainlp.tag.phayathaibert_onnx import _first_subword_labels
+
+        id2label = {0: "NOUN", 1: "VERB", 2: "PRON"}
+        # <s> word0-a word0-b word1 </s>
+        word_ids = [None, 0, 0, 1, None]
+        label_ids = [1, 2, 1, 0, 1]
+        self.assertEqual(
+            _first_subword_labels(word_ids, label_ids, 2, id2label),
+            ["PRON", "NOUN"],
+        )
+
+    def test_first_subword_labels_word_without_subword(self):
+        from pythainlp.tag.phayathaibert_onnx import _first_subword_labels
+
+        id2label = {0: "NOUN", 1: "VERB"}
+        # word 1 produced no subword at all
+        word_ids = [None, 0, 2, None]
+        label_ids = [0, 0, 1, 0]
+        self.assertEqual(
+            _first_subword_labels(word_ids, label_ids, 3, id2label),
+            ["NOUN", "X", "VERB"],
+        )
+
+    def test_chunk_spans(self):
+        from pythainlp.tag.phayathaibert_onnx import _chunk_spans
+
+        cases = [
+            ("empty", [], 5, []),
+            ("fits in one", [3, 4, 5], 20, [(0, 3)]),
+            ("exact fit", [3, 4], 7, [(0, 2)]),
+            ("split at word boundaries", [3, 4, 5], 7, [(0, 2), (2, 3)]),
+            (
+                "oversized word gets own span",
+                [3, 10, 2],
+                5,
+                [(0, 1), (1, 2), (2, 3)],
+            ),
+            ("oversized first word", [10, 1], 5, [(0, 1), (1, 2)]),
+            ("word with no subword", [3, 0, 4], 7, [(0, 3)]),
+        ]
+        for name, counts, limit, expected in cases:
+            with self.subTest(name):
+                self.assertEqual(_chunk_spans(counts, limit), expected)
+
+    def test_chunk_spans_exact_fit(self):
+        from pythainlp.tag.phayathaibert_onnx import _chunk_spans
+
+        self.assertEqual(_chunk_spans([3, 4], 7), [(0, 2)])
+
+    def test_chunk_spans_zero_count_words(self):
+        from pythainlp.tag.phayathaibert_onnx import _chunk_spans
+
+        self.assertEqual(_chunk_spans([0, 3, 0, 4], 7), [(0, 4)])
+
+    def test_is_blank(self):
+        from pythainlp.tag.phayathaibert_onnx import _is_blank
+
+        for word in ("", " ", "\n", "\u00a0", "\u3000", "\u200b", "\ufeff"):
+            self.assertTrue(_is_blank(word), repr(word))
+        for word in ("แมว", " แมว ", "a", "1", "\u200bแมว"):
+            self.assertFalse(_is_blank(word), repr(word))
+
+    def test_tag_empty_list(self):
+        from pythainlp.tag.phayathaibert_onnx import tag
+
+        self.assertEqual(tag([]), [])
+
+    def test_missing_dependency_error_before_download(self):
+        import sys
+
+        from pythainlp.tag import phayathaibert_onnx
+
+        for module in _PHAYATHAIBERT_DEPENDENCIES:
+            with self.subTest(module):
+                # Fake every dependency, so none is really imported (and
+                # then unloaded) inside patch.dict.
+                modules: dict[str, Optional[mock.MagicMock]] = {
+                    m: _fake_module(m) for m in _PHAYATHAIBERT_DEPENDENCIES
+                }
+                modules[module] = None
+                with mock.patch.dict(sys.modules, modules):
+                    with mock.patch(
+                        "pythainlp.tag.phayathaibert_onnx.get_hf_hub"
+                    ) as get_hf_hub:
+                        with self.assertRaises(ImportError) as ctx:
+                            phayathaibert_onnx.PhayaThaiBERTTagger()
+                self.assertIn(
+                    "pythainlp[phayathaibert_onnx]", str(ctx.exception)
+                )
+                get_hf_hub.assert_not_called()
+
+    def _first_download_revision(self, **kwargs: str) -> object:
+        """Return the revision PhayaThaiBERTTagger passes to get_hf_hub."""
+        import sys
+
+        from pythainlp.tag import phayathaibert_onnx
+
+        fake_modules = {
+            m: _fake_module(m) for m in _PHAYATHAIBERT_DEPENDENCIES
+        }
+        with mock.patch.dict(sys.modules, fake_modules):
+            with mock.patch(
+                "pythainlp.tag.phayathaibert_onnx.get_hf_hub",
+                side_effect=RuntimeError("stop"),
+            ) as get_hf_hub:
+                with self.assertRaises(RuntimeError):
+                    phayathaibert_onnx.PhayaThaiBERTTagger(**kwargs)
+        return get_hf_hub.call_args.kwargs["revision"]
+
+    def test_default_repo_is_pinned(self):
+        from pythainlp.tag import phayathaibert_onnx
+
+        self.assertEqual(
+            self._first_download_revision(), phayathaibert_onnx._REVISION
+        )
+
+    def test_custom_repo_is_not_pinned_to_default_revision(self):
+        self.assertIsNone(
+            self._first_download_revision(repo_id="someone/other-model")
+        )
+        self.assertEqual(
+            self._first_download_revision(
+                repo_id="someone/other-model", revision="abc123"
+            ),
+            "abc123",
+        )
+
+
+class _FakeEncoding:
+    """
+    Encode each word as one subword per character.
+
+    Only the first subword carries the word's label id (1 for words that
+    start with "ก", 2 otherwise); the others carry 0, so tagging with any
+    subword but the first gives the wrong tag.
+    """
+
+    def __init__(self, words: list[str]) -> None:
+        self.ids: list[int] = [0]
+        self.word_ids: list[Optional[int]] = [None]
+        for i, word in enumerate(words):
+            label_id = 1 if word.startswith("ก") else 2
+            self.ids += [label_id] + [0] * (len(word) - 1)
+            self.word_ids += [i] * len(word)
+        self.ids.append(0)
+        self.word_ids.append(None)
+        self.attention_mask = [1] * len(self.ids)
+
+
+class _FakeTokenizer:
+    def encode(
+        self, words: list[str], is_pretokenized: bool = False
+    ) -> _FakeEncoding:
+        return _FakeEncoding(words)
+
+
+class _FakeSession:
+    """Predict the label id equal to each input id (one-hot logits)."""
+
+    def __init__(self) -> None:
+        self.lengths: list[int] = []
+
+    def run(
+        self, output_names: Optional[list[str]], feeds: dict[str, Any]
+    ) -> list[Any]:
+        import numpy as np
+
+        ids = feeds["input_ids"]
+        self.lengths.append(ids.shape[1])
+        return [np.eye(3)[ids]]
+
+
+class PhayaThaiBERTTaggerTestCase(unittest.TestCase):
+    """Test pythainlp.tag.phayathaibert_onnx with a fake model."""
+
+    def _tagger(self) -> PhayaThaiBERTTagger:
+        from pythainlp.tag.phayathaibert_onnx import PhayaThaiBERTTagger
+
+        tagger = PhayaThaiBERTTagger.__new__(PhayaThaiBERTTagger)
+        tagger.session = _FakeSession()
+        tagger.tokenizer = _FakeTokenizer()
+        tagger.id2label = {0: "SCONJ", 1: "NOUN", 2: "VERB"}
+        return tagger
+
+    @unittest.skipUnless(find_spec("numpy"), "numpy is not installed")
+    def test_tag(self):
+
+        from pythainlp.tag import phayathaibert_onnx
+
+        cases = [
+            ("short", ["กา", "ขาว"], 20, ["NOUN", "VERB"]),
+            (
+                "blank words skipped",
+                ["กา", " ", "ขา", "", "\u200b"],
+                20,
+                ["NOUN", "PUNCT", "VERB", "PUNCT", "PUNCT"],
+            ),
+            ("all blank", [" ", "\ufeff"], 20, ["PUNCT", "PUNCT"]),
+            (
+                "chunked",
+                ["กา", "ขา", "ก", "ขาว", "กก", "ขข"],
+                6,
+                ["NOUN", "VERB", "NOUN", "VERB", "NOUN", "VERB"],
+            ),
+            ("overlong word", ["ก" * 20, "ขา"], 6, ["NOUN", "VERB"]),
+            ("overlong last word", ["ขา", "ก" * 20], 6, ["VERB", "NOUN"]),
+        ]
+        for name, words, limit, expected in cases:
+            with self.subTest(name):
+                tagger = self._tagger()
+                with mock.patch.object(
+                    phayathaibert_onnx, "_MAX_SEQUENCE_LENGTH", limit
+                ):
+                    result = tagger.tag(words)
+                self.assertEqual(result, list(zip(words, expected)))
+                self.assertTrue(
+                    all(n <= limit for n in tagger.session.lengths)
+                )
+
+    def test_init(self):
+        import json
+        import sys
+        import tempfile
+
+        from pythainlp.tag import phayathaibert_onnx
+
+        fake_modules = {
+            m: _fake_module(m) for m in _PHAYATHAIBERT_DEPENDENCIES
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            config_path = path.join(tmp, "config.json")
+            with open(config_path, "w", encoding="utf-8") as f:
+                json.dump({"id2label": {"0": "NOUN", "1": "VERB"}}, f)
+
+            def fake_get_hf_hub(repo_id, filename, revision=None):
+                return config_path if filename == "config.json" else filename
+
+            with mock.patch.dict(sys.modules, fake_modules):
+                with mock.patch.object(
+                    phayathaibert_onnx,
+                    "get_hf_hub",
+                    side_effect=fake_get_hf_hub,
+                ) as get_hf_hub:
+                    tagger = phayathaibert_onnx.PhayaThaiBERTTagger()
+        self.assertEqual(
+            [c.args[1] for c in get_hf_hub.call_args_list],
+            ["model.onnx", "tokenizer.json", "config.json"],
+        )
+        self.assertEqual(tagger.id2label, {0: "NOUN", 1: "VERB"})
+        # tokenizer.json truncates at 510 tokens; the tagger must undo it.
+        tagger.tokenizer.no_truncation.assert_called_once_with()
+        tagger.tokenizer.no_padding.assert_called_once_with()
+
+    def test_tag_function_loads_tagger_once(self):
+
+        from pythainlp.tag import phayathaibert_onnx
+
+        with mock.patch.object(phayathaibert_onnx, "_TAGGER", None):
+            with mock.patch.object(
+                phayathaibert_onnx, "PhayaThaiBERTTagger"
+            ) as tagger_class:
+                tagger_class.return_value.tag.return_value = [("ก", "NOUN")]
+                for _ in range(2):
+                    self.assertEqual(
+                        phayathaibert_onnx.tag(["ก"], corpus="orchid"),
+                        [("ก", "NOUN")],
+                    )
+                tagger_class.assert_called_once_with()
+
+    def test_pos_tag_phayathaibert_uses_tud(self):
+
+        with mock.patch(
+            "pythainlp.tag.phayathaibert_onnx.tag",
+            return_value=[("ก", "NOUN")],
+        ) as tag:
+            self.assertEqual(
+                pos_tag(["ก"], engine="phayathaibert", corpus="orchid"),
+                [("ก", "NOUN")],
+            )
+        tag.assert_called_once_with(["ก"], corpus="tud")
+
+    def test_pos_tag_transformers_engine_lookup(self):
+        import sys
+
+        from pythainlp.tag import pos_tag_transformers
+
+        transformers = mock.MagicMock()
+        pipeline = transformers.TokenClassificationPipeline.return_value
+        pipeline.return_value = [{"word": "กิน", "entity_group": "VERB"}]
+        supported = [
+            ("bert", "blackboard", "lunarlist/pos_thai"),
+            ("phayathai", "blackboard", "lunarlist/pos_thai_phayathai"),
+            (
+                "wangchanberta",
+                "pud",
+                "Pavarissy/wangchanberta-ud-thai-pud-upos",
+            ),
+            ("mdeberta", "pud", "Pavarissy/mdeberta-v3-ud-thai-pud-upos"),
+            (
+                "phayathaibert",
+                "tud",
+                "nlp-chula/phayathaibert-thai-pos-tagger",
+            ),
+        ]
+        unsupported = [
+            ("phayathaibert", "pud"),
+            ("bert", "tud"),
+            ("bert", "non-existing corpus"),
+        ]
+        auto_tokenizer = transformers.AutoTokenizer.from_pretrained
+        with mock.patch.dict(sys.modules, {"transformers": transformers}):
+            for engine, corpus, model_name in supported:
+                with self.subTest(engine=engine, corpus=corpus):
+                    self.assertEqual(
+                        pos_tag_transformers(
+                            "กิน", engine=engine, corpus=corpus
+                        ),
+                        [[("กิน", "VERB")]],
+                    )
+                    auto_tokenizer.assert_called_with(
+                        model_name, revision=None
+                    )
+            for engine, corpus in unsupported:
+                with self.subTest(engine=engine, corpus=corpus):
+                    with self.assertRaises(ValueError):
+                        pos_tag_transformers(
+                            "กิน", engine=engine, corpus=corpus
+                        )

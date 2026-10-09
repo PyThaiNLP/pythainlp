@@ -10,14 +10,14 @@ SPDX-License-Identifier: CC0-1.0
 
 All notable changes to this project are documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+The format is based on
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
-- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.8...dev>
 
-## [Unreleased]
+## [5.4.0] - 2026-10-09
 
 ### Added
 
@@ -441,6 +441,8 @@ The minimum Python version is now 3.9.
 
 ---
 
+[Unreleased]: https://github.com/PyThaiNLP/pythainlp/compare/v5.4.0...dev
+[5.4.0]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.8...v5.4.0
 [5.3.8]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.7...v5.3.8
 [5.3.7]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.6...v5.3.7
 [5.3.6]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.5...v5.3.6

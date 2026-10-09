@@ -125,7 +125,7 @@ jobs:
     # The uploaded "sbom" artifact is the SBOM read back from the wheel.
     - name: Generate SBOM, embed into the wheel, and check it
       id: pitloom
-      uses: bact/pitloom@3785ee7babe07661b8f0ea92fdb41321b7a88b6b # v0.20.0
+      uses: bact/pitloom@d95e9ed331a8463d49ef9cde8032aff5863e1e1e # v0.20.2
       with:
         embed-wheel: "dist/*.whl"
         project-path: "."

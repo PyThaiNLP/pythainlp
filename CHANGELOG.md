@@ -22,6 +22,7 @@ and this project adheres to
 ### Added
 
 - `transliterate.pronunciate_pali()` and `transliterate_wiktionary()`
+  ([#1411], [#1437])
 - `revision` argument for model classes that load from Hugging Face Hub and
   for `get_hf_hub()` ([#1431])
 - `build_tools/onnx_metadata.py`: tool to show and set ONNX model metadata

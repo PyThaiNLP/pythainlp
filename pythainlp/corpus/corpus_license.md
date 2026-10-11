@@ -56,7 +56,7 @@ and released under
 | pos_orchid_unigram.json         | Part-of-speech tagging model, trained from ORCHID data, using unigram                                 |
 | pos_ud_perceptron-v0.2.json     | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using perceptron |
 | pos_ud_unigram-v0.2.json        | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using unigram    |
-| sentenceseg_crfcut.model        | Sentence segmentation model, trained from TED subtitles, using CRF                                    |
+| sentenceseg_crfcut.json.gz     | Sentence segmentation model, trained from TED subtitles, using CRF                                    |
 | tdtb-pt_tagger.json             | Part-of-speech tagging model, trained from The Thai Discourse Treebank, using perceptron              |
 | tdtb-unigram_tagger.json        | Part-of-speech tagging model, trained from The Thai Discourse Treebank, using unigram                 |
 | pos_tud_perceptron.json         | Part-of-speech tagging model, trained from Thai Universal Dependency Treebank data, using perceptron  |
@@ -160,3 +160,13 @@ and released under **Apache License 2.0**
 
 Original data:
 <https://github.com/awslabs/FastThaiG2P>
+
+## SSG (CRF Syllable Segmentation Model)
+
+SSG CRF syllable segmentation model weights (`ssg.json.gz`),
+from the SSG project by Ponrawee Prasertsom,
+and released under **Apache License 2.0**
+<https://www.apache.org/licenses/LICENSE-2.0>
+
+Original data and repository:
+<https://github.com/ponrawee/ssg>

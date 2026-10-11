@@ -82,7 +82,6 @@ pip install "pythainlp[extra1,extra2,...]"
 - `sefr_cut` — รองรับการตัดคำภาษาไทยด้วย SEFR CUT
 - `spacy_thai` — รองรับภาษาไทยใน spaCy
 - `spell` — รองรับตัวตรวจการสะกดเพิ่มเติม (phunspell & symspellpy)
-- `ssg` — รองรับตัวตัดพยางค์ SSG
 - `textaugment` — เครื่องมือเสริมข้อความ
 - `thai_nner` — รองรับการจดจำเอนทิตีชื่อภาษาไทย
 - `thai2fit` — เวกเตอร์คำภาษาไทย (thai2fit)

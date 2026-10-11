@@ -21,12 +21,11 @@ and this project adheres to
 
 ### Added
 
-- `fastthaig2p` engine in `pythainlp.transliterate`: native FastThaiG2P, with
-  text normalization and a 62k-word IPA dictionary ([#1499])
-- `thaig2p_v4` engine in `pythainlp.transliterate`, using ONNX Runtime
-  ([#1509])
+- `fastthaig2p` and `thaig2p_v4` transliteration engines
+  ([#1499], [#1509])
 - `evaluate_word_tokenization`, `word_eval_function`, `char_eval_function`,
   and `TokenizationScore` in `pythainlp.benchmarks` ([#1512])
+- `CRFTagger`, CRF weight conversion, and bundled SSG weights ([#1538])
 
 ### Changed
 
@@ -38,6 +37,12 @@ and this project adheres to
 - Improve guardrails in `check_sara()` and `nighit()` ([#1453])
 - `attacut`, `oskut`, and `sefr_cut` tokenizers use ONNX models via LEKCut,
   not the PyTorch and TensorFlow packages ([#1511])
+- Migrate CRF models to bundled `.json.gz` weights; remove runtime
+  `python-crfsuite` and `ssg` dependencies ([#1538])
+- `bleu_score()` raises `ValueError` on unequal reference and hypothesis
+  counts; `nighit()` requires `w1` to end with "ํ" ([#1548])
+- `download()` removes abandoned `.part`, `.tmp`, and `.old` entries from the
+  data directory after 24 hours ([#1552])
 
 ### Removed
 
@@ -48,13 +53,6 @@ and this project adheres to
 
 - `tcc_p.tcc` matches in place, not on `text[p:]`: about 15x faster on long
   text, same output ([#1529])
-
-[#1499]: https://github.com/PyThaiNLP/pythainlp/pull/1499
-[#1509]: https://github.com/PyThaiNLP/pythainlp/pull/1509
-[#1511]: https://github.com/PyThaiNLP/pythainlp/pull/1511
-[#1512]: https://github.com/PyThaiNLP/pythainlp/pull/1512
-[#1526]: https://github.com/PyThaiNLP/pythainlp/pull/1526
-[#1529]: https://github.com/PyThaiNLP/pythainlp/pull/1529
 
 ## [5.4.0] - 2026-10-09
 
@@ -114,8 +112,9 @@ and this project adheres to
 [#1511]: https://github.com/PyThaiNLP/pythainlp/pull/1511
 [#1512]: https://github.com/PyThaiNLP/pythainlp/pull/1512
 [#1526]: https://github.com/PyThaiNLP/pythainlp/pull/1526
-[#1527]: https://github.com/PyThaiNLP/pythainlp/pull/1527
 [#1529]: https://github.com/PyThaiNLP/pythainlp/pull/1529
+[#1538]: https://github.com/PyThaiNLP/pythainlp/pull/1538
+[#1527]: https://github.com/PyThaiNLP/pythainlp/pull/1527
 [#1541]: https://github.com/PyThaiNLP/pythainlp/pull/1541
 [#1542]: https://github.com/PyThaiNLP/pythainlp/pull/1542
 [#1546]: https://github.com/PyThaiNLP/pythainlp/pull/1546

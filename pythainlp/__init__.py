@@ -4,7 +4,7 @@
 
 """PyThaiNLP, a Thai natural language processing library."""
 
-__version__ = "5.3.8"
+__version__ = "6.0.0-dev0"
 
 thai_consonants: str = (
     "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"  # 44 chars

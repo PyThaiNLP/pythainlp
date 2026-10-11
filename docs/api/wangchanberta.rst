@@ -1,8 +1,14 @@
-.. currentmodule:: pythainlp.wangchanberta
+.. currentmodule:: pythainlp.lm.wangchanberta
 
-pythainlp.wangchanberta
-=======================
-The `pythainlp.wangchanberta` module is built upon the WangchanBERTa base model, specifically the `wangchanberta-base-att-spm-uncased` model, as detailed in the paper by Lowphansirikul et al. [#Lowphansirikul_2021]_.
+pythainlp.lm.wangchanberta
+==========================
+
+.. note::
+    :mod:`pythainlp.wangchanberta` has moved to :mod:`pythainlp.lm.wangchanberta`.
+    Importing from :mod:`pythainlp.wangchanberta` still works but emits a
+    :class:`DeprecationWarning` and will be removed in 6.0.
+
+The `pythainlp.lm.wangchanberta` module is built upon the WangchanBERTa base model, specifically the `wangchanberta-base-att-spm-uncased` model, as detailed in the paper by Lowphansirikul et al. [#Lowphansirikul_2021]_.
 
 This base model is utilized for various natural language processing tasks in the Thai language, including named entity recognition, part-of-speech tagging, and subword tokenization.
 

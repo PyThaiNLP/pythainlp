@@ -235,6 +235,7 @@ def main() -> None:
         ("han_solo.crfsuite", "han_solo.json.gz"),
         ("crfchunk_orchidpp.model", "crfchunk_orchidpp.json.gz"),
         ("thainer_crf_1_5_1.model", "thainer_crf_1_5_1.json.gz"),
+        ("thai-ner-1-4.crfsuite", "thainer_crf_1_4.json.gz"),
         ("sentenceseg_crfcut.model", "sentenceseg_crfcut.json.gz"),
         ("crf3_mix.crfsuite2", "ssg.json.gz"),
         ("ssg.crfsuite", "ssg.json.gz"),

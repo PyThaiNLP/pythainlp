@@ -44,6 +44,26 @@
             }
         }
     },
+    "thainer-1.4": {
+        "name": "thainer-1.4",
+        "latest_version": "1.4",
+        "description": "Thai Named Entity Recognition 1.4",
+        "long_description": "Thai Named Entity Recognition 1.4",
+        "url": "https://github.com/wannaphong/thai-ner/",
+        "authors": [
+            "Wannaphong Phatthiyaphaibun"
+        ],
+        "author_email": "wannaphong@pythainlp.org",
+        "license": "CC-BY-4.0",
+        "versions": {
+            "1.4": {
+                "filename": "thainer_crf_1_4.json.gz",
+                "download_url": "https://github.com/wannaphong/thai-ner/releases/download/1.4/thai-ner-1-4.crfsuite",
+                "md5": "42fab12f09d02900ea5e976d4228234a",
+                "pythainlp_version": ">=2.1"
+            }
+        }
+    },
     "thai2rom_encoder_onnx": {
         "name": "thai2rom_encoder_onnx",
         "latest_version": "1.0.1",

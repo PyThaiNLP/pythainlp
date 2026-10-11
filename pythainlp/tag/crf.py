@@ -120,6 +120,19 @@ class CRFTagger:
         return model_path
 
     @staticmethod
+    def _bundled_thainer_filename(file_path: str) -> str:
+        """
+        Return the bundled ThaiNER weight filename matching a model path.
+
+        :param str file_path: Original path to model.
+        :return: Bundled weight filename.
+        :rtype: str
+        """
+        if "1-4" in file_path or "1.4" in file_path:
+            return "thainer_crf_1_4.json.gz"
+        return "thainer_crf_1_5_1.json.gz"
+
+    @staticmethod
     def _read_weights_file(file_path: str) -> dict[str, Any]:
         """
         Read weights dictionary from JSON or gzip-compressed JSON.
@@ -152,7 +165,8 @@ class CRFTagger:
 
             if "thainer" in file_path or "thai-ner" in file_path:
                 bundled_thainer = safe_path_join(
-                    corpus_path(), "thainer_crf_1_5_1.json.gz"
+                    corpus_path(),
+                    CRFTagger._bundled_thainer_filename(file_path),
                 )
                 if os.path.exists(bundled_thainer):
                     with gzip.open(

@@ -91,18 +91,28 @@ class CRFWeightsTestCase(unittest.TestCase):
         self.assertEqual(tagger.labels, ["O"])
 
     def test_loads_bundled_thainer_weights_for_binary_model(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            model_path = Path(temp_dir) / "thainer_legacy.model"
-            model_path.write_bytes(b"lCRF binary model")
-            bundled_path = Path(temp_dir) / "thainer_crf_1_5_1.json.gz"
-            with gzip.open(bundled_path, "wt", encoding="utf-8") as file_obj:
-                json.dump(MODEL_DATA, file_obj)
+        cases = [
+            ("thainer_legacy.model", "thainer_crf_1_5_1.json.gz"),
+            ("thai-ner-1-4.crfsuite", "thainer_crf_1_4.json.gz"),
+        ]
+        for model_name, bundled_name in cases:
+            with self.subTest(model_name=model_name):
+                with tempfile.TemporaryDirectory() as temp_dir:
+                    model_path = Path(temp_dir) / model_name
+                    model_path.write_bytes(b"lCRF binary model")
+                    bundled_path = Path(temp_dir) / bundled_name
+                    with gzip.open(
+                        bundled_path, "wt", encoding="utf-8"
+                    ) as file_obj:
+                        json.dump(MODEL_DATA, file_obj)
 
-            with patch("pythainlp.corpus.corpus_path", return_value=temp_dir):
-                tagger = CRFTagger()
-                tagger.open(str(model_path))
+                    with patch(
+                        "pythainlp.corpus.corpus_path", return_value=temp_dir
+                    ):
+                        tagger = CRFTagger()
+                        tagger.open(str(model_path))
 
-        self.assertEqual(tagger.labels, ["O"])
+                self.assertEqual(tagger.labels, ["O"])
 
     def test_rejects_binary_crfsuite_without_weights(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:

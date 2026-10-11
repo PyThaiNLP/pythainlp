@@ -32,6 +32,7 @@ The extras can include:
   - ``nlpo3`` — nlpo3 Thai word tokenization support
   - ``onnx`` - ONNX model support
   - ``oskut`` — OSKUT support (via LEKCut ONNX)
+  - ``phayathaibert_onnx`` — PhayaThaiBERT part-of-speech tagger with ONNX Runtime
   - ``sefr_cut`` — SEFR CUT Thai word tokenization support (via LEKCut ONNX)
   - ``spacy_thai`` — spaCy Thai language support
   - ``spell`` — support for more spell-checkers (phunspell & symspellpy)

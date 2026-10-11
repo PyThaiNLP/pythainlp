@@ -11,6 +11,7 @@ Test functions that require ONNX Runtime and its ecosystem dependencies:
 - onnxruntime
 - oskut
 - sefr_cut
+- tokenizers and huggingface-hub (PhayaThaiBERT POS tagger)
 
 These tests are NOT run in automated CI workflows due to:
 - Large dependencies

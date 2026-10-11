@@ -228,6 +228,7 @@ Modules
 
 .. autofunction:: pos_tag
 .. autofunction:: pos_tag_sents
+.. autofunction:: pos_tag_transformers
 .. autofunction:: tag_provinces
 .. autofunction:: chunk_parse
 .. autoclass:: NER
@@ -251,6 +252,23 @@ unigram
 
 Unigram tagger doesn't take the ordering of words in the list into account.
 
+phayathaibert
++++++++++++++
+
+PhayaThaiBERT tagger [#Sriwirote_2025]_ uses
+`nlp-chula/phayathaibert-thai-pos-tagger <https://huggingface.co/nlp-chula/phayathaibert-thai-pos-tagger>`_,
+fine-tuned on the TUD treebank, and tags words with Universal POS tags.
+
+- :func:`pos_tag` with ``engine="phayathaibert"`` runs an ONNX export of the
+  model with ONNX Runtime and does not need PyTorch.
+  Install the dependencies with ``pip install "pythainlp[phayathaibert_onnx]"``.
+  The model (about 530 MB) is downloaded from the Hugging Face Hub on first use.
+- :func:`pos_tag_transformers` with ``engine="phayathaibert"`` and
+  ``corpus="tud"`` runs the original model with Transformers.
+
+.. autoclass:: pythainlp.tag.phayathaibert_onnx.PhayaThaiBERTTagger
+   :members: tag
+
 
 References
 ----------
@@ -261,3 +279,7 @@ References
 .. [#Prachya_2020] Prachya Boonkwan and Vorapon Luantangsrisuk and Sitthaa Phaholphinyo and Kanyanat Kriengket and Dhanon Leenoi and Charun Phrombut and Monthika Boriboon and Krit Kosawat and Thepchai Supnithi. (2020).
             The Annotation Guideline of LST20 Corpus.
             arXiv:2008.05055
+.. [#Sriwirote_2025] Panyut Sriwirote, Attapol T. Rutherford, Jalinee Thapiang and Vasan Timtong. (2025).
+            PhayaThaiBERT: Enhancing a Pretrained Thai Language Model with Unassimilated Loanwords.
+            ACM Transactions on Asian and Low-Resource Language Information Processing, Vol. 24, No. 11, pp 1-17.
+            doi:10.1145/3765962

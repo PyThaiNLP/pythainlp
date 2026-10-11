@@ -19,7 +19,7 @@
         "versions": {
             "1.0.0": {
                 "filename": "deepcut.onnx",
-                "md5": "f4662560dd9a706bfb1d7790ad6c667f",
+                "md5": "98396b6615dad8a94c8118cbd0bf027e",
                 "pythainlp_version": ">=5.4.0"
             }
         }
@@ -34,67 +34,156 @@
             "Wannaphong Phatthiyaphaibun"
         ],
         "author_email": "wannaphong@pythainlp.org",
-        "license": "cc-by-4.0",
+        "license": "CC-BY-4.0",
         "versions": {
             "1.5.1": {
                 "filename": "thainer_crf_1_5_1.model",
                 "download_url": "https://github.com/wannaphong/thai-ner/releases/download/1.5/thai-ner-1-5-newmm-lst20.crfsuite",
-                "md5": "-",
+                "md5": "2e8f2c686acc23c06fb27b2cb4e7ca57",
                 "pythainlp_version": ">=2.2.7"
             }
         }
     },
     "thai2rom_encoder_onnx": {
         "name": "thai2rom_encoder_onnx",
-        "latest_version": "1.0.0",
+        "latest_version": "1.0.1",
         "description": "Thai2Rom Encoder ONNX",
-        "long_description": "Thai to Romanian in ONNX model - Encoder",
+        "long_description": "Thai romanization ONNX model - Encoder",
         "url": "https://github.com/artificiala/thai-romanization/",
         "authors": [
             "Chakri Lowphansirikul"
         ],
-        "license": "Apache-2.0 license",
+        "license": "Apache-2.0",
         "versions": {
             "1.0.0": {
                 "filename": "thai2rom_encoder.onnx",
-                "md5": "-",
+                "md5": "5c2f857b1b0c33f96861fc56e2153c08",
                 "pythainlp_version": ">=3.2.0"
+            },
+            "1.0.1": {
+                "filename": "thai2rom_encoder.onnx",
+                "md5": "8bc89998e6bd25c7e1f9d5c0a44ac649",
+                "pythainlp_version": ">=5.4.0"
             }
         }
     },
     "thai2rom_decoder_onnx": {
         "name": "thai2rom_decoder_onnx",
-        "latest_version": "1.0.0",
-        "description": "Thai2Rom Decoder ONNX - Decoder",
-        "long_description": "Thai to Romanian in ONNX model",
+        "latest_version": "1.0.1",
+        "description": "Thai2Rom Decoder ONNX",
+        "long_description": "Thai romanization ONNX model - Decoder",
         "url": "https://github.com/artificiala/thai-romanization/",
         "authors": [
             "Chakri Lowphansirikul"
         ],
-        "license": "Apache-2.0 license",
+        "license": "Apache-2.0",
         "versions": {
             "1.0.0": {
                 "filename": "thai2rom_decoder.onnx",
-                "md5": "-",
+                "md5": "09250e4ec610b2a77c3cee88aa6eaf59",
                 "pythainlp_version": ">=3.2.0"
+            },
+            "1.0.1": {
+                "filename": "thai2rom_decoder.onnx",
+                "md5": "21389dad232f23227b1d0a8c07c1a566",
+                "pythainlp_version": ">=5.4.0"
             }
         }
     },
     "thai2rom_config_onnx": {
         "name": "thai2rom_config_onnx",
         "latest_version": "1.0.0",
-        "description": "Thai2Rom ONNX Config",
-        "long_description": "Thai to Romanian in ONNX model -- Config",
+        "description": "Thai2Rom Config ONNX",
+        "long_description": "Thai romanization ONNX model - Config",
         "url": "https://github.com/artificiala/thai-romanization/",
         "authors": [
             "Chakri Lowphansirikul"
         ],
-        "license": "Apache-2.0 license",
+        "license": "Apache-2.0",
         "versions": {
             "1.0.0": {
                 "filename": "thai2rom_loader_onnx.json",
-                "md5": "-",
+                "md5": "2365000618959912fb904bf97418b545",
                 "pythainlp_version": ">=3.2.0"
+            }
+        }
+    },
+    "crfcut": {
+        "name": "crfcut",
+        "latest_version": "3.0.0",
+        "description": "Thai sentence segmentation with CRF trained on TED dataset",
+        "long_description": "Sentence segmentation model, trained from TED subtitles, using CRF",
+        "url": "https://github.com/vistec-AI/ted_crawler/",
+        "authors": [
+            "Charin Polpanumas",
+            "Chonlapat Patanajirasit",
+            "Wannaphong Phatthiyaphaibun"
+        ],
+        "license": "CC-BY-4.0",
+        "versions": {
+            "2.0.0": {
+                "filename": "sentenceseg_crfcut.model",
+                "md5": "dd9442aa586fad78d6df8edb744d97c3",
+                "pythainlp_version": ">=2.2.0"
+            },
+            "3.0.0": {
+                "filename": "sentenceseg_crfcut.model",
+                "md5": "5782b66344ee954b9c9bde3b91e3bd11",
+                "pythainlp_version": ">=3.0.0"
+            }
+        }
+    },
+    "crfchunk_orchidpp": {
+        "name": "crfchunk_orchidpp",
+        "latest_version": "1.0.0",
+        "description": "CRF chunk parser (orchidpp)",
+        "long_description": "CRF-based Thai phrase structure (chunk) parser, orchidpp corpus",
+        "url": "https://github.com/PyThaiNLP/pythainlp/pull/524",
+        "authors": [
+            "Wannaphong Phatthiyaphaibun"
+        ],
+        "license": "NOASSERTION",
+        "versions": {
+            "1.0.0": {
+                "filename": "crfchunk_orchidpp.model",
+                "md5": "7d63d618df3886f1179dc41e69b6654f",
+                "pythainlp_version": ">=2.3.0"
+            }
+        }
+    },
+    "blackboard-cls": {
+        "name": "blackboard-cls",
+        "latest_version": "1.0.0",
+        "description": "Blackboard Treebank",
+        "long_description": "Clause segmentation model, trained from Blackboard Treebank, using CRF",
+        "url": "https://github.com/PyThaiNLP/pythainlp-corpus/releases/tag/blackboard_cls_v1.0",
+        "authors": [
+            "Wannaphong Phatthiyaphaibun"
+        ],
+        "license": "NOASSERTION",
+        "versions": {
+            "1.0.0": {
+                "filename": "blackboard-cls_v1.0.crfsuite",
+                "md5": "d3d537a34ea6e222662bd0a982877b47",
+                "pythainlp_version": ">=4.0.0"
+            }
+        }
+    },
+    "han_solo": {
+        "name": "han_solo",
+        "latest_version": "1.0.0",
+        "description": "Han-solo: Thai syllable segmenter",
+        "long_description": "CRF Thai syllable segmenter that can work in the Thai social media domain",
+        "url": "https://github.com/PyThaiNLP/Han-solo",
+        "authors": [
+            "Wannaphong Phatthiyaphaibun"
+        ],
+        "license": "Apache-2.0",
+        "versions": {
+            "1.0.0": {
+                "filename": "han_solo.crfsuite",
+                "md5": "eb67bde336d5ebffa4217d4447e1d847",
+                "pythainlp_version": ">=5.0.0"
             }
         }
     }

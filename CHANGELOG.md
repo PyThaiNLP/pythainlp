@@ -54,13 +54,6 @@ and this project adheres to
 - `tcc_p.tcc` matches in place, not on `text[p:]`: about 15x faster on long
   text, same output ([#1529])
 
-[#1499]: https://github.com/PyThaiNLP/pythainlp/pull/1499
-[#1509]: https://github.com/PyThaiNLP/pythainlp/pull/1509
-[#1511]: https://github.com/PyThaiNLP/pythainlp/pull/1511
-[#1512]: https://github.com/PyThaiNLP/pythainlp/pull/1512
-[#1526]: https://github.com/PyThaiNLP/pythainlp/pull/1526
-[#1529]: https://github.com/PyThaiNLP/pythainlp/pull/1529
-
 ## [5.4.0] - 2026-10-09
 
 ### Added
@@ -122,7 +115,6 @@ and this project adheres to
 [#1529]: https://github.com/PyThaiNLP/pythainlp/pull/1529
 [#1538]: https://github.com/PyThaiNLP/pythainlp/pull/1538
 [#1527]: https://github.com/PyThaiNLP/pythainlp/pull/1527
-[#1529]: https://github.com/PyThaiNLP/pythainlp/pull/1529
 [#1541]: https://github.com/PyThaiNLP/pythainlp/pull/1541
 [#1542]: https://github.com/PyThaiNLP/pythainlp/pull/1542
 [#1546]: https://github.com/PyThaiNLP/pythainlp/pull/1546

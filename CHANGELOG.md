@@ -25,6 +25,8 @@ and this project adheres to
   ([#1499], [#1509])
 - `evaluate_word_tokenization`, `word_eval_function`, `char_eval_function`,
   and `TokenizationScore` in `pythainlp.benchmarks` ([#1512])
+- Laya Multilingual model (`LayaModel`, `Laya`) to `pythainlp.classify`
+  for zero-shot classification ([#1528])
 - `CRFTagger`, CRF weight conversion, and bundled SSG weights ([#1538])
 
 ### Changed
@@ -112,6 +114,7 @@ and this project adheres to
 [#1511]: https://github.com/PyThaiNLP/pythainlp/pull/1511
 [#1512]: https://github.com/PyThaiNLP/pythainlp/pull/1512
 [#1526]: https://github.com/PyThaiNLP/pythainlp/pull/1526
+[#1528]: https://github.com/PyThaiNLP/pythainlp/pull/1528
 [#1529]: https://github.com/PyThaiNLP/pythainlp/pull/1529
 [#1538]: https://github.com/PyThaiNLP/pythainlp/pull/1538
 [#1527]: https://github.com/PyThaiNLP/pythainlp/pull/1527

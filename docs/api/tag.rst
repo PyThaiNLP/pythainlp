@@ -230,6 +230,8 @@ Modules
 .. autofunction:: pos_tag_sents
 .. autofunction:: tag_provinces
 .. autofunction:: chunk_parse
+.. autoclass:: CRFTagger
+   :members:
 .. autoclass:: NER
    :members:
 .. autoclass:: NNER

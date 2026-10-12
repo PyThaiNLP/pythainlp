@@ -21,15 +21,15 @@ import pythainlp
 
 def _import_phayathaibert() -> Any:
     """
-    Load phayathaibert/core.py with a fake ``transformers``.
+    Load lm/phayathaibert/core.py with a fake ``transformers``.
 
-    Neither ``sys.modules`` nor the ``pythainlp.phayathaibert`` package
+    Neither ``sys.modules`` nor the ``pythainlp.lm.phayathaibert`` package
     attribute is changed.
     """
     fake = types.ModuleType("transformers")
     tokenizer_class = mock.Mock()
     fake.CamembertTokenizer = tokenizer_class  # type: ignore[attr-defined]
-    path = Path(pythainlp.__file__).parent / "phayathaibert" / "core.py"
+    path = Path(pythainlp.__file__).parent / "lm" / "phayathaibert" / "core.py"
     spec = importlib.util.spec_from_file_location(
         "phayathaibert_under_test", path
     )

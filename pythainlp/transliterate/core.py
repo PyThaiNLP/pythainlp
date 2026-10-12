@@ -8,7 +8,7 @@ from __future__ import annotations
 from typing import Callable
 
 DEFAULT_ROMANIZE_ENGINE: str = "royin"
-DEFAULT_TRANSLITERATE_ENGINE: str = "thaig2p"
+DEFAULT_TRANSLITERATE_ENGINE: str = "thaig2p_v4"
 DEFAULT_PRONUNCIATE_ENGINE: str = "w2p"
 
 

@@ -63,6 +63,7 @@ test_packages: list[str] = [
     "tests.core.test_util_strftime",
     "tests.core.test_util_syllable",
     "tests.core.test_util_thai",
+    "tests.core.test_util_thai_char_name",
     "tests.core.test_util_thai_lunar_date",
     "tests.core.test_util_time",
 ]

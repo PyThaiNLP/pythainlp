@@ -229,6 +229,7 @@ Modules
 
     The `thai_digit_to_arabic_digit` function allows you to transform Thai numeral text into Arabic numeral format. This is valuable for numerical data extraction and computation tasks.
 
+.. autofunction:: thai_name_to_char
 .. autofunction:: thai_strftime
     :noindex:
 
@@ -293,6 +294,7 @@ Modules
     :noindex:
     The `spelling` function is a text processing tool for spelling Thai word.
 
+.. autofunction:: thai_char_to_name
 .. autofunction:: thai_consonant_to_spelling
 
 .. autofunction:: tone_to_spelling

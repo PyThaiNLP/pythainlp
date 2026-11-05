@@ -21,6 +21,8 @@ and this project adheres to
 
 ### Added
 
+- `thai_name_to_char` and `thai_char_to_name` in `pythainlp.util`
+  ([#1490])
 - `fastthaig2p` and `thaig2p_v4` transliteration engines
   ([#1499], [#1509])
 - `evaluate_word_tokenization`, `word_eval_function`, `char_eval_function`,
@@ -109,6 +111,7 @@ and this project adheres to
 [#1431]: https://github.com/PyThaiNLP/pythainlp/pull/1431
 [#1437]: https://github.com/PyThaiNLP/pythainlp/pull/1437
 [#1453]: https://github.com/PyThaiNLP/pythainlp/pull/1453
+[#1490]: https://github.com/PyThaiNLP/pythainlp/issues/1490
 [#1499]: https://github.com/PyThaiNLP/pythainlp/pull/1499
 [#1509]: https://github.com/PyThaiNLP/pythainlp/pull/1509
 [#1511]: https://github.com/PyThaiNLP/pythainlp/pull/1511

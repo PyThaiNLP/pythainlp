@@ -60,9 +60,11 @@ __all__: list[str] = [
     "text_to_num",
     "text_to_thai_digit",
     "th_zodiac",
+    "thai_char_to_name",
     "thai_consonant_to_spelling",
     "thai_digit_to_arabic_digit",
     "thai_keyboard_dist",
+    "thai_name_to_char",
     "thai_strftime",
     "thai_strptime",
     "thai_to_eng",
@@ -147,6 +149,7 @@ from pythainlp.util.thai import (
     isthaichar,
     thai_word_tone_detector,
 )
+from pythainlp.util.thai_char_name import thai_char_to_name, thai_name_to_char
 from pythainlp.util.thai_lunar_date import th_zodiac, to_lunar_date
 from pythainlp.util.time import thaiword_to_time, time_to_thaiword
 from pythainlp.util.trie import Trie, dict_trie

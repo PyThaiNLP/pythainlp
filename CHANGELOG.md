@@ -27,6 +27,8 @@ and this project adheres to
   ([#1499], [#1509])
 - `evaluate_word_tokenization`, `word_eval_function`, `char_eval_function`,
   and `TokenizationScore` in `pythainlp.benchmarks` ([#1512])
+- PhayaThaiBERT POS tagger: `pos_tag()` engine `phayathaibert` (ONNX) and
+  `pos_tag_transformers()` corpus `tud` ([#1550])
 - Laya Multilingual model (`LayaModel`, `Laya`) to `pythainlp.classify`
   for zero-shot classification ([#1528])
 - `CRFTagger`, CRF weight conversion, and bundled SSG weights ([#1538])
@@ -126,6 +128,7 @@ and this project adheres to
 [#1546]: https://github.com/PyThaiNLP/pythainlp/pull/1546
 [#1547]: https://github.com/PyThaiNLP/pythainlp/pull/1547
 [#1548]: https://github.com/PyThaiNLP/pythainlp/pull/1548
+[#1550]: https://github.com/PyThaiNLP/pythainlp/pull/1550
 [#1551]: https://github.com/PyThaiNLP/pythainlp/pull/1551
 [#1552]: https://github.com/PyThaiNLP/pythainlp/pull/1552
 [#1565]: https://github.com/PyThaiNLP/pythainlp/pull/1565

@@ -21,6 +21,11 @@ def pos_tag(
         * *unigram* - unigram tagger
         * *tltk* - TLTK: Thai Language Toolkit (supports the TNC corpus
           only; other corpora are converted to the TNC corpus)
+        * *phayathaibert* - `PhayaThaiBERT POS tagger
+          <https://huggingface.co/nlp-chula/phayathaibert-thai-pos-tagger>`_
+          fine-tuned on the TUD corpus, run with ONNX Runtime (supports
+          the TUD corpus only; other corpora are ignored). Requires
+          ``pip install "pythainlp[phayathaibert_onnx]"``
     :param str corpus: corpus used to train the tagger model. Options are:
 
         * *orchid* - `ORCHID
@@ -125,6 +130,10 @@ def pos_tag(
         corpus = "tnc"
     elif engine == "unigram" and corpus in _support_corpus:  # default
         from pythainlp.tag.unigram import tag as tag_
+    elif engine == "phayathaibert":
+        from pythainlp.tag.phayathaibert_onnx import tag as tag_
+
+        corpus = "tud"
     else:
         raise ValueError(
             f"pos_tag not support {engine} engine or {corpus} corpus."
@@ -150,6 +159,11 @@ def pos_tag_sents(
         * *unigram* - unigram tagger
         * *tltk* - TLTK: Thai Language Toolkit (supports the TNC corpus
           only; other corpora are converted to the TNC corpus)
+        * *phayathaibert* - `PhayaThaiBERT POS tagger
+          <https://huggingface.co/nlp-chula/phayathaibert-thai-pos-tagger>`_
+          fine-tuned on the TUD corpus, run with ONNX Runtime (supports
+          the TUD corpus only; other corpora are ignored). Requires
+          ``pip install "pythainlp[phayathaibert_onnx]"``
     :param str corpus: corpus used to train the tagger model. Options are:
 
         * *orchid* - `ORCHID
@@ -206,6 +220,10 @@ def pos_tag_transformers(
           (supports the PUD corpus only)
         * *phayathai* - fine-tuned version of clicknext/phayathaibert
           on the blackboard corpus (supports the blackboard corpus only)
+        * *phayathaibert* - `nlp-chula/phayathaibert-thai-pos-tagger
+          <https://huggingface.co/nlp-chula/phayathaibert-thai-pos-tagger>`_,
+          fine-tuned version of clicknext/phayathaibert on the TUD corpus
+          (supports the TUD corpus only)
         * *mdeberta* - mDeBERTa: Multilingual Decoding-enhanced BERT
           with disentangled attention (supports the PUD corpus only)
     :param str corpus: corpus used to train the tagger model. Options are:
@@ -217,6 +235,9 @@ def pos_tag_transformers(
           <https://github.com/UniversalDependencies/UD_Thai-PUD>`_
           treebank, natively uses Universal POS tags
           (supports the wangchanberta and mdeberta engines)
+        * *tud* - `Thai Universal Dependency Treebank (TUD)
+          <https://github.com/nlp-chula/TUD>`_, natively uses Universal
+          POS tags (supports the phayathaibert engine)
     :param Optional[str] revision: git revision (branch, tag, or commit
         hash) of the model. Pin to a full commit hash for secure downloads
     :return: list of lists of tuples (word, POS tag)
@@ -248,36 +269,29 @@ def pos_tag_transformers(
     if not sentence:
         return []
 
-    _blackboard_support_engine = {
-        "bert": "lunarlist/pos_thai",
-        "phayathai": "lunarlist/pos_thai_phayathai",
+    _support_engine: dict[str, dict[str, str]] = {
+        "blackboard": {
+            "bert": "lunarlist/pos_thai",
+            "phayathai": "lunarlist/pos_thai_phayathai",
+        },
+        "pud": {
+            "mdeberta": "Pavarissy/mdeberta-v3-ud-thai-pud-upos",
+            "wangchanberta": "Pavarissy/wangchanberta-ud-thai-pud-upos",
+        },
+        "tud": {
+            "phayathaibert": "nlp-chula/phayathaibert-thai-pos-tagger",
+        },
     }
 
-    _pud_support_engine = {
-        "wangchanberta": "Pavarissy/wangchanberta-ud-thai-pud-upos",
-        "mdeberta": "Pavarissy/mdeberta-v3-ud-thai-pud-upos",
-    }
-
-    if corpus == "blackboard" and engine in _blackboard_support_engine:
-        base_model = _blackboard_support_engine.get(engine)
-        model = AutoModelForTokenClassification.from_pretrained(
-            base_model, revision=revision
-        )
-        tokenizer = AutoTokenizer.from_pretrained(
-            base_model, revision=revision
-        )
-    elif corpus == "pud" and engine in _pud_support_engine:
-        base_model = _pud_support_engine.get(engine)
-        model = AutoModelForTokenClassification.from_pretrained(
-            base_model, revision=revision
-        )
-        tokenizer = AutoTokenizer.from_pretrained(
-            base_model, revision=revision
-        )
-    else:
+    base_model = _support_engine.get(corpus, {}).get(engine)
+    if base_model is None:
         raise ValueError(
             f"pos_tag_transformers not support {engine} engine or {corpus} corpus."
         )
+    model = AutoModelForTokenClassification.from_pretrained(
+        base_model, revision=revision
+    )
+    tokenizer = AutoTokenizer.from_pretrained(base_model, revision=revision)
 
     pipeline = TokenClassificationPipeline(
         model=model,

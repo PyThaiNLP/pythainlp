@@ -99,3 +99,37 @@ class TagTransformersTestCaseN(unittest.TestCase):
                 engine="bert",
                 corpus="non-existing corpus",
             )
+
+    def test_pos_tag_transformers_phayathaibert_tud(self):
+        upos = {
+            "ADJ",
+            "ADP",
+            "ADV",
+            "AUX",
+            "CCONJ",
+            "DET",
+            "NOUN",
+            "NUM",
+            "PART",
+            "PRON",
+            "PROPN",
+            "PUNCT",
+            "SCONJ",
+            "SYM",
+            "VERB",
+        }
+        result = pos_tag_transformers(
+            sentence="ฉันกินข้าวที่ร้านอาหาร",
+            engine="phayathaibert",
+            corpus="tud",
+        )
+        self.assertEqual(len(result), 1)
+        self.assertGreater(len(result[0]), 0)
+        tags = {tag for _, tag in result[0]}
+        self.assertLessEqual(tags, upos, tags - upos)
+        self.assertIn("VERB", tags)
+
+        with self.assertRaises(ValueError):
+            pos_tag_transformers(
+                sentence="แมวทำอะไร", engine="phayathaibert", corpus="pud"
+            )

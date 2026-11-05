@@ -287,7 +287,7 @@ full = [
     "spacy_thai==0.7.8",
     "ssg==0.0.8",
     "sefr_cut>=1.1",
-    "symspellpy==6.10.0",
+    "symspellpy==6.10.1",
     "thai-nner==0.3",
     # tltk 1.11 pins scikit-learn~=1.2.0, which has no wheel for Python 3.13+
     "tltk>=1.10,!=1.11,<2",

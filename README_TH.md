@@ -29,8 +29,8 @@ pip install pythainlp
 
 | รุ่น | รุ่นของ Python | มีอะไรเปลี่ยน | เอกสาร |
 | :-: | :-: | :-: | :-: |
-| [5.3.8](https://github.com/PyThaiNLP/pythainlp/releases) | 3.9+ | [Log](https://github.com/PyThaiNLP/pythainlp/blob/dev/CHANGELOG.md) | [pythainlp.org/docs](https://pythainlp.org/docs) |
-| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | 3.9+ | [Log](https://github.com/PyThaiNLP/pythainlp/compare/v5.3.8...HEAD) | [pythainlp.org/dev-docs](https://pythainlp.org/dev-docs/) |
+| [5.4.0](https://github.com/PyThaiNLP/pythainlp/releases) | 3.9+ | [Log](https://github.com/PyThaiNLP/pythainlp/blob/dev/CHANGELOG.md) | [pythainlp.org/docs](https://pythainlp.org/docs) |
+| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | 3.9+ | [Log](https://github.com/PyThaiNLP/pythainlp/compare/v5.4.0...HEAD) | [pythainlp.org/dev-docs](https://pythainlp.org/dev-docs/) |
 
 ## ความสามารถ
 
@@ -82,7 +82,6 @@ pip install "pythainlp[extra1,extra2,...]"
 - `sefr_cut` — รองรับการตัดคำภาษาไทยด้วย SEFR CUT
 - `spacy_thai` — รองรับภาษาไทยใน spaCy
 - `spell` — รองรับตัวตรวจการสะกดเพิ่มเติม (phunspell & symspellpy)
-- `ssg` — รองรับตัวตัดพยางค์ SSG
 - `textaugment` — เครื่องมือเสริมข้อความ
 - `thai_nner` — รองรับการจดจำเอนทิตีชื่อภาษาไทย
 - `thai2fit` — เวกเตอร์คำภาษาไทย (thai2fit)

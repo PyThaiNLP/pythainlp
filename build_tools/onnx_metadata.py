@@ -1,0 +1,700 @@
+#!/usr/bin/env python3
+# SPDX-FileCopyrightText: 2026 PyThaiNLP Project
+# SPDX-FileType: SOURCE
+# SPDX-License-Identifier: Apache-2.0
+"""
+Show and edit the metadata of ONNX model files.
+
+The script needs the ``onnx`` package. It is a maintainer tool, not a
+dependency of PyThaiNLP. It does not read any PyThaiNLP file, such as the
+corpus catalog.
+
+Usage::
+
+    python build_tools/onnx_metadata.py show [--json] [PATH ...]
+    python build_tools/onnx_metadata.py set PATH [FIELD ...] [--dry-run]
+
+Without a path, ``show`` lists every ``.onnx`` file in ``pythainlp/corpus``.
+
+Fields of ``set``, and the ONNX metadata each one is written to:
+
+* ``--name`` - name of the model: ``graph.name`` (ONNX has no separate
+  model name)
+* ``--doc`` - description of the model: ``doc_string``
+* ``--domain`` - reverse domain name, such as ``org.pythainlp``:
+  ``domain``
+* ``--version`` - version as ``MAJOR.MINOR.PATCH``, such as ``1.0.1``:
+  ``model_version``, packed into one integer
+* ``--license`` - SPDX license ID, such as ``Apache-2.0``:
+  ``metadata_props["model_license"]``. It is checked against the SPDX
+  License List (``--spdx-list``): a close spelling is normalized to the
+  listed ID, and any other text is recorded as given. Both cases, and a
+  deprecated ID, print a warning; nothing is enforced.
+* ``--spdx-list`` - SPDX License List used by ``--license``: a file or an
+  ``https`` URL (default: https://spdx.org/licenses/licenses.json)
+* ``--author`` - comma-separated authors:
+  ``metadata_props["model_author"]``
+* ``--prop KEY=VALUE`` - any other entry: ``metadata_props[KEY]``
+  (repeatable)
+
+``set`` keeps all other metadata. It refuses a read-only file, or a model
+with duplicate ``metadata_props`` keys. After a write, update the checksum
+of the file in the corpus catalog by hand.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import importlib.util
+import json
+import os
+import re
+import shutil
+import sys
+import tempfile
+import unicodedata
+import urllib.request
+from pathlib import Path
+from typing import TYPE_CHECKING, Any, Optional
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping, Sequence
+    from http.client import HTTPMessage
+    from typing import IO, NoReturn
+
+    from onnx import ModelProto
+
+_CORPUS_DIR = Path(__file__).resolve().parent.parent / "pythainlp" / "corpus"
+
+_NUMBER = r"(0|[1-9][0-9]*)"  # no leading zeros
+_SEMVER = re.compile(rf"{_NUMBER}\.{_NUMBER}\.{_NUMBER}")
+
+# model_version is an int64: MAJOR in bits 48-62, MINOR in bits 32-47,
+# PATCH in bits 0-31.
+_MAX_MAJOR = (1 << 15) - 1
+_MAX_MINOR = (1 << 16) - 1
+_MAX_PATCH = (1 << 32) - 1
+
+SPDX_LIST_URL = "https://spdx.org/licenses/licenses.json"
+_FETCH_TIMEOUT = 10  # seconds
+_MAX_LIST_BYTES = 10_000_000
+_LICENSE_WORDS = ("licence", "license", "version")
+
+_LICENSE_KEY = "model_license"
+_AUTHOR_KEY = "model_author"
+
+
+def semver_to_int(version: str) -> int:
+    """
+    Pack a ``MAJOR.MINOR.PATCH`` version into an ONNX ``model_version``.
+
+    :param str version: version such as ``"1.0.1"``
+    :return: packed integer
+    :rtype: int
+    :raises ValueError: if version cannot be stored: it is not
+        ``MAJOR.MINOR.PATCH`` in plain digits without leading zeros, or a
+        part is over its limit
+    """
+    match = _SEMVER.fullmatch(version)
+    if match is None:
+        raise ValueError(
+            f"Version {version!r} cannot be stored in the ONNX model_version "
+            "integer: use MAJOR.MINOR.PATCH in digits, without leading zeros"
+        )
+    major, minor, patch = (int(part) for part in match.groups())
+    if major > _MAX_MAJOR or minor > _MAX_MINOR or patch > _MAX_PATCH:
+        raise ValueError(
+            f"Version {version!r} cannot be stored in the ONNX model_version "
+            f"integer: MAJOR is at most {_MAX_MAJOR}, MINOR at most "
+            f"{_MAX_MINOR}, PATCH at most {_MAX_PATCH}"
+        )
+    return (major << 48) | (minor << 32) | patch
+
+
+def int_to_semver(value: int) -> str:
+    """
+    Unpack an ONNX ``model_version`` into ``MAJOR.MINOR.PATCH``.
+
+    :param int value: packed integer from :func:`semver_to_int`
+    :return: version such as ``"1.0.1"``
+    :rtype: str
+    """
+    major = value >> 48
+    minor = (value >> 32) & _MAX_MINOR
+    patch = value & _MAX_PATCH
+    return f"{major}.{minor}.{patch}"
+
+
+def parse_prop(text: str) -> tuple[str, str]:
+    """
+    Split a ``KEY=VALUE`` argument.
+
+    :param str text: argument such as ``"source=https://example.org"``
+    :return: key and value
+    :rtype: tuple[str, str]
+    :raises ValueError: if text has no ``=`` or the key is empty
+    """
+    key, sep, value = text.partition("=")
+    if not sep or not key:
+        raise ValueError(f"Property must be KEY=VALUE: {text!r}")
+    return key, value
+
+
+class _HttpsOnlyRedirectHandler(urllib.request.HTTPRedirectHandler):
+    """Follow a redirect only if it leads to an ``https`` URL."""
+
+    def redirect_request(
+        self,
+        req: urllib.request.Request,
+        fp: IO[bytes],
+        code: int,
+        msg: str,
+        headers: HTTPMessage,
+        newurl: str,
+    ) -> Optional[urllib.request.Request]:
+        if not newurl.startswith("https://"):
+            raise ValueError(f"Redirect to a URL that is not https: {newurl}")
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+def load_licenses(source: str) -> dict[str, bool]:
+    """
+    Read the license IDs of an SPDX License List (``licenses.json``).
+
+    :param str source: path of a file, or an ``https`` URL
+    :return: values of ``licenseId`` in file order, each with True if the
+        list marks it as deprecated (``isDeprecatedLicenseId``)
+    :rtype: dict[str, bool]
+    :raises OSError: if the file or URL cannot be read
+    :raises ValueError: if the source is not an ``https`` URL or a file, a
+        redirect leaves ``https``, or the content is not an SPDX License List
+    """
+    if source.startswith("https://"):
+        opener = urllib.request.build_opener(_HttpsOnlyRedirectHandler)
+        with opener.open(source, timeout=_FETCH_TIMEOUT) as response:
+            raw = response.read(_MAX_LIST_BYTES)
+    elif "://" in source:
+        raise ValueError(f"Only https URLs and files are supported: {source}")
+    else:
+        raw = Path(source).read_bytes()
+
+    data = json.loads(raw.decode("utf-8-sig"))
+    licenses = data.get("licenses") if isinstance(data, dict) else None
+    if not isinstance(licenses, list):
+        raise ValueError("Not an SPDX License List: no 'licenses' list")
+    ids = {
+        item["licenseId"]: item.get("isDeprecatedLicenseId") is True
+        for item in licenses
+        if isinstance(item, dict) and isinstance(item.get("licenseId"), str)
+    }
+    if not ids:
+        raise ValueError("Not an SPDX License List: no 'licenseId' values")
+    return ids
+
+
+def normalize_license(text: str) -> str:
+    """
+    Make license text comparable with an SPDX license ID.
+
+    Each punctuation mark (Unicode category P) becomes a space, each run of
+    whitespace becomes one dash, and the result is in lower case. Leading
+    and trailing whitespace is dropped. The plus sign is a symbol, not
+    punctuation, so ``GPL-2.0+`` stays different from ``GPL-2.0``.
+
+    :param str text: license text such as ``" Apache Licence, 2.0 "``
+    :return: normalized text such as ``"apache-licence-2-0"``
+    :rtype: str
+    """
+    spaced = "".join(
+        " " if unicodedata.category(char).startswith("P") else char
+        for char in text
+    )
+    return "-".join(spaced.split()).lower()
+
+
+def resolve_license(
+    given: str, licenses: Mapping[str, bool]
+) -> tuple[str, Optional[str]]:
+    """
+    Find the SPDX license ID for the license text that a user gave.
+
+    An exact match is recorded as is. Otherwise the normalized text (see
+    :func:`normalize_license`) is searched among the normalized IDs of the
+    list, then again without the words "license", "licence", and "version".
+    The first match gives the ID, in the case of the list. Text without a
+    match is recorded as given, without leading and trailing whitespace.
+
+    :param str given: license text from the user
+    :param Mapping[str, bool] licenses: ``licenseId`` values of the SPDX
+        list, each with True if the ID is deprecated
+    :return: text to record, and a warning (None for an exact match of an
+        ID that is not deprecated)
+    :rtype: tuple[str, Optional[str]]
+    """
+    recorded, normalized = _match_license(given, licenses)
+    if recorded is None:
+        text = given.strip()
+        return text, (
+            f"license {text!r} is not found in the SPDX License List and is "
+            "recorded as given (license expressions are not checked)"
+        )
+
+    warnings = []
+    if normalized:
+        warnings.append(
+            "license was normalized to an SPDX license ID: "
+            f"given {given!r}, recorded {recorded!r}"
+        )
+    if licenses[recorded]:
+        warnings.append(f"{recorded!r} is a deprecated SPDX license ID")
+    return recorded, "; ".join(warnings) or None
+
+
+def _match_license(
+    given: str, licenses: Mapping[str, bool]
+) -> tuple[Optional[str], bool]:
+    """Return the matching license ID (or None) and if it was normalized."""
+    if given in licenses:
+        return given, False
+
+    by_key: dict[str, str] = {}
+    for license_id in licenses:
+        by_key.setdefault(normalize_license(license_id), license_id)
+
+    key = normalize_license(given)
+    words = [word for word in key.split("-") if word not in _LICENSE_WORDS]
+    for candidate in (key, "-".join(words)):
+        if candidate in by_key:
+            return by_key[candidate], True
+    return None, False
+
+
+def duplicate_keys(model: ModelProto) -> list[str]:
+    """
+    List the keys that appear more than once in ``metadata_props``.
+
+    :param onnx.ModelProto model: loaded model
+    :return: sorted duplicate keys
+    :rtype: list[str]
+    """
+    keys = [p.key for p in model.metadata_props]
+    return sorted({key for key in keys if keys.count(key) > 1})
+
+
+def read_metadata(model: ModelProto) -> dict[str, Any]:
+    """
+    Collect the metadata of a model.
+
+    :param onnx.ModelProto model: loaded model
+    :return: metadata fields; ``metadata_props`` holds all key/value entries
+    :rtype: dict[str, Any]
+    """
+    return {
+        "ir_version": model.ir_version,
+        "opset": {
+            (item.domain or "ai.onnx"): item.version
+            for item in model.opset_import
+        },
+        "producer_name": model.producer_name,
+        "producer_version": model.producer_version,
+        "domain": model.domain,
+        "model_version": int_to_semver(model.model_version),
+        "model_version_raw": model.model_version,
+        "graph_name": model.graph.name,
+        "doc_string": model.doc_string,
+        "metadata_props": {p.key: p.value for p in model.metadata_props},
+    }
+
+
+def requested_changes(
+    args: argparse.Namespace,
+) -> tuple[dict[str, str], dict[str, str]]:
+    """
+    Collect the values given to ``set``.
+
+    :param argparse.Namespace args: parsed ``set`` arguments
+    :return: fields (``graph_name``, ``doc_string``, ``domain``,
+        ``model_version``) and ``metadata_props`` entries, as given
+    :rtype: tuple[dict[str, str], dict[str, str]]
+    :raises ValueError: if the version or a property cannot be stored
+    """
+    given = {
+        "doc_string": args.doc,
+        "domain": args.domain,
+        "graph_name": args.name,
+        "model_version": args.version,
+    }
+    fields = {k: v for k, v in given.items() if v is not None}
+    if "model_version" in fields:
+        semver_to_int(fields["model_version"])  # reject early
+
+    pairs = [parse_prop(text) for text in args.prop]
+    if args.license is not None and not args.license.strip():
+        raise ValueError(
+            "The license is empty; to remove it, use --prop model_license="
+        )
+    if args.license is not None:
+        pairs.append((_LICENSE_KEY, args.license))
+    if args.author is not None:
+        pairs.append((_AUTHOR_KEY, args.author))
+    props: dict[str, str] = {}
+    for key, value in pairs:
+        if key in props:
+            raise ValueError(
+                f"Property {key!r} is given more than once "
+                "(--license and --author also set model_license "
+                "and model_author)"
+            )
+        props[key] = value
+    return fields, props
+
+
+def apply_changes(
+    model: ModelProto, fields: Mapping[str, str], props: Mapping[str, str]
+) -> tuple[dict[str, tuple[str, str]], dict[str, Any]]:
+    """
+    Set the requested fields on a model.
+
+    :param onnx.ModelProto model: loaded model, changed in place
+    :param Mapping[str, str] fields: values to set, from
+        :func:`requested_changes`
+    :param Mapping[str, str] props: ``metadata_props`` entries to set
+    :return: changed fields as ``{field: (old, new)}``, and the metadata
+        that must be read back from the saved file (see
+        :func:`read_metadata`)
+    :rtype: tuple[dict[str, tuple[str, str]], dict[str, Any]]
+    """
+    from onnx import helper
+
+    before = read_metadata(model)
+    expected = {
+        **before,
+        **fields,
+        "metadata_props": {**before["metadata_props"], **props},
+    }
+    if "model_version" in fields:
+        expected["model_version_raw"] = semver_to_int(fields["model_version"])
+
+    changes = {
+        key: (before["metadata_props"].get(key, ""), value)
+        for key, value in props.items()
+        if before["metadata_props"].get(key) != value
+    }
+    changes.update(
+        (field, (before[field], value))
+        for field, value in fields.items()
+        if before[field] != value
+    )
+
+    if "graph_name" in fields:
+        model.graph.name = fields["graph_name"]
+    if "doc_string" in fields:
+        model.doc_string = fields["doc_string"]
+    if "domain" in fields:
+        model.domain = fields["domain"]
+    if "model_version" in fields:
+        model.model_version = expected["model_version_raw"]
+    # set_model_props() replaces every entry, so pass the merged dict
+    helper.set_model_props(model, expected["metadata_props"])
+    return changes, expected
+
+
+def _fingerprint(path: Path) -> tuple[int, str]:
+    data = path.read_bytes()
+    return len(data), hashlib.md5(data, usedforsecurity=False).hexdigest()
+
+
+def _require_writable(path: Path) -> None:
+    """Raise ValueError if the file or its directory is read-only."""
+    real_path = path.resolve()
+    if not os.access(real_path, os.W_OK):
+        raise ValueError(f"{_display(path)} is read-only; make it writable")
+    if not os.access(real_path.parent, os.W_OK):
+        raise ValueError(f"The directory of {_display(path)} is read-only")
+
+
+def _write(model: ModelProto, path: Path) -> None:
+    import onnx
+
+    onnx.save(model, str(path))
+
+
+def _mismatches(path: Path, expected: dict[str, Any]) -> list[str]:
+    """Read a file back and list the fields that differ from expected."""
+    actual = read_metadata(_load(path))
+    return [
+        f"{key}: given {value!r}, read back {actual.get(key)!r}"
+        for key, value in expected.items()
+        if value != actual.get(key)
+    ]
+
+
+def _check_read_back(path: Path, expected: dict[str, Any], note: str) -> None:
+    problems = _mismatches(path, expected)
+    if problems:
+        details = "\n  ".join(problems)
+        raise ValueError(f"Read-back check failed ({note}):\n  {details}")
+
+
+def _save_verified(
+    model: ModelProto, path: Path, expected: dict[str, Any]
+) -> None:
+    """
+    Save a model, then read it back and compare it with the given values.
+
+    The model goes to a uniquely named temporary file first. The original is
+    replaced, with its permissions kept, only if that file reads back as
+    expected. The replaced file is read back again.
+    """
+    real_path = path.resolve()  # replace the target of a symbolic link
+    handle, tmp_name = tempfile.mkstemp(
+        dir=real_path.parent, prefix=f".{real_path.name}.", suffix=".tmp"
+    )
+    os.close(handle)
+    tmp_path = Path(tmp_name)
+    try:
+        _write(model, tmp_path)
+        _check_read_back(tmp_path, expected, "file not changed")
+        shutil.copymode(real_path, tmp_path)
+        tmp_path.replace(real_path)
+    finally:
+        tmp_path.unlink(missing_ok=True)
+    _check_read_back(real_path, expected, "file was replaced")
+
+
+def _format_text(path: Path, info: dict[str, Any]) -> str:
+    props = info["metadata_props"]
+    opset = ", ".join(f"{k}={v}" for k, v in info["opset"].items())
+    producer = f"{info['producer_name']} {info['producer_version']}".strip()
+    lines = [
+        str(path),
+        f"  ir_version       {info['ir_version']}",
+        f"  opset            {opset}",
+        f"  producer         {producer}",
+        f"  domain           {info['domain']}",
+        f"  model_version    {info['model_version_raw']}"
+        f"  ({info['model_version']})",
+        f"  graph.name       {info['graph_name']}",
+        f"  doc_string       {info['doc_string']}",
+    ]
+    lines.extend(f"  {key:<16} {value}" for key, value in props.items())
+    return "\n".join(lines)
+
+
+def _load(path: Path) -> ModelProto:
+    import onnx
+
+    try:
+        # keep external tensor data in its own files: only metadata changes
+        return onnx.load(str(path), load_external_data=False)
+    except OSError:
+        raise
+    except Exception as err:  # protobuf error types vary
+        raise ValueError(f"Cannot read ONNX file {path}: {err}") from err
+
+
+def _ascii(text: str) -> str:
+    """Escape non-ASCII characters, so a Windows console can print them."""
+    return text.encode("ascii", "backslashreplace").decode("ascii")
+
+
+class _AsciiArgumentParser(argparse.ArgumentParser):
+    """Argument parser whose error messages are ASCII only."""
+
+    def error(self, message: str) -> NoReturn:
+        super().error(_ascii(message))
+
+
+def _display(path: Path) -> str:
+    try:
+        return str(path.relative_to(Path.cwd()))
+    except ValueError:
+        return str(path)
+
+
+def _show(args: argparse.Namespace) -> int:
+    paths = [Path(p) for p in args.paths] or sorted(_CORPUS_DIR.glob("*.onnx"))
+    infos = []
+    for path in paths:
+        model = _load(path)
+        info = read_metadata(model)
+        info["path"] = _display(path)
+        info["duplicate_keys"] = duplicate_keys(model)
+        if info["duplicate_keys"]:
+            print(
+                _ascii(
+                    f"warning: {info['path']}: duplicate metadata_props "
+                    f"keys {info['duplicate_keys']}; the last value is shown"
+                ),
+                file=sys.stderr,
+            )
+        infos.append(info)
+    if args.json:
+        print(json.dumps(infos, ensure_ascii=True, indent=2))
+    else:
+        print("\n".join(_format_text(Path(i["path"]), i) for i in infos))
+    return 0
+
+
+def _warn(message: str) -> None:
+    print(_ascii(f"warning: {message}"), file=sys.stderr)
+
+
+def _checked_license(given: str, source: str) -> str:
+    """Return the text to record for ``--license``, and print warnings."""
+    try:
+        licenses = load_licenses(source)
+    except (OSError, ValueError) as err:
+        recorded = given.strip()
+        _warn(
+            f"the SPDX License List is not available ({err}); "
+            f"license {recorded!r} is recorded as given"
+        )
+        return recorded
+    recorded, warning = resolve_license(given, licenses)
+    if warning is not None:
+        _warn(warning)
+    return recorded
+
+
+def _refuse_duplicate_keys(model: ModelProto) -> None:
+    duplicates = duplicate_keys(model)
+    if duplicates:
+        raise ValueError(
+            f"metadata_props has duplicate keys {duplicates}; "
+            "the file is not rewritten"
+        )
+
+
+def _set(args: argparse.Namespace) -> int:
+    path = Path(args.path)
+    fields, props = requested_changes(args)  # check the arguments first
+    model = _load(path)
+    _refuse_duplicate_keys(model)
+    if args.license is not None:
+        props[_LICENSE_KEY] = _checked_license(args.license, args.spdx_list)
+    changes, expected = apply_changes(model, fields, props)
+    print(_display(path))
+    if not changes:
+        print("  no change")
+        return 0
+    _require_writable(path)
+    for field, (old, new) in changes.items():
+        print(f"  {field:<16} {old!r} -> {new!r}")
+    if args.dry_run:
+        print(f"  dry run: would write {len(changes)} field(s)")
+        return 0
+    old_size, old_md5 = _fingerprint(path)
+    _save_verified(model, path, expected)
+    new_size, new_md5 = _fingerprint(path)
+    print(f"  size             {old_size} -> {new_size} bytes")
+    print(f"  md5              {old_md5} -> {new_md5}")
+    print("  verified         read back matches the given values")
+    return 0
+
+
+def build_parser() -> argparse.ArgumentParser:
+    """
+    Build the command-line parser.
+
+    :return: parser with the ``show`` and ``set`` commands
+    :rtype: argparse.ArgumentParser
+    """
+    parser = _AsciiArgumentParser(
+        description="Show and edit the metadata of ONNX model files."
+    )
+    commands = parser.add_subparsers(dest="command", required=True)
+
+    show = commands.add_parser("show", help="print metadata")
+    show.add_argument("paths", nargs="*", help="model files (default: corpus)")
+    show.add_argument("--json", action="store_true", help="output JSON")
+    show.set_defaults(func=_show)
+
+    edit = commands.add_parser("set", help="change metadata")
+    edit.add_argument("path", help="model file")
+    edit.add_argument("--name", help="name of the model -> graph.name")
+    edit.add_argument("--doc", help="description of the model -> doc_string")
+    edit.add_argument(
+        "--domain", help="reverse domain name, e.g. org.pythainlp -> domain"
+    )
+    edit.add_argument(
+        "--version",
+        help="MAJOR.MINOR.PATCH, e.g. 1.0.1 -> model_version (packed integer)",
+    )
+    edit.add_argument(
+        "--license",
+        help="SPDX license ID, e.g. Apache-2.0 "
+        '-> metadata_props["model_license"] '
+        "(other spellings are normalized, with a warning)",
+    )
+    edit.add_argument(
+        "--spdx-list",
+        default=SPDX_LIST_URL,
+        metavar="FILE_OR_URL",
+        help="SPDX License List (licenses.json) for --license "
+        "(default: %(default)s)",
+    )
+    edit.add_argument(
+        "--author",
+        help='comma-separated authors -> metadata_props["model_author"]',
+    )
+    edit.add_argument(
+        "--prop",
+        action="append",
+        default=[],
+        metavar="KEY=VALUE",
+        help="any other entry -> metadata_props[KEY] (repeatable)",
+    )
+    edit.add_argument(
+        "--dry-run", action="store_true", help="show changes, write nothing"
+    )
+    edit.set_defaults(func=_set)
+    return parser
+
+
+def main(argv: Optional[Sequence[str]] = None) -> int:
+    """
+    Run the command line.
+
+    :param Optional[Sequence[str]] argv: arguments (default: ``sys.argv``)
+    :return: exit status; 0 on success
+    :rtype: int
+    """
+    # A Windows console or a redirected stream may not write Thai.
+    reconfigure = getattr(sys.stdout, "reconfigure", None)
+    if reconfigure is not None:
+        reconfigure(encoding="utf-8")
+
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    if args.command == "set" and not (
+        args.prop
+        or any(
+            getattr(args, name) is not None
+            for name in (
+                "name",
+                "doc",
+                "domain",
+                "version",
+                "license",
+                "author",
+            )
+        )
+    ):
+        parser.error("set needs at least one field to change")
+    try:
+        return int(args.func(args))
+    except ImportError as err:
+        if importlib.util.find_spec("onnx") is None:
+            message = "The onnx package is required: pip install onnx"
+        else:
+            message = f"Cannot import the onnx package: {err}"
+        print(_ascii(message), file=sys.stderr)
+    except (OSError, ValueError) as err:
+        print(_ascii(f"Error: {err}"), file=sys.stderr)
+    return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

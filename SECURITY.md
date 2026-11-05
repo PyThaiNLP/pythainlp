@@ -4,8 +4,9 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
+| 5.4.x   | :white_check_mark: |
 | 5.3.x   | :white_check_mark: |
-| 5.2.x   | :white_check_mark: |
+| 5.2.x   | :x:                |
 | 5.1.x   | :x:                |
 | 5.0.x   | :x:                |
 | 4.0.x   | :x:                |
@@ -54,7 +55,7 @@ gh attestation verify <file> -R PyThaiNLP/pythainlp \
 The following security improvements are planned for future releases:
 
 - Migrate from pickle to a safer serialization format such as JSON or
-  [MessagePack][].
+  [MessagePack].
 - Upgrade the hashing algorithm for integrity verification from MD5 to SHA-256
   or SHA-3.
 - Implement digital signatures for corpus files to ensure authenticity.

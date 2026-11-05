@@ -279,7 +279,7 @@ def _etcc(text: str) -> list[str]:
 
 
 def _wangchanberta(text: str) -> list[str]:
-    from pythainlp.wangchanberta import segment
+    from pythainlp.lm.wangchanberta import segment
 
     return segment(text)
 
@@ -316,7 +316,7 @@ def _han_solo(text: str) -> list[str]:
 
 
 def _phayathai(text: str) -> list[str]:
-    from pythainlp.phayathaibert import segment
+    from pythainlp.lm.phayathaibert import segment
 
     return segment(text)
 

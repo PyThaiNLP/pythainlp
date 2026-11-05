@@ -231,6 +231,8 @@ Modules
 .. autofunction:: pos_tag_transformers
 .. autofunction:: tag_provinces
 .. autofunction:: chunk_parse
+.. autoclass:: CRFTagger
+   :members:
 .. autoclass:: NER
    :members:
 .. autoclass:: NNER

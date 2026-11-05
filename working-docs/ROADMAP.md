@@ -342,6 +342,16 @@ the code disagree. The code was not changed. No test pins them.
   `pythainlp.augment.lm.__init__` imports `phayathaibert` first. CI never
   covers it, so it is in the noauto list.
 
+### Release and tooling
+
+- Check the bundled ONNX models with `build_tools/onnx_metadata.py show`.
+  Set missing `--name`, `--domain`, `--version`, `--license`, and
+  `--author` values with `set`.
+- `onnx_metadata.py` does not check SPDX license expressions
+  (`MIT OR Apache-2.0`); it records them as given, with a warning.
+- CI does not install `onnx`, so the file tests of `onnx_metadata.py` are
+  skipped there. Run them locally with `onnx` installed.
+
 ### Test coverage
 
 Expected coverage: 80% overall, 95% for new and changed code. CI gates new

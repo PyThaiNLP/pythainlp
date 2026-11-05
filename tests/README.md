@@ -63,8 +63,8 @@ The CI/CD test workflow is at
   - Need dependencies from `pip install "pythainlp[compact]"`
 - Test a limited set of functionalities that rely on a stable
   and small set of dependencies.
-- These dependencies are `PyYAML`, `nlpo3`, `numpy`, `pyicu`,
-  and `python-crfsuite`.
+- These dependencies are `PyYAML`, `nlpo3`, `numpy`,
+  and `pyicu`.
 - Includes corpus download/remove tests (may require network access).
 - Tested on:
   - All OSes: earliest and second-latest supported Python versions

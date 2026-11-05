@@ -19,6 +19,9 @@ test_packages: list[str] = [
     "tests.core.test_cli",
     "tests.core.test_cli_benchmark",
     "tests.core.test_branches_offline",
+    "tests.core.test_convert_crf_to_weights",
+    "tests.core.test_crf_weights",
+    "tests.core.test_build_tools_onnx_metadata",
     "tests.core.test_corpus",
     "tests.core.test_corpus_core_internals",
     "tests.core.test_fastthaig2p",
@@ -60,6 +63,7 @@ test_packages: list[str] = [
     "tests.core.test_util_strftime",
     "tests.core.test_util_syllable",
     "tests.core.test_util_thai",
+    "tests.core.test_util_thai_char_name",
     "tests.core.test_util_thai_lunar_date",
     "tests.core.test_util_time",
 ]

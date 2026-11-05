@@ -23,8 +23,8 @@ class KhaveeVerifier:
     syllable weight (ครุ/ลหุ), and full Thai klon 4/8 poem structure (กลอน).
 
     This class is designed to be deterministic according to the Royal
-    Society of Thailand's orthographic standards. The only exception is
-    the use of "ssg" for syllable segmentation in :meth:`check_klon`.
+    Society of Thailand's orthographic standards. It uses bundled SSG
+    weights for syllable segmentation in :meth:`check_klon`.
 
     Key capabilities:
 
@@ -61,9 +61,6 @@ class KhaveeVerifier:
             ...     k_type=4
             ... )
             'The poem is correct according to the principle.'
-
-    :Note:
-        The method :meth:`check_klon` requires the external ``ssg`` library.
     """
 
     # ฤ and ฦ act as initial consonants but are not in thai_consonants
@@ -862,7 +859,6 @@ class KhaveeVerifier:
         :return: check results of the poem, a message that the poem is
             correct or a list of error messages
         :rtype: Union[list[str], str]
-        :raises ImportError: if the ``ssg`` library is not installed
 
         ══════════════════════════════════════════════════════════════════════
 
@@ -905,14 +901,6 @@ class KhaveeVerifier:
             ... ))
             The poem is correct according to the principle.
         """
-        try:
-            __import__("ssg")
-        except ImportError as exc:
-            raise ImportError(
-                "The 'ssg' library is required for comprehensive poem analysis (check_klon). "
-                "Please install it using: pip install ssg"
-            ) from exc
-
         if k_type not in {4, 8}:
             return "Something went wrong. Make sure you enter it in the correct form (k_type 4 or 8)."
 

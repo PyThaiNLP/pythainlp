@@ -9,7 +9,7 @@ multiple test files.
 """
 
 import unittest
-from typing import Callable
+from collections.abc import Callable
 
 
 def assert_segment_handles_none_and_empty(

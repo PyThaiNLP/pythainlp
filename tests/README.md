@@ -36,14 +36,13 @@ inside that test suite's directory.
 The following table outlines the automated test coverage across
 supported Python versions and operating systems:
 
-| Python         | Ubuntu  | Windows | macOS |
-| -------------- | ------- | ------- | ----- |
-| 3.14 (Latest)  | O+C     | O       | O     |
-| 3.13           | O+C+X   | O+C     | O+C   |
-| 3.12           | O       |         |       |
-| 3.11           | O       |         |       |
-| 3.10           | O       |         |       |
-| 3.9 (Earliest) | O+C     | O+C     | O+C   |
+| Python          | Ubuntu  | Windows | macOS |
+| --------------- | ------- | ------- | ----- |
+| 3.14 (Latest)   | O+C     | O       | O     |
+| 3.13            | O+C+X   | O+C     | O+C   |
+| 3.12            | O       |         |       |
+| 3.11            | O       |         |       |
+| 3.10 (Earliest) | O+C     | O+C     | O+C   |
 
 The CI/CD test workflow is at
 <https://github.com/PyThaiNLP/pythainlp/blob/dev/.github/workflows/unittest.yml>.

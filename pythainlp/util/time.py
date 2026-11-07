@@ -9,10 +9,11 @@ Convert a time string or a time object to Thai words.
 
 from __future__ import annotations
 
+from collections.abc import Callable  # noqa: TC003  # for get_type_hints()
 from contextlib import suppress
 from datetime import datetime, time
 from functools import lru_cache
-from typing import Callable, Optional, Union
+from typing import Optional, Union
 
 from pythainlp.tokenize import Tokenizer
 from pythainlp.util.numtoword import num_to_thaiword

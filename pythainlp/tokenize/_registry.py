@@ -19,7 +19,8 @@ tokenizers call string methods on the name first, so they raise
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Callable, NoReturn, Optional, TypeVar
+from collections.abc import Callable
+from typing import TYPE_CHECKING, NoReturn, Optional, TypeVar
 
 if TYPE_CHECKING:
     from pythainlp.util.trie import Trie

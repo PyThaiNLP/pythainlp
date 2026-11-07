@@ -7,9 +7,11 @@ from __future__ import annotations
 
 import itertools
 import logging
-from typing import TYPE_CHECKING, Callable, Union
+from typing import TYPE_CHECKING, Union
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from gensim.models.keyedvectors import KeyedVectors
 
 

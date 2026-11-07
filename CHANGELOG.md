@@ -19,6 +19,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+The minimum Python version is now 3.10.
+
 ### Added
 
 - `thai_name_to_char` and `thai_char_to_name` in `pythainlp.util`

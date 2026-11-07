@@ -17,7 +17,8 @@ __all__: list[str] = [
 
 import itertools
 from collections import OrderedDict
-from typing import TYPE_CHECKING, Callable, Optional
+from collections.abc import Callable  # noqa: TC003  # for get_type_hints()
+from typing import TYPE_CHECKING, Optional
 
 from nltk.corpus import wordnet as wn
 

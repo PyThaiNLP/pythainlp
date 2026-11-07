@@ -11,7 +11,7 @@ name = "pythainlp"
 version = "6.0.0-dev0"
 description = "Thai Natural Language Processing library"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = "Apache-2.0"
 authors = [
     { name = "Wannaphong Phatthiyaphaibun", email = "wannaphong@pythainlp.org" },
@@ -45,7 +45,6 @@ classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -71,28 +70,19 @@ dependencies = [
 ## 1) Development ########################################
 
 dev = [
-    # Some tools drop Python 3.9 in newer releases. Use the latest version
-    # for each Python range. bandit 1.8.x reports false positives for B615
-    # (revision is a variable).
-    "bandit>=1.8.6;python_version<'3.10'",
-    "bandit>=1.9.4;python_version>='3.10'",
-    "build>=1.4.4;python_version<'3.10'",
-    "build>=1.6.1;python_version>='3.10'",
+    # bandit 1.8.x reports false positives for B615 (revision is a variable).
+    "bandit>=1.9.4",
+    "build>=1.6.1",
     "bump-my-version>=1.5.1",
-    "coverage>=7.10.7;python_version<'3.10'",
-    "coverage>=7.16.2;python_version>='3.10'",
+    "coverage>=7.16.2",
     "diff-cover>=10.6.0",
-    "flake8>=7.3.0;python_version<'3.10'",
-    "flake8>=7.4.1;python_version>='3.10'",
+    "flake8>=7.4.1",
     "flake8-cognitive-complexity>=0.1.0",
-    # Same as CI. mypy 2.x requires Python 3.10 or later and rejects
-    # python_version = "3.9" in [tool.mypy].
+    # Same as CI.
     "mypy==1.19.1",
-    "pylint>=3.3.9;python_version<'3.10'",
-    "pylint>=4.1.2;python_version>='3.10'",
+    "pylint>=4.1.2",
     "ruff>=0.16.10",
-    "tox>=4.30.3;python_version<'3.10'",
-    "tox>=4.64.9;python_version>='3.10'",
+    "tox>=4.64.9",
 ]
 
 docs = [
@@ -452,7 +442,7 @@ ignore = ["D203", "D212"]
 [tool.ruff]
 indent-width = 4
 line-length = 79
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.format]
 docstring-code-format = true
@@ -554,7 +544,7 @@ extend-ignore = ["B905", "E501", "RET504", "SIM108", "SIM117"]
 "docs/**" = ["D1"]
 
 [tool.tox]
-env_list = ["py39", "py310", "py311", "py312", "py313", "py314", "pypy310", "pypy311", "ruff", "flake8", "mypy"]
+env_list = ["py310", "py311", "py312", "py313", "py314", "pypy310", "pypy311", "ruff", "flake8", "mypy"]
 skip_missing_interpreters = true
 
 [tool.tox.env_run_base]
@@ -585,8 +575,7 @@ skip_install = true
 
 [tool.tox.env.mypy]
 commands = [["mypy", "pythainlp", "tests"]]
-# Same version as mypy.yml. mypy 1.19 is the last release that targets
-# Python 3.9; python_version in [tool.mypy] sets the target.
+# Same version as mypy.yml. python_version in [tool.mypy] sets the target.
 deps = ["mypy==1.19.1"]
 extras = []
 
@@ -597,7 +586,7 @@ disallow_subclassing_any = true
 disallow_untyped_decorators = true
 disallow_untyped_defs = true
 pretty = true
-python_version = "3.9"
+python_version = "3.10"
 show_column_numbers = true
 show_error_code_links = true
 show_error_context = true
@@ -619,7 +608,7 @@ disallow_untyped_defs = false
 
 # Treat optional dependencies as untyped, whether installed or not.
 # Without "follow_imports = skip", mypy analyzes installed packages
-# (for example, torch) with python_version = "3.9" and fails on
+# (for example, torch) with python_version = "3.10" and fails on
 # newer syntax.
 [[tool.mypy.overrides]]
 module = [

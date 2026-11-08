@@ -3,7 +3,7 @@
 ![Project Logo](https://avatars0.githubusercontent.com/u/32934255?s=200&v=4)
 
 [![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
-[![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3519354.svg)](https://doi.org/10.5281/zenodo.3519354)
 [![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -30,7 +30,7 @@ pip install pythainlp
 | รุ่น | รุ่นของ Python | มีอะไรเปลี่ยน | เอกสาร |
 | :-: | :-: | :-: | :-: |
 | [5.4.0](https://github.com/PyThaiNLP/pythainlp/releases) | 3.9+ | [Log](https://github.com/PyThaiNLP/pythainlp/blob/dev/CHANGELOG.md) | [pythainlp.org/docs](https://pythainlp.org/docs) |
-| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | 3.9+ | [Log](https://github.com/PyThaiNLP/pythainlp/compare/v5.4.0...HEAD) | [pythainlp.org/dev-docs](https://pythainlp.org/dev-docs/) |
+| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | 3.10+ | [Log](https://github.com/PyThaiNLP/pythainlp/compare/v5.4.0...HEAD) | [pythainlp.org/dev-docs](https://pythainlp.org/dev-docs/) |
 
 ## ความสามารถ
 

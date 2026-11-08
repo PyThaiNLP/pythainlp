@@ -68,7 +68,7 @@ jobs:
         # See details of test matrix in:
         # https://github.com/PyThaiNLP/pythainlp/blob/dev/tests/README.md
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-        python-version: ["3.14", "3.9"] # Latest and earliest
+        python-version: ["3.14", "3.10"] # Latest and earliest
         include:
           # Test the rest of Python versions only on Ubuntu
           - os: "ubuntu-latest"
@@ -77,17 +77,15 @@ jobs:
             python-version: "3.12"
           - os: "ubuntu-latest"
             python-version: "3.11"
-          - os: "ubuntu-latest"
-            python-version: "3.10"
 
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     env:
-      PYICU_WIN_VER: 2.15 # 2.15 is the last version that supports Python 3.9
+      PYICU_WIN_VER: 2.15 # 2.15 is the last version that supports Python 3.10
       INSTALL_FULL_DEPS: false
       PYTHON_VERSION_LATEST: "3.14"
       PYTHON_VERSION_LATEST_2: "3.13" # Second-latest supported version
-      PYTHON_VERSION_EARLIEST: "3.9"
+      PYTHON_VERSION_EARLIEST: "3.10"
 
     steps:
       - name: Checkout

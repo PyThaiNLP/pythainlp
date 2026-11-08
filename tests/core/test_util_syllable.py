@@ -14,7 +14,7 @@ import hashlib
 import itertools
 import random
 import unittest
-from typing import TYPE_CHECKING, Callable
+from typing import TYPE_CHECKING
 
 from pythainlp import thai_consonants, thai_tonemarks, thai_vowels
 from pythainlp.util.syllable import (
@@ -26,7 +26,7 @@ from pythainlp.util.syllable import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Callable, Iterator
 
 # (syllable, sound_syllable result, tone_detector result);
 # "!Name" means that the exception type Name is raised.

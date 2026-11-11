@@ -305,24 +305,19 @@ _PLACE_UNITS: Final[dict[int, str]] = {
 }
 
 _SYMBOL_PATTERN: Final[Pattern[str]] = re.compile(
-    "|".join(
-        re.escape(k) for k in sorted(SYMBOLS.keys(), key=len, reverse=True)
-    )
+    "|".join(re.escape(k) for k in sorted(SYMBOLS.keys(), key=len, reverse=True))
 )
 _ENGLISH_ABBREV_PATTERN: Final[Pattern[str]] = re.compile(
     r"\b("
     + "|".join(
-        re.escape(k)
-        for k in sorted(ENGLISH_ABBREVS.keys(), key=len, reverse=True)
+        re.escape(k) for k in sorted(ENGLISH_ABBREVS.keys(), key=len, reverse=True)
     )
     + r")",
     re.IGNORECASE,
 )
 _UNIT_PATTERN: Final[Pattern[str]] = re.compile(
     r"(?<=\d)\s*("
-    + "|".join(
-        re.escape(k) for k in sorted(UNITS.keys(), key=len, reverse=True)
-    )
+    + "|".join(re.escape(k) for k in sorted(UNITS.keys(), key=len, reverse=True))
     + r")"
 )
 _TIME_PATTERN: Final[Pattern[str]] = re.compile(
@@ -331,9 +326,7 @@ _TIME_PATTERN: Final[Pattern[str]] = re.compile(
 _EMAIL_PATTERN: Final[Pattern[str]] = re.compile(
     r"[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"
 )
-_PHONE_PATTERN: Final[Pattern[str]] = re.compile(
-    r"\d{2,4}[-\.]\d{3,4}[-\.]\d{3,4}"
-)
+_PHONE_PATTERN: Final[Pattern[str]] = re.compile(r"\d{2,4}[-\.]\d{3,4}[-\.]\d{3,4}")
 _ALPHANUM_ID_PATTERN: Final[Pattern[str]] = re.compile(
     r"[A-Za-z]+[\-]?\d+[\-\dA-Za-z]*|\d+[\-]?[A-Za-z]+[\-\dA-Za-z]*"
 )
@@ -342,10 +335,7 @@ _COMMA_NUMBER_PATTERN: Final[Pattern[str]] = re.compile(
 )
 _NUMBER_PATTERN: Final[Pattern[str]] = re.compile(r"-?\d+(?:\.\d+)?")
 _ABBREV_PATTERN: Final[Pattern[str]] = re.compile(
-    "|".join(
-        re.escape(k)
-        for k in sorted(ABBREVIATIONS.keys(), key=len, reverse=True)
-    )
+    "|".join(re.escape(k) for k in sorted(ABBREVIATIONS.keys(), key=len, reverse=True))
 )
 _LATIN_RESIDUE_PATTERN: Final[Pattern[str]] = re.compile(r"[A-Za-z]+")
 
@@ -632,11 +622,7 @@ def _tltk_syllable_to_ipa(syl: str) -> str:
     for old, new in _VOWEL_MAP:
         result = result.replace(old, new)
 
-    if (
-        result
-        and result[-1] in "ktp"
-        and any(c in _VOWEL_CHARS for c in result[:-1])
-    ):
+    if result and result[-1] in "ktp" and any(c in _VOWEL_CHARS for c in result[:-1]):
         result = result[:-1] + result[-1] + "̚"
 
     return result + tone
@@ -658,9 +644,9 @@ def fallback_g2p(word: str) -> str:
         return ""
 
     try:
-        from tltk.nlp import g2p as tltk_g2p_func
+        from pythainlp.transliterate._tltk_g2p import tltk_g2p_native
 
-        tltk_result = tltk_g2p_func(word.replace("ฅ", "ค"))
+        tltk_result = tltk_g2p_native(word.replace("ฅ", "ค"))
         match = _TLTK_PHON_RE.search(tltk_result)
         if not match:
             return word
@@ -710,9 +696,7 @@ class FastThaiG2P:
                 text = f.read()
 
         self._ipa = json.loads(text)
-        self._tokenizer = Tokenizer(
-            custom_dict=set(self._ipa.keys()), engine="newmm"
-        )
+        self._tokenizer = Tokenizer(custom_dict=set(self._ipa.keys()), engine="newmm")
 
     def convert(self, text: str) -> str:
         """

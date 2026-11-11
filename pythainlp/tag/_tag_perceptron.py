@@ -20,6 +20,7 @@ This tagger is provided under the terms of the MIT License.
 
 from __future__ import annotations
 
+import gzip
 import json
 from collections import defaultdict
 from typing import TYPE_CHECKING, Any, ClassVar, Optional
@@ -78,9 +79,7 @@ class AveragedPerceptron:
         # Do a secondary alphabetic sort, for stability
         return max(self.classes, key=lambda label: (scores[label], label))
 
-    def update(
-        self, truth: str, guess: str, features: dict[str, float]
-    ) -> None:
+    def update(self, truth: str, guess: str, features: dict[str, float]) -> None:
         """
         Update the feature weights.
 
@@ -208,15 +207,11 @@ class PerceptronTagger:
                 words, tags = zip(*sentence)
 
                 prev, prev2 = self.START
-                context = (
-                    self.START + [self._normalize(w) for w in words] + self.END
-                )
+                context = self.START + [self._normalize(w) for w in words] + self.END
                 for i, word in enumerate(words):
                     guess = self.tagdict.get(word)
                     if not guess:
-                        feats = self._get_features(
-                            i, word, context, prev, prev2
-                        )
+                        feats = self._get_features(i, word, context, prev, prev2)
                         guess = self.model.predict(feats)
                         self.model.update(tags[i], guess, feats)
                     prev2 = prev
@@ -243,8 +238,12 @@ class PerceptronTagger:
         :raises OSError: if the model file cannot be opened
         """
         try:
-            with open(loc, encoding="utf-8-sig") as f:
-                w_td_c = json.load(f)
+            if loc.endswith(".gz"):
+                with gzip.open(loc, "rt", encoding="utf-8") as f:
+                    w_td_c = json.load(f)
+            else:
+                with open(loc, encoding="utf-8-sig") as f:
+                    w_td_c = json.load(f)
         except OSError as ex:
             msg = "Missing trontagger.json file."
             raise OSError(msg) from ex
@@ -316,13 +315,9 @@ class PerceptronTagger:
         add("i+2 word", context[i + 2])
         return features
 
-    def _make_tagdict(
-        self, sentences: Iterable[Iterable[tuple[str, str]]]
-    ) -> None:
+    def _make_tagdict(self, sentences: Iterable[Iterable[tuple[str, str]]]) -> None:
         """Make a tag dictionary for words with a single dominant tag."""
-        counts: dict[str, dict[str, int]] = defaultdict(
-            lambda: defaultdict(int)
-        )
+        counts: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
         for sentence in sentences:
             for word, tag in sentence:
                 counts[word][tag] += 1

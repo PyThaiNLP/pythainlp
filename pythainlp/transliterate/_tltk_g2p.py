@@ -69,18 +69,20 @@ def read_sylpattern(Filename):
     #    PRON = defaultdict(str)
 
     tmp = []
-    with open(Filename, "r", encoding="utf-8") as file1:
-        for line in file1:
-            if re.match(r"#", line):
+    with open(Filename, encoding="utf-8") as file1:
+        for raw_line in file1:
+            if re.match(r"#", raw_line):
                 continue
-            line = line.rstrip()
+            line = raw_line.rstrip()
             tmp = line.split(",")
             tmp[0] = re.sub(r"X", "([ก-ฮ])", tmp[0])
             tmp[0] = re.sub(r"C", "([กขคจดตทบปผพฟสศซ])", tmp[0])
             tmp[0] = re.sub(r"Y", "([ก-ฬฮ])", tmp[0])
             tmp[0] = re.sub(r"R", "([รลว])", tmp[0])
             tmp[0] = re.sub(r"K", "([ก-ฮ])", tmp[0])
-            tmp[0] = re.sub(r"A", "([กจฆดตบปอขฉฐถผฝศษสหคชพภทธมยรลวนณซญฑฏฌ])", tmp[0])
+            tmp[0] = re.sub(
+                r"A", "([กจฆดตบปอขฉฐถผฝศษสหคชพภทธมยรลวนณซญฑฏฌ])", tmp[0]
+            )
             tmp[0] = re.sub(r"Z", "([กงดนมบรลฎฏจตณถพศทสชคภปญ])", tmp[0])
             tmp[0] = re.sub(r"D", "([กงดนมบวยต])", tmp[0])
             tmp[0] = re.sub(r"W", "[ก-ฮ]", tmp[0])
@@ -277,11 +279,11 @@ def read_sylpattern(Filename):
 
 def read_syldict(filename: str) -> None:
     global PRON
-    with open(filename, "r", encoding="utf-8") as f:
-        for line in f:
-            if line.startswith("#"):
+    with open(filename, encoding="utf-8") as f:
+        for raw_line in f:
+            if raw_line.startswith("#"):
                 continue
-            line = line.rstrip()
+            line = raw_line.rstrip()
             tmp = line.split("\t")
             PRON[tmp[0]].append(tmp[1])
 
@@ -298,8 +300,8 @@ def read_PhSTrigram(filename: str) -> None:
         AbsFrmSUnigram
     open_fn = gzip.open if filename.endswith(".gz") else open
     with open_fn(filename, "rt", encoding="utf-8") as file_handle:
-        for line in file_handle:
-            line = line.rstrip().replace("<w>", "|")
+        for raw_line in file_handle:
+            line = raw_line.rstrip().replace("<w>", "|")
             tmp = line.split("\t")
             if len(tmp) < 2:
                 continue
@@ -333,11 +335,11 @@ def read_stat_json(filename: str) -> None:
     with gzip.open(filename, "rt", encoding="utf-8") as f:
         data = json.load(f)
     TriCount = defaultdict(int, {tuple(k): v for k, v in data})
-    for (x, y, z), freq in TriCount.items():
+    for (x, y, _z), freq in TriCount.items():
         BiType[(x, y)] += 1
         BiCount[(x, y)] += freq
         Count[y] += freq
-    for x, y in BiCount:
+    for x, _y in BiCount:
         Type[x] += 1
     for x in Count:
         TotalLex += 1
@@ -353,23 +355,17 @@ def mergekaran1(Lst):
     Found = "n"
     Lst.reverse()
     for s in Lst:
-        if re.search(r"(.+)[ิุ]์", s):  # anything + i or u + Karan
-            if len(s) < 4:
-                Found = "y"
-                x = s
-                continue
-        elif re.search(r"(.+)์", s):  # anything + Karan
-            if len(s) < 4:
-                Found = "y"
-                x = s
-                continue
+        if (re.search(r"(.+)[ิุ]์", s) or re.search(r"(.+)์", s)) and len(s) < 4:
+            Found = "y"
+            x = s
+            continue
         if Found == "y":
             for ph in PRONUN[s]:
                 if (s + x, ph) not in MKaran:
                     PRONUN[s + x].append(ph)
                     MKaran[(s + x, ph)] = 1
-            s += x
-            rs.append(s)
+            merged_s = s + x
+            rs.append(merged_s)
             Found = "n"
         else:
             rs.append(s)
@@ -453,15 +449,17 @@ def prob_wb(w, pw1, pw2):
     return p
 
 
-def preprocess(input):
+def preprocess(text: str) -> str:
     global SegSep
     global SSegSep
 
-    input = re.sub(r" +ๆ", r"ๆ", input)
-    input = re.sub(r"ๆ([^ ])", r"ๆ" + SegSep + r"\1", input)  ## add space after ๆ
-    #    print('adjust',input,'xxx')
+    text = re.sub(r" +ๆ", r"ๆ", text)
+    text = re.sub(
+        r"ๆ([^ ])", r"ๆ" + SegSep + r"\1", text
+    )  ## add space after ๆ
+    #    print('adjust',text,'xxx')
 
-    #    input = re.sub(u"เเ",u"แ",input)
+    #    text = re.sub(u"เเ",u"แ",text)
     ####### codes suggested by Arthit Suriyawongkul #####
     NORMALIZE_DICT = [
         ("\u0e40\u0e40", "\u0e41"),  # Sara E + Sara E -> Sara AE
@@ -470,66 +468,70 @@ def preprocess(input):
         ("\u0e26\u0e32", "\u0e26\u0e45"),  # Lu + Sara AA -> Lu + Lakkhangyao
     ]
     for k, v in NORMALIZE_DICT:
-        input = input.replace(k, v)
+        text = text.replace(k, v)
     ########################################################
-    #    print input.encode('raw_unicode_escape')
+    #    print text.encode('raw_unicode_escape')
 
     ###  handle Thai writing one character one space by deleting each space
     #    pattern = re.compile(r'([ก-ฮเแาำะไใโฯๆ][\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]*) +([ก-ฮเแาำะไใโฯๆ\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]{,2}) +|([ก-ฮเแาำะไใโฯๆ][\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]*) +([ก-ฮเแาำะไใโฯๆ\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]{,2})$')
     pattern = re.compile(
         r"([ก-ฮเแาำะไใโฯๆ][\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]*) +([ก-ฮเแาำะไใโฯๆ][\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]*) +|([ก-ฮเแาำะไใโฯๆ][\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]*) +([ก-ฮเแาำะไใโฯๆ][\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]*)$"
     )
-    #    while re.search(pattern, input):
-    #       input = re.sub(pattern, r"\1\2", input,count=1)
-    input = re.sub(pattern, r"\1\2", input)
+    #    while re.search(pattern, text):
+    #       text = re.sub(pattern, r"\1\2", text,count=1)
+    text = re.sub(pattern, r"\1\2", text)
 
     ##### change space\tab between [ET][ET] and [ET]  to be SegSep
-    #    input = re.sub(r"([^\s\t\u00A0][\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]*[^\s\t\u00A0][\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]*)[\s\t\u00A0]+([^\s\t\u00A0])",r"\1"+SegSep+r"\2",input)
-    input = re.sub(
+    #    text = re.sub(r"([^\s\t\u00A0][\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]*[^\s\t\u00A0][\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]*)[\s\t\u00A0]+([^\s\t\u00A0])",r"\1"+SegSep+r"\2",text)
+    text = re.sub(
         r"([^\s\t\u00A0]{3,})[\s\t\u00A0]+([^\s\t\u00A0]+?)",
         r"\1" + SegSep + r"\2",
-        input,
+        text,
     )
-    #    print('1. ',input)
+    #    print('1. ',text)
 
     ##### change space\tab between [ET] and [ET][ET]  to be SegSep
-    #    input = re.sub(r"([^\s\t\u00A0][\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]*)[\s\t\u00A0]+([^\s\t\u00A0][\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]*[^\s\t\u00A0][\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]*)",r"\1"+SegSep+r"\2",input)
-    input = re.sub(
-        r"([^\s\t\u00A0]+)[\s\t\u00A0]+([0-9]+)", r"\1" + SegSep + r"\2", input
+    #    text = re.sub(r"([^\s\t\u00A0][\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]*)[\s\t\u00A0]+([^\s\t\u00A0][\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]*[^\s\t\u00A0][\ุ\ู\ึ\ั\ี\๊\้\็\่\๋\ิ\ื\์]*)",r"\1"+SegSep+r"\2",text)
+    text = re.sub(
+        r"([^\s\t\u00A0]+)[\s\t\u00A0]+([0-9]+)", r"\1" + SegSep + r"\2", text
     )
-    input = re.sub(
+    text = re.sub(
         r"([^\s\t\u00A0]+?)[\s\t\u00A0]+([^\s\t\u00A0]{3,})",
         r"\1" + SegSep + r"\2",
-        input,
+        text,
     )
 
     ### handle English and Thai mixed without a space inside $s by adding SSegSep (softSegSep)
-    input = re.sub(r"([ก-์][ฯๆ])", r"\1" + SSegSep, input)
-    input = re.sub(
+    text = re.sub(r"([ก-์][ฯๆ])", r"\1" + SSegSep, text)
+    text = re.sub(
         r"([\u0E01-\u0E5B]+\.?)([^\.\u0E01-\u0E5B\u001F]+)",
         r"\1" + SSegSep + r"\2",
-        input,
+        text,
     )
-    input = re.sub(
-        r"([^\.\u0E01-\u0E5B\u001F]+)([\u0E01-\u0E5B]+)", r"\1" + SSegSep + r"\2", input
+    text = re.sub(
+        r"([^\.\u0E01-\u0E5B\u001F]+)([\u0E01-\u0E5B]+)",
+        r"\1" + SSegSep + r"\2",
+        text,
     )
-    input = re.sub(r"(<.+?>)", SSegSep + r"\1", input)
-    input = re.sub(
-        r"([0-9a-zA-Z\.\-]{2,})([\u0E01-\u0E5B]+)", r"\1" + SSegSep + r"\2", input
+    text = re.sub(r"(<.+?>)", SSegSep + r"\1", text)
+    text = re.sub(
+        r"([0-9a-zA-Z\.\-]{2,})([\u0E01-\u0E5B]+)",
+        r"\1" + SSegSep + r"\2",
+        text,
     )
-    input = re.sub(
-        r"(\.\.\.+)", r"" + SSegSep + r"\1" + SSegSep, input
+    text = re.sub(
+        r"(\.\.\.+)", r"" + SSegSep + r"\1" + SSegSep, text
     )  #  ....  add SSegSep after that
-    #    print("3. ",input)
+    #    print("3. ",text)
 
-    return input
+    return text
 
 
 #############################################################################################################
 ### initialization by read syllable patterns, syllable trigrams, and satndard dictionary
 
 
-def sylparse(Input):
+def sylparse(Input):  # noqa: C901
     global SylSep
     global PRON
     global PRONUN
@@ -583,7 +585,9 @@ def sylparse(Input):
                         #                        print("code char",codematch,charmatch)
                         phone = ReplaceSnd(PronF, codematch, charmatch)
                         #                        print("phone",phone)
-                        if NotExceptionSyl(codematch, charmatch, keymatch, phone):
+                        if NotExceptionSyl(
+                            codematch, charmatch, keymatch, phone
+                        ):
                             (phone, tone) = ToneAssign(
                                 keymatch, phone, codematch, charmatch
                             )
@@ -645,19 +649,16 @@ def sylparse(Input):
         schart = deepcopy(schartx)
     if EndOfInput in schart[0]:
         return SylSep.join(schart[0][EndOfInput])
-    else:
-        return "<Fail>" + Input + "</Fail>"
+    return "<Fail>" + Input + "</Fail>"
 
 
 def ReplaceSnd(phone, codematch, charmatch):
     global stable
     snd = phone
     tmp1Lst = charmatch.split(" ")  # get character
-    i = 0
-    for x in list(codematch):
+    for i, x in enumerate(codematch):
         s = stable[x][tmp1Lst[i]]
         snd = re.sub(x, s, snd)
-        i += 1
     snd += "8"
     #     print('Sound',snd)
     return snd
@@ -667,13 +668,11 @@ def NotExceptionSyl(codematch, charmatch, form, phone):
     if re.search(r"\.", form):
         return True
         ##  check pronunciation marked in syllable dict, if it exists and it is different from the current phone, disregard current phone.
-    if "CR" in codematch:
-        # exception for CR = ถร  ผร  ดล  ตล ถล ทล บล ดว ตว ถว ทว บว ปว ผว สว
-        if re.match(
-            r"ผ ร|ด ล|ต ล|ท ล|ด ว|ต ว|ท ว|บ ว|ป ว|พ ว|ฟ ว|ผ ว|ส ล|ส ว|ร ร|ศ ล|ศ ว",
-            charmatch,
-        ):
-            return False
+    if "CR" in codematch and re.match(
+        r"ผ ร|ด ล|ต ล|ท ล|ด ว|ต ว|ท ว|บ ว|ป ว|พ ว|ฟ ว|ผ ว|ส ล|ส ว|ร ร|ศ ล|ศ ว",
+        charmatch,
+    ):
+        return False
     # exception for AK = กย กง ขง คง คม จง จน จก ฉย ชง ดย ดง ดน ดม ถย บย บง บน บม ปง ผม พง ฟย ฟง ฟน ฟม ซย ซง ซน ซม  ถร บล บว ปว พร พว นน ยด คว
     if "AK" in codematch:  # check for leadnng and following consonant
         clst = charmatch.split(" ")
@@ -684,16 +683,15 @@ def NotExceptionSyl(codematch, charmatch, form, phone):
     if re.search(r"\u0E31[\0E48-\u0E4B]?ว]", form) and "aw" in phone:
         return False
         # Case 5 check for speller ข Only 3 vowel forms can be used  ัุ   เ
-    if re.search(r"[ก-ฮ] ข", charmatch) and not re.search(
-        r"[\u0E38\u0E31\u0E40]", form
-    ):
-        return False
-    return True
+    return not (
+        re.search(r"[ก-ฮ] ข", charmatch)
+        and not re.search(r"[\u0E38\u0E31\u0E40]", form)
+    )
 
 
 # Case  xร - xon   except  Xรน (กรน ปรน)
 """    if re.search(r'[ก-ฮ] ร$',charmatch) and re.search(r'.an',phone):
-        print(codematch,charmatch,form,phone) 
+        print(codematch,charmatch,form,phone)
         sys.exit()
         return(False)
     return(True)
@@ -705,7 +703,7 @@ def NotExceptionSyl(codematch, charmatch, form, phone):
 #######################################
 
 
-def ToneAssign(keymatch, phone, codematch, charmatch):
+def ToneAssign(keymatch, phone, codematch, charmatch):  # noqa: C901
     #    print("ToneAssign:",keymatch,phone,codematch,charmatch)
     if phone == "":
         return ("", "9")
@@ -731,9 +729,7 @@ def ToneAssign(keymatch, phone, codematch, charmatch):
     ### change + for leading syllable
     if "+'" in phone:
         #        print('found leading',phone,lead)
-        if lead in "ผฝถขสหฉศษ":
-            phone = re.sub(r"\+", "1", phone)
-        elif lead in "กจดตบปอ":
+        if lead in "ผฝถขสหฉศษ" or lead in "กจดตบปอ":
             phone = re.sub(r"\+", "1", phone)
         else:
             phone = re.sub(r"\+", "3", phone)
@@ -743,134 +739,120 @@ def ToneAssign(keymatch, phone, codematch, charmatch):
         if deadsyll == "L":
             if re.search(r"\u0E48", keymatch):
                 return (phone, "1")  # Maiaek
-            elif re.search(r"\u0E49", keymatch):
+            if re.search(r"\u0E49", keymatch):
                 return (phone, "2")  # Maitoo
-            elif re.search(r"\u0E4A", keymatch):
+            if re.search(r"\u0E4A", keymatch):
                 return (phone, "3")  # Maitri
-            elif re.search(r"\u0E4B", keymatch):
+            if re.search(r"\u0E4B", keymatch):
                 return (phone, "4")  # Maijatawa
-            else:
-                return (phone, "0")
-        else:
-            if re.search(r"\u0E48", keymatch):
-                return (phone, "9")  # Maiaek
-            elif re.search(r"\u0E49", keymatch):
-                return (phone, "2")  # Maitoo
-            elif re.search(r"\u0E4A", keymatch):
-                return (phone, "3")  # Maitri
-            elif re.search(r"\u0E4B", keymatch):
-                return (phone, "4")  # Maijatawa
-            else:
-                return (phone, "1")
-    elif init in "ขฃฉฐถผฝสศษห":  # high consonant
+            return (phone, "0")
+        if re.search(r"\u0E48", keymatch):
+            return (phone, "9")  # Maiaek
+        if re.search(r"\u0E49", keymatch):
+            return (phone, "2")  # Maitoo
+        if re.search(r"\u0E4A", keymatch):
+            return (phone, "3")  # Maitri
+        if re.search(r"\u0E4B", keymatch):
+            return (phone, "4")  # Maijatawa
+        return (phone, "1")
+    if init in "ขฃฉฐถผฝสศษห":  # high consonant
         if deadsyll == "L":
             if re.search(r"\u0E48", keymatch):
                 return (phone, "1")  # Maiaek
-            elif re.search(r"\u0E49", keymatch):
+            if re.search(r"\u0E49", keymatch):
                 return (phone, "2")  # Maitoo
-            elif re.search(r"\u0E4A", keymatch):
+            if re.search(r"\u0E4A", keymatch):
                 return (phone, "9")  # Maitri
-            elif re.search(r"\u0E4B", keymatch):
+            if re.search(r"\u0E4B", keymatch):
                 return (phone, "9")  # Maijatawa
-            else:
-                return (phone, "4")
-        else:
-            if re.search(r"\u0E48", keymatch):
-                return (phone, "9")  # Maiaek
-            elif re.search(r"\u0E49", keymatch):
-                return (phone, "2")  # Maitoo
-            elif re.search(r"\u0E4A", keymatch):
-                return (phone, "9")  # Maitri
-            elif re.search(r"\u0E4B", keymatch):
-                return (phone, "9")  # Maijatawa
-            else:
-                return (phone, "1")
-    elif (
+            return (phone, "4")
+        if re.search(r"\u0E48", keymatch):
+            return (phone, "9")  # Maiaek
+        if re.search(r"\u0E49", keymatch):
+            return (phone, "2")  # Maitoo
+        if re.search(r"\u0E4A", keymatch):
+            return (phone, "9")  # Maitri
+        if re.search(r"\u0E4B", keymatch):
+            return (phone, "9")  # Maijatawa
+        return (phone, "1")
+    if (
         init in "งญณนมยรลวฬ" and lead != "" and lead in "ขฃฉฐถผฝสศษห"
     ):  # low consonant single
         #        if lead in 'ขฃฉฐถผฝสศษห':   # lead by high consonant
         if deadsyll == "L":
             if re.search(r"\u0E48", keymatch):
                 return (phone, "1")  # Maiaek
-            elif re.search(r"\u0E49", keymatch):
+            if re.search(r"\u0E49", keymatch):
                 return (phone, "2")  # Maitoo
-            elif re.search(r"\u0E4A", keymatch):
+            if re.search(r"\u0E4A", keymatch):
                 return (phone, "9")  # Maitri
-            elif re.search(r"\u0E4B", keymatch):
+            if re.search(r"\u0E4B", keymatch):
                 return (phone, "9")  # Maijatawa
-            else:
-                return (phone, "4")
-        else:
-            if re.search(r"\u0E48", keymatch):
-                return (phone, "9")  # Maiaek
-            elif re.search(r"\u0E49", keymatch):
-                return (phone, "2")  # Maitoo
-            elif re.search(r"\u0E4A", keymatch):
-                return (phone, "9")  # Maitri
-            elif re.search(r"\u0E4B", keymatch):
-                return (phone, "9")  # Maijatawa
-            else:
-                return (phone, "1")
-    elif (
+            return (phone, "4")
+        if re.search(r"\u0E48", keymatch):
+            return (phone, "9")  # Maiaek
+        if re.search(r"\u0E49", keymatch):
+            return (phone, "2")  # Maitoo
+        if re.search(r"\u0E4A", keymatch):
+            return (phone, "9")  # Maitri
+        if re.search(r"\u0E4B", keymatch):
+            return (phone, "9")  # Maijatawa
+        return (phone, "1")
+    if (
         init in "งญณนมยรลวฬ" and lead != "" and lead in "กจดตฎฏบปอ"
     ):  # low consonant single
         #        elif lead in 'กจดตฎฏบปอ':  #lead by middle consonant
         if deadsyll == "L":
             if re.search(r"\u0E48", keymatch):
                 return (phone, "1")  # Maiaek
-            elif re.search(r"\u0E49", keymatch):
+            if re.search(r"\u0E49", keymatch):
                 return (phone, "2")  # Maitoo
-            elif re.search(r"\u0E4A", keymatch):
+            if re.search(r"\u0E4A", keymatch):
                 return (phone, "3")  # Maitri
-            elif re.search(r"\u0E4B", keymatch):
+            if re.search(r"\u0E4B", keymatch):
                 return (phone, "4")  # Maijatawa
-            else:
-                return (phone, "0")
-        else:
-            if re.search(r"\u0E48", keymatch):
-                return (phone, "9")  # Maiaek
-            elif re.search(r"\u0E49", keymatch):
-                return (phone, "2")  # Maitoo
-            elif re.search(r"\u0E4A", keymatch):
-                return (phone, "3")  # Maitri
-            elif re.search(r"\u0E4B", keymatch):
-                return (phone, "4")  # Maijatawa
-            else:
-                return (phone, "1")
-    elif init in "คฅฆชฌซฑฒทธพภฟฮงญณนมยรลวฬฤฦ":  # low consonant
+            return (phone, "0")
+        if re.search(r"\u0E48", keymatch):
+            return (phone, "9")  # Maiaek
+        if re.search(r"\u0E49", keymatch):
+            return (phone, "2")  # Maitoo
+        if re.search(r"\u0E4A", keymatch):
+            return (phone, "3")  # Maitri
+        if re.search(r"\u0E4B", keymatch):
+            return (phone, "4")  # Maijatawa
+        return (phone, "1")
+    if init in "คฅฆชฌซฑฒทธพภฟฮงญณนมยรลวฬฤฦ":  # low consonant
         if deadsyll == "L":
             if re.search(r"\u0E48", keymatch):
                 return (phone, "2")  # Maiaek
-            elif re.search(r"\u0E49", keymatch):
+            if re.search(r"\u0E49", keymatch):
                 return (phone, "3")  # Maitoo
-            elif re.search(r"\u0E4A", keymatch):
+            if re.search(r"\u0E4A", keymatch):
                 return (phone, "9")  # Maitri
-            elif re.search(r"\u0E4B", keymatch):
+            if re.search(r"\u0E4B", keymatch):
                 return (phone, "9")  # Maijatawa
-            else:
-                return (phone, "0")
-        elif re.search(r"[aeiouxOU@][aeiouxOU@]+", phone):  # long vowel
+            return (phone, "0")
+        if re.search(r"[aeiouxOU@][aeiouxOU@]+", phone):  # long vowel
             if re.search(r"\u0E48", keymatch):
                 return (phone, "9")  # Maiaek
-            elif re.search(r"\u0E49", keymatch):
+            if re.search(r"\u0E49", keymatch):
                 return (phone, "3")  # Maitoo
-            elif re.search(r"\u0E4A", keymatch):
+            if re.search(r"\u0E4A", keymatch):
                 return (phone, "9")  # Maitri
-            elif re.search(r"\u0E4B", keymatch):
+            if re.search(r"\u0E4B", keymatch):
                 return (phone, "4")  # Maijatawa
-            else:
-                return (phone, "2")
-        else:  # short vowel
-            if re.search(r"\u0E48", keymatch):
-                return (phone, "2")  # Maiaek
-            elif re.search(r"\u0E49", keymatch):
-                return (phone, "9")  # Maitoo
-            elif re.search(r"\u0E4A", keymatch):
-                return (phone, "9")  # Maitri
-            elif re.search(r"\u0E4B", keymatch):
-                return (phone, "4")  # Maijatawa
-            else:
-                return (phone, "3")
+            return (phone, "2")
+        # short vowel
+        if re.search(r"\u0E48", keymatch):
+            return (phone, "2")  # Maiaek
+        if re.search(r"\u0E49", keymatch):
+            return (phone, "9")  # Maitoo
+        if re.search(r"\u0E4A", keymatch):
+            return (phone, "9")  # Maitri
+        if re.search(r"\u0E4B", keymatch):
+            return (phone, "4")  # Maijatawa
+        return (phone, "3")
+    return None
 
 
 #########################################
@@ -884,12 +866,11 @@ def DeadSyl(phone):
     inx = re.sub(r"[0-4]", "", inx)
     if re.search(r"[mnwjlN]8?$", inx):
         return "L"
-    elif re.search(r"[pktfscC]8?$", inx):
+    if re.search(r"[pktfscC]8?$", inx):
         return "D"
-    elif re.search(r"([aeiouxOU\@])\1", inx):  # vowel length > 1
+    if re.search(r"([aeiouxOU\@])\1", inx):  # vowel length > 1
         return "L"
-    else:
-        return "D"
+    return "D"
 
 
 def TransformSyl(form, phone):
@@ -901,11 +882,13 @@ def TransformSyl(form, phone):
     elif re.search(r"@@[nmN][12]", phone):
         phone = re.sub(r"@@", "@", phone)
     # Case 1 อยxxx change sound "?a1'jxxx" to "jxxx"
-    if re.search(r"^อย่า$|^อยู่$|^อย่าง$|^อยาก$", form) and "'" in phone:
-        x = phone.split("'")
-        phone = x[-1]
-    # Case 2 หxxx change spund "ha1'xxx" to "xxx"
-    elif "ห" in form and "ha1" in phone and not re.search(r"หนุ$|หก|หท|หพ|หฤ|หโ", form):
+    if (
+        re.search(r"^อย่า$|^อยู่$|^อย่าง$|^อยาก$", form)
+        and "'" in phone
+        or "ห" in form
+        and "ha1" in phone
+        and not re.search(r"หนุ$|หก|หท|หพ|หฤ|หโ", form)
+    ):
         x = phone.split("'")
         phone = x[-1]
     # Case 3 arti-cluster sound, sound "r" is deleted
@@ -958,8 +941,12 @@ def wordparse(Input):
                     if j > i + 1:  ### more than one syllable, compute St
                         St = 0.0
                         for ii in range(i, j - 1):
-                            St += compute_colloc("mi", SylLst[ii], SylLst[ii + 1])
-                        CollocSt[(i, j)] = St  #### Compute STrength of the word
+                            St += compute_colloc(
+                                "mi", SylLst[ii], SylLst[ii + 1]
+                            )
+                        CollocSt[(i, j)] = (
+                            St  #### Compute STrength of the word
+                        )
                     else:  ### one sylable word St = 0
                         CollocSt[(i, j)] = 0.0
         if chart_parse():
@@ -975,8 +962,8 @@ def wordparse(Input):
             ### replace duplicate word for ๆ
             outx = re.sub(maiyamok_find, maiyamok_rep, outx)
             return outx
-        else:
-            return "<Fail>" + Input + "</Fail>"
+        return "<Fail>" + Input + "</Fail>"
+    return None
 
 
 ## input = list of syllables
@@ -989,9 +976,8 @@ def SelectPhones(slst):
     out = []
     prmax = 0.0
 
-    slst = ["|"] + slst + ["|"]
+    slst = ["|", *slst, "|"]
     #   print('slist',slst)
-    i = 1
     for i in range(1, len(slst) - 1):
         outp = ""
         prmax = 0.0
@@ -999,20 +985,19 @@ def SelectPhones(slst):
         if len(PRONUN[slst[i]]) == 1:
             out.append(PRONUN[slst[i]][0])
             continue
-        else:
-            for p in PRONUN[slst[i]]:
-                pr = ProbPhone(p, slst[i - 1], slst[i], slst[i + 1])
-                #                print(slst[i],' pronounce ',p,pr,prmax)
-                if pr > prmax:
-                    prmax = pr
-                    outp = p
-                elif pr == prmax:
-                    if re.search(r"'", p) and len(p) > len(outp):
-                        prmax = pr
-                        outp = p
+        for p in PRONUN[slst[i]]:
+            pr = ProbPhone(p, slst[i - 1], slst[i], slst[i + 1])
+            #                print(slst[i],' pronounce ',p,pr,prmax)
+            if (
+                pr > prmax
+                or pr == prmax
+                and re.search(r"'", p)
+                and len(p) > len(outp)
+            ):
+                prmax = pr
+                outp = p
         out.append(outp)
         #        print('out',slst[i],out)
-        i += 1
     #   print('Select Phone',out)
     return "~".join(out)
 
@@ -1056,7 +1041,9 @@ def ProbPhone(p, pw, w, nw):
         )
     #        print('Bigram2',w,nw,p,PhSBigram[(w,nw,p)],"=>",p2)
     if PhSUnigram[(w, p)] > 0.0:
-        p1 = (1 + math.log(PhSUnigram[(w, p)])) / (1.0 + math.log(FrmSUnigram[w]))
+        p1 = (1 + math.log(PhSUnigram[(w, p)])) / (
+            1.0 + math.log(FrmSUnigram[w])
+        )
     #        print('Unigram',w,p,PhSUnigram[(w,p)],"=>",p1)
 
     #    prob =  0.8*p3 + 0.16*p2 + 0.03*p1 + 0.00000000001
@@ -1204,8 +1191,7 @@ def chart_parse():
         chart = deepcopy(chartx)
     if EndOfSent in chart[0]:
         return 1
-    else:
-        return 0
+    return 0
 
 
 #############################################################################################################
@@ -1232,8 +1218,10 @@ def compute_colloc(stat, w1, w2):
     ##  Mutual Information
     ###########################
     if stat == "mi":
-        mi = float(BiCount[(w1, w2)] * TotalWord) / float((Count[w1] * Count[w2]))
-        value = abs(math.log(mi, 2))
+        mi = float(BiCount[(w1, w2)] * TotalWord) / float(
+            (Count[w1] * Count[w2])
+        )
+        value = abs(math.log2(mi))
     #########################
     ### Compute Chisquare
     ##########################
@@ -1317,7 +1305,9 @@ AbsUnigram: dict[tuple[str, str], float] = defaultdict(float)
 AbsFrmSUnigram: dict[str, float] = defaultdict(float)
 
 
-_CHAR_MAP: dict[str, list[tuple[re.Pattern[str], str, list[str]]]] = defaultdict(list)
+_CHAR_MAP: dict[str, list[tuple[re.Pattern[str], str, list[str]]]] = (
+    defaultdict(list)
+)
 _WILDCARDS: list[tuple[re.Pattern[str], str, list[str]]] = []
 
 
@@ -1346,7 +1336,9 @@ def _ensure_loaded() -> None:
     read_syldict(safe_path_join(base, "thaisyl.dict"))
     read_PhSTrigram(safe_path_join(base, "PhSTrigram.sts.gz"))
     read_stat_json(safe_path_join(base, "sylseg.3g.json.gz"))
-    with gzip.open(safe_path_join(base, "thdict.txt.gz"), "rt", encoding="utf-8") as f:
+    with gzip.open(
+        safe_path_join(base, "thdict.txt.gz"), "rt", encoding="utf-8"
+    ) as f:
         TDICT = set(f.read().splitlines())
     _index_patterns()
     _LOADED = True
@@ -1373,19 +1365,13 @@ def mergekaran(lst: list[str]) -> list[str]:
     lst_rev = list(reversed(lst))
     x = ""
     for s in lst_rev:
-        if re.search(r"(.+)[ิุ]์", s):
-            if len(s) < 4:
-                found = "y"
-                x = s
-                continue
-        elif re.search(r"(.+)์", s):
-            if len(s) < 4:
-                found = "y"
-                x = s
-                continue
+        if (re.search(r"(.+)[ิุ]์", s) or re.search(r"(.+)์", s)) and len(s) < 4:
+            found = "y"
+            x = s
+            continue
         if found == "y":
-            s += x
-            rs.append(s)
+            merged = s + x
+            rs.append(merged)
             found = "n"
         else:
             rs.append(s)
@@ -1402,7 +1388,7 @@ def sylseg(input_text: str) -> str:
         inx = input_text[i:]
         first_char = inx[0]
         candidates = _CHAR_MAP.get(first_char, []) + _WILDCARDS
-        for match_regex, f, _ in candidates:
+        for match_regex, _f, _ in candidates:
             match_obj = match_regex.match(inx)
             if match_obj:
                 k = i + len(match_obj.group())
@@ -1451,7 +1437,9 @@ def tltk_syl_segment_native(input_text: str) -> str:
 
 
 def _gen_unknown_w(
-    syl_lst: list[str], cur_chart: dict[int, dict[int, list[str]]], end_idx: int
+    syl_lst: list[str],
+    cur_chart: dict[int, dict[int, list[str]]],
+    end_idx: int,
 ) -> int:
     for i in range(end_idx):
         cur_chart[i][i + 1] = [syl_lst[i]]
@@ -1466,7 +1454,9 @@ def _gen_unknown_w(
 
 
 def _eng_abbr(
-    syl_lst: list[str], cur_chart: dict[int, dict[int, list[str]]], end_idx: int
+    syl_lst: list[str],
+    cur_chart: dict[int, dict[int, list[str]]],
+    end_idx: int,
 ) -> int:
     i = 0
     while i < end_idx - 1:
@@ -1505,7 +1495,9 @@ def wordseg_colloc(input_text: str) -> str:
                     if j > i + 1:
                         st = 0.0
                         for ii in range(i, j - 1):
-                            st += compute_colloc("mi", syl_lst[ii], syl_lst[ii + 1])
+                            st += compute_colloc(
+                                "mi", syl_lst[ii], syl_lst[ii + 1]
+                            )
                         CollocSt[(i, j)] = st
                     else:
                         CollocSt[(i, j)] = 0.0

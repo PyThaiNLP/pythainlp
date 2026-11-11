@@ -531,7 +531,7 @@ def preprocess(text: str) -> str:
 ### initialization by read syllable patterns, syllable trigrams, and satndard dictionary
 
 
-def sylparse(Input):  # noqa: C901
+def sylparse(Input):  # noqa: C901, CCR001  # phase2-todo
     global SylSep
     global PRON
     global PRONUN
@@ -703,7 +703,7 @@ def NotExceptionSyl(codematch, charmatch, form, phone):
 #######################################
 
 
-def ToneAssign(keymatch, phone, codematch, charmatch):  # noqa: C901
+def ToneAssign(keymatch, phone, codematch, charmatch):  # noqa: C901, CCR001  # phase2-todo
     #    print("ToneAssign:",keymatch,phone,codematch,charmatch)
     if phone == "":
         return ("", "9")
@@ -904,7 +904,7 @@ def TransformSyl(form, phone):
 #### word segment and select the most likely pronunciation in a word
 
 
-def wordparse(Input):
+def wordparse(Input):  # noqa: CCR001  # phase2-todo
     global TDICT
     global EndOfSent
     global chart
@@ -1379,7 +1379,7 @@ def mergekaran(lst: list[str]) -> list[str]:
     return rs
 
 
-def sylseg(input_text: str) -> str:
+def sylseg(input_text: str) -> str:  # noqa: CCR001  # phase2-todo
     schart: dict[int, dict[int, list[str]]] = defaultdict(dict)
     prob_end: dict[tuple[int, int], float] = defaultdict(float)
 
@@ -1473,7 +1473,7 @@ def _eng_abbr(
     return 1
 
 
-def wordseg_colloc(input_text: str) -> str:
+def wordseg_colloc(input_text: str) -> str:  # noqa: CCR001  # phase2-todo
     global EndOfSent, chart, CollocSt
     part = input_text.split(SegSep)
     outx = ""

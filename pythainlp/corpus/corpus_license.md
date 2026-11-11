@@ -175,6 +175,7 @@ Original data and repository:
 
 TLTK NER model weights (`tltk_ner.json.gz`), POS tagger weights (`tltk_pos_tnc.json.gz`),
 and G2P/word-segmentation/syllable-segmentation data files located in `pythainlp/corpus/tltk/`:
+
 - `PhSTrigram.sts.gz` (phoneme trigram language model)
 - `sylrule.lts` (syllable letter-to-sound rules)
 - `sylseg.3g.json.gz` (syllable segmentation trigram model)
@@ -198,4 +199,3 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 Original repository:
 <https://github.com/attapol/tltk>
-

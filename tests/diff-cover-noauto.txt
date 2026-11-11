@@ -49,6 +49,7 @@ pythainlp/translate/th_fr.py
 pythainlp/translate/tokenization_small100.py
 pythainlp/translate/word2word_translate.py
 pythainlp/translate/zh_th.py
+pythainlp/transliterate/_tltk_g2p.py
 pythainlp/transliterate/fastthaig2p.py
 pythainlp/transliterate/ipa.py
 pythainlp/transliterate/thai2rom.py

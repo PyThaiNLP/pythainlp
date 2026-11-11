@@ -156,6 +156,16 @@ class TransliterateTestCase(unittest.TestCase):
             transliterate("ภาษาไทย", engine="iso_11940"), "p̣hās̛̄āịthy"
         )
 
+    def test_transliterate_tltk(self):
+        self.assertEqual(romanize("แมว", engine="tltk"), "maeo")
+        self.assertIsNotNone(romanize("ภาษาไวคาลีฅ", engine="tltk"))
+        self.assertIsNotNone(transliterate("คน", engine="tltk_g2p"))
+        self.assertIsNotNone(transliterate("แมว", engine="tltk_g2p"))
+        self.assertIsNotNone(transliterate("ภาษาไวคาลีฅ", engine="tltk_g2p"))
+        self.assertIsNotNone(transliterate("คน", engine="tltk_ipa"))
+        self.assertIsNotNone(transliterate("แมว", engine="tltk_ipa"))
+        self.assertIsNotNone(transliterate("ภาษาไวคาลีฅ", engine="tltk_ipa"))
+
     def test_pronunciate_pali(self):
         # rule 1
         self.assertEqual(pronunciate_pali("ติสรเณนสห"), "ติสะระเณนะสะหะ")

@@ -12,7 +12,15 @@ jobs:
         pr_message: |
           Hello @${{ github.actor }}, thank you for submitting a PR! We will respond as soon as possible.
 
+          Please ensure you target the correct branch:
+          - Bug fixes: Target the main branch.
+          - New features: Target the dev branch.
+
           สวัสดี  @${{ github.actor }} ขอบคุณที่ส่ง PR เข้ามา เราจะตอบกลับให้เร็วที่สุดเท่าที่จะทำได้
+
+          โปรดตรวจสอบว่า PR ชี้ไปยัง branch ที่ถูกต้อง:
+          - แก้ไขข้อผิดพลาด (Bug fix): กรุณาชี้ไปที่ main branch
+          - เพิ่มฟีเจอร์ใหม่ (New feature): กรุณาชี้ไปที่ dev branch
         issue_message: |
           Hello @${{ github.actor }}, thank you for your interest in our work!
 

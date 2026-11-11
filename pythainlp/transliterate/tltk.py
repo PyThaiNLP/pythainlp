@@ -37,7 +37,10 @@ def tltk_g2p(text: str) -> str:
     # Replace ฅ with ค to avoid KeyError in tltk (out-of-vocabulary issue)
     text = text.replace("ฅ", "ค")
     _temp = (
-        tltk_g2p_native(text).split("<tr/>")[1].replace("|<s/>", "").replace("|", " ")
+        tltk_g2p_native(text)
+        .split("<tr/>")[1]
+        .replace("|<s/>", "")
+        .replace("|", " ")
     )
     return _temp.replace("<s/>", "")
 

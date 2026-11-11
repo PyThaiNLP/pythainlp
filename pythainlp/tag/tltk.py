@@ -137,12 +137,15 @@ def get_ner(
     """
     if not text:
         return []
-    list_word = ["<s/>" if i == " " else i for i in word_tokenize(text, engine="newmm")]
+    list_word = [
+        "<s/>" if i == " " else i for i in word_tokenize(text, engine="tltk")
+    ]
     tagged_pos = pos_tag(list_word)
     features = [_word2features(tagged_pos, i) for i in range(len(tagged_pos))]
     ner_labels = _get_ner_tagger().tag(features)
     sent_ner = [
-        (_post_process(word), p, n) for (word, p), n in zip(tagged_pos, ner_labels)
+        (_post_process(word), p, n)
+        for (word, p), n in zip(tagged_pos, ner_labels)
     ]
     if tag:
         return _iob_to_markup([(word, ner) for word, _, ner in sent_ner])

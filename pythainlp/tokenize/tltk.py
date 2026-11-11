@@ -22,7 +22,9 @@ def segment(text: str) -> list[str]:
     if not text or not isinstance(text, str):
         return []
     text = text.replace(" ", "<u/>")
-    _temp: str = tltk_word_segment_native(text).replace("<u/>", " ").replace("<s/>", "")
+    _temp: str = (
+        tltk_word_segment_native(text).replace("<u/>", " ").replace("<s/>", "")
+    )
     _temp_list = _temp.split("|")
     if _temp_list[-1] == "":
         del _temp_list[-1]
@@ -57,7 +59,9 @@ def sent_tokenize(text: str) -> list[str]:
     if not text or not isinstance(text, str):
         return []
     text = text.replace(" ", "<u/>")
-    _temp: str = tltk_word_segment_native(text).replace("<u/>", " ").replace("|", "")
+    _temp: str = (
+        tltk_word_segment_native(text).replace("<u/>", " ").replace("|", "")
+    )
     _temp_list = _temp.split("<s/>")
     if _temp_list[-1] == "":
         del _temp_list[-1]

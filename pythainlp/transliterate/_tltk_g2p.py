@@ -20,42 +20,78 @@ from copy import deepcopy
 from pythainlp.corpus import corpus_path
 from pythainlp.tools.path import safe_path_join
 
-_SEG_SEP: str = chr(31)
-_S_SEG_SEP: str = chr(30)
-_WORD_SEP: str = chr(124)
-_SYL_SEP: str = chr(126)
+SegSep: str = chr(31)
+SSegSep: str = chr(30)
+WordSep: str = chr(124)
+SylSep: str = chr(126)
 
 _LOADED: bool = False
 
-_PRON: dict[str, list[str]] = defaultdict(list)
-_STABLE: dict[str, dict[str, str]] = defaultdict(defaultdict)
-_AK: dict[str, str] = defaultdict(str)
-_M_KARAN: dict[str, int] = defaultdict(int)
-_ENG_ABBR: dict[str, str] = defaultdict(str)
+PRON: dict[str, list[str]] = defaultdict(list)
+PRONUN: dict[str, list[str]] = defaultdict(list)
+stable: dict[str, dict[str, str]] = defaultdict(defaultdict)
+AK: dict[str, str] = defaultdict(str)
+MKaran: dict[tuple[str, str], int] = defaultdict(int)
+EngAbbr: list[str] = []
 
-_PH_S_TRIGRAM: dict[tuple[str, str, str, str], float] = defaultdict(float)
-_FRM_S_TRIGRAM: dict[tuple[str, str, str], float] = defaultdict(float)
-_PH_S_BIGRAM: dict[tuple[str, str, str], float] = defaultdict(float)
-_FRM_S_BIGRAM: dict[tuple[str, str], float] = defaultdict(float)
-_PH_S_UNIGRAM: dict[tuple[str, str], float] = defaultdict(float)
-_FRM_S_UNIGRAM: dict[str, float] = defaultdict(float)
-_ABS_UNIGRAM: dict[tuple[str, str], float] = defaultdict(float)
-_ABS_FRM_S_UNIGRAM: dict[str, float] = defaultdict(float)
+PhSTrigram: dict[tuple[str, str, str, str], float] = defaultdict(float)
+FrmSTrigram: dict[tuple[str, str, str], float] = defaultdict(float)
+PhSBigram: dict[tuple[str, str, str], float] = defaultdict(float)
+FrmSBigram: dict[tuple[str, str], float] = defaultdict(float)
+PhSUnigram: dict[tuple[str, str], float] = defaultdict(float)
+FrmSUnigram: dict[str, float] = defaultdict(float)
+AbsUnigram: dict[tuple[str, str], float] = defaultdict(float)
+AbsFrmSUnigram: dict[str, float] = defaultdict(float)
 
-_TRI_COUNT: dict[tuple[str, str, str], int] = defaultdict(int)
-_BI_COUNT: dict[tuple[str, str], int] = defaultdict(int)
-_BI_TYPE: dict[tuple[str, str], int] = defaultdict(int)
-_COUNT: dict[str, int] = defaultdict(int)
-_TYPE: dict[str, int] = defaultdict(int)
-_TOTAL_WORD: int = 0
-_TOTAL_LEX: int = 0
-_COLLOC_ST: dict[tuple[int, int], float] = defaultdict(float)
-_CHART: dict[int, dict[int, str]] = defaultdict(dict)
-_END_OF_SENT: int = 0
-_PRONUN: dict[str, list[str]] = defaultdict(list)
+TriCount: dict[tuple[str, str, str], int] = defaultdict(int)
+BiCount: dict[tuple[str, str], int] = defaultdict(int)
+BiType: dict[tuple[str, str], int] = defaultdict(int)
+Count: dict[str, int] = defaultdict(int)
+Type: dict[str, int] = defaultdict(int)
+TotalWord: int = 0
+TotalLex: int = 0
+
+chart: dict[int, dict[int, list[str]]] = defaultdict(dict)
+EndOfSent: int = 0
+CollocSt: dict[tuple[int, int], float] = defaultdict(float)
+TDICT: set[str] = set()
+
+_CHAR_MAP: dict[str, list[tuple[re.Pattern[str], str, list[str]]]] = (
+    defaultdict(list)
+)
+_WILDCARDS: list[tuple[re.Pattern[str], str, list[str]]] = []
+
+_ENG_ABBR_LIST: list[str] = [
+    "เอ",
+    "บี",
+    "ซี",
+    "ดี",
+    "อี",
+    "เอฟ",
+    "จี",
+    "เจ",
+    "เอช",
+    "ไอ",
+    "เค",
+    "แอล",
+    "เอ็ม",
+    "เอ็น",
+    "โอ",
+    "พี",
+    "คิว",
+    "อาร์",
+    "เอส",
+    "ที",
+    "ยู",
+    "วี",
+    "เอ็กซ์",
+    "เอ็ก",
+    "วาย",
+    "แซด",
+]
 
 
-def read_sylpattern(Filename):
+def read_sylpattern(Filename: str) -> None:
     global PRON
     global stable
     global AK
@@ -274,8 +310,6 @@ def read_sylpattern(Filename):
     ]
     ## cannot add 'ดับบลิว' because it has two syllables
 
-    return 1
-
 
 def read_syldict(filename: str) -> None:
     global PRON
@@ -346,7 +380,7 @@ def read_stat_json(filename: str) -> None:
         TotalWord += Count[x]
 
 
-def mergekaran1(Lst):
+def mergekaran1(Lst: list[str]) -> list[str]:
     ####  reconnect karan part to the previous syllable for SylSegment
     #### include merhing pronunciation
     rs = []
@@ -379,7 +413,7 @@ def mergekaran1(Lst):
 ########################################
 
 
-def prob_trisyl(SylLst):
+def prob_trisyl(SylLst: list[str]) -> float:
     global TriCount
     global BiCount
     global Count
@@ -388,7 +422,7 @@ def prob_trisyl(SylLst):
     global TotalWord
     global TotalLex
     global SegSep
-    Prob = defaultdict(float)
+    Prob: dict[tuple[str, str, str], float] = defaultdict(float)
 
     #    SegSep = chr(127)
 
@@ -416,7 +450,7 @@ def prob_trisyl(SylLst):
 #######################################
 
 
-def prob_wb(w, pw1, pw2):
+def prob_wb(w: str, pw1: str, pw2: str) -> float:
     global TriCount
     global BiCount
     global Count
@@ -531,15 +565,15 @@ def preprocess(text: str) -> str:
 ### initialization by read syllable patterns, syllable trigrams, and satndard dictionary
 
 
-def sylparse(Input):  # noqa: C901, CCR001  # phase2-todo
+def sylparse(Input: str) -> str:  # noqa: C901, CCR001  # phase2-todo
     global SylSep
     global PRON
     global PRONUN
 
     PRONUN = defaultdict(list)
-    schart = defaultdict(dict)
-    probEnd = defaultdict(float)
-    schartx = {}
+    schart: dict[int, dict[int, list[str]]] = defaultdict(dict)
+    probEnd: dict[tuple[int, int], float] = defaultdict(float)
+    schartx: dict[int, dict[int, list[str]]] = {}
     schart.clear()
     probEnd.clear()
     tmp = []
@@ -652,7 +686,7 @@ def sylparse(Input):  # noqa: C901, CCR001  # phase2-todo
     return "<Fail>" + Input + "</Fail>"
 
 
-def ReplaceSnd(phone, codematch, charmatch):
+def ReplaceSnd(phone: str, codematch: str, charmatch: str) -> str:
     global stable
     snd = phone
     tmp1Lst = charmatch.split(" ")  # get character
@@ -664,7 +698,9 @@ def ReplaceSnd(phone, codematch, charmatch):
     return snd
 
 
-def NotExceptionSyl(codematch, charmatch, form, phone):
+def NotExceptionSyl(
+    codematch: str, charmatch: str, form: str, phone: str
+) -> bool:
     if re.search(r"\.", form):
         return True
         ##  check pronunciation marked in syllable dict, if it exists and it is different from the current phone, disregard current phone.
@@ -703,7 +739,9 @@ def NotExceptionSyl(codematch, charmatch, form, phone):
 #######################################
 
 
-def ToneAssign(keymatch, phone, codematch, charmatch):  # noqa: C901, CCR001  # phase2-todo
+def ToneAssign(  # noqa: C901, CCR001  # phase2-todo
+    keymatch: str, phone: str, codematch: str, charmatch: str
+) -> tuple[str, str]:
     #    print("ToneAssign:",keymatch,phone,codematch,charmatch)
     if phone == "":
         return ("", "9")
@@ -852,7 +890,7 @@ def ToneAssign(keymatch, phone, codematch, charmatch):  # noqa: C901, CCR001  # 
         if re.search(r"\u0E4B", keymatch):
             return (phone, "4")  # Maijatawa
         return (phone, "3")
-    return None
+    return (phone, "9")
 
 
 #########################################
@@ -860,7 +898,7 @@ def ToneAssign(keymatch, phone, codematch, charmatch):  # noqa: C901, CCR001  # 
 ##########################################
 
 
-def DeadSyl(phone):
+def DeadSyl(phone: str) -> str:
     inx = phone
     inx = re.sub("ch", "C", inx)
     inx = re.sub(r"[0-4]", "", inx)
@@ -873,7 +911,7 @@ def DeadSyl(phone):
     return "D"
 
 
-def TransformSyl(form, phone):
+def TransformSyl(form: str, phone: str) -> tuple[str, str]:
     # xxY[12]  eeY[12] @@Y[12]  => ลดสระสั้น  ใน Y = [nmN]
     if re.search(r"xx[nmN][12]", phone):
         phone = re.sub(r"xx", "x", phone)
@@ -904,7 +942,7 @@ def TransformSyl(form, phone):
 #### word segment and select the most likely pronunciation in a word
 
 
-def wordparse(Input):  # noqa: CCR001  # phase2-todo
+def wordparse(Input: str) -> str:  # noqa: CCR001  # phase2-todo
     global TDICT
     global EndOfSent
     global chart
@@ -963,14 +1001,14 @@ def wordparse(Input):  # noqa: CCR001  # phase2-todo
             outx = re.sub(maiyamok_find, maiyamok_rep, outx)
             return outx
         return "<Fail>" + Input + "</Fail>"
-    return None
+    return ""
 
 
 ## input = list of syllables
 ## output = syl/pron-syl/pron-syl/pron
 
 
-def SelectPhones(slst):
+def SelectPhones(slst: list[str]) -> str:
     global PRONUN
     p = ""
     out = []
@@ -1005,7 +1043,7 @@ def SelectPhones(slst):
 ####################
 
 
-def ProbPhone(p, pw, w, nw):
+def ProbPhone(p: str, pw: str, w: str, nw: str) -> float:
     global PhSTrigram
     global FrmSTrigram
     global PhSBigram
@@ -1067,7 +1105,7 @@ def ProbPhone(p, pw, w, nw):
 #############
 
 
-def g2p(Input):
+def g2p(Input: str) -> str:
     global SegSep
     global SSegSep
     output = ""
@@ -1094,7 +1132,7 @@ def g2p(Input):
 ## return all transcriptions based on syllable parse
 
 
-def th2ipa(txt):
+def th2ipa(txt: str) -> str:
     out = ""
     NORMALIZE_IPA = [
         ("O", "\u1d10"),
@@ -1126,7 +1164,7 @@ def th2ipa(txt):
     return out
 
 
-def th2roman(txt):
+def th2roman(txt: str) -> str:
     out = ""
     NORMALIZE_ROM = [
         ("O", "o"),
@@ -1169,7 +1207,7 @@ def th2roman(txt):
 ####################################################################
 
 
-def chart_parse():
+def chart_parse() -> int:
     global chart
     global CollocSt
 
@@ -1199,7 +1237,7 @@ def chart_parse():
 ### Input = a paragraph of Thai texts
 
 
-def compute_colloc(stat, w1, w2):
+def compute_colloc(stat: str, w1: str, w2: str) -> float:
     global TriCount
     global BiCount
     global Count
@@ -1238,79 +1276,6 @@ def compute_colloc(stat, w1, w2):
     return value
 
 
-##############################################################################
-########  create each unit (char/syllable) as a possible edge for chart parsing
-
-
-SegSep: str = chr(31)
-SSegSep: str = chr(30)
-WordSep: str = chr(124)
-SylSep: str = chr(126)
-
-TriCount: dict[tuple[str, str, str], int] = defaultdict(int)
-BiCount: dict[tuple[str, str], int] = defaultdict(int)
-BiType: dict[tuple[str, str], int] = defaultdict(int)
-Count: dict[str, int] = defaultdict(int)
-Type: dict[str, int] = defaultdict(int)
-TotalWord: int = 0
-TotalLex: int = 0
-
-chart: dict[int, dict[int, str]] = defaultdict(dict)
-EndOfSent: int = 0
-CollocSt: dict[tuple[int, int], float] = defaultdict(float)
-TDICT: set[str] = set()
-_ENG_ABBR_LIST: list[str] = [
-    "เอ",
-    "บี",
-    "ซี",
-    "ดี",
-    "อี",
-    "เอฟ",
-    "จี",
-    "เจ",
-    "เอช",
-    "ไอ",
-    "เค",
-    "แอล",
-    "เอ็ม",
-    "เอ็น",
-    "โอ",
-    "พี",
-    "คิว",
-    "อาร์",
-    "เอส",
-    "ที",
-    "ยู",
-    "วี",
-    "เอ็กซ์",
-    "เอ็ก",
-    "วาย",
-    "แซด",
-]
-
-PRON: dict[str, list[str]] = defaultdict(list)
-PRONUN: dict[str, list[str]] = defaultdict(list)
-stable: dict[str, dict[str, str]] = defaultdict(defaultdict)
-AK: dict[str, str] = defaultdict(str)
-MKaran: dict[str, int] = defaultdict(int)
-EngAbbr: dict[str, str] = defaultdict(str)
-
-PhSTrigram: dict[tuple[str, str, str, str], float] = defaultdict(float)
-FrmSTrigram: dict[tuple[str, str, str], float] = defaultdict(float)
-PhSBigram: dict[tuple[str, str, str], float] = defaultdict(float)
-FrmSBigram: dict[tuple[str, str], float] = defaultdict(float)
-PhSUnigram: dict[tuple[str, str], float] = defaultdict(float)
-FrmSUnigram: dict[str, float] = defaultdict(float)
-AbsUnigram: dict[tuple[str, str], float] = defaultdict(float)
-AbsFrmSUnigram: dict[str, float] = defaultdict(float)
-
-
-_CHAR_MAP: dict[str, list[tuple[re.Pattern[str], str, list[str]]]] = (
-    defaultdict(list)
-)
-_WILDCARDS: list[tuple[re.Pattern[str], str, list[str]]] = []
-
-
 def _index_patterns() -> None:
     global _CHAR_MAP, _WILDCARDS
     _CHAR_MAP.clear()
@@ -1322,9 +1287,6 @@ def _index_patterns() -> None:
             _CHAR_MAP[first].append((compiled, p, pron_list))
         else:
             _WILDCARDS.append((compiled, p, pron_list))
-
-
-_LOADED: bool = False
 
 
 def _ensure_loaded() -> None:

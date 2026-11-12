@@ -106,6 +106,7 @@ Use `pythainlp.is_offline_mode()` to check the current state programmatically.
 
 ```python
 import pythainlp
+
 print(pythainlp.is_offline_mode())  # True if PYTHAINLP_OFFLINE=1
 ```
 
@@ -132,6 +133,7 @@ Use `pythainlp.is_read_only_mode()` to check the current state programmatically.
 
 ```python
 import pythainlp
+
 print(pythainlp.is_read_only_mode())  # True if PYTHAINLP_READ_ONLY=1
 ```
 

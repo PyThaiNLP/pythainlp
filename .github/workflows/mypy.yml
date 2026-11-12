@@ -65,7 +65,7 @@ jobs:
 
       - name: Install mypy
         run: |
-          pip install --only-binary :all: "mypy==1.19.1"
+          pip install --only-binary :all: "mypy==2.4.1"
 
       - name: Run mypy
         run: mypy pythainlp tests

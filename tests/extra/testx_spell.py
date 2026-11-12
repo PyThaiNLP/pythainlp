@@ -51,3 +51,5 @@ class SpellTLTKTestCaseX(unittest.TestCase):
         result = spell("เดก", engine="tltk")
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
+
+        self.assertEqual(spell("", engine="tltk"), [])

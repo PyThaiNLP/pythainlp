@@ -47,6 +47,8 @@ The minimum Python version is now 3.10.
   not the PyTorch and TensorFlow packages ([#1511])
 - Migrate CRF models to bundled `.json.gz` weights; remove runtime
   `python-crfsuite` and `ssg` dependencies ([#1538])
+- Re-implement TLTK engines natively in pure Python with bundled models,
+  removing the external `tltk` dependency
 - `bleu_score()` raises `ValueError` on unequal reference and hypothesis
   counts; `nighit()` requires `w1` to end with "ํ" ([#1548])
 - `download()` removes abandoned `.part`, `.tmp`, and `.old` entries from the

@@ -20,6 +20,7 @@ This tagger is provided under the terms of the MIT License.
 
 from __future__ import annotations
 
+import gzip
 import json
 from collections import defaultdict
 from typing import TYPE_CHECKING, Any, ClassVar
@@ -243,8 +244,12 @@ class PerceptronTagger:
         :raises OSError: if the model file cannot be opened
         """
         try:
-            with open(loc, encoding="utf-8-sig") as f:
-                w_td_c = json.load(f)
+            if loc.endswith(".gz"):
+                with gzip.open(loc, "rt", encoding="utf-8") as f:
+                    w_td_c = json.load(f)
+            else:
+                with open(loc, encoding="utf-8-sig") as f:
+                    w_td_c = json.load(f)
         except OSError as ex:
             msg = "Missing trontagger.json file."
             raise OSError(msg) from ex

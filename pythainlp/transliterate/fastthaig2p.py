@@ -658,9 +658,9 @@ def fallback_g2p(word: str) -> str:
         return ""
 
     try:
-        from tltk.nlp import g2p as tltk_g2p_func
+        from pythainlp.transliterate._tltk_g2p import tltk_g2p_native
 
-        tltk_result = tltk_g2p_func(word.replace("ฅ", "ค"))
+        tltk_result = tltk_g2p_native(word.replace("ฅ", "ค"))
         match = _TLTK_PHON_RE.search(tltk_result)
         if not match:
             return word

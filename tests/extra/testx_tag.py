@@ -149,3 +149,13 @@ class TagTLTKTestCaseX(unittest.TestCase):
                 tag=True,
             )
         )
+        self.assertIsNotNone(
+            tltk.get_ner(
+                "โทร +66-2-1234567 email: test@example.com (ยาวมากๆๆๆๆๆๆๆๆๆๆๆๆๆๆๆๆๆๆๆๆๆๆๆ) 100% #tag"
+            )
+        )
+        self.assertEqual(tltk._change_tag("#", "N"), "SYM")
+        self.assertEqual(tltk._change_tag("123", "N"), "NUM")
+        self.assertEqual(tltk._change_tag("word", "N"), "SYM")
+        self.assertEqual(tltk._change_tag("a_b", "N"), "X")
+        self.assertEqual(tltk._wrd_len("123456789012345678901"), "l")

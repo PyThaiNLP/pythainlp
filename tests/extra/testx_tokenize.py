@@ -93,6 +93,10 @@ class SentTokenizeTLTKTestCaseX(unittest.TestCase):
                 engine="tltk",
             ),
         )
+        self.assertEqual(sent_tokenize("", engine="tltk"), [])
+        self.assertEqual(sent_tokenize(None, engine="tltk"), [])  # type: ignore[arg-type]
+        self.assertEqual(tltk.sent_tokenize(""), [])
+        self.assertEqual(tltk.sent_tokenize(None), [])  # type: ignore[arg-type]
 
 
 class SubwordTokenizeTLTKTestCaseX(unittest.TestCase):

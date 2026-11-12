@@ -59,13 +59,13 @@ jobs:
       uses: astral-sh/ruff-action@278981a28ce3188b1e39527901f38254bf3aac89 # v4.1.0
       with:
         src: "./pythainlp ./tests ./examples ./notebooks"
-        version: "0.16.10"
+        version: "0.17.4"
         args: check --verbose --config pyproject.toml
     - name: Ruff format
       uses: astral-sh/ruff-action@278981a28ce3188b1e39527901f38254bf3aac89 # v4.1.0
       with:
         src: "./pythainlp ./tests ./examples ./notebooks"
-        version: "0.16.10"
+        version: "0.17.4"
         args: format --check --verbose --config pyproject.toml
 
   cognitive-complexity:
@@ -84,6 +84,6 @@ jobs:
         cache-dependency-path: pyproject.toml
     - name: Install flake8
       run: |
-        pip install --only-binary :all: --no-binary flake8-cognitive-complexity,cognitive_complexity "flake8==7.4.1" "flake8-cognitive-complexity==0.1.0"
+        pip install --only-binary :all: --no-binary flake8-cognitive-complexity,cognitive_complexity "flake8==7.5.0" "flake8-cognitive-complexity==0.1.0"
     - name: Check cognitive complexity
       run: flake8 pythainlp

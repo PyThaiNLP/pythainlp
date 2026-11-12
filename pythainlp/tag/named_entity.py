@@ -116,11 +116,10 @@ class NER:
                 )
 
                 self.engine = WangchanbertaThaiNameTagger(dataset_name=corpus)
-        elif corpus == "thainer-v2":
-            if engine == "phayathaibert":
-                from pythainlp.phayathaibert.core import NamedEntityTagger
+        elif corpus == "thainer-v2" and engine == "phayathaibert":
+            from pythainlp.phayathaibert.core import NamedEntityTagger
 
-                self.engine = NamedEntityTagger()
+            self.engine = NamedEntityTagger()
 
         if self.engine is None:
             raise ValueError(

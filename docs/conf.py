@@ -37,7 +37,9 @@ try:
     current_branch = (
         os.environ["CURRENT_BRANCH"]
         if "CURRENT_BRANCH" in os.environ
-        else check_output(["git", "symbolic-ref", "HEAD"], shell=False, stderr=STDOUT)
+        else check_output(
+            ["git", "symbolic-ref", "HEAD"], shell=False, stderr=STDOUT
+        )
         .decode()
         .strip()
         .rsplit("/", maxsplit=1)[-1]

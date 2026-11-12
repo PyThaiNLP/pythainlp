@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import math
 from collections import Counter
-from typing import TYPE_CHECKING, Optional, TypedDict, Union, cast
+from typing import TYPE_CHECKING, Optional, TypedDict, Union
 
 from pythainlp.util.lcs import _lcs_lengths
 
@@ -132,7 +132,7 @@ def _normalize_references(
 ) -> list[list[str]]:
     """Wrap each reference in a list if each hypothesis has one reference."""
     if references and isinstance(references[0], str):
-        return [[ref] for ref in cast("list[str]", references)]
+        return [[ref] for ref in references]
     return references  # type: ignore[return-value]
 
 

@@ -137,6 +137,7 @@ PyThaiNLP ดาวน์โหลดข้อมูล (ดูแค็ตต�
 
 ```python
 import pythainlp
+
 print(pythainlp.is_offline_mode())  # True ถ้า PYTHAINLP_OFFLINE=1
 ```
 
@@ -154,6 +155,7 @@ print(pythainlp.is_offline_mode())  # True ถ้า PYTHAINLP_OFFLINE=1
 
 ```python
 import pythainlp
+
 print(pythainlp.is_read_only_mode())  # True ถ้า PYTHAINLP_READ_ONLY=1
 ```
 

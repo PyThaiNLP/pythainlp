@@ -78,11 +78,7 @@ jobs:
           - os: "ubuntu-latest"
             python-version: "3.11"
 
-    # Python 3.9 is not available on ubuntu-latest (Ubuntu 26.04 and later),
-    # so run it on Ubuntu 24.04. Keep "3.9" in sync with PYTHON_VERSION_EARLIEST
-    # (the env context is not available in runs-on).
-    # matrix.os stays "ubuntu-latest" for the conditions below.
-    runs-on: ${{ (matrix.os == 'ubuntu-latest' && matrix.python-version == '3.9') && 'ubuntu-24.04' || matrix.os }}
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     env:
       PYICU_WIN_VER: 2.15 # 2.15 is the last version that supports Python 3.10

@@ -10,7 +10,7 @@ import threading
 import unicodedata
 from collections import Counter
 from importlib.util import find_spec
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 from pythainlp.corpus import get_hf_hub
 
@@ -55,7 +55,7 @@ def _is_blank(word: str) -> bool:
 
 
 def _first_subword_labels(
-    word_ids: Sequence[Optional[int]],
+    word_ids: Sequence[int | None],
     label_ids: Sequence[int],
     n_words: int,
     id2label: Mapping[int, str],
@@ -65,7 +65,7 @@ def _first_subword_labels(
 
     This is the alignment the model was trained with.
 
-    :param Sequence[Optional[int]] word_ids: word index of each subword
+    :param Sequence[int | None] word_ids: word index of each subword
         token; ``None`` for special tokens
     :param Sequence[int] label_ids: predicted label id of each subword token
     :param int n_words: number of input words
@@ -75,7 +75,7 @@ def _first_subword_labels(
     """
     tags = [_UNKNOWN_TAG] * n_words
     seen: set[int] = set()
-    for word_id, label_id in zip(word_ids, label_ids):
+    for word_id, label_id in zip(word_ids, label_ids, strict=False):
         if word_id is None or word_id in seen:
             continue
         seen.add(word_id)
@@ -126,7 +126,7 @@ class PhayaThaiBERTTagger:
     the Hugging Face Hub on first use.
 
     :param str repo_id: Hugging Face Hub repository of the ONNX model
-    :param Optional[str] revision: git revision of the repository.
+    :param str | None revision: git revision of the repository.
         The default repository is pinned to a commit when this is ``None``.
     """
 
@@ -135,13 +135,13 @@ class PhayaThaiBERTTagger:
     id2label: dict[int, str]
 
     def __init__(
-        self, repo_id: str = _REPO_ID, revision: Optional[str] = None
+        self, repo_id: str = _REPO_ID, revision: str | None = None
     ) -> None:
         """
         Download the model and load it with ONNX Runtime.
 
         :param str repo_id: Hugging Face Hub repository of the ONNX model
-        :param Optional[str] revision: git revision of the repository.
+        :param str | None revision: git revision of the repository.
             The default repository is pinned to a commit when this is
             ``None``.
         :raises ImportError: if a required dependency is not installed
@@ -195,10 +195,10 @@ class PhayaThaiBERTTagger:
         content = [words[i] for i in positions]
         if content:
             for position, word_tag in zip(
-                positions, self._tag_content(content)
+                positions, self._tag_content(content), strict=False
             ):
                 tags[position] = word_tag
-        return list(zip(words, tags))
+        return list(zip(words, tags, strict=False))
 
     def _tag_content(self, words: list[str]) -> list[str]:
         encoding = self.tokenizer.encode(words, is_pretokenized=True)
@@ -240,7 +240,7 @@ class PhayaThaiBERTTagger:
         )
 
 
-_TAGGER: Optional[PhayaThaiBERTTagger] = None
+_TAGGER: PhayaThaiBERTTagger | None = None
 _TAGGER_LOCK = threading.Lock()
 
 

@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from contextlib import suppress
 from importlib.resources import as_file, files
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     import types
@@ -23,7 +23,7 @@ def _is_stopword(word: str) -> bool:
 
 def _doc2features(
     tokens: list[tuple[str, str]], index: int
-) -> dict[str, Union[str, bool]]:
+) -> dict[str, str | bool]:
     """
     Extract features for a single word in a POS-tagged sentence.
 
@@ -31,10 +31,10 @@ def _doc2features(
         a list of (word, POS tag) pairs
     :param int index: index of the word to extract features for
     :return: feature dictionary for the word
-    :rtype: dict[str, Union[str, bool]]
+    :rtype: dict[str, str | bool]
     """
     word, pos = tokens[index]
-    f: dict[str, Union[str, bool]] = {
+    f: dict[str, str | bool] = {
         "word": word,
         "word_is_stopword": _is_stopword(word),
         "pos": pos,
@@ -69,7 +69,7 @@ def _doc2features(
 
 def _extract_features(
     doc: list[tuple[str, str]],
-) -> list[dict[str, Union[str, bool]]]:
+) -> list[dict[str, str | bool]]:
     return [_doc2features(doc, i) for i in range(len(doc))]
 
 
@@ -95,9 +95,9 @@ class CRFChunkParser:
     """
 
     corpus: str
-    _model_file_ctx: Optional[AbstractContextManager[Any]]
+    _model_file_ctx: AbstractContextManager[Any] | None
     tagger: CRFTagger
-    xseq: list[dict[str, Union[str, bool]]]
+    xseq: list[dict[str, str | bool]]
 
     def __init__(self, corpus: str = "orchidpp") -> None:
         """
@@ -141,9 +141,9 @@ class CRFChunkParser:
 
     def __exit__(
         self,
-        exc_type: Optional[type[BaseException]],
-        exc_val: Optional[BaseException],
-        exc_tb: Optional[types.TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: types.TracebackType | None,
     ) -> None:
         """Exit the context manager and release resources."""
         if self._model_file_ctx is not None:

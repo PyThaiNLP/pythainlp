@@ -9,7 +9,7 @@ GitHub: https://github.com/wannaphong/Thai_W2P
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, ClassVar, Optional, cast
+from typing import TYPE_CHECKING, ClassVar, cast
 
 from pythainlp.corpus import get_corpus_path
 
@@ -69,7 +69,7 @@ class Thai_W2P:
     idx2g: dict[int, str]
     p2idx: dict[str, int]
     idx2p: dict[int, str]
-    checkpoint: Optional[str]
+    checkpoint: str | None
     enc_emb: NDArray[np.float32]
     enc_w_ih: NDArray[np.float32]
     enc_w_hh: NDArray[np.float32]
@@ -98,7 +98,7 @@ class Thai_W2P:
         self.p2idx: dict[str, int]
         self.idx2p: dict[int, str]
         self.g2idx, self.idx2g, self.p2idx, self.idx2p = _load_vocab()
-        self.checkpoint: Optional[str] = get_corpus_path(
+        self.checkpoint: str | None = get_corpus_path(
             _MODEL_NAME, version="0.2"
         )
         if not self.checkpoint:
@@ -233,7 +233,7 @@ class Thai_W2P:
         w_hh: NDArray[np.float32],
         b_ih: NDArray[np.float32],
         b_hh: NDArray[np.float32],
-        h0: Optional[NDArray[np.float32]] = None,
+        h0: NDArray[np.float32] | None = None,
     ) -> NDArray[np.float32]:
         """
         Run a GRU over multiple time steps.
@@ -244,7 +244,7 @@ class Thai_W2P:
         :param numpy.typing.NDArray[numpy.float32] w_hh: hidden-hidden weights
         :param numpy.typing.NDArray[numpy.float32] b_ih: input-hidden bias
         :param numpy.typing.NDArray[numpy.float32] b_hh: hidden-hidden bias
-        :param Optional[numpy.typing.NDArray[numpy.float32]] h0: initial
+        :param numpy.typing.NDArray[numpy.float32] | None h0: initial
             hidden state
         :return: hidden states for all time steps
         :rtype: numpy.typing.NDArray[numpy.float32]
@@ -280,7 +280,7 @@ class Thai_W2P:
 
         return x
 
-    def _short_word(self, word: str) -> Optional[str]:
+    def _short_word(self, word: str) -> str | None:
         self.word: str = word
         if self.word.endswith("."):
             self.word = self.word.replace(".", "")

@@ -7,7 +7,7 @@ from __future__ import annotations
 import unittest
 from importlib.util import find_spec
 from os import path
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 from unittest import mock
 
 from pythainlp.corpus import download
@@ -248,7 +248,7 @@ class PerceptronTaggerTestCase(unittest.TestCase):
         word_tags = tagger.tag(words)
         self.assertEqual(len(words), len(word_tags))
 
-        words2, _ = zip(*word_tags)
+        words2, _ = zip(*word_tags, strict=False)
         self.assertEqual(words, list(words2))
 
         with self.assertRaises(IOError):
@@ -630,7 +630,7 @@ class PhayaThaiBERTHelperTestCase(unittest.TestCase):
             with self.subTest(module):
                 # Fake every dependency, so none is really imported (and
                 # then unloaded) inside patch.dict.
-                modules: dict[str, Optional[mock.MagicMock]] = {
+                modules: dict[str, mock.MagicMock | None] = {
                     m: _fake_module(m) for m in _PHAYATHAIBERT_DEPENDENCIES
                 }
                 modules[module] = None
@@ -693,7 +693,7 @@ class _FakeEncoding:
 
     def __init__(self, words: list[str]) -> None:
         self.ids: list[int] = [0]
-        self.word_ids: list[Optional[int]] = [None]
+        self.word_ids: list[int | None] = [None]
         for i, word in enumerate(words):
             label_id = 1 if word.startswith("ก") else 2
             self.ids += [label_id] + [0] * (len(word) - 1)
@@ -717,7 +717,7 @@ class _FakeSession:
         self.lengths: list[int] = []
 
     def run(
-        self, output_names: Optional[list[str]], feeds: dict[str, Any]
+        self, output_names: list[str] | None, feeds: dict[str, Any]
     ) -> list[Any]:
         import numpy as np
 
@@ -768,7 +768,9 @@ class PhayaThaiBERTTaggerTestCase(unittest.TestCase):
                     phayathaibert_onnx, "_MAX_SEQUENCE_LENGTH", limit
                 ):
                     result = tagger.tag(words)
-                self.assertEqual(result, list(zip(words, expected)))
+                self.assertEqual(
+                    result, list(zip(words, expected, strict=False))
+                )
                 self.assertTrue(
                     all(n <= limit for n in tagger.session.lengths)
                 )

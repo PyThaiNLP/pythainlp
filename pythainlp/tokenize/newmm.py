@@ -22,7 +22,7 @@ from __future__ import annotations
 import re
 from collections import defaultdict
 from heapq import heappop, heappush
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -231,7 +231,7 @@ def _find_cut_pos(text: str, custom_dict: Trie) -> int:
 
 def segment(
     text: str,
-    custom_dict: Optional[Trie] = None,
+    custom_dict: Trie | None = None,
     safe_mode: bool = False,
 ) -> list[str]:
     """

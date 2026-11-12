@@ -12,7 +12,6 @@ from __future__ import annotations
 import hashlib
 import random
 import unittest
-from typing import Optional
 
 from pythainlp.util.time import (
     _DICT_THAI_TIME,
@@ -104,7 +103,7 @@ _HOUR_GOLDEN: dict[str, tuple[str, ...]] = {
     ),
 }
 
-_FORMAT_OK: tuple[tuple[int, int, int, str, Optional[str], str], ...] = (
+_FORMAT_OK: tuple[tuple[int, int, int, str, str | None, str], ...] = (
     (12, 1, 59, "24h", "x", "สิบสองนาฬิกาหนึ่งนาทีห้าสิบเก้าวินาที"),
     (14, 59, 0, "m6h", "s", "สองโมงห้าสิบเก้านาทีศูนย์วินาที"),
     (19, 30, 0, "6h", "", "หนึ่งทุ่มครึ่ง"),
@@ -113,7 +112,7 @@ _FORMAT_OK: tuple[tuple[int, int, int, str, Optional[str], str], ...] = (
     (18, 27, 1, "24h", "m", "สิบแปดนาฬิกายี่สิบเจ็ดนาที"),
 )
 
-_FORMAT_ERR: tuple[tuple[int, int, int, Optional[str], Optional[str], str], ...] = (
+_FORMAT_ERR: tuple[tuple[int, int, int, str | None, str | None, str], ...] = (
     (-1, 6, 30, "24H", "", "Time format not supported: 24H"),
     (14, 39, 59, "", "s", "Time format not supported: "),
     (13, 0, 1, "x", "s", "Time format not supported: x"),

@@ -18,7 +18,7 @@ __all__: list[str] = [
 import itertools
 from collections import OrderedDict
 from collections.abc import Callable  # noqa: TC003  # for get_type_hints()
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 from nltk.corpus import wordnet as wn
 
@@ -110,7 +110,7 @@ orchid: dict[str, str] = {
 }
 
 
-def postype2wordnet(pos: str, corpus: str) -> Optional[str]:
+def postype2wordnet(pos: str, corpus: str) -> str | None:
     """
     Convert a part-of-speech (POS) type to a WordNet type.
 
@@ -120,7 +120,7 @@ def postype2wordnet(pos: str, corpus: str) -> Optional[str]:
         * *orchid* - ORCHID corpus
 
     :return: WordNet POS type, or None if the corpus is not supported
-    :rtype: Optional[str]
+    :rtype: str | None
     """
     if corpus != "orchid":
         return None
@@ -132,7 +132,7 @@ class WordNetAug:
 
     synonyms: list[str]
     list_synsets: list[Synset]
-    p2w_pos: Optional[str]
+    p2w_pos: str | None
     synset: Synset
     syn: str
     synonyms_without_duplicates: list[str]
@@ -148,14 +148,14 @@ class WordNetAug:
     def find_synonyms(
         self,
         word: str,
-        pos: Optional[str] = None,
+        pos: str | None = None,
         postag_corpus: str = "orchid",
     ) -> list[str]:
         """
         Find synonyms using WordNet.
 
         :param str word: word to find synonyms of
-        :param Optional[str] pos: POS type (default is None)
+        :param str | None pos: POS type (default is None)
         :param str postag_corpus: POS tag corpus
         :return: list of synonyms
         :rtype: list[str]
@@ -164,7 +164,7 @@ class WordNetAug:
         if pos is None:
             self.list_synsets: list[Synset] = wordnet.synsets(word)
         else:
-            self.p2w_pos: Optional[str] = postype2wordnet(pos, postag_corpus)
+            self.p2w_pos: str | None = postype2wordnet(pos, postag_corpus)
             if self.p2w_pos != "":
                 self.list_synsets: list[Synset] = wordnet.synsets(
                     word, pos=self.p2w_pos

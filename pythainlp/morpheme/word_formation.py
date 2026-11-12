@@ -5,8 +5,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from pythainlp import thai_consonants
 
 # Consonant that follows nighit, by the first consonant of the next word.
@@ -23,7 +21,7 @@ _NIGHIT_ENDINGS: tuple[tuple[tuple[str, ...], str], ...] = (
 )
 
 
-def _nighit_ending(consonant: str) -> Optional[str]:
+def _nighit_ending(consonant: str) -> str | None:
     """Return the consonant that follows nighit, or None if unsupported."""
     for consonants, ending in _NIGHIT_ENDINGS:
         if consonant in consonants:

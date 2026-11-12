@@ -5,8 +5,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from pythainlp.augment.word2vec.core import Word2VecAug
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import word_tokenize
@@ -21,12 +19,12 @@ class LTW2VAug:
     <https://github.com/PyThaiNLP/large-thaiword2vec>`_
     """
 
-    ltw2v_wv: Optional[str]
+    ltw2v_wv: str | None
     aug: Word2VecAug
 
     def __init__(self) -> None:
         """Initialize the LTW2V word2vec augmenter."""
-        self.ltw2v_wv: Optional[str] = get_corpus_path("ltw2v")
+        self.ltw2v_wv: str | None = get_corpus_path("ltw2v")
         self.load_w2v()
 
     def tokenizer(self, text: str) -> list[str]:

@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import threading
 import unittest
-from typing import Optional
 
 from pythainlp.corpus.common import thai_words
 from pythainlp.tokenize import Trie, word_tokenize
@@ -33,7 +32,7 @@ class TestThreadSafety(unittest.TestCase):
         engine: str,
         results: list[object],
         index: int,
-        custom_dict: Optional[Trie] = None,
+        custom_dict: Trie | None = None,
         iterations: int = 10,
     ) -> None:
         """Worker function for thread testing."""

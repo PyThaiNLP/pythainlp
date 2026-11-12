@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import Optional, Union, cast
+from typing import cast
 
 EN_TH_KEYB_PAIRS: dict[str, str] = {
     "Z": "(",
@@ -104,11 +104,11 @@ EN_TH_KEYB_PAIRS: dict[str, str] = {
 
 TH_EN_KEYB_PAIRS: dict[str, str] = {v: k for k, v in EN_TH_KEYB_PAIRS.items()}
 
-EN_TH_TRANSLATE_TABLE: dict[int, Union[int, str, None]] = str.maketrans(
-    cast("dict[str, Union[int, str, None]]", EN_TH_KEYB_PAIRS)
+EN_TH_TRANSLATE_TABLE: dict[int, int | str | None] = str.maketrans(
+    cast("dict[str, int | str | None]", EN_TH_KEYB_PAIRS)
 )
-TH_EN_TRANSLATE_TABLE: dict[int, Union[int, str, None]] = str.maketrans(
-    cast("dict[str, Union[int, str, None]]", TH_EN_KEYB_PAIRS)
+TH_EN_TRANSLATE_TABLE: dict[int, int | str | None] = str.maketrans(
+    cast("dict[str, int | str | None]", TH_EN_KEYB_PAIRS)
 )
 
 TIS_820_2531_MOD: list[list[str]] = [
@@ -213,7 +213,7 @@ def thai_keyboard_dist(c1: str, c2: str, shift_dist: float = 0.0) -> float:
     """
 
     def get_char_coord(
-        ch: str, layouts: Optional[list[list[list[str]]]] = None
+        ch: str, layouts: list[list[list[str]]] | None = None
     ) -> tuple[int, int]:
         if layouts is None:
             layouts = [TIS_820_2531_MOD, TIS_820_2531_MOD_SHIFT]

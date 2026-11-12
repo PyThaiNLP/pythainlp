@@ -10,7 +10,7 @@ Nested Named Entity Recognition for Thai text.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING
 
 from pythainlp.corpus import get_corpus_path
 
@@ -113,7 +113,7 @@ class ThaiNNER:
     The model recognizes nested named entities in Thai text, supporting
     104 entity types across multiple levels of nesting.
 
-    :param Optional[str] path_model: path to the Thai-NNER model file;
+    :param str | None path_model: path to the Thai-NNER model file;
         use the default PyThaiNLP corpus path if not specified
 
     :Example:
@@ -128,11 +128,11 @@ class ThaiNNER:
         >>> print(f"Entities: {entities}")  # doctest: +SKIP
     """
 
-    def __init__(self, path_model: Optional[str] = None) -> None:
+    def __init__(self, path_model: str | None = None) -> None:
         """
         Initialize the Thai nested named entity recognizer.
 
-        :param Optional[str] path_model: path to the model file;
+        :param str | None path_model: path to the model file;
             use the default corpus path if ``None``
         """
         # Resolve path_model at runtime to avoid freezing the value at module import time
@@ -195,7 +195,7 @@ class ThaiNNER:
 
     def get_ner(
         self, text: str, pos: bool = False, tag: bool = False
-    ) -> Union[list[tuple[str, str]], str]:
+    ) -> list[tuple[str, str]] | str:
         """
         Tag named entities in text in IOB format.
 
@@ -209,7 +209,7 @@ class ThaiNNER:
             instead of a list of tuples
         :return: list of tuples (word, IOB tag), or the text with
             HTML-like tags if ``tag`` is ``True``
-        :rtype: Union[list[tuple[str, str]], str]
+        :rtype: list[tuple[str, str]] | str
 
         .. note::
             When converting to IOB format, only top-level entities are used to
@@ -276,7 +276,9 @@ def _entities_to_iob(
             iob_tags[i] = f"I-{entity_type}"
 
     # Combine tokens with their tags
-    result = [(token, tag) for token, tag in zip(tokens, iob_tags)]
+    result = [
+        (token, tag) for token, tag in zip(tokens, iob_tags, strict=False)
+    ]
     return result
 
 

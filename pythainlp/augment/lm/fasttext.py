@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import itertools
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from gensim.models import FastText
@@ -22,7 +22,7 @@ class FastTextAug:
     :param str model_path: path to the model file
     """
 
-    model: Union[FastText, KeyedVectors]
+    model: FastText | KeyedVectors
     dict_wv: list[str]
     sentence: list[str]
     list_synonym: list[list[str]]
@@ -37,7 +37,7 @@ class FastTextAug:
         from gensim.models.keyedvectors import KeyedVectors
 
         if model_path.endswith(".bin"):
-            self.model: Union[FastText, KeyedVectors] = (
+            self.model: FastText | KeyedVectors = (
                 FastText_gensim.load_facebook_vectors(model_path)
             )
         elif model_path.endswith(".vec"):

@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import collections
-from typing import TYPE_CHECKING, Any, Optional, cast
+from typing import TYPE_CHECKING, Any, cast
 
 import torch
 
@@ -47,7 +47,7 @@ _ITOS_NAME_LSTM: str = "wiki_itos_lstm"
 # Note: These may be None if corpus is not downloaded.
 # Access via get_thwiki_lstm() for proper validation or use directly
 # if you've already verified the corpus is downloaded.
-THWIKI_LSTM: dict[str, Optional[str]] = {
+THWIKI_LSTM: dict[str, str | None] = {
     "wgts_fname": get_corpus_path(_MODEL_NAME_LSTM),
     "itos_fname": get_corpus_path(_ITOS_NAME_LSTM),
     "json_itos_fname": get_corpus_path("wiki_itos_lstm_json"),
@@ -110,21 +110,21 @@ post_rules_th_sparse: list[Callable[[Collection[str]], list[str]]] = [
 
 def process_thai(
     text: str,
-    pre_rules: Optional[Collection[Callable[[str], str]]] = None,
-    tok_func: Optional[Callable[[str], list[str]]] = None,
-    post_rules: Optional[Collection[Callable[[list[str]], list[str]]]] = None,
+    pre_rules: Collection[Callable[[str], str]] | None = None,
+    tok_func: Callable[[str], list[str]] | None = None,
+    post_rules: Collection[Callable[[list[str]], list[str]]] | None = None,
 ) -> list[str]:
     """
     Process Thai text for models, with sparse features by default.
 
     :param str text: text to be cleaned
-    :param Optional[Collection[Callable[[str], str]]] pre_rules: rules to
+    :param Collection[Callable[[str], str]] | None pre_rules: rules to
         apply before tokenization. If None, use the default sparse pre-rules.
-    :param Optional[Callable[[str], list[str]]] tok_func: tokenization
+    :param Callable[[str], list[str]] | None tok_func: tokenization
         function. By default, **tok_func** is
         :func:`pythainlp.tokenize.word_tokenize`.
 
-    :param Optional[Collection[Callable[[list[str]], list[str]]]] post_rules:
+    :param Collection[Callable[[list[str]], list[str]]] | None post_rules:
         rules to apply after tokenization. If None, use the default sparse
         post-rules.
 

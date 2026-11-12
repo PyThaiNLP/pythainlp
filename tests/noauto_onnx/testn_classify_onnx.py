@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import os
 import unittest
-from typing import Any, ClassVar, Union, cast
+from typing import Any, ClassVar, cast
 
 import numpy as np
 
@@ -99,7 +99,7 @@ class ClassifyONNXTestCaseN(unittest.TestCase):
         self.assertGreater(res["probabilities"]["Positive"], 0.5)
 
     def test_classify_batch(self) -> None:
-        texts: list[Union[str, dict[str, Any], list[Any]]] = [
+        texts: list[str | dict[str, Any] | list[Any]] = [
             "อาหารอร่อยมาก บรรยากาศดี",
             "บริการแย่มาก อาหารไม่อร่อย",
         ]

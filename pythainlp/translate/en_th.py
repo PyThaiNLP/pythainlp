@@ -13,7 +13,6 @@ Website: https://airesearch.in.th/releases/machine-translation-models/
 from __future__ import annotations
 
 import warnings
-from typing import Optional
 
 try:
     from fairseq.models.transformer import TransformerModel
@@ -101,13 +100,13 @@ class EnThTranslator:
             self._model = self._model.cuda()
 
     def translate(
-        self, text: str, exclude_words: Optional[list[str]] = None
+        self, text: str, exclude_words: list[str] | None = None
     ) -> str:
         """
         Translate text from English to Thai.
 
         :param str text: text to translate
-        :param Optional[list[str]] exclude_words: words to exclude from
+        :param list[str] | None exclude_words: words to exclude from
             translation
         :return: translated text
         :rtype: str
@@ -199,13 +198,13 @@ class ThEnTranslator:
             self._model = self._model.cuda()
 
     def translate(
-        self, text: str, exclude_words: Optional[list[str]] = None
+        self, text: str, exclude_words: list[str] | None = None
     ) -> str:
         """
         Translate text from Thai to English.
 
         :param str text: text to translate
-        :param Optional[list[str]] exclude_words: words to exclude from
+        :param list[str] | None exclude_words: words to exclude from
             translation
         :return: translated text
         :rtype: str

@@ -13,7 +13,6 @@ from __future__ import annotations
 
 from collections import defaultdict
 from importlib.resources import files
-from typing import Union
 
 __all__: list[str] = [
     "TRANSLITERATE_EN",
@@ -27,16 +26,16 @@ TRANSLITERATE_FOLLOW_RTSG: str = "follow_rtsg"
 
 
 def get_transliteration_dict() -> defaultdict[
-    str, dict[str, list[Union[str, bool, None]]]
+    str, dict[str, list[str | bool | None]]
 ]:
     """
     Get the Thai to English transliteration dictionary.
 
-    The format is ``dict[str, dict[str, list[Union[str, bool, None]]]]``.
+    The format is ``dict[str, dict[str, list[str | bool | None]]]``.
 
     :return: transliteration dictionary
     :rtype:
-        collections.defaultdict[str, dict[str, list[Union[str, bool, None]]]]
+        collections.defaultdict[str, dict[str, list[str | bool | None]]]
     :raises FileNotFoundError: if the dictionary file is not found
     :raises ValueError: if the dictionary file cannot be parsed
     """
@@ -50,7 +49,7 @@ def get_transliteration_dict() -> defaultdict[
         )
 
     # use list, as one word can have multiple transliterations.
-    trans_dict: defaultdict[str, dict[str, list[Union[str, bool, None]]]] = (
+    trans_dict: defaultdict[str, dict[str, list[str | bool | None]]] = (
         defaultdict(
             lambda: {TRANSLITERATE_EN: [], TRANSLITERATE_FOLLOW_RTSG: []}
         )
@@ -85,6 +84,6 @@ def get_transliteration_dict() -> defaultdict[
         return trans_dict
 
 
-TRANSLITERATE_DICT: defaultdict[
-    str, dict[str, list[Union[str, bool, None]]]
-] = get_transliteration_dict()
+TRANSLITERATE_DICT: defaultdict[str, dict[str, list[str | bool | None]]] = (
+    get_transliteration_dict()
+)

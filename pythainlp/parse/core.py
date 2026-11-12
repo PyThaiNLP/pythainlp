@@ -5,23 +5,23 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional, Union
+from typing import Any
 
-_tagger: Optional[Any] = None
+_tagger: Any | None = None
 _tagger_name: str = ""
 
 
 def dependency_parsing(
     text: str,
-    model: Optional[str] = None,
+    model: str | None = None,
     tag: str = "str",
     engine: str = "esupar",
-) -> Union[list[list[str]], str]:
+) -> list[list[str]] | str:
     """
     Parse the dependency structure of a text.
 
     :param str text: text to be parsed
-    :param Optional[str] model: model to use with the engine
+    :param str | None model: model to use with the engine
         (for esupar, transformers_ud, and ud_goeswith)
     :param str tag: output type, ``"str"`` (CoNLL-U text, default)
         or ``"list"``
@@ -42,7 +42,7 @@ def dependency_parsing(
           `GitHub <https://github.com/nlp-chula/attaparse>`_
     :return: CoNLL-U text if ``tag`` is ``"str"``, otherwise a list of
         lists of fields
-    :rtype: Union[list[list[str]], str]
+    :rtype: list[list[str]] | str
     :raises NotImplementedError: if the engine is not supported
 
     Options for ``model`` with the esupar engine:

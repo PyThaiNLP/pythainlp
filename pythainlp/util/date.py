@@ -10,8 +10,6 @@ Thailand.
 
 from __future__ import annotations
 
-from typing import Optional, Union
-
 __all__: list[str] = [
     "convert_years",
     "thai_abbr_months",
@@ -204,7 +202,7 @@ def _fmt_keys(fmt: str) -> list[str]:
     ]
 
 
-def _full_year(y: str, year: str, add_year: Optional[int]) -> str:
+def _full_year(y: str, year: str, add_year: int | None) -> str:
     """
     Normalize a year text, and convert a BE year to an AD year.
 
@@ -224,8 +222,8 @@ def thai_strptime(
     text: str,
     fmt: str,
     year: str = "be",
-    add_year: Optional[int] = None,
-    tzinfo: Optional[ZoneInfo] = ZoneInfo("Asia/Bangkok"),  # noqa: B008
+    add_year: int | None = None,
+    tzinfo: ZoneInfo | None = ZoneInfo("Asia/Bangkok"),  # noqa: B008
 ) -> datetime:
     """
     Parse Thai date and time text into a :class:`datetime.datetime`.
@@ -234,9 +232,9 @@ def thai_strptime(
     :param str fmt: string containing date and time directives
     :param str year: era of the year in the text
         (*ad* for Anno Domini, *be* for Buddhist Era)
-    :param Optional[int] add_year: year to add to a two-digit year
+    :param int | None add_year: year to add to a two-digit year
         (default is None)
-    :param Optional[zoneinfo.ZoneInfo] tzinfo: time zone
+    :param zoneinfo.ZoneInfo | None tzinfo: time zone
         (default is Asia/Bangkok)
     :return: parsed date and time
     :rtype: datetime.datetime
@@ -264,11 +262,13 @@ def thai_strptime(
     keys = _fmt_keys(fmt)
     y_matches = re.findall(_fmt_to_regex(fmt), text)
 
-    data = {i: "".join(list(j)) for i, j in zip(keys, y_matches[0])}
+    data = {
+        i: "".join(list(j)) for i, j in zip(keys, y_matches[0], strict=False)
+    }
     d = data["d"]
     m: int = _find_month(data["B"])
     y = data["Y"]
-    time_parts: list[Union[int, str]] = [
+    time_parts: list[int | str] = [
         data[name] if name in keys else 0 for name in _TIME_KEYS
     ]
     hour, minute, second, f = time_parts
@@ -345,8 +345,8 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
 
 
 def thaiword_to_date(
-    text: str, date: Optional[datetime] = None
-) -> Optional[datetime]:
+    text: str, date: datetime | None = None
+) -> datetime | None:
     """
     Convert Thai relative date to :class:`datetime.datetime`.
 
@@ -354,7 +354,7 @@ def thaiword_to_date(
     :param datetime.datetime date: reference date
         (default is datetime.datetime.now())
     :return: date and time if it can be calculated, otherwise None
-    :rtype: Optional[datetime.datetime]
+    :rtype: datetime.datetime | None
 
     :Example:
 

@@ -14,7 +14,6 @@ from __future__ import annotations
 import re
 from functools import lru_cache
 from re import Pattern
-from typing import Optional, Union
 
 from pythainlp.corpus import thai_words
 from pythainlp.tokenize import Tokenizer
@@ -63,8 +62,8 @@ def _tokenizer() -> Tokenizer:
 def _check_is_thainum(
     word: str,
     next_word: str = "",
-    thainum: Optional[list[str]] = None,
-) -> tuple[bool, Optional[str]]:
+    thainum: list[str] | None = None,
+) -> tuple[bool, str | None]:
     if word == "ศูนย์" and thainum is not None:
         if "จุด" in thainum or next_word == "จุด":
             return (True, "num")
@@ -167,7 +166,7 @@ def words_to_num(words: list[str]) -> float:
         50.95
 
     """
-    num: Union[int, float] = 0
+    num: int | float = 0
     if "จุด" not in words:
         num = thaiword_to_num("".join(words))
     else:

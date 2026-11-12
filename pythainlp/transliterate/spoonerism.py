@@ -5,15 +5,13 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from pythainlp import thai_consonants
 from pythainlp.transliterate import pronunciate
 
 _list_consonants: list[str] = list(thai_consonants.replace("ห", ""))
 
 
-def _initial_char(syllable: str) -> Optional[str]:
+def _initial_char(syllable: str) -> str | None:
     """Return the first consonant of a syllable, or None if not found."""
     for char in syllable:
         if char in _list_consonants:

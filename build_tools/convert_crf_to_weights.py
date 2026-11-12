@@ -15,7 +15,6 @@ import gzip
 import json
 import os
 import tempfile
-from typing import Optional
 
 _SECTIONS = {
     "ATTRIBUTES",
@@ -26,7 +25,7 @@ _SECTIONS = {
 }
 
 
-def _parse_weight(weight: str) -> Optional[float]:
+def _parse_weight(weight: str) -> float | None:
     mantissa, exponent_separator, exponent = weight.lower().partition("e")
     if exponent_separator:
         if exponent[:1] in ("+", "-"):
@@ -44,7 +43,7 @@ def _parse_weight(weight: str) -> Optional[float]:
     return float(weight)
 
 
-def _parse_section_header(line: str) -> Optional[str]:
+def _parse_section_header(line: str) -> str | None:
     section, separator, _ = line.partition(" = {")
     if separator and section in _SECTIONS:
         return section
@@ -54,9 +53,9 @@ def _parse_section_header(line: str) -> Optional[str]:
 def _parse_label_line(
     line: str,
     labels: dict[int, str],
-    current_id: Optional[int],
+    current_id: int | None,
     current_lines: list[str],
-) -> tuple[Optional[int], list[str]]:
+) -> tuple[int | None, list[str]]:
     label_id, separator, label = line.lstrip().partition(":")
     if not separator or not label_id.isdecimal():
         current_lines.append(line)
@@ -72,7 +71,7 @@ def _parse_label_line(
 
 def _parse_weighted_row(
     line: str, use_last_arrow: bool
-) -> Optional[tuple[str, str, float]]:
+) -> tuple[str, str, float] | None:
     row_id, separator, row = line.lstrip().partition(")")
     if (
         not separator
@@ -103,10 +102,10 @@ def _parse_weighted_row(
 
 def _finish_label_section(
     section: str,
-    current_id: Optional[int],
+    current_id: int | None,
     labels: dict[int, str],
     current_lines: list[str],
-) -> tuple[Optional[int], list[str]]:
+) -> tuple[int | None, list[str]]:
     if section == "LABELS" and current_id is not None:
         labels[current_id] = "\n".join(current_lines)
         return None, []
@@ -145,7 +144,7 @@ def parse_dump_file(
     state_features: dict[str, dict[str, float]] = {}
 
     section: str = ""
-    curr_id: Optional[int] = None
+    curr_id: int | None = None
     curr_str: list[str] = []
 
     with open(dump_path, encoding="utf-8", errors="replace") as file_obj:

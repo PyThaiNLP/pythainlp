@@ -5,8 +5,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from pythainlp.summarize import CPE_KMUTT_THAI_SENTENCE_SUM
 
 
@@ -22,7 +20,7 @@ class mT5Summarizer:
         max_length: int = 100,
         skip_special_tokens: bool = True,
         pretrained_mt5_model_name: str = "",
-        revision: Optional[str] = None,
+        revision: str | None = None,
     ) -> None:
         """
         Initialize the mT5 summarizer.
@@ -40,7 +38,7 @@ class mT5Summarizer:
             (default is True)
         :param str pretrained_mt5_model_name: name of the pretrained model.
             If empty (default), use ``google/mt5-{model_size}``.
-        :param Optional[str] revision: git revision id (branch, tag, or
+        :param str | None revision: git revision id (branch, tag, or
             commit hash). Pin to a full commit hash for secure downloads.
         """
         from transformers import MT5ForConditionalGeneration, T5Tokenizer

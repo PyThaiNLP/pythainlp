@@ -6,7 +6,6 @@
 from __future__ import annotations
 
 import re
-from typing import Optional
 
 # Regex for true consonant clusters (คำควบกล้ำแท้):
 # initial consonants ก ข ค ต ป ผ พ ฟ บ followed by ร ล ว
@@ -25,7 +24,7 @@ def _strip_lead_vowels(text: str) -> str:
     return _LEAD_VOWEL_RE.sub("", text)
 
 
-def check_khuap_klam(word: str) -> Optional[bool]:
+def check_khuap_klam(word: str) -> bool | None:
     """
     Check whether a Thai word is a consonant cluster (Kham Khuap Klam).
 
@@ -33,7 +32,7 @@ def check_khuap_klam(word: str) -> Optional[bool]:
     :return: ``True`` if the word is a *true* consonant cluster
         (คำควบกล้ำแท้), ``False`` if it is a *false* consonant cluster
         (คำควบกล้ำไม่แท้), or ``None`` if it is not a consonant cluster
-    :rtype: Optional[bool]
+    :rtype: bool | None
 
     :Example:
 

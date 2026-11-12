@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import html
 import re
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from collections.abc import Collection
@@ -137,9 +137,9 @@ def replace_wrep_post(toks: Collection[str]) -> list[str]:
         ['กา', 'xxwrep', '3', 'น้ำ']
 
     """
-    previous_word: Optional[str] = None
+    previous_word: str | None = None
     rep_count = 0
-    res: list[Optional[str]] = []
+    res: list[str | None] = []
     for current_word in [*list(toks), _TK_END]:
         if current_word == previous_word:
             rep_count += 1
@@ -264,9 +264,9 @@ def replace_wrep_post_nonum(toks: Collection[str]) -> list[str]:
         ['กา', 'xxwrep', 'น้ำ']
 
     """
-    previous_word: Optional[str] = None
+    previous_word: str | None = None
     rep_count = 0
-    res: list[Optional[str]] = []
+    res: list[str | None] = []
     for current_word in [*list(toks), _TK_END]:
         if current_word == previous_word:
             rep_count += 1

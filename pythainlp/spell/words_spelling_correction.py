@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 from importlib import import_module
-from typing import TYPE_CHECKING, Union, cast
+from typing import TYPE_CHECKING, cast
 
 from pythainlp.corpus import get_hf_hub
 from pythainlp.tools.path import safe_path_join
@@ -276,18 +276,18 @@ class FastTextEncoder:
     # --- Nearest Neighbor Method ---
 
     def get_word_suggestion(
-        self, list_word: Union[str, list[str]]
-    ) -> Union[list[str], list[list[str]]]:
+        self, list_word: str | list[str]
+    ) -> list[str] | list[list[str]]:
         """
         Find the nearest neighbor words of a word or a list of words.
 
         This method queries the ONNX model.
 
-        :param Union[str, list[str]] list_word: word, or list of words,
+        :param str | list[str] list_word: word, or list of words,
             to get suggestions for
         :return: nearest neighbor words from the suggestion list, one list
             per input word; a single list if the input is a word
-        :rtype: Union[list[str], list[list[str]]]
+        :rtype: list[str] | list[list[str]]
         """
         if isinstance(list_word, str):
             input_words = [list_word]
@@ -347,8 +347,8 @@ _WSC_CACHE: dict[str, Words_Spelling_Correction] = {}
 
 
 def get_words_spell_suggestion(
-    list_words: Union[str, list[str]],
-) -> Union[list[str], list[list[str]]]:
+    list_words: str | list[str],
+) -> list[str] | list[list[str]]:
     """
     Get spelling suggestions for Thai words.
 
@@ -356,11 +356,11 @@ def get_words_spell_suggestion(
 
     It requires numpy and onnxruntime. Install them before use.
 
-    :param Union[str, list[str]] list_words: word, or list of words,
+    :param str | list[str] list_words: word, or list of words,
         to get suggestions for
     :return: spelling suggestions (at most 5 per word); a list of lists
         if the input is a list of words
-    :rtype: Union[list[str], list[list[str]]]
+    :rtype: list[str] | list[list[str]]
 
     :Example:
 

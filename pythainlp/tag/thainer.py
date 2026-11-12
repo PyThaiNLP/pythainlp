@@ -8,8 +8,6 @@ from __future__ import annotations
 __all__: list[str] = ["ThaiNameTagger"]
 
 
-from typing import Union
-
 from pythainlp.corpus import get_corpus_path, thai_stopwords
 from pythainlp.tag._utils import _iob_to_markup
 from pythainlp.tag.crf import CRFTagger
@@ -24,10 +22,8 @@ def _is_stopword(word: str) -> bool:  # เช็คว่าเป็นคำ�
     return word in thai_stopwords()
 
 
-def _doc2features(
-    doc: list[tuple[str, str]], i: int
-) -> dict[str, Union[str, bool]]:
-    features: dict[str, Union[str, bool]]
+def _doc2features(doc: list[tuple[str, str]], i: int) -> dict[str, str | bool]:
+    features: dict[str, str | bool]
     word = doc[i][0]
     postag = doc[i][1]
 
@@ -47,7 +43,7 @@ def _doc2features(
     if i > 0:
         prevword = doc[i - 1][0]
         prevpostag = doc[i - 1][1]
-        prev_features: dict[str, Union[str, bool]] = {
+        prev_features: dict[str, str | bool] = {
             "word.prevword": prevword,
             "word.previsspace": prevword.isspace(),
             "word.previsthai": is_thai(prevword),
@@ -63,7 +59,7 @@ def _doc2features(
     if i < len(doc) - 1:
         nextword = doc[i + 1][0]
         nextpostag = doc[i + 1][1]
-        next_features: dict[str, Union[str, bool]] = {
+        next_features: dict[str, str | bool] = {
             "word.nextword": nextword,
             "word.nextisspace": nextword.isspace(),
             "word.nextpostag": nextpostag,
@@ -136,7 +132,7 @@ class ThaiNameTagger:
 
     def get_ner(
         self, text: str, pos: bool = True, tag: bool = False
-    ) -> Union[list[tuple[str, str]], list[tuple[str, str, str]], str]:
+    ) -> list[tuple[str, str]] | list[tuple[str, str, str]] | str:
         """
         Tag named entities in text in IOB format.
 
@@ -148,7 +144,7 @@ class ThaiNameTagger:
         :return: list of tuples of word, POS tag (if ``pos`` is ``True``),
             and named entity tag; or the text with HTML-like tags
             (if ``tag`` is ``True``)
-        :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]], str]
+        :rtype: list[tuple[str, str]] | list[tuple[str, str, str]] | str
 
         :Note:
             * For the POS tags to be included in the results, this function
@@ -209,5 +205,5 @@ class ThaiNameTagger:
     @staticmethod
     def _extract_features(
         doc: list[tuple[str, str]],
-    ) -> list[dict[str, Union[str, bool]]]:
+    ) -> list[dict[str, str | bool]]:
         return [_doc2features(doc, i) for i in range(len(doc))]

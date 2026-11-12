@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, cast
+from typing import TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -130,7 +130,7 @@ def extract_keywords(
     min_df: int = 1,
     engine: str = DEFAULT_KEYWORD_EXTRACTION_ENGINE,
     tokenizer: str = "newmm",
-    stop_words: Optional[Iterable[str]] = None,
+    stop_words: Iterable[str] | None = None,
 ) -> list[str]:
     """
     Return the most relevant keywords (and keyphrases) from a document.
@@ -161,7 +161,7 @@ def extract_keywords(
     :param str tokenizer: engine to tokenize text with. See
         :func:`pythainlp.tokenize.word_tokenize` for available engines
         (default is ``"newmm"``)
-    :param Optional[collections.abc.Iterable[str]] stop_words: words to
+    :param collections.abc.Iterable[str] | None stop_words: words to
         ignore. If None, use :func:`pythainlp.corpus.thai_stopwords`
         (default is None)
 
@@ -212,7 +212,7 @@ def extract_keywords(
         max_keywords: int = 5,
         min_df: int = 5,
         tokenizer: str = "newmm",
-        stop_words: Optional[Iterable[str]] = None,
+        stop_words: Iterable[str] | None = None,
     ) -> list[str]:
         from pythainlp.tokenize import word_tokenize
         from pythainlp.util.keywords import rank

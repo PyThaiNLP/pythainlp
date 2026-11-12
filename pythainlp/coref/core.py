@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Union, cast
+from typing import Any, cast
 
 from pythainlp.coref._fastcoref import CorefResult
 
@@ -13,14 +13,14 @@ _MODEL_CACHE: dict[tuple[str, str], Any] = {}
 
 
 def coreference_resolution(
-    texts: Union[str, list[str]],
+    texts: str | list[str],
     model_name: str = "han-coref-v1.0",
     device: str = "cpu",
 ) -> list[CorefResult]:
     """
     Resolve coreferences in texts.
 
-    :param Union[str, list[str]] texts: text, or list of texts, to be
+    :param str | list[str] texts: text, or list of texts, to be
         resolved
     :param str model_name: model to use for coreference resolution.
         Options are:

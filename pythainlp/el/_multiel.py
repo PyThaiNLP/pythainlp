@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Union, cast
+from typing import TYPE_CHECKING, Any, cast
 
 if TYPE_CHECKING:
     from multiel import BELA
@@ -29,11 +29,11 @@ class MultiEL:
         self._bela_run: BELA = BELA(device=self.device)
 
     def process_batch(
-        self, list_text: Union[list[str], str]
-    ) -> Union[list[dict[str, Any]], str]:
+        self, list_text: list[str] | str
+    ) -> list[dict[str, Any]] | str:
         if isinstance(list_text, str):
             list_text = [list_text]
         return cast(
-            "Union[list[dict[str, Any]], str]",
+            "list[dict[str, Any]] | str",
             self._bela_run.process_batch(list_text),
         )

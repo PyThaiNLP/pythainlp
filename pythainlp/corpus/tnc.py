@@ -79,7 +79,7 @@ def bigram_word_freqs() -> dict[tuple[str, str], int]:
                 temp = line.strip().split("	")
                 if len(temp) >= 3:
                     freqs[(temp[0], temp[1])] = int(temp[-1])
-    except (IOError, OSError):
+    except OSError:
         pass
 
     return freqs
@@ -104,7 +104,7 @@ def trigram_word_freqs() -> dict[tuple[str, str, str], int]:
                 temp = line.strip().split("	")
                 if len(temp) >= 4:
                     freqs[(temp[0], temp[1], temp[2])] = int(temp[-1])
-    except (IOError, OSError):
+    except OSError:
         pass
 
     return freqs

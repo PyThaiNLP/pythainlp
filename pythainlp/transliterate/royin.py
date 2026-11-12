@@ -17,7 +17,6 @@ alphabet. It was published by the Royal Institute of Thailand.
 from __future__ import annotations
 
 import re
-from typing import Optional
 
 from pythainlp import thai_consonants, word_tokenize
 
@@ -167,7 +166,7 @@ _DOUBLE_RO_RUA: str = _RO_RUA + _RO_RUA
 _CLUSTER_SECOND: frozenset[str] = frozenset({_RO_RUA, _LO_LING, _WO_WAEN})
 
 
-def _double_ro_rua(word: str, i: int) -> Optional[list[str]]:
+def _double_ro_rua(word: str, i: int) -> list[str] | None:
     """Return romanized chars for double RO RUA (รร) at i, or None."""
     if word[i:] == _DOUBLE_RO_RUA:  # at the end of the word
         return ["a", "n"]

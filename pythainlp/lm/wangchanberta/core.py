@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import warnings
-from typing import TYPE_CHECKING, Optional, Union, cast
+from typing import TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
     from transformers import (
@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 from pythainlp.tokenize import word_tokenize
 
 _model_name: str = "wangchanberta-base-att-spm-uncased"
-_tokenizer: Optional[CamembertTokenizer] = None
+_tokenizer: CamembertTokenizer | None = None
 
 
 def _get_tokenizer() -> CamembertTokenizer:
@@ -144,7 +144,7 @@ class ThaiNameTagger:
 
     def get_ner(
         self, text: str, pos: bool = False, tag: bool = False
-    ) -> Union[list[tuple[str, str]], str]:
+    ) -> list[tuple[str, str]] | str:
         """
         Tag named entities in Thai text.
 
@@ -156,7 +156,7 @@ class ThaiNameTagger:
             model does not support it, so a warning is raised
         :param bool tag: whether to return HTML-like tags instead of tuples
         :return: tagged words, or an HTML-like tagged string if *tag* is True
-        :rtype: Union[list[tuple[str, str]], str]
+        :rtype: list[tuple[str, str]] | str
         """
         if pos:
             warnings.warn(
@@ -189,7 +189,7 @@ class NamedEntityRecognition:
     def __init__(
         self,
         model: str = "pythainlp/thainer-corpus-v2-base-model",
-        revision: Optional[str] = None,
+        revision: str | None = None,
     ) -> None:
         """
         Initialize a named entity recognizer.
@@ -197,7 +197,7 @@ class NamedEntityRecognition:
         Use a model pretrained with WangchanBERTa.
 
         :param str model: pretrained model name
-        :param Optional[str] revision: git revision ID (branch, tag, or
+        :param str | None revision: git revision ID (branch, tag, or
             commit hash). Pin to a full commit hash for secure downloads.
         """
         from transformers import AutoModelForTokenClassification, AutoTokenizer
@@ -217,7 +217,7 @@ class NamedEntityRecognition:
         _ner = []
         _ner = ner
         _new_tag = []
-        for i, j in zip(words, _ner):
+        for i, j in zip(words, _ner, strict=False):
             i_decoded = self.tokenizer.decode(i)
             tag = "O" if i_decoded.isspace() and j.startswith("B-") else j
             if i_decoded in ("", "<s>", "</s>"):
@@ -229,7 +229,7 @@ class NamedEntityRecognition:
 
     def get_ner(
         self, text: str, pos: bool = False, tag: bool = False
-    ) -> Union[list[tuple[str, str]], str]:
+    ) -> list[tuple[str, str]] | str:
         """
         Tag named entities in Thai text.
 
@@ -238,7 +238,7 @@ class NamedEntityRecognition:
             model does not support it, so a warning is raised
         :param bool tag: whether to return HTML-like tags instead of tuples
         :return: tagged words, or an HTML-like tagged string if *tag* is True
-        :rtype: Union[list[tuple[str, str]], str]
+        :rtype: list[tuple[str, str]] | str
         """
         import torch
 

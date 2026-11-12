@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 """
-Type Annotation Analyzer for PyThaiNLP
+Type Annotation Analyzer for PyThaiNLP.
 
 This script scans the entire repository and analyzes type annotation coverage
 for all functions and classes.
@@ -52,8 +51,9 @@ def count_mypy_errors_by_submodule(pythainlp_dir: str) -> dict[str, int]:
         submodule_path = os.path.join(pythainlp_dir, submodule)
         try:
             # Run mypy on the submodule
-            result = subprocess.run(
-                ["mypy", submodule_path, "--ignore-missing-imports"],
+            # Fixed arguments; "mypy" is looked up on PATH on purpose.
+            result = subprocess.run(  # noqa: S603
+                ["mypy", submodule_path, "--ignore-missing-imports"],  # noqa: S607
                 capture_output=True,
                 text=True,
                 timeout=60,
@@ -75,7 +75,7 @@ def count_mypy_errors_by_submodule(pythainlp_dir: str) -> dict[str, int]:
         except FileNotFoundError:
             print("  mypy not found, skipping mypy error counting")
             return {}
-        except Exception as e:
+        except (OSError, subprocess.SubprocessError) as e:
             mypy_errors[submodule] = -1  # Indicate error
             print(f"  {submodule}: error ({e})")
 
@@ -108,16 +108,16 @@ class TypeHintAnalyzer(ast.NodeVisitor):
     ) -> tuple[str, int, int]:
         """
         Check type hint completeness for a function.
+
         Returns: (status, total_params, hinted_params)
         - status: "complete", "incomplete", "none"
         - total_params: number of parameters (excluding self/cls)
         - hinted_params: number of parameters with type hints
         """
         # Count parameters (excluding self/cls)
-        params = []
-        for arg in node.args.args:
-            if arg.arg not in ("self", "cls"):
-                params.append(arg)
+        params = [
+            arg for arg in node.args.args if arg.arg not in ("self", "cls")
+        ]
 
         total_params = len(params)
         hinted_params = sum(1 for arg in params if arg.annotation is not None)
@@ -163,11 +163,10 @@ class TypeHintAnalyzer(ast.NodeVisitor):
             return True
 
         # Check for typing.TypeAlias or typing_extensions.TypeAlias
-        if isinstance(node.annotation, ast.Attribute):
-            if node.annotation.attr == "TypeAlias":
-                return True
-
-        return False
+        return (
+            isinstance(node.annotation, ast.Attribute)
+            and node.annotation.attr == "TypeAlias"
+        )
 
     def _is_instance_variable(self, target: ast.expr) -> bool:
         """Check if target is an instance variable (self.attr)."""
@@ -433,7 +432,7 @@ def analyze_file(filepath: str, root_dir: str) -> list[dict[str, Any]]:
         analyzer.visit(tree)
 
         return analyzer.results
-    except Exception as e:
+    except (OSError, RecursionError, SyntaxError, ValueError) as e:
         print(f"Error analyzing {filepath}: {e}", file=sys.stderr)
         return []
 
@@ -460,8 +459,8 @@ def count_references(qualified_name: str, all_files: list[str]) -> int:
                 content = f.read()
                 # Simple text search - not perfect but gives an approximation
                 count += content.count(search_name)
-        except Exception:
-            pass
+        except (OSError, ValueError):
+            continue
 
     return count
 
@@ -531,8 +530,8 @@ def assign_priority(result: dict) -> str:
     return "low"
 
 
-def main():
-    """Main function to analyze type hints across the repository."""
+def main():  # noqa: C901  # phase2-todo
+    """Analyze type hints across the repository."""
     # Parse command line arguments
     parser = argparse.ArgumentParser(
         description="Analyze type hint coverage in PyThaiNLP"

@@ -79,7 +79,7 @@ dev = [
     "flake8>=7.4.1",
     "flake8-cognitive-complexity>=0.1.0",
     # Same as CI.
-    "mypy==1.19.1",
+    "mypy==2.4.1",
     "pylint>=4.1.2",
     "ruff>=0.16.10",
     "tox>=4.64.9",
@@ -575,8 +575,8 @@ skip_install = true
 
 [tool.tox.env.mypy]
 commands = [["mypy", "pythainlp", "tests"]]
-# Same version as mypy.yml. python_version in [tool.mypy] sets the target.
-deps = ["mypy==1.19.1"]
+# Same version as mypy.yml.
+deps = ["mypy==2.4.1"]
 extras = []
 
 [tool.mypy]

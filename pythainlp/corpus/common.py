@@ -11,7 +11,7 @@ import warnings
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from typing import Any, Union
+    from typing import Any
 
 __all__: list[str] = [
     "countries",
@@ -66,8 +66,8 @@ _THAI_MALE_NAMES_FILENAME: str = "person_names_male_th.txt"
 _THAI_ORST_WORDS: frozenset[str] = frozenset()
 
 _THAI_DICT: dict[str, list[str]] = {}
-_THAI_WSD_DICT: dict[str, Union[list[str], list[list[str]]]] = {}
-_THAI_SYNONYMS: dict[str, Union[list[str], list[list[str]]]] = {}
+_THAI_WSD_DICT: dict[str, list[str] | list[list[str]]] = {}
+_THAI_SYNONYMS: dict[str, list[str] | list[list[str]]] = {}
 
 
 def countries() -> frozenset[str]:
@@ -90,7 +90,7 @@ def countries() -> frozenset[str]:
 
 def provinces(
     details: bool = False,
-) -> Union[frozenset[str], list[dict[str, str]]]:
+) -> frozenset[str] | list[dict[str, str]]:
     """
     Return a frozenset of Thailand province names in Thai.
 
@@ -103,7 +103,7 @@ def provinces(
         or list of dict of province names and details such as
         ``{'name_th': 'นนทบุรี', 'abbr_th': 'นบ', 'name_en': 'Nonthaburi',
         'abbr_en': 'NBI'}`` (if details is True)
-    :rtype: Union[frozenset[str], list[dict[str, str]]]
+    :rtype: frozenset[str] | list[dict[str, str]]
     """
     global _THAI_THAILAND_PROVINCES, _THAI_THAILAND_PROVINCES_DETAILS
 
@@ -360,7 +360,7 @@ def thai_dict() -> dict[str, list[str]]:
     return _THAI_DICT
 
 
-def thai_wsd_dict() -> dict[str, Union[list[str], list[list[str]]]]:
+def thai_wsd_dict() -> dict[str, list[str] | list[list[str]]]:
     """
     Return a Thai word sense disambiguation dictionary.
 
@@ -369,7 +369,7 @@ def thai_wsd_dict() -> dict[str, Union[list[str], list[list[str]]]]:
     <https://pythainlp.org/pythainlp-corpus/thai_dict.html>`_.
 
     :return: Thai words with their senses
-    :rtype: dict[str, Union[list[str], list[list[str]]]]
+    :rtype: dict[str, list[str] | list[list[str]]]
     """
     global _THAI_WSD_DICT
     if _THAI_WSD_DICT:
@@ -378,7 +378,9 @@ def thai_wsd_dict() -> dict[str, Union[list[str], list[list[str]]]]:
     thai_wsd = thai_dict()
     words: list[str] = []
     meanings: list[list[str]] = []
-    for word, meaning in zip(thai_wsd["word"], thai_wsd["meaning"]):
+    for word, meaning in zip(
+        thai_wsd["word"], thai_wsd["meaning"], strict=False
+    ):
         try:
             parsed = ast.literal_eval(meaning)
         except (SyntaxError, TypeError, ValueError):
@@ -408,7 +410,7 @@ def thai_wsd_dict() -> dict[str, Union[list[str], list[list[str]]]]:
     return _THAI_WSD_DICT
 
 
-def thai_synonyms() -> dict[str, Union[list[str], list[list[str]]]]:
+def thai_synonyms() -> dict[str, list[str] | list[list[str]]]:
     """
     Return Thai synonyms.
 
@@ -416,7 +418,7 @@ def thai_synonyms() -> dict[str, Union[list[str], list[list[str]]]]:
     <https://pythainlp.org/pythainlp-corpus/thai_synonym.html>`_.
 
     :return: Thai words with part-of-speech (POS) type and synonyms
-    :rtype: dict[str, Union[list[str], list[list[str]]]]
+    :rtype: dict[str, list[str] | list[list[str]]]
     """
     global _THAI_SYNONYMS
     if _THAI_SYNONYMS:
@@ -463,14 +465,14 @@ def thai_synonyms() -> dict[str, Union[list[str], list[list[str]]]]:
     return _THAI_SYNONYMS
 
 
-def thai_synonym() -> dict[str, Union[list[str], list[list[str]]]]:
+def thai_synonym() -> dict[str, list[str] | list[list[str]]]:
     """
     Return Thai synonyms (deprecated).
 
     Use :func:`thai_synonyms` instead.
 
     :return: words, parts of speech, and synonym groups
-    :rtype: dict[str, Union[list[str], list[list[str]]]]
+    :rtype: dict[str, list[str] | list[list[str]]]
     """
     warn_deprecation(
         "pythainlp.corpus.thai_synonym",

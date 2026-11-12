@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from spacy.language import Language
@@ -17,14 +17,14 @@ class HanCoref(FastCoref):
     """Coreference resolver using the Han-Coref model."""
 
     def __init__(
-        self, device: str = "cpu", nlp: Optional[Language] = None
+        self, device: str = "cpu", nlp: Language | None = None
     ) -> None:
         """
         Initialize the Han-Coref resolver.
 
         :param str device: device to run the model on
             ("cpu", "cuda", and others)
-        :param Optional[spacy.language.Language] nlp: spaCy pipeline to use;
+        :param spacy.language.Language | None nlp: spaCy pipeline to use;
             a blank Thai pipeline is created if ``None``
         """
         super().__init__(

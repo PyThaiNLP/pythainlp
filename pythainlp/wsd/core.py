@@ -5,17 +5,17 @@
 
 from __future__ import annotations
 
-from typing import Optional, Union, cast
+from typing import cast
 
 from pythainlp.corpus import thai_wsd_dict
 from pythainlp.tokenize import Tokenizer
 from pythainlp.util.trie import Trie
 
-_wsd_dict: dict[str, Union[list[str], list[list[str]]]] = thai_wsd_dict()
+_wsd_dict: dict[str, list[str] | list[list[str]]] = thai_wsd_dict()
 
 words: list[str] = cast("list[str]", _wsd_dict["word"])
 meanings: list[list[str]] = cast("list[list[str]]", _wsd_dict["meaning"])
-_mean_all: dict[str, list[str]] = dict(zip(words, meanings))
+_mean_all: dict[str, list[str]] = dict(zip(words, meanings, strict=False))
 
 _all_word: set[str] = cast("set[str]", set(_mean_all.keys()))
 _TRIE: Trie = Trie(_all_word)
@@ -58,7 +58,7 @@ def get_sense(
     sentence: str,
     word: str,
     device: str = "cpu",
-    custom_dict: Optional[dict[str, list[str]]] = None,
+    custom_dict: dict[str, list[str]] | None = None,
     custom_tokenizer: Tokenizer = _word_cut,
 ) -> list[tuple[str, float]]:
     """
@@ -70,7 +70,7 @@ def get_sense(
     :param str sentence: Thai sentence
     :param str word: Thai word
     :param str device: device to run the model on
-    :param Optional[dict[str, list[str]]] custom_dict: Thai dictionary in
+    :param dict[str, list[str]] | None custom_dict: Thai dictionary in
         the form {"word": ["definition", ...]}
     :param pythainlp.tokenize.Tokenizer custom_tokenizer: tokenizer to
         tokenize the sentence

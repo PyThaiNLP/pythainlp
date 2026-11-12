@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import math
 import random
-from typing import Optional
 
 THAI_CHARACTERS_WITHOUT_SHIFT: list[str] = [
     "ผปแอิืทมใฝ",
@@ -47,7 +46,7 @@ ALL_CHARACTERS: list[list[str]] = [
 
 def search_location_of_character(
     char: str,
-) -> Optional[tuple[int, int, int, int]]:
+) -> tuple[int, int, int, int] | None:
     """Find the location of a character on the keyboard layouts."""
     for language_ix in [0, 1]:
         for ix, row in enumerate(ALL_CHARACTERS[language_ix]):
@@ -59,7 +58,7 @@ def search_location_of_character(
 def find_neighbour_locations(
     loc: tuple[int, int, int, int],
     char: str,
-    kernel: Optional[list[tuple[int, int]]] = None,
+    kernel: list[tuple[int, int]] | None = None,
 ) -> list[tuple[int, int, int, int, str]]:
     """Find the keyboard neighbors of a character location."""
     if kernel is None:
@@ -79,7 +78,7 @@ def find_neighbour_locations(
 
 def find_misspell_candidates(
     char: str, verbose: bool = False
-) -> Optional[list[str]]:
+) -> list[str] | None:
     """Find characters that are neighbors of a character on the keyboard."""
     loc = search_location_of_character(char)
     if loc is None:

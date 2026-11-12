@@ -27,7 +27,7 @@ import json
 import os
 from pathlib import Path
 from shutil import copyfile
-from typing import TYPE_CHECKING, Any, ClassVar, Optional, Union, cast
+from typing import TYPE_CHECKING, Any, ClassVar, cast
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
@@ -79,7 +79,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
     :param str vocab_file: path to the vocabulary file
     :param str spm_file: path to the SentencePiece file (generally has a
         .spm extension) that contains the vocabulary
-    :param Optional[str] tgt_lang: target language
+    :param str | None tgt_lang: target language
     :param str eos_token: end of sequence token (default is ``"</s>"``)
     :param str sep_token: separator token (default is ``"</s>"``). It is
         used when building a sequence from multiple sequences, for example
@@ -91,9 +91,9 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         set to this token instead.
     :param str pad_token: token used for padding (default is ``"<pad>"``),
         for example when batching sequences of different lengths
-    :param Optional[str] language_codes: language codes to use. It must be
+    :param str | None language_codes: language codes to use. It must be
         ``"m2m100"``.
-    :param Optional[dict] sp_model_kwargs: keyword arguments passed to
+    :param dict | None sp_model_kwargs: keyword arguments passed to
         ``SentencePieceProcessor.__init__()``. The Python wrapper for
         SentencePiece
         (https://github.com/google/sentencepiece/tree/master/python)
@@ -134,7 +134,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
     model_input_names: ClassVar[list[str]] = ["input_ids", "attention_mask"]
 
     # Rebound per instance by set_*_lang_special_tokens; never mutated.
-    prefix_tokens: Optional[list[int]] = []  # noqa: RUF012
+    prefix_tokens: list[int] | None = []  # noqa: RUF012
     suffix_tokens: list[int] = []  # noqa: RUF012
 
     sp_model_kwargs: dict[str, str]
@@ -157,14 +157,14 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         self,
         vocab_file: str,
         spm_file: str,
-        tgt_lang: Optional[str] = None,
+        tgt_lang: str | None = None,
         bos_token: str = "<s>",  # noqa: S107  # nosec B107
         eos_token: str = "</s>",  # noqa: S107  # nosec B107
         sep_token: str = "</s>",  # noqa: S107  # nosec B107
         pad_token: str = "<pad>",  # noqa: S107  # nosec B107
         unk_token: str = "<unk>",  # noqa: S107  # nosec B107
         language_codes: str = "m2m100",
-        sp_model_kwargs: Optional[dict[str, str]] = None,
+        sp_model_kwargs: dict[str, str] | None = None,
         num_madeup_words: int = 8,
         **kwargs: Any,
     ) -> None:
@@ -173,14 +173,14 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
 
         :param str vocab_file: path to the vocabulary file
         :param str spm_file: path to the SentencePiece model file
-        :param Optional[str] tgt_lang: target language code
+        :param str | None tgt_lang: target language code
         :param str bos_token: beginning-of-sequence token
         :param str eos_token: end-of-sequence token
         :param str sep_token: separator token
         :param str pad_token: padding token
         :param str unk_token: unknown token
         :param str language_codes: language code set (m2m100)
-        :param Optional[dict[str, str]] sp_model_kwargs: keyword arguments for
+        :param dict[str, str] | None sp_model_kwargs: keyword arguments for
             the SentencePiece processor
         :param int num_madeup_words: number of made-up words
         :param Any kwargs: additional arguments passed to the base
@@ -295,7 +295,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
     def get_special_tokens_mask(
         self,
         token_ids_0: list[int],
-        token_ids_1: Optional[list[int]] = None,
+        token_ids_1: list[int] | None = None,
         already_has_special_tokens: bool = False,
     ) -> list[int]:
         """
@@ -305,7 +305,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         tokenizer ``prepare_for_model`` method.
 
         :param list[int] token_ids_0: list of IDs
-        :param Optional[list[int]] token_ids_1: second list of IDs for
+        :param list[int] | None token_ids_1: second list of IDs for
             sequence pairs
         :param bool already_has_special_tokens: whether the token list is
             already formatted with special tokens for the model
@@ -338,7 +338,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         )
 
     def build_inputs_with_special_tokens(
-        self, token_ids_0: list[int], token_ids_1: Optional[list[int]] = None
+        self, token_ids_0: list[int], token_ids_1: list[int] | None = None
     ) -> list[int]:
         """
         Build model inputs by adding special tokens to one or two sequences.
@@ -353,7 +353,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         but they will be handled without a separator.
 
         :param list[int] token_ids_0: list of IDs to add special tokens to
-        :param Optional[list[int]] token_ids_1: second list of IDs for
+        :param list[int] | None token_ids_1: second list of IDs for
             sequence pairs
         :return: list of input IDs with the appropriate special tokens
         :rtype: list[int]
@@ -397,13 +397,13 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         )
 
     def save_vocabulary(
-        self, save_directory: str, filename_prefix: Optional[str] = None
+        self, save_directory: str, filename_prefix: str | None = None
     ) -> tuple[str, str]:
         """
         Save the vocabulary and the SentencePiece model files.
 
         :param str save_directory: directory to save the files to
-        :param Optional[str] filename_prefix: prefix of the file names
+        :param str | None filename_prefix: prefix of the file names
         :return: paths of the vocabulary file and the SentencePiece model file
         :rtype: tuple[str, str]
         :raises OSError: if save_directory is not a directory
@@ -436,7 +436,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
     def prepare_seq2seq_batch(
         self,
         src_texts: list[str],
-        tgt_texts: Optional[list[str]] = None,
+        tgt_texts: list[str] | None = None,
         tgt_lang: str = "ro",
         **kwargs: Any,
     ) -> BatchEncoding:
@@ -444,7 +444,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         Prepare a batch of source and target texts for a seq2seq model.
 
         :param list[str] src_texts: list of source texts
-        :param Optional[list[str]] tgt_texts: list of target texts
+        :param list[str] | None tgt_texts: list of target texts
         :param str tgt_lang: target language code
         :param Any kwargs: additional arguments passed to the base
             method
@@ -457,8 +457,8 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
 
     def _build_translation_inputs(
         self,
-        raw_inputs: Union[str, list[str]],
-        tgt_lang: Optional[str],
+        raw_inputs: str | list[str],
+        tgt_lang: str | None,
         **extra_kwargs: str,
     ) -> dict[str, Any]:
         """
@@ -478,7 +478,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
         self.set_lang_special_tokens(self.tgt_lang)
 
     def _switch_to_target_mode(self) -> None:
-        self.prefix_tokens: Optional[list[int]] = None
+        self.prefix_tokens: list[int] | None = None
         self.suffix_tokens: list[int] = [self.eos_token_id]
 
     def set_lang_special_tokens(self, src_lang: str) -> None:
@@ -535,26 +535,24 @@ def load_spm(
     return spm
 
 
-def load_json(path: str) -> Union[dict[str, str], list[str]]:
+def load_json(path: str) -> dict[str, str] | list[str]:
     """
     Load JSON data from a file.
 
     :param str path: path to the JSON file
     :return: loaded data
-    :rtype: Union[dict[str, str], list[str]]
+    :rtype: dict[str, str] | list[str]
     """
     with open(path) as f:
-        return cast("Union[dict[str, str], list[str]]", json.load(f))
+        return cast("dict[str, str] | list[str]", json.load(f))
 
 
-def save_json(
-    data: Union[Mapping[str, Union[str, int]], list[str]], path: str
-) -> None:
+def save_json(data: Mapping[str, str | int] | list[str], path: str) -> None:
     """
     Save data to a JSON file.
 
     :param data: data to save
-    :type data: Union[Mapping[str, Union[str, int]], list[str]]
+    :type data: Mapping[str, str | int] | list[str]
     :param str path: path to the JSON file
     """
     with open(path, "w") as f:

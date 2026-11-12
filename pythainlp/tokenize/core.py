@@ -8,7 +8,7 @@ from __future__ import annotations
 import re
 from collections import deque
 from collections.abc import Callable  # noqa: TC003  # for get_type_hints()
-from typing import TYPE_CHECKING, Optional, Union, cast
+from typing import TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -44,8 +44,8 @@ _RE_WORD_CHAR: re.Pattern[str] = re.compile(r"\w")
 
 
 def word_detokenize(
-    segments: Union[list[list[str]], list[str]], output: str = "str"
-) -> Union[list[list[str]], str]:
+    segments: list[list[str]] | list[str], output: str = "str"
+) -> list[list[str]] | str:
     """
     Detokenize lists of words into text.
 
@@ -53,10 +53,10 @@ def word_detokenize(
 
     :param segments: list of words, or list of sentences each
         with a list of words
-    :type segments: Union[list[list[str]], list[str]]
+    :type segments: list[list[str]] | list[str]
     :param str output: output type, ``"str"`` or ``"list"``
     :return: Thai text
-    :rtype: Union[list[list[str]], str]
+    :rtype: list[list[str]] | str
 
     :Example:
 
@@ -143,7 +143,7 @@ def _space_before(
 
 def word_tokenize(
     text: str,
-    custom_dict: Optional[Trie] = None,
+    custom_dict: Trie | None = None,
     engine: str = DEFAULT_WORD_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
     join_broken_num: bool = True,
@@ -363,17 +363,17 @@ def map_indices_to_words(
 
 
 def sent_tokenize(
-    text: Union[str, list[str]],
+    text: str | list[str],
     engine: str = DEFAULT_SENT_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
-) -> Union[list[str], list[list[str]]]:
+) -> list[str] | list[list[str]]:
     """
     Tokenize text into sentences.
 
     The text can be a string or a list of words.
 
     :param text: text, or list of words, to be tokenized
-    :type text: Union[str, list[str]]
+    :type text: str | list[str]
     :param str engine: name of the sentence tokenizer engine.
         Options:
 
@@ -396,7 +396,7 @@ def sent_tokenize(
     :param bool keep_whitespace: True to keep whitespace;
         otherwise omit whitespace
     :return: list of sentences
-    :rtype: Union[list[str], list[list[str]]]
+    :rtype: list[str] | list[list[str]]
 
     :Example:
 
@@ -790,7 +790,7 @@ class Tokenizer:
 
     def __init__(
         self,
-        custom_dict: Union[Trie, Iterable[str], str, None] = None,
+        custom_dict: Trie | Iterable[str] | str | None = None,
         engine: str = "newmm",
         keep_whitespace: bool = True,
         join_broken_num: bool = True,
@@ -800,8 +800,7 @@ class Tokenizer:
 
         :param custom_dict: file path, list of words to create a trie
             from, or :class:`pythainlp.util.Trie` object
-        :type custom_dict: Union[pythainlp.util.Trie, Iterable[str], str,
-            None]
+        :type custom_dict: pythainlp.util.Trie | Iterable[str] | str | None
         :param str engine: name of the word tokenizer engine
             (*newmm*, *mm*, *longest*, or *deepcut*)
         :param bool keep_whitespace: True to keep whitespace, a common

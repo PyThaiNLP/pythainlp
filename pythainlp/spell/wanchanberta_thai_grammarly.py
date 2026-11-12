@@ -13,7 +13,7 @@ Two-stage Thai misspelling correction based on pre-trained language models.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 import torch
 from transformers import (
@@ -48,14 +48,14 @@ class BertModel(torch.nn.Module):  # type: ignore[misc]
         self,
         input_id: torch.Tensor,
         mask: torch.Tensor,
-        label: Optional[torch.Tensor],
+        label: torch.Tensor | None,
     ) -> Any:
         """
         Compute the forward pass of the token classification model.
 
         :param torch.Tensor input_id: token ids
         :param torch.Tensor mask: attention mask
-        :param Optional[torch.Tensor] label: token labels
+        :param torch.Tensor | None label: token labels
         :return: model output, which is a tuple that starts with the logits
             (and the loss if ``label`` is given)
         :rtype: Any

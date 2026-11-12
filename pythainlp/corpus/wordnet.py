@@ -14,7 +14,7 @@ https://www.nltk.org/howto/wordnet.html
 from __future__ import annotations
 
 import re
-from typing import IO, TYPE_CHECKING, Optional, Union, cast
+from typing import IO, TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -73,7 +73,7 @@ from nltk.corpus.reader.wordnet import (  # noqa: TC002
 
 
 def synsets(
-    word: str, pos: Optional[str] = None, lang: str = "tha"
+    word: str, pos: str | None = None, lang: str = "tha"
 ) -> list[Synset]:
     """
     Return the synonym sets (synsets) of all lemmas of a word.
@@ -81,7 +81,7 @@ def synsets(
     The function can constrain the part of speech of the word.
 
     :param str word: word to find synsets of
-    :param Optional[str] pos: part-of-speech (POS) tag to constrain the
+    :param str | None pos: part-of-speech (POS) tag to constrain the
         search (*n* for noun, *v* for verb, *a* for adjective, *s* for
         adjective satellite, and *r* for adverb; default is None)
     :param str lang: language code, such as *eng* or *tha*
@@ -148,14 +148,14 @@ def synset(name_synsets: str) -> Synset:
     return wordnet.synset(name_synsets)
 
 
-def all_lemma_names(pos: Optional[str] = None, lang: str = "tha") -> list[str]:
+def all_lemma_names(pos: str | None = None, lang: str = "tha") -> list[str]:
     """
     Return all lemma names of all synsets of a part of speech and language.
 
     If *pos* is not specified, the function uses all synsets of all parts
     of speech.
 
-    :param Optional[str] pos: part-of-speech (POS) tag to constrain the
+    :param str | None pos: part-of-speech (POS) tag to constrain the
         search (*n* for noun, *v* for verb, *a* for adjective, *s* for
         adjective satellite, and *r* for adverb; default is None)
     :param str lang: language code, such as *eng* or *tha*
@@ -190,11 +190,11 @@ def all_lemma_names(pos: Optional[str] = None, lang: str = "tha") -> list[str]:
     return cast("list[str]", wordnet.all_lemma_names(pos=pos, lang=lang))
 
 
-def all_synsets(pos: Optional[str] = None) -> Iterable[Synset]:
+def all_synsets(pos: str | None = None) -> Iterable[Synset]:
     """
     Iterate over all synsets, constrained by a part of speech.
 
-    :param Optional[str] pos: part-of-speech (POS) tag to constrain the
+    :param str | None pos: part-of-speech (POS) tag to constrain the
         search (*n* for noun, *v* for verb, *a* for adjective, *s* for
         adjective satellite, and *r* for adverb; default is None)
     :return: synsets constrained by the given POS tag
@@ -244,7 +244,7 @@ def langs() -> list[str]:
 
 
 def lemmas(
-    word: str, pos: Optional[str] = None, lang: str = "tha"
+    word: str, pos: str | None = None, lang: str = "tha"
 ) -> list[Lemma]:
     """
     Return all lemmas of a word.
@@ -252,7 +252,7 @@ def lemmas(
     The function can constrain the part of speech of the word.
 
     :param str word: word to find lemmas of
-    :param Optional[str] pos: part-of-speech (POS) tag to constrain the
+    :param str | None pos: part-of-speech (POS) tag to constrain the
         search (*n* for noun, *v* for verb, *a* for adjective, *s* for
         adjective satellite, and *r* for adverb; default is None)
     :param str lang: language code, such as *eng* or *tha*
@@ -446,12 +446,12 @@ def wup_similarity(synsets1: Synset, synsets2: Synset) -> float:
     return cast("float", wordnet.wup_similarity(synsets1, synsets2))
 
 
-def morphy(form: str, pos: Optional[str] = None) -> str:
+def morphy(form: str, pos: str | None = None) -> str:
     """
     Find a possible base form of a given form and part of speech.
 
     :param str form: form to find the base form of
-    :param Optional[str] pos: part-of-speech (POS) tag of the words to be
+    :param str | None pos: part-of-speech (POS) tag of the words to be
         searched (default is None)
     :return: base form of the given form
     :rtype: str
@@ -475,14 +475,14 @@ def morphy(form: str, pos: Optional[str] = None) -> str:
     return cast("str", wordnet.morphy(form, pos=pos))
 
 
-def custom_lemmas(tab_file: Union[str, IO[str]], lang: str) -> None:
+def custom_lemmas(tab_file: str | IO[str], lang: str) -> None:
     """
     Read a custom tab file of lemma mappings in a given language.
 
     See `Open Multilingual Wordnet <https://omwn.org/>`_
     for the file format.
 
-    :param Union[str, IO[str]] tab_file: tab file, as a file name or a
+    :param str | IO[str] tab_file: tab file, as a file name or a
         file-like object
     :param str lang: language code, such as *eng* or *tha*
     """

@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import itertools
 import logging
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -31,7 +31,7 @@ class Word2VecAug:
 
     def __init__(
         self,
-        model: Union[str, KeyedVectors],
+        model: str | KeyedVectors,
         tokenize: Callable[[str], list[str]],
         type: str = "file",  # noqa: A002
     ) -> None:
@@ -39,7 +39,7 @@ class Word2VecAug:
         Initialize the word2vec augmenter.
 
         :param model: path to the model file, or a KeyedVectors instance
-        :type model: Union[str, gensim.models.keyedvectors.KeyedVectors]
+        :type model: str | gensim.models.keyedvectors.KeyedVectors
         :param Callable[[str], list[str]] tokenize: function to tokenize
             text into a list of words
         :param str type: model type

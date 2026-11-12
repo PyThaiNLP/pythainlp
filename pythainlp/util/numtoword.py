@@ -13,7 +13,6 @@ Adapted from:
 from __future__ import annotations
 
 import math
-from typing import Optional
 
 __all__: list[str] = ["bahttext", "num_to_thaiword", "num_to_thaiword_float"]
 
@@ -122,11 +121,11 @@ def _num_to_thaiword_block(num: int) -> str:
     return output
 
 
-def num_to_thaiword(number: Optional[int]) -> str:
+def num_to_thaiword(number: int | None) -> str:
     """
     Convert an integer to Thai text.
 
-    :param Optional[int] number: integer to be converted
+    :param int | None number: integer to be converted
     :return: text representing the number in Thai
     :rtype: str
 

@@ -13,12 +13,12 @@ GitHub: https://github.com/bminixhofer/wtpsplit
 from __future__ import annotations
 
 import threading
-from typing import Optional, cast
+from typing import cast
 
 from wtpsplit import WtP
 
-_MODEL: Optional[WtP] = None
-_MODEL_NAME: Optional[str] = None
+_MODEL: WtP | None = None
+_MODEL_NAME: str | None = None
 _model_lock: threading.Lock = threading.Lock()
 
 

@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Callable
-from typing import TYPE_CHECKING, NoReturn, Optional, TypeVar
+from typing import TYPE_CHECKING, NoReturn, TypeVar
 
 if TYPE_CHECKING:
     from pythainlp.util.trie import Trie
@@ -46,7 +46,7 @@ def engine_not_found(engine: object) -> NoReturn:
     )
 
 
-def find_engine(table: EngineTable[_T], engine: object) -> Optional[_T]:
+def find_engine(table: EngineTable[_T], engine: object) -> _T | None:
     """
     Find the adapter of an engine.
 

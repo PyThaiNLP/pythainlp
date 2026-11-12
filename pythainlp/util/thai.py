@@ -8,7 +8,7 @@ from __future__ import annotations
 import string
 from collections import Counter, defaultdict
 from types import MappingProxyType
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 from pythainlp import (
     thai_above_vowels,
@@ -269,14 +269,14 @@ def display_thai_char(ch: str) -> str:
     return ch
 
 
-def thai_word_tone_detector(word: Optional[str]) -> list[tuple[str, str]]:
+def thai_word_tone_detector(word: str | None) -> list[tuple[str, str]]:
     """
     Detect the tone of each syllable in a Thai word.
 
     This function converts the word to pronunciation with
     :func:`pythainlp.transliterate.pronunciate`.
 
-    :param Optional[str] word: Thai word, or None
+    :param str | None word: Thai word, or None
     :return: list of (syllable, tone) tuples, one for each syllable.
         Tone values are ``l`` (low), ``m`` (mid), ``h`` (high),
         ``r`` (rising), ``f`` (falling), or an empty string

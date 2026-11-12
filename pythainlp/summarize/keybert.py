@@ -14,7 +14,7 @@ https://github.com/MaartenGr/KeyBERT
 from __future__ import annotations
 
 from collections import Counter
-from typing import TYPE_CHECKING, Optional, Union, cast
+from typing import TYPE_CHECKING, cast
 
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import word_tokenize
@@ -57,8 +57,8 @@ class KeyBERT:
         min_df: int = 1,
         tokenizer: str = "newmm",
         return_similarity: bool = False,
-        stop_words: Optional[Iterable[str]] = None,
-    ) -> Union[list[str], list[tuple[str, float]]]:
+        stop_words: Iterable[str] | None = None,
+    ) -> list[str] | list[tuple[str, float]]:
         """
         Extract Thai keywords and keyphrases with the KeyBERT algorithm.
 
@@ -80,13 +80,13 @@ class KeyBERT:
             (default is ``"newmm"``)
         :param bool return_similarity: return keywords with their
             similarity scores (default is False)
-        :param Optional[collections.abc.Iterable[str]] stop_words: words to
+        :param collections.abc.Iterable[str] | None stop_words: words to
             ignore. If None, use :func:`pythainlp.corpus.thai_stopwords`
             (default is None)
 
         :return: list of keywords, or list of (keyword, score) tuples if
             ``return_similarity`` is True
-        :rtype: Union[list[str], list[tuple[str, float]]]
+        :rtype: list[str] | list[tuple[str, float]]
 
         :Example:
 
@@ -160,11 +160,11 @@ class KeyBERT:
             return keywords
         return [kw for kw, _ in keywords]
 
-    def embed(self, docs: Union[str, list[str]]) -> NDArray[np.float32]:
+    def embed(self, docs: str | list[str]) -> NDArray[np.float32]:
         """
         Create embeddings by averaging vectors from the last hidden layer.
 
-        :param Union[str, list[str]] docs: document or list of documents
+        :param str | list[str] docs: document or list of documents
         :return: embeddings as a float32 array, one row per document
         :rtype: numpy.typing.NDArray[numpy.float32]
         """
@@ -222,7 +222,7 @@ def _generate_ngrams(
             # filter out space
             ngrams = [word for word in words if word.strip()]
         else:
-            ngrams_tuple = zip(*[words[i:] for i in range(n)])
+            ngrams_tuple = zip(*[words[i:] for i in range(n)], strict=False)
             ngrams = _join_ngram(list(ngrams_tuple))
 
         ngrams_cnt = Counter(ngrams)

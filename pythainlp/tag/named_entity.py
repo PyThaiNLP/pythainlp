@@ -128,7 +128,7 @@ class NER:
 
     def tag(
         self, text: str, pos: bool = False, tag: bool = False
-    ) -> Union[list[tuple[str, str]], list[tuple[str, str, str]], str]:
+    ) -> list[tuple[str, str]] | list[tuple[str, str, str]] | str:
         """
         Tag named entities in text in IOB format.
 
@@ -140,7 +140,7 @@ class NER:
         :return: list of tuples of word, POS tag (if ``pos`` is ``True``),
             and named entity tag; or the text with HTML-like tags
             (if ``tag`` is ``True``)
-        :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]], str]
+        :rtype: list[tuple[str, str]] | list[tuple[str, str, str]] | str
 
         :Example:
 

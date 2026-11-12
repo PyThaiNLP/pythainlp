@@ -8,7 +8,6 @@ from __future__ import annotations
 import itertools
 import re
 from re import Pattern
-from typing import Optional
 
 from pythainlp import thai_consonants, thai_tonemarks
 
@@ -261,11 +260,11 @@ def _tone_ah_sonorant(initial: str, sound: str, tone_mark: str) -> str:
 # None matches any value. The first matching rule wins.
 _TONE_RULES: tuple[
     tuple[
-        Optional[str],
-        Optional[str],
-        Optional[str],
-        Optional[str],
-        Optional[str],
+        str | None,
+        str | None,
+        str | None,
+        str | None,
+        str | None,
         str,
     ],
     ...,
@@ -293,7 +292,9 @@ _TONE_RULES: tuple[
 def _match_tone_rule(actual: tuple[str, ...]) -> str:
     """Return the tone of the first rule that matches; "" if none does."""
     for rule in _TONE_RULES:
-        if all(c is None or c == a for c, a in zip(rule, actual)):
+        if all(
+            c is None or c == a for c, a in zip(rule, actual, strict=False)
+        ):
             return rule[-1]
     return ""
 

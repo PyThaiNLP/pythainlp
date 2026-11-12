@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import json
 import os
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 from pythainlp.corpus import get_hf_hub
 from pythainlp.tools import safe_path_join
@@ -48,15 +48,15 @@ class ThaiG2P:
 
     def __init__(
         self,
-        providers: Optional[list[str]] = None,
-        model_path: Optional[str] = None,
+        providers: list[str] | None = None,
+        model_path: str | None = None,
     ) -> None:
         """
         Initialize Thai G2P v4 model.
 
-        :param Optional[list[str]] providers: ONNX runtime execution providers
+        :param list[str] | None providers: ONNX runtime execution providers
             (default is ``['CPUExecutionProvider']``).
-        :param Optional[str] model_path: Hugging Face model repository or local directory path
+        :param str | None model_path: Hugging Face model repository or local directory path
             (default is ``'pythainlp/thaig2p-v4'``).
         """
         try:
@@ -172,21 +172,21 @@ class ThaiG2P:
         return "".join(result_chars)
 
 
-_THAI_G2P: Optional[ThaiG2P] = None
+_THAI_G2P: ThaiG2P | None = None
 
 
 def transliterate(
     text: str,
-    providers: Optional[list[str]] = None,
-    model_path: Optional[str] = None,
+    providers: list[str] | None = None,
+    model_path: str | None = None,
 ) -> str:
     """
     Transliterate Thai text using Thai G2P v4 model.
 
     :param str text: Thai text to be transliterated.
-    :param Optional[list[str]] providers: ONNX runtime execution providers
+    :param list[str] | None providers: ONNX runtime execution providers
         (default is ``['CPUExecutionProvider']``).
-    :param Optional[str] model_path: Hugging Face model repository or local directory path
+    :param str | None model_path: Hugging Face model repository or local directory path
         (default is ``'pythainlp/thaig2p-v4'``).
     :return: IPA transcription.
     :rtype: str

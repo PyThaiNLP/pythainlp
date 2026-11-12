@@ -20,7 +20,7 @@ import zipfile
 from contextlib import suppress
 from functools import cache
 from importlib.resources import files
-from typing import TYPE_CHECKING, Any, BinaryIO, Optional
+from typing import TYPE_CHECKING, Any, BinaryIO
 
 from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
@@ -63,7 +63,7 @@ class _ResponseWrapper:
             raise ValueError(f"Failed to parse JSON response: {err}") from err
 
 
-def get_corpus_db(url: str) -> Optional[_ResponseWrapper]:
+def get_corpus_db(url: str) -> _ResponseWrapper | None:
     """
     Get the corpus catalog from a server.
 
@@ -72,7 +72,7 @@ def get_corpus_db(url: str) -> Optional[_ResponseWrapper]:
 
     :param str url: URL of the corpus catalog
     :return: response wrapper, or None if the request fails
-    :rtype: Optional[pythainlp.corpus.core._ResponseWrapper]
+    :rtype: pythainlp.corpus.core._ResponseWrapper | None
     """
     from urllib.error import HTTPError, URLError
     from urllib.request import Request, urlopen
@@ -196,7 +196,7 @@ def _load_default_db() -> dict[str, Any]:
     return db
 
 
-def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
+def get_corpus_default_db(name: str, version: str = "") -> str | None:
     """
     Get the corpus path from default_db.json.
 
@@ -206,7 +206,7 @@ def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
     :param str version: corpus version (empty string means latest)
     :return: path to the corpus, or None if the corpus does not exist
         on the device
-    :rtype: Optional[str]
+    :rtype: str | None
     """
     corpus_db = _load_default_db()
 
@@ -228,7 +228,7 @@ def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
 
 def _resolve_corpus_file_path(
     corpus_db_detail: dict[str, Any],
-) -> Optional[str]:
+) -> str | None:
     """
     Resolve the local file system path of a corpus catalog entry.
 
@@ -236,7 +236,7 @@ def _resolve_corpus_file_path(
         local catalog
     :return: full local path to the corpus file or folder, or None if
         required path information is missing
-    :rtype: Optional[str]
+    :rtype: str | None
     """
     if corpus_db_detail.get("is_folder"):
         foldername = corpus_db_detail.get("foldername")
@@ -272,7 +272,7 @@ def _download_corpus_db_detail(name: str, version: str) -> dict[str, Any]:
 
 def _redownload_missing_corpus(
     name: str, version: str, path: str
-) -> Optional[str]:
+) -> str | None:
     """
     Download again a corpus that is in the catalog but missing on disk.
 
@@ -280,7 +280,7 @@ def _redownload_missing_corpus(
     :param str version: corpus version (empty string means latest)
     :param str path: expected local path of the corpus
     :return: *path* if it exists after the download, otherwise None
-    :rtype: Optional[str]
+    :rtype: str | None
     :raises FileNotFoundError: if ``PYTHAINLP_OFFLINE`` is set
     """
     if is_offline_mode():
@@ -297,7 +297,7 @@ def _redownload_missing_corpus(
     return path if os.path.exists(path) else None
 
 
-def get_corpus_path(name: str, version: str = "") -> Optional[str]:
+def get_corpus_path(name: str, version: str = "") -> str | None:
     """
     Get the local path of a corpus.
 
@@ -317,7 +317,7 @@ def get_corpus_path(name: str, version: str = "") -> Optional[str]:
     :param str version: corpus version (empty string means latest)
     :return: full local path if the corpus exists, or None if the corpus
         cannot be found or downloaded
-    :rtype: Optional[str]
+    :rtype: str | None
     :raises FileNotFoundError: if the corpus is missing locally and
         ``PYTHAINLP_OFFLINE`` is set to a truthy value
 
@@ -814,7 +814,7 @@ def _highest_compatible_version(versions: dict[str, Any]) -> str:
     return best
 
 
-def _select_version(corpus: dict[str, Any], version: str) -> Optional[str]:
+def _select_version(corpus: dict[str, Any], version: str) -> str | None:
     """
     Select the corpus version to download and check that it is supported.
 
@@ -825,7 +825,7 @@ def _select_version(corpus: dict[str, Any], version: str) -> Optional[str]:
     :param str version: requested version (empty string means any)
     :return: selected version, or None (with a printed message) if it is
         missing or not supported
-    :rtype: Optional[str]
+    :rtype: str | None
     """
     versions = corpus["versions"]
     if not version:
@@ -840,9 +840,7 @@ def _select_version(corpus: dict[str, Any], version: str) -> Optional[str]:
     return version
 
 
-def _find_local_corpus_no(
-    local_db: dict[str, Any], name: str
-) -> Optional[str]:
+def _find_local_corpus_no(local_db: dict[str, Any], name: str) -> str | None:
     """
     Return the local catalog key of the first entry named *name*.
 
@@ -869,7 +867,7 @@ def _next_local_corpus_no(entries: dict[str, Any]) -> int:
 
 def _extract_corpus_archive(
     corpus_versions: dict[str, Any], name: str, version: str, file_name: str
-) -> Optional[str]:
+) -> str | None:
     """
     Extract a downloaded tar or zip corpus into its own folder.
 
@@ -879,7 +877,7 @@ def _extract_corpus_archive(
     again; an existing corpus folder stays as it was.
 
     :return: folder name, or None if the corpus is not an archive
-    :rtype: Optional[str]
+    :rtype: str | None
     """
     if corpus_versions["is_tar_gz"] == "True":
         is_tar = True
@@ -975,7 +973,7 @@ _STALE_TEMP_SECONDS: int = 24 * 60 * 60
 
 
 def _sweep_stale_temp_paths(
-    max_age: Optional[float] = None, now: Optional[float] = None
+    max_age: float | None = None, now: float | None = None
 ) -> None:
     """
     Remove abandoned hidden temporary entries from the data directory.
@@ -988,9 +986,9 @@ def _sweep_stale_temp_paths(
     ``<name>`` next to it: it is then the only copy of a corpus that failed
     to swap in. Errors are ignored.
 
-    :param Optional[float] max_age: age in seconds after which an entry is
+    :param float | None max_age: age in seconds after which an entry is
         stale (default: 24 hours)
-    :param Optional[float] now: current time in seconds
+    :param float | None now: current time in seconds
         (default: ``time.time()``)
     """
     max_age = _STALE_TEMP_SECONDS if max_age is None else max_age
@@ -1046,7 +1044,7 @@ def _replace_file(src: str, dst: str) -> None:
     os.replace(src, dst)
 
 
-def _file_mode(path: str) -> Optional[int]:
+def _file_mode(path: str) -> int | None:
     """Return the permission bits of *path*, or None if missing."""
     try:
         return stat.S_IMODE(os.stat(path).st_mode)
@@ -1082,11 +1080,11 @@ def _write_local_db(local_db: dict[str, Any]) -> None:
 
 def _save_local_db_entry(
     local_db: dict[str, Any],
-    found: Optional[str],
+    found: str | None,
     name: str,
     version: str,
     file_name: str,
-    foldername: Optional[str],
+    foldername: str | None,
 ) -> None:
     """Add or update a corpus entry and write the local catalog."""
     is_folder = foldername is not None
@@ -1116,7 +1114,7 @@ def _install_corpus(
     corpus_versions: dict[str, Any],
     file_name: str,
     local_db: dict[str, Any],
-    found: Optional[str],
+    found: str | None,
 ) -> None:
     """Download, verify, and extract a corpus, then record it locally."""
     print(f"- Downloading: {name} {version}")
@@ -1316,7 +1314,7 @@ def make_safe_directory_name(name: str) -> str:
 
 
 def get_hf_hub(
-    repo_id: str, filename: str = "", revision: Optional[str] = None
+    repo_id: str, filename: str = "", revision: str | None = None
 ) -> str:
     """
     Download a Hugging Face Hub repository into the PyThaiNLP data directory.
@@ -1324,7 +1322,7 @@ def get_hf_hub(
     :param str repo_id: repository ID
     :param str filename: name of the file to download
         (if empty, download the entire snapshot)
-    :param Optional[str] revision: git revision ID, which can be a branch
+    :param str | None revision: git revision ID, which can be a branch
         name, a tag, or a commit hash (default is None).
         Pin to a full commit hash for reproducible and secure downloads.
     :return: path to the downloaded file or snapshot

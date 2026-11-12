@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 """
-Generate detailed CSV report from type annotation analysis
+Generate detailed CSV report from type annotation analysis.
 
 Usage:
     python gen-csv.py [--input INPUT_JSON] [--output-dir OUTPUT_DIR]
@@ -17,6 +16,37 @@ import argparse
 import csv
 import json
 from pathlib import Path
+
+
+def _submodule_of(name: str) -> str:
+    """Return the submodule of a dotted name, such as "tokenize"."""
+    parts = name.split(".")
+    if len(parts) > 2 and parts[0] == "pythainlp":
+        return parts[1]
+    return parts[0]
+
+
+def _resolve_paths(
+    input_arg: str | None, output_arg: str
+) -> tuple[Path, Path]:
+    """
+    Return the input JSON file and the output directory as paths.
+
+    A relative path is resolved against the script directory.
+    """
+    script_dir = Path(__file__).resolve().parent
+    output_dir = Path(output_arg)
+    if not output_dir.is_absolute():
+        output_dir = script_dir / output_dir
+
+    # Default input file is in the output directory
+    if input_arg is None:
+        return output_dir / "type_hint_analysis.json", output_dir
+
+    input_file = Path(input_arg)
+    if not input_file.is_absolute():
+        input_file = script_dir / input_file
+    return input_file, output_dir
 
 
 def main():
@@ -37,19 +67,7 @@ def main():
     )
     args = parser.parse_args()
 
-    # Determine paths
-    script_dir = Path(__file__).resolve().parent
-    output_dir = Path(args.output_dir)
-    if not output_dir.is_absolute():
-        output_dir = script_dir / output_dir
-
-    # Default input file is in the output directory
-    if args.input is None:
-        input_file = output_dir / "type_hint_analysis.json"
-    else:
-        input_file = Path(args.input)
-        if not input_file.is_absolute():
-            input_file = script_dir / input_file
+    input_file, output_dir = _resolve_paths(args.input, args.output_dir)
 
     # Ensure output directory exists
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -78,12 +96,7 @@ def main():
         )
 
         for func in data["functions_no_hints"]:
-            parts = func["name"].split(".")
-            submodule = (
-                parts[1]
-                if len(parts) > 2 and parts[0] == "pythainlp"
-                else parts[0]
-            )
+            submodule = _submodule_of(func["name"])
             decorators = ", ".join(func.get("decorators", []))
 
             writer.writerow(
@@ -121,12 +134,7 @@ def main():
         )
 
         for func in data["functions_incomplete_hints"]:
-            parts = func["name"].split(".")
-            submodule = (
-                parts[1]
-                if len(parts) > 2 and parts[0] == "pythainlp"
-                else parts[0]
-            )
+            submodule = _submodule_of(func["name"])
             decorators = ", ".join(func.get("decorators", []))
 
             writer.writerow(
@@ -194,12 +202,7 @@ def main():
         )
 
         for var in data.get("class_variables_no_hints", []):
-            parts = var["name"].split(".")
-            submodule = (
-                parts[1]
-                if len(parts) > 2 and parts[0] == "pythainlp"
-                else parts[0]
-            )
+            submodule = _submodule_of(var["name"])
 
             writer.writerow(
                 [
@@ -228,12 +231,7 @@ def main():
         )
 
         for var in data.get("instance_variables_no_hints", []):
-            parts = var["name"].split(".")
-            submodule = (
-                parts[1]
-                if len(parts) > 2 and parts[0] == "pythainlp"
-                else parts[0]
-            )
+            submodule = _submodule_of(var["name"])
 
             writer.writerow(
                 [
@@ -261,12 +259,7 @@ def main():
         )
 
         for var in data.get("module_variables_no_hints", []):
-            parts = var["name"].split(".")
-            submodule = (
-                parts[1]
-                if len(parts) > 2 and parts[0] == "pythainlp"
-                else parts[0]
-            )
+            submodule = _submodule_of(var["name"])
 
             writer.writerow(
                 [
@@ -293,12 +286,7 @@ def main():
         )
 
         for alias in data.get("type_aliases", []):
-            parts = alias["name"].split(".")
-            submodule = (
-                parts[1]
-                if len(parts) > 2 and parts[0] == "pythainlp"
-                else parts[0]
-            )
+            submodule = _submodule_of(alias["name"])
 
             writer.writerow(
                 [

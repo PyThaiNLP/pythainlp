@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -37,7 +37,7 @@ class LatticeString(str):  # noqa: SLOT000
     def __new__(  # noqa: PYI034
         cls,
         value: str,
-        multi: Optional[list[str]] = None,
+        multi: list[str] | None = None,
         in_dict: bool = True,
     ) -> LatticeString:
         """Create a new lattice string from a value."""
@@ -46,14 +46,14 @@ class LatticeString(str):  # noqa: SLOT000
     def __init__(
         self,
         value: str,
-        multi: Optional[list[str]] = None,
+        multi: list[str] | None = None,
         in_dict: bool = True,
     ) -> None:
         """
         Initialize the lattice string.
 
         :param str value: string value
-        :param Optional[list[str]] multi: possible tokenizations of the value
+        :param list[str] | None multi: possible tokenizations of the value
         :param bool in_dict: whether the value is in the dictionary
         """
         self.unique: bool = True
@@ -105,7 +105,7 @@ def _find_skip_end(text: str, p: int, custom_dict: Trie) -> int:
 
 
 def _multicut(
-    text: str, custom_dict: Optional[Trie] = None
+    text: str, custom_dict: Trie | None = None
 ) -> Iterator[LatticeString]:
     """Yield a :class:`LatticeString` for each part of the text."""
     if not custom_dict:
@@ -168,7 +168,7 @@ def _combine(ww: list[LatticeString]) -> Iterator[str]:
                     yield m.replace("/", "|") + "|" + tail
 
 
-def segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
+def segment(text: str, custom_dict: Trie | None = None) -> list[str]:
     """
     Tokenize text into words with dictionary-based maximum matching.
 
@@ -187,9 +187,7 @@ def segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
     return list(_multicut(text, custom_dict=custom_dict))
 
 
-def find_all_segment(
-    text: str, custom_dict: Optional[Trie] = None
-) -> list[str]:
+def find_all_segment(text: str, custom_dict: Trie | None = None) -> list[str]:
     """
     Get all possible tokenizations of text.
 

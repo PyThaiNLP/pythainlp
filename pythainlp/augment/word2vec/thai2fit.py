@@ -5,8 +5,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from pythainlp.augment.word2vec.core import Word2VecAug
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import thai2fit_tokenizer
@@ -20,12 +18,12 @@ class Thai2fitAug:
     `github.com/cstorm125/thai2fit <https://github.com/cstorm125/thai2fit>`_
     """
 
-    thai2fit_wv: Optional[str]
+    thai2fit_wv: str | None
     aug: Word2VecAug
 
     def __init__(self) -> None:
         """Initialize the Thai2Fit word2vec augmenter."""
-        self.thai2fit_wv: Optional[str] = get_corpus_path("thai2fit_wv")
+        self.thai2fit_wv: str | None = get_corpus_path("thai2fit_wv")
         self.load_w2v()
 
     def tokenizer(self, text: str) -> list[str]:

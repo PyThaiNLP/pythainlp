@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import Union, cast
+from typing import cast
 
 try:
     from tltk import nlp
@@ -42,7 +42,7 @@ def _post_process(text: str) -> str:
 
 def get_ner(
     text: str, pos: bool = True, tag: bool = False
-) -> Union[list[tuple[str, str]], list[tuple[str, str, str]], str]:
+) -> list[tuple[str, str]] | list[tuple[str, str, str]] | str:
     """
     Tag named entities in text using **TLTK**.
 
@@ -56,7 +56,7 @@ def get_ner(
     :return: list of tuples of word, POS tag (if ``pos`` is ``True``),
         and named entity tag; or the text with HTML-like tags
         (if ``tag`` is ``True``)
-    :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]], str]
+    :rtype: list[tuple[str, str]] | list[tuple[str, str, str]] | str
     :Example:
 
         >>> from pythainlp.tag.tltk import get_ner

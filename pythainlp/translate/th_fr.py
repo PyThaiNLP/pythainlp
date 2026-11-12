@@ -14,7 +14,7 @@ BLEU 20.4
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     import torch
@@ -43,14 +43,14 @@ class ThFrTranslator:
         self,
         use_gpu: bool = False,
         pretrained: str = "Helsinki-NLP/opus-mt-th-fr",
-        revision: Optional[str] = None,
+        revision: str | None = None,
     ) -> None:
         """
         Initialize the Thai-to-French translator.
 
         :param bool use_gpu: load the model on a GPU
         :param str pretrained: name of the pretrained model
-        :param Optional[str] revision: revision of the pretrained model
+        :param str | None revision: revision of the pretrained model
         """
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
@@ -66,13 +66,13 @@ class ThFrTranslator:
             self.model_thfr = self.model_thfr.cuda()
 
     def translate(
-        self, text: str, exclude_words: Optional[list[str]] = None
+        self, text: str, exclude_words: list[str] | None = None
     ) -> str:
         """
         Translate text from Thai to French.
 
         :param str text: text to translate
-        :param Optional[list[str]] exclude_words: words to exclude from
+        :param list[str] | None exclude_words: words to exclude from
             translation
         :return: translated text
         :rtype: str

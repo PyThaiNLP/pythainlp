@@ -10,7 +10,6 @@ Designed for the dictionary of a tokenizer, but usable for other purposes.
 from __future__ import annotations
 
 from collections.abc import Iterable, Iterator
-from typing import Optional, Union
 
 
 class Trie(Iterable[str]):
@@ -49,7 +48,7 @@ class Trie(Iterable[str]):
             """Initialize an empty node."""
             self.end: bool = False
             # Children dict is created on demand to reduce memory for leaf nodes.
-            self.children: Optional[dict[str, Trie.Node]] = None
+            self.children: dict[str, Trie.Node] | None = None
 
     def __init__(self, words: Iterable[str]) -> None:
         """
@@ -193,11 +192,11 @@ class Trie(Iterable[str]):
         return self._word_count
 
 
-def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
+def dict_trie(dict_source: str | Iterable[str] | Trie) -> Trie:
     """
     Create a dictionary trie from a file or an iterable.
 
-    :param Union[str, Iterable[str], pythainlp.util.Trie] dict_source:
+    :param str | Iterable[str] | pythainlp.util.Trie dict_source:
         path to a dictionary file, an iterable of words, or a
         :class:`pythainlp.util.Trie` object
     :return: trie object

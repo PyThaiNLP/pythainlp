@@ -5,8 +5,6 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 
 def pos_tag(
     words: list[str], engine: str = "perceptron", corpus: str = "orchid"
@@ -205,7 +203,7 @@ def pos_tag_transformers(
     sentence: str,
     engine: str = "bert",
     corpus: str = "blackboard",
-    revision: Optional[str] = None,
+    revision: str | None = None,
 ) -> list[list[tuple[str, str]]]:
     """
     Tag a sentence with part-of-speech (POS) tags using a transformer model.
@@ -238,7 +236,7 @@ def pos_tag_transformers(
         * *tud* - `Thai Universal Dependency Treebank (TUD)
           <https://github.com/nlp-chula/TUD>`_, natively uses Universal
           POS tags (supports the phayathaibert engine)
-    :param Optional[str] revision: git revision (branch, tag, or commit
+    :param str | None revision: git revision (branch, tag, or commit
         hash) of the model. Pin to a full commit hash for secure downloads
     :return: list of lists of tuples (word, POS tag)
     :rtype: list[list[tuple[str, str]]]

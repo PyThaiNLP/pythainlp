@@ -11,7 +11,7 @@ https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability
 from __future__ import annotations
 
 import random
-from typing import TYPE_CHECKING, Optional, TypeVar, Union
+from typing import TYPE_CHECKING, TypeVar
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -29,7 +29,7 @@ _T = TypeVar("_T")
 
 def _pick_next(
     candidates: Sequence[_T], probs: Sequence[float], prob: float
-) -> Optional[_T]:
+) -> _T | None:
     """
     Pick a random candidate whose probability is at least ``prob``.
 
@@ -40,7 +40,7 @@ def _pick_next(
     :param Sequence[float] probs: probability of each candidate
     :param float prob: minimum probability
     :return: picked candidate, or None if no probability passes
-    :rtype: Optional[_T]
+    :rtype: _T | None
     """
     passed = [j for j in probs if j >= prob]
     if not passed:
@@ -90,7 +90,7 @@ class Unigram:
         prob: float = 0.001,
         output_str: bool = True,
         duplicate: bool = False,
-    ) -> Union[list[str], str]:
+    ) -> list[str] | str:
         """
         Generate a sentence using the unigram model.
 
@@ -101,7 +101,7 @@ class Unigram:
         :param bool duplicate: allow duplicate words in the sentence
 
         :return: generated sentence as a string or a list of words
-        :rtype: Union[list[str], str]
+        :rtype: list[str] | str
 
         :Example:
 
@@ -132,7 +132,7 @@ class Unigram:
         output_str: bool,
         prob: float,
         duplicate: bool = False,
-    ) -> Union[list[str], str]:
+    ) -> list[str] | str:
         words = []
         words.append(text)
         word_list = list(self._word_prob.keys())
@@ -198,7 +198,7 @@ class Bigram:
         prob: float = 0.001,
         output_str: bool = True,
         duplicate: bool = False,
-    ) -> Union[list[str], str]:
+    ) -> list[str] | str:
         """
         Generate a sentence using the bigram model.
 
@@ -209,7 +209,7 @@ class Bigram:
         :param bool duplicate: allow duplicate words in the sentence
 
         :return: generated sentence as a string or a list of words
-        :rtype: Union[list[str], str]
+        :rtype: list[str] | str
 
         :Example:
 
@@ -297,24 +297,24 @@ class Trigram:
 
     def gen_sentence(
         self,
-        start_seq: Union[str, tuple[str, str]] = "",
+        start_seq: str | tuple[str, str] = "",
         N: int = 4,
         prob: float = 0.001,
         output_str: bool = True,
         duplicate: bool = False,
-    ) -> Union[list[str], str]:
+    ) -> list[str] | str:
         """
         Generate a sentence using the trigram model.
 
         :param start_seq: word or bigram to begin the sentence with
-        :type start_seq: Union[str, tuple[str, str]]
+        :type start_seq: str | tuple[str, str]
         :param int N: number of words
         :param float prob: minimum word probability
         :param bool output_str: return a string instead of a list of words
         :param bool duplicate: allow duplicate words in the sentence
 
         :return: generated sentence as a string or a list of words
-        :rtype: Union[list[str], str]
+        :rtype: list[str] | str
 
         :Example:
 
@@ -325,12 +325,12 @@ class Trigram:
             >>> gen.gen_sentence()  # doctest: +SKIP
             'ยังทำตัวเป็นเซิร์ฟเวอร์คือ'
         """
-        late_word: Union[str, tuple[str, str]]
+        late_word: str | tuple[str, str]
         if not start_seq:
             # Non-cryptographic use, pseudo-random generator is acceptable here
             start_seq = random.choice(self.bi_keys)  # noqa: S311  # nosec B311  # NOSONAR
         late_word = start_seq
-        list_word: list[Union[str, tuple[str, str]]] = []
+        list_word: list[str | tuple[str, str]] = []
         list_word.append(start_seq)
 
         for _ in range(N):
@@ -351,8 +351,8 @@ class Trigram:
 
     def _candidates(
         self,
-        late_word: Union[str, tuple[str, str]],
-        list_word: list[Union[str, tuple[str, str]]],
+        late_word: str | tuple[str, str],
+        list_word: list[str | tuple[str, str]],
         duplicate: bool,
     ) -> list[tuple[str, str, str]]:
         """Return the trigrams that can follow ``late_word``."""

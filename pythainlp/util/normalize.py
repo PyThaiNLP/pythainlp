@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import re
 from re import Pattern
-from typing import Union
 
 from pythainlp import thai_above_vowels as above_v
 from pythainlp import thai_below_vowels as below_v
@@ -48,7 +47,11 @@ _NOREPEAT_CHARS: str = (
     f"{follow_v}{lead_v}{above_v}{below_v}\u0e3a\u0e4c\u0e4d\u0e4e"
 )
 _NOREPEAT_PAIRS: list[tuple[str, str]] = list(
-    zip([f"({ch}[ ]*)+{ch}" for ch in _NOREPEAT_CHARS], _NOREPEAT_CHARS)
+    zip(
+        [f"({ch}[ ]*)+{ch}" for ch in _NOREPEAT_CHARS],
+        _NOREPEAT_CHARS,
+        strict=False,
+    )
 )
 
 _RE_TONEMARKS: Pattern[str] = re.compile(f"[{tonemarks}]+")
@@ -326,7 +329,7 @@ def _split_maiyamok(sent: list[str]) -> list[str]:
     return tokens
 
 
-def expand_maiyamok(sent: Union[str, list[str]]) -> list[str]:
+def expand_maiyamok(sent: str | list[str]) -> list[str]:
     """
     Expand Maiyamok.
 
@@ -334,7 +337,7 @@ def expand_maiyamok(sent: Union[str, list[str]]) -> list[str]:
     repetition. This function preprocesses Thai text by replacing
     Maiyamok with the repeated word.
 
-    :param Union[str, list[str]] sent: sentence, as text or list of words
+    :param str | list[str] sent: sentence, as text or list of words
     :return: list of words
     :rtype: list[str]
 
@@ -361,7 +364,7 @@ def expand_maiyamok(sent: Union[str, list[str]]) -> list[str]:
     return output_toks[::-1]
 
 
-def maiyamok(sent: Union[str, list[str]]) -> list[str]:
+def maiyamok(sent: str | list[str]) -> list[str]:
     """
     Expand Maiyamok.
 
@@ -372,7 +375,7 @@ def maiyamok(sent: Union[str, list[str]]) -> list[str]:
     repetition. This function preprocesses Thai text by replacing
     Maiyamok with the repeated word.
 
-    :param Union[str, list[str]] sent: sentence, as text or list of words
+    :param str | list[str] sent: sentence, as text or list of words
     :return: list of words
     :rtype: list[str]
 

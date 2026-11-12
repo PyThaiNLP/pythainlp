@@ -15,7 +15,7 @@ from __future__ import annotations
 
 from collections import Counter
 from string import digits
-from typing import TYPE_CHECKING, Optional, Union, cast
+from typing import TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
     from collections.abc import Callable, ItemsView, Iterable
@@ -43,7 +43,7 @@ def _keep(
     min_freq: int,
     min_len: int,
     max_len: int,
-    dict_filter: Optional[Callable[[str], bool]],
+    dict_filter: Callable[[str], bool] | None,
 ) -> bool:
     """
     Check if a word has the required minimum frequency and length.
@@ -55,7 +55,7 @@ def _keep(
     :param int min_freq: minimum frequency of a word to keep
     :param int min_len: minimum length (in characters) of a word to keep
     :param int max_len: maximum length (in characters) of a word to keep
-    :param Optional[Callable[[str], bool]] dict_filter: function that
+    :param Callable[[str], bool] | None dict_filter: function that
         returns ``True`` for a word to keep
     :return: ``True`` if the word satisfies all conditions
     :rtype: bool
@@ -108,24 +108,22 @@ def _edits2(word: str) -> set[str]:
 
 
 def _convert_custom_dict(
-    custom_dict: Union[
-        dict[str, int], Iterable[str], Iterable[tuple[str, int]]
-    ],
+    custom_dict: dict[str, int] | Iterable[str] | Iterable[tuple[str, int]],
     min_freq: int,
     min_len: int,
     max_len: int,
-    dict_filter: Optional[Callable[[str], bool]],
+    dict_filter: Callable[[str], bool] | None,
 ) -> list[tuple[str, int]]:
     """
     Convert a custom dictionary to a list of (word, frequency) tuples.
 
     :param custom_dict: custom spelling dictionary
-    :type custom_dict: Union[dict[str, int], Iterable[str],
-        Iterable[tuple[str, int]]]
+    :type custom_dict: dict[str, int] | Iterable[str] |
+        Iterable[tuple[str, int]]
     :param int min_freq: minimum frequency of a word to keep
     :param int min_len: minimum length (in characters) of a word to keep
     :param int max_len: maximum length (in characters) of a word to keep
-    :param Optional[Callable[[str], bool]] dict_filter: function that
+    :param Callable[[str], bool] | None dict_filter: function that
         returns ``True`` for a word to keep
     :return: list of (word, frequency) tuples
     :rtype: list[tuple[str, int]]
@@ -171,13 +169,14 @@ class NorvigSpellChecker:
 
     def __init__(
         self,
-        custom_dict: Optional[
-            Union[dict[str, int], Iterable[str], Iterable[tuple[str, int]]]
-        ] = None,
+        custom_dict: dict[str, int]
+        | Iterable[str]
+        | Iterable[tuple[str, int]]
+        | None = None,
         min_freq: int = 2,
         min_len: int = 2,
         max_len: int = 40,
-        dict_filter: Optional[Callable[[str], bool]] = _is_thai_and_not_num,
+        dict_filter: Callable[[str], bool] | None = _is_thai_and_not_num,
     ) -> None:
         """
         Initialize Peter Norvig's spell checker.
@@ -203,15 +202,15 @@ class NorvigSpellChecker:
 
             The default is the Phupha dataset, filtered with the Royal
             Society of Thailand word list (38,160 words).
-        :type custom_dict: Union[dict[str, int], Iterable[str],
-            Iterable[tuple[str, int]]], optional
+        :type custom_dict: dict[str, int] | Iterable[str] |
+            Iterable[tuple[str, int]], optional
         :param int min_freq: minimum frequency of a word to keep
             (default: 2)
         :param int min_len: minimum length (in characters) of a word to
             keep (default: 2)
         :param int max_len: maximum length (in characters) of a word to
             keep (default: 40)
-        :param Optional[Callable[[str], bool]] dict_filter: function to
+        :param Callable[[str], bool] | None dict_filter: function to
             filter the dictionary. The default filter removes any word
             with numbers or non-Thai characters. Use ``None`` for no filter
         """

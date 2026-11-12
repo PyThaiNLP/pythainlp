@@ -56,7 +56,7 @@ import tempfile
 import unicodedata
 import urllib.request
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from collections.abc import Mapping, Sequence
@@ -152,7 +152,7 @@ class _HttpsOnlyRedirectHandler(urllib.request.HTTPRedirectHandler):
         msg: str,
         headers: HTTPMessage,
         newurl: str,
-    ) -> Optional[urllib.request.Request]:
+    ) -> urllib.request.Request | None:
         if not newurl.startswith("https://"):
             raise ValueError(f"Redirect to a URL that is not https: {newurl}")
         return super().redirect_request(req, fp, code, msg, headers, newurl)
@@ -215,7 +215,7 @@ def normalize_license(text: str) -> str:
 
 def resolve_license(
     given: str, licenses: Mapping[str, bool]
-) -> tuple[str, Optional[str]]:
+) -> tuple[str, str | None]:
     """
     Find the SPDX license ID for the license text that a user gave.
 
@@ -230,7 +230,7 @@ def resolve_license(
         list, each with True if the ID is deprecated
     :return: text to record, and a warning (None for an exact match of an
         ID that is not deprecated)
-    :rtype: tuple[str, Optional[str]]
+    :rtype: tuple[str, str | None]
     """
     recorded, normalized = _match_license(given, licenses)
     if recorded is None:
@@ -253,7 +253,7 @@ def resolve_license(
 
 def _match_license(
     given: str, licenses: Mapping[str, bool]
-) -> tuple[Optional[str], bool]:
+) -> tuple[str | None, bool]:
     """Return the matching license ID (or None) and if it was normalized."""
     if given in licenses:
         return given, False
@@ -473,8 +473,10 @@ def _format_text(path: Path, info: dict[str, Any]) -> str:
         f"  opset            {opset}",
         f"  producer         {producer}",
         f"  domain           {info['domain']}",
-        f"  model_version    {info['model_version_raw']}"
-        f"  ({info['model_version']})",
+        (
+            f"  model_version    {info['model_version_raw']}"
+            f"  ({info['model_version']})"
+        ),
         f"  graph.name       {info['graph_name']}",
         f"  doc_string       {info['doc_string']}",
     ]
@@ -653,11 +655,11 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: Optional[Sequence[str]] = None) -> int:
+def main(argv: Sequence[str] | None = None) -> int:
     """
     Run the command line.
 
-    :param Optional[Sequence[str]] argv: arguments (default: ``sys.argv``)
+    :param Sequence[str] | None argv: arguments (default: ``sys.argv``)
     :return: exit status; 0 on success
     :rtype: int
     """

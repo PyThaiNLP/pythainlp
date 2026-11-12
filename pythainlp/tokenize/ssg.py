@@ -13,15 +13,15 @@ from __future__ import annotations
 
 import threading
 from importlib.resources import as_file, files
-from typing import Any, Optional
+from typing import Any
 
 from pythainlp.tag.crf import CRFTagger
 from pythainlp.tokenize.han_solo import Featurizer
 
 __all__: list[str] = ["segment", "syllable_tokenize"]
 
-_tagger: Optional[CRFTagger] = None
-_model_file_ctx: Optional[Any] = None
+_tagger: CRFTagger | None = None
+_model_file_ctx: Any | None = None
 _load_lock: threading.Lock = threading.Lock()
 _featurizer: Featurizer = Featurizer(N=3)
 _DELIMITER: str = "<SSG_SPECIAL>"
@@ -44,7 +44,7 @@ def _get_tagger() -> CRFTagger:
 
 def _decode(text: str, tags: list[str]) -> list[str]:
     res: list[str] = []
-    for char, tag in zip(list(text), tags):
+    for char, tag in zip(list(text), tags, strict=False):
         if tag == "1":
             res.append(_DELIMITER)
         res.append(char)

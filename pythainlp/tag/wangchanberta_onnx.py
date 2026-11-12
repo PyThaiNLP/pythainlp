@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING, Any, Optional, Union, cast
+from typing import TYPE_CHECKING, Any, cast
 
 if TYPE_CHECKING:
     import numpy as np
@@ -36,7 +36,7 @@ class WangchanBerta_ONNX:
         model_name: str,
         model_version: str,
         file_onnx: str,
-        providers: Optional[list[str]] = None,
+        providers: list[str] | None = None,
     ) -> None:
         """
         Initialize the ONNX session and the tokenizer.
@@ -44,7 +44,7 @@ class WangchanBerta_ONNX:
         :param str model_name: name of the corpus holding the model
         :param str model_version: version of the model
         :param str file_onnx: file name of the ONNX model
-        :param Optional[list[str]] providers: ONNX Runtime execution
+        :param list[str] | None providers: ONNX Runtime execution
             providers; ``["CPUExecutionProvider"]`` if ``None``
         :raises FileNotFoundError: if the model is not found
         """
@@ -163,7 +163,7 @@ class WangchanBerta_ONNX:
 
     def get_ner(  # noqa: CCR001  # phase2-todo
         self, text: str, tag: bool = False
-    ) -> Union[str, list[tuple[str, str]]]:
+    ) -> str | list[tuple[str, str]]:
         """
         Tag named entities in text in IOB format.
 
@@ -172,7 +172,7 @@ class WangchanBerta_ONNX:
             list of tuples
         :return: list of tuples (token, named entity tag), or a string
             with HTML-like tags if ``tag`` is ``True``
-        :rtype: Union[str, list[tuple[str, str]]]
+        :rtype: str | list[tuple[str, str]]
         """
         self._s = self.build_tokenizer(text)
         logits_raw = self.session.run(

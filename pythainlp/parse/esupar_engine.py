@@ -8,7 +8,7 @@ GitHub: https://github.com/KoichiYasuoka/esupar
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING
 
 try:
     import esupar
@@ -24,19 +24,17 @@ if TYPE_CHECKING:
 class Parse:
     """Dependency parser using esupar."""
 
-    def __init__(self, model: Optional[str] = "th") -> None:
+    def __init__(self, model: str | None = "th") -> None:
         """
         Initialize the esupar model.
 
-        :param Optional[str] model: model to load; ``"th"`` if ``None``
+        :param str | None model: model to load; ``"th"`` if ``None``
         """
         if model is None:
             model = "th"
         self.nlp: Model = esupar.load(model)
 
-    def __call__(
-        self, text: str, tag: str = "str"
-    ) -> Union[list[list[str]], str]:
+    def __call__(self, text: str, tag: str = "str") -> list[list[str]] | str:
         """
         Parse the dependency structure of a text.
 
@@ -45,7 +43,7 @@ class Parse:
             or ``"list"``
         :return: CoNLL-U text if ``tag`` is ``"str"``, otherwise a list of
             lists of fields
-        :rtype: Union[list[list[str]], str]
+        :rtype: list[list[str]] | str
         """
         _data = str(self.nlp(text))
         if tag == "list":

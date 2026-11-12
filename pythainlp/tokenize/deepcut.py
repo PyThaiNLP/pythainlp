@@ -25,7 +25,7 @@ available from the LEKCut project.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 import numpy as np
 from onnxruntime import InferenceSession
@@ -264,7 +264,7 @@ _CHAR_TYPES_MAP: dict[str, int] = {v: k for k, v in enumerate(_CHAR_TYPES)}
 _OTHER_CHAR_INDEX: int = _CHARS_MAP.get("other", 80)
 _OTHER_TYPE_INDEX: int = _CHAR_TYPES_MAP.get("o", 4)
 
-_session: Optional[InferenceSession] = None
+_session: InferenceSession | None = None
 
 
 def _get_session() -> InferenceSession:
@@ -351,7 +351,7 @@ def segment(
 
     tokens: list[str] = []
     word = ""
-    for char, is_end in zip(text, word_end):
+    for char, is_end in zip(text, word_end, strict=False):
         word += char
         if is_end:
             tokens.append(word)

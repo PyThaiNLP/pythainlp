@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import ClassVar, Optional, Union
+from typing import ClassVar
 
 from pythainlp import thai_consonants
 from pythainlp.tokenize import subword_tokenize
@@ -703,14 +703,14 @@ class KhaveeVerifier:
 
     def _marttra_of_open_form(
         self, word: str, original_word: str
-    ) -> Optional[str]:
+    ) -> str | None:
         """
         Classify words that cannot have a final consonant.
 
         :param str word: Thai word without tone marks
         :param str original_word: Thai word with tone marks
         :return: "กา" or "กง", or None if not decided here
-        :rtype: Optional[str]
+        :rtype: str | None
         """
         # Single-character words
         if word in self._SINGLE_CHAR_WORDS:
@@ -815,7 +815,7 @@ class KhaveeVerifier:
             marttra2 = "กา"
         return bool(marttra1 == marttra2 and sara1 == sara2)
 
-    def check_karu_lahu(self, text: str) -> Union[str, bool]:
+    def check_karu_lahu(self, text: str) -> str | bool:
         """
         Classify a Thai syllable as heavy (ครุ karu) or light (ลหุ lahu).
 
@@ -831,7 +831,7 @@ class KhaveeVerifier:
         :param str text: single Thai syllable or word to be classified
         :return: "karu" for a heavy syllable, "lahu" for a light syllable,
             or ``False`` if the text is empty
-        :rtype: Union[str, bool]
+        :rtype: str | bool
         """
         if not text:
             return False
@@ -850,7 +850,7 @@ class KhaveeVerifier:
             return "karu"
         return "lahu"
 
-    def check_klon(self, text: str, k_type: int = 8) -> Union[list[str], str]:
+    def check_klon(self, text: str, k_type: int = 8) -> list[str] | str:
         """
         Check the suitability of the poem according to Thai principles.
 
@@ -858,7 +858,7 @@ class KhaveeVerifier:
         :param int k_type: type of Thai poem (4 or 8)
         :return: check results of the poem, a message that the poem is
             correct or a list of error messages
-        :rtype: Union[list[str], str]
+        :rtype: list[str] | str
 
         ══════════════════════════════════════════════════════════════════════
 
@@ -1015,17 +1015,17 @@ class KhaveeVerifier:
         return errors
 
     def check_aek_too(
-        self, text: Union[list[str], str], dead_syllable_as_aek: bool = False
-    ) -> Union[list[Union[bool, str]], bool, str]:
+        self, text: list[str] | str, dead_syllable_as_aek: bool = False
+    ) -> list[bool | str] | bool | str:
         """
         Check if Thai words carry the tone mark เอก (aek) or โท (too).
 
-        :param Union[list[str], str] text: Thai word or list of Thai words
+        :param list[str] | str text: Thai word or list of Thai words
         :param bool dead_syllable_as_aek: if ``True``, treat a dead
             syllable as aek
         :return: "aek" or "too" if the word has exactly that tone mark,
             otherwise ``False``; a list of results if ``text`` is a list
-        :rtype: Union[list[Union[bool, str]], bool, str]
+        :rtype: list[bool | str] | bool | str
         :raises TypeError: if ``text`` is neither a string nor a list
 
         :Example:

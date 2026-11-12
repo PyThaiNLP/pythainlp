@@ -6,7 +6,6 @@
 from __future__ import annotations
 
 from collections import Counter
-from typing import Optional
 
 from pythainlp.corpus import thai_stopwords
 
@@ -15,7 +14,7 @@ _STOPWORDS: frozenset[str] = thai_stopwords()
 
 def rank(
     words: list[str], exclude_stopwords: bool = False
-) -> Optional[Counter[str]]:
+) -> Counter[str] | None:
     """
     Count word frequencies in a list of Thai words.
 
@@ -25,7 +24,7 @@ def rank(
     :param bool exclude_stopwords: exclude stopwords from the count if
         **True**, otherwise count them (default is **False**)
     :return: counter of word frequencies, or None if ``words`` is empty
-    :rtype: Optional[collections.Counter[str]]
+    :rtype: collections.Counter[str] | None
 
     :Example:
 

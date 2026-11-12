@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Union
+from typing import Any
 
 
 class EntityLinker:
@@ -46,16 +46,14 @@ class EntityLinker:
             model_name=self.model_name, device=self.device
         )
 
-    def get_el(
-        self, list_text: Union[list[str], str]
-    ) -> Union[list[dict[str, Any]], str]:
+    def get_el(self, list_text: list[str] | str) -> list[dict[str, Any]] | str:
         """
         Link entities in Thai text.
 
-        :param Union[list[str], str] list_text: Thai text, or list of
+        :param list[str] | str list_text: Thai text, or list of
             Thai texts, to be linked
         :return: list of entity linking results
-        :rtype: Union[list[dict[str, Any]], str]
+        :rtype: list[dict[str, Any]] | str
 
         :Example:
 

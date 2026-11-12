@@ -11,7 +11,6 @@ https://gist.github.com/touchiep/99f4f5bb349d6b983ef78697630ab78e
 from __future__ import annotations
 
 from datetime import date, timedelta
-from typing import Union
 
 _YEAR_DEV: dict[int, float] = {
     0: 0,
@@ -209,7 +208,7 @@ _DAYS_384: list[int] = [
 ]
 
 # Zodiac names in Thai, English, and Numeric representations
-_ZODIAC: dict[int, list[Union[str, int]]] = {
+_ZODIAC: dict[int, list[str | int]] = {
     1: [
         "ชวด",
         "ฉลู",
@@ -350,7 +349,7 @@ def number_day_in_year(year: int) -> int:
     return 365
 
 
-def th_zodiac(year: int, output_type: int = 1) -> Union[str, int]:
+def th_zodiac(year: int, output_type: int = 1) -> str | int:
     """
     Convert a Gregorian year to its Thai zodiac year name.
 
@@ -358,7 +357,7 @@ def th_zodiac(year: int, output_type: int = 1) -> Union[str, int]:
     :param int output_type: output type
         (1 for Thai name, 2 for English name, 3 for number)
     :return: zodiac name or number of the year
-    :rtype: Union[str, int]
+    :rtype: str | int
 
     :Example:
 

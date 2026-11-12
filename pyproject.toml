@@ -45,7 +45,6 @@ classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -85,9 +84,8 @@ dev = [
     "flake8>=7.3.0;python_version<'3.10'",
     "flake8>=7.4.1;python_version>='3.10'",
     "flake8-cognitive-complexity>=0.1.0",
-    # Same as CI. mypy 2.x requires Python 3.10 or later and rejects
-    # python_version = "3.9" in [tool.mypy].
-    "mypy==1.19.1",
+    # Same as CI.
+    "mypy==2.4.1",
     "pylint>=3.3.9;python_version<'3.10'",
     "pylint>=4.1.2;python_version>='3.10'",
     "ruff>=0.16.10",
@@ -576,9 +574,8 @@ skip_install = true
 
 [tool.tox.env.mypy]
 commands = [["mypy", "pythainlp", "tests"]]
-# Same version as mypy.yml. mypy 1.19 is the last release that targets
-# Python 3.9; python_version in [tool.mypy] sets the target.
-deps = ["mypy==1.19.1"]
+# Same version as mypy.yml.
+deps = ["mypy==2.4.1"]
 extras = []
 
 [tool.mypy]
@@ -588,7 +585,7 @@ disallow_subclassing_any = true
 disallow_untyped_decorators = true
 disallow_untyped_defs = true
 pretty = true
-python_version = "3.9"
+python_version = "3.10"
 show_column_numbers = true
 show_error_code_links = true
 show_error_context = true
@@ -610,7 +607,7 @@ disallow_untyped_defs = false
 
 # Treat optional dependencies as untyped, whether installed or not.
 # Without "follow_imports = skip", mypy analyzes installed packages
-# (for example, torch) with python_version = "3.9" and fails on
+# (for example, torch) with python_version = "3.10" and fails on
 # newer syntax.
 [[tool.mypy.overrides]]
 module = [

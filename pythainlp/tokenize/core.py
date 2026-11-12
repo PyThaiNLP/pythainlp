@@ -68,13 +68,13 @@ def word_detokenize(
         return "" if output == "str" else []
 
     if isinstance(segments[0], str):
-        segments = [segments]  # type: ignore[assignment]
+        segments = [segments]
 
     from pythainlp import thai_characters
 
     list_all: list[list[str]] = [
         _detokenize_words(words, thai_characters)
-        for words in cast("list[list[str]]", segments)
+        for words in segments
     ]
 
     if output == "list":

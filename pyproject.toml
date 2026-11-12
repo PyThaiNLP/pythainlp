@@ -11,7 +11,7 @@ name = "pythainlp"
 version = "5.4.0"
 description = "Thai Natural Language Processing library"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = "Apache-2.0"
 authors = [
     { name = "Wannaphong Phatthiyaphaibun", email = "wannaphong@pythainlp.org" },

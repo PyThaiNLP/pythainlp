@@ -114,9 +114,8 @@ jobs:
       run: twine check dist/*
 
     # Embeds after the build, not with Pitloom's Hatchling build hook.
-    # Pitloom 0.20.0+ lists only the wheel's payload, so the files the
-    # embedding rewrites (RECORD and the SBOM itself) are not in the SBOM
-    # with stale hashes, as they were with 0.19.0.
+    # The SBOM lists only the wheel's payload, so the files the embedding
+    # rewrites (RECORD and the SBOM itself) are not in it with stale hashes.
     # --verify checks the SBOM is at the PEP 770 location.
     # --validate checks the SBOM against the SPDX 3 schema and SHACL shapes.
     # Either failing fails this step, which stops publishing.

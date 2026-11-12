@@ -26,10 +26,10 @@ import subprocess
 import sys
 from collections import defaultdict
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 
-def count_mypy_errors_by_submodule(pythainlp_dir: str) -> Dict[str, int]:
+def count_mypy_errors_by_submodule(pythainlp_dir: str) -> dict[str, int]:
     """
     Run mypy on each submodule and count errors.
 
@@ -105,7 +105,7 @@ class TypeHintAnalyzer(ast.NodeVisitor):
 
     def check_function_type_hints(
         self, node: ast.FunctionDef
-    ) -> Tuple[str, int, int]:
+    ) -> tuple[str, int, int]:
         """
         Check type hint completeness for a function.
         Returns: (status, total_params, hinted_params)
@@ -380,7 +380,7 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         self.module_level = old_module_level
 
 
-def find_python_files(root_dir: str) -> List[str]:
+def find_python_files(root_dir: str) -> list[str]:
     """Find all Python files in the given directory."""
     python_files = []
     root_path = Path(root_dir)
@@ -420,7 +420,7 @@ def get_module_path(filepath: str, root_dir: str) -> str:
     return module_path
 
 
-def analyze_file(filepath: str, root_dir: str) -> List[Dict[str, Any]]:
+def analyze_file(filepath: str, root_dir: str) -> list[dict[str, Any]]:
     """Analyze a single Python file for type hints."""
     try:
         with open(filepath, encoding="utf-8") as f:
@@ -448,7 +448,7 @@ def get_submodule(qualified_name: str) -> str:
     return "root"
 
 
-def count_references(qualified_name: str, all_files: List[str]) -> int:
+def count_references(qualified_name: str, all_files: list[str]) -> int:
     """Count how many times a name is referenced in the codebase."""
     count = 0
     name_parts = qualified_name.split(".")
@@ -487,7 +487,7 @@ def get_test_suite(filepath: str, tests_dir: str) -> str:
 
 
 def find_corresponding_test_suite(
-    qualified_name: str, all_results: List[Dict]
+    qualified_name: str, all_results: list[dict]
 ) -> str:
     """Find which test suite tests this function/class."""
     # Look for test functions that reference this name
@@ -515,7 +515,7 @@ def find_corresponding_test_suite(
     return "unknown"
 
 
-def assign_priority(result: Dict) -> str:
+def assign_priority(result: dict) -> str:
     """Assign priority based on scope, references, and test suite."""
     scope = result.get("scope", "private")
     refs = result.get("references", 0)

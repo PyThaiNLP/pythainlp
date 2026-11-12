@@ -19,7 +19,6 @@ from typing import (
     NamedTuple,
     TypedDict,
     Union,
-    cast,
     overload,
 )
 
@@ -510,19 +509,16 @@ def _normalize_evaluation_input(
         return [""]
 
     if isinstance(x[0], list):
-        nested = cast("list[list[str]]", x)
-        flat: list[str] = [j for sub in nested for j in sub]
+        flat: list[str] = [j for sub in x for j in sub]
         return [f"{sep}".join(flat)]
 
-    tokens = cast("list[str]", x)
-
-    if len(tokens) == 1 and isinstance(tokens[0], str):
-        return tokens
+    if len(x) == 1 and isinstance(x[0], str):
+        return x
 
     if sep:
-        return [f"{sep}".join(tokens)]
+        return [f"{sep}".join(x)]
 
-    return ["".join(tokens)]
+    return ["".join(x)]
 
 
 def evaluate_word_tokenization(

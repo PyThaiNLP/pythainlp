@@ -115,9 +115,7 @@ def update_docs_index(docs_dir: Path) -> None:
     :param docs_dir: Path to the versioned documentation repository root.
     """
     versions = _get_version_dirs(docs_dir)
-    items = "\n".join(
-        f'    <li><a href="{v}/">{v}</a></li>' for v in versions
-    )
+    items = "\n".join(f'    <li><a href="{v}/">{v}</a></li>' for v in versions)
     content = _DOCS_INDEX_TMPL.format(items=items)
     index_path = docs_dir / "index.html"
     index_path.write_text(content, encoding="utf-8")
@@ -145,7 +143,9 @@ def update_dev_docs_index(index_path: Path, version: str) -> None:
 
         # Skip if this version is already listed.
         if f"/{version}/" in section:
-            print(f"{index_path}: version {version} already present, skipping.")
+            print(
+                f"{index_path}: version {version} already present, skipping."
+            )
             return
 
         # Prepend the new item inside the existing <ul> or <ol>.
@@ -197,7 +197,9 @@ def main() -> None:
     args = parser.parse_args()
 
     if not args.docs_dir and not args.dev_docs_index:
-        parser.error("At least one of --docs-dir or --dev-docs-index is required.")
+        parser.error(
+            "At least one of --docs-dir or --dev-docs-index is required."
+        )
 
     if args.docs_dir:
         if not args.docs_dir.is_dir():

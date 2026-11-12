@@ -17,6 +17,7 @@ Usage:
 Options:
     --output-dir    Directory to save output files (default: ./output)
 """
+
 import argparse
 import ast
 import json
@@ -140,15 +141,13 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         """Extract decorator name from AST node."""
         if isinstance(decorator, ast.Name):
             return decorator.id
-        elif isinstance(decorator, ast.Attribute):
+        if isinstance(decorator, ast.Attribute):
             return (
-                f"{self._get_decorator_name(decorator.value)}"
-                f".{decorator.attr}"
+                f"{self._get_decorator_name(decorator.value)}.{decorator.attr}"
             )
-        elif isinstance(decorator, ast.Call):
+        if isinstance(decorator, ast.Call):
             return self._get_decorator_name(decorator.func)
-        else:
-            return "unknown"
+        return "unknown"
 
     def _is_type_alias(self, node: ast.AnnAssign) -> bool:
         """Check if an annotated assignment is a type alias."""
@@ -182,10 +181,9 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         """Extract variable name from assignment target."""
         if isinstance(target, ast.Name):
             return target.id
-        elif isinstance(target, ast.Attribute):
+        if isinstance(target, ast.Attribute):
             return target.attr
-        else:
-            return "unknown"
+        return "unknown"
 
     def visit_AnnAssign(self, node: ast.AnnAssign):
         """Visit annotated assignment (variable with type hint)."""
@@ -417,8 +415,7 @@ def get_module_path(filepath: str, root_dir: str) -> str:
     rel_path = os.path.relpath(filepath, root_dir)
     module_path = rel_path.replace(os.sep, ".").replace(".py", "")
 
-    if module_path.endswith(".__init__"):
-        module_path = module_path[:-9]
+    module_path = module_path.removesuffix(".__init__")
 
     return module_path
 
@@ -426,7 +423,7 @@ def get_module_path(filepath: str, root_dir: str) -> str:
 def analyze_file(filepath: str, root_dir: str) -> List[Dict[str, Any]]:
     """Analyze a single Python file for type hints."""
     try:
-        with open(filepath, "r", encoding="utf-8") as f:
+        with open(filepath, encoding="utf-8") as f:
             content = f.read()
 
         tree = ast.parse(content, filename=filepath)
@@ -446,7 +443,7 @@ def get_submodule(qualified_name: str) -> str:
     parts = qualified_name.split(".")
     if len(parts) > 2 and parts[0] == "pythainlp":
         return parts[1]
-    elif len(parts) > 1:
+    if len(parts) > 1:
         return parts[0]
     return "root"
 
@@ -459,7 +456,7 @@ def count_references(qualified_name: str, all_files: List[str]) -> int:
 
     for filepath in all_files:
         try:
-            with open(filepath, "r", encoding="utf-8") as f:
+            with open(filepath, encoding="utf-8") as f:
                 content = f.read()
                 # Simple text search - not perfect but gives an approximation
                 count += content.count(search_name)
@@ -480,14 +477,13 @@ def get_test_suite(filepath: str, tests_dir: str) -> str:
         ("testc_", "testx_", "testn_")
     ):
         return "core"
-    elif filename.startswith("testc_"):
+    if filename.startswith("testc_"):
         return "compact"
-    elif filename.startswith("testx_"):
+    if filename.startswith("testx_"):
         return "extra"
-    elif filename.startswith("testn_"):
+    if filename.startswith("testn_"):
         return "noauto"
-    else:
-        return "other"
+    return "other"
 
 
 def find_corresponding_test_suite(
@@ -529,11 +525,10 @@ def assign_priority(result: Dict) -> str:
     if scope == "public" and refs > 10 and test_suite in ("core", "compact"):
         return "high"
     # Public functions with some references: medium priority
-    elif scope == "public" and refs > 3:
+    if scope == "public" and refs > 3:
         return "medium"
     # Everything else: low priority
-    else:
-        return "low"
+    return "low"
 
 
 def main():
@@ -670,8 +665,7 @@ def main():
     print("=" * 80)
     print(f"Total functions/methods: {total}")
     print(
-        f"Complete type hints:     {len(complete):4d} "
-        f"({pct_complete:5.2f}%)"
+        f"Complete type hints:     {len(complete):4d} ({pct_complete:5.2f}%)"
     )
     print(
         f"Incomplete type hints:   {len(incomplete):4d} "
@@ -705,8 +699,7 @@ def main():
         f"({pct_vars_complete:5.2f}%)"
     )
     print(
-        f"No type hints:           {len(vars_none):4d} "
-        f"({pct_vars_none:5.2f}%)"
+        f"No type hints:           {len(vars_none):4d} ({pct_vars_none:5.2f}%)"
     )
     print()
 
@@ -731,21 +724,15 @@ def main():
     for submodule in sorted(by_submodule.keys()):
         data = by_submodule[submodule]
         total_sub = (
-            len(data["complete"])
-            + len(data["incomplete"])
-            + len(data["none"])
+            len(data["complete"]) + len(data["incomplete"]) + len(data["none"])
         )
         pct_comp = (
             (len(data["complete"]) / total_sub * 100) if total_sub > 0 else 0
         )
         pct_inc = (
-            (len(data["incomplete"]) / total_sub * 100)
-            if total_sub > 0
-            else 0
+            (len(data["incomplete"]) / total_sub * 100) if total_sub > 0 else 0
         )
-        pct_no = (
-            (len(data["none"]) / total_sub * 100) if total_sub > 0 else 0
-        )
+        pct_no = (len(data["none"]) / total_sub * 100) if total_sub > 0 else 0
 
         mypy_err_str = ""
         if submodule in mypy_errors:
@@ -769,7 +756,9 @@ def main():
     none_sorted = sorted(
         none,
         key=lambda x: (
-            {"high": 0, "medium": 1, "low": 2}.get(x.get("priority", "low"), 2),
+            {"high": 0, "medium": 1, "low": 2}.get(
+                x.get("priority", "low"), 2
+            ),
             -x.get("references", 0),
         ),
     )
@@ -814,15 +803,15 @@ def main():
     print()
 
     print("=" * 80)
-    print(
-        "FUNCTIONS/METHODS WITH INCOMPLETE TYPE HINTS (sorted by priority)"
-    )
+    print("FUNCTIONS/METHODS WITH INCOMPLETE TYPE HINTS (sorted by priority)")
     print("=" * 80)
 
     incomplete_sorted = sorted(
         incomplete,
         key=lambda x: (
-            {"high": 0, "medium": 1, "low": 2}.get(x.get("priority", "low"), 2),
+            {"high": 0, "medium": 1, "low": 2}.get(
+                x.get("priority", "low"), 2
+            ),
             -x.get("references", 0),
         ),
     )
@@ -925,7 +914,7 @@ def main():
                     {
                         "name": f["qualified_name"],
                         "scope": f["scope"],
-                        "params": f'{f["hinted_params"]}/{f["total_params"]}',
+                        "params": f"{f['hinted_params']}/{f['total_params']}",
                         "return": f["has_return"],
                         "references": f.get("references", 0),
                         "test_suite": f.get("test_suite", "unknown"),
@@ -944,7 +933,8 @@ def main():
                         "file": v["filepath"],
                         "line": v["line"],
                     }
-                    for v in class_vars if v["status"] == "none"
+                    for v in class_vars
+                    if v["status"] == "none"
                 ],
                 "instance_variables_no_hints": [
                     {
@@ -954,7 +944,8 @@ def main():
                         "file": v["filepath"],
                         "line": v["line"],
                     }
-                    for v in instance_vars if v["status"] == "none"
+                    for v in instance_vars
+                    if v["status"] == "none"
                 ],
                 "module_variables_no_hints": [
                     {
@@ -963,7 +954,8 @@ def main():
                         "file": v["filepath"],
                         "line": v["line"],
                     }
-                    for v in module_vars if v["status"] == "none"
+                    for v in module_vars
+                    if v["status"] == "none"
                 ],
                 "type_aliases": [
                     {

@@ -97,7 +97,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install --only-binary :all: "pip==26.2.1"
+        pip install --only-binary :all: "pip==26.3"
         pip install --only-binary :all: "build==1.6.1" "twine==7.0.0"
 
     # Pins every timestamp in the build and the SBOM to the commit time, so a

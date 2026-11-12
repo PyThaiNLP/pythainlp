@@ -70,19 +70,25 @@ dependencies = [
 ## 1) Development ########################################
 
 dev = [
-    # bandit 1.8.x reports false positives for B615 (revision is a variable).
+    # Some tools drop Python 3.10 in newer releases. Use the latest version
+    # for each Python range. bandit 1.8.x reports false positives for B615
+    # (revision is a variable).
     "bandit>=1.9.4",
     "build>=1.6.1",
-    "bump-my-version>=1.5.1",
-    "coverage>=7.16.2",
-    "diff-cover>=10.6.0",
-    "flake8>=7.4.1",
+    "bump-my-version>=1.8.1",
+    "coverage>=7.16.2;python_version<'3.11'",
+    "coverage>=7.17.2;python_version>='3.11'",
+    "diff-cover>=10.6.0;python_version<'3.11'",
+    "diff-cover>=11.0.1;python_version>='3.11'",
+    "flake8>=7.4.1;python_version<'3.11'",
+    "flake8>=7.5.0;python_version>='3.11'",
     "flake8-cognitive-complexity>=0.1.0",
     # Same as CI.
     "mypy==2.4.1",
-    "pylint>=4.1.2",
-    "ruff>=0.16.10",
-    "tox>=4.64.9",
+    "pylint>=4.1.3",
+    "ruff>=0.17.4",
+    "tox>=4.65.0;python_version<'3.11'",
+    "tox>=4.67.13;python_version>='3.11'",
 ]
 
 docs = [
@@ -564,13 +570,17 @@ commands = [
     ["ruff", "check", "--config", "pyproject.toml", "pythainlp", "tests", "examples", "notebooks"],
     ["ruff", "format", "--check", "--config", "pyproject.toml", "pythainlp", "tests", "examples", "notebooks"],
 ]
-deps = ["ruff==0.16.10"]
+deps = ["ruff==0.17.4"]
 skip_install = true
 
 [tool.tox.env.flake8]
 basepython = ["python"]
 commands = [["flake8", "pythainlp"]]
-deps = ["flake8==7.4.1", "flake8-cognitive-complexity==0.1.0"]
+deps = [
+    "flake8==7.4.1; python_version < '3.11'",
+    "flake8==7.5.0; python_version >= '3.11'",
+    "flake8-cognitive-complexity==0.1.0",
+]
 skip_install = true
 
 [tool.tox.env.mypy]

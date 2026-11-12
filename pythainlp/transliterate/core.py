@@ -168,19 +168,19 @@ def transliterate(  # noqa: C901  # phase2-todo
     elif engine == "ipa":
         from pythainlp.transliterate.ipa import transliterate
     elif engine == "tltk_g2p":
-        from pythainlp.transliterate.tltk import tltk_g2p as transliterate  # noqa: I001
+        from pythainlp.transliterate.tltk import tltk_g2p as transliterate
     elif engine == "tltk_ipa":
-        from pythainlp.transliterate.tltk import tltk_ipa as transliterate  # noqa: I001
+        from pythainlp.transliterate.tltk import tltk_ipa as transliterate
     elif engine == "iso_11940":
-        from pythainlp.transliterate.iso_11940 import transliterate  # type: ignore[assignment]  # noqa: I001
+        from pythainlp.transliterate.iso_11940 import transliterate  # type: ignore[assignment]
     elif engine == "thaig2p_v2":
-        from pythainlp.transliterate.thaig2p_v2 import transliterate  # noqa: I001
+        from pythainlp.transliterate.thaig2p_v2 import transliterate
     elif engine == "thaig2p_v4":
-        from pythainlp.transliterate.thaig2p_v4 import transliterate  # noqa: I001
+        from pythainlp.transliterate.thaig2p_v4 import transliterate
     elif engine == "umt5_thaig2p":
-        from pythainlp.transliterate.umt5_thaig2p import transliterate  # noqa: I001
+        from pythainlp.transliterate.umt5_thaig2p import transliterate
     elif engine == "fastthaig2p":
-        from pythainlp.transliterate.fastthaig2p import transliterate  # noqa: I001
+        from pythainlp.transliterate.fastthaig2p import transliterate
     else:  # use default engine: "thaig2p"
         from pythainlp.transliterate.thaig2p import transliterate
 

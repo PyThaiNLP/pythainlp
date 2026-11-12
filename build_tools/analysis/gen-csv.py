@@ -12,6 +12,7 @@ Options:
     --input         Input JSON file (default: ./output/type_hint_analysis.json)
     --output-dir    Directory to save CSV files (default: ./output)
 """
+
 import argparse
 import csv
 import json
@@ -55,7 +56,7 @@ def main():
 
     # Load the JSON data
     print(f"Loading data from: {input_file}")
-    with open(input_file, "r") as f:
+    with open(input_file) as f:
         data = json.load(f)
 
     # Create CSV for functions without type hints

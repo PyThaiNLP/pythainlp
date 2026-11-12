@@ -73,8 +73,7 @@ def word_detokenize(
     from pythainlp import thai_characters
 
     list_all: list[list[str]] = [
-        _detokenize_words(words, thai_characters)
-        for words in segments
+        _detokenize_words(words, thai_characters) for words in segments
     ]
 
     if output == "list":

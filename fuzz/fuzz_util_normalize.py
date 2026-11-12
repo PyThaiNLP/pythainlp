@@ -2,7 +2,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
-Fuzzing harness for pythainlp.util.normalize()
+Fuzzing harness for pythainlp.util.normalize().
 
 This fuzzer tests the normalize function with random Unicode input
 to discover edge cases, crashes, and potential security issues.

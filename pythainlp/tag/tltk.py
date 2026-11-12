@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import re
-from typing import Optional, Union
+from typing import cast, Optional, Union
 
 from pythainlp.corpus import corpus_path
 from pythainlp.tag._tag_perceptron import PerceptronTagger
@@ -110,7 +110,7 @@ def _post_process(text: str) -> str:
 
 def get_ner(
     text: str, pos: bool = True, tag: bool = False
-) -> Union[list[tuple[str, str]], list[tuple[str, str, str]], str]:
+) -> list[tuple[str, str]] | list[tuple[str, str, str]] | str:
     """
     Tag named entities in text using **TLTK**.
 
@@ -124,7 +124,7 @@ def get_ner(
     :return: list of tuples of word, POS tag (if ``pos`` is ``True``),
         and named entity tag; or the text with HTML-like tags
         (if ``tag`` is ``True``)
-    :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]], str]
+    :rtype: list[tuple[str, str]] | list[tuple[str, str, str]] | str
     :Example:
 
         >>> from pythainlp.tag.tltk import get_ner

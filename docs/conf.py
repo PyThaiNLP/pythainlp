@@ -9,6 +9,7 @@ import os
 import sys
 import traceback
 from datetime import date, datetime
+from subprocess import STDOUT, CalledProcessError, check_output
 
 import pythainlp
 
@@ -32,12 +33,14 @@ copyright = f"2016-{curyear}, {project} (Apache Software License 2.0)"
 # -- Get version information and date from Git ----------------------------
 
 try:
-    from subprocess import STDOUT, check_output
-
     current_branch = (
         os.environ["CURRENT_BRANCH"]
         if "CURRENT_BRANCH" in os.environ
-        else check_output(["git", "symbolic-ref", "HEAD"], shell=False, stderr=STDOUT)
+        else check_output(  # "git" is looked up on PATH on purpose
+            ["git", "symbolic-ref", "HEAD"],  # noqa: S607
+            shell=False,
+            stderr=STDOUT,
+        )
         .decode()
         .strip()
         .rsplit("/", maxsplit=1)[-1]
@@ -46,7 +49,7 @@ try:
         os.environ["RELEASE"]
         if "RELEASE" in os.environ
         else check_output(
-            ["git", "describe", "--tags", "--always"],
+            ["git", "describe", "--tags", "--always"],  # noqa: S607
             shell=False,
             stderr=STDOUT,
         )
@@ -65,7 +68,7 @@ try:
     #     .decode()
     #     .strip()
     # )
-except Exception:
+except (OSError, CalledProcessError):
     traceback.print_exc()
     release = pythainlp.__version__
     # today = "<unknown date>"

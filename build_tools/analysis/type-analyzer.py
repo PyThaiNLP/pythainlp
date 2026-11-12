@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 """
-Type Annotation Analyzer for PyThaiNLP
+Type Annotation Analyzer for PyThaiNLP.
 
 This script scans the entire repository and analyzes type annotation coverage
 for all functions and classes.
@@ -17,6 +16,7 @@ Usage:
 Options:
     --output-dir    Directory to save output files (default: ./output)
 """
+
 import argparse
 import ast
 import json
@@ -25,10 +25,10 @@ import subprocess
 import sys
 from collections import defaultdict
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any
 
 
-def count_mypy_errors_by_submodule(pythainlp_dir: str) -> Dict[str, int]:
+def count_mypy_errors_by_submodule(pythainlp_dir: str) -> dict[str, int]:
     """
     Run mypy on each submodule and count errors.
 
@@ -51,8 +51,9 @@ def count_mypy_errors_by_submodule(pythainlp_dir: str) -> Dict[str, int]:
         submodule_path = os.path.join(pythainlp_dir, submodule)
         try:
             # Run mypy on the submodule
-            result = subprocess.run(
-                ["mypy", submodule_path, "--ignore-missing-imports"],
+            # Fixed arguments; "mypy" is looked up on PATH on purpose.
+            result = subprocess.run(  # noqa: S603
+                ["mypy", submodule_path, "--ignore-missing-imports"],  # noqa: S607
                 capture_output=True,
                 text=True,
                 timeout=60,
@@ -74,7 +75,7 @@ def count_mypy_errors_by_submodule(pythainlp_dir: str) -> Dict[str, int]:
         except FileNotFoundError:
             print("  mypy not found, skipping mypy error counting")
             return {}
-        except Exception as e:
+        except (OSError, subprocess.SubprocessError) as e:
             mypy_errors[submodule] = -1  # Indicate error
             print(f"  {submodule}: error ({e})")
 
@@ -104,19 +105,19 @@ class TypeHintAnalyzer(ast.NodeVisitor):
 
     def check_function_type_hints(
         self, node: ast.FunctionDef
-    ) -> Tuple[str, int, int]:
+    ) -> tuple[str, int, int]:
         """
         Check type hint completeness for a function.
+
         Returns: (status, total_params, hinted_params)
         - status: "complete", "incomplete", "none"
         - total_params: number of parameters (excluding self/cls)
         - hinted_params: number of parameters with type hints
         """
         # Count parameters (excluding self/cls)
-        params = []
-        for arg in node.args.args:
-            if arg.arg not in ("self", "cls"):
-                params.append(arg)
+        params = [
+            arg for arg in node.args.args if arg.arg not in ("self", "cls")
+        ]
 
         total_params = len(params)
         hinted_params = sum(1 for arg in params if arg.annotation is not None)
@@ -140,15 +141,13 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         """Extract decorator name from AST node."""
         if isinstance(decorator, ast.Name):
             return decorator.id
-        elif isinstance(decorator, ast.Attribute):
+        if isinstance(decorator, ast.Attribute):
             return (
-                f"{self._get_decorator_name(decorator.value)}"
-                f".{decorator.attr}"
+                f"{self._get_decorator_name(decorator.value)}.{decorator.attr}"
             )
-        elif isinstance(decorator, ast.Call):
+        if isinstance(decorator, ast.Call):
             return self._get_decorator_name(decorator.func)
-        else:
-            return "unknown"
+        return "unknown"
 
     def _is_type_alias(self, node: ast.AnnAssign) -> bool:
         """Check if an annotated assignment is a type alias."""
@@ -164,11 +163,10 @@ class TypeHintAnalyzer(ast.NodeVisitor):
             return True
 
         # Check for typing.TypeAlias or typing_extensions.TypeAlias
-        if isinstance(node.annotation, ast.Attribute):
-            if node.annotation.attr == "TypeAlias":
-                return True
-
-        return False
+        return (
+            isinstance(node.annotation, ast.Attribute)
+            and node.annotation.attr == "TypeAlias"
+        )
 
     def _is_instance_variable(self, target: ast.expr) -> bool:
         """Check if target is an instance variable (self.attr)."""
@@ -182,10 +180,9 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         """Extract variable name from assignment target."""
         if isinstance(target, ast.Name):
             return target.id
-        elif isinstance(target, ast.Attribute):
+        if isinstance(target, ast.Attribute):
             return target.attr
-        else:
-            return "unknown"
+        return "unknown"
 
     def visit_AnnAssign(self, node: ast.AnnAssign):
         """Visit annotated assignment (variable with type hint)."""
@@ -382,7 +379,7 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         self.module_level = old_module_level
 
 
-def find_python_files(root_dir: str) -> List[str]:
+def find_python_files(root_dir: str) -> list[str]:
     """Find all Python files in the given directory."""
     python_files = []
     root_path = Path(root_dir)
@@ -417,16 +414,15 @@ def get_module_path(filepath: str, root_dir: str) -> str:
     rel_path = os.path.relpath(filepath, root_dir)
     module_path = rel_path.replace(os.sep, ".").replace(".py", "")
 
-    if module_path.endswith(".__init__"):
-        module_path = module_path[:-9]
+    module_path = module_path.removesuffix(".__init__")
 
     return module_path
 
 
-def analyze_file(filepath: str, root_dir: str) -> List[Dict[str, Any]]:
+def analyze_file(filepath: str, root_dir: str) -> list[dict[str, Any]]:
     """Analyze a single Python file for type hints."""
     try:
-        with open(filepath, "r", encoding="utf-8") as f:
+        with open(filepath, encoding="utf-8") as f:
             content = f.read()
 
         tree = ast.parse(content, filename=filepath)
@@ -436,7 +432,7 @@ def analyze_file(filepath: str, root_dir: str) -> List[Dict[str, Any]]:
         analyzer.visit(tree)
 
         return analyzer.results
-    except Exception as e:
+    except (OSError, RecursionError, SyntaxError, ValueError) as e:
         print(f"Error analyzing {filepath}: {e}", file=sys.stderr)
         return []
 
@@ -446,12 +442,12 @@ def get_submodule(qualified_name: str) -> str:
     parts = qualified_name.split(".")
     if len(parts) > 2 and parts[0] == "pythainlp":
         return parts[1]
-    elif len(parts) > 1:
+    if len(parts) > 1:
         return parts[0]
     return "root"
 
 
-def count_references(qualified_name: str, all_files: List[str]) -> int:
+def count_references(qualified_name: str, all_files: list[str]) -> int:
     """Count how many times a name is referenced in the codebase."""
     count = 0
     name_parts = qualified_name.split(".")
@@ -459,12 +455,12 @@ def count_references(qualified_name: str, all_files: List[str]) -> int:
 
     for filepath in all_files:
         try:
-            with open(filepath, "r", encoding="utf-8") as f:
+            with open(filepath, encoding="utf-8") as f:
                 content = f.read()
                 # Simple text search - not perfect but gives an approximation
                 count += content.count(search_name)
-        except Exception:
-            pass
+        except (OSError, ValueError):
+            continue
 
     return count
 
@@ -480,18 +476,17 @@ def get_test_suite(filepath: str, tests_dir: str) -> str:
         ("testc_", "testx_", "testn_")
     ):
         return "core"
-    elif filename.startswith("testc_"):
+    if filename.startswith("testc_"):
         return "compact"
-    elif filename.startswith("testx_"):
+    if filename.startswith("testx_"):
         return "extra"
-    elif filename.startswith("testn_"):
+    if filename.startswith("testn_"):
         return "noauto"
-    else:
-        return "other"
+    return "other"
 
 
 def find_corresponding_test_suite(
-    qualified_name: str, all_results: List[Dict]
+    qualified_name: str, all_results: list[dict]
 ) -> str:
     """Find which test suite tests this function/class."""
     # Look for test functions that reference this name
@@ -519,7 +514,7 @@ def find_corresponding_test_suite(
     return "unknown"
 
 
-def assign_priority(result: Dict) -> str:
+def assign_priority(result: dict) -> str:
     """Assign priority based on scope, references, and test suite."""
     scope = result.get("scope", "private")
     refs = result.get("references", 0)
@@ -529,15 +524,14 @@ def assign_priority(result: Dict) -> str:
     if scope == "public" and refs > 10 and test_suite in ("core", "compact"):
         return "high"
     # Public functions with some references: medium priority
-    elif scope == "public" and refs > 3:
+    if scope == "public" and refs > 3:
         return "medium"
     # Everything else: low priority
-    else:
-        return "low"
+    return "low"
 
 
-def main():
-    """Main function to analyze type hints across the repository."""
+def main():  # noqa: C901  # phase2-todo
+    """Analyze type hints across the repository."""
     # Parse command line arguments
     parser = argparse.ArgumentParser(
         description="Analyze type hint coverage in PyThaiNLP"
@@ -670,8 +664,7 @@ def main():
     print("=" * 80)
     print(f"Total functions/methods: {total}")
     print(
-        f"Complete type hints:     {len(complete):4d} "
-        f"({pct_complete:5.2f}%)"
+        f"Complete type hints:     {len(complete):4d} ({pct_complete:5.2f}%)"
     )
     print(
         f"Incomplete type hints:   {len(incomplete):4d} "
@@ -705,8 +698,7 @@ def main():
         f"({pct_vars_complete:5.2f}%)"
     )
     print(
-        f"No type hints:           {len(vars_none):4d} "
-        f"({pct_vars_none:5.2f}%)"
+        f"No type hints:           {len(vars_none):4d} ({pct_vars_none:5.2f}%)"
     )
     print()
 
@@ -731,21 +723,15 @@ def main():
     for submodule in sorted(by_submodule.keys()):
         data = by_submodule[submodule]
         total_sub = (
-            len(data["complete"])
-            + len(data["incomplete"])
-            + len(data["none"])
+            len(data["complete"]) + len(data["incomplete"]) + len(data["none"])
         )
         pct_comp = (
             (len(data["complete"]) / total_sub * 100) if total_sub > 0 else 0
         )
         pct_inc = (
-            (len(data["incomplete"]) / total_sub * 100)
-            if total_sub > 0
-            else 0
+            (len(data["incomplete"]) / total_sub * 100) if total_sub > 0 else 0
         )
-        pct_no = (
-            (len(data["none"]) / total_sub * 100) if total_sub > 0 else 0
-        )
+        pct_no = (len(data["none"]) / total_sub * 100) if total_sub > 0 else 0
 
         mypy_err_str = ""
         if submodule in mypy_errors:
@@ -769,7 +755,9 @@ def main():
     none_sorted = sorted(
         none,
         key=lambda x: (
-            {"high": 0, "medium": 1, "low": 2}.get(x.get("priority", "low"), 2),
+            {"high": 0, "medium": 1, "low": 2}.get(
+                x.get("priority", "low"), 2
+            ),
             -x.get("references", 0),
         ),
     )
@@ -814,15 +802,15 @@ def main():
     print()
 
     print("=" * 80)
-    print(
-        "FUNCTIONS/METHODS WITH INCOMPLETE TYPE HINTS (sorted by priority)"
-    )
+    print("FUNCTIONS/METHODS WITH INCOMPLETE TYPE HINTS (sorted by priority)")
     print("=" * 80)
 
     incomplete_sorted = sorted(
         incomplete,
         key=lambda x: (
-            {"high": 0, "medium": 1, "low": 2}.get(x.get("priority", "low"), 2),
+            {"high": 0, "medium": 1, "low": 2}.get(
+                x.get("priority", "low"), 2
+            ),
             -x.get("references", 0),
         ),
     )
@@ -925,7 +913,7 @@ def main():
                     {
                         "name": f["qualified_name"],
                         "scope": f["scope"],
-                        "params": f'{f["hinted_params"]}/{f["total_params"]}',
+                        "params": f"{f['hinted_params']}/{f['total_params']}",
                         "return": f["has_return"],
                         "references": f.get("references", 0),
                         "test_suite": f.get("test_suite", "unknown"),
@@ -944,7 +932,8 @@ def main():
                         "file": v["filepath"],
                         "line": v["line"],
                     }
-                    for v in class_vars if v["status"] == "none"
+                    for v in class_vars
+                    if v["status"] == "none"
                 ],
                 "instance_variables_no_hints": [
                     {
@@ -954,7 +943,8 @@ def main():
                         "file": v["filepath"],
                         "line": v["line"],
                     }
-                    for v in instance_vars if v["status"] == "none"
+                    for v in instance_vars
+                    if v["status"] == "none"
                 ],
                 "module_variables_no_hints": [
                     {
@@ -963,7 +953,8 @@ def main():
                         "file": v["filepath"],
                         "line": v["line"],
                     }
-                    for v in module_vars if v["status"] == "none"
+                    for v in module_vars
+                    if v["status"] == "none"
                 ],
                 "type_aliases": [
                     {

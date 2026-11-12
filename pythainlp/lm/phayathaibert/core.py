@@ -8,7 +8,7 @@ from __future__ import annotations
 import random
 import re
 import warnings
-from typing import TYPE_CHECKING, Optional, Union, cast
+from typing import TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -29,7 +29,7 @@ _PAT_URL: str = (
 )
 
 _model_name: str = "clicknext/phayathaibert"
-_tokenizer: Optional[CamembertTokenizer] = None
+_tokenizer: CamembertTokenizer | None = None
 
 
 def _get_tokenizer() -> CamembertTokenizer:
@@ -232,7 +232,7 @@ class ThaiTextProcessor:
     def preprocess(
         self,
         text: str,
-        pre_rules: Optional[list[Callable[..., str]]] = None,
+        pre_rules: list[Callable[..., str]] | None = None,
         tok_func: Callable[..., list[str]] = word_tokenize,
     ) -> str:
         """Apply preprocessing rules, tokenize text, and join the words."""
@@ -360,7 +360,7 @@ class PartOfSpeechTagger:
     def __init__(
         self,
         model: str = "lunarlist/pos_thai_phayathai",
-        revision: Optional[str] = None,
+        revision: str | None = None,
     ) -> None:
         """Initialize the part-of-speech tagger."""
         # Load model directly
@@ -419,7 +419,7 @@ class NamedEntityTagger:
     def __init__(
         self,
         model: str = "Pavarissy/phayathaibert-thainer",
-        revision: Optional[str] = None,
+        revision: str | None = None,
     ) -> None:
         """Initialize the named entity tagger."""
         from transformers import (
@@ -442,7 +442,7 @@ class NamedEntityTagger:
         tag: bool = False,
         pos: bool = False,
         strategy: str = "simple",
-    ) -> Union[list[tuple[str, str]], list[tuple[str, str, str]], str]:
+    ) -> list[tuple[str, str]] | list[tuple[str, str, str]] | str:
         """
         Tag named entities in text.
 
@@ -455,7 +455,7 @@ class NamedEntityTagger:
                  specified as `True`).
                  Otherwise, return a list of tuples associated with tokenized
                  words and NER tags
-        :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]], str]
+        :rtype: list[tuple[str, str]] | list[tuple[str, str, str]] | str
         :Example:
 
             >>> from pythainlp.lm.phayathaibert.core import NamedEntityTagger

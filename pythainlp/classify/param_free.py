@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import gzip
 import json
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray
@@ -22,7 +22,7 @@ class GzipModel:
     “Low-Resource” Text Classification: A Parameter-Free Classification Method
     with Compressors (Jiang et al., Findings 2023).
 
-    :param Optional[list[tuple[str, str]]] training_data: list of
+    :param list[tuple[str, str]] | None training_data: list of
         (text, label) tuples (default: ``None``)
     :param str model_path: path to load a saved model from
         (default: empty string, which trains from ``training_data``)
@@ -33,13 +33,13 @@ class GzipModel:
 
     def __init__(
         self,
-        training_data: Optional[list[tuple[str, str]]] = None,
+        training_data: list[tuple[str, str]] | None = None,
         model_path: str = "",
     ) -> None:
         """
         Initialize the model.
 
-        :param Optional[list[tuple[str, str]]] training_data: list of
+        :param list[tuple[str, str]] | None training_data: list of
             (text, label) tuples
         :param str model_path: path to load a saved model from
         """

@@ -5,11 +5,9 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from pythainlp.corpus.core import get_corpus
 
-_VOLUBILIS_WORDS: Optional[frozenset[str]] = None
+_VOLUBILIS_WORDS: frozenset[str] | None = None
 _VOLUBILIS_FILENAME: str = "volubilis_words_th.txt"
 
 

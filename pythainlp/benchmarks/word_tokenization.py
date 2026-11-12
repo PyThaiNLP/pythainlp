@@ -18,8 +18,6 @@ from typing import (
     Any,
     NamedTuple,
     TypedDict,
-    Union,
-    cast,
     overload,
 )
 
@@ -115,19 +113,19 @@ def _f1(precision: float, recall: float) -> float:
 @overload
 def _flatten_result(
     my_dict: TokenizationStat, sep: str = ...
-) -> dict[str, Union[int, str]]: ...
+) -> dict[str, int | str]: ...
 
 
 @overload
 def _flatten_result(
-    my_dict: Mapping[str, Mapping[str, Union[int, str]]], sep: str = ...
-) -> dict[str, Union[int, str]]: ...
+    my_dict: Mapping[str, Mapping[str, int | str]], sep: str = ...
+) -> dict[str, int | str]: ...
 
 
 def _flatten_result(
     my_dict: Any,
     sep: str = ":",
-) -> dict[str, Union[int, str]]:
+) -> dict[str, int | str]:
     """
     Flatten a two-level dictionary.
 
@@ -141,11 +139,11 @@ def _flatten_result(
     :param my_dict: dictionary containing statistics
     :type my_dict: TokenizationStat or
         collections.abc.Mapping[str,
-        collections.abc.Mapping[str, Union[int, str]]]
+        collections.abc.Mapping[str, int | str]]
     :param str sep: separator between the two keys (default is ``":"``)
 
     :return: flat dictionary with combined keys
-    :rtype: dict[str, Union[int, str]]
+    :rtype: dict[str, int | str]
     """
     return {
         f"{k1}{sep}{k2}": v
@@ -170,12 +168,12 @@ def benchmark(ref_samples: list[str], samples: list[str]) -> pd.DataFrame:
     import pandas as pd
 
     results = []
-    for i, (r, s) in enumerate(zip(ref_samples, samples)):
+    for i, (r, s) in enumerate(zip(ref_samples, samples, strict=False)):
         try:
             r, s = preprocessing(r), preprocessing(s)  # noqa: PLW2901
             if r and s:
                 stats = compute_stats(r, s)
-                flat_stats: dict[str, Union[int, str]] = _flatten_result(stats)
+                flat_stats: dict[str, int | str] = _flatten_result(stats)
                 flat_stats["expected"] = r
                 flat_stats["actual"] = s
                 results.append(flat_stats)
@@ -326,7 +324,7 @@ def _binary_representation(
         )
 
     if verbose:
-        for c, m in zip(sample_wo_seps, bin_rept):
+        for c, m in zip(sample_wo_seps, bin_rept, strict=False):
             print(f"{c} -- {m}")
 
     return bin_rept
@@ -350,7 +348,7 @@ def _find_word_boundaries(
     start_idx = boundary
     end_idx = [*boundary[1:].tolist(), bin_reps.shape[0]]
 
-    return list(zip(start_idx, end_idx))
+    return list(zip(start_idx, end_idx, strict=False))
 
 
 def _find_words_correctly_tokenized(
@@ -368,15 +366,15 @@ def _find_words_correctly_tokenized(
     :return: binary sequence; 1 means the word is tokenized correctly
     :rtype: tuple[int, ...]
     """
-    ref_b = dict(zip(ref_boundaries, [1] * len(ref_boundaries)))
+    ref_b = dict(zip(ref_boundaries, [1] * len(ref_boundaries), strict=False))
 
     labels = tuple(ref_b.get(x, 0) for x in predicted_boundaries)
     return labels
 
 
 def char_eval_function(
-    y_true: Union[list[int], tuple[int, ...]],
-    y_pred: Union[list[int], tuple[int, ...]],
+    y_true: list[int] | tuple[int, ...],
+    y_pred: list[int] | tuple[int, ...],
 ) -> float:
     """
     Compute the character-level F1 score for boundary indicators.
@@ -386,9 +384,9 @@ def char_eval_function(
     Ported from SEFR CUT (``sefr_cut.evaluation``).
 
     :param y_true: reference (ground truth) binary boundary sequence
-    :type y_true: Union[list[int], tuple[int, ...]]
+    :type y_true: list[int] | tuple[int, ...]
     :param y_pred: predicted binary boundary sequence
-    :type y_pred: Union[list[int], tuple[int, ...]]
+    :type y_pred: list[int] | tuple[int, ...]
 
     :return: character-level F1 score
     :rtype: float
@@ -433,8 +431,8 @@ def word_eval_function(
 
     train_acc = list(accumulate(map(len, train), func=operator.add))
     test_acc = list(accumulate(map(len, test), func=operator.add))
-    train_set = set(zip([0, *train_acc], train_acc))
-    test_set = set(zip([0, *test_acc], test_acc))
+    train_set = set(zip([0, *train_acc], train_acc, strict=False))
+    test_set = set(zip([0, *test_acc], test_acc, strict=False))
     correct: int = len(train_set & test_set)
 
     if correct == 0:
@@ -480,7 +478,7 @@ def _preprocess_attacut(
 
 
 def _normalize_evaluation_input(
-    x: Union[str, list[str], list[list[str]]],
+    x: str | list[str] | list[list[str]],
     sep: str = "",
 ) -> list[str]:
     """
@@ -489,7 +487,7 @@ def _normalize_evaluation_input(
     Handle a string, a list of strings, or a list of lists of strings.
 
     :param x: text or tokens
-    :type x: Union[str, list[str], list[list[str]]]
+    :type x: str | list[str] | list[list[str]]
     :param str sep: separator to join tokens or sentences
         (default is ``""``)
 
@@ -510,24 +508,21 @@ def _normalize_evaluation_input(
         return [""]
 
     if isinstance(x[0], list):
-        nested = cast("list[list[str]]", x)
-        flat: list[str] = [j for sub in nested for j in sub]
+        flat: list[str] = [j for sub in x for j in sub]
         return [f"{sep}".join(flat)]
 
-    tokens = cast("list[str]", x)
-
-    if len(tokens) == 1 and isinstance(tokens[0], str):
-        return tokens
+    if len(x) == 1 and isinstance(x[0], str):
+        return x
 
     if sep:
-        return [f"{sep}".join(tokens)]
+        return [f"{sep}".join(x)]
 
-    return ["".join(tokens)]
+    return ["".join(x)]
 
 
 def evaluate_word_tokenization(
-    x_true: Union[str, list[str], list[list[str]]],
-    x_pred: Union[str, list[str], list[list[str]]],
+    x_true: str | list[str] | list[list[str]],
+    x_pred: str | list[str] | list[list[str]],
     sep: str = "",
 ) -> TokenizationScore:
     """
@@ -547,9 +542,9 @@ def evaluate_word_tokenization(
       ``["สวัสดี", "ประเทศไทย"]``
 
     :param x_true: reference (ground truth) text or tokens
-    :type x_true: Union[str, list[str], list[list[str]]]
+    :type x_true: str | list[str] | list[list[str]]
     :param x_pred: predicted text or tokens
-    :type x_pred: Union[str, list[str], list[list[str]]]
+    :type x_pred: str | list[str] | list[list[str]]
     :param str sep: separator to join sub-elements when the input is a
         list of tokens without boundaries (default is ``""``)
 

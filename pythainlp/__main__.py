@@ -8,12 +8,11 @@ from __future__ import annotations
 
 import argparse
 import sys
-from typing import Optional
 
 from pythainlp import cli
 
 
-def main(argv: Optional[list[str]] = None) -> None:
+def main(argv: list[str] | None = None) -> None:
     """Run the PyThaiNLP command line."""
     if not argv:
         argv = sys.argv

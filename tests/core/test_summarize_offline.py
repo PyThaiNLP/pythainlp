@@ -13,7 +13,7 @@ from __future__ import annotations
 import sys
 import types
 import unittest
-from typing import Any, Union
+from typing import Any
 from unittest import mock
 
 from pythainlp.benchmarks import word_tokenization as wt
@@ -127,7 +127,7 @@ class SummarizeOfflineTestCase(unittest.TestCase):
         self.assertEqual(wt.preprocessing("ก ข", remove_space=False), "ก ข")
         self.assertEqual((wt._f1(0, 0), wt._f1(0.5, 0.5)), (0, 0.5))
         self.assertAlmostEqual(wt._f1(1.0, 0.5), 2 / 3)
-        nested: dict[str, dict[str, Union[int, str]]] = {
+        nested: dict[str, dict[str, int | str]] = {
             "a": {"b": 1, "c": "x"},
             "d": {"e": 2},
         }

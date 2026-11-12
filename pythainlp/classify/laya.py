@@ -14,7 +14,7 @@ from __future__ import annotations
 import json
 import math
 import os
-from typing import Any, Optional, Union
+from typing import Any
 
 from pythainlp.corpus import get_hf_hub
 from pythainlp.tools import safe_path_join
@@ -88,11 +88,11 @@ def _temp_bucket(qtype: int, num_options: int) -> str:
     return f"{_QTYPE_NAMES[qtype]}:{size}"
 
 
-def _serialize_state(state: Union[str, dict[str, Any], list[Any]]) -> str:
+def _serialize_state(state: str | dict[str, Any] | list[Any]) -> str:
     """
     Serialize text or structured state to string.
 
-    :param Union[str, dict[str, Any], list[Any]] state: State to serialize.
+    :param str | dict[str, Any] | list[Any] state: State to serialize.
     :return: String representation.
     :rtype: str
     """
@@ -269,7 +269,7 @@ def _build_prefix(
 
 def _build_sequence(
     tok: _TokenizerWrapper,
-    state: Union[str, dict[str, Any], list[Any]],
+    state: str | dict[str, Any] | list[Any],
     q: dict[str, Any],
     max_len: int = 1024,
     head_max_len: int = 256,
@@ -279,7 +279,7 @@ def _build_sequence(
     Build token sequence: [CLS] <type> ins [SEP] [MASK] opt0 ... [SEP] state [SEP].
 
     :param _TokenizerWrapper tok: Tokenizer instance.
-    :param Union[str, dict[str, Any], list[Any]] state: Input state/text.
+    :param str | dict[str, Any] | list[Any] state: Input state/text.
     :param dict[str, Any] q: Question definition.
     :param int max_len: Maximum total sequence length.
     :param int head_max_len: Maximum prefix/header length.
@@ -358,18 +358,18 @@ class LayaModel:
     allowing zero-shot classification using an instruction prompt and candidate
     choices without any task-specific fine-tuning.
 
-    :param Optional[str] model_path: Hugging Face model repository ID or
+    :param str | None model_path: Hugging Face model repository ID or
         local directory path containing the ONNX model files.
         Default is ``"pythainlp/laya-multilingual-onnx"``.
-    :param Optional[list[str]] providers: List of ONNX Runtime execution
+    :param list[str] | None providers: List of ONNX Runtime execution
         providers (e.g. ``["CPUExecutionProvider"]``,
         ``["CUDAExecutionProvider"]``). Default is ``["CPUExecutionProvider"]``.
-    :param Optional[str] revision: Git revision (branch, tag, or commit hash)
+    :param str | None revision: Git revision (branch, tag, or commit hash)
         on Hugging Face Hub (optional).
     :param int batch_size: Batch size for batched inference (default: 16).
-    :param Optional[int] max_length: Maximum sequence length in tokens
+    :param int | None max_length: Maximum sequence length in tokens
         (default from configuration, typically 1024).
-    :param Optional[int] head_max_length: Maximum token length for the question
+    :param int | None head_max_length: Maximum token length for the question
         header and candidate options (default from configuration, typically 256).
 
     :Example:
@@ -389,12 +389,12 @@ class LayaModel:
 
     def __init__(
         self,
-        model_path: Optional[str] = None,
-        providers: Optional[list[str]] = None,
-        revision: Optional[str] = None,
+        model_path: str | None = None,
+        providers: list[str] | None = None,
+        revision: str | None = None,
         batch_size: int = 16,
-        max_length: Optional[int] = None,
-        head_max_length: Optional[int] = None,
+        max_length: int | None = None,
+        head_max_length: int | None = None,
     ) -> None:
         """Initialize the Laya ONNX model and tokenizer."""
         try:
@@ -454,12 +454,12 @@ class LayaModel:
 
     @staticmethod
     def _resolve_files(
-        model_path: Optional[str], revision: Optional[str]
-    ) -> tuple[str, Optional[str], str, str]:
+        model_path: str | None, revision: str | None
+    ) -> tuple[str, str | None, str, str]:
         """Resolve file paths for model, configs, and tokenizer."""
         if model_path is not None and os.path.isdir(model_path):
             model_file = safe_path_join(model_path, "model.onnx")
-            rl_cfg_file: Optional[str] = safe_path_join(
+            rl_cfg_file: str | None = safe_path_join(
                 model_path, "rl_agent_config.json"
             )
             if rl_cfg_file is not None and not os.path.isfile(rl_cfg_file):
@@ -527,7 +527,7 @@ class LayaModel:
 
     def system_one(
         self,
-        state: Union[str, dict[str, Any], list[Any]],
+        state: str | dict[str, Any] | list[Any],
         questions: dict[str, Any],
     ) -> dict[str, Any]:
         """
@@ -538,7 +538,7 @@ class LayaModel:
         - ``score``: Ordinal evaluation across score criteria.
         - ``noul``: Binary yes/no statement evaluation.
 
-        :param Union[str, dict[str, Any], list[Any]] state: Context or document to evaluate.
+        :param str | dict[str, Any] | list[Any] state: Context or document to evaluate.
         :param dict[str, Any] questions: Dictionary of question definitions keyed by question ID.
         :return: Dictionary containing ``"model"``, ``"answers"``, and token ``"usage"``.
         :rtype: dict[str, Any]
@@ -608,7 +608,7 @@ class LayaModel:
                         choice=labels[int(p.argmax())],
                         probabilities={
                             label: round(float(v), 4)
-                            for label, v in zip(labels, p)
+                            for label, v in zip(labels, p, strict=False)
                         },
                     )
                 elif q["t"] == "score":
@@ -640,16 +640,16 @@ class LayaModel:
 
     def classify(
         self,
-        text: Union[str, dict[str, Any], list[Any]],
-        choices: Union[list[str], dict[str, Any]],
+        text: str | dict[str, Any] | list[Any],
+        choices: list[str] | dict[str, Any],
         prompt: str = "Select the best choice for the given text.",
         return_details: bool = False,
-    ) -> Union[str, dict[str, Any]]:
+    ) -> str | dict[str, Any]:
         """
         Classify text into one of candidate choices using prompt guidance.
 
-        :param Union[str, dict[str, Any], list[Any]] text: Input text or structured state.
-        :param Union[list[str], dict[str, Any]] choices: List of candidate choice labels
+        :param str | dict[str, Any] | list[Any] text: Input text or structured state.
+        :param list[str] | dict[str, Any] choices: List of candidate choice labels
             or dictionary mapping each choice label to its description.
         :param str prompt: Instruction prompt guiding the classification task.
             Default is ``"Select the best choice for the given text."``.
@@ -657,7 +657,7 @@ class LayaModel:
             choice, confidence, probabilities, and action probability.
             If False (default), returns the selected choice label string.
         :return: Selected choice string or detailed answer dictionary.
-        :rtype: Union[str, dict[str, Any]]
+        :rtype: str | dict[str, Any]
         """
         questions = {
             "classification": {
@@ -674,25 +674,25 @@ class LayaModel:
 
     def classify_batch(
         self,
-        texts: list[Union[str, dict[str, Any], list[Any]]],
-        choices: Union[list[str], dict[str, Any]],
+        texts: list[str | dict[str, Any] | list[Any]],
+        choices: list[str] | dict[str, Any],
         prompt: str = "Select the best choice for the given text.",
         return_details: bool = False,
-    ) -> list[Union[str, dict[str, Any]]]:
+    ) -> list[str | dict[str, Any]]:
         """
         Classify multiple texts in batches.
 
-        :param list[Union[str, dict[str, Any], list[Any]]] texts: List of texts or states.
-        :param Union[list[str], dict[str, Any]] choices: Candidate choices.
+        :param list[str | dict[str, Any] | list[Any]] texts: List of texts or states.
+        :param list[str] | dict[str, Any] choices: Candidate choices.
         :param str prompt: Instruction prompt.
         :param bool return_details: Whether to return full details.
         :return: List of predicted choices or detailed dictionaries.
-        :rtype: list[Union[str, dict[str, Any]]]
+        :rtype: list[str | dict[str, Any]]
         """
         if not texts:
             return []
 
-        results: list[Union[str, dict[str, Any]]] = []
+        results: list[str | dict[str, Any]] = []
         for text in texts:
             res = self.classify(
                 text,
@@ -705,10 +705,10 @@ class LayaModel:
 
     def predict(
         self,
-        text: Union[str, dict[str, Any], list[Any]],
-        choices: Optional[Union[list[str], dict[str, Any]]] = None,
+        text: str | dict[str, Any] | list[Any],
+        choices: list[str] | dict[str, Any] | None = None,
         prompt: str = "Select the best choice for the given text.",
-        questions: Optional[dict[str, Any]] = None,
+        questions: dict[str, Any] | None = None,
         return_details: bool = False,
     ) -> Any:
         """
@@ -717,10 +717,10 @@ class LayaModel:
         If ``choices`` is provided, executes choice classification.
         If ``questions`` is provided, executes structured decision tasks.
 
-        :param Union[str, dict[str, Any], list[Any]] text: Input text or state.
-        :param Optional[Union[list[str], dict[str, Any]]] choices: Candidate choices.
+        :param str | dict[str, Any] | list[Any] text: Input text or state.
+        :param list[str] | dict[str, Any] | None choices: Candidate choices.
         :param str prompt: Instruction prompt when using choices.
-        :param Optional[dict[str, Any]] questions: Question dictionary.
+        :param dict[str, Any] | None questions: Question dictionary.
         :param bool return_details: Whether to return detailed output.
         :return: Predicted choice or questions output.
         :rtype: Any

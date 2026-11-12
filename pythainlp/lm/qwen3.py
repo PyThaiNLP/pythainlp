@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     import torch
@@ -23,29 +23,29 @@ class Qwen3:
 
     def __init__(self) -> None:
         """Initialize Qwen3 without a loaded model."""
-        self.model: Optional[PreTrainedModel] = None
-        self.tokenizer: Optional[PreTrainedTokenizerBase] = None
-        self.device: Optional[str] = None
-        self.torch_dtype: Optional[torch.dtype] = None
-        self.model_path: Optional[str] = None
+        self.model: PreTrainedModel | None = None
+        self.tokenizer: PreTrainedTokenizerBase | None = None
+        self.device: str | None = None
+        self.torch_dtype: torch.dtype | None = None
+        self.model_path: str | None = None
 
     def load_model(
         self,
         model_path: str = "Qwen/Qwen3-0.6B",
         device: str = "cuda",
-        torch_dtype: Optional[torch.dtype] = None,
+        torch_dtype: torch.dtype | None = None,
         low_cpu_mem_usage: bool = True,
-        revision: Optional[str] = None,
+        revision: str | None = None,
     ) -> None:
         """
         Load the Qwen3 model.
 
         :param str model_path: model path or Hugging Face model ID
         :param str device: device (cpu, cuda, or other)
-        :param Optional[torch.dtype] torch_dtype: data type of the model,
+        :param torch.dtype | None torch_dtype: data type of the model,
             for example ``torch.float16`` or ``torch.bfloat16``
         :param bool low_cpu_mem_usage: reduce CPU memory usage while loading
-        :param Optional[str] revision: git revision id (branch, tag, or
+        :param str | None revision: git revision id (branch, tag, or
             commit hash). Pin to a full commit hash for secure downloads.
 
         :Example:

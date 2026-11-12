@@ -5,12 +5,12 @@
 
 from __future__ import annotations
 
-from typing import Optional, cast
+from typing import cast
 
 
 def abbreviation_to_full_text(
     text: str, top_k: int = 2
-) -> list[tuple[str, Optional[float]]]:
+) -> list[tuple[str, float | None]]:
     """
     Convert Thai text with abbreviations to full text.
 
@@ -20,7 +20,7 @@ def abbreviation_to_full_text(
     :param str text: Thai text with abbreviations
     :param int top_k: number of top candidates to return
     :return: list of ``(full_text, cosine_similarity)`` tuples
-    :rtype: list[tuple[str, Optional[float]]]
+    :rtype: list[tuple[str, float | None]]
 
     :Example:
 
@@ -44,6 +44,4 @@ def abbreviation_to_full_text(
             " Install it with: pip install khamyo"
             " or pip install pythainlp[abbreviation]"
         ) from e
-    return cast(
-        "list[tuple[str, Optional[float]]]", _replace(text, top_k=top_k)
-    )
+    return cast("list[tuple[str, float | None]]", _replace(text, top_k=top_k))

@@ -14,7 +14,7 @@ import sys
 import types
 import unittest
 from contextlib import contextmanager
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 from pythainlp.tokenize import (
     paragraph_tokenize,
@@ -138,7 +138,7 @@ def fake_module(name: str, **attrs: Any) -> Iterator[None]:
 
 @contextmanager
 def fake_engine(
-    module: str, func: str, result: Optional[list[str]] = None
+    module: str, func: str, result: list[str] | None = None
 ) -> Iterator[Recorder]:
     recorder = Recorder(FAKE_RESULT if result is None else result)
     with fake_module(module, **{func: recorder}):
@@ -146,7 +146,7 @@ def fake_engine(
 
 
 @contextmanager
-def fake_thaisum(result: Optional[list[str]] = None) -> Iterator[Recorder]:
+def fake_thaisum(result: list[str] | None = None) -> Iterator[Recorder]:
     recorder = Recorder(FAKE_RESULT if result is None else result)
 
     class FakeSegmentor:

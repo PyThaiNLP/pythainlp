@@ -70,19 +70,25 @@ dependencies = [
 ## 1) Development ########################################
 
 dev = [
-    # bandit 1.8.x reports false positives for B615 (revision is a variable).
+    # Some tools drop Python 3.10 in newer releases. Use the latest version
+    # for each Python range. bandit 1.8.x reports false positives for B615
+    # (revision is a variable).
     "bandit>=1.9.4",
     "build>=1.6.1",
-    "bump-my-version>=1.5.1",
-    "coverage>=7.16.2",
-    "diff-cover>=10.6.0",
-    "flake8>=7.4.1",
+    "bump-my-version>=1.8.1",
+    "coverage>=7.16.2;python_version<'3.11'",
+    "coverage>=7.17.2;python_version>='3.11'",
+    "diff-cover>=10.6.0;python_version<'3.11'",
+    "diff-cover>=11.0.1;python_version>='3.11'",
+    "flake8>=7.4.1;python_version<'3.11'",
+    "flake8>=7.5.0;python_version>='3.11'",
     "flake8-cognitive-complexity>=0.1.0",
     # Same as CI.
-    "mypy==1.19.1",
-    "pylint>=4.1.2",
-    "ruff>=0.16.10",
-    "tox>=4.64.9",
+    "mypy==2.4.1",
+    "pylint>=4.1.3",
+    "ruff>=0.17.4",
+    "tox>=4.65.0;python_version<'3.11'",
+    "tox>=4.67.13;python_version>='3.11'",
 ]
 
 docs = [
@@ -499,6 +505,7 @@ select = [
     "PYI034",
     "RET",
     "RUF005",
+    "RUF007",
     "RUF012",
     "RUF010",
     "RUF022",
@@ -507,11 +514,15 @@ select = [
     "SIM",
     "SLOT000",
     "UP006",
+    "UP007",
+    "UP009",
     "UP015",
+    "UP024",
     "UP031",
     "UP033",
     "UP035",
     "UP037",
+    "UP045",
     "C901",
     "F401",
     "F811",
@@ -520,10 +531,9 @@ select = [
     "W293",
 ]
 # Some rules are ignored for now; we can consider enabling them in the future.
-# B905 (zip strict=) needs Python 3.10.
 # RET504 (assign then return), SIM108 (ternary), and SIM117 (nested with)
 # are style choices that often hurt readability.
-extend-ignore = ["B905", "E501", "RET504", "SIM108", "SIM117"]
+extend-ignore = ["E501", "RET504", "SIM108", "SIM117"]
 
 [tool.ruff.lint.per-file-ignores]
 # E402: these packages import in a fixed order to avoid circular imports.
@@ -540,8 +550,9 @@ extend-ignore = ["B905", "E501", "RET504", "SIM108", "SIM117"]
 "tests/**" = ["B010", "D1", "S101"]
 "notebooks/**" = ["D1", "S101"]
 "examples/**" = ["D1", "INP001"]
-"build_tools/**" = ["D1"]
-"docs/**" = ["D1"]
+"build_tools/**" = ["D1", "INP001"]
+"docs/**" = ["D1", "INP001"]
+"fuzz/**" = ["INP001"]
 
 [tool.tox]
 env_list = ["py310", "py311", "py312", "py313", "py314", "pypy310", "pypy311", "ruff", "flake8", "mypy"]
@@ -564,19 +575,23 @@ commands = [
     ["ruff", "check", "--config", "pyproject.toml", "pythainlp", "tests", "examples", "notebooks"],
     ["ruff", "format", "--check", "--config", "pyproject.toml", "pythainlp", "tests", "examples", "notebooks"],
 ]
-deps = ["ruff==0.16.10"]
+deps = ["ruff==0.17.4"]
 skip_install = true
 
 [tool.tox.env.flake8]
 basepython = ["python"]
 commands = [["flake8", "pythainlp"]]
-deps = ["flake8==7.4.1", "flake8-cognitive-complexity==0.1.0"]
+deps = [
+    "flake8==7.4.1; python_version < '3.11'",
+    "flake8==7.5.0; python_version >= '3.11'",
+    "flake8-cognitive-complexity==0.1.0",
+]
 skip_install = true
 
 [tool.tox.env.mypy]
 commands = [["mypy", "pythainlp", "tests"]]
-# Same version as mypy.yml. python_version in [tool.mypy] sets the target.
-deps = ["mypy==1.19.1"]
+# Same version as mypy.yml.
+deps = ["mypy==2.4.1"]
 extras = []
 
 [tool.mypy]

@@ -11,12 +11,12 @@ from __future__ import annotations
 
 import threading
 from importlib.resources import as_file, files
-from typing import Any, Optional
+from typing import Any
 
 from pythainlp.tag.crf import CRFTagger
 
-_tagger: Optional[CRFTagger] = None
-_model_file_ctx: Optional[Any] = (
+_tagger: CRFTagger | None = None
+_model_file_ctx: Any | None = (
     None  # File context manager kept alive for program lifetime
 )
 _load_lock: threading.Lock = threading.Lock()  # Thread safety for lazy loading
@@ -49,24 +49,24 @@ class Featurizer:
     #  This class from ssg at https://github.com/ponrawee/ssg.
 
     N: int
-    delimiter: Optional[str]
+    delimiter: str | None
     radius: int
 
     def __init__(
         self,
         N: int = 2,
         sequence_size: int = 1,
-        delimiter: Optional[str] = None,
+        delimiter: str | None = None,
     ) -> None:
         """
         Initialize the featurizer.
 
         :param int N: size of the character n-gram
         :param int sequence_size: size of the character sequence
-        :param Optional[str] delimiter: delimiter character in the text
+        :param str | None delimiter: delimiter character in the text
         """
         self.N: int = N
-        self.delimiter: Optional[str] = delimiter
+        self.delimiter: str | None = delimiter
         self.radius: int = N + sequence_size
 
     def pad(self, sentence: str, padder: str = "#") -> str:
@@ -202,7 +202,7 @@ def segment(text: str) -> list[str]:
     x = _to_feature.featurize(text)["X"]
     y_pred = tagger.tag(x)
     list_cut: list[str] = []
-    for j, k in zip(list(text), y_pred):
+    for j, k in zip(list(text), y_pred, strict=False):
         if k == "1" or not list_cut:
             list_cut.append(j)
         else:

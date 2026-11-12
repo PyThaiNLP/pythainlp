@@ -19,7 +19,6 @@ from __future__ import annotations
 
 import re
 from re import Pattern
-from typing import Optional
 
 from pythainlp.util import remove_tonemark
 
@@ -75,7 +74,7 @@ def _before_long_u(text: str, i: int) -> bool:
     return i + 1 < len(text) and text[i + 1] in _LONG_U
 
 
-def _encode_char(text: str, i: int, i_v: Optional[int]) -> Optional[str]:
+def _encode_char(text: str, i: int, i_v: int | None) -> str | None:
     """
     Encode Sara U, Ho Hip, O Ang, or a semivowel at text[i].
 
@@ -86,7 +85,7 @@ def _encode_char(text: str, i: int, i_v: Optional[int]) -> Optional[str]:
     :param str text: text after the first character
     :param int i: position of the character
     :param i_v: position of the latest separator (vowel)
-    :type i_v: Optional[int]
+    :type i_v: int | None
     """
     c = text[i]
     if c == _SARA_U:
@@ -145,7 +144,7 @@ def lk82(text: str) -> str:
 
     res, text = _encode_first(text)
 
-    i_v: Optional[int] = None  # position of the latest separator (vowel)
+    i_v: int | None = None  # position of the latest separator (vowel)
     for i, c in enumerate(text):
         if c not in _SPECIAL:  # 12. fast path for other characters
             res.append(_CODE2.get(c, c))

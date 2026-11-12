@@ -61,7 +61,7 @@ def find_badwords(
         train_set = set(index_pairs(train_words_list))
         test_words = tokenize("".join(train_words_list))
         test_pairs = index_pairs(test_words)
-        for w, p in zip(test_words, test_pairs):
+        for w, p in zip(test_words, test_pairs, strict=False):
             if p in train_set:
                 right[w] += 1
             else:

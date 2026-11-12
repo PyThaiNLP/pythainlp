@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     import torch
@@ -25,7 +25,7 @@ class Small100Translator:
 
     pretrained: str
     model: M2M100ForConditionalGeneration
-    tgt_lang: Optional[str]
+    tgt_lang: str | None
     tokenizer: SMALL100Tokenizer
     translated: torch.Tensor
 
@@ -33,14 +33,14 @@ class Small100Translator:
         self,
         use_gpu: bool = False,
         pretrained: str = "alirezamsh/small100",
-        revision: Optional[str] = None,
+        revision: str | None = None,
     ) -> None:
         """
         Initialize the small100 translator.
 
         :param bool use_gpu: load the model on a GPU
         :param str pretrained: name of the pretrained model
-        :param Optional[str] revision: revision of the pretrained model
+        :param str | None revision: revision of the pretrained model
         """
         from transformers import M2M100ForConditionalGeneration
 
@@ -50,7 +50,7 @@ class Small100Translator:
                 self.pretrained, revision=revision
             )
         )
-        self.tgt_lang: Optional[str] = None
+        self.tgt_lang: str | None = None
         if use_gpu:
             self.model = self.model.cuda()
 
@@ -58,14 +58,14 @@ class Small100Translator:
         self,
         text: str,
         tgt_lang: str = "en",
-        exclude_words: Optional[list[str]] = None,
+        exclude_words: list[str] | None = None,
     ) -> str:
         """
         Translate text to the target language.
 
         :param str text: text to translate
         :param str tgt_lang: target language code
-        :param Optional[list[str]] exclude_words: words to exclude from
+        :param list[str] | None exclude_words: words to exclude from
             translation
         :return: translated text
         :rtype: str

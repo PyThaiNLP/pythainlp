@@ -23,7 +23,7 @@ from __future__ import annotations
 import gzip
 import json
 from collections import defaultdict
-from typing import TYPE_CHECKING, Any, ClassVar, Optional
+from typing import TYPE_CHECKING, Any, ClassVar
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -185,7 +185,7 @@ class PerceptronTagger:
     def train(
         self,
         sentences: Iterable[Iterable[tuple[str, str]]],
-        save_loc: Optional[str] = None,
+        save_loc: str | None = None,
         nr_iter: int = 5,
     ) -> None:
         """
@@ -193,7 +193,7 @@ class PerceptronTagger:
 
         :param Iterable[Iterable[tuple[str, str]]] sentences: sentences of
             (word, tag) tuples
-        :param Optional[str] save_loc: path to save the model as a JSON
+        :param str | None save_loc: path to save the model as a JSON
             file; do not save if ``None``
         :param int nr_iter: number of perceptron training iterations
         """
@@ -206,7 +206,7 @@ class PerceptronTagger:
             n = 0
             sentences_list = list(sentences)
             for sentence in sentences_list:
-                words, tags = zip(*sentence)
+                words, tags = zip(*sentence, strict=False)
 
                 prev, prev2 = self.START
                 context = (

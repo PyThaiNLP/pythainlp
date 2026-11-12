@@ -13,7 +13,6 @@ from collections.abc import Callable  # noqa: TC003  # for get_type_hints()
 from contextlib import suppress
 from datetime import datetime, time
 from functools import lru_cache
-from typing import Optional, Union
 
 from pythainlp.tokenize import Tokenizer
 from pythainlp.util.numtoword import num_to_thaiword
@@ -131,7 +130,7 @@ _HALF_HOUR_FORMATS: tuple[str, str] = ("6h", "m6h")
 
 
 def _format_with_precision(
-    m: int, s: int, fmt: str, precision: Optional[str]
+    m: int, s: int, fmt: str, precision: str | None
 ) -> str:
     """Spell out minutes and seconds when precision is "m" or "s"."""
     if m == 30 and (s == 0 or precision == "m") and fmt in _HALF_HOUR_FORMATS:
@@ -160,7 +159,7 @@ def _format(
     m: int,
     s: int,
     fmt: str = "24h",
-    precision: Optional[str] = None,
+    precision: str | None = None,
 ) -> str:
     for name, formatter in _HOUR_FORMATTERS:
         if fmt == name:
@@ -175,14 +174,14 @@ def _format(
 
 
 def time_to_thaiword(
-    time_data: Union[time, datetime, str],
+    time_data: time | datetime | str,
     fmt: str = "24h",
-    precision: Optional[str] = None,
+    precision: str | None = None,
 ) -> str:
     """
     Spell out time as Thai words.
 
-    :param Union[datetime.time, datetime.datetime, str] time_data:
+    :param datetime.time | datetime.datetime | str time_data:
         a :class:`datetime.time` object, a :class:`datetime.datetime`
         object, or a string in ``H:M`` or ``H:M:S`` format
         (24-hour clock)
@@ -192,7 +191,7 @@ def time_to_thaiword(
         * *6h* - 6-hour clock
         * *m6h* - modified 6-hour clock
 
-    :param Optional[str] precision: precision of the spelled-out time
+    :param str | None precision: precision of the spelled-out time
 
         * *m* - always spell out to the minute
         * *s* - always spell out to the second
@@ -291,7 +290,7 @@ def _hour_from_morning_six(hour: list[str]) -> str:
     return str(value + 6 if value < 6 else value)
 
 
-def _hour_from_thum(hour: list[str]) -> Optional[str]:
+def _hour_from_thum(hour: list[str]) -> str | None:
     """Convert hours ending in ทุ่ม; None if the first token is unknown."""
     if len(hour) == 1:
         return "19"
@@ -300,7 +299,7 @@ def _hour_from_thum(hour: list[str]) -> Optional[str]:
     return str(_DICT_THAI_TIME[hour[0]] + 18)
 
 
-def _hour_from_unit(hour: list[str]) -> Optional[str]:
+def _hour_from_unit(hour: list[str]) -> str | None:
     """Convert hours ending in นาฬิกา, ตี, โมง; None if no rule matches."""
     if hour[-1] == "นาฬิกา" and hour[0] in _DICT_THAI_TIME and hour[:-1]:
         return str(thaiword_to_num("".join(hour[:-1])))
@@ -317,7 +316,7 @@ def _hour_from_unit(hour: list[str]) -> Optional[str]:
     return None
 
 
-def _hour_from_name(hour: list[str]) -> Optional[str]:
+def _hour_from_name(hour: list[str]) -> str | None:
     """Convert named hours (เที่ยง, บ่ายโมง, ทุ่ม); None if no rule matches."""
     if hour[-1] == "เที่ยงคืน":
         return "0"
@@ -342,7 +341,7 @@ def _hour_text(hour: list[str]) -> str:
     return text if text is not None else ""
 
 
-def _minute_text(minute: Union[list[str], int]) -> str:
+def _minute_text(minute: list[str] | int) -> str:
     """Convert minute tokens to a two-digit (or longer) minute string."""
     if not (minute and isinstance(minute, list)):
         return "00"
@@ -384,7 +383,7 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
 
     hour_raw, minute_raw = marked.split("|")[:2]
     hour = _thai_time_cut().word_tokenize(hour_raw)
-    minute: Union[list[str], int]
+    minute: list[str] | int
     if len(minute_raw) > 1:
         minute = _thai_time_cut().word_tokenize(minute_raw)
     else:

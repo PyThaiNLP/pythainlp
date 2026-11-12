@@ -12,7 +12,7 @@ Supported: Japanese, Korean, Mandarin, and Vietnamese romanization.
 
 from __future__ import annotations
 
-from typing import Optional, Union, cast
+from typing import cast
 
 from wunsen import ThapSap
 
@@ -27,26 +27,26 @@ class WunsenTransliterate:
         * `GitHub <https://github.com/cakimpei/wunsen>`_
     """
 
-    thap_value: Optional[ThapSap]
-    lang: Optional[str]
-    jp_input: Optional[str]
-    zh_sandhi: Optional[bool]
-    system: Optional[str]
+    thap_value: ThapSap | None
+    lang: str | None
+    jp_input: str | None
+    zh_sandhi: bool | None
+    system: str | None
 
     def __init__(self) -> None:
         """Initialize the transliterator."""
-        self.thap_value: Optional[ThapSap] = None
-        self.lang: Optional[str] = None
-        self.jp_input: Optional[str] = None
-        self.zh_sandhi: Optional[bool] = None
-        self.system: Optional[str] = None
+        self.thap_value: ThapSap | None = None
+        self.lang: str | None = None
+        self.jp_input: str | None = None
+        self.zh_sandhi: bool | None = None
+        self.system: str | None = None
 
     def _set_options(
         self,
         lang: str,
-        jp_input: Optional[str],
-        zh_sandhi: Optional[bool],
-        system: Optional[str],
+        jp_input: str | None,
+        zh_sandhi: bool | None,
+        system: str | None,
     ) -> None:
         """Store the options that apply to the language."""
         if lang == "jp":
@@ -70,7 +70,7 @@ class WunsenTransliterate:
     def _create_thap_sap(self) -> ThapSap:
         """Create a ThapSap object from the stored options."""
         input_lang = "ja" if self.lang == "jp" else self.lang
-        setting: dict[str, Union[str, dict[str, bool]]] = {}
+        setting: dict[str, str | dict[str, bool]] = {}
         if self.jp_input is not None:
             setting.update({"input": self.jp_input})
         if self.zh_sandhi is not None:
@@ -83,20 +83,20 @@ class WunsenTransliterate:
         self,
         text: str,
         lang: str,
-        jp_input: Optional[str] = None,
-        zh_sandhi: Optional[bool] = None,
-        system: Optional[str] = None,
+        jp_input: str | None = None,
+        zh_sandhi: bool | None = None,
+        system: str | None = None,
     ) -> str:
         """
         Transliterate romanization text to Thai text using Wunsen.
 
         :param str text: romanization text to be transliterated
         :param str lang: source language (see the options below)
-        :param Optional[str] jp_input: Japanese input method, for Japanese
+        :param str | None jp_input: Japanese input method, for Japanese
             only (default is ``None``)
-        :param Optional[bool] zh_sandhi: Mandarin third tone sandhi option,
+        :param bool | None zh_sandhi: Mandarin third tone sandhi option,
             for Mandarin only (default is ``None``)
-        :param Optional[str] system: transliteration system, for Japanese
+        :param str | None system: transliteration system, for Japanese
             and Mandarin only (default is ``None``)
         :return: Thai text
         :rtype: str

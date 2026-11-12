@@ -8,7 +8,7 @@ from __future__ import annotations
 import threading
 from importlib.resources import as_file, files
 from sys import stderr
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from nlpo3 import (  # noqa: F401
@@ -20,8 +20,8 @@ _NLPO3_DEFAULT_DICT_NAME: str = (
     "_73bcj049dzbu9t49b4va170k"  # supposed to be unique
 )
 _NLPO3_WORDS_FILENAME: str = "words_th.txt"
-_NLPO3_DEFAULT_DICT: Optional[str] = None  # Will be lazily loaded
-_dict_file_ctx: Optional[Any] = (
+_NLPO3_DEFAULT_DICT: str | None = None  # Will be lazily loaded
+_dict_file_ctx: Any | None = (
     None  # File context manager kept alive for program lifetime
 )
 _load_lock: threading.Lock = threading.Lock()  # Thread safety for lazy loading

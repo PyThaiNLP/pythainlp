@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import re
 import unicodedata
-from typing import Optional, cast
+from typing import cast
 
 from pythainlp import thai_digits, thai_tonemarks
 
@@ -268,7 +268,7 @@ _TONE_LEVELS: dict[str, str] = {
     "falling": "˥˩",
 }
 
-_DIGIT_MAP: dict[str, str] = dict(zip(thai_digits, "0123456789"))
+_DIGIT_MAP: dict[str, str] = dict(zip(thai_digits, "0123456789", strict=False))
 _RE_THAI_DIGIT: re.Pattern[str] = re.compile(f"[{thai_digits}]")
 
 # Final consonant character class
@@ -367,8 +367,8 @@ def _syllable_life(c2: str, orig_v: str, v: str, length: str) -> str:
 
 
 def _tone_name(
-    tmark: Optional[str], life: str, length: str, cls: str
-) -> Optional[str]:
+    tmark: str | None, life: str, length: str, cls: str
+) -> str | None:
     """Return the tone name from the tone mark, life, length, and class."""
     if tmark:
         tone_dict = _TONE_FROM_MARK.get(tmark)

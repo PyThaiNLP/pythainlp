@@ -15,9 +15,9 @@ When the wrapper is used and ``budoux`` is missing, it raises an
 from __future__ import annotations
 
 import threading
-from typing import Any, Optional, cast
+from typing import Any, cast
 
-_parser: Optional[Any] = None
+_parser: Any | None = None
 _parser_lock: threading.Lock = threading.Lock()
 
 

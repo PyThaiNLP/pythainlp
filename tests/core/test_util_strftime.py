@@ -644,7 +644,7 @@ class ThaiStrftimeTestCase(unittest.TestCase):
         for fmt, expected in _GOLDEN:
             if os.name == "nt" and fmt in _NOT_ON_WINDOWS:
                 continue
-            for dt_obj, exp in zip(_DATETIMES, expected):
+            for dt_obj, exp in zip(_DATETIMES, expected, strict=False):
                 with self.subTest(fmt=fmt, dt=dt_obj):
                     with warnings.catch_warnings():
                         warnings.simplefilter("error")
@@ -652,7 +652,7 @@ class ThaiStrftimeTestCase(unittest.TestCase):
 
     def test_golden_thaidigit(self) -> None:
         for fmt, expected in _GOLDEN_THAIDIGIT:
-            for dt_obj, exp in zip(_DATETIMES, expected):
+            for dt_obj, exp in zip(_DATETIMES, expected, strict=False):
                 with self.subTest(fmt=fmt, dt=dt_obj):
                     self.assertEqual(
                         thai_strftime(dt_obj, fmt, thaidigit=True), exp

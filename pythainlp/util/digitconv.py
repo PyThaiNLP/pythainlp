@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import Union, cast
+from typing import cast
 
 _arabic_thai: dict[str, str] = {
     "0": "๐",
@@ -59,14 +59,14 @@ _spell_digit: dict[str, str] = {
     "เก้า": "9",
 }
 
-_arabic_thai_translate_table: dict[int, Union[int, str, None]] = str.maketrans(
-    cast("dict[str, Union[int, str, None]]", _arabic_thai)
+_arabic_thai_translate_table: dict[int, int | str | None] = str.maketrans(
+    cast("dict[str, int | str | None]", _arabic_thai)
 )
-_thai_arabic_translate_table: dict[int, Union[int, str, None]] = str.maketrans(
-    cast("dict[str, Union[int, str, None]]", _thai_arabic)
+_thai_arabic_translate_table: dict[int, int | str | None] = str.maketrans(
+    cast("dict[str, int | str | None]", _thai_arabic)
 )
-_digit_spell_translate_table: dict[int, Union[int, str, None]] = str.maketrans(
-    cast("dict[str, Union[int, str, None]]", _digit_spell)
+_digit_spell_translate_table: dict[int, int | str | None] = str.maketrans(
+    cast("dict[str, int | str | None]", _digit_spell)
 )
 
 

@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, TypedDict
+from typing import TYPE_CHECKING, TypedDict
 
 if TYPE_CHECKING:
     from fastcoref.modeling import CorefModel
@@ -23,7 +23,7 @@ class FastCoref:
     def __init__(
         self,
         model_name: str,
-        nlp: Optional[Language] = None,
+        nlp: Language | None = None,
         device: str = "cpu",
         type: str = "FCoref",  # noqa: A002
     ) -> None:

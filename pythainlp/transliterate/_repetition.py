@@ -17,8 +17,6 @@ See: https://github.com/PyThaiNLP/pythainlp/issues/1403
 
 from __future__ import annotations
 
-from typing import Optional
-
 __all__: list[str] = ["find_trailing_repeat_period"]
 
 
@@ -27,7 +25,7 @@ def find_trailing_repeat_period(
     min_period: int = 1,
     max_period: int = 12,
     min_repeats: int = 3,
-) -> Optional[int]:
+) -> int | None:
     """
     Detect a short cycle repeating at the end of a token sequence.
 
@@ -42,7 +40,7 @@ def find_trailing_repeat_period(
         required at the end of ``tokens`` to count as a repetition loop
     :return: period of the detected cycle, or ``None`` if no trailing
         cycle of at least ``min_repeats`` copies is found
-    :rtype: Optional[int]
+    :rtype: int | None
     """
     n = len(tokens)
     for period in range(min_period, max_period + 1):

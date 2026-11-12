@@ -6,7 +6,6 @@
 from __future__ import annotations
 
 import random
-from typing import Optional
 
 import torch
 import torch.nn.functional as F
@@ -427,7 +426,7 @@ class Seq2Seq(nn.Module):  # type: ignore[misc]
         self,
         source_seq: torch.Tensor,
         source_seq_len: torch.Tensor,
-        target_seq: Optional[torch.Tensor],
+        target_seq: torch.Tensor | None,
         teacher_forcing_ratio: float = 0.5,
     ) -> torch.Tensor:
         """
@@ -435,7 +434,7 @@ class Seq2Seq(nn.Module):  # type: ignore[misc]
 
         :param torch.Tensor source_seq: encoded source sequence
         :param torch.Tensor source_seq_len: length of each source sequence
-        :param Optional[torch.Tensor] target_seq: encoded target sequence,
+        :param torch.Tensor | None target_seq: encoded target sequence,
             or None
         :param float teacher_forcing_ratio: probability of feeding the target
             token to the decoder

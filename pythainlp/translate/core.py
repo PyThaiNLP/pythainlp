@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from pythainlp.translate.en_th import EnThTranslator, ThEnTranslator
@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 
 def _prepare_text_with_exclusions(
-    text: str, exclude_words: Optional[list[str]]
+    text: str, exclude_words: list[str] | None
 ) -> tuple[str, dict[str, str]]:
     """
     Replace excluded words with placeholders.
@@ -29,7 +29,7 @@ def _prepare_text_with_exclusions(
     anywhere it appears using simple substring replacement.
 
     :param str text: text to translate
-    :param Optional[list[str]] exclude_words: words to exclude from
+    :param list[str] | None exclude_words: words to exclude from
         translation
     :return: modified text and placeholder mapping
     :rtype: tuple[str, dict[str, str]]
@@ -166,14 +166,14 @@ class Translate:
             ... )  # doctest: +SKIP
             I love แมว.
         """
-        self.model: Union[
-            Small100Translator,
-            ThEnTranslator,
-            EnThTranslator,
-            ThZhTranslator,
-            ZhThTranslator,
-            ThFrTranslator,
-        ]
+        self.model: (
+            Small100Translator
+            | ThEnTranslator
+            | EnThTranslator
+            | ThZhTranslator
+            | ZhThTranslator
+            | ThFrTranslator
+        )
         self.engine: str = engine
         self.src_lang: str = src_lang
         self.use_gpu: bool = use_gpu
@@ -213,13 +213,13 @@ class Translate:
             raise ValueError("Not support language!")
 
     def translate(
-        self, text: str, exclude_words: Optional[list[str]] = None
+        self, text: str, exclude_words: list[str] | None = None
     ) -> str:
         """
         Translate text from the source to the target language.
 
         :param str text: text to translate
-        :param Optional[list[str]] exclude_words: words to exclude from
+        :param list[str] | None exclude_words: words to exclude from
             translation
         :return: translated text
         :rtype: str
@@ -233,7 +233,7 @@ class Translate:
 
 def word_translate(
     word: str, src: str, target: str, engine: str = "word2word"
-) -> Optional[list[str]]:
+) -> list[str] | None:
     """
     Translate word from source language to target language.
 
@@ -245,7 +245,7 @@ def word_translate(
         * *word2word* - word2word library (default)
 
     :return: list of translated words, or None
-    :rtype: Optional[list[str]]
+    :rtype: list[str] | None
 
     :Example:
 

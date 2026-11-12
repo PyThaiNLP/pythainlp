@@ -10,7 +10,7 @@ GitHub: https://github.com/wannaphong/thai-g2p
 from __future__ import annotations
 
 import random
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Any
 
 import torch
 import torch.nn.functional as F
@@ -178,7 +178,7 @@ class Encoder(nn.Module):  # type: ignore[misc]
     def forward(
         self,
         sequences: torch.Tensor,
-        sequences_lengths: Union[NDArray[Any], list[int]],
+        sequences_lengths: NDArray[Any] | list[int],
     ) -> tuple[torch.Tensor, tuple[torch.Tensor, torch.Tensor]]:
         """
         Compute the forward pass of the encoder.
@@ -452,8 +452,8 @@ class Seq2Seq(nn.Module):  # type: ignore[misc]
     def forward(  # noqa: CCR001  # phase2-todo
         self,
         source_seq: torch.Tensor,
-        source_seq_len: Union[NDArray[Any], list[int]],
-        target_seq: Optional[torch.Tensor],
+        source_seq_len: NDArray[Any] | list[int],
+        target_seq: torch.Tensor | None,
         teacher_forcing_ratio: float = 0.5,
     ) -> torch.Tensor:
         """
@@ -461,7 +461,7 @@ class Seq2Seq(nn.Module):  # type: ignore[misc]
 
         :param torch.Tensor source_seq: encoded source sequence
         :param torch.Tensor source_seq_len: length of each source sequence
-        :param Optional[torch.Tensor] target_seq: encoded target sequence,
+        :param torch.Tensor | None target_seq: encoded target sequence,
             or None
         :param float teacher_forcing_ratio: probability of feeding the target
             token to the decoder

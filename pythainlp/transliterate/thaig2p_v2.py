@@ -10,7 +10,7 @@ Hugging Face: https://huggingface.co/pythainlp/thaig2p-v2.0
 # Use a pipeline as a high-level helper
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, cast
+from typing import TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
     from transformers import Pipeline
@@ -56,7 +56,7 @@ class ThaiG2P:
         return outputs[0]["generated_text"]
 
 
-_THAI_G2P: Optional[ThaiG2P] = None
+_THAI_G2P: ThaiG2P | None = None
 
 
 def transliterate(text: str, device: str = "cpu") -> str:

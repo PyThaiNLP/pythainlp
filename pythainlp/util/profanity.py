@@ -5,21 +5,19 @@
 
 from __future__ import annotations
 
-from typing import Optional
-
 from pythainlp.corpus.common import thai_profanity_words, thai_words
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util.trie import dict_trie
 
 
 def contains_profanity(
-    text: str, custom_words: Optional[set[str]] = None, engine: str = "newmm"
+    text: str, custom_words: set[str] | None = None, engine: str = "newmm"
 ) -> bool:
     """
     Check whether text contains profanity words.
 
     :param str text: Thai text to check
-    :param Optional[set[str]] custom_words: additional profanity words
+    :param set[str] | None custom_words: additional profanity words
         (default is None)
     :param str engine: word tokenization engine (default is *newmm*)
     :return: True if the text contains profanity, False otherwise
@@ -60,13 +58,13 @@ def contains_profanity(
 
 
 def find_profanity(
-    text: str, custom_words: Optional[set[str]] = None, engine: str = "newmm"
+    text: str, custom_words: set[str] | None = None, engine: str = "newmm"
 ) -> list[str]:
     """
     Find all profanity words in text.
 
     :param str text: Thai text to check
-    :param Optional[set[str]] custom_words: additional profanity words
+    :param set[str] | None custom_words: additional profanity words
         (default is None)
     :param str engine: word tokenization engine (default is *newmm*)
     :return: list of profanity words found in the text
@@ -111,7 +109,7 @@ def find_profanity(
 def censor_profanity(
     text: str,
     replacement: str = "*",
-    custom_words: Optional[set[str]] = None,
+    custom_words: set[str] | None = None,
     engine: str = "newmm",
 ) -> str:
     """
@@ -120,7 +118,7 @@ def censor_profanity(
     :param str text: Thai text to censor
     :param str replacement: character to replace profanity with
         (default is ``"*"``)
-    :param Optional[set[str]] custom_words: additional profanity words
+    :param set[str] | None custom_words: additional profanity words
         (default is None)
     :param str engine: word tokenization engine (default is *newmm*)
     :return: text with profanity words censored

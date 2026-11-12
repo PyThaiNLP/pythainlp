@@ -31,7 +31,7 @@ import warnings
 import zipfile
 from contextlib import ExitStack, redirect_stdout, suppress
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Literal, Optional, Union
+from typing import TYPE_CHECKING, Any, Literal
 from unittest.mock import MagicMock, patch
 from urllib.error import HTTPError, URLError
 
@@ -44,7 +44,7 @@ _FILE_URL = "https://example.invalid/files/"
 # (member name, kind, payload)
 # kind: "file" (payload: bytes), "sym" or "lnk" (payload: link target),
 # "fifo" or "dir" (payload: None)
-_TarMember = tuple[str, str, Optional[Union[bytes, str]]]
+_TarMember = tuple[str, str, bytes | str | None]
 
 # Absolute POSIX paths such as "/etc/passwd" have a different meaning
 # on Windows. Tests that depend on them run on POSIX systems only.
@@ -157,7 +157,7 @@ class _BrokenResponse(_FakeResponse):
         super().__init__(data)
         self.error = error
 
-    def read(self, size: Optional[int] = -1) -> bytes:
+    def read(self, size: int | None = -1) -> bytes:
         if self.tell():
             raise self.error
         return super().read(size)
@@ -167,9 +167,9 @@ class _FakeNetwork:
     """Serve registered URLs from memory; record every request."""
 
     def __init__(self) -> None:
-        self.routes: dict[str, Union[bytes, BaseException]] = {}
+        self.routes: dict[str, bytes | BaseException] = {}
         self.requests: list[str] = []
-        self.user_agents: list[Optional[str]] = []
+        self.user_agents: list[str | None] = []
 
     def urlopen(self, req: Any, timeout: float = 0) -> _FakeResponse:
         url = req.full_url
@@ -293,7 +293,7 @@ class CheckVersionTestCase(unittest.TestCase):
         for version, expected in _CV_ROWS:
             with patch.object(core, "__version__", version):
                 self.assertEqual(len(expected), len(_CV_CAUSES))
-                for cause, code in zip(_CV_CAUSES, expected):
+                for cause, code in zip(_CV_CAUSES, expected, strict=False):
                     with self.subTest(version=version, cause=cause):
                         self.assertEqual(
                             _outcome(core._check_version, cause),
@@ -735,7 +735,7 @@ class SafeExtractTarManualTestCase(
             )
 
             def legacy_extractall(
-                path: str, members: Optional[Any] = None
+                path: str, members: Any | None = None
             ) -> None:
                 original(path=path, members=members, **kwargs)
 
@@ -1002,7 +1002,7 @@ def _version_entry(
     pythainlp_version: str = "*",
     is_tar_gz: str = "False",
     is_zip: str = "False",
-    md5: Optional[str] = None,
+    md5: str | None = None,
 ) -> dict[str, str]:
     return {
         "filename": filename,

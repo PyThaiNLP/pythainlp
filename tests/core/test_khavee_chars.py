@@ -12,11 +12,12 @@ syllables, random Thai strings, and dictionary words.
 from __future__ import annotations
 
 import hashlib
+import itertools
 import random
 import sys
 import types
 import unittest
-from typing import Any, Union
+from typing import Any
 from unittest import mock
 
 from pythainlp.khavee import KhaveeVerifier
@@ -669,7 +670,7 @@ KARUN_CASES: tuple[tuple[str, str], ...] = (
 
 # (text, k_type, check_klon); words in a wak are separated by '-',
 # see _fake_subword_tokenize.
-KLON_CASES: tuple[tuple[str, int, Union[list[str], str]], ...] = (
+KLON_CASES: tuple[tuple[str, int, list[str] | str], ...] = (
     (
         "ไก่-กด-ใจ-กูฏ-กลัว นอง จักร-หปร-แคว-กูฏ-ภาพ-ปลิง บ่-กบิน-กรณี-ซีน-แคว",
         4,
@@ -991,7 +992,7 @@ _ALPHABET_DIGEST = (
 )
 # Every 31st word of the same sequence, as (word, sara, marttra,
 # true final, karu-lahu). Shows the failing words if the digest differs.
-_ALPHABET_SAMPLE: list[tuple[str, str, str, bool, Union[str, bool]]] = [
+_ALPHABET_SAMPLE: list[tuple[str, str, str, bool, str | bool]] = [
     ("ก", "อะ", "กา", False, "lahu"),
     ("กฟ", "โอะ", "กบ", True, "karu"),
     ("กโ", "โอ", "กา", False, "karu"),
@@ -1182,7 +1183,7 @@ def _fake_subword_tokenize(text: str, engine: str = "ssg") -> list[str]:
 
 def _word_row(
     kv: KhaveeVerifier, word: str
-) -> tuple[str, str, bool, Union[str, bool]]:
+) -> tuple[str, str, bool, str | bool]:
     return (
         kv.check_sara(word),
         kv.check_marttra(word),
@@ -1334,7 +1335,7 @@ def _formerly_crashed(stanzas: list[list[str]]) -> bool:
     """Tell if an empty Wak 4 is followed by a stanza without empty waks."""
     return any(
         previous[3] == "-" and "-" not in current
-        for previous, current in zip(stanzas, stanzas[1:])
+        for previous, current in itertools.pairwise(stanzas)
     )
 
 
@@ -1417,7 +1418,7 @@ class KhaveeCheckKlonCharacterizationTestCase(unittest.TestCase):
     def test_adversarial_inputs(self) -> None:
         # Outcomes are current behavior, not a promise.
         ok = "มา มา มา มา กา กา กา กา"
-        cases: tuple[tuple[str, Any, Union[list[str], str]], ...] = (
+        cases: tuple[tuple[str, Any, list[str] | str], ...] = (
             ("", 4, _INCOMPLETE),
             ("   ", 4, _INCOMPLETE),
             ("\n\t", 8, _INCOMPLETE),

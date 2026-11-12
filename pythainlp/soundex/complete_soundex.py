@@ -32,7 +32,6 @@ Example:
 from __future__ import annotations
 
 import re
-from typing import Optional
 
 # Vowel codes shortened by 'ะ'
 _SHORT_VOWEL: dict[str, str] = {
@@ -187,7 +186,7 @@ class CompleteSoundex:
         """Remove silent characters (karan/thanthakhat) from text."""
         return re.sub(r"[ก-ฮ][ะ-ู]?์", "", text)
 
-    def heuristic_split(self, text: str) -> list[tuple[str, Optional[str]]]:
+    def heuristic_split(self, text: str) -> list[tuple[str, str | None]]:
         """
         Apply heuristic rules to split syllables.
 
@@ -402,7 +401,7 @@ class CompleteSoundex:
         )
 
     def _apply_implicit_vowel(
-        self, vowel_code: str, implicit_rule: Optional[str]
+        self, vowel_code: str, implicit_rule: str | None
     ) -> str:
         """Apply implicit vowel defaults."""
         if vowel_code == "":
@@ -419,7 +418,7 @@ class CompleteSoundex:
         init_char: str,
         init_code: str,
         syl: str,
-        implicit_rule: Optional[str],
+        implicit_rule: str | None,
     ) -> str:
         """Apply special adjustments for ส (so sua) mapping."""
         # Not for implicit splits
@@ -463,7 +462,7 @@ class CompleteSoundex:
         return result
 
     def process_syllable(
-        self, syl: str, implicit_rule: Optional[str] = None
+        self, syl: str, implicit_rule: str | None = None
     ) -> str:
         """
         Process a single syllable and return its soundex code.
@@ -591,7 +590,7 @@ class CompleteSoundex:
 
 
 # Shared instance for the module-level function
-_complete_soundex_instance: Optional[CompleteSoundex] = None
+_complete_soundex_instance: CompleteSoundex | None = None
 
 
 def complete_soundex(text: str) -> str:

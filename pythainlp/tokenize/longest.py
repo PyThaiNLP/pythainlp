@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import re
 import threading
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from pythainlp.util import Trie
@@ -95,7 +95,7 @@ class LongestMatchTokenizer:
         self.__trie: Trie = trie
 
     @staticmethod
-    def __search_nonthai(text: str) -> Optional[str]:
+    def __search_nonthai(text: str) -> str | None:
         match = _RE_NONTHAI.search(text)
         if not match:
             return None
@@ -178,7 +178,7 @@ _tokenizers: dict[int, LongestMatchTokenizer] = {}
 _tokenizers_lock: threading.Lock = threading.Lock()
 
 
-def segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
+def segment(text: str, custom_dict: Trie | None = None) -> list[str]:
     """
     Tokenize text into words with dictionary-based longest matching.
 

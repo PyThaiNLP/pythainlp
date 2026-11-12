@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import math
 from collections import Counter
-from typing import TYPE_CHECKING, Optional, TypedDict, Union, cast
+from typing import TYPE_CHECKING, TypedDict
 
 from pythainlp.util.lcs import _lcs_lengths
 
@@ -128,11 +128,11 @@ def _error_rate(ref: Sequence[str], hyp: Sequence[str]) -> float:
 
 
 def _normalize_references(
-    references: Union[list[str], list[list[str]]],
+    references: list[str] | list[list[str]],
 ) -> list[list[str]]:
     """Wrap each reference in a list if each hypothesis has one reference."""
     if references and isinstance(references[0], str):
-        return [[ref] for ref in cast("list[str]", references)]
+        return [[ref] for ref in references]
     return references  # type: ignore[return-value]
 
 
@@ -196,7 +196,7 @@ def _ngram_precisions(
 
 
 def bleu_score(
-    references: Union[list[str], list[list[str]]],
+    references: list[str] | list[list[str]],
     hypotheses: list[str],
     tokenize: str = "newmm",
     lowercase: bool = False,
@@ -210,7 +210,7 @@ def bleu_score(
     Understudy) metric that automatically tokenizes Thai text using
     PyThaiNLP before calculating the score.
 
-    :param Union[list[str], list[list[str]]] references: reference
+    :param list[str] | list[list[str]] references: reference
         translations, either a list of strings (one reference per
         hypothesis) or a list of lists of strings (multiple references
         per hypothesis)
@@ -270,7 +270,9 @@ def bleu_score(
     clipped_counts = [0] * max_ngram
     total_counts = [0] * max_ngram
 
-    for hyp_tokens, ref_tokens_group in zip(hyp_tokens_list, refs_tokens_list):
+    for hyp_tokens, ref_tokens_group in zip(
+        hyp_tokens_list, refs_tokens_list, strict=False
+    ):
         total_hyp_length += len(hyp_tokens)
 
         # Find the reference length closest to hypothesis length
@@ -315,7 +317,7 @@ def rouge_score(
     reference: str,
     hypothesis: str,
     tokenize: str = "newmm",
-    rouge_types: Optional[list[str]] = None,
+    rouge_types: list[str] | None = None,
 ) -> dict[str, RougeScore]:
     """
     Calculate ROUGE scores for Thai text with automatic tokenization.
@@ -335,7 +337,7 @@ def rouge_score(
     :param str tokenize: engine to tokenize text with. See
         :func:`pythainlp.tokenize.word_tokenize` for available engines
         (default is ``"newmm"``)
-    :param Optional[list[str]] rouge_types: ROUGE types to calculate
+    :param list[str] | None rouge_types: ROUGE types to calculate
         (default is ``["rouge1", "rouge2", "rougeL"]``)
 
     :return: dictionary mapping each ROUGE type to a :class:`RougeScore`

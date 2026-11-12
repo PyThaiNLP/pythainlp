@@ -13,7 +13,7 @@ Zenodo. https://doi.org/10.5281/zenodo.6716672
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, cast
+from typing import TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -27,7 +27,7 @@ from pythainlp.corpus.th_en_translit import (
 _TRANSLITERATE_IDX: int = 0
 
 
-def follow_rtgs(text: str) -> Optional[bool]:
+def follow_rtgs(text: str) -> bool | None:
     """
     Check if a word follows the Royal Thai General System of Transcription.
 
@@ -37,7 +37,7 @@ def follow_rtgs(text: str) -> Optional[bool]:
     :return: ``True`` if ``text`` follows the RTGS definition,
         ``False`` if it does not, or ``None`` if the word is unverified
         or unknown
-    :rtype: Optional[bool]
+    :rtype: bool | None
     """
     try:
         follow = TRANSLITERATE_DICT[text][TRANSLITERATE_FOLLOW_RTSG][

@@ -6,7 +6,6 @@
 from __future__ import annotations
 
 import json
-from typing import Optional
 
 from pythainlp.corpus import corpus_path, get_corpus_path
 from pythainlp.tag import blackboard, orchid
@@ -26,11 +25,11 @@ _BLACKBOARD_NAME: str = "blackboard_unigram_tagger"
 _TUD_FILENAME: str = "pos_tud_unigram.json"
 _TUD_PATH: str = safe_path_join(corpus_path(), _TUD_FILENAME)
 
-_ORCHID_TAGGER: Optional[dict[str, str]] = None
-_PUD_TAGGER: Optional[dict[str, str]] = None
-_BLACKBOARD_TAGGER: Optional[dict[str, str]] = None
-_TDTB_TAGGER: Optional[dict[str, str]] = None
-_TUD_TAGGER: Optional[dict[str, str]] = None
+_ORCHID_TAGGER: dict[str, str] | None = None
+_PUD_TAGGER: dict[str, str] | None = None
+_BLACKBOARD_TAGGER: dict[str, str] | None = None
+_TDTB_TAGGER: dict[str, str] | None = None
+_TUD_TAGGER: dict[str, str] | None = None
 
 
 def _orchid_tagger() -> dict[str, str]:

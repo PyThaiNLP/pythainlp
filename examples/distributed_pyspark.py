@@ -58,7 +58,7 @@ def example_basic_spark():
 
     # Collect results
     results = tokenized_rdd.collect()
-    for text, tokens in zip(thai_texts, results):
+    for text, tokens in zip(thai_texts, results, strict=False):
         print(f"Text: {text}")
         print(f"Tokens: {tokens}\n")
 

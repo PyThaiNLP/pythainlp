@@ -12,8 +12,6 @@ GitHub: https://github.com/KoichiYasuoka
 
 from __future__ import annotations
 
-from typing import Optional, Union
-
 from transformers import AutoModelForTokenClassification, AutoTokenizer
 
 
@@ -22,15 +20,15 @@ class Parse:
 
     def __init__(
         self,
-        model: Optional[str] = "KoichiYasuoka/deberta-base-thai-ud-goeswith",
-        revision: Optional[str] = None,
+        model: str | None = "KoichiYasuoka/deberta-base-thai-ud-goeswith",
+        revision: str | None = None,
     ) -> None:
         """
         Initialize the UDgoeswith model.
 
-        :param Optional[str] model: model name; the default model is used
+        :param str | None model: model name; the default model is used
             if ``None``
-        :param Optional[str] revision: git revision id (branch, tag, or
+        :param str | None revision: git revision id (branch, tag, or
             commit hash)
         """
         if model is None:
@@ -46,7 +44,7 @@ class Parse:
 
     def __call__(  # noqa: CCR001  # phase2-todo
         self, text: str, tag: str = "str"
-    ) -> Union[list[list[str]], str]:
+    ) -> list[list[str]] | str:
         """
         Parse the dependency structure of a text.
 
@@ -55,7 +53,7 @@ class Parse:
             or ``"list"``
         :return: CoNLL-U text if ``tag`` is ``"str"``, otherwise a list of
             lists of fields
-        :rtype: Union[list[list[str]], str]
+        :rtype: list[list[str]] | str
         """
         import numpy as np
         import torch

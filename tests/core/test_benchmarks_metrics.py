@@ -730,7 +730,9 @@ class BleuScoreCharacterizationTestCase(unittest.TestCase):
                 self.assertEqual(
                     len(score["precisions"]), len(want["precisions"])
                 )
-                for got, exp in zip(score["precisions"], want["precisions"]):
+                for got, exp in zip(
+                    score["precisions"], want["precisions"], strict=False
+                ):
                     self.assertAlmostEqual(got, exp, places=9)
 
     def test_real_tokenizer(self) -> None:
@@ -873,7 +875,7 @@ class BleuScoreCharacterizationTestCase(unittest.TestCase):
                     score["hyp_length"],
                     score["ref_length"],
                 )
-                for g, w in zip(got, want):
+                for g, w in zip(got, want, strict=False):
                     self.assertAlmostEqual(g, w, places=5)
 
     def test_empty_reference_group_raises_value_error(self) -> None:

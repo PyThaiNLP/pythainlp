@@ -36,7 +36,7 @@ import json
 import re
 from importlib.resources import files
 from re import Pattern
-from typing import Final, Optional
+from typing import Final
 
 from pythainlp.tokenize import Tokenizer
 from pythainlp.util import expand_maiyamok as _expand_maiyamok_pythainlp
@@ -694,11 +694,11 @@ class FastThaiG2P:
     _ipa: dict[str, str]
     _tokenizer: Tokenizer
 
-    def __init__(self, ipa_dict_path: Optional[str] = None) -> None:
+    def __init__(self, ipa_dict_path: str | None = None) -> None:
         """
         Initialize FastThaiG2P engine.
 
-        :param Optional[str] ipa_dict_path: Optional path to custom IPA dictionary JSON.
+        :param str | None ipa_dict_path: Optional path to custom IPA dictionary JSON.
             If None, loads the default dictionary from pythainlp.corpus.
         """
         if ipa_dict_path is None:
@@ -747,7 +747,7 @@ class FastThaiG2P:
         return " ".join(phonemes)
 
 
-_FAST_THAI_G2P: Optional[FastThaiG2P] = None
+_FAST_THAI_G2P: FastThaiG2P | None = None
 
 
 def transliterate(text: str) -> str:

@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import re
 from functools import lru_cache
-from typing import Optional
 
 from pythainlp import (
     thai_above_vowels,
@@ -24,7 +23,9 @@ _r1: list[str] = ["เ-ย", "เ-ะ", "แ-ะ", "โ-ะ", "เ-าะ", "เ
 _r2: list[str] = ["–ั:วะ", "เ–ี:ยะ", "เ–ือะ", "–ั:ว", "เ–ี:ย", "เ–ื:อ", "–ื:อ"]
 tonemarks: dict[str, str] = {
     i: "ไม้" + j
-    for i, j in zip(list(thai_tonemarks), ["เอก", "โท", "ตรี", "จัตวา"])
+    for i, j in zip(
+        list(thai_tonemarks), ["เอก", "โท", "ตรี", "จัตวา"], strict=False
+    )
 }
 
 rule1: list[str] = [
@@ -115,11 +116,11 @@ def spell_syllable(text: str) -> list[str]:
     return c_only + v_only + t_only + [text]
 
 
-def spell_word(text: Optional[str]) -> list[str]:
+def spell_word(text: str | None) -> list[str]:
     """
     Spell out a word in Thai word distribution form.
 
-    :param Optional[str] text: Thai word, or None
+    :param str | None text: Thai word, or None
     :return: list of spelled-out word components,
         empty list if text is None or empty
     :rtype: list[str]

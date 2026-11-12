@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import re
-from typing import Union, cast
+from typing import cast
 
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import Trie
@@ -242,23 +242,23 @@ class Braille:
     Convert braille dot patterns to Unicode braille characters.
 
     :param data: braille dot patterns as a list or a string
-    :type data: Union[list[list[str]], list[str], str]
+    :type data: list[list[str]] | list[str] | str
     """
 
-    def __init__(self, data: Union[list[list[str]], list[str], str]) -> None:
+    def __init__(self, data: list[list[str]] | list[str] | str) -> None:
         """
         Initialize the braille converter.
 
         :param data: braille dot patterns as a list or a string
-        :type data: Union[list[list[str]], list[str], str]
+        :type data: list[list[str]] | list[str] | str
         """
-        self.inputdata: Union[list[list[str]], list[str], str] = data
+        self.inputdata: list[list[str]] | list[str] | str = data
         if isinstance(data, list):
             if len(data) > 1:
                 nested_data: list[list[str]] = [[] for _ in range(len(data))]
                 for i, item in enumerate(data):
                     nested_data[i] = sorted(item)
-                self.data: Union[list[list[str]], list[str]] = nested_data
+                self.data: list[list[str]] | list[str] = nested_data
             elif len(data) == 1:
                 self.data = sorted(data[0])
             else:

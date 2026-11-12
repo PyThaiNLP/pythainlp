@@ -21,8 +21,6 @@ from collections.abc import (
 from typing import (
     TYPE_CHECKING,
     Any,
-    Optional,
-    Union,
     cast,
 )
 
@@ -31,14 +29,14 @@ if TYPE_CHECKING:
 
 
 def _extract_item_features(
-    item: Union[Sequence[str], dict[str, Any]],
+    item: Sequence[str] | dict[str, Any],
 ) -> list[tuple[str, float]]:
     """
     Extract (feature_name, feature_value) pairs from an observation.
 
     :param item: Observation features, either as a sequence of feature names
         or as a dictionary mapping feature names to values.
-    :type item: Union[Sequence[str], Dict[str, Any]]
+    :type item: Sequence[str] | Dict[str, Any]
     :return: List of (feature_name, float_weight) tuples.
     :rtype: List[Tuple[str, float]]
     """
@@ -64,7 +62,7 @@ class CRFTagger:
     Uses pure-Python Viterbi decoding to predict optimal label sequences
     from pre-trained CRF weights without requiring external C libraries.
 
-    :param Optional[str] model_path: Path to the CRF model weights file
+    :param str | None model_path: Path to the CRF model weights file
         (`.json` or `.json.gz`).
     """
 
@@ -74,11 +72,11 @@ class CRFTagger:
     _trans_mat: list[list[float]]
     _state_features: dict[str, list[tuple[int, float]]]
 
-    def __init__(self, model_path: Optional[str] = None) -> None:
+    def __init__(self, model_path: str | None = None) -> None:
         """
         Initialize the CRF tagger.
 
-        :param Optional[str] model_path: Path to model weights file.
+        :param str | None model_path: Path to model weights file.
         """
         self.labels = []
         self._num_labels = 0
@@ -212,13 +210,13 @@ class CRFTagger:
         }
 
     def _compute_state_scores(
-        self, item: Union[Sequence[str], dict[str, Any]]
+        self, item: Sequence[str] | dict[str, Any]
     ) -> list[float]:
         """
         Compute state scores for all labels at a single sequence position.
 
         :param item: Observation features at current position.
-        :type item: Union[Sequence[str], Dict[str, Any]]
+        :type item: Sequence[str] | Dict[str, Any]
         :return: State score per label index.
         :rtype: List[float]
         """
@@ -230,15 +228,13 @@ class CRFTagger:
                     scores[lbl_idx] += weight * val
         return scores
 
-    def tag(
-        self, xseq: Sequence[Union[Sequence[str], dict[str, Any]]]
-    ) -> list[str]:
+    def tag(self, xseq: Sequence[Sequence[str] | dict[str, Any]]) -> list[str]:
         """
         Predict the optimal label sequence for an item sequence.
 
         :param xseq: Sequence of item features, where each item is either
             a sequence of string feature names or a dictionary of features.
-        :type xseq: Sequence[Union[Sequence[str], Dict[str, Any]]]
+        :type xseq: Sequence[Sequence[str] | Dict[str, Any]]
         :return: Predicted sequence of labels.
         :rtype: List[str]
         """
@@ -293,9 +289,9 @@ class CRFTagger:
 
     def __exit__(
         self,
-        exc_type: Optional[type[BaseException]],
-        exc_val: Optional[BaseException],
-        exc_tb: Optional[types.TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: types.TracebackType | None,
     ) -> None:
         """Context manager exit."""
         self.close()

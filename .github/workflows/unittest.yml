@@ -155,7 +155,7 @@ jobs:
           PYTHONIOENCODING: utf-8
         run: |
           pip install ".[compact,extra]"
-          pip install --only-binary :all: --no-binary docopt "coverage==7.16.2" "coveralls==4.1.0"
+          pip install --only-binary :all: --no-binary docopt "coverage==7.17.2" "coveralls==4.1.0"
           coverage run -m unittest tests.core tests.compact tests.extra
 
       # Only submit a report from the "extra" run, to get maximum coverage
@@ -179,7 +179,7 @@ jobs:
         shell: bash
         run: |
           git fetch --no-tags origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}"
-          pip install --only-binary :all: "diff-cover==10.6.0"
+          pip install --only-binary :all: "diff-cover==11.0.1"
           coverage xml
           # diff-cover matches `**/<path>` for both --include and --exclude.
           mapfile -t NOAUTO < <(grep -v -e '^#' -e '^$' tests/diff-cover-noauto.txt | sed 's|^|**/|')

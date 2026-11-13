@@ -6,7 +6,6 @@
 from __future__ import annotations
 
 import re
-from typing import cast, Optional, Union
 
 from pythainlp.corpus import corpus_path
 from pythainlp.tag._tag_perceptron import PerceptronTagger
@@ -18,8 +17,8 @@ from pythainlp.tools.path import safe_path_join
 _POS_MODEL_PATH: str = safe_path_join(corpus_path(), "tltk_pos_tnc.json.gz")
 _NER_MODEL_PATH: str = safe_path_join(corpus_path(), "tltk_ner.json.gz")
 
-_TAGGER: Optional[PerceptronTagger] = None
-_NER_TAGGER: Optional[CRFTagger] = None
+_TAGGER: PerceptronTagger | None = None
+_NER_TAGGER: CRFTagger | None = None
 
 
 def _get_pos_tagger() -> PerceptronTagger:
@@ -63,9 +62,9 @@ def _wrd_len(word: str) -> str:
 
 def _word2features(
     sent: list[tuple[str, str]], i: int
-) -> dict[str, Union[float, str, bool]]:
+) -> dict[str, float | str | bool]:
     word, postag = sent[i][0], sent[i][1]
-    features: dict[str, Union[float, str, bool]] = {
+    features: dict[str, float | str | bool] = {
         "bias": 1.0,
         "word": word,
         "postag": postag,
@@ -145,7 +144,7 @@ def get_ner(
     ner_labels = _get_ner_tagger().tag(features)
     sent_ner = [
         (_post_process(word), p, n)
-        for (word, p), n in zip(tagged_pos, ner_labels)
+        for (word, p), n in zip(tagged_pos, ner_labels, strict=True)
     ]
     if tag:
         return _iob_to_markup([(word, ner) for word, _, ner in sent_ner])

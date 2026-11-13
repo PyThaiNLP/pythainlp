@@ -15,13 +15,12 @@ bundled dictionary.
 from __future__ import annotations
 
 import gzip
-from typing import Optional
 
 from pythainlp.corpus import corpus_path
 from pythainlp.tools.path import safe_path_join
 
 _LETTERS: list[str] = [chr(i) for i in range(ord("ก"), ord("์") + 1)]
-_TLTK_DICT: Optional[set[str]] = None
+_TLTK_DICT: set[str] | None = None
 
 
 def _get_tltk_dict() -> set[str]:

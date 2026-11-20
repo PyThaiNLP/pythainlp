@@ -174,10 +174,6 @@ Entry format:
   sentences `["ก ", "ขคง"]` for words `["ก", " ", "ขค", "ง"]` give
   `[["ก"], ["ข", "คง"]]`. Expected: whole words, `[["ก"], ["ขค", "ง"]]`.
   Pinning test: `test_word_list_input` in `tests/core/test_tokenize_core.py`.
-- **`longest-front-dep-typo`** `pythainlp/tokenize/longest.py`:
-  `_FRONT_DEP_CHAR`. The list contains "า " with a trailing space. With
-  dictionary `["ก","ข"]`, "กา" returns `["ก","า"]`. Expected: "า" joins the
-  previous token.
 - **`nercut-combined-word-dropped`** `pythainlp/tokenize/nercut.py`:
   `segment`. A pending entity is lost when the next token is another "B-"
   tag in `taglist` or a tag outside it:

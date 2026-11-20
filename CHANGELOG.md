@@ -17,6 +17,15 @@ and this project adheres to
 
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
 
+## [Unreleased]
+
+### Fixed
+
+- `tokenize.longest`: an unknown "า" joins the previous token, like "ะ"
+  ([#1609])
+
+[#1609]: https://github.com/PyThaiNLP/pythainlp/pull/1609
+
 ## [5.4.0] - 2026-10-09
 
 ### Added

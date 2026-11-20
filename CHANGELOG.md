@@ -17,6 +17,15 @@ and this project adheres to
 
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
 
+## [Unreleased]
+
+### Fixed
+
+- `sound_syllable()`: "เอะ", "แอะ", "โอะ", "เอาะ", and "เออะ" are dead;
+  `tone_detector()` follows ([#1610])
+
+[#1610]: https://github.com/PyThaiNLP/pythainlp/pull/1610
+
 ## [5.4.0] - 2026-10-09
 
 ### Added

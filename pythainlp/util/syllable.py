@@ -91,6 +91,9 @@ def _has_short_sound(syllable: str) -> bool:
 
 def _sound_vowel_only(syllable: str) -> str:
     """Classify a syllable with อ but no other consonant."""
+    # Check short vowels first: เ-อะ, แ-อะ, โ-อะ hold "เ", "แ", or "โ".
+    if re_short.search(syllable):
+        return "dead"
     if _has_any(syllable, _VOWELS_ANY_1):
         return "live"
     if _has_any(syllable, _SHORT_SET):

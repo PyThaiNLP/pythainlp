@@ -36,7 +36,7 @@ GOLDEN: list[tuple[str, str, str]] = [
     ("อ", "dead", "l"),
     ("ฤ", "dead", ""),
     ("ฤๅ", "live", ""),
-    ("เอะ", "live", "m"),
+    ("เอะ", "dead", "l"),
     ("เอ", "live", "m"),
     ("เอา", "live", "m"),
     ("อา", "live", "m"),
@@ -51,10 +51,10 @@ GOLDEN: list[tuple[str, str, str]] = [
     ("เมาะ", "dead", "h"),
     ("เกาะ", "dead", "l"),
     ("เพราะ", "dead", "h"),
-    ("แอะ", "live", "m"),
-    ("โอะ", "live", "m"),
-    ("เอาะ", "live", "m"),
-    ("เออะ", "live", "m"),
+    ("แอะ", "dead", "l"),
+    ("โอะ", "dead", "l"),
+    ("เอาะ", "dead", "l"),
+    ("เออะ", "dead", "l"),
     ("ฤๅษี", "live", "r"),
     ("พฤ", "dead", "f"),
     ("หนู", "live", "r"),
@@ -362,7 +362,7 @@ TONES = ["", "\u0e48", "\u0e49", "\u0e4a", "\u0e4b"]
 # SHA-256 of every 13th generated syllable with its two results.
 GRID_SIZE = 25080
 GRID_DIGEST = (
-    "7c5d516512e3cfc4b1f25ac33e44027403505743aad45979e9015f11b30f0daa"
+    "f66faeaa28835d308385f39b614f6010b5a6f7c13325098ca9ae3174a388689d"
 )
 # Every 125th syllable of that sequence, as (text, sound, tone).
 # Shows the failing syllables if the digest differs.
@@ -659,6 +659,27 @@ class SyllableCharacterizationTestCase(unittest.TestCase):
                 self.assertEqual(sound_syllable(text), sound)
                 self.assertEqual(tone_detector(text), "")
 
+    def test_short_vowel_with_o_only(self) -> None:
+        # Short vowels written with "เ", "แ", or "โ" are dead, even when
+        # "อ" is the only consonant. The long forms stay live.
+        cases = [
+            ("เอะ", "dead", "l"),
+            ("แอะ", "dead", "l"),
+            ("โอะ", "dead", "l"),
+            ("เอาะ", "dead", "l"),
+            ("เออะ", "dead", "l"),
+            ("เอ๊ะ", "dead", "h"),
+            ("โอ๊ะ", "dead", "h"),
+            ("เอ", "live", "m"),
+            ("แอ", "live", "m"),
+            ("โอ", "live", "m"),
+            ("เออ", "live", "m"),
+        ]
+        for text, sound, tone in cases:
+            with self.subTest(text=text):
+                self.assertEqual(sound_syllable(text), sound)
+                self.assertEqual(tone_detector(text), tone)
+
     def test_adversarial_unchanged(self) -> None:
         # Current behavior, not a promise; same before the fix.
         cases = [
@@ -680,7 +701,7 @@ class SyllableCharacterizationTestCase(unittest.TestCase):
     def test_unchanged_pairs(self) -> None:
         # Outcomes recorded before the no-consonant fix, for syllables
         # that have a consonant. Texts with "อ" are excluded: they touch
-        # the unfixed bugs sound-syllable-e-a and syllable-consonant-sets.
+        # the unfixed bug syllable-consonant-sets.
         chars = thai_consonants + thai_vowels + thai_tonemarks + "a1\u200b "
         rng = random.Random(0)  # noqa: S311  # seeded, not crypto
         texts = ["".join(p) for p in itertools.product(chars, repeat=2)]
@@ -714,11 +735,6 @@ class SyllableCharacterizationTestCase(unittest.TestCase):
 
 
 class SyllableKnownBugTestCase(unittest.TestCase):
-    def test_sound_syllable_e_a(self) -> None:
-        # BUG-LEDGER: sound-syllable-e-a
-        # Expected: "dead" (short vowel เ-อะ). Current: "live".
-        self.assertEqual(sound_syllable("เอะ"), "live")
-
     def test_consonant_sets(self) -> None:
         # BUG-LEDGER: syllable-consonant-sets
         # sound_syllable excludes "อ"; other functions include it.

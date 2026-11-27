@@ -134,8 +134,6 @@ Entry format:
 
 #### Util
 
-- **`sound-syllable-e-a`** `pythainlp/util/syllable.py`: `sound_syllable`.
-  Input "เอะ" returns "live". Expected: "dead".
 - **`syllable-consonant-sets`** `pythainlp/util/syllable.py`.
   The consonant sets are inconsistent between functions.
 - **`thaiword-to-time-ti`** `pythainlp/util/time.py`: `thaiword_to_time`.

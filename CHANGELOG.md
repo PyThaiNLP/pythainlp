@@ -25,6 +25,10 @@ and this project adheres to
   ([#1609])
 
 [#1609]: https://github.com/PyThaiNLP/pythainlp/pull/1609
+- `sound_syllable()`: "เอะ", "แอะ", "โอะ", "เอาะ", and "เออะ" are dead;
+  `tone_detector()` follows ([#1610])
+
+[#1610]: https://github.com/PyThaiNLP/pythainlp/pull/1610
 
 ## [5.4.0] - 2026-10-09
 

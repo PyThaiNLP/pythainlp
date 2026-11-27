@@ -415,6 +415,11 @@ class TokenizeTestCase(unittest.TestCase):
             ["หา", "เงิน", "เพื่", "อ", "เรีย", "น"],
         )
         self.assertEqual(etcc.segment("หนังสือ"), ["ห", "นัง", "สือ"])
+        # The longest engine no longer leaves a lone ending character, so
+        # call the merge step directly.
+        self.assertEqual(
+            etcc._cut_subword(["ๆ", "ก", "า", "ข"]), ["ๆ", "กา", "ข"]
+        )
         self.assertIsNotNone(
             etcc.segment(
                 "หมูแมวเหล่านี้ด้วยเหตุผลเชื่อมโยงทางกรรมพันธุ์"

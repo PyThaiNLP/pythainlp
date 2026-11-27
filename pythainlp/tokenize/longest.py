@@ -26,7 +26,7 @@ from pythainlp.tokenize import word_dict_trie
 _FRONT_DEP_CHAR: list[str] = [
     "ะ",
     "ั",
-    "า ",
+    "า",
     "ำ",
     "ิ",
     "ี",

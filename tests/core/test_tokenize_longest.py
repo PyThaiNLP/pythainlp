@@ -261,15 +261,15 @@ class LongestGoldenTestCase(unittest.TestCase):
         self.assertEqual(tokenizer.tokenize(""), [])
 
     def test_front_dependent_character_list(self):
-        # BUG-LEDGER: longest-front-dep-typo
-        # _FRONT_DEP_CHAR holds "า " (with a space), so an unknown "า"
-        # never joins the previous token by the front-dependent rule,
-        # while "ะ" does.
+        # An unknown "า" joins the previous token, like "ะ".
         tokenizer: Any = longest.LongestMatchTokenizer(Trie(["ก", "ข"]))
-        self.assertEqual(tokenizer.tokenize("กา"), ["ก", "า"])
+        self.assertEqual(tokenizer.tokenize("กา"), ["กา"])
         self.assertEqual(tokenizer.tokenize("กะ"), ["กะ"])
-        self.assertIn("า ", longest._FRONT_DEP_CHAR)
-        self.assertNotIn("า", longest._FRONT_DEP_CHAR)
+        self.assertEqual(tokenizer.tokenize("กาข"), ["กา", "ข"])
+        self.assertIn("า", longest._FRONT_DEP_CHAR)
+        self.assertNotIn("า ", longest._FRONT_DEP_CHAR)
+        for char in longest._FRONT_DEP_CHAR:
+            self.assertEqual(len(char), 1)
 
 
 class LongestDefaultDictTestCase(unittest.TestCase):

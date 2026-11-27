@@ -21,6 +21,10 @@ and this project adheres to
 
 ### Fixed
 
+- `tokenize.longest`: an unknown "า" joins the previous token, like "ะ"
+  ([#1609])
+
+[#1609]: https://github.com/PyThaiNLP/pythainlp/pull/1609
 - `sound_syllable()`: "เอะ", "แอะ", "โอะ", "เอาะ", and "เออะ" are dead;
   `tone_detector()` follows ([#1610])
 
